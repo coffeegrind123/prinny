@@ -29,7 +29,7 @@ import {
   createEmoticonElement,
   customHtmlEqualsPlainText,
   getAutocompleteQuery,
-  getPrevWorldRange,
+  getPrevWordRange,
   htmlToEditorInput,
   moveCursor,
   plainToEditorInput,
@@ -210,7 +210,7 @@ export const MessageEditor = as<'div', MessageEditorProps>(
           return;
         }
 
-        const prevWordRange = getPrevWorldRange(editor);
+        const prevWordRange = getPrevWordRange(editor);
         const query = prevWordRange
           ? getAutocompleteQuery<AutocompletePrefix>(editor, prevWordRange, AUTOCOMPLETE_PREFIXES)
           : undefined;
