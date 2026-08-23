@@ -13,6 +13,7 @@ import {
   MBadEncrypted,
   MEmote,
   MFile,
+  MGallery,
   MImage,
   MLocation,
   MNotice,
@@ -33,7 +34,12 @@ import { ImageViewer } from './image-viewer';
 import { PdfViewer } from './Pdf-viewer';
 import { TextViewer } from './text-viewer';
 import { testMatrixTo } from '../plugins/matrix-to';
-import { IAudioContent, IImageContent } from '../../types/matrix/common';
+import {
+  IAudioContent,
+  IGalleryContent,
+  IImageContent,
+  isGalleryMsgType,
+} from '../../types/matrix/common';
 import { getVoiceAudioBlock, isVoiceMessageContent } from '../utils/voice-message';
 import { effectForMsgType } from '../plugins/effects';
 import { isMediaAutoEmbedUrl } from '../utils/mediaAutoEmbed';
@@ -228,6 +234,38 @@ export function RenderMessageContent({
         )}
         renderUrlsPreview={urlPreview ? renderUrlsPreview : undefined}
       />
+    );
+  }
+
+  // MSC4274: several attachments in one message. Dispatched before the
+  // single-attachment cases so the item renderers below can be reused for each
+  // item — a gallery is a container, not a new kind of attachment.
+  if (isGalleryMsgType(msgType)) {
+    const galleryContent = getContent<IGalleryContent>();
+    return (
+      <>
+        <MGallery
+          content={galleryContent}
+          renderItem={(itemContent: IContent) => (
+            <RenderMessageContent
+              displayName={displayName}
+              msgType={typeof itemContent.msgtype === 'string' ? itemContent.msgtype : ''}
+              ts={ts}
+              getContent={(() => itemContent) as typeof getContent}
+              mediaAutoLoad={mediaAutoLoad}
+              urlPreview={false}
+              htmlReactParserOptions={htmlReactParserOptions}
+              linkifyOpts={linkifyOpts}
+              highlightRegex={highlightRegex}
+              outlineAttachment={false}
+              renderLocationMap={renderLocationMap}
+              roomId={roomId}
+              eventId={eventId}
+            />
+          )}
+        />
+        {renderCaption()}
+      </>
     );
   }
 

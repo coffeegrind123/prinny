@@ -26,6 +26,7 @@ import {
   INotification,
   INotificationsResponse,
   IRoomEvent,
+  MatrixClient,
   JoinRule,
   MatrixEvent,
   Method,
@@ -121,7 +122,7 @@ type SilentReloadTimeline = () => Promise<void>;
 
 const groupNotifications = (
   notifications: INotification[],
-  allowRooms: Set<string>
+  allowRooms: Set<string>,
 ): RoomNotificationsGroup[] => {
   const groups: RoomNotificationsGroup[] = [];
   notifications.forEach((notification) => {
@@ -141,9 +142,90 @@ const groupNotifications = (
   return groups;
 };
 
+/** Events per encrypted room the local scan looks back over. */
+const LOCAL_SCAN_PER_ROOM = 60;
+
+/**
+ * Notifications the server could not have told us about.
+ *
+ * `/notifications` is evaluated on the homeserver, against content the
+ * homeserver can read. In an encrypted room it can read none of it: a message
+ * that mentions you by name, or matches a keyword rule, is an opaque
+ * `m.room.encrypted` blob to the server, so it never appears in the response
+ * and the inbox is silently empty in exactly the rooms this client is usually
+ * used in. Only the client can evaluate those rules, because only the client
+ * has the plaintext.
+ *
+ * So the same push rules are run here, locally, over the decrypted events
+ * already in memory, and the results are merged into the first page.
+ * `forceRecalculate` is not optional: the SDK caches push actions on the event,
+ * and for an encrypted event the cached value is the one computed *before*
+ * decryption — i.e. computed against ciphertext, which matches nothing.
+ *
+ * Bounded to what is in memory on purpose. Paginating every encrypted room's
+ * history to build an inbox would be a very large amount of work for a view
+ * people glance at.
+ */
+const localEncryptedNotifications = (
+  mx: MatrixClient,
+  allowRooms: Set<string>,
+  onlyHighlight: boolean,
+): INotification[] => {
+  const userId = mx.getUserId();
+  if (!userId) return [];
+  const found: INotification[] = [];
+
+  allowRooms.forEach((roomId) => {
+    const room = mx.getRoom(roomId);
+    if (!room || !room.hasEncryptionStateEvent()) return;
+
+    const events = room.getLiveTimeline().getEvents();
+    const from = Math.max(0, events.length - LOCAL_SCAN_PER_ROOM);
+    for (let i = events.length - 1; i >= from; i -= 1) {
+      const mEvent = events[i];
+      const eventId = mEvent.getId();
+      // Your own message notifying you is a rule this client should not need
+      // the server's help to dismiss.
+      if (!eventId || mEvent.getSender() === userId || mEvent.isRedacted()) continue;
+
+      let actions;
+      try {
+        actions = mx.getPushActionsForEvent(mEvent, true);
+      } catch {
+        continue;
+      }
+      if (!actions?.notify) continue;
+      if (onlyHighlight && !actions.tweaks?.highlight) continue;
+
+      found.push({
+        actions: [],
+        event: mEvent.event as IRoomEvent,
+        read: room.hasUserReadEvent(userId, eventId),
+        room_id: roomId,
+        ts: mEvent.getTs(),
+      });
+    }
+  });
+
+  return found;
+};
+
+/**
+ * Server and locally-evaluated notifications as one list, newest first.
+ *
+ * De-duplicated by event id with the server's copy winning, because it carries
+ * the `actions` the server decided on and this view renders from those.
+ */
+const mergeNotifications = (server: INotification[], local: INotification[]): INotification[] => {
+  if (local.length === 0) return server;
+  const seen = new Set(server.map((n) => n.event.event_id));
+  const merged = server.concat(local.filter((n) => !seen.has(n.event.event_id)));
+  return merged.sort((a, b) => b.ts - a.ts);
+};
+
 const useNotificationTimeline = (
   paginationLimit: number,
-  onlyHighlight?: boolean
+  onlyHighlight?: boolean,
 ): [NotificationTimeline, LoadTimeline, SilentReloadTimeline] => {
   const mx = useMatrixClient();
   const allRooms = useAtomValue(allRoomsAtom);
@@ -159,10 +241,10 @@ const useNotificationTimeline = (
       return mx.http.authedRequest<INotificationsResponse>(
         Method.Get,
         '/notifications',
-        queryParams
+        queryParams,
       );
     },
-    [mx]
+    [mx],
   );
 
   const loadTimeline: LoadTimeline = useCallback(
@@ -173,9 +255,17 @@ const useNotificationTimeline = (
       const data = await fetchNotifications(
         from,
         paginationLimit,
-        onlyHighlight ? 'highlight' : undefined
+        onlyHighlight ? 'highlight' : undefined,
       );
-      const groups = groupNotifications(data.notifications, allJoinedRooms);
+      // Only on the first page: local results have no pagination token, so
+      // merging them into every page would repeat them down the list.
+      const notifications = from
+        ? data.notifications
+        : mergeNotifications(
+            data.notifications,
+            localEncryptedNotifications(mx, allJoinedRooms, !!onlyHighlight),
+          );
+      const groups = groupNotifications(notifications, allJoinedRooms);
 
       setNotificationTimeline((currentTimeline) => {
         if (currentTimeline.nextToken === from) {
@@ -187,7 +277,7 @@ const useNotificationTimeline = (
         return currentTimeline;
       });
     },
-    [paginationLimit, onlyHighlight, fetchNotifications, allJoinedRooms]
+    [mx, paginationLimit, onlyHighlight, fetchNotifications, allJoinedRooms],
   );
 
   /**
@@ -198,14 +288,20 @@ const useNotificationTimeline = (
     const data = await fetchNotifications(
       undefined,
       paginationLimit,
-      onlyHighlight ? 'highlight' : undefined
+      onlyHighlight ? 'highlight' : undefined,
     );
-    const groups = groupNotifications(data.notifications, allJoinedRooms);
+    const groups = groupNotifications(
+      mergeNotifications(
+        data.notifications,
+        localEncryptedNotifications(mx, allJoinedRooms, !!onlyHighlight),
+      ),
+      allJoinedRooms,
+    );
     setNotificationTimeline({
       nextToken: data.next_token,
       groups,
     });
-  }, [paginationLimit, onlyHighlight, fetchNotifications, allJoinedRooms]);
+  }, [mx, paginationLimit, onlyHighlight, fetchNotifications, allJoinedRooms]);
 
   return [notificationTimeline, loadTimeline, silentReloadTimeline];
 };
@@ -254,10 +350,10 @@ function RoomNotificationsGroupComp({
     () => ({
       ...LINKIFY_OPTS,
       render: factoryRenderLinkifyWithMention((href) =>
-        renderMatrixMention(mx, room.roomId, href, makeMentionCustomProps(mentionClickHandler))
+        renderMatrixMention(mx, room.roomId, href, makeMentionCustomProps(mentionClickHandler)),
       ),
     }),
-    [mx, room, mentionClickHandler]
+    [mx, room, mentionClickHandler],
   );
   const htmlReactParserOptions = useMemo<HTMLReactParserOptions>(
     () =>
@@ -267,7 +363,7 @@ function RoomNotificationsGroupComp({
         handleSpoilerClick: spoilerClickHandler,
         handleMentionClick: mentionClickHandler,
       }),
-    [mx, room, linkifyOpts, mentionClickHandler, spoilerClickHandler, useAuthentication]
+    [mx, room, linkifyOpts, mentionClickHandler, spoilerClickHandler, useAuthentication],
   );
 
   const renderMatrixEvent = useMatrixEventRenderer<[IRoomEvent, string, GetContentCallback]>(
@@ -329,7 +425,7 @@ function RoomNotificationsGroupComp({
                 const editedEvent = getEditedEvent(
                   evt.event_id,
                   mEvent,
-                  evtTimeline.getTimelineSet()
+                  evtTimeline.getTimelineSet(),
                 );
                 const getContent = (() =>
                   editedEvent?.getContent()['m.new_content'] ??
@@ -430,7 +526,7 @@ function RoomNotificationsGroupComp({
           </Text>
         </Box>
       );
-    }
+    },
   );
 
   const handleOpenClick: MouseEventHandler = (evt) => {
@@ -519,14 +615,14 @@ function RoomNotificationsGroupComp({
                         userId={event.sender}
                         src={
                           senderAvatarMxc
-                            ? mxcUrlToHttp(
+                            ? (mxcUrlToHttp(
                                 mx,
                                 senderAvatarMxc,
                                 useAuthentication,
                                 48,
                                 48,
-                                'crop'
-                              ) ?? undefined
+                                'crop',
+                              ) ?? undefined)
                             : undefined
                         }
                         alt={displayName}
@@ -585,13 +681,13 @@ function RoomNotificationsGroupComp({
 }
 
 const useNotificationsSearchParams = (
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams,
 ): InboxNotificationsPathSearchParams =>
   useMemo(
     () => ({
       only: searchParams.get('only') ?? undefined,
     }),
-    [searchParams]
+    [searchParams],
   );
 
 const DEFAULT_REFRESH_MS = 7000;
@@ -634,7 +730,7 @@ export function Notifications({ title = 'Notification Messages', before }: Notif
       setSearchParams(
         new URLSearchParams({
           only: 'highlight',
-        })
+        }),
       );
       return;
     }
@@ -643,7 +739,7 @@ export function Notifications({ title = 'Notification Messages', before }: Notif
 
   const [notificationTimeline, _loadTimeline, silentReloadTimeline] = useNotificationTimeline(
     24,
-    onlyHighlight
+    onlyHighlight,
   );
   const [timelineState, loadTimeline] = useAsyncCallback(_loadTimeline);
 
@@ -659,12 +755,12 @@ export function Notifications({ title = 'Notification Messages', before }: Notif
     useCallback(() => {
       silentReloadTimeline();
     }, [silentReloadTimeline]),
-    refreshIntervalTime
+    refreshIntervalTime,
   );
 
   const handleScrollTopVisibility = useCallback(
     (onTop: boolean) => setRefreshIntervalTime(onTop ? DEFAULT_REFRESH_MS : -1),
-    []
+    [],
   );
 
   useEffect(() => {

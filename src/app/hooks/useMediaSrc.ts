@@ -28,7 +28,8 @@ export type MediaSrc = {
 };
 
 /** `/_matrix/media/v3/download/<server>/<id>` or its `/_matrix/client/v1/media/` twin. */
-const MEDIA_DOWNLOAD_PATH_REG = /\/_matrix\/(?:media\/v3|client\/v1\/media)\/download\/[^/]+\/[^/]+$/;
+const MEDIA_DOWNLOAD_PATH_REG =
+  /\/_matrix\/(?:media\/v3|client\/v1\/media)\/download\/[^/]+\/[^/]+$/;
 
 /**
  * Append the sender's filename to a media download URL.
@@ -81,7 +82,17 @@ export function useMediaSrc(
   url: string,
   mimeType: string,
   encInfo?: EncryptedAttachmentInfo,
-  filename?: string
+  filename?: string,
+  /**
+   * Set false to make this hook inert.
+   *
+   * For callers that render some attachments and some media that is not a
+   * Matrix attachment at all (the media feed, which also shows pictures out of
+   * linked posts). Hooks cannot be called conditionally, and an mxc-less call
+   * would otherwise start a doomed fetch on every authenticated-media
+   * homeserver — a request per page, all of them 404.
+   */
+  enabled: boolean = true,
 ): MediaSrc {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
@@ -94,14 +105,15 @@ export function useMediaSrc(
     setNamedUrlRejected(false);
   }, [url, filename]);
 
-  const needsBlob = !!encInfo || useAuthentication;
-  const directUrl = needsBlob
-    ? undefined
-    : (() => {
-        const mediaUrl = mxcUrlToHttp(mx, url, useAuthentication);
-        if (!mediaUrl) return undefined;
-        return namedUrlRejected ? mediaUrl : withFilename(mediaUrl, filename);
-      })();
+  const needsBlob = enabled && (!!encInfo || useAuthentication);
+  const directUrl =
+    needsBlob || !enabled
+      ? undefined
+      : (() => {
+          const mediaUrl = mxcUrlToHttp(mx, url, useAuthentication);
+          if (!mediaUrl) return undefined;
+          return namedUrlRejected ? mediaUrl : withFilename(mediaUrl, filename);
+        })();
 
   const onSrcError = useCallback(() => setNamedUrlRejected(true), []);
 
@@ -118,7 +130,7 @@ export function useMediaSrc(
           })
         : fileContent;
       return URL.createObjectURL(named);
-    }, [mx, url, useAuthentication, mimeType, encInfo, filename])
+    }, [mx, url, useAuthentication, mimeType, encInfo, filename]),
   );
 
   useEffect(() => {
@@ -140,7 +152,7 @@ export function useMediaSrc(
     () => () => {
       if (blobRef.current) URL.revokeObjectURL(blobRef.current);
     },
-    []
+    [],
   );
 
   const src = needsBlob

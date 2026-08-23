@@ -43,6 +43,23 @@ const emptyWaveform = () => new Array(WAVEFORM_SAMPLES).fill(0) as number[];
  */
 export function useVoiceRecorder(scopeKey: string): VoiceRecorderControls {
   const recorderRef = useRef<VoiceRecorder | undefined>(undefined);
+  /**
+   * Bumped by anything that abandons a take — cancel, unmount, room switch, a
+   * second `start()`.
+   *
+   * `start()` awaits `getUserMedia`, which is where the permission prompt
+   * lives, and the recorder only reaches `recorderRef` *after* that await. So
+   * for the whole time the prompt is on screen there is a recorder nothing can
+   * reach: `cancel()` found an empty ref and did nothing, and when the promise
+   * finally resolved the microphone opened anyway — into a UI that had already
+   * moved on. The result is a recording indicator on a room you left, and a mic
+   * that stays live until the tab is closed. A generation counter is the fix:
+   * a start whose generation has been superseded releases what it just
+   * acquired instead of publishing it.
+   */
+  const startGenerationRef = useRef(0);
+  /** A start is between `getUserMedia` and its ref assignment. */
+  const startingRef = useRef(false);
   const [status, setStatus] = useState(VoiceRecordStatus.Idle);
   const [waveform, setWaveform] = useState<number[]>(emptyWaveform);
   const [durationSeconds, setDurationSeconds] = useState(0);
@@ -50,6 +67,7 @@ export function useVoiceRecorder(scopeKey: string): VoiceRecorderControls {
   const [error, setError] = useState<string>();
 
   const discard = useCallback(() => {
+    startGenerationRef.current += 1;
     recorderRef.current?.cancel();
     recorderRef.current = undefined;
     setRecording(undefined);
@@ -82,7 +100,13 @@ export function useVoiceRecorder(scopeKey: string): VoiceRecorderControls {
   stopRef.current = stop;
 
   const start = useCallback(async () => {
-    if (recorderRef.current) return;
+    // The ref alone is not enough to make this idempotent — see
+    // `startGenerationRef`. Two quick taps used to open two microphone streams,
+    // of which only the second was ever released.
+    if (recorderRef.current || startingRef.current) return;
+    const generation = startGenerationRef.current + 1;
+    startGenerationRef.current = generation;
+    startingRef.current = true;
     setError(undefined);
     setRecording(undefined);
     setWaveform(emptyWaveform());
@@ -100,11 +124,23 @@ export function useVoiceRecorder(scopeKey: string): VoiceRecorderControls {
 
     try {
       await recorder.start();
+      if (generation !== startGenerationRef.current) {
+        // Cancelled, unmounted or superseded while the permission prompt was
+        // up. The microphone is open at this point, so it has to be released
+        // here — nothing else holds a reference to this recorder.
+        recorder.cancel();
+        return;
+      }
       recorderRef.current = recorder;
       setStatus(VoiceRecordStatus.Recording);
     } catch (e) {
+      // A denial that arrives after the take was abandoned is not an error the
+      // user needs to see; the composer they would see it in is gone.
+      if (generation !== startGenerationRef.current) return;
       setError(describeCaptureError(e));
       setStatus(VoiceRecordStatus.Idle);
+    } finally {
+      startingRef.current = false;
     }
   }, []);
 
@@ -115,6 +151,7 @@ export function useVoiceRecorder(scopeKey: string): VoiceRecorderControls {
   // Closing the app, or unmounting the composer, must not leave the mic open.
   useEffect(
     () => () => {
+      startGenerationRef.current += 1;
       recorderRef.current?.cancel();
       recorderRef.current = undefined;
     },

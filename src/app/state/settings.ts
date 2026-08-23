@@ -49,6 +49,14 @@ export interface Settings {
   hideReadReceipts: boolean;
   /** Send no typing notifications, and hide everyone else's from this client. */
   hideTypingStatus: boolean;
+  /**
+   * Send several attachments as one MSC4274 gallery message.
+   *
+   * Off by default: the msgtype is still the unstable `dm.filament.gallery`, so
+   * a client that has not implemented it renders the fallback body and none of
+   * the pictures. Receiving one always works regardless of this setting.
+   */
+  galleryUploads: boolean;
 
   minimizeToTray: boolean;
 
@@ -222,6 +230,7 @@ const defaultSettings: Settings = {
   pageZoom: 100,
   hideReadReceipts: false,
   hideTypingStatus: false,
+  galleryUploads: false,
 
   minimizeToTray: true,
 

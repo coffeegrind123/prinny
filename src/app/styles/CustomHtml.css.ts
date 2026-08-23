@@ -155,6 +155,36 @@ export const CodeBlockBottomShadow = style({
 });
 
 const BaseList = style({});
+/**
+ * An ordered list.
+ *
+ * `list-style-position: inside` rather than the default `outside`: an outside
+ * marker is right-aligned on its period, so a list numbered into three digits
+ * has its markers hang further and further into the left padding until they
+ * clip off the edge of the message. Inside markers flow with the text and
+ * cannot escape it. Unordered lists keep the outside marker, where the bullet
+ * is one glyph wide and the hanging indent is what makes it readable.
+ */
+export const OrderedList = style([
+  BaseList,
+  DefaultReset,
+  MarginSpaced,
+  {
+    padding: `0 ${config.space.S100}`,
+    paddingInlineStart: config.space.S200,
+    listStylePosition: 'inside',
+    selectors: {
+      '& &': {
+        marginTop: config.space.S200,
+        marginBottom: config.space.S200,
+      },
+      'li:last-child &': {
+        marginBottom: 0,
+      },
+    },
+  },
+]);
+
 export const List = style([
   BaseList,
   DefaultReset,

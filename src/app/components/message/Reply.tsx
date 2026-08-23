@@ -1,14 +1,26 @@
 import { Box, Icon, Icons, Text, as, color, toRem } from 'folds';
 import { EventTimelineSet, Room } from 'matrix-js-sdk';
 import { MouseEventHandler, ReactNode, useCallback, useMemo } from 'react';
+import parse from 'html-react-parser';
 import classNames from 'classnames';
-import { getMemberDisplayName, trimReplyFromBody } from '../../utils/room';
+import {
+  getMemberDisplayName,
+  trimReplyFromBody,
+  trimReplyFromFormattedBody,
+} from '../../utils/room';
 import { getMxIdLocalPart } from '../../utils/matrix';
 import { LinePlaceholder } from './placeholder';
 import { randomNumberBetween } from '../../utils/common';
 import * as css from './Reply.css';
 import { MessageBadEncryptedContent, MessageDeletedContent, MessageFailedContent } from './content';
-import { scaleSystemEmoji } from '../../plugins/react-custom-html-parser';
+import {
+  LINKIFY_OPTS,
+  getReactCustomHtmlParser,
+  scaleSystemEmoji,
+} from '../../plugins/react-custom-html-parser';
+import { sanitizeReplyPreviewHtml } from '../../utils/sanitize';
+import { useMatrixClient } from '../../hooks/useMatrixClient';
+import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { useRoomEvent } from '../../hooks/useRoomEvent';
 import colorMXID from '../../../util/colorMXID';
 import { GetMemberPowerTag } from '../../hooks/useMemberPowerTag';
@@ -34,7 +46,7 @@ export const ReplyLayout = as<'div', ReplyLayoutProps>(
         {children}
       </Box>
     </Box>
-  )
+  ),
 );
 
 export const ThreadIndicator = as<'div'>(({ ...props }, ref) => (
@@ -75,16 +87,18 @@ export const Reply = as<'div', ReplyProps>(
       legacyUsernameColor,
       ...props
     },
-    ref
+    ref,
   ) => {
+    const mx = useMatrixClient();
+    const useAuthentication = useMediaAuthentication();
     const placeholderWidth = useMemo(() => randomNumberBetween(40, 400), []);
     const getFromLocalTimeline = useCallback(
       () => timelineSet?.findEventById(replyEventId),
-      [timelineSet, replyEventId]
+      [timelineSet, replyEventId],
     );
     const replyEvent = useRoomEvent(room, replyEventId, getFromLocalTimeline);
 
-    const { body } = replyEvent?.getContent() ?? {};
+    const { body, formatted_body: formattedBody } = replyEvent?.getContent() ?? {};
     const sender = replyEvent?.getSender();
     const powerTag = sender ? getMemberPowerTag?.(sender) : undefined;
     const tagColor = powerTag?.color ? accessibleTagColors?.get(powerTag.color) : undefined;
@@ -98,7 +112,40 @@ export const Reply = as<'div', ReplyProps>(
     );
 
     const badEncryption = replyEvent?.getContent().msgtype === 'm.bad.encrypted';
-    const bodyJSX = body ? scaleSystemEmoji(trimReplyFromBody(body)) : fallbackBody;
+
+    /**
+     * A custom emoji is an `<img data-mx-emoticon>` in the formatted body and a
+     * bare `:shortcode:` in the plain one, so a chip built from the plain body
+     * shows the shortcode — and a message that is *only* an emoji shows nothing
+     * a reader recognises at all. Rendering the markup is worth it for exactly
+     * that case, so it is the only case that pays for the parse: everything
+     * else keeps the cheap plain-text path.
+     */
+    const emoticonHtml =
+      typeof formattedBody === 'string' && /<img\b[^>]*\bdata-mx-emoticon\b/i.test(formattedBody)
+        ? formattedBody
+        : undefined;
+
+    const htmlParserOpts = useMemo(
+      () =>
+        emoticonHtml
+          ? getReactCustomHtmlParser(mx, room.roomId, {
+              linkifyOpts: LINKIFY_OPTS,
+              useAuthentication,
+            })
+          : undefined,
+      [emoticonHtml, mx, room.roomId, useAuthentication],
+    );
+
+    let bodyJSX: ReactNode = fallbackBody;
+    if (emoticonHtml && htmlParserOpts) {
+      bodyJSX = parse(
+        sanitizeReplyPreviewHtml(trimReplyFromFormattedBody(emoticonHtml)),
+        htmlParserOpts,
+      );
+    } else if (body) {
+      bodyJSX = scaleSystemEmoji(trimReplyFromBody(body));
+    }
 
     return (
       <Box direction="Row" gap="200" alignItems="Center" {...props} ref={ref}>
@@ -134,5 +181,5 @@ export const Reply = as<'div', ReplyProps>(
         </ReplyLayout>
       </Box>
     );
-  }
+  },
 );

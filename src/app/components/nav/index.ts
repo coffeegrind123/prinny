@@ -1,4 +1,5 @@
 export * from './NavCategory';
+export * from './NavCollapsed';
 export * from './NavCategoryHeader';
 export * from './NavEmptyLayout';
 export * from './NavItem';

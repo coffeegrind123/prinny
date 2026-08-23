@@ -32,6 +32,18 @@ export type PaneSpec = {
   defaultSize: number;
   min: number;
   max: number;
+  /**
+   * Width the pane snaps to when dragged below `collapseAt`, in design pixels.
+   *
+   * Only the nav column has one. Squeezing a room list down to nothing is a
+   * thing people actually want — a rail of avatars, no names — but that is a
+   * different layout rather than a narrow version of the same one, so it is a
+   * snap to one specific width instead of a continuous range in which the names
+   * are half-truncated.
+   */
+  collapsedSize?: number;
+  /** Drag below this and the pane snaps closed. Above it, `min` applies. */
+  collapseAt?: number;
 };
 
 /**
@@ -44,7 +56,9 @@ export type PaneSpec = {
  * display name and the filter chips wrap to three rows.
  */
 export const PANE_SPECS: Record<PaneId, PaneSpec> = {
-  navPane: { defaultSize: 256, min: 180, max: 520 },
+  // 64 fits a 24px avatar plus the row's own padding either side, which is the
+  // whole point of the collapsed rail: the avatar, centred, and nothing else.
+  navPane: { defaultSize: 256, min: 180, max: 520, collapsedSize: 64, collapseAt: 140 },
   membersPane: { defaultSize: 266, min: 200, max: 560 },
   threadPane: { defaultSize: 360, min: 280, max: 720 },
   callChatPane: { defaultSize: 456, min: 300, max: 720 },
@@ -54,8 +68,18 @@ export const paneSizeVar = (paneId: PaneId): string => `--pane-size-${paneId}`;
 
 export const clampPaneSize = (size: number, spec: PaneSpec): number => {
   if (!Number.isFinite(size)) return spec.defaultSize;
-  return Math.min(spec.max, Math.max(spec.min, Math.round(size)));
+  const rounded = Math.round(size);
+  // Below the threshold there is no usable width to settle on, so the drag
+  // resolves to the collapsed rail rather than to a list of truncated names.
+  if (spec.collapsedSize !== undefined && spec.collapseAt !== undefined) {
+    if (rounded < spec.collapseAt) return spec.collapsedSize;
+  }
+  return Math.min(spec.max, Math.max(spec.min, rounded));
 };
+
+/** True when a stored size is the pane's collapsed rail rather than a width. */
+export const isPaneCollapsed = (size: number, spec: PaneSpec): boolean =>
+  spec.collapsedSize !== undefined && size <= spec.collapsedSize;
 
 /**
  * Ratio between the current root font size and the 16px `toRem` assumes.
@@ -88,6 +112,8 @@ export type ResizablePane = {
   /** Current committed size, in design pixels. */
   size: number;
   spec: PaneSpec;
+  /** The pane is at its collapsed rail width — show icons, not labels. */
+  collapsed: boolean;
   /**
    * Apply to the column being resized. The viewport cap is a hard safety net,
    * not a preference: these columns are `flex-shrink: 0`, so on a narrow
@@ -125,10 +151,10 @@ export const useResizablePane = (paneId: PaneId): ResizablePane => {
       // guarantees the cap can only ever restrain growth the user asked for.
       maxWidth: `min(${toRem(spec.max)}, max(${toRem(spec.defaultSize)}, 35vw))`,
     }),
-    [paneId, spec.defaultSize, spec.max]
+    [paneId, spec.defaultSize, spec.max],
   );
 
-  return { size, spec, style };
+  return { size, spec, style, collapsed: isPaneCollapsed(size, spec) };
 };
 
 /** Which side of the handle the resized column sits on. */
@@ -168,7 +194,7 @@ export const useResizeHandle = (paneId: PaneId, side: PaneSide): ResizeHandleCon
     () => () => {
       endDragRef.current?.();
     },
-    []
+    [],
   );
 
   const commit = useCallback(
@@ -182,7 +208,7 @@ export const useResizeHandle = (paneId: PaneId, side: PaneSide): ResizeHandleCon
         return { ...prev, [paneId]: clamped };
       });
     },
-    [paneId, spec, setPaneSizes]
+    [paneId, spec, setPaneSizes],
   );
 
   const reset = useCallback(() => commit(spec.defaultSize), [commit, spec.defaultSize]);
@@ -253,7 +279,7 @@ export const useResizeHandle = (paneId: PaneId, side: PaneSide): ResizeHandleCon
       handle.addEventListener('pointerup', handleUp);
       handle.addEventListener('pointercancel', handleUp);
     },
-    [paneId, side, spec, commit]
+    [paneId, side, spec, commit],
   );
 
   const onKeyDown = useCallback(
@@ -262,17 +288,21 @@ export const useResizeHandle = (paneId: PaneId, side: PaneSide): ResizeHandleCon
       const step = evt.shiftKey ? KEYBOARD_STEP_LARGE : KEYBOARD_STEP;
       let next: number | undefined;
 
+      // Home/End go all the way, and for a collapsible pane "all the way" is
+      // the collapsed rail rather than its minimum usable width.
+      const smallest = spec.collapsedSize ?? spec.min;
+
       if (evt.key === 'ArrowLeft') next = liveSizeRef.current - step * direction;
       else if (evt.key === 'ArrowRight') next = liveSizeRef.current + step * direction;
-      else if (evt.key === 'Home') next = side === 'Before' ? spec.min : spec.max;
-      else if (evt.key === 'End') next = side === 'Before' ? spec.max : spec.min;
+      else if (evt.key === 'Home') next = side === 'Before' ? smallest : spec.max;
+      else if (evt.key === 'End') next = side === 'Before' ? spec.max : smallest;
       else if (evt.key === 'Enter' || evt.key === ' ') next = spec.defaultSize;
 
       if (next === undefined) return;
       evt.preventDefault();
       commit(next);
     },
-    [side, spec, commit]
+    [side, spec, commit],
   );
 
   return { spec, size, onPointerDown, onKeyDown, onDoubleClick: reset, reset };

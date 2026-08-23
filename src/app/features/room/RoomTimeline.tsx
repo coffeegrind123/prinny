@@ -18,7 +18,6 @@ import {
   EventTimelineSet,
   EventTimelineSetHandlerMap,
   EventType,
-  IContent,
   MatrixClient,
   MatrixEvent,
   RelationType,
@@ -52,6 +51,7 @@ import { useTranslation } from 'react-i18next';
 import { eventWithShortcode, factoryEventSentBy, getMxIdLocalPart } from '../../utils/matrix';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { useVirtualPaginator, ItemRange } from '../../hooks/useVirtualPaginator';
+import { useScrollContentAnchor } from '../../hooks/useScrollContentAnchor';
 import { useAlive } from '../../hooks/useAlive';
 import { editableActiveElement, scrollToBottom } from '../../utils/dom';
 import { setActiveTimelineScrollContainer } from '../../components/global-keybinds/GlobalKeybinds';
@@ -79,7 +79,9 @@ import {
 import {
   canEditEvent,
   decryptAllTimelineEvent,
+  findRoomEventById,
   getEditedEvent,
+  getReplyDraftBody,
   getEventReactions,
   getLatestEditableEvt,
   getMemberDisplayName,
@@ -154,7 +156,7 @@ const TimelineFloat = as<'div', css.TimelineFloatVariants>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 const TimelineDivider = as<'div', { variant?: ContainerColor | 'Inherit' }>(
@@ -164,7 +166,7 @@ const TimelineDivider = as<'div', { variant?: ContainerColor | 'Inherit' }>(
       {children}
       <Line style={{ flexGrow: 1 }} variant={variant} size="300" />
     </Box>
-  )
+  ),
 );
 
 export const getLiveTimeline = (room: Room): EventTimeline =>
@@ -197,7 +199,7 @@ export const getEventTimeline = (room: Room, eventId: string): EventTimeline | u
 
 export const getFirstLinkedTimeline = (
   timeline: EventTimeline,
-  direction: Direction
+  direction: Direction,
 ): EventTimeline => {
   const linkedTm = timeline.getNeighbouringTimeline(direction);
   if (!linkedTm) return timeline;
@@ -227,7 +229,7 @@ export const getTimelinesEventsCount = (timelines: EventTimeline[]): number => {
 
 export const getTimelineAndBaseIndex = (
   timelines: EventTimeline[],
-  index: number
+  index: number,
 ): [EventTimeline | undefined, number] => {
   let uptoTimelineLen = 0;
   const timeline = timelines.find((t) => {
@@ -248,7 +250,7 @@ export const getTimelineEvent = (timeline: EventTimeline, index: number): Matrix
 export const getEventIdAbsoluteIndex = (
   timelines: EventTimeline[],
   eventTimeline: EventTimeline,
-  eventId: string
+  eventId: string,
 ): number | undefined => {
   const timelineIndex = timelines.findIndex((t) => t === eventTimeline);
   if (timelineIndex === -1) return undefined;
@@ -278,12 +280,12 @@ const useEventTimelineLoader = (
   mx: MatrixClient,
   room: Room,
   onLoad: (eventId: string, linkedTimelines: EventTimeline[], evtAbsIndex: number) => void,
-  onError: (err: Error | null) => void
+  onError: (err: Error | null) => void,
 ) => {
   const loadEventTimeline = useCallback(
     async (eventId: string) => {
       const [err, replyEvtTimeline] = await to(
-        mx.getEventTimeline(room.getUnfilteredTimelineSet(), eventId)
+        mx.getEventTimeline(room.getUnfilteredTimelineSet(), eventId),
       );
       if (!replyEvtTimeline) {
         onError(err ?? null);
@@ -299,7 +301,7 @@ const useEventTimelineLoader = (
 
       onLoad(eventId, linkedTimelines, absIndex);
     },
-    [mx, room, onLoad, onError]
+    [mx, room, onLoad, onError],
   );
 
   return loadEventTimeline;
@@ -309,7 +311,7 @@ const useTimelinePagination = (
   mx: MatrixClient,
   timeline: Timeline,
   setTimeline: Dispatch<SetStateAction<Timeline>>,
-  limit: number
+  limit: number,
 ) => {
   const timelineRef = useRef(timeline);
   timelineRef.current = timeline;
@@ -321,7 +323,7 @@ const useTimelinePagination = (
     const recalibratePagination = (
       linkedTimelines: EventTimeline[],
       timelinesEventsCount: number[],
-      backwards: boolean
+      backwards: boolean,
     ) => {
       const topTimeline = linkedTimelines[0];
       const timelineMatch = (mt: EventTimeline) => (t: EventTimeline) => t === mt;
@@ -355,7 +357,7 @@ const useTimelinePagination = (
       if (!timelineToPaginate) return;
 
       const paginationToken = timelineToPaginate.getPaginationToken(
-        backwards ? Direction.Backward : Direction.Forward
+        backwards ? Direction.Backward : Direction.Forward,
       );
       if (
         !paginationToken &&
@@ -367,31 +369,39 @@ const useTimelinePagination = (
       }
 
       fetching = true;
-      const [err] = await to(
-        mx.paginateEventTimeline(timelineToPaginate, {
-          backwards,
-          limit,
-        })
-      );
-      if (err) {
-        // TODO: handle pagination error.
-        return;
-      }
-      const fetchedTimeline =
-        timelineToPaginate.getNeighbouringTimeline(
-          backwards ? Direction.Backward : Direction.Forward
-        ) ?? timelineToPaginate;
-      // Decrypt all event ahead of render cycle
-      const roomId = fetchedTimeline.getRoomId();
-      const room = roomId ? mx.getRoom(roomId) : null;
+      try {
+        const [err] = await to(
+          mx.paginateEventTimeline(timelineToPaginate, {
+            backwards,
+            limit,
+          }),
+        );
+        if (err) {
+          // A homeserver that refuses one `/messages` must not cost the room
+          // its pagination for the rest of the session. The lock used to leak
+          // here — an early `return` with `fetching` still true — so a single
+          // failed request left the timeline permanently unable to load older
+          // messages, and the only symptom was scrolling that stopped working.
+          console.warn('[timeline] pagination failed', err);
+          return;
+        }
+        const fetchedTimeline =
+          timelineToPaginate.getNeighbouringTimeline(
+            backwards ? Direction.Backward : Direction.Forward,
+          ) ?? timelineToPaginate;
+        // Decrypt all event ahead of render cycle
+        const roomId = fetchedTimeline.getRoomId();
+        const room = roomId ? mx.getRoom(roomId) : null;
 
-      if (room?.hasEncryptionStateEvent()) {
-        await to(decryptAllTimelineEvent(mx, fetchedTimeline));
-      }
+        if (room?.hasEncryptionStateEvent()) {
+          await to(decryptAllTimelineEvent(mx, fetchedTimeline));
+        }
 
-      fetching = false;
-      if (alive()) {
-        recalibratePagination(lTimelines, timelinesEventsCount, backwards);
+        if (alive()) {
+          recalibratePagination(lTimelines, timelinesEventsCount, backwards);
+        }
+      } finally {
+        fetching = false;
       }
     };
   }, [mx, alive, setTimeline, limit]);
@@ -405,7 +415,7 @@ const useLiveEventArrive = (room: Room, onArrive: (mEvent: MatrixEvent) => void)
       eventRoom,
       toStartOfTimeline,
       removed,
-      data
+      data,
     ) => {
       if (eventRoom?.roomId !== room.roomId || !data.liveEvent) return;
       onArrive(mEvent);
@@ -448,7 +458,7 @@ const useLocalEchoUpdated = (room: Room, onUpdate: () => void) => {
   useEffect(() => {
     const handleLocalEchoUpdated: RoomEventHandlerMap[RoomEvent.LocalEchoUpdated] = (
       mEvent,
-      eventRoom
+      eventRoom,
     ) => {
       if (eventRoom?.roomId !== room.roomId) return;
       onUpdate();
@@ -534,7 +544,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   const accessiblePowerTagColors = useAccessiblePowerTagColors(
     theme.kind,
     creatorsTag,
-    powerLevelTags
+    powerLevelTags,
   );
 
   const permissions = useRoomPermissions(creators, powerLevels);
@@ -601,10 +611,10 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     () => ({
       ...LINKIFY_OPTS,
       render: factoryRenderLinkifyWithMention((href) =>
-        renderMatrixMention(mx, room.roomId, href, makeMentionCustomProps(mentionClickHandler))
+        renderMatrixMention(mx, room.roomId, href, makeMentionCustomProps(mentionClickHandler)),
       ),
     }),
-    [mx, room, mentionClickHandler]
+    [mx, room, mentionClickHandler],
   );
   const htmlReactParserOptions = useMemo<HTMLReactParserOptions>(
     () =>
@@ -623,7 +633,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       mentionClickHandler,
       useAuthentication,
       renderMaths,
-    ]
+    ],
   );
   // Maps stay off unless the viewer turned them on AND a tile style exists,
   // so a location message from someone else can never make this client fetch
@@ -647,13 +657,13 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         </div>
       );
     },
-    [mapsEnabled, mapStyleUrl]
+    [mapsEnabled, mapStyleUrl],
   );
 
   const parseMemberEvent = useMemberEventParser();
 
   const [timeline, setTimeline] = useState<Timeline>(() =>
-    eventId ? getEmptyTimeline() : getInitialTimeline(room)
+    eventId ? getEmptyTimeline() : getInitialTimeline(room),
   );
   const timelineRef = useRef(timeline);
   timelineRef.current = timeline;
@@ -672,7 +682,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     mx,
     timeline,
     setTimeline,
-    PAGINATION_LIMIT
+    PAGINATION_LIMIT,
   );
 
   const getScrollElement = useCallback(() => scrollRef.current, []);
@@ -688,10 +698,23 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         (index: number) =>
           (scrollRef.current?.querySelector(`[data-message-item="${index}"]`) as HTMLElement) ??
           undefined,
-        []
+        [],
       ),
       onEnd: handleTimelinePagination,
     });
+
+  // A message grows after it is rendered — a link becomes a preview card, an
+  // edit or a reaction arrives — and when it is above the viewport, everything
+  // below it slides. See `useScrollContentAnchor`: this pins the message the
+  // reader is looking at through those changes. Disabled while the view is
+  // following the live end, where a new message moving the view is the point.
+  useScrollContentAnchor(
+    getScrollElement,
+    useCallback(() => (scrollRef.current?.firstElementChild as HTMLElement) ?? null, []),
+    '[data-message-item]',
+    !atBottom,
+    timeline.range,
+  );
 
   const loadEventTimeline = useEventTimelineLoader(
     mx,
@@ -714,14 +737,14 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           },
         });
       },
-      [alive]
+      [alive],
     ),
     useCallback(() => {
       if (!alive()) return;
       setTimeline(getInitialTimeline(room));
       scrollToBottomRef.current.count += 1;
       scrollToBottomRef.current.smooth = false;
-    }, [alive, room])
+    }, [alive, room]),
   );
 
   useLiveEventArrive(
@@ -769,7 +792,12 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           // timeline) but must not move the viewport.
           if (isLiveDisplayEvent(mEvt)) {
             scrollToBottomRef.current.count += 1;
-            scrollToBottomRef.current.smooth = true;
+            // Smooth only when the animation will actually run and is worth
+            // watching. An unfocused window throttles scroll animations, which
+            // leaves the view stranded part-way down and reads as the timeline
+            // refusing to follow; your own message should feel immediate.
+            scrollToBottomRef.current.smooth =
+              document.hasFocus() && mEvt.getSender() !== mx.getUserId();
           }
 
           setTimeline((ct) => ({
@@ -814,7 +842,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     async (
       evtId: string,
       highlight = true,
-      onScroll: ((scrolled: boolean) => void) | undefined = undefined
+      onScroll: ((scrolled: boolean) => void) | undefined = undefined,
     ) => {
       const evtTimeline = getEventTimeline(room, evtId);
       const absoluteIndex =
@@ -837,7 +865,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         loadEventTimeline(evtId);
       }
     },
-    [room, timeline, scrollToItem, loadEventTimeline]
+    [room, timeline, scrollToItem, loadEventTimeline],
   );
 
   useLiveTimelineRefresh(
@@ -846,14 +874,14 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       if (liveTimelineLinked) {
         setTimeline(getInitialTimeline(room));
       }
-    }, [room, liveTimelineLinked])
+    }, [room, liveTimelineLinked]),
   );
 
   useLocalEchoUpdated(
     room,
     useCallback(() => {
       setTimeline((ct) => ({ ...ct }));
-    }, [])
+    }, []),
   );
 
   // Stay at bottom when the timeline's own content resizes. The composer
@@ -877,7 +905,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         }
       };
     }, [getScrollElement]),
-    useCallback(() => getScrollElement()?.firstElementChild ?? null, [getScrollElement])
+    useCallback(() => getScrollElement()?.firstElementChild ?? null, [getScrollElement]),
   );
 
   // Stay at bottom when room editor resize
@@ -900,7 +928,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         }
       };
     }, [getScrollElement, roomInputRef]),
-    useCallback(() => roomInputRef.current, [roomInputRef])
+    useCallback(() => roomInputRef.current, [roomInputRef]),
   );
 
   /**
@@ -915,7 +943,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     () => () => {
       releaseAutoMarkAsRead(room.roomId);
     },
-    [room.roomId]
+    [room.roomId],
   );
 
   const tryAutoMarkAsRead = useCallback(() => {
@@ -939,7 +967,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     useCallback((entry: IntersectionObserverEntry) => {
       if (!entry.isIntersecting) setAtBottom(false);
     }, []),
-    { wait: 1000 }
+    { wait: 1000 },
   );
   useIntersectionObserver(
     useCallback(
@@ -959,22 +987,23 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           }
         }
       },
-      [debounceSetAtBottom, tryAutoMarkAsRead]
+      [debounceSetAtBottom, tryAutoMarkAsRead],
     ),
     useCallback(
       () => ({
         root: getScrollElement(),
         rootMargin: '100px',
       }),
-      [getScrollElement]
+      [getScrollElement],
     ),
-    useCallback(() => atBottomAnchorRef.current, [])
+    useCallback(() => atBottomAnchorRef.current, []),
   );
 
   useDocumentFocusChange(
     useCallback(
       (inFocus) => {
-        if (inFocus && atBottomRef.current) {
+        if (inFocus) {
+          if (!atBottomRef.current) return;
           if (unreadInfo?.inLiveTimeline) {
             handleOpenEvent(unreadInfo.readUptoEventId, false, (scrolled) => {
               // the unread event is already in view
@@ -986,10 +1015,22 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             return;
           }
           tryAutoMarkAsRead();
+          return;
+        }
+
+        // Tabbing away while caught up drops the divider's anchor, so it is
+        // recomputed from the last read when the window comes back. Without
+        // this it stayed pinned wherever it was when the room was opened, and
+        // "new messages" pointed at messages that had been read minutes ago —
+        // the useless case, because the whole value of the line is telling you
+        // where you got to before you looked away.
+        if (atBottomRef.current && liveTimelineLinked) {
+          readUptoEventIdRef.current = undefined;
+          setUnreadInfo(undefined);
         }
       },
-      [tryAutoMarkAsRead, unreadInfo, handleOpenEvent]
-    )
+      [tryAutoMarkAsRead, unreadInfo, handleOpenEvent, liveTimelineLinked],
+    ),
   );
 
   // Handle up arrow edit
@@ -1004,7 +1045,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           isEmptyEditor(editor)
         ) {
           const editableEvt = getLatestEditableEvt(room.getLiveTimeline(), (mEvt) =>
-            canEditEvent(mx, mEvt)
+            canEditEvent(mx, mEvt),
           );
           const editableEvtId = editableEvt?.getId();
           if (!editableEvtId) return;
@@ -1012,8 +1053,8 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           evt.preventDefault();
         }
       },
-      [mx, room, editor]
-    )
+      [mx, room, editor],
+    ),
   );
 
   useEffect(() => {
@@ -1095,7 +1136,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       // timeline down with it. CSS.escape makes the value inert as a selector.
       const editMsgElement =
         (scrollRef.current?.querySelector(
-          `[data-message-id="${CSS.escape(editId)}"]`
+          `[data-message-id="${CSS.escape(editId)}"]`,
         ) as HTMLElement) ?? undefined;
       if (editMsgElement) {
         scrollToElement(editMsgElement, {
@@ -1133,7 +1174,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       if (!targetId) return;
       handleOpenEvent(targetId);
     },
-    [handleOpenEvent]
+    [handleOpenEvent],
   );
 
   const handleUserClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -1149,10 +1190,10 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         room.roomId,
         space?.roomId,
         userId,
-        evt.currentTarget.getBoundingClientRect()
+        evt.currentTarget.getBoundingClientRect(),
       );
     },
-    [room, space, openUserRoomProfile]
+    [room, space, openUserRoomProfile],
   );
   // Clicking a sender's name opens their profile, the same as clicking their
   // avatar, rather than inserting a mention into the composer. Mentioning is
@@ -1169,7 +1210,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       safeFocusEditor(editor);
       moveCursor(editor);
     },
-    [editor]
+    [editor],
   );
 
   const handleReplyClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -1179,16 +1220,17 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         console.warn('Button should have "data-event-id" attribute!');
         return;
       }
-      const replyEvt = room.findEventById(replyId);
+      const replyEvt = findRoomEventById(room, replyId);
       if (!replyEvt) return;
-      const editedReply = getEditedEvent(replyId, replyEvt, room.getUnfilteredTimelineSet());
-      const content: IContent = editedReply?.getContent()['m.new_content'] ?? replyEvt.getContent();
-      const { body, formatted_body: formattedBody } = content;
+      const { body, formattedBody } = getReplyDraftBody(replyEvt, room.getUnfilteredTimelineSet());
       const { 'm.relates_to': relation } = startThread
         ? { 'm.relates_to': { rel_type: 'm.thread', event_id: replyId } }
         : replyEvt.getWireContent();
       const senderId = replyEvt.getSender();
-      if (senderId && typeof body === 'string') {
+      // No longer gated on a plain `body` being present: a poll, an extensible
+      // event or anything else without one is still a message somebody can
+      // want to reply to, and the old gate made that click do nothing at all.
+      if (senderId) {
         setReplyDraft({
           userId: senderId,
           eventId: replyId,
@@ -1199,7 +1241,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         setTimeout(() => safeFocusEditor(editor), 100);
       }
     },
-    [room, setReplyDraft, editor]
+    [room, setReplyDraft, editor],
   );
 
   const handleReactionToggle = useCallback(
@@ -1220,16 +1262,16 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       mx.sendEvent(
         room.roomId,
         MessageEvent.Reaction as any,
-        getReactionContent(targetEventId, key, rShortcode)
+        getReactionContent(targetEventId, key, rShortcode),
       );
     },
-    [mx, room]
+    [mx, room],
   );
   const handleOpenThread = useCallback(
     (rootId: string) => {
       setThreadView({ roomId: room.roomId, rootId });
     },
-    [room.roomId, setThreadView]
+    [room.roomId, setThreadView],
   );
 
   const handleEdit = useCallback(
@@ -1241,7 +1283,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       setEditId(undefined);
       safeFocusEditor(editor);
     },
-    [editor]
+    [editor],
   );
   const { t } = useTranslation();
 
@@ -1255,7 +1297,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         item,
         timelineSet,
         collapse,
-        groupHeadEventId
+        groupHeadEventId,
       ) => {
         const reactionRelations = getEventReactions(timelineSet, mEventId);
         const reactions = reactionRelations && reactionRelations.getSortedAnnotationsByKey();
@@ -1265,6 +1307,20 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
 
         const editedEvent = getEditedEvent(mEventId, mEvent, timelineSet);
         const rawContent = editedEvent?.getContent()['m.new_content'] ?? mEvent.getContent();
+        /**
+         * A redaction strips the content but does not always leave the flag
+         * this client reads.
+         *
+         * `isRedacted()` is true when the SDK has the `redacted_because` on the
+         * event — which it does when the redaction arrived in the same timeline.
+         * A message redacted before this client ever saw it (a room joined
+         * later, a gappy sync, sliding sync in particular) arrives as an
+         * ordinary `m.room.message` with `content: {}` and no unsigned block,
+         * so it fell through to the message renderer, which found no `msgtype`
+         * and no `body` and drew "Unsupported message (no body)". Empty content
+         * on a message event has exactly one cause, and it is this one.
+         */
+        const contentRedacted = Object.keys(mEvent.getContent() ?? {}).length === 0;
         // Buttons come from the latest edit, so a bot can swap or retire them.
         const botMarkup = renderBotKeyboards
           ? sanitizeReplyMarkup(rawContent[BotContentKey.ReplyMarkup])
@@ -1291,9 +1347,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             highlight={highlighted}
             repliedToMe={
               !!replyEventId &&
-              timelineSet
-                .findEventById(replyEventId)
-                ?.getSender() === mx.getUserId()
+              timelineSet.findEventById(replyEventId)?.getSender() === mx.getUserId()
             }
             edit={editId === mEventId}
             canDelete={canRedact || (canDeleteOwn && mEvent.getSender() === mx.getUserId())}
@@ -1358,7 +1412,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             hour24Clock={hour24Clock}
             dateFormatString={dateFormatString}
           >
-            {mEvent.isRedacted() ? (
+            {mEvent.isRedacted() || contentRedacted ? (
               <RedactedContent reason={mEvent.getUnsigned().redacted_because?.content.reason} />
             ) : (
               <RenderMessageContent
@@ -1386,7 +1440,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         item,
         timelineSet,
         collapse,
-        groupHeadEventId
+        groupHeadEventId,
       ) => {
         const reactionRelations = getEventReactions(timelineSet, mEventId);
         const reactions = reactionRelations && reactionRelations.getSortedAnnotationsByKey();
@@ -1408,9 +1462,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             highlight={highlighted}
             repliedToMe={
               !!replyEventId &&
-              timelineSet
-                .findEventById(replyEventId)
-                ?.getSender() === mx.getUserId()
+              timelineSet.findEventById(replyEventId)?.getSender() === mx.getUserId()
             }
             edit={editId === mEventId}
             canDelete={canRedact || (canDeleteOwn && mEvent.getSender() === mx.getUserId())}
@@ -1518,14 +1570,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           </Message>
         );
       },
-      [MessageEvent.Sticker]: (
-        mEventId,
-        mEvent,
-        item,
-        timelineSet,
-        collapse,
-        groupHeadEventId
-      ) => {
+      [MessageEvent.Sticker]: (mEventId, mEvent, item, timelineSet, collapse, groupHeadEventId) => {
         const reactionRelations = getEventReactions(timelineSet, mEventId);
         const reactions = reactionRelations && reactionRelations.getSortedAnnotationsByKey();
         const hasReactions = reactions && reactions.length > 0;
@@ -1588,7 +1633,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             hour24Clock={hour24Clock}
             dateFormatString={dateFormatString}
           >
-            {mEvent.isRedacted() ? (
+            {mEvent.isRedacted() || Object.keys(mEvent.getContent() ?? {}).length === 0 ? (
               <RedactedContent reason={mEvent.getUnsigned().redacted_because?.content.reason} />
             ) : (
               <MSticker
@@ -1618,7 +1663,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             item: number,
             timelineSet: EventTimelineSet,
             collapse: boolean,
-            groupHeadEventId: string
+            groupHeadEventId: string,
           ) => {
             const reactionRelations = getEventReactions(timelineSet, mEventId);
             const reactions = reactionRelations && reactionRelations.getSortedAnnotationsByKey();
@@ -1646,7 +1691,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
                 onUserClick={handleUserClick}
                 onUsernameClick={handleUserClick}
                 onReplyClick={handleReplyClick}
-            onThreadClick={handleOpenThread}
+                onThreadClick={handleOpenThread}
                 onReactionToggle={handleReactionToggle}
                 reactions={
                   reactionRelations && (
@@ -1668,7 +1713,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
                 hour24Clock={hour24Clock}
                 dateFormatString={dateFormatString}
               >
-                {mEvent.isRedacted() ? (
+                {mEvent.isRedacted() || Object.keys(mEvent.getContent() ?? {}).length === 0 ? (
                   <RedactedContent reason={mEvent.getUnsigned().redacted_because?.content.reason} />
                 ) : (
                   <PollContent
@@ -1682,7 +1727,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
               </Message>
             );
           },
-        ])
+        ]),
       ),
       [StateEvent.RoomMember]: (mEventId, mEvent, item) => {
         const membershipChanged = isMembershipChanged(mEvent);
@@ -1690,7 +1735,12 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         if (!membershipChanged && hideNickAvatarEvents) return null;
 
         const highlighted = focusItem?.index === item && focusItem.highlight;
-        const parsed = parseMemberEvent(mEvent);
+        // A redacted state event has no content left to describe. Parsing it
+        // anyway produced a line about a membership change that is no longer
+        // recorded — at best meaningless, at worst a crash on a shape the
+        // parser assumes is there. Show what actually happened to it instead.
+        const redacted = mEvent.isRedacted();
+        const parsed = redacted ? undefined : parseMemberEvent(mEvent);
 
         const timeJSX = (
           <Time
@@ -1717,13 +1767,17 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             <EventContent
               messageLayout={messageLayout}
               time={timeJSX}
-              iconSrc={parsed.icon}
+              iconSrc={parsed?.icon ?? Icons.Delete}
               content={
-                <Box grow="Yes" direction="Column">
-                  <Text size="T300" priority="300">
-                    {parsed.body}
-                  </Text>
-                </Box>
+                redacted ? (
+                  <RedactedContent reason={mEvent.getUnsigned().redacted_because?.content.reason} />
+                ) : (
+                  <Box grow="Yes" direction="Column">
+                    <Text size="T300" priority="300">
+                      {parsed?.body}
+                    </Text>
+                  </Box>
+                )
               }
             />
           </Event>
@@ -1759,14 +1813,18 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             <EventContent
               messageLayout={messageLayout}
               time={timeJSX}
-              iconSrc={Icons.Hash}
+              iconSrc={mEvent.isRedacted() ? Icons.Delete : Icons.Hash}
               content={
-                <Box grow="Yes" direction="Column">
-                  <Text size="T300" priority="300">
-                    <b>{senderName}</b>
-                    {t('Organisms.RoomCommon.changed_room_name')}
-                  </Text>
-                </Box>
+                mEvent.isRedacted() ? (
+                  <RedactedContent reason={mEvent.getUnsigned().redacted_because?.content.reason} />
+                ) : (
+                  <Box grow="Yes" direction="Column">
+                    <Text size="T300" priority="300">
+                      <b>{senderName}</b>
+                      {t('Organisms.RoomCommon.changed_room_name')}
+                    </Text>
+                  </Box>
+                )
               }
             />
           </Event>
@@ -1802,14 +1860,18 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             <EventContent
               messageLayout={messageLayout}
               time={timeJSX}
-              iconSrc={Icons.Hash}
+              iconSrc={mEvent.isRedacted() ? Icons.Delete : Icons.Hash}
               content={
-                <Box grow="Yes" direction="Column">
-                  <Text size="T300" priority="300">
-                    <b>{senderName}</b>
-                    {' changed room topic'}
-                  </Text>
-                </Box>
+                mEvent.isRedacted() ? (
+                  <RedactedContent reason={mEvent.getUnsigned().redacted_because?.content.reason} />
+                ) : (
+                  <Box grow="Yes" direction="Column">
+                    <Text size="T300" priority="300">
+                      <b>{senderName}</b>
+                      {' changed room topic'}
+                    </Text>
+                  </Box>
+                )
               }
             />
           </Event>
@@ -1845,14 +1907,18 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             <EventContent
               messageLayout={messageLayout}
               time={timeJSX}
-              iconSrc={Icons.Hash}
+              iconSrc={mEvent.isRedacted() ? Icons.Delete : Icons.Hash}
               content={
-                <Box grow="Yes" direction="Column">
-                  <Text size="T300" priority="300">
-                    <b>{senderName}</b>
-                    {' changed room avatar'}
-                  </Text>
-                </Box>
+                mEvent.isRedacted() ? (
+                  <RedactedContent reason={mEvent.getUnsigned().redacted_because?.content.reason} />
+                ) : (
+                  <Box grow="Yes" direction="Column">
+                    <Text size="T300" priority="300">
+                      <b>{senderName}</b>
+                      {' changed room avatar'}
+                    </Text>
+                  </Box>
+                )
               }
             />
           </Event>
@@ -2005,7 +2071,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           />
         </Event>
       );
-    }
+    },
   );
 
   // Fork-only: replaces the browser's messy selection copy with a clean,
@@ -2097,7 +2163,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             room,
             mEvent,
             eventTimeline.getTimelineSet(),
-            hour24Clock
+            hour24Clock,
           );
           if (line) transcript.push(line);
         }
@@ -2107,10 +2173,21 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       evt.clipboardData.setData('text/plain', transcript.join('\n'));
       evt.preventDefault();
     },
-    [room, ignoredUsersSet, showHiddenEvents, hour24Clock]
+    [room, ignoredUsersSet, showHiddenEvents, hour24Clock],
   );
 
   let prevEvent: MatrixEvent | undefined;
+  /**
+   * The previous event this pass *looked at*, rendered or not.
+   *
+   * Distinct from `prevEvent`, which only advances for events that draw a row.
+   * A read receipt is allowed to point at an event the timeline never renders —
+   * a reaction, an edit, a thread reply — and when it did, the divider's test
+   * (`prevEvent` is the read-up-to event) could never become true and the "new
+   * messages" line simply did not appear. Which is the case people actually hit:
+   * the last thing that happened in a busy room is very often a reaction.
+   */
+  let prevIteratedEventId: string | undefined;
   let isPrevRendered = false;
   let newDivider = false;
   let dayDivider = false;
@@ -2137,6 +2214,13 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
 
     if (!mEvent || !mEventId) return null;
 
+    // Before any of the filters below, so an unrendered event can still anchor
+    // the divider — see `prevIteratedEventId`.
+    if (!newDivider && readUptoEventIdRef.current) {
+      newDivider = prevIteratedEventId === readUptoEventIdRef.current;
+    }
+    prevIteratedEventId = mEventId;
+
     const eventSender = mEvent.getSender();
     if (eventSender && ignoredUsersSet.has(eventSender)) {
       return null;
@@ -2145,9 +2229,6 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       return null;
     }
 
-    if (!newDivider && readUptoEventIdRef.current) {
-      newDivider = prevEvent?.getId() === readUptoEventIdRef.current;
-    }
     if (!dayDivider) {
       dayDivider = prevEvent ? !inSameDay(prevEvent.getTs(), mEvent.getTs()) : false;
     }
@@ -2178,7 +2259,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           item,
           timelineSet,
           collapsed,
-          eventGroupHeadId
+          eventGroupHeadId,
         );
     prevEvent = mEvent;
     isPrevRendered = !!eventJSX;
@@ -2254,7 +2335,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         </TimelineFloat>
       )}
       <MessageKeybinds room={room} onSetEditId={setEditId} editor={editor} />
-      <Scroll ref={scrollRef} visibility="Hover">
+      <Scroll ref={scrollRef} className={css.TimelineScroll} visibility="Hover">
         <Box
           direction="Column"
           justifyContent="End"

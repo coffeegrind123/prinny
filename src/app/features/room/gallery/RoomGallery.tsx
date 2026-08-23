@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Badge,
   Box,
   Chip,
   Icon,
@@ -62,11 +61,23 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
   }, [visible]);
 
   const thumbnail = useMediaThumbnail(item, visible);
+  // Swapped in by the `<img>`'s own error handler — see `fallbackSrc`.
+  const [thumbnailFailed, setThumbnailFailed] = useState(false);
+  useEffect(() => setThumbnailFailed(false), [thumbnail.src]);
+  const tileSrc = thumbnailFailed ? thumbnail.fallbackSrc : thumbnail.src;
 
   // An unencrypted video with no sender thumbnail still has a first frame, and
-  // `preload="metadata"` is enough to draw it without fetching the file.
+  // `preload="metadata"` is enough to draw it without fetching the file. Only
+  // an attachment can be drawn this way: embed video is either an HLS playlist
+  // or a cross-origin file that answers 403 without a stripped referrer, and
+  // both would draw an empty box instead of a frame.
   const videoPosterUrl =
-    !thumbnail.src && item.type === 'video' && !item.encInfo && visible
+    !thumbnail.src &&
+    item.type === 'video' &&
+    item.source === 'attachment' &&
+    item.mxcUrl &&
+    !item.encInfo &&
+    visible
       ? (mxcUrlToHttp(mx, item.mxcUrl, useAuthentication) ?? undefined)
       : undefined;
 
@@ -86,7 +97,7 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
       aria-label={label}
       title={item.caption || item.filename}
     >
-      {typeof item.blurHash === 'string' && !thumbnail.src && (
+      {typeof item.blurHash === 'string' && !tileSrc && (
         <BlurhashCanvas
           style={{ width: '100%', height: '100%' }}
           width={32}
@@ -95,16 +106,28 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
           punch={1}
         />
       )}
-      {thumbnail.src && (
+      {tileSrc && (
         <img
           className={`${css.GalleryTileMedia}${item.spoiler ? ` ${css.GalleryTileBlur}` : ''}`}
-          src={thumbnail.src}
+          src={tileSrc}
           alt={item.filename}
           loading="lazy"
           draggable={false}
+          onError={() => {
+            if (thumbnailFailed || !thumbnail.fallbackSrc) return;
+            console.warn('[gallery] thumbnail 404 — falling back to the full image', {
+              eventId: item.eventId,
+              thumbnail: thumbnail.src,
+            });
+            setThumbnailFailed(true);
+          }}
+          // `pbs.twimg.com` answers 403 to a request carrying a cross-origin
+          // referrer. Unlike `<video>`, an `<img>` does honour this attribute,
+          // which is why embed stills need no proxy here.
+          referrerPolicy={item.source === 'embed' ? 'no-referrer' : undefined}
         />
       )}
-      {!thumbnail.src && videoPosterUrl && (
+      {!tileSrc && videoPosterUrl && (
         <video
           className={`${css.GalleryTileMedia}${item.spoiler ? ` ${css.GalleryTileBlur}` : ''}`}
           src={videoPosterUrl}
@@ -114,9 +137,18 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
           tabIndex={-1}
         />
       )}
-      {!thumbnail.src && !videoPosterUrl && thumbnail.loading && (
+      {!tileSrc && !videoPosterUrl && thumbnail.loading && (
         <Box className={css.GalleryTileCenter}>
           <Spinner variant="Secondary" size="300" />
+        </Box>
+      )}
+      {/* A still that cannot be fetched used to leave a plain grey square,
+          indistinguishable from one that had not started loading yet. Say so —
+          the tile still opens, and the feed fetches the full attachment by a
+          different path that may well work. */}
+      {!tileSrc && !videoPosterUrl && !thumbnail.loading && thumbnail.unavailable && (
+        <Box className={css.GalleryTileCenter}>
+          <Icon size="300" src={Icons.Warning} style={{ opacity: 0.5 }} />
         </Box>
       )}
       {item.type === 'video' && (
@@ -184,8 +216,9 @@ const groupByDay = (items: MediaItem[]): DayGroup[] => {
  * The conversation as a wall of its own photos and videos, newest first.
  *
  * Takes the place of the timeline rather than opening over it: "turn this
- * conversation into a gallery" is a mode, not a dialog, and the composer stays
- * where it is underneath so the room is still a room while you are in it.
+ * conversation into a gallery" is a mode, not a dialog. The composer goes with
+ * the timeline — a message box under a wall of photos has no conversation
+ * on screen to send into, and the room header's own toggle is the way back.
  *
  * Grouped by day, because the question people actually arrive with is "that
  * photo from Tuesday", and because it gives the scan something to show the
@@ -220,19 +253,49 @@ export function RoomGallery() {
   // Walk further back as the bottom of the grid comes into view. The sentinel
   // sits inside the scroller, so this is the grid's own end rather than the
   // window's.
+  //
+  // `loading` is a dependency because a round that finds nothing is the case
+  // this has to survive: one `loadMore` reads up to six pages of history, and
+  // a room whose photos are further back than that leaves the grid exactly as
+  // it was. IntersectionObserver reports *changes* in intersection, so a
+  // sentinel that was already visible and stayed visible never fires again —
+  // the walk stopped after a single round and the gallery looked like it had
+  // found everything there was. Re-arming per round makes it keep going while
+  // the end of the grid is still on screen.
+  const digRoundsRef = useRef(0);
+  const digCountRef = useRef(-1);
   useEffect(() => {
     const el = sentinelRef.current;
     const root = scrollRef.current;
-    if (!el || !hasMore) return undefined;
+    if (!el || !hasMore || loading) return undefined;
+
+    // Rounds that found something are free — the grid grew, so the user is
+    // being shown progress. Only fruitless ones are counted, and after a few
+    // of those the "Load older media" button takes over rather than reading a
+    // years-old room to its start behind the user's back.
+    if (filtered.length !== digCountRef.current) {
+      digCountRef.current = filtered.length;
+      digRoundsRef.current = 0;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) loadMore();
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        if (digRoundsRef.current >= AUTO_DIG_ROUNDS) return;
+        digRoundsRef.current += 1;
+        loadMore();
       },
       { root: root ?? null, rootMargin: '400px' },
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [hasMore, loadMore, filtered.length]);
+  }, [hasMore, loading, loadMore, filtered.length]);
+
+  /** Asking for more by hand earns another run of automatic rounds. */
+  const digMore = useCallback(() => {
+    digRoundsRef.current = 0;
+    loadMore();
+  }, [loadMore]);
 
   // A filter that hides everything found so far is not an answer — keep
   // reading history until it has something to show. Bounded, because "no
@@ -253,7 +316,7 @@ export function RoomGallery() {
 
   const openItem = useCallback(
     (item: MediaItem) => {
-      setFeedRequest({ roomId: item.roomId, eventId: item.eventId });
+      setFeedRequest({ roomId: item.roomId, eventId: item.eventId, itemKey: item.key });
     },
     [setFeedRequest],
   );
@@ -320,7 +383,7 @@ export function RoomGallery() {
                 </Box>
                 <div className={css.GalleryGrid}>
                   {group.items.map((item) => (
-                    <GalleryTile key={item.eventId} item={item} onOpen={openItem} />
+                    <GalleryTile key={item.key} item={item} onOpen={openItem} />
                   ))}
                 </div>
               </Box>
@@ -350,7 +413,7 @@ export function RoomGallery() {
                         : 'No photos or videos have been sent in this conversation.'}
                     </Text>
                     {hasMore && (
-                      <Chip variant="Primary" radii="Pill" onClick={loadMore}>
+                      <Chip variant="Primary" radii="Pill" onClick={digMore}>
                         <Text size="B300">Look further back</Text>
                       </Chip>
                     )}
@@ -369,16 +432,14 @@ export function RoomGallery() {
               <div ref={sentinelRef} />
               {filtered.length > 0 && loading && <Spinner variant="Secondary" size="300" />}
               {filtered.length > 0 && !loading && hasMore && (
-                <Chip variant="SurfaceVariant" radii="Pill" outlined onClick={loadMore}>
+                <Chip variant="SurfaceVariant" radii="Pill" outlined onClick={digMore}>
                   <Text size="B300">Load older media</Text>
                 </Chip>
               )}
               {filtered.length > 0 && !hasMore && !loading && (
-                <Badge variant="Secondary" fill="Soft" radii="Pill">
-                  <Text size="L400">
-                    {`${counts.all} attachment${counts.all === 1 ? '' : 's'} · that is everything`}
-                  </Text>
-                </Badge>
+                <Text size="T200" priority="300" align="Center">
+                  {`${counts.all} attachment${counts.all === 1 ? '' : 's'} · that is everything`}
+                </Text>
               )}
             </Box>
           </Box>

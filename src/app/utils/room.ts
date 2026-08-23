@@ -36,7 +36,7 @@ import { sanitizeText } from './sanitize';
 export const getStateEvent = (
   room: Room,
   eventType: StateEvent,
-  stateKey = ''
+  stateKey = '',
 ): MatrixEvent | undefined =>
   room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(eventType, stateKey) ??
   undefined;
@@ -46,7 +46,7 @@ export const getStateEvents = (room: Room, eventType: StateEvent): MatrixEvent[]
 
 export const getAccountData = (
   mx: MatrixClient,
-  eventType: AccountDataEvent
+  eventType: AccountDataEvent,
 ): MatrixEvent | undefined => mx.getAccountData(eventType as any);
 
 export const getMDirects = (mDirectEvent: MatrixEvent): Set<string> => {
@@ -130,7 +130,7 @@ export const getSpaceChildren = (room: Room) =>
 export const mapParentWithChildren = (
   roomToParents: RoomToParents,
   roomId: string,
-  children: string[]
+  children: string[],
 ) => {
   const allParents = getAllParents(roomToParents, roomId);
   children.forEach((childId) => {
@@ -156,7 +156,7 @@ export const getRoomToParents = (mx: MatrixClient): RoomToParents => {
 export const getOrphanParents = (roomToParents: RoomToParents, roomId: string): string[] => {
   const parents = getAllParents(roomToParents, roomId);
   const orphanParents = Array.from(parents).filter(
-    (parentRoomId) => !roomToParents.has(parentRoomId)
+    (parentRoomId) => !roomToParents.has(parentRoomId),
   );
 
   return orphanParents;
@@ -290,7 +290,7 @@ export const getUnreadInfos = (mx: MatrixClient): UnreadInfo[] => {
 export const getRoomIconSrc = (
   icons: Record<IconName, IconSrc>,
   roomType?: string,
-  joinRule?: JoinRule
+  joinRule?: JoinRule,
 ): IconSrc => {
   if (roomType === RoomType.Space) {
     if (joinRule === JoinRule.Public) return icons.SpaceGlobe;
@@ -331,11 +331,12 @@ export const getRoomAvatarUrl = (
   mx: MatrixClient,
   room: Room,
   size: 32 | 96 = 32,
-  useAuthentication = false
+  useAuthentication = false,
 ): string | undefined => {
   const mxcUrl = room.getMxcAvatarUrl();
   return mxcUrl
-    ? mx.mxcUrlToHttp(mxcUrl, size, size, 'crop', undefined, false, useAuthentication) ?? undefined
+    ? (mx.mxcUrlToHttp(mxcUrl, size, size, 'crop', undefined, false, useAuthentication) ??
+        undefined)
     : undefined;
 };
 
@@ -343,7 +344,7 @@ export const getDirectRoomAvatarUrl = (
   mx: MatrixClient,
   room: Room,
   size: 32 | 96 = 32,
-  useAuthentication = false
+  useAuthentication = false,
 ): string | undefined => {
   const mxcUrl = room.getAvatarFallbackMember()?.getMxcAvatarUrl();
 
@@ -378,10 +379,10 @@ export const parseReplyFormattedBody = (
   roomId: string,
   userId: string,
   eventId: string,
-  formattedBody: string
+  formattedBody: string,
 ): string => {
   const replyToLink = `<a href="https://matrix.to/#/${encodeURIComponent(
-    roomId
+    roomId,
   )}/${encodeURIComponent(eventId)}">In reply to</a>`;
   // `userId` is the *sender-reported* ID of the event being replied to, so it
   // reaches here straight from the remote homeserver. The Matrix user-ID
@@ -390,7 +391,7 @@ export const parseReplyFormattedBody = (
   // then send as `formatted_body`. Escape at the interpolation point so a
   // non-conforming ID can only ever become text, never markup.
   const userLink = `<a href="https://matrix.to/#/${encodeURIComponent(userId)}">${sanitizeText(
-    userId
+    userId,
   )}</a>`;
 
   return `<mx-reply><blockquote>${replyToLink}${userLink}<br />${formattedBody}</blockquote></mx-reply>`;
@@ -406,7 +407,7 @@ export const getMemberDisplayName = (room: Room, userId: string): string | undef
 export const getMemberSearchStr = (
   member: RoomMember,
   query: string,
-  mxIdToName: (mxId: string) => string
+  mxIdToName: (mxId: string) => string,
 ): string[] => [
   member.rawDisplayName === member.userId ? mxIdToName(member.userId) : member.rawDisplayName,
   query.startsWith('@') || query.indexOf(':') > -1 ? member.userId : mxIdToName(member.userId),
@@ -457,7 +458,7 @@ export const getEventReactions = (timelineSet: EventTimelineSet, eventId: string
   timelineSet.relations.getChildEventsForEvent(
     eventId,
     RelationType.Annotation,
-    EventType.Reaction
+    EventType.Reaction,
   );
 
 export const getEventEdits = (timelineSet: EventTimelineSet, eventId: string, eventType: string) =>
@@ -465,7 +466,7 @@ export const getEventEdits = (timelineSet: EventTimelineSet, eventId: string, ev
 
 export const getLatestEdit = (
   targetEvent: MatrixEvent,
-  editEvents: MatrixEvent[]
+  editEvents: MatrixEvent[],
 ): MatrixEvent | undefined => {
   const eventByTargetSender = (rEvent: MatrixEvent) =>
     rEvent.getSender() === targetEvent.getSender();
@@ -475,10 +476,73 @@ export const getLatestEdit = (
 export const getEditedEvent = (
   mEventId: string,
   mEvent: MatrixEvent,
-  timelineSet: EventTimelineSet
+  timelineSet: EventTimelineSet,
 ): MatrixEvent | undefined => {
   const edits = getEventEdits(timelineSet, mEventId, mEvent.getType());
   return edits && getLatestEdit(mEvent, edits.getRelations());
+};
+
+/**
+ * Find an event in a room by id, looking harder than `room.findEventById`.
+ *
+ * The room's own lookup only covers what is in its timelines. Anything that
+ * lives in the relations store instead — a reaction, an edit — is invisible to
+ * it, and so is an event that only exists in the unfiltered set. Checking both
+ * is what makes an action on such an event work at all rather than silently
+ * doing nothing.
+ */
+export const findRoomEventById = (
+  room: Room,
+  eventId: string,
+  timelineSet?: EventTimelineSet,
+): MatrixEvent | undefined => {
+  const set = timelineSet ?? room.getUnfilteredTimelineSet();
+  return set.findEventById(eventId) ?? room.findEventById(eventId) ?? undefined;
+};
+
+/**
+ * The text a reply draft quotes, and the formatted version of it.
+ *
+ * `content.body` is the obvious source and it is not always there. A poll
+ * (`m.poll.start`) has a question, not a body; an extensible event (MSC1767)
+ * carries its text under `m.text`; an edited message's real text is in the
+ * edit's `m.new_content`. The composer used to require a plain string `body`
+ * before it would arm a reply at all, so replying to any of those was a click
+ * that did nothing and explained nothing.
+ */
+export const getReplyDraftBody = (
+  mEvent: MatrixEvent,
+  timelineSet: EventTimelineSet,
+): { body: string; formattedBody?: string } => {
+  const eventId = mEvent.getId();
+  const editedEvent = eventId ? getEditedEvent(eventId, mEvent, timelineSet) : undefined;
+  const content: Record<string, any> =
+    editedEvent?.getContent()['m.new_content'] ?? mEvent.getContent();
+
+  const formattedBody =
+    typeof content.formatted_body === 'string' ? content.formatted_body : undefined;
+
+  if (typeof content.body === 'string') return { body: content.body, formattedBody };
+
+  // MSC1767 text, in both the string and the `[{body}]` shapes it is written in.
+  const extensibleText = content['m.text'];
+  if (typeof extensibleText === 'string') return { body: extensibleText, formattedBody };
+  if (Array.isArray(extensibleText) && typeof extensibleText[0]?.body === 'string') {
+    return { body: extensibleText[0].body, formattedBody };
+  }
+  if (typeof extensibleText?.body === 'string') {
+    return { body: extensibleText.body, formattedBody };
+  }
+
+  // A poll quotes its question, which is the only part of it a reader would
+  // recognise in a reply chip.
+  const pollQuestion = content['org.matrix.msc3381.poll.start']?.question ?? content.question;
+  if (typeof pollQuestion?.['org.matrix.msc1767.text'] === 'string') {
+    return { body: pollQuestion['org.matrix.msc1767.text'], formattedBody };
+  }
+  if (typeof pollQuestion?.body === 'string') return { body: pollQuestion.body, formattedBody };
+
+  return { body: '', formattedBody };
 };
 
 export const canEditEvent = (mx: MatrixClient, mEvent: MatrixEvent) => {
@@ -496,7 +560,7 @@ export const canEditEvent = (mx: MatrixClient, mEvent: MatrixEvent) => {
 
 export const getLatestEditableEvt = (
   timeline: EventTimeline,
-  canEdit: (mEvent: MatrixEvent) => boolean
+  canEdit: (mEvent: MatrixEvent) => boolean,
 ): MatrixEvent | undefined => {
   const events = timeline.getEvents();
 
@@ -526,7 +590,7 @@ export const getMentionContent = (userIds: string[], room: boolean): IMentions =
 export const getCommonRooms = (
   mx: MatrixClient,
   rooms: string[],
-  otherUserId: string
+  otherUserId: string,
 ): string[] => {
   const commonRooms: string[] = [];
 
@@ -572,7 +636,7 @@ export const getAllVersionsRoomCreator = (room: Room): Set<string> => {
 export const guessPerfectParent = (
   mx: MatrixClient,
   roomId: string,
-  parents: string[]
+  parents: string[],
 ): string | undefined => {
   if (parents.length === 1) {
     return parents[0];
@@ -588,7 +652,7 @@ export const guessPerfectParent = (
 
     const powerLevels = getStateEvent(
       r,
-      StateEvent.RoomPowerLevels
+      StateEvent.RoomPowerLevels,
     )?.getContent<IPowerLevelsContent>();
 
     const { users_default: usersDefault, users } = powerLevels ?? {};
@@ -611,7 +675,7 @@ export const guessPerfectParent = (
   parents.forEach((parentId) => {
     const parentSpecialUsers = getSpecialUsers(parentId);
     const matchedUsersCount = parentSpecialUsers.filter((userId) =>
-      roomSpecialUsers.includes(userId)
+      roomSpecialUsers.includes(userId),
     ).length;
 
     if (matchedUsersCount > score) {

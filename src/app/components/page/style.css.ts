@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 import { DefaultReset, color, config, toRem } from 'folds';
 
@@ -24,6 +24,15 @@ export const PageNavHeader = recipe({
     padding: `0 ${config.space.S200} 0 ${config.space.S300}`,
     flexShrink: 0,
     selectors: {
+      // Collapsed rail: the title has nowhere to go, but the header's controls
+      // (the overflow menu, the search button) still do — so the text goes and
+      // the buttons centre. The text half is a `globalStyle` below, because
+      // vanilla-extract only allows `&` as a selector's target.
+      '[data-nav-collapsed] &': {
+        paddingLeft: config.space.S100,
+        paddingRight: config.space.S100,
+        justifyContent: 'center',
+      },
       'button&': {
         cursor: 'pointer',
       },
@@ -51,6 +60,14 @@ export const PageNavHeader = recipe({
   },
 });
 export type PageNavHeaderVariants = RecipeVariants<typeof PageNavHeader>;
+
+/**
+ * The nav title on a collapsed rail. `Text` renders as a `<p>`, so one rule
+ * covers every page's header without threading a prop through all three.
+ */
+globalStyle('[data-nav-collapsed] header p', {
+  display: 'none',
+});
 
 export const PageNavContent = style({
   minHeight: '100%',
@@ -110,7 +127,6 @@ export const PageHeroSection = style([
     margin: 'auto',
   },
 ]);
-
 
 export const PageContentCenter = style([
   DefaultReset,

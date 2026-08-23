@@ -131,7 +131,7 @@ import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { useImagePackRooms } from '../../hooks/useImagePackRooms';
 import { useEmojiShortcodeMap } from '../../hooks/useEmojiShortcodeMap';
 import { FavoriteGif } from '../../state/gifFavorites';
-import { MATRIX_GIF_PROPERTY_NAME } from '../../../types/matrix/common';
+import { GALLERY_MSGTYPE, MATRIX_GIF_PROPERTY_NAME } from '../../../types/matrix/common';
 import { animatedImageInfo, blobIsAnimated } from '../../utils/animatedMedia';
 import { getGifToSend, isGifVideo } from '../../utils/klipy';
 import { usePowerLevelsContext } from '../../hooks/usePowerLevels';
@@ -191,6 +191,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
       keybinds['send-message'] ?? getKeybindDefinition('send-message')?.defaultKeys ?? 'mod+enter';
     const [isMarkdown] = useSetting(settingsAtom, 'isMarkdown');
     const [hideTypingStatus] = useSetting(settingsAtom, 'hideTypingStatus');
+    const [galleryUploads] = useSetting(settingsAtom, 'galleryUploads');
     const [legacyUsernameColor] = useSetting(settingsAtom, 'legacyUsernameColor');
     const direct = useIsDirectRoom();
     const commands = useCommands(mx, room);
@@ -479,6 +480,29 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
       });
       handleCancelUpload(uploads);
       const contents = fulfilledPromiseSettledResult(await Promise.allSettled(contentsPromises));
+
+      // MSC4274: several attachments as one message rather than one each.
+      //
+      // Sending five photos is one action to the sender and, without this, five
+      // rows, five timestamps and five notification lines to everyone else. Off
+      // by default because the identifier is still unstable — a client that has
+      // not implemented it shows the fallback `body` and nothing else, so this
+      // is only worth turning on where people know their room can read it.
+      if (galleryUploads && contents.length > 1) {
+        const galleryContent: IContent = {
+          msgtype: GALLERY_MSGTYPE,
+          body: contents.map((content) => content.body).join('\n'),
+          itemtypes: contents.map((content) => {
+            const { msgtype, ...rest } = content as IContent & { msgtype: string };
+            return { ...rest, itemtype: msgtype };
+          }),
+        };
+        applyRelation(galleryContent);
+        mx.sendMessage(roomId, galleryContent as any);
+        setReplyDraft(undefined);
+        return;
+      }
+
       contents.forEach((content, index) => {
         // Attachments sent from a thread composer must stay in the thread, and
         // an attachment sent while a reply is drafted must carry that reply —

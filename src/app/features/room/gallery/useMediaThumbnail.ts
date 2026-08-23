@@ -11,6 +11,17 @@ const THUMBNAIL_SIZE = 512;
 
 export type MediaThumbnail = {
   src?: string;
+  /**
+   * What to try when `src` fails to load.
+   *
+   * The still for an unencrypted image is a *server-side thumbnail*, which the
+   * timeline never asks for — it renders the full attachment. So a homeserver
+   * whose thumbnailer is missing, disabled, or unable to handle a remote or
+   * exotic file answers the gallery with a 404/502 while the same picture
+   * renders perfectly in the conversation, and every tile comes out grey. The
+   * full attachment is always there to fall back on; it is only bigger.
+   */
+  fallbackSrc?: string;
   loading: boolean;
   /**
    * No still exists for this attachment and none can be made cheaply — an
@@ -46,13 +57,30 @@ export const useMediaThumbnail = (item: MediaItem, load: boolean): MediaThumbnai
   const thumbEncInfo = item.thumbnail?.thumbnail_file;
   const thumbMimeType = getImageSafeMimeType(item.thumbnail?.thumbnail_info?.mimetype);
 
+  // Media inside a linked post is already a plain https URL on the provider's
+  // CDN, and the provider has usually given a small rendition to draw the tile
+  // with. Nothing to resolve, decrypt or resize — the still IS the URL.
+  const embedSrc =
+    item.source === 'embed'
+      ? item.type === 'image'
+        ? (item.posterUrl ?? item.httpUrl)
+        : item.posterUrl
+      : undefined;
+  const isEmbed = item.source === 'embed';
+
   const hasSenderThumbnail = typeof thumbMxc === 'string';
-  const unavailable = !hasSenderThumbnail && item.type === 'video' && !!item.encInfo;
+  const unavailable = isEmbed
+    ? !embedSrc
+    : !hasSenderThumbnail && item.type === 'video' && !!item.encInfo;
 
   const [state, loadSrc] = useAsyncCallback<string, Error, []>(
     useCallback(async () => {
+      if (isEmbed) {
+        if (!embedSrc) throw new Error('No still for this embed');
+        return embedSrc;
+      }
       if (hasSenderThumbnail) {
-        const mediaUrl = mxcUrlToHttp(mx, thumbMxc, useAuthentication);
+        const mediaUrl = mxcUrlToHttp(mx, thumbMxc ?? '', useAuthentication);
         if (!mediaUrl) throw new Error('Invalid media URL');
         if (thumbEncInfo) {
           const fileContent = await downloadEncryptedMedia(mediaUrl, (encBuf) =>
@@ -67,7 +95,7 @@ export const useMediaThumbnail = (item: MediaItem, load: boolean): MediaThumbnai
 
       const fileEncInfo = item.encInfo;
       if (fileEncInfo) {
-        const mediaUrl = mxcUrlToHttp(mx, item.mxcUrl, useAuthentication);
+        const mediaUrl = mxcUrlToHttp(mx, item.mxcUrl ?? '', useAuthentication);
         if (!mediaUrl) throw new Error('Invalid media URL');
         const fileContent = await downloadEncryptedMedia(mediaUrl, (encBuf) =>
           decryptFile(encBuf, item.mimeType, fileEncInfo),
@@ -77,7 +105,7 @@ export const useMediaThumbnail = (item: MediaItem, load: boolean): MediaThumbnai
 
       const scaled = mxcUrlToHttp(
         mx,
-        item.mxcUrl,
+        item.mxcUrl ?? '',
         useAuthentication,
         THUMBNAIL_SIZE,
         THUMBNAIL_SIZE,
@@ -88,6 +116,8 @@ export const useMediaThumbnail = (item: MediaItem, load: boolean): MediaThumbnai
     }, [
       mx,
       useAuthentication,
+      isEmbed,
+      embedSrc,
       hasSenderThumbnail,
       thumbMxc,
       thumbEncInfo,
@@ -104,6 +134,33 @@ export const useMediaThumbnail = (item: MediaItem, load: boolean): MediaThumbnai
     if (state.status === AsyncStatus.Idle) loadSrc();
   }, [load, unavailable, state.status, loadSrc]);
 
+  // A still that fails to load is a grey tile and nothing else — no error, no
+  // retry, no clue which of the three paths above gave up. Say which, with the
+  // URL, because "the gallery is blank" and "this homeserver 401s thumbnails"
+  // are the same picture from the outside.
+  useEffect(() => {
+    if (state.status !== AsyncStatus.Error) return;
+    console.warn('[gallery] thumbnail failed', {
+      eventId: item.eventId,
+      source: item.source,
+      type: item.type,
+      encrypted: !!item.encInfo,
+      senderThumbnail: hasSenderThumbnail,
+      mxcUrl: item.mxcUrl,
+      httpUrl: item.httpUrl,
+      error: state.error,
+    });
+  }, [
+    state,
+    item.eventId,
+    item.source,
+    item.type,
+    item.encInfo,
+    item.mxcUrl,
+    item.httpUrl,
+    hasSenderThumbnail,
+  ]);
+
   // Only the decrypt paths mint an object URL; a plain media URL must not be
   // revoked, so track what we created rather than whatever `src` currently is.
   const blobRef = useRef<string | undefined>(undefined);
@@ -118,8 +175,17 @@ export const useMediaThumbnail = (item: MediaItem, load: boolean): MediaThumbnai
     [],
   );
 
+  // Only the server-thumbnail path has a fallback: a sender-supplied thumbnail
+  // and a decrypted blob either exist or do not, and an embed's URL is the
+  // provider's own.
+  const fallbackSrc =
+    !isEmbed && !hasSenderThumbnail && item.type === 'image' && !item.encInfo && item.mxcUrl
+      ? (mxcUrlToHttp(mx, item.mxcUrl, useAuthentication) ?? undefined)
+      : undefined;
+
   return {
     src: state.status === AsyncStatus.Success ? state.data : undefined,
+    fallbackSrc,
     loading: state.status === AsyncStatus.Loading,
     unavailable: unavailable || state.status === AsyncStatus.Error,
   };

@@ -42,7 +42,7 @@ import { onEnterOrSpace } from '../../utils/keyboard';
  * Returns `null` while a proxy fetch is still outstanding, so callers can show
  * a placeholder instead of an element with an empty `src`.
  */
-const useResolvedMediaSrc = (src: string, stripReferrer = false): string | null => {
+export const useResolvedMediaSrc = (src: string, stripReferrer = false): string | null => {
   const allowed = isAllowedMediaUrl(src);
   const proxied = allowed && (isTauri() || stripReferrer);
   const [resolvedSrc, setResolvedSrc] = useState<string | null>(proxied ? null : src);

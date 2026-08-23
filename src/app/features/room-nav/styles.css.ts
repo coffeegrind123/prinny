@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { color, config } from 'folds';
+import { DefaultReset, color, config, toRem } from 'folds';
 
 export const CategoryButton = style({
   flexGrow: 1,
@@ -68,3 +68,21 @@ export const SortableNavItem = style({
     },
   },
 });
+
+/**
+ * The unread badge on a collapsed rail row.
+ *
+ * In the expanded row the badge sits at the end of the line, after the name.
+ * There is no line here, so it rides the corner of the avatar the way an app
+ * icon's badge does — which is the only place it can go and still be legible
+ * next to a 24px avatar.
+ */
+export const CollapsedUnread = style([
+  DefaultReset,
+  {
+    position: 'absolute',
+    top: toRem(-2),
+    right: toRem(-4),
+    pointerEvents: 'none',
+  },
+]);

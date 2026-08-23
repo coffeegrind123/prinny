@@ -19,15 +19,24 @@ export const GalleryContent = style([
   },
 ]);
 
+/**
+ * The day label, stuck to the top of the scroller as its group passes under.
+ *
+ * Painted in the *page's* own surface colour rather than `Background.Container`
+ * — the page is a `Surface` container, so the background token is a different,
+ * darker grey and drew the label as a black band across the grid. Matching the
+ * page means the strip is invisible until a tile scrolls under it, which is the
+ * only moment it needs to be there at all.
+ */
 export const GalleryDateHeader = style([
   DefaultReset,
   {
     position: 'sticky',
     top: 0,
     zIndex: 1,
-    padding: `${config.space.S200} 0`,
-    backgroundColor: color.Background.Container,
-    color: color.Background.OnContainer,
+    padding: `${config.space.S200} 0 ${config.space.S100}`,
+    backgroundColor: color.Surface.Container,
+    color: color.Surface.OnContainer,
   },
 ]);
 

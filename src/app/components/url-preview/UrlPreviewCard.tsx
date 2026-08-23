@@ -47,67 +47,22 @@ import {
   isAnimatedImageUrl,
   isGifStyleVideo,
   isImageUrl,
-  isTwitterGifUrl,
   parseTenorGif,
   urlHostname,
 } from '../../utils/animatedMedia';
 import { htmlToPlainText } from '../../utils/htmlText';
+import { useHlsPlayback } from './useHlsPlayback';
+import {
+  fetchBskyPost,
+  fetchBskyProfile,
+  fetchVxTweet,
+  getBskyPostInfo,
+  getBskyProfileActor,
+  getTwitterId,
+  isVxGifMedia,
+} from '../../utils/socialEmbed';
 
 const linkStyles = { color: color.Secondary.Main, textDecoration: 'none' };
-
-function getTwitterId(url: string): string | null {
-  const m = url.match(/^https?:\/\/(?:[\w-]+\.)?(?:twitter\.com|x\.com|nitter\.[\w.-]+|fxtwitter\.com|vxtwitter\.com|fixupx\.com)\/(?:i\/web\/status|\w+\/status)\/(\d+)/);
-  return m ? m[1] : null;
-}
-
-// Bluesky post URLs: https://bsky.app/profile/{handle-or-did}/post/{rkey}
-// Also accept the AT-protocol-friendly bsky URL shapes used by clients.
-function getBskyPostInfo(url: string): { actor: string; rkey: string } | null {
-  const m = url.match(/^https?:\/\/(?:bsky\.app|cbsky\.app|psky\.app|deer\.social)\/profile\/([^/?#]+)\/post\/([^/?#]+)/);
-  if (!m) return null;
-  return { actor: m[1], rkey: m[2] };
-}
-
-const BSKY_API = 'https://public.api.bsky.app';
-
-async function resolveBskyDid(actor: string): Promise<string> {
-  if (actor.startsWith('did:')) return actor;
-  const resp = await fetch(
-    `${BSKY_API}/xrpc/com.atproto.identity.resolveHandle?handle=${encodeURIComponent(actor)}`
-  );
-  if (!resp.ok) throw new Error(`resolveHandle HTTP ${resp.status}`);
-  const data = await resp.json();
-  if (typeof data?.did !== 'string') throw new Error('resolveHandle: no did');
-  return data.did as string;
-}
-
-async function fetchBskyPost(actor: string, rkey: string): Promise<any> {
-  const did = await resolveBskyDid(actor);
-  const uri = `at://${did}/app.bsky.feed.post/${rkey}`;
-  const resp = await fetch(
-    `${BSKY_API}/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(uri)}&depth=0&parentHeight=0`
-  );
-  if (!resp.ok) throw new Error(`getPostThread HTTP ${resp.status}`);
-  return resp.json();
-}
-
-// Bluesky PROFILE urls: https://bsky.app/profile/{handle-or-did}, with no
-// trailing /post/{rkey}. Previously only post URLs were recognised, so a bare
-// profile link rendered no card at all.
-function getBskyProfileActor(url: string): string | null {
-  const m = url.match(
-    /^https?:\/\/(?:bsky\.app|cbsky\.app|psky\.app|deer\.social)\/profile\/([^/?#]+)\/?(?:[?#].*)?$/
-  );
-  return m ? m[1] : null;
-}
-
-async function fetchBskyProfile(actor: string): Promise<any> {
-  const resp = await fetch(
-    `${BSKY_API}/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(actor)}`
-  );
-  if (!resp.ok) throw new Error(`getProfile HTTP ${resp.status}`);
-  return resp.json();
-}
 
 // Hacker News item URLs: https://news.ycombinator.com/item?id=12345678
 //
@@ -194,7 +149,7 @@ function rewriteEmbedUrl(url: string, useSoundcloak: boolean): string {
       // changes which host the path resolves against. Percent-encode each
       // segment so it can only ever be one path component.
       return `https://${SOUNDCLOAK_HOST}${SOUNDCLOAK_RESTREAM_PATH}${encodeURIComponent(
-        scMatch[1]
+        scMatch[1],
       )}/${encodeURIComponent(scMatch[2])}`;
     }
   }
@@ -270,85 +225,7 @@ function HlsVideo({
   className?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  useEffect(() => {
-    setErrorMsg(null);
-    const video = videoRef.current;
-    if (!video || !src) return undefined;
-
-    // Native HLS (Safari + iOS WebView).
-    if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = src;
-      return undefined;
-    }
-
-    let cancelled = false;
-    let hlsInstance: any = null;
-
-    Promise.all([import('hls.js'), import('../../utils/tauri-hls-loader')])
-      .then(([{ default: Hls }, { TauriHlsLoader }]) => {
-        if (cancelled) return;
-        if (!Hls.isSupported()) {
-          setErrorMsg('Your browser does not support MSE — required for HLS playback.');
-          return;
-        }
-
-        // Route every HLS fetch through Rust when we're inside Tauri.
-        // bsky's video CDN doesn't return Access-Control-Allow-Origin,
-        // so the browser-default XHR loader is blocked by CORS the
-        // moment hls.js asks for the playlist. The Rust IPC command
-        // (`fetch_remote_bytes`) is server-to-server and bypasses CORS.
-        const loader: any =
-          typeof window !== 'undefined' &&
-          ('__TAURI__' in window || '__TAURI_INTERNALS__' in window)
-            ? TauriHlsLoader
-            : (Hls.DefaultConfig as any).loader;
-
-        const hls = new Hls({
-          enableWorker: false,
-          loader,
-        });
-        hlsInstance = hls;
-
-        hls.on(Hls.Events.ERROR, (_evt: unknown, data: any) => {
-          if (data.fatal) {
-            console.error('[bsky/hls] fatal', data.type, data.details, data);
-            setErrorMsg(
-              `Video error: ${data.details ?? data.type ?? 'unknown'} — open in Bluesky to watch.`
-            );
-            try {
-              hls.destroy();
-            } catch {
-              // ignore
-            }
-          } else {
-            console.warn('[bsky/hls] non-fatal', data.details ?? data.type, data);
-          }
-        });
-
-        try {
-          hls.loadSource(src);
-          hls.attachMedia(video);
-        } catch (err) {
-          console.error('[bsky/hls] loadSource/attachMedia failed:', err);
-          setErrorMsg('Could not initialize HLS player.');
-        }
-      })
-      .catch((err) => {
-        console.error('[bsky/hls] dynamic import of hls.js failed:', err);
-        if (!cancelled) setErrorMsg('Failed to load video player.');
-      });
-
-    return () => {
-      cancelled = true;
-      try {
-        hlsInstance?.destroy();
-      } catch {
-        // ignore
-      }
-    };
-  }, [src]);
+  const errorMsg = useHlsPlayback(videoRef, src);
 
   const aspect = width && height ? `${width} / ${height}` : '16 / 9';
 
@@ -381,7 +258,9 @@ function HlsVideo({
             style={{ maxHeight: '60%', borderRadius: 4 }}
           />
         )}
-        <Text size="T200" align="Center">{errorMsg}</Text>
+        <Text size="T200" align="Center">
+          {errorMsg}
+        </Text>
       </Box>
     );
   }
@@ -429,7 +308,7 @@ export const UrlPreviewCard = as<
   const ytMeta = useYoutubeMeta(
     isYoutubeUrl(url) ? getYoutubeVideoId(url) : null,
     usePiped,
-    pipedBase
+    pipedBase,
   );
 
   // The previewed URL itself is message content, and it is rendered into five
@@ -465,10 +344,15 @@ export const UrlPreviewCard = as<
     if (!twId) return;
     setVxLoading(true);
     setVxError(false);
-    fetch(`https://api.vxtwitter.com/Twitter/status/${twId}`)
-      .then((r) => r.json())
-      .then((d) => { setVxData(d); setVxLoading(false); })
-      .catch(() => { setVxError(true); setVxLoading(false); });
+    fetchVxTweet(twId)
+      .then((d) => {
+        setVxData(d);
+        setVxLoading(false);
+      })
+      .catch(() => {
+        setVxError(true);
+        setVxLoading(false);
+      });
   }, [twId]);
 
   // Bluesky client-side fetch — public API, no auth needed.
@@ -480,8 +364,14 @@ export const UrlPreviewCard = as<
     setBskyLoading(true);
     setBskyError(false);
     fetchBskyPost(bskyPost.actor, bskyPost.rkey)
-      .then((d) => { setBskyData(d); setBskyLoading(false); })
-      .catch(() => { setBskyError(true); setBskyLoading(false); });
+      .then((d) => {
+        setBskyData(d);
+        setBskyLoading(false);
+      })
+      .catch(() => {
+        setBskyError(true);
+        setBskyLoading(false);
+      });
     // bskyPost is a fresh object each render — narrow deps to its primitives.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bskyPost?.actor, bskyPost?.rkey]);
@@ -548,7 +438,7 @@ export const UrlPreviewCard = as<
   const directAudio = directAudioEmbed || isAudioUrl(url);
 
   const [previewStatus, loadPreview] = useAsyncCallback(
-    useCallback(() => mx.getUrlPreview(embedUrl, ts), [embedUrl, ts, mx])
+    useCallback(() => mx.getUrlPreview(embedUrl, ts), [embedUrl, ts, mx]),
   );
 
   // Ask the homeserver for a preview only when its answer can actually be used.
@@ -626,27 +516,22 @@ export const UrlPreviewCard = as<
       duration_millis?: number;
       size?: { width: number; height: number };
     }>;
-    // Twitter stores an uploaded GIF as a silent MP4, so a GIF and a video are
-    // the same media kind on the wire and only the presentation differs — a GIF
-    // must autoplay, loop and show no controls.
-    //
-    // `type` alone cannot make that call. vxtwitter's documented API shape
-    // reports a GIF as `"video"` (its own api.md example labels a Jurassic Park
-    // GIF that way) while newer builds emit `"gif"`, so keying off `type ===
-    // 'gif'` silently misclassified every GIF served by an instance on the
-    // documented shape — which is why Twitter GIFs rendered as a still frame
-    // behind a play button. The URL is the reliable discriminator: Twitter
-    // serves GIF surrogates from `/tweet_video/` and real videos from
-    // `/ext_tw_video/` or `/amplify_video/`. `duration_millis === 0` is kept as
-    // a third signal because vxtwitter documents it as the GIF marker.
-    const isGifMedia = (m: (typeof allMedia)[number]): boolean =>
-      m.type === 'gif' || isTwitterGifUrl(m.url) || m.duration_millis === 0;
+    // A GIF and a video are the same media kind on Twitter's wire format and
+    // only the presentation differs — a GIF must autoplay, loop and show no
+    // chrome. `isVxGifMedia` carries the reasoning for how the two are told
+    // apart; the gallery scan needs the identical call.
+    const isGifMedia = isVxGifMedia;
     return (
       <UrlPreview {...props} ref={ref}>
         <Box grow="Yes" direction="Column" style={{ position: 'relative', minWidth: 0 }}>
           <IconButton
-            size="300" radii="300" variant="SurfaceVariant"
-            onClick={(e) => { e.stopPropagation(); setDismissed(true); }}
+            size="300"
+            radii="300"
+            variant="SurfaceVariant"
+            onClick={(e) => {
+              e.stopPropagation();
+              setDismissed(true);
+            }}
             aria-label="Dismiss embed"
             style={{ position: 'absolute', top: 4, right: 4, zIndex: 1 }}
           >
@@ -700,7 +585,16 @@ export const UrlPreviewCard = as<
             );
           })()}
           <UrlPreviewContent>
-            <Text style={linkStyles} truncate as="a" href={safeUrl} target="_blank" rel="noreferrer" size="T200" priority="300">
+            <Text
+              style={linkStyles}
+              truncate
+              as="a"
+              href={safeUrl}
+              target="_blank"
+              rel="noreferrer"
+              size="T200"
+              priority="300"
+            >
               {vxData.user_name
                 ? `${vxData.user_name}${vxData.user_screen_name ? ` (@${vxData.user_screen_name})` : ''} | `
                 : ''}
@@ -749,7 +643,12 @@ export const UrlPreviewCard = as<
   if (twId && vxLoading) {
     return (
       <UrlPreview {...props} ref={ref}>
-        <Box grow="Yes" alignItems="Center" justifyContent="Center" style={{ padding: config.space.S400 }}>
+        <Box
+          grow="Yes"
+          alignItems="Center"
+          justifyContent="Center"
+          style={{ padding: config.space.S400 }}
+        >
           <Spinner variant="Secondary" size="400" />
         </Box>
       </UrlPreview>
@@ -772,13 +671,12 @@ export const UrlPreviewCard = as<
       aspectRatio?: { height: number; width: number };
     }> = Array.isArray(embed.images) ? embed.images : [];
     // recordWithMedia#view: media nested under embed.media
-    const mediaImages: typeof images = Array.isArray(embed.media?.images)
-      ? embed.media.images
-      : [];
+    const mediaImages: typeof images = Array.isArray(embed.media?.images) ? embed.media.images : [];
     const allImages = images.length ? images : mediaImages;
 
     const videoView =
-      embed.$type === 'app.bsky.embed.video#view' || embed.media?.$type === 'app.bsky.embed.video#view'
+      embed.$type === 'app.bsky.embed.video#view' ||
+      embed.media?.$type === 'app.bsky.embed.video#view'
         ? embed.$type === 'app.bsky.embed.video#view'
           ? embed
           : embed.media
@@ -797,19 +695,20 @@ export const UrlPreviewCard = as<
       <UrlPreview {...props} ref={ref}>
         <Box grow="Yes" direction="Column" style={{ position: 'relative', minWidth: 0 }}>
           <IconButton
-            size="300" radii="300" variant="SurfaceVariant"
-            onClick={(e) => { e.stopPropagation(); setDismissed(true); }}
+            size="300"
+            radii="300"
+            variant="SurfaceVariant"
+            onClick={(e) => {
+              e.stopPropagation();
+              setDismissed(true);
+            }}
             aria-label="Dismiss embed"
             style={{ position: 'absolute', top: 4, right: 4, zIndex: 1 }}
           >
             <Icon size="50" src={Icons.Cross} />
           </IconButton>
           {allImages.length > 0 && (
-            <Box
-              direction="Row"
-              gap="100"
-              style={{ width: '100%', flexWrap: 'wrap' }}
-            >
+            <Box direction="Row" gap="100" style={{ width: '100%', flexWrap: 'wrap' }}>
               {allImages.map((img, i) => {
                 // 1 image: full width. 2+: 2-column grid that fills.
                 const basis = allImages.length === 1 ? '100%' : 'calc(50% - 2px)';
@@ -907,12 +806,23 @@ export const UrlPreviewCard = as<
                   </Text>
                 ))}
               {externalView.description && (
-                <Text size="T200" priority="300">{externalView.description}</Text>
+                <Text size="T200" priority="300">
+                  {externalView.description}
+                </Text>
               )}
             </Box>
           )}
           <UrlPreviewContent>
-            <Text style={linkStyles} truncate as="a" href={safeUrl} target="_blank" rel="noreferrer" size="T200" priority="300">
+            <Text
+              style={linkStyles}
+              truncate
+              as="a"
+              href={safeUrl}
+              target="_blank"
+              rel="noreferrer"
+              size="T200"
+              priority="300"
+            >
               {`${displayName}${handle ? ` ${handle}` : ''} | `}
               {tryDecodeURIComponent(url)}
             </Text>
@@ -975,8 +885,7 @@ export const UrlPreviewCard = as<
       typeof pr.displayName === 'string' && pr.displayName.trim()
         ? pr.displayName.slice(0, 120)
         : handle;
-    const description =
-      typeof pr.description === 'string' ? pr.description.slice(0, 500) : '';
+    const description = typeof pr.description === 'string' ? pr.description.slice(0, 500) : '';
     const avatar = webUrlOrUndefined(pr.avatar);
     const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : 0);
 
@@ -1036,7 +945,12 @@ export const UrlPreviewCard = as<
   if (bskyActor && bskyProfileLoading) {
     return (
       <UrlPreview {...props} ref={ref}>
-        <Box grow="Yes" alignItems="Center" justifyContent="Center" style={{ padding: config.space.S400 }}>
+        <Box
+          grow="Yes"
+          alignItems="Center"
+          justifyContent="Center"
+          style={{ padding: config.space.S400 }}
+        >
           <Spinner variant="Secondary" size="400" />
         </Box>
       </UrlPreview>
@@ -1047,7 +961,12 @@ export const UrlPreviewCard = as<
   if (bskyPost && bskyLoading) {
     return (
       <UrlPreview {...props} ref={ref}>
-        <Box grow="Yes" alignItems="Center" justifyContent="Center" style={{ padding: config.space.S400 }}>
+        <Box
+          grow="Yes"
+          alignItems="Center"
+          justifyContent="Center"
+          style={{ padding: config.space.S400 }}
+        >
           <Spinner variant="Secondary" size="400" />
         </Box>
       </UrlPreview>
@@ -1105,12 +1024,7 @@ export const UrlPreviewCard = as<
           {title &&
             (headingHref ? (
               <Text size="T300">
-                <a
-                  href={headingHref}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  style={linkStyles}
-                >
+                <a href={headingHref} target="_blank" rel="noreferrer noopener" style={linkStyles}>
                   <b>{title}</b>
                 </a>
               </Text>
@@ -1207,9 +1121,8 @@ export const UrlPreviewCard = as<
     );
   }
 
-  const effectivePreview = previewStatus.status === AsyncStatus.Success
-    ? previewStatus.data
-    : ogFallback;
+  const effectivePreview =
+    previewStatus.status === AsyncStatus.Success ? previewStatus.data : ogFallback;
 
   // Keep rendering nothing while a fallback fetch is still outstanding (status
   // is Error but we've opted in and haven't given up) so the card can appear
@@ -1290,7 +1203,9 @@ export const UrlPreviewCard = as<
     // linked GIF rendered as a frozen picture; it is also exactly what the
     // timeline does for an uploaded GIF, where animation has always worked.
     const animatedImgUrl = ogImageAnimated
-      ? (isDirectImage ? rawOgImage : mxcUrlToHttp(mx, rawOgImage, useAuthentication))
+      ? isDirectImage
+        ? rawOgImage
+        : mxcUrlToHttp(mx, rawOgImage, useAuthentication)
       : null;
 
     // The un-thumbnailed original, and the fallback when the thumbnailer says
@@ -1301,9 +1216,7 @@ export const UrlPreviewCard = as<
     // someone else's page. The full-size download of that same mxc serves
     // fine, so a broken-image card is a self-inflicted wound: ask for the
     // original instead of showing nothing.
-    const fullImgUrl = isDirectImage
-      ? rawOgImage
-      : mxcUrlToHttp(mx, rawOgImage, useAuthentication);
+    const fullImgUrl = isDirectImage ? rawOgImage : mxcUrlToHttp(mx, rawOgImage, useAuthentication);
 
     const thumbUrl =
       animatedImgUrl ??
@@ -1349,8 +1262,7 @@ export const UrlPreviewCard = as<
     const ogImageWidth = Number(prev['og:image:width']) || 0;
     const ogImageHeight = Number(prev['og:image:height']) || 0;
     const imageIsTinyFavicon =
-      ogImageWidth > 0 && ogImageHeight > 0 &&
-      ogImageWidth <= 96 && ogImageHeight <= 96;
+      ogImageWidth > 0 && ogImageHeight > 0 && ogImageWidth <= 96 && ogImageHeight <= 96;
 
     // og:video data (Bandcamp etc.). Split into two validated, mutually
     // exclusive shapes up front so neither sink can be reached with an
@@ -1363,9 +1275,9 @@ export const UrlPreviewCard = as<
     // `og:video:secure_url` is included because some sites declare only that
     // one. Tenor declares all three, but they are read in document order and a
     // page that omits the bare `og:video` previously produced no player at all.
-    const ogVideoUrl = (prev['og:video'] ||
-      prev['og:video:url'] ||
-      prev['og:video:secure_url']) as string | undefined;
+    const ogVideoUrl = (prev['og:video'] || prev['og:video:url'] || prev['og:video:secure_url']) as
+      | string
+      | undefined;
     const bandcampEmbedUrl = isBandcampEmbedUrl(ogVideoUrl) ? ogVideoUrl : undefined;
     const inlineOgVideoUrl =
       !bandcampEmbedUrl && isWebUrl(ogVideoUrl) && !/video\.twimg\.com/.test(ogVideoUrl)
@@ -1387,9 +1299,8 @@ export const UrlPreviewCard = as<
       !!inlineOgVideoUrl && isGifStyleVideo(url, inlineOgVideoUrl, prev['og:image:type']);
     const ogVideoWidth = Number(prev['og:video:width']) || undefined;
     const ogVideoHeight = Number(prev['og:video:height']) || undefined;
-    const ogVideoAspect = ogVideoWidth && ogVideoHeight
-      ? `${ogVideoWidth} / ${ogVideoHeight}`
-      : undefined;
+    const ogVideoAspect =
+      ogVideoWidth && ogVideoHeight ? `${ogVideoWidth} / ${ogVideoHeight}` : undefined;
 
     return (
       <Box grow="Yes" direction="Column" style={{ position: 'relative', minWidth: 0 }}>
@@ -1398,7 +1309,10 @@ export const UrlPreviewCard = as<
           size="300"
           radii="300"
           variant="SurfaceVariant"
-          onClick={(e) => { e.stopPropagation(); setDismissed(true); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setDismissed(true);
+          }}
           aria-label="Dismiss embed"
           style={{ position: 'absolute', top: 4, right: 4, zIndex: 1 }}
         >
@@ -1425,9 +1339,9 @@ export const UrlPreviewCard = as<
                 height: '100%',
                 border: 'none',
               }}
-              src={usePiped
-                ? pipedEmbedUrl(pipedBase, ytVideoId)
-                : `${YOUTUBE_EMBED_BASE}${ytVideoId}`}
+              src={
+                usePiped ? pipedEmbedUrl(pipedBase, ytVideoId) : `${YOUTUBE_EMBED_BASE}${ytVideoId}`
+              }
               title={title || 'YouTube video'}
               // This frame auto-loads for anyone who reads the message, so it
               // gets the narrowest sandbox that still plays video. Deliberately
@@ -1622,8 +1536,7 @@ export const UrlPreviewCard = as<
             (() => {
               const words = description.trim().split(/\s+/);
               const isLong = words.length > 100;
-              const shown =
-                isLong && !expanded ? `${words.slice(0, 100).join(' ')}…` : description;
+              const shown = isLong && !expanded ? `${words.slice(0, 100).join(' ')}…` : description;
               return (
                 <>
                   <Text size="T200" priority="300" style={{ whiteSpace: 'pre-wrap' }}>
@@ -1689,7 +1602,12 @@ export const UrlPreviewCard = as<
         // metadata a raw .mp4 will never provide.
         renderContent((effectivePreview ?? {}) as IPreviewUrlResponse)
       ) : (
-        <Box grow="Yes" alignItems="Center" justifyContent="Center" style={{ padding: config.space.S400 }}>
+        <Box
+          grow="Yes"
+          alignItems="Center"
+          justifyContent="Center"
+          style={{ padding: config.space.S400 }}
+        >
           <Spinner variant="Secondary" size="400" />
         </Box>
       )}
@@ -1703,6 +1621,31 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
   const frontAnchorRef = useRef<HTMLDivElement>(null);
   const [backVisible, setBackVisible] = useState(true);
   const [frontVisible, setFrontVisible] = useState(true);
+
+  /**
+   * Whether any card inside actually drew something.
+   *
+   * A card decides for itself whether it has anything to show — a refused
+   * preview, a link the homeserver would not scrape, an embed kind the user has
+   * switched off — and returns null. The holder cannot know that in advance,
+   * because from here they are all perfectly ordinary React elements. So an
+   * every-card-returned-null holder still existed, and the parent's flex `gap`
+   * still spaced it: an empty band under the message that looked like a preview
+   * stuck loading forever. Measuring is the only reliable test, and it costs one
+   * ResizeObserver per message that has links in it.
+   */
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [empty, setEmpty] = useState(false);
+  useEffect(() => {
+    const el = rowRef.current;
+    if (!el) return undefined;
+    const observer = new ResizeObserver(() => {
+      setEmpty(el.offsetHeight === 0);
+    });
+    observer.observe(el);
+    setEmpty(el.offsetHeight === 0);
+    return () => observer.disconnect();
+  }, []);
 
   const intersectionObserver = useIntersectionObserver(
     useCallback((entries) => {
@@ -1722,8 +1665,8 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
         root: scrollRef.current,
         rootMargin: '10px',
       }),
-      []
-    )
+      [],
+    ),
   );
 
   useEffect(() => {
@@ -1761,7 +1704,14 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
       direction="Column"
       {...props}
       ref={ref}
-      style={{ marginTop: config.space.S200, position: 'relative' }}
+      style={{
+        // `display: none` rather than skipping the render: the row has to stay
+        // mounted to be measured, and it is this margin — not the cards — that
+        // was showing as a gap under a message whose links produced no card.
+        ...(empty ? { display: 'none' } : null),
+        marginTop: config.space.S200,
+        position: 'relative',
+      }}
     >
       <Scroll ref={scrollRef} direction="Horizontal" size="0" visibility="Hover" hideTrack>
         <Box shrink="No" alignItems="Center" className={css.UrlPreviewHolderInner}>
@@ -1781,7 +1731,7 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
               </IconButton>
             </>
           )}
-          <Box alignItems="Inherit" gap="200" className={css.UrlPreviewHolderRow}>
+          <Box alignItems="Inherit" gap="200" className={css.UrlPreviewHolderRow} ref={rowRef}>
             {children}
 
             {!frontVisible && (

@@ -3,6 +3,8 @@ import {
   EventTimeline,
   EventTimelineSetHandlerMap,
   MatrixEvent,
+  MatrixEventEvent,
+  MatrixEventHandlerMap,
   MsgType,
   Room,
   RoomEvent,
@@ -20,9 +22,23 @@ import {
   MATRIX_GIF_PROPERTY_NAME,
   MATRIX_SPOILER_PROPERTY_NAME,
   MATRIX_SPOILER_REASON_PROPERTY_NAME,
+  IGalleryItem,
+  isGalleryMsgType,
 } from '../../types/matrix/common';
 import { getBlobSafeMimeType, getImageSafeMimeType } from '../utils/mimeTypes';
 import { validBlurHash } from '../utils/blurHash';
+import { extractPreviewUrls } from '../utils/messageUrls';
+import { trimReplyFromBody } from '../utils/room';
+import {
+  SocialEmbedOptions,
+  SocialEmbedProvider,
+  resolveSocialEmbed,
+  socialEmbedProvider,
+  socialEmbedsEnabled,
+} from '../utils/socialEmbed';
+import { mimeTypeFromUrl } from '../utils/animatedMedia';
+import { useSetting } from '../state/hooks/settings';
+import { settingsAtom } from '../state/settings';
 
 /**
  * The parts of `m.image` / `m.video` content this reads.
@@ -45,12 +61,41 @@ type MediaMessageContent = {
 
 export type MediaItemType = 'image' | 'video';
 
+/**
+ * Where a gallery entry came from.
+ *
+ * `attachment` is an `m.image`/`m.video` somebody sent. `embed` is a picture
+ * inside a Twitter or Bluesky post that somebody linked — the same media the
+ * timeline already renders inline in its preview card, which people remember as
+ * "that picture in this conversation" exactly like an upload. Homeserver
+ * `og:image` link previews are deliberately not gathered: a site's meta-card
+ * image is furniture nobody sent, and folding those in buries the real photos.
+ */
+export type MediaItemSource = 'attachment' | 'embed';
+
+export type MediaEmbedInfo = {
+  provider: SocialEmbedProvider;
+  /** The post as linked in the message, for "open the original". */
+  postUrl: string;
+  authorName?: string;
+  authorHandle?: string;
+};
+
 export type MediaItem = {
+  /**
+   * Unique per gallery entry, and the React key everywhere.
+   *
+   * Not the same thing as `eventId` any more: one linked post can carry four
+   * pictures, so one event can produce four entries. For an attachment this is
+   * the event id, so nothing about the attachment path changes.
+   */
+  key: string;
   eventId: string;
   roomId: string;
   sender: string;
   ts: number;
   type: MediaItemType;
+  source: MediaItemSource;
   /** What the attachment is called — used for the download and as alt text. */
   filename: string;
   /**
@@ -62,7 +107,19 @@ export type MediaItem = {
    * RenderMessageContent uses to decide whether to render one.
    */
   caption?: string;
-  mxcUrl: string;
+  /** Set for `source: 'attachment'`. Embed media has no Matrix media id. */
+  mxcUrl?: string;
+  /** Set for `source: 'embed'` — a direct https URL on the provider's CDN. */
+  httpUrl?: string;
+  /** A still for embed media, when the provider gave one. */
+  posterUrl?: string;
+  /**
+   * True when `httpUrl` is an HLS playlist rather than a file a `<video src>`
+   * can take. Bluesky serves every video this way.
+   */
+  hls?: boolean;
+  /** Present for `source: 'embed'`. */
+  embed?: MediaEmbedInfo;
   mimeType: string;
   encInfo?: EncryptedAttachmentInfo;
   width?: number;
@@ -86,6 +143,95 @@ export type MediaItem = {
  * for) and videos whose declared mimetype is not actually a video, which is the
  * same case MVideo hands off to the file renderer.
  */
+/**
+ * Every image and video an event contributes.
+ *
+ * Almost always none or one. An MSC4274 gallery is the exception: one event
+ * carrying up to a dozen attachments, which a gallery of pictures has to show
+ * as a dozen tiles — the whole point of the grid is that each picture is its
+ * own thing to find.
+ */
+export const mediaItemsFromEvent = (mEvent: MatrixEvent): MediaItem[] => {
+  const single = mediaItemFromEvent(mEvent);
+  if (single) return [single];
+  return galleryItemsFromEvent(mEvent);
+};
+
+/** The image/video items of an MSC4274 gallery message, in order. */
+const galleryItemsFromEvent = (mEvent: MatrixEvent): MediaItem[] => {
+  if (mEvent.isRedacted()) return [];
+  if (mEvent.getType() !== MessageEvent.RoomMessage) return [];
+
+  const eventId = mEvent.getId();
+  const roomId = mEvent.getRoomId();
+  if (!eventId || !roomId) return [];
+
+  const content = mEvent.getContent<{ msgtype?: string; itemtypes?: unknown }>();
+  if (!isGalleryMsgType(content.msgtype)) return [];
+  if (!Array.isArray(content.itemtypes)) return [];
+
+  const sender = mEvent.getSender() ?? '';
+  const ts = mEvent.getTs();
+
+  return content.itemtypes.flatMap((raw, index): MediaItem[] => {
+    const item = raw as IGalleryItem & { itemtype?: string };
+    let type: MediaItemType;
+    if (item.itemtype === MsgType.Image) type = 'image';
+    else if (item.itemtype === MsgType.Video) type = 'video';
+    else return [];
+
+    const mxcUrl = item.file?.url ?? item.url;
+    if (typeof mxcUrl !== 'string') return [];
+
+    const info = item.info as (IImageInfo & IVideoInfo & IThumbnailContent) | undefined;
+    const mimeType =
+      type === 'image'
+        ? getImageSafeMimeType(info?.mimetype)
+        : getBlobSafeMimeType(info?.mimetype ?? '');
+    if (type === 'video' && !mimeType.startsWith('video')) return [];
+
+    const body = typeof item.body === 'string' ? item.body : '';
+    const filename = item.filename || body || (type === 'image' ? 'Image' : 'Video');
+
+    return [
+      {
+        key: `${eventId}|gallery|${index}`,
+        eventId,
+        roomId,
+        sender,
+        ts,
+        type,
+        source: 'attachment',
+        filename,
+        caption: item.filename && item.filename !== body ? body : undefined,
+        mxcUrl,
+        mimeType,
+        encInfo: item.file,
+        width: typeof info?.w === 'number' ? info.w : undefined,
+        height: typeof info?.h === 'number' ? info.h : undefined,
+        size: typeof info?.size === 'number' ? info.size : undefined,
+        duration: typeof info?.duration === 'number' ? info.duration : undefined,
+        blurHash:
+          validBlurHash(info?.[MATRIX_BLUR_HASH_PROPERTY_NAME]) ??
+          validBlurHash(info?.thumbnail_info?.[MATRIX_BLUR_HASH_PROPERTY_NAME]),
+        thumbnail:
+          info?.thumbnail_file || info?.thumbnail_url
+            ? {
+                thumbnail_file: info.thumbnail_file,
+                thumbnail_url: info.thumbnail_url,
+                thumbnail_info: info.thumbnail_info,
+              }
+            : undefined,
+        gif: (item as Record<string, unknown>)[MATRIX_GIF_PROPERTY_NAME] === true,
+        spoiler: (item as Record<string, unknown>)[MATRIX_SPOILER_PROPERTY_NAME] === true,
+        spoilerReason: (item as Record<string, unknown>)[MATRIX_SPOILER_REASON_PROPERTY_NAME] as
+          | string
+          | undefined,
+      },
+    ];
+  });
+};
+
 export const mediaItemFromEvent = (mEvent: MatrixEvent): MediaItem | undefined => {
   if (mEvent.isRedacted()) return undefined;
   if (mEvent.getType() !== MessageEvent.RoomMessage) return undefined;
@@ -116,11 +262,13 @@ export const mediaItemFromEvent = (mEvent: MatrixEvent): MediaItem | undefined =
   const caption = content.filename && content.filename !== body ? body : undefined;
 
   return {
+    key: eventId,
     eventId,
     roomId,
     sender: mEvent.getSender() ?? '',
     ts: mEvent.getTs(),
     type,
+    source: 'attachment',
     filename,
     caption: caption || undefined,
     mxcUrl,
@@ -147,6 +295,71 @@ export const mediaItemFromEvent = (mEvent: MatrixEvent): MediaItem | undefined =
   };
 };
 
+/** Message types whose body can carry a link worth resolving. */
+const TEXTUAL_MSGTYPES: ReadonlySet<string> = new Set([
+  MsgType.Text as string,
+  MsgType.Notice as string,
+  MsgType.Emote as string,
+]);
+
+type EmbedCandidate = {
+  eventId: string;
+  roomId: string;
+  sender: string;
+  ts: number;
+  url: string;
+  provider: SocialEmbedProvider;
+};
+
+/**
+ * The Twitter/Bluesky post links in one message, if it has any.
+ *
+ * Reads the same two places `UrlPreviewCard` is fed from — the anchor hrefs in
+ * `formatted_body` first, the plain body second — via `extractPreviewUrls`, so
+ * a link the timeline previews and a link the gallery walks are the same link.
+ * A caption on an attachment counts too: `m.image` with a tweet in its caption
+ * is one message carrying both kinds of media.
+ */
+const embedCandidatesFromEvent = (mEvent: MatrixEvent): EmbedCandidate[] => {
+  if (mEvent.isRedacted()) return [];
+  if (mEvent.getType() !== MessageEvent.RoomMessage) return [];
+
+  const eventId = mEvent.getId();
+  const roomId = mEvent.getRoomId();
+  if (!eventId || !roomId) return [];
+
+  const content = mEvent.getContent<{
+    msgtype?: string;
+    body?: string;
+    formatted_body?: string;
+    filename?: string;
+  }>();
+  const msgtype = content.msgtype;
+  const isCaptioned =
+    (msgtype === MsgType.Image || msgtype === MsgType.Video) &&
+    !!content.filename &&
+    content.filename !== content.body;
+  if (!isCaptioned && (typeof msgtype !== 'string' || !TEXTUAL_MSGTYPES.has(msgtype))) return [];
+
+  const body = typeof content.body === 'string' ? trimReplyFromBody(content.body) : '';
+  if (!body) return [];
+  const formattedBody =
+    typeof content.formatted_body === 'string' ? content.formatted_body : undefined;
+
+  const sender = mEvent.getSender() ?? '';
+  const ts = mEvent.getTs();
+
+  const candidates: EmbedCandidate[] = [];
+  const seenUrls = new Set<string>();
+  extractPreviewUrls(body, formattedBody).forEach((url) => {
+    const provider = socialEmbedProvider(url);
+    if (!provider || seenUrls.has(url)) return;
+    seenUrls.add(url);
+    candidates.push({ eventId, roomId, sender, ts, url, provider });
+  });
+  return candidates;
+};
+
 export type RoomMedia = {
   /** Every image and video found so far, newest first. */
   items: MediaItem[];
@@ -169,6 +382,10 @@ type MediaCursor = {
   items: MediaItem[];
   scanned: number;
   exhausted: boolean;
+  /** Post links found by the walk and not yet resolved. */
+  pendingEmbeds: EmbedCandidate[];
+  /** Post links already handed to the resolver, so a re-walk does not repeat them. */
+  resolvedEmbeds: Set<string>;
 };
 
 /** Events fetched per `/messages` round trip while hunting for attachments. */
@@ -179,6 +396,87 @@ const MAX_PAGINATIONS_PER_LOAD = 6;
 const TARGET_NEW_ITEMS = 24;
 
 const sortNewestFirst = (items: MediaItem[]): MediaItem[] => [...items].sort((a, b) => b.ts - a.ts);
+
+/** Posts resolved at once. Enough to fill a screen, few enough to stay polite. */
+const EMBED_CONCURRENCY = 4;
+
+const EXTENSION_BY_MIME: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/gif': 'gif',
+  'image/webp': 'webp',
+  'image/avif': 'avif',
+  'video/mp4': 'mp4',
+  'video/webm': 'webm',
+};
+
+/**
+ * The gallery entries one resolved post contributes.
+ *
+ * Every picture in the post becomes its own entry, the way four photos in four
+ * separate messages would — a gallery is a grid of pictures, not a grid of
+ * messages, so a four-image tweet that collapsed to one tile would be hiding
+ * three of them.
+ */
+const embedItems = (
+  candidate: EmbedCandidate,
+  post: { authorName?: string; authorHandle?: string; text?: string; media: EmbedMediaLike[] },
+): MediaItem[] => {
+  const embed: MediaEmbedInfo = {
+    provider: candidate.provider,
+    postUrl: candidate.url,
+    authorName: post.authorName,
+    authorHandle: post.authorHandle,
+  };
+  const who = post.authorHandle ?? post.authorName ?? candidate.provider;
+
+  return post.media.map((media, index) => {
+    const mimeType =
+      mimeTypeFromUrl(media.url) ??
+      media.mimeType ??
+      (media.type === 'image' ? 'image/jpeg' : 'video/mp4');
+    const extension = EXTENSION_BY_MIME[mimeType] ?? (media.type === 'image' ? 'jpg' : 'mp4');
+    const suffix = post.media.length > 1 ? `-${index + 1}` : '';
+
+    return {
+      key: `${candidate.eventId}|${candidate.url}|${index}`,
+      eventId: candidate.eventId,
+      roomId: candidate.roomId,
+      sender: candidate.sender,
+      ts: candidate.ts,
+      type: media.type,
+      source: 'embed' as const,
+      filename: `${who}${suffix}.${extension}`,
+      // The alt text the author wrote beats the post's prose; both beat nothing.
+      caption: media.alt || post.text || undefined,
+      httpUrl: media.url,
+      posterUrl: media.thumbnailUrl,
+      hls: media.hls,
+      embed,
+      mimeType,
+      width: media.width,
+      height: media.height,
+      duration: media.duration,
+      gif: media.gif,
+      // A linked post carries no Matrix spoiler flag; the sender can only spoil
+      // their own attachment.
+      spoiler: false,
+    };
+  });
+};
+
+type EmbedMediaLike = {
+  url: string;
+  type: MediaItemType;
+  thumbnailUrl?: string;
+  gif: boolean;
+  hls: boolean;
+  width?: number;
+  height?: number;
+  duration?: number;
+  alt?: string;
+  mimeType?: string;
+};
 
 /**
  * Every image and video in a room, newest first, gathered by walking its
@@ -200,6 +498,30 @@ const sortNewestFirst = (items: MediaItem[]): MediaItem[] => [...items].sort((a,
  */
 export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
   const mx = useMatrixClient();
+
+  // Which providers may be contacted. Read as refs because the scan is a long
+  // async walk started from a callback — re-reading the setting at the moment a
+  // link is resolved is what makes turning the setting off take effect on the
+  // scan already running, instead of only on the next one.
+  const [useVxTwitter] = useSetting(settingsAtom, 'useVxTwitter');
+  const [useBlueskyEmbeds] = useSetting(settingsAtom, 'useBlueskyEmbeds');
+  const [urlPreview] = useSetting(settingsAtom, 'urlPreview');
+  const [encUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
+  // The same gate the timeline applies to preview cards. Resolving a linked
+  // post is an unprompted request to a host the *sender* chose, so a room where
+  // the user has switched previews off must not have its links resolved either.
+  const previewsAllowed = room.hasEncryptionStateEvent() ? encUrlPreview : urlPreview;
+  const embedOptions: SocialEmbedOptions = useMemo(
+    () => ({
+      twitter: previewsAllowed && useVxTwitter,
+      bluesky: previewsAllowed && useBlueskyEmbeds,
+    }),
+    [previewsAllowed, useVxTwitter, useBlueskyEmbeds],
+  );
+  const embedOptionsRef = useRef(embedOptions);
+  embedOptionsRef.current = embedOptions;
+  const embedsEnabledRef = useRef(socialEmbedsEnabled(embedOptions));
+  embedsEnabledRef.current = socialEmbedsEnabled(embedOptions);
 
   const cursorRef = useRef<MediaCursor | undefined>(undefined);
   const runningRef = useRef(false);
@@ -238,6 +560,8 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
       items: [],
       scanned: 0,
       exhausted: false,
+      pendingEmbeds: [],
+      resolvedEmbeds: new Set<string>(),
     };
     cursorRef.current = fresh;
     return fresh;
@@ -273,10 +597,20 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
 
       let added = 0;
       fresh.forEach((mEvent) => {
-        const item = mediaItemFromEvent(mEvent);
-        if (item) {
+        mediaItemsFromEvent(mEvent).forEach((item) => {
           cursor.items.push(item);
           added += 1;
+        });
+        // Queued rather than resolved here: resolving is a network round trip
+        // per post, and the walk must not wait on it. The grid shows the
+        // attachments it already found and the posts fill in behind them.
+        if (embedsEnabledRef.current) {
+          embedCandidatesFromEvent(mEvent).forEach((candidate) => {
+            const key = `${candidate.eventId}|${candidate.url}`;
+            if (cursor.resolvedEmbeds.has(key)) return;
+            cursor.resolvedEmbeds.add(key);
+            cursor.pendingEmbeds.push(candidate);
+          });
         }
       });
       if (added > 0) cursor.items = sortNewestFirst(cursor.items);
@@ -292,6 +626,50 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
     setExhausted(cursor.exhausted);
   }, []);
 
+  const embedRunningRef = useRef(false);
+
+  /**
+   * Turn queued post links into gallery entries, a few at a time.
+   *
+   * Runs alongside the history walk rather than inside it: a room with two
+   * hundred linked tweets in it would otherwise make the grid wait on two
+   * hundred round trips before showing the photos it already has. Results are
+   * published as each batch lands, so pictures appear as they resolve.
+   */
+  const resolveEmbeds = useCallback(
+    async (cursor: MediaCursor) => {
+      if (embedRunningRef.current) return;
+      embedRunningRef.current = true;
+      try {
+        while (aliveRef.current && cursor.pendingEmbeds.length > 0) {
+          const options = embedOptionsRef.current;
+          if (!socialEmbedsEnabled(options)) {
+            cursor.pendingEmbeds = [];
+            break;
+          }
+          const batch = cursor.pendingEmbeds.splice(0, EMBED_CONCURRENCY);
+          const resolved = await Promise.all(
+            batch.map(async (candidate) => {
+              const post = await resolveSocialEmbed(candidate.url, options).catch(() => undefined);
+              return post ? embedItems(candidate, post) : [];
+            }),
+          );
+          const found = resolved.flat();
+          if (found.length === 0) continue;
+          if (!aliveRef.current) break;
+          const known = new Set(cursor.items.map((item) => item.key));
+          const fresh = found.filter((item) => !known.has(item.key));
+          if (fresh.length === 0) continue;
+          cursor.items = sortNewestFirst([...cursor.items, ...fresh]);
+          publish(cursor);
+        }
+      } finally {
+        embedRunningRef.current = false;
+      }
+    },
+    [publish],
+  );
+
   const loadMore = useCallback(() => {
     if (runningRef.current) return;
     const cursor = getCursor();
@@ -302,10 +680,18 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
     setStarted(true);
 
     (async () => {
+      // Why this walk stopped where it did. Read by the log below, which is the
+      // only way to tell "this room really has two photos in it" apart from
+      // "the walk gave up early" from outside the client.
+      let stoppedBecause = 'target-reached';
       let added = await scanLoaded(cursor);
       publish(cursor);
+      // Deliberately not awaited: the walk below carries on while posts
+      // resolve, and each batch publishes itself.
+      resolveEmbeds(cursor);
 
       let paginations = 0;
+      let paginationError: unknown;
       while (
         aliveRef.current &&
         added < TARGET_NEW_ITEMS &&
@@ -315,6 +701,7 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
         const token = cursor.timeline.getPaginationToken(EventTimeline.BACKWARDS);
         if (!token) {
           cursor.exhausted = true;
+          stoppedBecause = 'no-pagination-token';
           break;
         }
         paginations += 1;
@@ -324,13 +711,16 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
             backwards: true,
             limit: PAGINATION_LIMIT,
           });
-        } catch {
+        } catch (err) {
           // A homeserver that will not serve older history leaves us with what
           // we have, which is still a usable gallery.
+          console.warn('[gallery] pagination threw', err);
+          paginationError = err;
           ok = false;
         }
         if (!ok) {
           cursor.exhausted = true;
+          stoppedBecause = paginationError ? 'pagination-threw' : 'pagination-end';
           break;
         }
         added += await scanLoaded(cursor);
@@ -338,10 +728,30 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
       }
 
       publish(cursor);
+      resolveEmbeds(cursor);
+      if (paginations >= MAX_PAGINATIONS_PER_LOAD && !cursor.exhausted) {
+        stoppedBecause = 'pagination-budget';
+      }
+      // One line per `loadMore`, deliberately kept in production builds. The
+      // failure this exists for — "the gallery says that is everything and it
+      // plainly is not" — is invisible from the UI: an early stop and a genuinely
+      // short room look identical, and the difference is which of these numbers
+      // is small.
+      console.info('[gallery] scan', {
+        roomId: cursor.roomId,
+        stopped: stoppedBecause,
+        eventsScanned: cursor.scanned,
+        itemsFound: cursor.items.length,
+        newThisRound: added,
+        paginations,
+        exhausted: cursor.exhausted,
+        encrypted: room.hasEncryptionStateEvent(),
+        pendingEmbeds: cursor.pendingEmbeds.length,
+      });
       runningRef.current = false;
       if (aliveRef.current) setLoading(false);
     })();
-  }, [getCursor, mx, publish, scanLoaded]);
+  }, [getCursor, mx, publish, scanLoaded, resolveEmbeds, room]);
 
   // First scan when the gallery (or feed) is opened.
   useEffect(() => {
@@ -373,14 +783,30 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
       ) {
         await mx.decryptEventIfNeeded(mEvent).catch(() => undefined);
       }
-      const item = mediaItemFromEvent(mEvent);
-      if (!item) return;
       if (!cursor.seen.has(id)) {
         cursor.seen.add(id);
         cursor.scanned += 1;
       }
-      if (cursor.items.some((existing) => existing.eventId === id)) return;
-      cursor.items = sortNewestFirst([item, ...cursor.items]);
+
+      // A tweet posted while the gallery is open belongs at the top of it too.
+      if (embedsEnabledRef.current) {
+        let queued = false;
+        embedCandidatesFromEvent(mEvent).forEach((candidate) => {
+          const key = `${candidate.eventId}|${candidate.url}`;
+          if (cursor.resolvedEmbeds.has(key)) return;
+          cursor.resolvedEmbeds.add(key);
+          cursor.pendingEmbeds.push(candidate);
+          queued = true;
+        });
+        if (queued) resolveEmbeds(cursor);
+      }
+
+      const arrived = mediaItemsFromEvent(mEvent);
+      if (arrived.length === 0) return;
+      const known = new Set(cursor.items.map((existing) => existing.key));
+      const fresh = arrived.filter((item) => !known.has(item.key));
+      if (fresh.length === 0) return;
+      cursor.items = sortNewestFirst([...fresh, ...cursor.items]);
       publish(cursor);
     };
 
@@ -406,13 +832,59 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
       publish(cursor);
     };
 
+    // An attachment whose key had not arrived when the walk passed over it.
+    //
+    // The scan marks every event it reads as seen and asks it for media once.
+    // In an encrypted room that answer is "nothing" for anything still
+    // undecryptable at that moment — megolm keys arrive out of band and often
+    // late — and because the event is already in `seen`, no later round ever
+    // looks at it again. The picture is then missing from the gallery for the
+    // rest of the session while sitting perfectly visible in the conversation,
+    // which is the difference between "this room has two photos" and "this
+    // room has two photos we could read".
+    const handleDecrypted: MatrixEventHandlerMap[MatrixEventEvent.Decrypted] = (mEvent) => {
+      if (mEvent.getRoomId() !== room.roomId) return;
+      const cursor = getCursor();
+      const id = mEvent.getId();
+      if (!id) return;
+      // Not a `seen` check: being seen is exactly the state this repairs.
+      if (!cursor.seen.has(id)) {
+        cursor.seen.add(id);
+        cursor.scanned += 1;
+      }
+
+      if (embedsEnabledRef.current) {
+        let queued = false;
+        embedCandidatesFromEvent(mEvent).forEach((candidate) => {
+          const key = `${candidate.eventId}|${candidate.url}`;
+          if (cursor.resolvedEmbeds.has(key)) return;
+          cursor.resolvedEmbeds.add(key);
+          cursor.pendingEmbeds.push(candidate);
+          queued = true;
+        });
+        if (queued) resolveEmbeds(cursor);
+      }
+
+      const arrived = mediaItemsFromEvent(mEvent);
+      if (arrived.length === 0) return;
+      const known = new Set(cursor.items.map((existing) => existing.key));
+      const fresh = arrived.filter((item) => !known.has(item.key));
+      if (fresh.length === 0) return;
+      // Newest-first rather than prepended: this event is history that has just
+      // become readable, not something that has just been sent.
+      cursor.items = sortNewestFirst([...cursor.items, ...fresh]);
+      publish(cursor);
+    };
+
     room.on(RoomEvent.Timeline, handleTimeline);
     room.on(RoomEvent.Redaction, handleRedaction);
+    mx.on(MatrixEventEvent.Decrypted, handleDecrypted);
     return () => {
       room.removeListener(RoomEvent.Timeline, handleTimeline);
       room.removeListener(RoomEvent.Redaction, handleRedaction);
+      mx.removeListener(MatrixEventEvent.Decrypted, handleDecrypted);
     };
-  }, [enabled, room, mx, getCursor, publish]);
+  }, [enabled, room, mx, getCursor, publish, resolveEmbeds]);
 
   return useMemo(
     () => ({

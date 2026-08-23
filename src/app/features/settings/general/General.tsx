@@ -881,7 +881,7 @@ function Editor() {
   const [useBlueskyEmbeds, setUseBlueskyEmbeds] = useSetting(settingsAtom, 'useBlueskyEmbeds');
   const [useHackerNewsEmbeds, setUseHackerNewsEmbeds] = useSetting(
     settingsAtom,
-    'useHackerNewsEmbeds'
+    'useHackerNewsEmbeds',
   );
   const [usePiped, setUsePiped] = useSetting(settingsAtom, 'usePiped');
   const [renderMaths, setRenderMaths] = useSetting(settingsAtom, 'renderMaths');
@@ -1253,6 +1253,7 @@ function Messages() {
   );
   const [mediaAutoLoad, setMediaAutoLoad] = useSetting(settingsAtom, 'mediaAutoLoad');
   const [mediaFeedViewer, setMediaFeedViewer] = useSetting(settingsAtom, 'mediaFeedViewer');
+  const [galleryUploads, setGalleryUploads] = useSetting(settingsAtom, 'galleryUploads');
   const [urlPreview, setUrlPreview] = useSetting(settingsAtom, 'urlPreview');
   const [encUrlPreview, setEncUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
   const [showHiddenEvents, setShowHiddenEvents] = useSetting(settingsAtom, 'showHiddenEvents');
@@ -1319,6 +1320,13 @@ function Messages() {
           title="Open Media in Feed"
           description="Tapping a photo or video opens the room's media feed at it — swipe up for the next attachment. Off opens the single-image viewer instead."
           after={<Switch variant="Primary" value={mediaFeedViewer} onChange={setMediaFeedViewer} />}
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Send Attachments as a Gallery"
+          description="Several files sent at once become one message with a grid of them (MSC4274) instead of one message each. The msgtype is still unstable, so clients that have not implemented it show only the filenames — galleries you receive always render either way."
+          after={<Switch variant="Primary" value={galleryUploads} onChange={setGalleryUploads} />}
         />
       </SequenceCard>
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">

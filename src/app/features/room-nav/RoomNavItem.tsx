@@ -20,7 +20,13 @@ import {
 import { useFocusWithin, useHover } from 'react-aria';
 import { FocusTrap } from 'focus-trap-react';
 import { useAtom, useAtomValue } from 'jotai';
-import { NavItem, NavItemContent, NavItemOptions, NavLink } from '../../components/nav';
+import {
+  NavItem,
+  NavItemContent,
+  NavItemOptions,
+  NavLink,
+  useNavCollapsed,
+} from '../../components/nav';
 import { UnreadBadge, UnreadBadgeCenter } from '../../components/unread-badge';
 import { RoomAvatar, RoomIcon } from '../../components/room-avatar';
 import { CallMembership } from 'matrix-js-sdk/lib/matrixrtc/CallMembership';
@@ -37,11 +43,7 @@ import { useRoomUnread } from '../../state/hooks/unread';
 import { roomToUnreadAtom } from '../../state/room/roomToUnread';
 import { getPowersLevelFromMatrixEvent, usePowerLevels } from '../../hooks/usePowerLevels';
 import { copyToClipboard, getMouseEventCords } from '../../utils/dom';
-import {
-  markAsRead,
-  setRoomMarkedUnread,
-  suppressAutoMarkAsRead,
-} from '../../utils/notifications';
+import { markAsRead, setRoomMarkedUnread, suppressAutoMarkAsRead } from '../../utils/notifications';
 import { UseStateProvider } from '../../components/UseStateProvider';
 import { LeaveRoomPrompt } from '../../components/leave-room-prompt';
 import { useRoomTypingMember } from '../../hooks/useRoomTypingMembers';
@@ -461,7 +463,8 @@ export function RoomNavItem({
     setMenuAnchor(evt.currentTarget.getBoundingClientRect());
   };
 
-  const optionsVisible = hover || !!menuAnchor;
+  const collapsed = useNavCollapsed();
+  const optionsVisible = !collapsed && (hover || !!menuAnchor);
   const callSession = useCallSession(room);
   const callMembers = useCallMembers(callSession);
   const startCall = useCallStart(direct);
@@ -496,6 +499,99 @@ export function RoomNavItem({
     }
   };
 
+  const avatarJSX = (
+    <Avatar size="200" radii="400">
+      {showAvatar ? (
+        <RoomAvatar
+          roomId={room.roomId}
+          src={
+            direct
+              ? getDirectRoomAvatarUrl(mx, room, 96, useAuthentication)
+              : getRoomAvatarUrl(mx, room, 96, useAuthentication)
+          }
+          alt={roomName}
+          renderFallback={() => (
+            <Text as="span" size="H6">
+              {nameInitials(roomName)}
+            </Text>
+          )}
+        />
+      ) : (
+        <RoomIcon
+          style={{
+            opacity: unread ? config.opacity.P500 : config.opacity.P300,
+          }}
+          filled={selected}
+          size="100"
+          joinRule={room.getJoinRule()}
+          roomType={room.getType()}
+        />
+      )}
+    </Avatar>
+  );
+
+  /**
+   * The squeezed nav: the avatar, centred, and nothing else.
+   *
+   * A separate branch rather than a pile of `collapsed &&` guards through the
+   * expanded row, because almost none of the expanded row survives — the name,
+   * the status line, the typing indicator, the pin, the notification-mode icon
+   * and the hover options all have nowhere to go in 64 pixels. What is kept is
+   * what still reads at that size: the avatar, the presence dot on it, and the
+   * unread badge, which is the whole reason to glance at a collapsed rail.
+   *
+   * The room name moves to `title`, so hovering still answers "which chat is
+   * this" without the rail having to grow a tooltip layer of its own.
+   */
+  if (collapsed) {
+    return (
+      <NavItem
+        variant="Background"
+        radii="400"
+        highlight={unread !== undefined}
+        aria-selected={selected}
+        data-hover={!!menuAnchor}
+        onContextMenu={handleContextMenu}
+        {...hoverProps}
+        {...focusWithinProps}
+      >
+        <NavLink
+          to={linkPath}
+          title={roomName}
+          aria-label={roomName}
+          onClick={room.isCallRoom() ? handleStartCall : undefined}
+          style={{ justifyContent: 'center', padding: config.space.S100 }}
+        >
+          <Box
+            as="span"
+            alignItems="Center"
+            justifyContent="Center"
+            style={{ position: 'relative' }}
+          >
+            <AvatarPresence
+              badge={
+                dmUserPresence ? (
+                  <PresenceBadge
+                    presence={dmUserPresence.presence}
+                    status={dmUserPresence.status}
+                    size="200"
+                  />
+                ) : null
+              }
+            >
+              {avatarJSX}
+            </AvatarPresence>
+            {unread && (
+              <span className={css.CollapsedUnread}>
+                <UnreadBadge highlight={unread.highlight > 0} count={unread.total} />
+              </span>
+            )}
+          </Box>
+        </NavLink>
+      </NavItem>
+    );
+  }
+
   return (
     <NavItem
       variant="Background"
@@ -522,34 +618,7 @@ export function RoomNavItem({
                 ) : null
               }
             >
-              <Avatar size="200" radii="400">
-                {showAvatar ? (
-                  <RoomAvatar
-                    roomId={room.roomId}
-                    src={
-                      direct
-                        ? getDirectRoomAvatarUrl(mx, room, 96, useAuthentication)
-                        : getRoomAvatarUrl(mx, room, 96, useAuthentication)
-                    }
-                    alt={roomName}
-                    renderFallback={() => (
-                      <Text as="span" size="H6">
-                        {nameInitials(roomName)}
-                      </Text>
-                    )}
-                  />
-                ) : (
-                  <RoomIcon
-                    style={{
-                      opacity: unread ? config.opacity.P500 : config.opacity.P300,
-                    }}
-                    filled={selected}
-                    size="100"
-                    joinRule={room.getJoinRule()}
-                    roomType={room.getType()}
-                  />
-                )}
-              </Avatar>
+              {avatarJSX}
             </AvatarPresence>
             <Box as="span" grow="Yes" direction="Column">
               <Text priority={unread ? '500' : '300'} as="span" size="Inherit" truncate>

@@ -1,4 +1,4 @@
-import { ComplexStyleRule, createVar, style } from '@vanilla-extract/css';
+import { ComplexStyleRule, createVar, globalStyle, style } from '@vanilla-extract/css';
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes';
 import { ContainerColor, DefaultReset, Disabled, RadiiVariant, color, config, toRem } from 'folds';
 
@@ -11,6 +11,14 @@ export const NavCategory = style([
 
 export const NavCategoryHeader = style({
   gap: config.space.S100,
+
+  selectors: {
+    // A category label ("Chats", "Rooms") is one word too many for a 64px
+    // rail — the rows below it are already the whole answer.
+    '[data-nav-collapsed] &': {
+      display: 'none',
+    },
+  },
 });
 
 export const NavLink = style({
@@ -120,7 +128,33 @@ export const NavItemContent = style({
     [`.${NavItemBase}[data-highlight=true] &`]: {
       fontWeight: config.fontWeight.W600,
     },
+    '[data-nav-collapsed] &': {
+      paddingLeft: config.space.S100,
+      paddingRight: config.space.S100,
+      justifyContent: 'center',
+    },
   },
+});
+
+/**
+ * Collapsed rail: the row keeps its leading avatar or icon and drops everything
+ * after it — the label, the trailing badges, the chevron.
+ *
+ * Rows that need more than a label removed (a room, which also carries
+ * presence, a status line and hover options) branch in their own component
+ * instead; this covers the plain icon-and-label rows, of which there are
+ * several across the three navs and none of which is worth its own branch.
+ *
+ * `globalStyle` rather than a `selectors` entry because vanilla-extract only
+ * allows `&` as the *target* of a selector, and these two need to reach the
+ * row's children.
+ */
+globalStyle(`[data-nav-collapsed] .${NavItemContent} > span > :not(:first-child)`, {
+  display: 'none',
+});
+globalStyle(`[data-nav-collapsed] .${NavItemContent} > span`, {
+  flexGrow: 0,
+  justifyContent: 'center',
 });
 
 export const NavItemOptions = style({

@@ -497,7 +497,7 @@ export const getReactCustomHtmlParser = (
         }
         if (name === 'ol') {
           return (
-            <ol {...props} className={css.List}>
+            <ol {...props} className={css.OrderedList}>
               {domToReact(toDOMNodes(children), opts)}
             </ol>
           );

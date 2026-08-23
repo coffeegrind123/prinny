@@ -42,9 +42,7 @@ export function isAllowedMediaUrl(value: unknown): value is string {
   }
   if (parsed.protocol !== 'https:') return false;
   const host = parsed.hostname.replace(/\.$/, '').toLowerCase();
-  return ALLOWED_MEDIA_HOSTS.some(
-    (suffix) => host === suffix || host.endsWith(`.${suffix}`)
-  );
+  return ALLOWED_MEDIA_HOSTS.some((suffix) => host === suffix || host.endsWith(`.${suffix}`));
 }
 
 /**
@@ -70,14 +68,14 @@ export async function fetchRemoteMediaBytes(url: string): Promise<ArrayBuffer> {
       ? result
       : ((result as Uint8Array).buffer.slice(
           (result as Uint8Array).byteOffset,
-          (result as Uint8Array).byteOffset + (result as Uint8Array).byteLength
+          (result as Uint8Array).byteOffset + (result as Uint8Array).byteLength,
           // .buffer is typed ArrayBufferLike (the SharedArrayBuffer arm can
           // never occur for an IPC response), and slice() preserves that.
         ) as ArrayBuffer);
 
   if (buffer.byteLength > MAX_MEDIA_BYTES) {
     throw new Error(
-      `[media-proxy] response too large (${buffer.byteLength} > ${MAX_MEDIA_BYTES}): ${url}`
+      `[media-proxy] response too large (${buffer.byteLength} > ${MAX_MEDIA_BYTES}): ${url}`,
     );
   }
   return buffer;
@@ -137,7 +135,7 @@ export async function fetchAsBlobUrl(url: string, mimeType?: string): Promise<st
  */
 export async function fetchNoReferrerBlobUrl(
   url: string,
-  mimeType?: string
+  mimeType?: string,
 ): Promise<string | null> {
   if (!isAllowedMediaUrl(url)) {
     console.warn('[media-proxy] refusing to fetch non-allowlisted URL:', url);
@@ -175,4 +173,44 @@ export async function fetchNoReferrerBlobUrl(
     console.warn('[media-proxy] no-referrer fetch threw for', url, err);
     return null;
   }
+}
+
+/**
+ * Fetch a remote media URL as a `Blob`, for saving to disk under a chosen name.
+ *
+ * The blob-URL helpers above exist to feed an element a `src`; a download needs
+ * the bytes plus a filename, and `FileSaver` sets the name itself. Same two
+ * paths in the same order — the native proxy inside the shell, the in-page
+ * no-referrer fetch otherwise — because a Twitter CDN URL answers 403 to a
+ * plain cross-origin GET exactly as it does for a media element.
+ *
+ * Throws rather than returning null: a download is something the user asked
+ * for, so a failure has to reach the button's error state instead of silently
+ * saving nothing.
+ */
+export async function downloadRemoteMedia(url: string, mimeType?: string): Promise<Blob> {
+  if (isTauri() && isAllowedMediaUrl(url)) {
+    try {
+      const bytes = await fetchRemoteMediaBytes(url);
+      return new Blob([bytes], { type: mimeType ?? '' });
+    } catch (err) {
+      console.warn('[media-proxy] native download failed, falling back for', url, err);
+    }
+  }
+
+  const res = await fetch(url, {
+    referrerPolicy: 'no-referrer',
+    mode: 'cors',
+    credentials: 'omit',
+  });
+  if (!res.ok) throw new Error(`[media-proxy] download HTTP ${res.status}`);
+  const declared = Number(res.headers.get('content-length'));
+  if (Number.isFinite(declared) && declared > MAX_MEDIA_BYTES) {
+    throw new Error(`[media-proxy] response too large (declared ${declared})`);
+  }
+  const blob = await res.blob();
+  if (blob.size > MAX_MEDIA_BYTES) {
+    throw new Error(`[media-proxy] response too large (${blob.size})`);
+  }
+  return blob.type ? blob : new Blob([blob], { type: mimeType ?? '' });
 }

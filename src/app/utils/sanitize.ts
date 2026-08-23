@@ -174,6 +174,39 @@ export const sanitizeCustomHtml = (customHtml: string): string =>
     nestingLimit: MAX_TAG_NESTING,
   });
 
+/**
+ * Inline-only sanitiser for a reply chip.
+ *
+ * A chip is one truncated line, so `sanitizeCustomHtml`'s vocabulary is the
+ * wrong shape for it: a blockquote, a list or a code block dropped into that
+ * line takes over the row. Everything structural is therefore discarded down to
+ * its text, and what survives is the handful of inline tags that read correctly
+ * at chip size — emphasis, code, links, and the custom-emoji images that are
+ * the whole reason to render markup here rather than the plain body.
+ */
+export const sanitizeReplyPreviewHtml = (customHtml: string): string =>
+  sanitizeHtml(customHtml, {
+    allowedTags: ['b', 'i', 'u', 'em', 'strong', 'del', 's', 'strike', 'code', 'span', 'a', 'img'],
+    allowedAttributes: {
+      span: ['data-mx-spoiler', 'data-mx-pill', 'data-mx-ping'],
+      a: ['href', 'rel', 'target'],
+      img: ['src', 'alt', 'title', 'width', 'height', 'data-mx-emoticon'],
+    },
+    disallowedTagsMode: 'discard',
+    allowedSchemes: urlSchemes,
+    allowedSchemesByTag: { a: urlSchemes },
+    allowedSchemesAppliedToAttributes: ['href'],
+    allowProtocolRelative: false,
+    transformTags: {
+      a: transformATag,
+      img: transformImgTag,
+    },
+    // The reply fallback is already stripped from the body elsewhere; strip it
+    // here too so a reply to a reply does not quote the whole chain.
+    nonTextTags: ['style', 'script', 'textarea', 'option', 'noscript', 'mx-reply'],
+    nestingLimit: MAX_TAG_NESTING,
+  });
+
 export const sanitizeText = (body: string) => {
   const tagsToReplace: Record<string, string> = {
     '&': '&amp;',

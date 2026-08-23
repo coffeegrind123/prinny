@@ -12,6 +12,15 @@ export type MediaFeedRequest = {
   roomId: string;
   /** The attachment the feed opens on. The rest of the room's media surrounds it. */
   eventId: string;
+  /**
+   * The exact gallery entry, when the request came from one.
+   *
+   * An event id is no longer unique: a linked post with four pictures in it is
+   * one event and four entries, so opening the third picture has to say which
+   * one. Requests raised from the timeline (a tap on a photo) still carry only
+   * the event id, and the feed falls back to the first entry for it.
+   */
+  itemKey?: string;
 };
 
 /**

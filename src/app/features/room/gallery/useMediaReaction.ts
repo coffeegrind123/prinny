@@ -10,13 +10,24 @@ import { MessageEvent } from '../../../../types/matrix/room';
 export const FEED_REACTION_KEY = '❤️';
 
 export type MediaReaction = {
+  /** Every reaction on the message, of any key — what the rail counts. */
   count: number;
+  /** True when one of them is mine. */
   reacted: boolean;
+  /** The heart, for the double-tap shortcut. */
   toggle: () => void;
+  /**
+   * Add or remove one reaction, by key.
+   *
+   * Same toggle semantics as the timeline's own reaction buttons: picking a
+   * key you have already sent takes it back, which is what makes the emoji
+   * board usable as a reaction *menu* rather than a one-way send.
+   */
+  react: (key: string, shortcode?: string) => void;
 };
 
 /**
- * The heart on a feed page — a real `m.reaction`, not a local like.
+ * Reactions on a feed page — real `m.reaction` events, not local likes.
  *
  * Same send/redact dance as the timeline's reaction buttons, so a heart here
  * and a 👍 in the timeline are the same kind of thing and are visible to
@@ -49,36 +60,44 @@ export const useMediaReaction = (room: Room, eventId: string): MediaReaction => 
   // be recomputed on every one of those events anyway, and it is a lookup in a
   // map plus a filter over a handful of reactions.
   const relations = getEventReactions(room.getUnfilteredTimelineSet(), eventId);
-  const [, reactionSet] =
-    relations?.getSortedAnnotationsByKey()?.find(([key]) => key === FEED_REACTION_KEY) ?? [];
-  const reactions = reactionSet
-    ? Array.from(reactionSet).filter((mEvent) => !mEvent.isRedacted())
-    : [];
-  const myReaction = reactions.find(factoryEventSentBy(mx.getSafeUserId()));
+  const byKey = relations?.getSortedAnnotationsByKey() ?? [];
+  const live = byKey.flatMap(([, set]) =>
+    set ? Array.from(set).filter((mEvent) => !mEvent.isRedacted()) : [],
+  );
+  const mine = live.find(factoryEventSentBy(mx.getSafeUserId()));
 
-  const toggle = useCallback(() => {
-    const currentRelations = getEventReactions(room.getUnfilteredTimelineSet(), eventId);
-    const [, currentSet] =
-      currentRelations?.getSortedAnnotationsByKey()?.find(([key]) => key === FEED_REACTION_KEY) ??
-      [];
-    const current = currentSet ? Array.from(currentSet) : [];
-    const mine = current.find(factoryEventSentBy(mx.getSafeUserId()));
+  const react = useCallback(
+    (key: string, shortcode?: string) => {
+      // Re-read rather than closing over `live`: this callback outlives the
+      // render that built it, and sending a reaction against a stale view of
+      // the relations is how a toggle ends up sending a duplicate instead of
+      // redacting.
+      const currentRelations = getEventReactions(room.getUnfilteredTimelineSet(), eventId);
+      const [, currentSet] =
+        currentRelations?.getSortedAnnotationsByKey()?.find(([k]) => k === key) ?? [];
+      const current = currentSet ? Array.from(currentSet) : [];
+      const existing = current.find(factoryEventSentBy(mx.getSafeUserId()));
 
-    if (mine && mine.isRelation() && !mine.isRedacted()) {
-      const myId = mine.getId();
-      if (myId) mx.redactEvent(room.roomId, myId);
-      return;
-    }
-    mx.sendEvent(
-      room.roomId,
-      MessageEvent.Reaction as any,
-      getReactionContent(eventId, FEED_REACTION_KEY),
-    );
-  }, [mx, room, eventId]);
+      if (existing && existing.isRelation() && !existing.isRedacted()) {
+        const existingId = existing.getId();
+        if (existingId) mx.redactEvent(room.roomId, existingId);
+        return;
+      }
+      mx.sendEvent(
+        room.roomId,
+        MessageEvent.Reaction as any,
+        getReactionContent(eventId, key, shortcode),
+      );
+    },
+    [mx, room, eventId],
+  );
+
+  const toggle = useCallback(() => react(FEED_REACTION_KEY), [react]);
 
   return {
-    count: reactions.length,
-    reacted: !!myReaction,
+    count: live.length,
+    reacted: !!mine,
     toggle,
+    react,
   };
 };

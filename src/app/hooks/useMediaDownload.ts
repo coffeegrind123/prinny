@@ -6,6 +6,7 @@ import { useMatrixClient } from './useMatrixClient';
 import { useMediaAuthentication } from './useMediaAuthentication';
 import { AsyncState, AsyncStatus, useAsyncCallback } from './useAsyncCallback';
 import { decryptFile, downloadEncryptedMedia, downloadMedia, mxcUrlToHttp } from '../utils/matrix';
+import { downloadRemoteMedia } from '../utils/tauri-media-proxy';
 
 export type MediaDownload = {
   /** Fetch (or, once fetched, re-save) the attachment under `downloadName`. */
@@ -35,7 +36,16 @@ export function useMediaDownload(
   filename: string,
   url: string,
   mimeType: string,
-  encInfo?: EncryptedAttachmentInfo
+  encInfo?: EncryptedAttachmentInfo,
+  /**
+   * An already-http media URL to save instead of resolving `url` as an mxc.
+   *
+   * For media that never was a Matrix attachment — a picture inside a linked
+   * Twitter or Bluesky post, which the media feed lists alongside real
+   * attachments. Fetched through the same referrer-stripping path the elements
+   * use, because the CDNs that need it answer 403 to a plain cross-origin GET.
+   */
+  directUrl?: string,
 ): MediaDownload {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
@@ -46,6 +56,12 @@ export function useMediaDownload(
 
   const [state, load] = useAsyncCallback<string, Error, []>(
     useCallback(async () => {
+      if (directUrl) {
+        const remote = await downloadRemoteMedia(directUrl, mimeType);
+        const remoteURL = URL.createObjectURL(remote);
+        FileSaver.saveAs(remoteURL, downloadName);
+        return remoteURL;
+      }
       const mediaUrl = mxcUrlToHttp(mx, url, useAuthentication);
       if (!mediaUrl) throw new Error('Invalid media URL');
       const fileContent = encInfo
@@ -55,7 +71,7 @@ export function useMediaDownload(
       const fileURL = URL.createObjectURL(fileContent);
       FileSaver.saveAs(fileURL, downloadName);
       return fileURL;
-    }, [mx, url, useAuthentication, mimeType, encInfo, downloadName])
+    }, [mx, url, useAuthentication, mimeType, encInfo, downloadName, directUrl]),
   );
 
   const download = useCallback(() => {

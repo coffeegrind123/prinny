@@ -77,7 +77,15 @@ export const BlockQuoteRule: BlockMDRule = {
 
 const ORDERED_LIST_MD_1 = '-';
 const UNORDERED_LIST_MD_1 = '*';
-const LIST_ITEM_REG = /^( *)([-*+]|[\da-zA-Z]\.) +(.+)$/;
+/**
+ * A list item marker.
+ *
+ * The digit run is `\d+`, not a single `\d`: with one digit, `10. item` did not
+ * match at all, so a list that reached ten stopped being a list from the tenth
+ * item onwards and the rest rendered as plain paragraphs. Letter markers stay
+ * single-character (`a.`, `i.`) because that is the whole vocabulary there.
+ */
+const LIST_ITEM_REG = /^( *)([-*+]|\d+\.|[a-zA-Z]\.) +(.+)$/;
 type ListType = 'ol' | 'ul';
 
 function getListType(marker: string): ListType {
@@ -89,7 +97,8 @@ function getListType(marker: string): ListType {
 }
 
 function getOrderedMeta(marker: string) {
-  const startMatch = marker.match(/^(\d)\./);
+  // Also `\d+`, so `10.` starts the list at ten rather than being ignored.
+  const startMatch = marker.match(/^(\d+)\./);
   const typeMatch = marker.match(/^([aAiI])\./);
 
   return {
@@ -223,5 +232,7 @@ export const ListRule: BlockMDRule = {
   },
 };
 
-export const UN_ESC_BLOCK_SEQ = /^\\*(#{1,6} +|```|>|(-|[\da-zA-Z]\.) +|\* +)/;
-export const ESC_BLOCK_SEQ = /^\\(\\*(#{1,6} +|```|>|(-|[\da-zA-Z]\.) +|\* +))/;
+// The marker alternatives match LIST_ITEM_REG, multi-digit runs included — an
+// escape that does not recognise `10.` cannot escape a list that starts at ten.
+export const UN_ESC_BLOCK_SEQ = /^\\*(#{1,6} +|```|>|(-|\d+\.|[a-zA-Z]\.) +|\* +)/;
+export const ESC_BLOCK_SEQ = /^\\(\\*(#{1,6} +|```|>|(-|\d+\.|[a-zA-Z]\.) +|\* +))/;

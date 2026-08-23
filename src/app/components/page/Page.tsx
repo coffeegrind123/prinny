@@ -6,6 +6,7 @@ import * as css from './style.css';
 import { ScreenSize, useScreenSizeContext } from '../../hooks/useScreenSize';
 import { ResizeHandle } from '../resize-handle';
 import { useResizablePane } from '../../hooks/useResizablePane';
+import { NavCollapsedProvider } from '../nav/NavCollapsed';
 
 type PageRootProps = {
   nav: ReactNode;
@@ -68,6 +69,10 @@ export function PageNav({
   if (isMobile) style = { width: '100%' };
   else if (resizable) style = pane.style;
 
+  // Only a resizable desktop nav can be dragged shut, so a fixed-size or mobile
+  // nav is never in the collapsed shape regardless of what the pane remembers.
+  const collapsed = !isMobile && !!resizable && pane.collapsed;
+
   return (
     <Box
       grow={isMobile ? 'Yes' : undefined}
@@ -76,10 +81,16 @@ export function PageNav({
       // The recipe sets a fixed width (256/222rem) intended for desktop
       // sidebars. Both overrides here beat the recipe's specificity.
       style={style}
+      // Read by the nav's own stylesheet to hide the labels the collapsed rail
+      // has no room for — the parts that are pure markup rather than a
+      // different component, i.e. category headers and the page title.
+      data-nav-collapsed={collapsed || undefined}
     >
-      <Box grow="Yes" direction="Column">
-        {children}
-      </Box>
+      <NavCollapsedProvider collapsed={collapsed}>
+        <Box grow="Yes" direction="Column">
+          {children}
+        </Box>
+      </NavCollapsedProvider>
     </Box>
   );
 }
@@ -93,7 +104,7 @@ export const PageNavHeader = as<'header', css.PageNavHeaderVariants>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 export function PageNavContent({
@@ -138,7 +149,7 @@ export const PageHeader = as<'div', css.PageHeaderVariants>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 export const PageContent = as<'div'>(({ className, ...props }, ref) => (
@@ -167,7 +178,7 @@ export const PageHeroSection = as<'div', ComponentProps<typeof Box>>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 export function PageHero({

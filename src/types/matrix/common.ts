@@ -3,7 +3,8 @@ import { MsgType } from 'matrix-js-sdk';
 
 export const MATRIX_BLUR_HASH_PROPERTY_NAME = 'xyz.amorgan.blurhash';
 export const MATRIX_SPOILER_PROPERTY_NAME = 'page.codeberg.everypizza.msc4193.spoiler';
-export const MATRIX_SPOILER_REASON_PROPERTY_NAME = 'page.codeberg.everypizza.msc4193.spoiler.reason';
+export const MATRIX_SPOILER_REASON_PROPERTY_NAME =
+  'page.codeberg.everypizza.msc4193.spoiler.reason';
 // Marks an m.video we sent as a GIF, so it renders and favourites as one
 // rather than as a silent clip.
 export const MATRIX_GIF_PROPERTY_NAME = 'io.cinny.gif';
@@ -104,3 +105,39 @@ export type ILocationContent = {
   geo_uri?: string;
   info?: IThumbnailContent;
 };
+
+/**
+ * MSC4274 — several attachments as one message.
+ *
+ * Sending four photos is one action to the person doing it and, until this,
+ * four messages to everyone else: four rows, four timestamps, four notification
+ * lines. The MSC keeps them in one event, with each attachment's usual content
+ * under `itemtypes` and its `msgtype` renamed to `itemtype` so the item cannot
+ * be mistaken for a message in its own right.
+ *
+ * The identifier is still the unstable one; `m.gallery` replaces it if and when
+ * the MSC lands, and both are accepted on the receiving side.
+ */
+export const GALLERY_MSGTYPE = 'dm.filament.gallery';
+export const GALLERY_MSGTYPE_STABLE = 'm.gallery';
+
+export type IGalleryImageItem = Omit<IImageContent, 'msgtype'> & { itemtype: 'm.image' };
+export type IGalleryVideoItem = Omit<IVideoContent, 'msgtype'> & { itemtype: 'm.video' };
+export type IGalleryAudioItem = Omit<IAudioContent, 'msgtype'> & { itemtype: 'm.audio' };
+export type IGalleryFileItem = Omit<IFileContent, 'msgtype'> & { itemtype: 'm.file' };
+export type IGalleryItem =
+  | IGalleryImageItem
+  | IGalleryVideoItem
+  | IGalleryAudioItem
+  | IGalleryFileItem;
+
+export type IGalleryContent = {
+  msgtype: typeof GALLERY_MSGTYPE | typeof GALLERY_MSGTYPE_STABLE;
+  body: string;
+  format?: string;
+  formatted_body?: string;
+  itemtypes: IGalleryItem[];
+};
+
+export const isGalleryMsgType = (msgtype: unknown): boolean =>
+  msgtype === GALLERY_MSGTYPE || msgtype === GALLERY_MSGTYPE_STABLE;
