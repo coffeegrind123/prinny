@@ -1,0 +1,1 @@
+import{o as e}from"./core-CGI43Uw5.js";import{t}from"./image-DIrcgJS2.js";var n;(function(e){e.Nsis=`nsis`,e.Msi=`msi`,e.Deb=`deb`,e.Rpm=`rpm`,e.AppImage=`appimage`,e.App=`app`})(n||={});async function r(){return e(`plugin:app|default_window_icon`).then(e=>e?new t(e):null)}export{r as defaultWindowIcon};

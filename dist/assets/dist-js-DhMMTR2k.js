@@ -1,0 +1,1 @@
+import{o as e}from"./core-CGI43Uw5.js";import{a as t}from"./event-DWBRSZIL.js";async function n(){return await e(`plugin:deep-link|get_current`)}async function r(e){return await t(`deep-link://new-url`,t=>{e(t.payload)})}export{n as getCurrent,r as onOpenUrl};
