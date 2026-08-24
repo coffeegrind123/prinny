@@ -43,6 +43,10 @@ export const usePan = (active: boolean) => {
 
   const handleMouseDown: MouseEventHandler<HTMLElement> = (evt) => {
     if (!active) return;
+    // Primary button only. Panning used to start on any button, so a
+    // right-click on a zoomed image began a drag and swallowed the event
+    // before it could open a context menu.
+    if (evt.button !== 0) return;
     evt.preventDefault();
     setCursor('grabbing');
 
