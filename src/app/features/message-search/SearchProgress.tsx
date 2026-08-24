@@ -72,10 +72,19 @@ export function SearchStatus({ searching, message, detail }: SearchStatusProps) 
           <Icon size="50" src={Icons.Check} />
         )}
       </Box>
-      <Text size="T200" priority="300" truncate>
-        {message}
-        {detail ? ` · ${detail}` : ''}
-      </Text>
+      {/* Two lines, not one joined by a separator: this also renders in the
+          members drawer, which is 266px wide, and a single line put the counts
+          — the part worth reading — past the truncation. */}
+      <Box direction="Column" style={{ minWidth: 0 }}>
+        <Text size="T200" priority="400" truncate>
+          {message}
+        </Text>
+        {detail && (
+          <Text size="T200" priority="300" truncate>
+            {detail}
+          </Text>
+        )}
+      </Box>
     </Box>
   );
 }
