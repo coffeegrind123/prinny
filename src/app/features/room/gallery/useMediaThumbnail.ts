@@ -69,9 +69,15 @@ export const useMediaThumbnail = (item: MediaItem, load: boolean): MediaThumbnai
   const isEmbed = item.source === 'embed';
 
   const hasSenderThumbnail = typeof thumbMxc === 'string';
-  const unavailable = isEmbed
-    ? !embedSrc
-    : !hasSenderThumbnail && item.type === 'video' && !!item.encInfo;
+  // A video with no sender-supplied still has no path here at all — none of
+  // the three below can produce one, and the server cannot thumbnail a video.
+  // That used to be admitted only for *encrypted* video, so every unencrypted
+  // one still ran the async path, hit `throw new Error('No thumbnail for this
+  // attachment')`, and logged a `[gallery] thumbnail failed` line per tile —
+  // burying the failures that mean something under the ones that never could
+  // have worked. The tile draws such a video's own first frame instead; see
+  // `videoPosterUrl` in RoomGallery.
+  const unavailable = isEmbed ? !embedSrc : !hasSenderThumbnail && item.type === 'video';
 
   const [state, loadSrc] = useAsyncCallback<string, Error, []>(
     useCallback(async () => {

@@ -66,6 +66,11 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
   const [thumbnailFailed, setThumbnailFailed] = useState(false);
   useEffect(() => setThumbnailFailed(false), [thumbnail.src]);
   const tileSrc = thumbnailFailed ? thumbnail.fallbackSrc : thumbnail.src;
+  // A still that failed with nothing to fall back on — an embed whose provider
+  // CDN refused the request is the case that reaches here. Without this the
+  // tile kept a `src` that had already failed, so it drew a broken image with
+  // no play badge, no warning and nothing to say what happened.
+  const tileFailed = thumbnailFailed && !thumbnail.fallbackSrc;
 
   // An unencrypted video with no sender thumbnail still has a first frame, and
   // `preload="metadata"` is enough to draw it without fetching the file. Only
@@ -73,7 +78,7 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
   // or a cross-origin file that answers 403 without a stripped referrer, and
   // both would draw an empty box instead of a frame.
   const videoPosterUrl =
-    !thumbnail.src &&
+    (!thumbnail.src || tileFailed) &&
     item.type === 'video' &&
     item.source === 'attachment' &&
     item.mxcUrl &&
@@ -99,7 +104,7 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
       aria-label={label}
       title={item.caption || item.filename}
     >
-      {typeof item.blurHash === 'string' && !tileSrc && (
+      {typeof item.blurHash === 'string' && (!tileSrc || tileFailed) && (
         <BlurhashCanvas
           style={{ width: '100%', height: '100%' }}
           width={32}
@@ -108,7 +113,7 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
           punch={1}
         />
       )}
-      {tileSrc && (
+      {tileSrc && !tileFailed && (
         <img
           className={`${css.GalleryTileMedia}${item.spoiler ? ` ${css.GalleryTileBlur}` : ''}`}
           src={tileSrc}
@@ -116,10 +121,13 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
           loading="lazy"
           draggable={false}
           onError={() => {
-            if (thumbnailFailed || !thumbnail.fallbackSrc) return;
-            console.warn('[gallery] thumbnail 404 — falling back to the full image', {
+            if (thumbnailFailed) return;
+            console.warn('[gallery] still failed to load', {
               eventId: item.eventId,
+              source: item.source,
+              type: item.type,
               thumbnail: thumbnail.src,
+              fallback: thumbnail.fallbackSrc,
             });
             setThumbnailFailed(true);
           }}
@@ -129,7 +137,7 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
           referrerPolicy={item.source === 'embed' ? 'no-referrer' : undefined}
         />
       )}
-      {!tileSrc && videoPosterUrl && (
+      {(!tileSrc || tileFailed) && videoPosterUrl && (
         <video
           className={`${css.GalleryTileMedia}${item.spoiler ? ` ${css.GalleryTileBlur}` : ''}`}
           src={videoPosterUrl}
@@ -148,11 +156,14 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
           indistinguishable from one that had not started loading yet. Say so —
           the tile still opens, and the feed fetches the full attachment by a
           different path that may well work. */}
-      {!tileSrc && !videoPosterUrl && !thumbnail.loading && thumbnail.unavailable && (
-        <Box className={css.GalleryTileCenter}>
-          <Icon size="300" src={Icons.Warning} style={{ opacity: 0.5 }} />
-        </Box>
-      )}
+      {(!tileSrc || tileFailed) &&
+        !videoPosterUrl &&
+        !thumbnail.loading &&
+        (thumbnail.unavailable || tileFailed) && (
+          <Box className={css.GalleryTileCenter}>
+            <Icon size="300" src={Icons.Warning} style={{ opacity: 0.5 }} />
+          </Box>
+        )}
       {item.type === 'video' && (
         <Box className={css.GalleryTileCenter}>
           <Icon size="400" src={Icons.Play} filled style={{ color: 'white', opacity: 0.9 }} />

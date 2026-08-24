@@ -81,6 +81,13 @@ const LEADING_PAGES = 1;
  * years-old room. Each round is up to six `/messages` pages.
  */
 const MAX_TARGET_DIG_ROUNDS = 20;
+/**
+ * How long a video with a source may go without producing a frame before the
+ * stage stops pretending it is still loading. Generous — an HLS stream on a
+ * slow link legitimately takes a while — but finite, because the alternative
+ * is a spinner that never stops and says nothing.
+ */
+const STALL_TIMEOUT_MS = 20000;
 
 type FeedContentProps = {
   room: Room;
@@ -151,12 +158,19 @@ function MediaFeedContent({
     isEmbed && !isHls ? (item.httpUrl ?? '') : '',
     isEmbed && !isHls && item.type === 'video',
   );
-  const { state, needsBlob, onSrcError } = attachment;
+  const { state, onSrcError } = attachment;
   let src: string | undefined;
   if (isHls) src = item.httpUrl;
   else if (isEmbed) src = embedSrc ?? undefined;
   else src = attachment.src;
-  const thumbnail = useMediaThumbnail(item, true);
+  // The still is wanted for the blurred backdrop and, on a video, the poster.
+  // An encrypted image has no cheap still: the only route to one is to download
+  // and decrypt the whole attachment, which `useMediaSrc` is already doing for
+  // the picture itself two lines up. Asking for both meant every encrypted
+  // image in the viewer was fetched and decrypted twice over, on three mounted
+  // pages at a time, to produce a backdrop that is then blurred by 48px — so
+  // that one uses the picture's own URL instead.
+  const thumbnail = useMediaThumbnail(item, item.type === 'video' || !item.encInfo);
   const reaction = useMediaReaction(room, item.eventId);
   const download = useMediaDownload(
     item.filename,
@@ -169,6 +183,20 @@ function MediaFeedContent({
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsError = useHlsPlayback(videoRef, isHls ? item.httpUrl : undefined, isHls);
   const [userPaused, setUserPaused] = useState(false);
+  /**
+   * Whether the element itself reports being paused, rather than what we last
+   * asked it to do.
+   *
+   * The two are not the same thing and the difference is the whole bug: an
+   * autoplay the engine refuses leaves a paused video behind a `userPaused` of
+   * `false`, so a tap meant to start it read as "pause this" and did nothing
+   * visible. Every playback control now asks the element.
+   */
+  const [elementPaused, setElementPaused] = useState(true);
+  /** Set once the element has a frame to draw — `loadeddata` or better. */
+  const [videoReady, setVideoReady] = useState(false);
+  /** The media element gave up on this source. */
+  const [mediaError, setMediaError] = useState(false);
   const [progress, setProgress] = useState(0);
   const [revealed, setRevealed] = useState(!item.spoiler);
   const [expandedCaption, setExpandedCaption] = useState(false);
@@ -196,7 +224,6 @@ function MediaFeedContent({
     lastY: number;
     fingers: number;
   } | null>(null);
-  const [playbackRefused, setPlaybackRefused] = useState(false);
   // A plain image gets its URL immediately and then spends real time fetching
   // the pixels behind it, so `src` alone is not "ready" — without this the
   // blurhash disappears the moment the URL resolves and leaves a blank stage.
@@ -214,12 +241,28 @@ function MediaFeedContent({
   const [fitScale, setFitScale] = useState(1);
 
   const isVideo = item.type === 'video';
+  /**
+   * Whether there is still nothing to look at.
+   *
+   * For video this is the element's own readiness rather than whichever fetch
+   * produced the URL. The old test only covered the blob download, so a
+   * streamed attachment — and every embed, whose URL is known before a single
+   * byte is fetched — counted as "loaded" the instant it had a `src` and the
+   * stage sat black with no spinner for as long as the file took. An HLS
+   * playlist never fetches anything through this component at all, so it was
+   * black from the moment it opened until hls.js happened to produce a frame.
+   */
   let loading: boolean;
-  if (isEmbed) loading = isVideo ? !src : !src || !imageLoaded;
-  else if (isVideo) loading = needsBlob && state.status !== AsyncStatus.Success;
+  if (isVideo) loading = !src || !videoReady;
   else loading = !src || !imageLoaded;
-  const failed = isEmbed ? !!hlsError : state.status === AsyncStatus.Error;
-  const failureText = hlsError ?? 'Failed to load this attachment.';
+  const failed =
+    !!hlsError || mediaError || (!isEmbed && !isHls && state.status === AsyncStatus.Error);
+  let failureText = 'Failed to load this attachment.';
+  if (hlsError) failureText = hlsError;
+  else if (isEmbed)
+    failureText = `Could not load this ${isVideo ? 'video' : 'image'} from ${
+      item.embed?.provider === 'twitter' ? 'Twitter' : 'Bluesky'
+    }.`;
 
   const senderName =
     getMemberDisplayName(room, item.sender) ?? getMxIdLocalPart(item.sender) ?? item.sender;
@@ -228,22 +271,74 @@ function MediaFeedContent({
     ? (mxcUrlToHttp(mx, senderAvatarMxc, useAuthentication, 96, 96, 'crop') ?? undefined)
     : undefined;
 
+  /**
+   * Ask the element to play, having first made the request one an engine will
+   * grant.
+   *
+   * Three things have to be right and none of them were:
+   *
+   *  - **The mute has to be applied to the element, not just handed to React.**
+   *    React assigns `muted` as a *property* after mount, and the engines that
+   *    gate autoplay read the attribute when they decide whether an attempt
+   *    counts as muted autoplay — so the property can land after the decision
+   *    has already gone against us. `ProxiedVideo` learned this the hard way;
+   *    this is the same treatment.
+   *  - **There has to be something to play.** `play()` on an element with no
+   *    decodable frame is refused on its own terms, which for an HLS stream is
+   *    *every* time: hls.js attaches the media asynchronously behind a dynamic
+   *    import, so at mount there is provably nothing there. Waiting for
+   *    `loadeddata` covers both that and a slow file.
+   *  - **A refusal has to be recoverable.** WebKitGTK (the Linux desktop shell)
+   *    gates even muted autoplay behind a user gesture and Android's WebView
+   *    does the same, so refusal is the common case here rather than an edge —
+   *    and it used to be permanent, because nothing ever asked again.
+   */
+  const attemptPlay = useCallback(
+    (video: HTMLVideoElement) => {
+      // Set both, plus the volume: see above.
+      video.muted = muted;
+      video.defaultMuted = muted;
+      if (muted) video.setAttribute('muted', '');
+      else video.removeAttribute('muted');
+      video.volume = muted ? 0 : 1;
+      const played = video.play();
+      if (played && typeof played.catch === 'function') {
+        // The refusal is reported by the element's own `pause` state, which the
+        // play badge reads — nothing to record here beyond not letting the
+        // rejection surface as an unhandled one.
+        played.catch(() => undefined);
+      }
+    },
+    [muted],
+  );
+
   // A page that scrolls away stops playing and rewinds, so coming back to it
   // starts the clip again rather than resuming a video the user left behind.
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !src) return;
-    if (active && !userPaused && revealed) {
-      video.play().catch(() => setPlaybackRefused(true));
-      return;
+    if (!video || !isVideo || !src) return undefined;
+
+    if (!active || userPaused || !revealed) {
+      video.pause();
+      if (!active) {
+        video.currentTime = 0;
+        setProgress(0);
+        setUserPaused(false);
+      }
+      return undefined;
     }
-    video.pause();
-    if (!active) {
-      video.currentTime = 0;
-      setProgress(0);
-      setUserPaused(false);
+
+    // `loadeddata` rather than `canplay`: it is the first point at which there
+    // is a frame, it fires for a media-source stream exactly as it does for a
+    // file, and it is what the GIF player in the timeline already waits for.
+    const onReady = () => attemptPlay(video);
+    if (video.readyState >= 2) {
+      attemptPlay(video);
+      return undefined;
     }
-  }, [active, userPaused, revealed, src]);
+    video.addEventListener('loadeddata', onReady);
+    return () => video.removeEventListener('loadeddata', onReady);
+  }, [active, userPaused, revealed, src, isVideo, attemptPlay]);
 
   // A page the user has left goes back to 1x, so returning to it later shows
   // the whole picture rather than wherever they had dragged it to.
@@ -256,6 +351,8 @@ function MediaFeedContent({
   useEffect(() => {
     setFitScale(1);
     setImageLoaded(false);
+    setVideoReady(false);
+    setMediaError(false);
   }, [src]);
 
   // Zooming back out re-centres. A picture that fits the stage has nowhere to
@@ -297,6 +394,104 @@ function MediaFeedContent({
     if (!video || !video.duration || Number.isNaN(video.duration)) return;
     setProgress(video.currentTime / video.duration);
   };
+
+  /**
+   * Start or stop playback, deciding from the element rather than from state.
+   *
+   * The play call stays inside the click handler on purpose: an engine that
+   * gates autoplay grants a `play()` issued during a user gesture, and routing
+   * this through an effect would spend the gesture before it got there.
+   */
+  const togglePlayback = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      setUserPaused(false);
+      attemptPlay(video);
+      return;
+    }
+    setUserPaused(true);
+    video.pause();
+  }, [attemptPlay]);
+
+  /**
+   * What the element says about itself.
+   *
+   * `pause` is not fired only by our own calls — an engine that refuses an
+   * autoplay, a stream that stalls out, and the user's own tap all end up here,
+   * which is why the play badge reads this instead of the flag we set.
+   *
+   * `play` rather than `playing`: the former fires the moment the element
+   * leaves the paused state, the latter only once frames are flowing. Reading
+   * the later one flashes a play badge over a video that is already starting.
+   */
+  const handlePlay = () => setElementPaused(false);
+  const handlePaused = () => setElementPaused(true);
+  const handleLoadedData = () => {
+    setVideoReady(true);
+    setMediaError(false);
+  };
+
+  /**
+   * A media element gave up on this source.
+   *
+   * For a plain attachment that is usually the filename in the streamed URL,
+   * which `useMediaSrc` can retry without — so the first failure spends that
+   * retry and only a second one is real. An embed has no second form of its
+   * URL, so its first failure is final.
+   */
+  const retriedSrcRef = useRef(false);
+  const handleMediaError = useCallback(() => {
+    if (!isEmbed && !retriedSrcRef.current) {
+      retriedSrcRef.current = true;
+      onSrcError();
+      return;
+    }
+    setMediaError(true);
+  }, [isEmbed, onSrcError]);
+
+  /**
+   * A video that has a source, never errors and never produces a frame.
+   *
+   * A stalled CDN, a codec the engine declines silently, a proxy that returned
+   * bytes the decoder rejected, an HLS stream whose segments never arrive —
+   * none of these fire `error`, so the stage kept a spinner turning for the
+   * rest of the session with nothing in the console to say which. Say it, and
+   * say it with enough detail to tell those cases apart.
+   */
+  useEffect(() => {
+    if (!isVideo || !src || videoReady || mediaError || hlsError) return undefined;
+    const timer = window.setTimeout(() => {
+      const video = videoRef.current;
+      if (!video || video.readyState >= 2) return;
+      console.warn('[gallery] video produced no frame', {
+        eventId: item.eventId,
+        key: item.key,
+        source: item.source,
+        hls: !!item.hls,
+        mimeType: item.mimeType,
+        readyState: video.readyState,
+        networkState: video.networkState,
+        errorCode: video.error?.code,
+        src: item.source === 'embed' ? item.httpUrl : item.mxcUrl,
+      });
+      setMediaError(true);
+    }, STALL_TIMEOUT_MS);
+    return () => window.clearTimeout(timer);
+  }, [
+    isVideo,
+    src,
+    videoReady,
+    mediaError,
+    hlsError,
+    item.eventId,
+    item.key,
+    item.source,
+    item.hls,
+    item.mimeType,
+    item.httpUrl,
+    item.mxcUrl,
+  ]);
 
   const seekTo = useCallback((ratio: number) => {
     const video = videoRef.current;
@@ -371,8 +566,7 @@ function MediaFeedContent({
       return;
     }
     if (isVideo) {
-      setUserPaused((paused) => !paused);
-      setPlaybackRefused(false);
+      togglePlayback();
       return;
     }
     setExpandedCaption((expanded) => !expanded);
@@ -460,11 +654,17 @@ function MediaFeedContent({
     if (evt.touches.length === 0) touchRef.current = null;
   };
 
-  const paused = isVideo && (userPaused || playbackRefused);
+  const paused = isVideo && elementPaused;
   const blurred = !revealed;
   let stageActionLabel = 'Close, or click the image for details';
   if (blurred) stageActionLabel = 'Reveal spoiler';
   else if (isVideo) stageActionLabel = 'Play or pause, or click beside the video to close';
+
+  const posterSrc = thumbnail.src ?? thumbnail.fallbackSrc;
+  // A picture is its own best backdrop when no cheaper still was fetched — see
+  // the note on `useMediaThumbnail` above. A video's is the poster or nothing;
+  // pointing the backdrop at the video file would download it a second time.
+  const backdropSrc = posterSrc ?? (isVideo ? undefined : src);
 
   const dimensions = item.width && item.height ? `${item.width}×${item.height}` : undefined;
   const meta = [
@@ -479,10 +679,10 @@ function MediaFeedContent({
     <>
       {/* A blurred copy of the still behind the media, so a portrait photo on a
           landscape window is framed rather than floating in flat black. */}
-      {(thumbnail.src ?? thumbnail.fallbackSrc) && !blurred && (
+      {backdropSrc && !blurred && (
         <img
           className={css.FeedBackdrop}
-          src={thumbnail.src ?? thumbnail.fallbackSrc}
+          src={backdropSrc}
           alt=""
           aria-hidden
           referrerPolicy={isEmbed ? 'no-referrer' : undefined}
@@ -509,7 +709,7 @@ function MediaFeedContent({
           // `src` makes a non-Safari engine fail to decode it before hls.js
           // gets a chance.
           src={isHls ? undefined : src}
-          poster={thumbnail.src ?? thumbnail.fallbackSrc}
+          poster={posterSrc}
           title={item.filename}
           style={blurred ? { filter: 'blur(44px)' } : undefined}
           loop
@@ -517,7 +717,10 @@ function MediaFeedContent({
           playsInline
           preload="auto"
           onTimeUpdate={handleTimeUpdate}
-          onError={onSrcError}
+          onLoadedData={handleLoadedData}
+          onPlay={handlePlay}
+          onPause={handlePaused}
+          onError={handleMediaError}
         />
       )}
       {src && !isVideo && (
@@ -543,6 +746,10 @@ function MediaFeedContent({
           // why embed stills need no proxy while embed *video* does.
           referrerPolicy={isEmbed ? 'no-referrer' : undefined}
           onLoad={handleImageLoad}
+          // Without this a still that never arrives leaves the spinner turning
+          // for the rest of the session: `imageLoaded` is what clears it and
+          // only a successful load sets that.
+          onError={handleMediaError}
         />
       )}
 
@@ -599,7 +806,10 @@ function MediaFeedContent({
           </Chip>
         </Box>
       )}
-      {paused && revealed && !loading && (
+      {/* Only on the page being looked at: every mounted neighbour is paused by
+          definition, and a badge on one of those slides into view during the
+          scroll and reads as "this one is stopped" a moment before it starts. */}
+      {active && paused && revealed && !loading && (
         <Box className={css.FeedCenterBadge}>
           <Box className={css.FeedCenterBadgeInner}>
             <Icon size="600" src={Icons.Play} filled />
