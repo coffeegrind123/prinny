@@ -690,7 +690,10 @@ function MediaFeedContent({
       )}
       {typeof item.blurHash === 'string' && loading && (
         <BlurhashCanvas
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+          // z-index 0 with the backdrop: this is what is *behind* the
+          // attachment while it arrives, not something drawn over it. See the
+          // layer table in MediaFeed.css.ts.
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
           width={32}
           height={32}
           hash={item.blurHash}

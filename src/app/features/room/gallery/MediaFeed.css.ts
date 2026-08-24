@@ -6,6 +6,24 @@ import { DefaultReset, config, toRem } from 'folds';
  * absolute colours rather than theme tokens — the same choice ImageViewer
  * makes. Everything readable sits on a scrim, so contrast does not depend on
  * what the attachment underneath happens to look like.
+ *
+ * **Every layer here states its `z-index`, and the media is one of them.**
+ * A statically positioned element paints *below* an absolutely positioned
+ * sibling whatever the source order says, so the media element — which is in
+ * normal flow — was painted underneath `FeedBackdrop`: a copy of its own still,
+ * blown up to cover the page and put through `blur(48px) brightness(0.4)`. That
+ * is a black rectangle over the attachment. The image escaped it by accident,
+ * because the zoom transform it always carries promotes it into the positioned
+ * paint step; `<video>` carries no transform, so every video in the feed with a
+ * poster — uploaded, Twitter, Bluesky alike — played correctly behind an opaque
+ * dark smear. Nothing here may go back to relying on that accident:
+ *
+ *   0  FeedBackdrop, the blurhash placeholder — what is behind the attachment
+ *   1  FeedMedia — the attachment
+ *   2  FeedTapTarget (gestures), FeedScrimTop / FeedScrimBottom (legibility)
+ *   3  FeedCenterBadge — spinner, failure, spoiler, play
+ *   4  FeedTopBar, FeedInfo, FeedRail — the chrome
+ *   5  FeedProgress — the transport bar, which must stay grabbable over all of it
  */
 export const Feed = style([
   DefaultReset,
@@ -47,6 +65,11 @@ export const FeedPage = style([
 export const FeedMedia = style([
   DefaultReset,
   {
+    // Positioned purely to give it a z-index — see the layer table above. The
+    // attachment is the thing the reader opened; it does not get to be the one
+    // element in here whose paint order is left to chance.
+    position: 'relative',
+    zIndex: 1,
     maxWidth: '100%',
     maxHeight: '100%',
     width: 'auto',
@@ -65,6 +88,7 @@ export const FeedBackdrop = style([
     inset: 0,
     width: '100%',
     height: '100%',
+    zIndex: 0,
     objectFit: 'cover',
     filter: 'blur(48px) brightness(0.4)',
     transform: 'scale(1.15)',
@@ -81,6 +105,7 @@ export const FeedScrimTop = style([
     right: 0,
     height: toRem(140),
     background: 'linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0))',
+    zIndex: 2,
     pointerEvents: 'none',
   },
 ]);
@@ -94,6 +119,7 @@ export const FeedScrimBottom = style([
     right: 0,
     height: toRem(220),
     background: 'linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0))',
+    zIndex: 2,
     pointerEvents: 'none',
   },
 ]);
@@ -107,7 +133,7 @@ export const FeedTopBar = style([
     top: `calc(${config.space.S200} + env(safe-area-inset-top))`,
     left: `calc(${config.space.S200} + env(safe-area-inset-left))`,
     right: `calc(${config.space.S200} + env(safe-area-inset-right))`,
-    zIndex: 3,
+    zIndex: 4,
   },
 ]);
 
@@ -119,7 +145,7 @@ export const FeedInfo = style([
     left: `calc(${config.space.S400} + env(safe-area-inset-left))`,
     // Clear of the action rail on the right.
     right: toRem(76),
-    zIndex: 3,
+    zIndex: 4,
     textShadow: '0 1px 3px rgba(0, 0, 0, 0.6)',
   },
 ]);
@@ -150,7 +176,7 @@ export const FeedRail = style([
     position: 'absolute',
     right: `calc(${config.space.S300} + env(safe-area-inset-right))`,
     bottom: `calc(${config.space.S500} + env(safe-area-inset-bottom))`,
-    zIndex: 3,
+    zIndex: 4,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -217,7 +243,7 @@ export const FeedProgress = style([
     height: toRem(14),
     display: 'flex',
     alignItems: 'flex-end',
-    zIndex: 4,
+    zIndex: 5,
     cursor: 'pointer',
     touchAction: 'none',
   },
@@ -256,7 +282,7 @@ export const FeedCenterBadge = style([
     alignItems: 'center',
     justifyContent: 'center',
     pointerEvents: 'none',
-    zIndex: 2,
+    zIndex: 3,
   },
 ]);
 
@@ -279,7 +305,7 @@ export const FeedTapTarget = style([
   {
     position: 'absolute',
     inset: 0,
-    zIndex: 1,
+    zIndex: 2,
     border: 'none',
     padding: 0,
     background: 'transparent',
