@@ -1,8 +1,8 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/rust-crypto-D0Couck8.js","assets/core-_Ucixcrw.js","assets/dist-js-CdlOU3MH.js","assets/event-DZ_2zhRa.js","assets/dist-js-Cf_142iW.js","assets/dist-js-C1KiuPTJ.js","assets/dist-js-DW1NRSq6.js","assets/katex-Ddr6Z9Sf.css","assets/ReactPrism-CeWysNrD.js","assets/ReactPrism-CLcyLdmD.css","assets/pdf-DLgu3GxZ.js","assets/preload-helper-Czpn1I53.js","assets/maplibre-gl-DSnsEFKn.css","assets/tray-pYNH_QoN.js","assets/menu-AVWFNJJ9.js","assets/app-HVV-Blb8.js","assets/dist-js-Dk8uUWKd.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/rust-crypto-DfhwM3BY.js","assets/core-_Ucixcrw.js","assets/dist-js-CdlOU3MH.js","assets/event-DZ_2zhRa.js","assets/dist-js-Cf_142iW.js","assets/dist-js-C1KiuPTJ.js","assets/dist-js-DW1NRSq6.js","assets/katex-Ddr6Z9Sf.css","assets/ReactPrism-D-yFcH4F.js","assets/ReactPrism-CLcyLdmD.css","assets/pdf-B6t_3D_G.js","assets/preload-helper-Czpn1I53.js","assets/maplibre-gl-DSnsEFKn.css","assets/tray-D00h4Fz4.js","assets/menu-Cyh6ecuE.js","assets/app-_VI4_tR-.js","assets/dist-js-Dk8uUWKd.js"])))=>i.map(i=>d[i]);
 import { d as e, f as t, i as n, m as r, n as i, o as a, p as o, r as s, u as c } from "./core-_Ucixcrw.js";
 import { t as l } from "./preload-helper-Czpn1I53.js";
 import { a as u, n as d, o as f, r as p, t as m } from "./event-DZ_2zhRa.js";
-let gce, wfe, aR, jfe, Afe, pB, HR, qI, AL, VR, Bce, XI, zR, aB, sB, uB, Uz, mI, gR, dB, Pfe, aL, rR, G, RI, HI, II, zfe, P9, v, Ofe, TAe, she, SI, aH, Vfe, tpe, j9, yt, oB, Dfe, aW, FV, F9, H, W2, LV, GI, N9, vm, KNe, Glt, U, SH, fB, Nfe, Ffe, Mfe, mR;
+let gce, wfe, aR, jfe, Afe, pB, HR, qI, AL, VR, Bce, XI, zR, aB, sB, uB, Uz, mI, gR, dB, Pfe, aL, rR, G, RI, HI, II, zfe, P9, v, Ofe, TAe, she, SI, aH, Vfe, tpe, j9, yt, oB, Dfe, aW, FV, F9, H, W2, LV, GI, N9, vm, KNe, Klt, U, SH, fB, Nfe, Ffe, Mfe, mR;
 let __tla = (async ()=>{
     (function() {
         let e = document.createElement(`link`).relList;
@@ -23141,7 +23141,7 @@ Please change the parent <Route path="${e}"> to <Route path="${e === `/` ? `*` :
         }
         return e;
     }
-    var Mte = `_15upz2y0`, Nte = `_15upz2y1`, Pte = `_15upz2y2 _1mqalmd1 _1mqalmd0`, Fte = `_15upz2y3`, Ite = `_15upz2y4`, Lte = `_15upz2y5`, tp = `4.11.187`;
+    var Mte = `_15upz2y0`, Nte = `_15upz2y1`, Pte = `_15upz2y2 _1mqalmd1 _1mqalmd0`, Fte = `_15upz2y3`, Ite = `_15upz2y4`, Lte = `_15upz2y5`, tp = `4.11.188`;
     function Rte() {
         return (0, j.jsxs)(P, {
             className: Lte,
@@ -53008,7 +53008,7 @@ Date.now: "${Date.now()}`);
                 var i = t.getDeviceId();
                 if (i === null) throw Error(`Cannot enable encryption on MatrixClient with unknown deviceId: ensure deviceId is passed in createClient().`);
                 t.logger.debug(`Downloading Rust crypto library`);
-                var a = yield (yield l(()=>import(`./rust-crypto-D0Couck8.js`).then(async (m)=>{
+                var a = yield (yield l(()=>import(`./rust-crypto-DfhwM3BY.js`).then(async (m)=>{
                         await m.__tla;
                         return m;
                     }), __vite__mapDeps([0,1]))).initRustCrypto({
@@ -81465,7 +81465,7 @@ https://www.w3ctech.com/topic/2226`));
             radii: `400`
         },
         compoundVariants: []
-    }), X = en(({ as: e = `div`, className: t, variant: n, radii: r, firstChild: i, lastChild: a, outlined: o, mergeBorder: s, header: c, children: l, ...u }, d)=>(0, j.jsxs)(P, {
+    }), hY = en(({ as: e = `div`, className: t, variant: n, radii: r, firstChild: i, lastChild: a, outlined: o, mergeBorder: s, header: c, children: l, ...u }, d)=>(0, j.jsxs)(P, {
             as: e,
             className: (0, xt.default)(oTe({
                 radii: r,
@@ -81483,8 +81483,8 @@ https://www.w3ctech.com/topic/2226`));
                 c,
                 l
             ]
-        })), hY = `vkenjr0`, sTe = `vkenjr1`, gY = `_1ri957w0`, _Y = `_1ri957w1`, cTe = `_1ri957w2`;
-    function vY({ title: e, description: t, before: n, after: r, children: i }) {
+        })), gY = `vkenjr0`, sTe = `vkenjr1`, _Y = `_1ri957w0`, vY = `_1ri957w1`, cTe = `_1ri957w2`;
+    function X({ title: e, description: t, before: n, after: r, children: i }) {
         return (0, j.jsxs)(P, {
             alignItems: `Center`,
             gap: `300`,
@@ -81552,12 +81552,12 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Privacy`
                 }),
-                fK() && (0, j.jsx)(X, {
+                fK() && (0, j.jsx)(hY, {
                     className: `vkenjr0`,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Hide window from screen capture`,
                         description: `Asks the system to leave this window out of screenshots and screen recordings. Works on Windows and macOS; most Linux desktops ignore it.`,
                         after: (0, j.jsx)(ar, {
@@ -81567,12 +81567,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Block all incoming invites`,
                         description: `Your server rejects room invites before they reach you. People who already share a room with you are unaffected. Requires server support (MSC4155).`,
                         after: (0, j.jsx)(ar, {
@@ -81589,13 +81589,13 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Show media previews`,
                             description: `Loading a preview fetches it from the sender's server, which tells that server you have opened the message.`,
                             children: (0, j.jsx)(P, {
@@ -81627,7 +81627,7 @@ https://www.w3ctech.com/topic/2226`));
                                     }, e))
                             })
                         }),
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Show avatars in invites`,
                             description: `Turn off so a room you have been invited to by a stranger cannot make your client fetch its picture.`,
                             after: (0, j.jsx)(ar, {
@@ -81813,13 +81813,13 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Microphone`
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Microphone access`,
                             description: c.state === `denied` ? (0, j.jsx)(z, {
                                 as: `span`,
@@ -81857,12 +81857,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     ]
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Input device`,
                         description: `Used for voice messages and calls. The system default follows whatever you plug in.`,
                         children: (0, j.jsxs)(P, {
@@ -81937,13 +81937,13 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Echo cancellation`,
                             after: (0, j.jsx)(ar, {
                                 variant: `Primary`,
@@ -81951,7 +81951,7 @@ https://www.w3ctech.com/topic/2226`));
                                 onChange: r
                             })
                         }),
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Noise suppression`,
                             description: `Turn off when recording anything other than speech — it treats music as noise.`,
                             after: (0, j.jsx)(ar, {
@@ -81960,7 +81960,7 @@ https://www.w3ctech.com/topic/2226`));
                                 onChange: a
                             })
                         }),
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Automatic gain control`,
                             after: (0, j.jsx)(ar, {
                                 variant: `Primary`,
@@ -82362,7 +82362,7 @@ https://www.w3ctech.com/topic/2226`));
             wrap: `Wrap`,
             gap: `400`,
             children: [
-                (0, j.jsx)(vY, {
+                (0, j.jsx)(X, {
                     title: `Light Theme:`,
                     after: (0, j.jsx)(Cn, {
                         variant: e === TY.Light ? `Primary` : `Secondary`,
@@ -82405,7 +82405,7 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(vY, {
+                (0, j.jsx)(X, {
                     title: `Dark Theme:`,
                     after: (0, j.jsx)(Cn, {
                         variant: e === TY.Dark ? `Primary` : `Secondary`,
@@ -82492,13 +82492,13 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Appearance`
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `System Theme`,
                             description: `Choose between light and dark theme based on system preference.`,
                             after: (0, j.jsx)(ar, {
@@ -82510,11 +82510,11 @@ https://www.w3ctech.com/topic/2226`));
                         e && (0, j.jsx)(rEe, {})
                     ]
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Theme`,
                         description: `Theme to use when system theme is not enabled.`,
                         after: (0, j.jsx)(eEe, {
@@ -82522,11 +82522,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Monochrome Mode`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -82535,11 +82535,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Twitter Emoji`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -82548,11 +82548,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Page Zoom`,
                         after: (0, j.jsx)(iEe, {})
                     })
@@ -82910,7 +82910,7 @@ https://www.w3ctech.com/topic/2226`));
             let n = e.target?.customDateFormatInput?.value;
             n && t(n);
         }, s = n !== e;
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             children: (0, j.jsxs)(P, {
                 as: `form`,
                 onSubmit: o,
@@ -83096,7 +83096,7 @@ https://www.w3ctech.com/topic/2226`));
         let [e, t] = Y(q, `dateFormatString`), [n, r] = (0, A.useState)(e), i = n === ``;
         return (0, j.jsxs)(j.Fragment, {
             children: [
-                (0, j.jsx)(vY, {
+                (0, j.jsx)(X, {
                     title: `Date Format`,
                     description: i ? (0, TK.default)().format(e) : ``,
                     after: (0, j.jsx)(lEe, {
@@ -83123,11 +83123,11 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Date & Time`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `24-Hour Time Format`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -83136,8 +83136,8 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     children: (0, j.jsx)(uEe, {})
@@ -83155,11 +83155,11 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Editor`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `ENTER for Newline`,
                         description: `Use ${GJ() ? wY.Command : `Ctrl`} + ENTER to send message and ENTER for newline.`,
                         after: (0, j.jsx)(ar, {
@@ -83169,11 +83169,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Scroll to Bottom on Send`,
                         description: `When you send a message while scrolled up, jump back down to the live timeline so your message comes into view.`,
                         after: (0, j.jsx)(ar, {
@@ -83183,11 +83183,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Markdown Formatting`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -83196,11 +83196,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Hide Read Receipts`,
                         description: `Send your read receipts privately, so nobody is told how far you have read. Other people's read receipts are hidden from you in return.`,
                         after: (0, j.jsx)(ar, {
@@ -83210,11 +83210,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Hide Typing Notifications`,
                         description: `Stop telling rooms when you are composing a message. Other people's typing notifications are hidden from you in return.`,
                         after: (0, j.jsx)(ar, {
@@ -83224,11 +83224,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Read Receipt Style`,
                         description: `Default shows who's following live. Element shows avatar dots at each person's last-read message.`,
                         after: (0, j.jsxs)(P, {
@@ -83260,11 +83260,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Show Maps for Locations`,
                         description: `Draw location messages as a map. Every map fetches tiles from whoever serves the map style, disclosing your IP address and what you are looking at.`,
                         after: (0, j.jsx)(ar, {
@@ -83274,11 +83274,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Show Bot Buttons`,
                         description: `Draw the buttons bots attach to their messages. Turn this off and the message's plain-text list of options is shown instead, which bots send anyway.`,
                         after: (0, j.jsx)(ar, {
@@ -83288,11 +83288,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Confirm Bot Links`,
                         description: `Ask before opening a link from a bot's button, showing the site it really goes to. The button's label is written by whoever sent it; the address is not.`,
                         after: (0, j.jsx)(ar, {
@@ -83302,11 +83302,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Render LaTeX Maths`,
                         description: `Draw formulas sent as LaTeX instead of showing the sender's plain-text fallback.`,
                         after: (0, j.jsx)(ar, {
@@ -83316,11 +83316,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Use vxtwitter for Twitter/X`,
                         description: `Fetch Twitter/X media client-side via vxtwitter API for full video and image embeds. Sends the link and your IP address to that third-party service.`,
                         after: (0, j.jsx)(ar, {
@@ -83330,11 +83330,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Use soundcloak for SoundCloud`,
                         description: `Rewrite SoundCloud URLs through sc1.maid.zone for streamable embeds. Sends the link and your IP address to that third-party service.`,
                         after: (0, j.jsx)(ar, {
@@ -83344,11 +83344,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Bluesky post embeds`,
                         description: `Fetch Bluesky posts client-side to show full embeds. Sends the link and your IP address to public.api.bsky.app, and lets the sender of a link see when you view it.`,
                         after: (0, j.jsx)(ar, {
@@ -83358,11 +83358,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Hacker News post embeds`,
                         description: `Build Hacker News cards from the Hacker News API, which serves no link preview of its own. Sends the item number and your IP address to hacker-news.firebaseio.com, and lets the sender of a link see when you view it.`,
                         after: (0, j.jsx)(ar, {
@@ -83372,12 +83372,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Use Piped for YouTube`,
                             description: `Replace YouTube embeds with a Piped instance for privacy-friendly playback.`,
                             after: (0, j.jsx)(ar, {
@@ -83386,7 +83386,7 @@ https://www.w3ctech.com/topic/2226`));
                                 onChange: x
                             })
                         }),
-                        b && (0, j.jsx)(vY, {
+                        b && (0, j.jsx)(X, {
                             title: `Piped instance`,
                             description: `Which Piped instance to embed from. Auto probes the list and uses the first that responds; http instances only load in the desktop app (the web app blocks them as mixed content).`,
                             after: (0, j.jsx)(nEe, {})
@@ -83395,11 +83395,11 @@ https://www.w3ctech.com/topic/2226`));
                 }),
                 fK() && (0, j.jsxs)(j.Fragment, {
                     children: [
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             className: `vkenjr0`,
                             variant: `SurfaceVariant`,
                             direction: `Column`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: `Minimize to Tray`,
                                 description: `When closing the window, hide to system tray instead of quitting.`,
                                 after: (0, j.jsx)(ar, {
@@ -83409,12 +83409,12 @@ https://www.w3ctech.com/topic/2226`));
                                 })
                             })
                         }),
-                        ie.enabled !== void 0 && (0, j.jsxs)(X, {
+                        ie.enabled !== void 0 && (0, j.jsxs)(hY, {
                             className: `vkenjr0`,
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             children: [
-                                (0, j.jsx)(vY, {
+                                (0, j.jsx)(X, {
                                     title: `Start at Login`,
                                     description: `Launch minimized to the tray when you sign in to this computer.`,
                                     after: (0, j.jsx)(ar, {
@@ -83433,11 +83433,11 @@ https://www.w3ctech.com/topic/2226`));
                                 })
                             ]
                         }),
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             className: `vkenjr0`,
                             variant: `SurfaceVariant`,
                             direction: `Column`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: `Client-side link previews (fallback)`,
                                 description: `When your homeserver can't generate a link preview, fetch the page directly from this app to build the card. Helps sites that block your homeserver's preview fetcher. Requests are guarded against private/internal addresses.`,
                                 after: (0, j.jsx)(ar, {
@@ -83586,29 +83586,29 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Messages`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Message Layout`,
                         after: (0, j.jsx)(pEe, {})
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Message Spacing`,
                         after: (0, j.jsx)(mEe, {})
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Legacy Username Color`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -83617,11 +83617,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Hide Membership Change`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -83630,11 +83630,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Hide Profile Change`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -83643,11 +83643,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Disable Media Auto Load`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -83656,11 +83656,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Open Media in Feed`,
                         description: `Tapping a photo or video opens the room's media feed at it — swipe up for the next attachment. Off opens the single-image viewer instead.`,
                         after: (0, j.jsx)(ar, {
@@ -83670,11 +83670,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Send Attachments as a Gallery`,
                         description: `Several files sent at once become one message with a grid of them (MSC4274) instead of one message each. The msgtype is still unstable, so clients that have not implemented it show only the filenames — galleries you receive always render either way.`,
                         after: (0, j.jsx)(ar, {
@@ -83684,11 +83684,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Url Preview`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -83697,11 +83697,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Url Preview in Encrypted Room`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -83710,11 +83710,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Show Hidden Events`,
                         after: (0, j.jsx)(ar, {
                             variant: `Primary`,
@@ -83736,11 +83736,11 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Layout`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Unified Home Sidebar`,
                         description: `List direct messages and spaceless rooms together in one Home slot instead of two tabs.`,
                         after: (0, j.jsx)(ar, {
@@ -83750,11 +83750,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Direct Message Rail Buttons`,
                         description: `Show unread direct messages as avatar buttons under Home in the client rail.`,
                         after: (0, j.jsx)(ar, {
@@ -83764,11 +83764,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Top Bar`,
                         description: `A full-width bar above the sidebar carrying the inbox.`,
                         after: (0, j.jsx)(ar, {
@@ -83778,11 +83778,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Profile Controls in Top Bar`,
                         description: `Move your avatar and status controls into the top bar. Needs the top bar.`,
                         after: (0, j.jsx)(ar, {
@@ -83793,21 +83793,21 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Default Inbox Tab`,
                         description: `Which tab the Inbox opens on, from the sidebar or from its own address.`,
                         after: (0, j.jsx)(cEe, {})
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Rooms Space`,
                         description: `Give spaceless rooms their own entry in the space rail. Home then lists your direct messages.`,
                         after: (0, j.jsx)(ar, {
@@ -83821,11 +83821,11 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Media`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `GIF Picker`,
                         description: `Add a GIF tab to the emoji board. Searches are sent to klipy.com, which sees your IP and your query.`,
                         after: (0, j.jsx)(ar, {
@@ -83835,11 +83835,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Low Animation Mode`,
                         description: `Stop media autoplaying — hover to play — and disable interface animation.`,
                         after: (0, j.jsx)(ar, {
@@ -83849,11 +83849,11 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Inline Video Hosts`,
                         description: `Comma-separated hosts whose direct video links play in place instead of showing a preview card. Empty means none — a video plays only from a host you name here.`,
                         children: (0, j.jsx)(An, {
@@ -83871,11 +83871,11 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Presence`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Show Rich Presence`,
                         description: `Show what other people are listening to or playing, when they publish it.`,
                         after: (0, j.jsx)(ar, {
@@ -83889,11 +83889,11 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Composer`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Replace Emoji Shortcodes`,
                         description: `Turn :shortcode: into an emoji as you type, without the autocomplete menu.`,
                         after: (0, j.jsx)(ar, {
@@ -83907,11 +83907,11 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Spaces`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Auto Join Space Rooms`,
                         description: `Join every room a space lists, including rooms added later. A large space means many joins.`,
                         after: (0, j.jsx)(ar, {
@@ -84202,12 +84202,12 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Matrix ID`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: e,
                         after: (0, j.jsx)(Cn, {
                             variant: `Secondary`,
@@ -85568,7 +85568,7 @@ https://www.w3ctech.com/topic/2226`));
             i
         ]);
         let s = tOe(e.type === `media` ? e.streamingLink : void 0), [c, l] = (0, A.useState)(null);
-        return (0, j.jsxs)(X, {
+        return (0, j.jsxs)(hY, {
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `300`,
@@ -86132,7 +86132,7 @@ https://www.w3ctech.com/topic/2226`));
                     children: [
                         (0, j.jsx)(z, {
                             size: `H4`,
-                            className: (0, xt.default)(gY, cTe),
+                            className: (0, xt.default)(_Y, cTe),
                             title: e ?? i,
                             children: e ?? i ?? t
                         }),
@@ -86158,7 +86158,7 @@ https://www.w3ctech.com/topic/2226`));
                     wrap: `Wrap`,
                     children: (0, j.jsxs)(z, {
                         size: `T200`,
-                        className: (0, xt.default)(gY, cTe),
+                        className: (0, xt.default)(_Y, cTe),
                         title: t,
                         children: [
                             `@`,
@@ -86263,7 +86263,7 @@ https://www.w3ctech.com/topic/2226`));
             n,
             h
         ]);
-        return (0, j.jsxs)(vY, {
+        return (0, j.jsxs)(X, {
             title: (0, j.jsx)(z, {
                 as: `span`,
                 size: `L400`,
@@ -86427,7 +86427,7 @@ https://www.w3ctech.com/topic/2226`));
             n,
             t
         ]);
-        return (0, j.jsxs)(vY, {
+        return (0, j.jsxs)(X, {
             title: (0, j.jsx)(z, {
                 as: `span`,
                 size: `L400`,
@@ -86554,7 +86554,7 @@ https://www.w3ctech.com/topic/2226`));
             let t = e.target?.displayNameInput?.value;
             t && c(t);
         }, p = a !== i;
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             title: (0, j.jsx)(z, {
                 as: `span`,
                 size: `L400`,
@@ -86626,7 +86626,7 @@ https://www.w3ctech.com/topic/2226`));
         let t = J(), n = NK(e.extended).map((e)=>e.summary).join(`, `), [r, i] = (0, A.useState)(n), [a, o] = (0, A.useState)(!1);
         return (0, A.useEffect)(()=>i(n), [
             n
-        ]), (0, j.jsx)(vY, {
+        ]), (0, j.jsx)(X, {
             title: (0, j.jsx)(z, {
                 as: `span`,
                 size: `L400`,
@@ -86707,7 +86707,7 @@ https://www.w3ctech.com/topic/2226`));
                 return [];
             }
         }, []), c = r.trim(), l = c === `` || pSe(c), u = l && c ? IK(c) : void 0;
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             title: (0, j.jsx)(z, {
                 as: `span`,
                 size: `L400`,
@@ -86801,7 +86801,7 @@ https://www.w3ctech.com/topic/2226`));
         let t = J(), n = pX(e), r = n?.status ?? ``, [i, a] = (0, A.useState)(r), [o, s] = (0, A.useState)(!1), [c, l] = (0, A.useState)();
         return (0, A.useEffect)(()=>a(r), [
             r
-        ]), (0, j.jsx)(vY, {
+        ]), (0, j.jsx)(X, {
             title: (0, j.jsx)(z, {
                 as: `span`,
                 size: `L400`,
@@ -86879,7 +86879,7 @@ https://www.w3ctech.com/topic/2226`));
         let t = J(), n = PK(e.extended) ?? ``, [r, i] = (0, A.useState)(n), [a, o] = (0, A.useState)(!1);
         return (0, A.useEffect)(()=>i(n), [
             n
-        ]), (0, j.jsx)(vY, {
+        ]), (0, j.jsx)(X, {
             title: (0, j.jsx)(z, {
                 as: `span`,
                 size: `L400`,
@@ -87001,8 +87001,8 @@ https://www.w3ctech.com/topic/2226`));
                                     size: `L400`,
                                     children: `Edit Profile`
                                 }),
-                                (0, j.jsxs)(X, {
-                                    className: hY,
+                                (0, j.jsxs)(hY, {
+                                    className: gY,
                                     variant: `SurfaceVariant`,
                                     direction: `Column`,
                                     gap: `400`,
@@ -87258,12 +87258,12 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Contact Information`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsxs)(vY, {
+                    children: (0, j.jsxs)(X, {
                         title: `Email Addresses`,
                         description: `Used to reset your password, and to let people find you if you have an identity server set.`,
                         children: [
@@ -87334,12 +87334,12 @@ https://www.w3ctech.com/topic/2226`));
                         ]
                     })
                 }),
-                s.length > 0 && (0, j.jsx)(X, {
+                s.length > 0 && (0, j.jsx)(hY, {
                     className: `vkenjr0`,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Phone Numbers`,
                         description: `Adding a phone number needs an identity server and an SMS flow this client does not implement; existing numbers can still be removed.`,
                         children: (0, j.jsx)(P, {
@@ -87513,12 +87513,12 @@ https://www.w3ctech.com/topic/2226`));
                         children: `Blocked Users`
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Select User`,
                         description: `Prevent receiving messages or invites from user by adding their userId.`,
                         children: (0, j.jsxs)(P, {
@@ -87575,13 +87575,13 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Password`
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Change Password`,
                             description: `You will stay signed in on this device.`
                         }),
@@ -87661,7 +87661,7 @@ https://www.w3ctech.com/topic/2226`));
                                                         })
                                                     ]
                                                 }),
-                                                (0, j.jsx)(vY, {
+                                                (0, j.jsx)(X, {
                                                     title: `Sign out of all other devices`,
                                                     description: `Anyone using your account elsewhere will have to sign in again. Note that this loses any encryption keys those devices hold that were never backed up.`,
                                                     before: (0, j.jsx)(xn, {
@@ -87787,7 +87787,7 @@ https://www.w3ctech.com/topic/2226`));
                                         priority: `400`,
                                         children: `This cannot be undone. Your account is closed, your user ID can never be used again, and you are removed from every room you are in. Messages you have already sent stay in those rooms.`
                                     }),
-                                    (0, j.jsx)(vY, {
+                                    (0, j.jsx)(X, {
                                         title: `Also hide my messages`,
                                         description: `Asks the server to redact everything you have sent. Servers are not required to honour this, and copies already held by other servers are beyond its reach.`,
                                         before: (0, j.jsx)(xn, {
@@ -87870,12 +87870,12 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Danger Zone`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Deactivate Account`,
                         description: `Permanently close this account. There is no way back.`,
                         after: (0, j.jsx)(F, {
@@ -87918,12 +87918,12 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Discovery`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsxs)(vY, {
+                    children: (0, j.jsxs)(X, {
                         title: `Identity Server`,
                         description: `Optional. Lets you invite people by email and be found by yours. The server sees every address you look up, so leave this blank unless you need it.`,
                         children: [
@@ -88000,11 +88000,11 @@ https://www.w3ctech.com/topic/2226`));
         let [e, t] = Y(q, `publishRichPresence`), n = Bo(GOe), r = KOe(), i = (0, A.useCallback)((e)=>t(e), [
             t
         ]), a;
-        return r && e && n && (n.state === `starting` ? a = `Starting…` : n.state === `running` ? a = n.index === 0 ? `Listening on ${n.path}` : `Listening on ${n.path}, but another RPC server owns a lower slot — close Discord or arRPC to receive activity` : n.state === `error` && (a = `Failed: ${n.error}`)), (0, j.jsx)(X, {
-            className: hY,
+        return r && e && n && (n.state === `starting` ? a = `Starting…` : n.state === `running` ? a = n.index === 0 ? `Listening on ${n.path}` : `Listening on ${n.path}, but another RPC server owns a lower slot — close Discord or arRPC to receive activity` : n.state === `error` && (a = `Failed: ${n.error}`)), (0, j.jsx)(hY, {
+            className: gY,
             variant: `SurfaceVariant`,
             direction: `Column`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 title: `Publish rich presence`,
                 description: (0, j.jsxs)(P, {
                     direction: `Column`,
@@ -88205,7 +88205,7 @@ https://www.w3ctech.com/topic/2226`));
         }, [
             e
         ]));
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             title: `Email Notification`,
             description: (0, j.jsxs)(j.Fragment, {
                 children: [
@@ -88261,12 +88261,12 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `System`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Notifications`,
                         description: e === `denied` ? (0, j.jsx)(z, {
                             as: `span`,
@@ -88295,12 +88295,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Notification Sound`,
                         description: `Play sound when new message arrive.`,
                         after: (0, j.jsx)(ar, {
@@ -88309,12 +88309,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Hide message content`,
                         description: `Show only the sender's name in system notifications. Message text — including decrypted text from encrypted rooms — is otherwise handed to the operating system, which stores it in its notification history where other apps may be able to read it.`,
                         after: (0, j.jsx)(ar, {
@@ -88323,8 +88323,8 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
@@ -88478,13 +88478,13 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Push Delivery`
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Background notifications`,
                             description: `Prinny uses UnifiedPush on Android, which needs a distributor app on the device and a pusher on your homeserver. Each step below is checked separately.`
                         }),
@@ -88813,12 +88813,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     ]
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `1-to-1 Chats`,
                         after: (0, j.jsx)(LX, {
                             pushRules: t,
@@ -88827,12 +88827,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `1-to-1 Chats (Encrypted)`,
                         after: (0, j.jsx)(LX, {
                             pushRules: t,
@@ -88842,12 +88842,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Rooms`,
                         after: (0, j.jsx)(LX, {
                             pushRules: t,
@@ -88855,12 +88855,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Rooms (Encrypted)`,
                         after: (0, j.jsx)(LX, {
                             pushRules: t,
@@ -88969,12 +88969,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     ]
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Mention User ID ("${e}")`,
                         after: (0, j.jsx)(RX, {
                             pushRules: r,
@@ -88983,12 +88983,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Contains Displayname ${t ? `("${t}")` : ``}`,
                         after: (0, j.jsx)(RX, {
                             pushRules: r,
@@ -88997,12 +88997,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Contains Username ("${UW(e)}")`,
                         after: (0, j.jsx)(RX, {
                             pushRules: r,
@@ -89011,12 +89011,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Mention @room`,
                         after: (0, j.jsx)(RX, {
                             pushRules: r,
@@ -89025,12 +89025,12 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Contains @room`,
                         after: (0, j.jsx)(RX, {
                             pushRules: r,
@@ -89192,23 +89192,23 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     ]
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Select Keyword`,
                         description: `Set a notification preference for message containing given keyword.`,
                         children: (0, j.jsx)(Ske, {})
                     })
                 }),
-                n.map((e)=>(0, j.jsx)(X, {
-                        className: hY,
+                n.map((e)=>(0, j.jsx)(hY, {
+                        className: gY,
                         variant: `SurfaceVariant`,
                         direction: `Column`,
                         gap: `400`,
-                        children: (0, j.jsx)(vY, {
+                        children: (0, j.jsx)(X, {
                             title: `"${e.pattern}"`,
                             before: (0, j.jsx)(Cke, {
                                 pushRule: e
@@ -89406,12 +89406,12 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Reset`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: `Reset Notifications`,
                         description: `Restore default message notification rules and remove keyword notifications.`,
                         after: (0, j.jsx)(F, {
@@ -89492,12 +89492,12 @@ https://www.w3ctech.com/topic/2226`));
                                                     size: `L400`,
                                                     children: `Block Messages`
                                                 }),
-                                                (0, j.jsx)(X, {
-                                                    className: hY,
+                                                (0, j.jsx)(hY, {
+                                                    className: gY,
                                                     variant: `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `400`,
-                                                    children: (0, j.jsx)(vY, {
+                                                    children: (0, j.jsx)(X, {
                                                         description: `This option has been moved to "Account > Block Users" section.`
                                                     })
                                                 })
@@ -89726,7 +89726,7 @@ https://www.w3ctech.com/topic/2226`));
         }, [
             e
         ])), i = n.status === V.Loading;
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             children: (0, j.jsxs)(P, {
                 as: `form`,
                 onSubmit: (e)=>{
@@ -89834,7 +89834,7 @@ https://www.w3ctech.com/topic/2226`));
         let [e, t] = (0, A.useState)(!1);
         return (0, j.jsxs)(j.Fragment, {
             children: [
-                (0, j.jsx)(vY, {
+                (0, j.jsx)(X, {
                     title: `Export Messages Data`,
                     description: `Save password protected copy of encryption data on your device to decrypt messages later.`,
                     after: (0, j.jsx)(P, {
@@ -89879,7 +89879,7 @@ https://www.w3ctech.com/topic/2226`));
         }, [
             t,
             i
-        ]), (0, j.jsx)(vY, {
+        ]), (0, j.jsx)(X, {
             children: (0, j.jsxs)(P, {
                 as: `form`,
                 onSubmit: (e)=>{
@@ -89956,7 +89956,7 @@ https://www.w3ctech.com/topic/2226`));
         }, []);
         return (0, j.jsxs)(j.Fragment, {
             children: [
-                (0, j.jsx)(vY, {
+                (0, j.jsx)(X, {
                     title: `Import Messages Data`,
                     description: `Load password protected copy of encryption data from device to decrypt your messages.`,
                     after: (0, j.jsx)(P, {
@@ -90021,15 +90021,15 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Local Backup`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
                     children: (0, j.jsx)(qke, {})
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
@@ -90047,7 +90047,7 @@ https://www.w3ctech.com/topic/2226`));
             e,
             n
         ]);
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             title: `Only Verified Sessions`,
             description: `Only share message encryption keys with cross-signed sessions. Messages from unverified sessions won't decrypt. Sending will fail if any participant has an unverified session.`,
             after: (0, j.jsx)(ar, {
@@ -90296,8 +90296,8 @@ https://www.w3ctech.com/topic/2226`));
         });
     });
     function iZ() {
-        return (0, j.jsx)(X, {
-            className: hY,
+        return (0, j.jsx)(hY, {
+            className: gY,
             style: {
                 height: Dt(66)
             },
@@ -90309,7 +90309,7 @@ https://www.w3ctech.com/topic/2226`));
     function pAe({ ts: e }) {
         let [t] = Y(q, `hour24Clock`), [n] = Y(q, `dateFormatString`);
         return (0, j.jsxs)(z, {
-            className: gY,
+            className: _Y,
             size: `T200`,
             children: [
                 (0, j.jsx)(z, {
@@ -90367,7 +90367,7 @@ https://www.w3ctech.com/topic/2226`));
         }, [
             n
         ]), t.status === V.Error ? null : (0, j.jsxs)(z, {
-            className: gY,
+            className: _Y,
             size: `T200`,
             priority: `300`,
             children: [
@@ -90540,7 +90540,7 @@ https://www.w3ctech.com/topic/2226`));
         }, []);
         return (0, j.jsxs)(j.Fragment, {
             children: [
-                (0, j.jsxs)(vY, {
+                (0, j.jsxs)(X, {
                     before: (0, j.jsx)(L, {
                         variant: t ? `Critical` : `Secondary`,
                         outlined: t,
@@ -90871,7 +90871,7 @@ https://www.w3ctech.com/topic/2226`));
             direction: `Column`,
             gap: `200`,
             children: [
-                (0, j.jsx)(vY, {
+                (0, j.jsx)(X, {
                     title: `Verify Manually`,
                     description: i ? `Select a verification method.` : `Provide recovery key.`,
                     after: (0, j.jsxs)(P, {
@@ -92019,12 +92019,12 @@ https://www.w3ctech.com/topic/2226`));
                             size: `L400`,
                             children: `Others`
                         }),
-                        a && (0, j.jsx)(X, {
+                        a && (0, j.jsx)(hY, {
                             className: `vkenjr0`,
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             gap: `400`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: `Device Dashboard`,
                                 description: `Manage your devices on OIDC dashboard.`,
                                 after: (0, j.jsx)(F, {
@@ -92041,8 +92041,8 @@ https://www.w3ctech.com/topic/2226`));
                                 })
                             })
                         }),
-                        e.sort((e, t)=>!e.last_seen_ts || !t.last_seen_ts ? 0 : e.last_seen_ts < t.last_seen_ts ? 1 : -1).map((e)=>(0, j.jsxs)(X, {
-                                className: hY,
+                        e.sort((e, t)=>!e.last_seen_ts || !t.last_seen_ts ? 0 : e.last_seen_ts < t.last_seen_ts ? 1 : -1).map((e)=>(0, j.jsxs)(hY, {
+                                className: gY,
                                 variant: s.has(e.device_id) ? `Critical` : `SurfaceVariant`,
                                 direction: `Column`,
                                 gap: `400`,
@@ -92679,13 +92679,13 @@ https://www.w3ctech.com/topic/2226`));
                                                     size: `L400`,
                                                     children: `Security`
                                                 }),
-                                                (0, j.jsxs)(X, {
-                                                    className: hY,
+                                                (0, j.jsxs)(hY, {
+                                                    className: gY,
                                                     variant: `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `400`,
                                                     children: [
-                                                        (0, j.jsx)(vY, {
+                                                        (0, j.jsx)(X, {
                                                             title: `Device Verification`,
                                                             description: `To verify device identity and grant access to encrypted messages.`,
                                                             after: (0, j.jsxs)(j.Fragment, {
@@ -92720,8 +92720,8 @@ https://www.w3ctech.com/topic/2226`));
                                                     size: `L400`,
                                                     children: `Current`
                                                 }),
-                                                o ? (0, j.jsxs)(X, {
-                                                    className: hY,
+                                                o ? (0, j.jsxs)(hY, {
+                                                    className: gY,
                                                     variant: `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `400`,
@@ -93075,15 +93075,15 @@ https://www.w3ctech.com/topic/2226`));
                                                 let n = e.getAvatarUrl(lZ.Emoticon), i = n ? iG(r, n, t) : void 0, { address: o } = e;
                                                 if (!o) return null;
                                                 let c = !!a.find((e)=>pZ(e, o));
-                                                return (0, j.jsx)(X, {
-                                                    className: hY,
+                                                return (0, j.jsx)(hY, {
+                                                    className: gY,
                                                     variant: c ? `Success` : `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `400`,
-                                                    children: (0, j.jsx)(vY, {
+                                                    children: (0, j.jsx)(X, {
                                                         title: e.meta.name ?? `Unknown`,
                                                         description: (0, j.jsx)(`span`, {
-                                                            className: _Y,
+                                                            className: vY,
                                                             children: e.meta.attribution
                                                         }),
                                                         before: (0, j.jsx)(P, {
@@ -93117,7 +93117,7 @@ https://www.w3ctech.com/topic/2226`));
                                         ]
                                     }, e);
                                 }),
-                                i.size === 0 && (0, j.jsx)(X, {
+                                i.size === 0 && (0, j.jsx)(hY, {
                                     className: `vkenjr0`,
                                     variant: `SurfaceVariant`,
                                     direction: `Column`,
@@ -93207,12 +93207,12 @@ https://www.w3ctech.com/topic/2226`));
             let i = r.getAvatarUrl(lZ.Emoticon), a = i ? iG(t, i, n) : void 0, { address: o } = r;
             if (!o) return null;
             let s = !!d.find((e)=>pZ(e, o));
-            return (0, j.jsx)(X, {
-                className: hY,
+            return (0, j.jsx)(hY, {
+                className: gY,
                 variant: s ? `Critical` : `SurfaceVariant`,
                 direction: `Column`,
                 gap: `400`,
-                children: (0, j.jsx)(vY, {
+                children: (0, j.jsx)(X, {
                     title: (0, j.jsx)(`span`, {
                         style: {
                             textDecoration: s ? `line-through` : void 0
@@ -93220,7 +93220,7 @@ https://www.w3ctech.com/topic/2226`));
                         children: r.meta.name ?? `Unknown`
                     }),
                     description: (0, j.jsx)(`span`, {
-                        className: _Y,
+                        className: vY,
                         children: r.meta.attribution
                     }),
                     before: (0, j.jsxs)(P, {
@@ -93291,12 +93291,12 @@ https://www.w3ctech.com/topic/2226`));
                             size: `L400`,
                             children: `Favorite Sets`
                         }),
-                        (0, j.jsx)(X, {
-                            className: hY,
+                        (0, j.jsx)(hY, {
+                            className: gY,
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             gap: `400`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: `Select Set`,
                                 description: `Pick emojis and stickers set from rooms to use in all rooms.`,
                                 after: (0, j.jsxs)(j.Fragment, {
@@ -93429,12 +93429,12 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Default Set`
                 }),
-                (0, j.jsx)(X, {
-                    className: hY,
+                (0, j.jsx)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         title: r?.meta.name ?? `Unknown`,
                         description: r?.meta.attribution,
                         before: (0, j.jsx)(ln, {
@@ -93720,7 +93720,7 @@ https://www.w3ctech.com/topic/2226`));
     var kZ = `_14rd4hb0 _1mqalmd1 _1mqalmd0`, Xje = `_14rd4hb1 _1mqalmd1 _1mqalmd0`, Zje = `_14rd4hb2 _1mqalmd1 _1mqalmd0`;
     function Qje({ defaultShortcode: e, image: t, packUsage: n, useAuthentication: r, canEdit: i, onEdit: a, onDeleteToggle: o, deleted: s }) {
         let c = J(), l = OZ();
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             before: (0, j.jsx)(`img`, {
                 className: kZ,
                 src: iG(c, t.url, r) ?? ``,
@@ -93785,7 +93785,7 @@ https://www.w3ctech.com/topic/2226`));
         let n = tX(e), r = (0, A.useMemo)(()=>iX(e), [
             e
         ]);
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             before: (0, j.jsx)(`img`, {
                 className: kZ,
                 src: n,
@@ -93796,7 +93796,7 @@ https://www.w3ctech.com/topic/2226`));
     }
     function eMe({ defaultShortcode: e, useAuthentication: t, packUsage: n, image: r, onCancel: i, onSave: a }) {
         let o = J(), s = r.usage ?? n, [c, l] = (0, A.useState)(s);
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             before: (0, j.jsx)(`img`, {
                 className: kZ,
                 src: iG(o, r.url, t) ?? ``,
@@ -114287,7 +114287,7 @@ https://www.w3ctech.com/topic/2226`));
             return;
         }
     };
-    XNe = (0, A.lazy)(()=>l(()=>import(`./ReactPrism-CeWysNrD.js`).then(async (m)=>{
+    XNe = (0, A.lazy)(()=>l(()=>import(`./ReactPrism-D-yFcH4F.js`).then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([8,1,9])));
@@ -114697,7 +114697,7 @@ https://www.w3ctech.com/topic/2226`));
                             gap: `100`,
                             children: [
                                 (0, j.jsx)(z, {
-                                    className: gY,
+                                    className: _Y,
                                     size: `H5`,
                                     children: e.name ?? `Unknown`
                                 }),
@@ -115381,7 +115381,7 @@ https://www.w3ctech.com/topic/2226`));
         }, [
             Ce
         ]);
-        let Te = l && !Tje(e.meta, l) || h.length > 0 || y.size > 0 || x.size > 0, Ee = !s && _.size === 0 && p.length === 0, De = Ce.status === V.Loading, Oe = (e)=>(0, j.jsx)(X, {
+        let Te = l && !Tje(e.meta, l) || h.length > 0 || y.size > 0 || x.size > 0, Ee = !s && _.size === 0 && p.length === 0, De = Ce.status === V.Loading, Oe = (e)=>(0, j.jsx)(hY, {
                 style: {
                     padding: N.space.S300
                 },
@@ -115480,7 +115480,7 @@ https://www.w3ctech.com/topic/2226`));
                             size: `L400`,
                             children: `Set`
                         }),
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S300
                             },
@@ -115497,14 +115497,14 @@ https://www.w3ctech.com/topic/2226`));
                                 onEdit: ()=>c(!0)
                             })
                         }),
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S300
                             },
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             gap: `400`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: `Images Usage`,
                                 description: `Select how the images are being used: as emojis, as stickers, or as both.`,
                                 after: (0, j.jsx)(Yje, {
@@ -115549,7 +115549,7 @@ https://www.w3ctech.com/topic/2226`));
                                 })
                             ]
                         }),
-                        t && (0, j.jsxs)(X, {
+                        t && (0, j.jsxs)(hY, {
                             style: {
                                 padding: N.space.S300
                             },
@@ -115557,7 +115557,7 @@ https://www.w3ctech.com/topic/2226`));
                             direction: `Column`,
                             gap: `400`,
                             children: [
-                                (0, j.jsx)(vY, {
+                                (0, j.jsx)(X, {
                                     title: `Upload Images`,
                                     description: `Select images from your storage to upload them in set.`,
                                     after: (0, j.jsx)(F, {
@@ -115574,7 +115574,7 @@ https://www.w3ctech.com/topic/2226`));
                                         })
                                     })
                                 }),
-                                (0, j.jsx)(vY, {
+                                (0, j.jsx)(X, {
                                     title: `Import from Telegram`,
                                     description: T ? `Paste a t.me/addstickers link to add its static stickers to this pack.` : `Add a Telegram bot token in Settings → Emojis & Stickers to import sticker packs. Telegram publishes sticker sets nowhere else.`,
                                     after: (0, j.jsx)(F, {
@@ -115652,7 +115652,7 @@ https://www.w3ctech.com/topic/2226`));
                                 })
                             ]
                         }),
-                        p.map((e)=>(0, j.jsx)(X, {
+                        p.map((e)=>(0, j.jsx)(hY, {
                                 style: {
                                     padding: N.space.S300
                                 },
@@ -115805,12 +115805,12 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Telegram`
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Sticker pack import`,
                             description: `Paste a bot token to import packs from t.me/addstickers links, using the Import button inside any pack you can edit. Create a bot with @BotFather on Telegram — Telegram publishes sticker sets nowhere else, so there is no way to import without one. Stored on this device only, never sent to your homeserver, and used solely for requests to api.telegram.org.`
                         }),
@@ -116019,7 +116019,7 @@ https://www.w3ctech.com/topic/2226`));
             let { value: n } = this.target;
             return this.target.value = `${n.substring(0, e.start)}${t}${n.substring(e.end)}`, new v1(e.start, e.start + t.length, e.direction);
         }
-    }, oFe = `_1v145rl0 _1mqalmd1 _1mqalmd0`, sFe = `_1v145rl1 _1mqalmd1 _1mqalmd0`, cFe = `_1v145rl2 _1mqalmd1 _1mqalmd0`, lFe = `_1v145rl3 _1mqalmd1 _1mqalmd0`, uFe = `_1v145rl4`, dFe = (0, A.lazy)(()=>l(()=>import(`./ReactPrism-CeWysNrD.js`).then(async (m)=>{
+    }, oFe = `_1v145rl0 _1mqalmd1 _1mqalmd0`, sFe = `_1v145rl1 _1mqalmd1 _1mqalmd0`, cFe = `_1v145rl2 _1mqalmd1 _1mqalmd0`, lFe = `_1v145rl3 _1mqalmd1 _1mqalmd0`, uFe = `_1v145rl4`, dFe = (0, A.lazy)(()=>l(()=>import(`./ReactPrism-D-yFcH4F.js`).then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([8,1,9]))), y1 = (0, A.forwardRef)(({ text: e, langName: t, size: n, className: r, ...i }, a)=>(0, j.jsx)(z, {
@@ -116383,7 +116383,7 @@ https://www.w3ctech.com/topic/2226`));
                             size: `L400`,
                             children: `JSON Content`
                         }),
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             variant: `SurfaceVariant`,
                             children: (0, j.jsx)(Qn, {
                                 visibility: `Always`,
@@ -116502,13 +116502,13 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Account Data`
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Global`,
                             description: `Data stored in your global account data.`,
                             after: (0, j.jsx)(F, {
@@ -116882,13 +116882,13 @@ https://www.w3ctech.com/topic/2226`));
                     size: `L400`,
                     children: `Media Capabilities`
                 }),
-                (0, j.jsxs)(X, {
-                    className: hY,
+                (0, j.jsxs)(hY, {
+                    className: gY,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Probe capture support`,
                             description: `Asks for the microphone, then reports what this WebView actually granted. Release is immediate — nothing is recorded or sent.`,
                             after: (0, j.jsx)(F, {
@@ -116909,7 +116909,7 @@ https://www.w3ctech.com/topic/2226`));
                                 })
                             })
                         }),
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Probe screen capture`,
                             description: `Prompts for a screen or window. Meaningless on Android; run it on desktop builds.`,
                             after: (0, j.jsx)(F, {
@@ -116926,7 +116926,7 @@ https://www.w3ctech.com/topic/2226`));
                                 })
                             })
                         }),
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Probe file download`,
                             description: `Saves a one-line text file through the same path chat export will use.`,
                             after: (0, j.jsx)(F, {
@@ -116944,7 +116944,7 @@ https://www.w3ctech.com/topic/2226`));
                         })
                     ]
                 }),
-                e.length > 0 && (0, j.jsxs)(X, {
+                e.length > 0 && (0, j.jsxs)(hY, {
                     className: `vkenjr0`,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
@@ -117038,12 +117038,12 @@ https://www.w3ctech.com/topic/2226`));
                                                     size: `L400`,
                                                     children: `Options`
                                                 }),
-                                                (0, j.jsx)(X, {
-                                                    className: hY,
+                                                (0, j.jsx)(hY, {
+                                                    className: gY,
                                                     variant: `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `400`,
-                                                    children: (0, j.jsx)(vY, {
+                                                    children: (0, j.jsx)(X, {
                                                         title: `Enable Developer Tools`,
                                                         after: (0, j.jsx)(ar, {
                                                             variant: `Primary`,
@@ -117052,12 +117052,12 @@ https://www.w3ctech.com/topic/2226`));
                                                         })
                                                     })
                                                 }),
-                                                n && (0, j.jsx)(X, {
+                                                n && (0, j.jsx)(hY, {
                                                     className: `vkenjr0`,
                                                     variant: `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `400`,
-                                                    children: (0, j.jsx)(vY, {
+                                                    children: (0, j.jsx)(X, {
                                                         title: `Access Token`,
                                                         description: `Copy access token to clipboard.`,
                                                         after: (0, j.jsx)(F, {
@@ -117296,12 +117296,12 @@ https://www.w3ctech.com/topic/2226`));
                                                     size: `L400`,
                                                     children: `Options`
                                                 }),
-                                                (0, j.jsx)(X, {
-                                                    className: hY,
+                                                (0, j.jsx)(hY, {
+                                                    className: gY,
                                                     variant: `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `400`,
-                                                    children: (0, j.jsx)(vY, {
+                                                    children: (0, j.jsx)(X, {
                                                         title: `Clear Cache & Reload`,
                                                         description: `Clear all your locally stored data and reload from server.`,
                                                         after: (0, j.jsx)(F, {
@@ -117328,8 +117328,8 @@ https://www.w3ctech.com/topic/2226`));
                                                     size: `L400`,
                                                     children: `Credits`
                                                 }),
-                                                (0, j.jsx)(X, {
-                                                    className: hY,
+                                                (0, j.jsx)(hY, {
+                                                    className: gY,
                                                     variant: `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `400`,
@@ -117884,7 +117884,7 @@ https://www.w3ctech.com/topic/2226`));
     }
     function zFe({ def: e }) {
         let [t, n] = Y(q, e.settingKey);
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             title: e.description,
             after: (0, j.jsx)(ar, {
                 variant: `Primary`,
@@ -118058,8 +118058,8 @@ https://www.w3ctech.com/topic/2226`));
                                                     size: `L400`,
                                                     children: e
                                                 }),
-                                                (0, j.jsx)(X, {
-                                                    className: hY,
+                                                (0, j.jsx)(hY, {
+                                                    className: gY,
                                                     variant: `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `400`,
@@ -118068,7 +118068,7 @@ https://www.w3ctech.com/topic/2226`));
                                                             def: e
                                                         }, e.id);
                                                         let n = t[e.id] ?? e.defaultKeys, a = t[e.id] !== void 0;
-                                                        return (0, j.jsx)(vY, {
+                                                        return (0, j.jsx)(X, {
                                                             title: e.description,
                                                             after: (0, j.jsxs)(P, {
                                                                 gap: `100`,
@@ -125287,7 +125287,7 @@ https://www.w3ctech.com/topic/2226`));
                         await m.__tla;
                         return m;
                     }), []),
-                l(()=>import(`./tauri-hls-loader-jT4Fzr_H.js`).then(async (m)=>{
+                l(()=>import(`./tauri-hls-loader-AhBYOfzd.js`).then(async (m)=>{
                         await m.__tla;
                         return m;
                     }), [])
@@ -126700,7 +126700,7 @@ https://www.w3ctech.com/topic/2226`));
             })
         });
     }), DVe = `ty6xms0 _1mqalmd1 _1mqalmd0`, OVe = `ty6xms1 _1mqalmd1 _1mqalmd0`, D4 = ()=>Ha(`/`), kVe = ()=>Xf((0, A.useCallback)(async ()=>{
-            let e = await l(()=>import(`./pdf-DLgu3GxZ.js`).then(async (m)=>{
+            let e = await l(()=>import(`./pdf-B6t_3D_G.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }), __vite__mapDeps([10,11]));
@@ -130631,7 +130631,7 @@ https://www.w3ctech.com/topic/2226`));
                                                     priority: `300`,
                                                     children: `No earlier versions are available. The server may have expired them.`
                                                 }),
-                                                s.map((e, t)=>(0, j.jsxs)(X, {
+                                                s.map((e, t)=>(0, j.jsxs)(hY, {
                                                         variant: `SurfaceVariant`,
                                                         direction: `Column`,
                                                         gap: `100`,
@@ -143853,7 +143853,7 @@ ${r.current.stack}
                     gap: `100`,
                     children: n.map((t)=>{
                         let { event: n } = t, r = GVe(t.context, n.sender), i = KVe(e, n.sender, r), a = qVe(e, n.sender, r), d = n.content[`m.relates_to`], f = d?.rel_type === KI.Replace ? d.event_id : n.event_id, p = (()=>n.content[`m.new_content`] ?? n.content), m = d?.[`m.in_reply_to`]?.event_id, h = d?.rel_type === KI.Thread ? d.event_id : void 0, v = g(n.sender), y = v?.color ? _?.get(v.color) : void 0, b = v?.icon ? Q3(l, u, v.icon) : void 0, x = o ? ZJ(n.sender) : y;
-                        return (0, j.jsx)(X, {
+                        return (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S400
                             },
@@ -144756,7 +144756,7 @@ ${r.current.stack}
                     gap: `100`,
                     children: [
                         ...Array(8).keys()
-                    ].map((e)=>(0, j.jsx)(X, {
+                    ].map((e)=>(0, j.jsx)(hY, {
                             variant: `SurfaceVariant`,
                             style: {
                                 minHeight: Dt(80)
@@ -145575,7 +145575,7 @@ ${r.current.stack}
             direction: `Column`,
             gap: `100`,
             children: [
-                n && (0, j.jsx)(X, {
+                n && (0, j.jsx)(hY, {
                     style: {
                         padding: N.space.S300
                     },
@@ -145587,7 +145587,7 @@ ${r.current.stack}
                     "aria-pressed": e === l7.Restricted,
                     onClick: ()=>t(l7.Restricted),
                     disabled: r,
-                    children: (0, j.jsxs)(vY, {
+                    children: (0, j.jsxs)(X, {
                         before: (0, j.jsx)(I, {
                             size: `400`,
                             src: i(l7.Restricted)
@@ -145608,7 +145608,7 @@ ${r.current.stack}
                         ]
                     })
                 }),
-                (0, j.jsx)(X, {
+                (0, j.jsx)(hY, {
                     style: {
                         padding: N.space.S300
                     },
@@ -145620,7 +145620,7 @@ ${r.current.stack}
                     "aria-pressed": e === l7.Private,
                     onClick: ()=>t(l7.Private),
                     disabled: r,
-                    children: (0, j.jsxs)(vY, {
+                    children: (0, j.jsxs)(X, {
                         before: (0, j.jsx)(I, {
                             size: `400`,
                             src: i(l7.Private)
@@ -145641,7 +145641,7 @@ ${r.current.stack}
                         ]
                     })
                 }),
-                (0, j.jsx)(X, {
+                (0, j.jsx)(hY, {
                     style: {
                         padding: N.space.S300
                     },
@@ -145653,7 +145653,7 @@ ${r.current.stack}
                     "aria-pressed": e === l7.Public,
                     onClick: ()=>t(l7.Public),
                     disabled: r,
-                    children: (0, j.jsxs)(vY, {
+                    children: (0, j.jsxs)(X, {
                         before: (0, j.jsx)(I, {
                             size: `400`,
                             src: i(l7.Public)
@@ -145785,14 +145785,14 @@ ${r.current.stack}
         }, s = (e)=>{
             a(void 0), n(e);
         };
-        return (0, j.jsx)(X, {
+        return (0, j.jsx)(hY, {
             style: {
                 padding: N.space.S300
             },
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `500`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 title: `Version`,
                 after: (0, j.jsx)(qn, {
                     anchor: i,
@@ -145974,7 +145974,7 @@ ${r.current.stack}
         }, y = (e)=>{
             e && WW(e) && (t(e), _());
         };
-        return (0, j.jsx)(vY, {
+        return (0, j.jsx)(X, {
             title: `Founders`,
             description: `Special privileged users can be assigned during creation. These users have elevated control and can only be modified during a upgrade.`,
             children: (0, j.jsx)(P, {
@@ -146248,14 +146248,14 @@ ${r.current.stack}
                             size: `L400`,
                             children: `Options`
                         }),
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S300
                             },
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             gap: `500`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: `End-to-End Encryption`,
                                 description: `Once this feature is enabled, it can't be disabled after the room is created.`,
                                 after: (0, j.jsx)(ar, {
@@ -149835,7 +149835,7 @@ ${r.current.stack}
                     gap: `100`,
                     children: t.map((t)=>{
                         let { event: n } = t, r = jW(e, n.sender) ?? UW(n.sender) ?? n.sender, i = NW(e, n.sender), a = (()=>n.content), d = n.content[`m.relates_to`], f = d?.[`m.in_reply_to`]?.event_id, p = d?.rel_type === KI.Thread ? d.event_id : void 0, m = g(n.sender), h = m?.color ? _?.get(m.color) : void 0, v = m?.icon ? Q3(l, u, m.icon) : void 0, y = o ? ZJ(n.sender) : h;
-                        return (0, j.jsx)(X, {
+                        return (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S400
                             },
@@ -150147,7 +150147,7 @@ ${r.current.stack}
                                             gap: `100`,
                                             children: [
                                                 ...Array(8).keys()
-                                            ].map((e)=>(0, j.jsx)(X, {
+                                            ].map((e)=>(0, j.jsx)(hY, {
                                                     variant: `SurfaceVariant`,
                                                     style: {
                                                         minHeight: Dt(80)
@@ -150221,7 +150221,7 @@ ${r.current.stack}
             o,
             e
         ])), g = f.status === V.Loading || f.status === V.Success, _ = m.status === V.Loading || m.status === V.Success;
-        return (0, j.jsxs)(X, {
+        return (0, j.jsxs)(hY, {
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `300`,
@@ -150683,7 +150683,7 @@ ${r.current.stack}
                     direction: `Column`,
                     gap: `100`,
                     children: [
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             gap: `300`,
@@ -155807,7 +155807,7 @@ ${r.current.stack}
             let e = null, t = !1;
             return (async ()=>{
                 let { getCurrentWindow: n } = await l(async ()=>{
-                    let { getCurrentWindow: e } = await Promise.resolve().then(()=>Klt);
+                    let { getCurrentWindow: e } = await Promise.resolve().then(()=>qlt);
                     return {
                         getCurrentWindow: e
                     };
@@ -157119,7 +157119,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                                 })
                                                             ]
                                                         }),
-                                                        (0, j.jsx)(vY, {
+                                                        (0, j.jsx)(X, {
                                                             title: `Show results as people vote`,
                                                             description: `Turn this off to keep the tally hidden until you end the poll.`,
                                                             after: (0, j.jsx)(ar, {
@@ -159468,7 +159468,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }), ktt = 512, Att = (e, t)=>{
-        let n = J(), r = $Y(), i = e.thumbnail?.thumbnail_file?.url ?? e.thumbnail?.thumbnail_url, a = e.thumbnail?.thumbnail_file, o = u1(e.thumbnail?.thumbnail_info?.mimetype), s = e.source === `embed` ? e.type === `image` ? e.posterUrl ?? e.httpUrl : e.posterUrl : void 0, c = e.source === `embed`, l = typeof i == `string`, u = c ? !s : !l && e.type === `video` && !!e.encInfo, [d, f] = Xf((0, A.useCallback)(async ()=>{
+        let n = J(), r = $Y(), i = e.thumbnail?.thumbnail_file?.url ?? e.thumbnail?.thumbnail_url, a = e.thumbnail?.thumbnail_file, o = u1(e.thumbnail?.thumbnail_info?.mimetype), s = e.source === `embed` ? e.type === `image` ? e.posterUrl ?? e.httpUrl : e.posterUrl : void 0, c = e.source === `embed`, l = typeof i == `string`, u = c ? !s : !l && e.type === `video`, [d, f] = Xf((0, A.useCallback)(async ()=>{
             if (c) {
                 if (!s) throw Error(`No still for this embed`);
                 return s;
@@ -159585,56 +159585,70 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             toggle: s,
             react: o
         };
-    }, Ntt = `_19f8w3w0 _1mqalmd1 _1mqalmd0`, Ptt = `_19f8w3w1 _1mqalmd1 _1mqalmd0`, Ftt = `_19f8w3w4 _1mqalmd1 _1mqalmd0`, Itt = `_19f8w3w5 _1mqalmd1 _1mqalmd0`, Ltt = `_19f8w3w6 _1mqalmd1 _1mqalmd0`, Rtt = `_19f8w3w7 _1mqalmd1 _1mqalmd0`, ztt = `_19f8w3wa _1mqalmd1 _1mqalmd0`, Y7 = `_19f8w3wb _1mqalmd1 _1mqalmd0`, Btt = `_19f8w3wc _1mqalmd1 _1mqalmd0`, Vtt = `_19f8w3wi _1mqalmd1 _1mqalmd0`, Htt = 1, Utt = 3, Wtt = 1, Gtt = 20, Ktt = .25, qtt = 2.5, Jtt = 1, X7 = 8;
-    function Ytt({ room: e, item: t, active: n, muted: r, hour24Clock: i, imagePackRooms: a, onJump: o, onReply: s, requestClose: c, onPopOutChange: l }) {
-        let u = J(), d = $Y(), f = om() === am.Mobile, p = t.source === `embed`, m = V2(t.mxcUrl ?? ``, t.mimeType, t.encInfo, t.filename, !p), h = p && !!t.hls, g = m4(p && !h ? t.httpUrl ?? `` : ``, p && !h && t.type === `video`), { state: _, needsBlob: v, onSrcError: y } = m, b;
-        b = h ? t.httpUrl : p ? g ?? void 0 : m.src;
-        let x = Att(t, !0), S = Mtt(e, t.eventId), C = G2(t.filename, t.mxcUrl ?? ``, t.mimeType, t.encInfo, p ? t.httpUrl : void 0), w = (0, A.useRef)(null), T = YBe(w, h ? t.httpUrl : void 0, h), [E, D] = (0, A.useState)(!1), [O, k] = (0, A.useState)(0), [ee, te] = (0, A.useState)(!t.spoiler), [ne, re] = (0, A.useState)(!1), [ie, ae] = (0, A.useState)(), { zoom: oe, setZoom: se } = DX(Ktt, Jtt, X7), ce = oe !== 1, [le, ue] = (0, A.useState)({
+    }, Ntt = `_19f8w3w0 _1mqalmd1 _1mqalmd0`, Ptt = `_19f8w3w1 _1mqalmd1 _1mqalmd0`, Ftt = `_19f8w3w4 _1mqalmd1 _1mqalmd0`, Itt = `_19f8w3w5 _1mqalmd1 _1mqalmd0`, Ltt = `_19f8w3w6 _1mqalmd1 _1mqalmd0`, Rtt = `_19f8w3w7 _1mqalmd1 _1mqalmd0`, ztt = `_19f8w3wa _1mqalmd1 _1mqalmd0`, Y7 = `_19f8w3wb _1mqalmd1 _1mqalmd0`, Btt = `_19f8w3wc _1mqalmd1 _1mqalmd0`, Vtt = `_19f8w3wi _1mqalmd1 _1mqalmd0`, Htt = 1, Utt = 3, Wtt = 1, Gtt = 20, Ktt = 2e4, qtt = .25, Jtt = 2.5, Ytt = 1, X7 = 8;
+    function Xtt({ room: e, item: t, active: n, muted: r, hour24Clock: i, imagePackRooms: a, onJump: o, onReply: s, requestClose: c, onPopOutChange: l }) {
+        let u = J(), d = $Y(), f = om() === am.Mobile, p = t.source === `embed`, m = V2(t.mxcUrl ?? ``, t.mimeType, t.encInfo, t.filename, !p), h = p && !!t.hls, g = m4(p && !h ? t.httpUrl ?? `` : ``, p && !h && t.type === `video`), { state: _, onSrcError: v } = m, y;
+        y = h ? t.httpUrl : p ? g ?? void 0 : m.src;
+        let b = Att(t, t.type === `video` || !t.encInfo), x = Mtt(e, t.eventId), S = G2(t.filename, t.mxcUrl ?? ``, t.mimeType, t.encInfo, p ? t.httpUrl : void 0), C = (0, A.useRef)(null), w = YBe(C, h ? t.httpUrl : void 0, h), [T, E] = (0, A.useState)(!1), [D, O] = (0, A.useState)(!0), [k, ee] = (0, A.useState)(!1), [te, ne] = (0, A.useState)(!1), [re, ie] = (0, A.useState)(0), [ae, oe] = (0, A.useState)(!t.spoiler), [se, ce] = (0, A.useState)(!1), [le, ue] = (0, A.useState)(), { zoom: de, setZoom: fe } = DX(qtt, Ytt, X7), pe = de !== 1, [me, he] = (0, A.useState)({
             translateX: 0,
             translateY: 0
-        }), de = (0, A.useRef)(null), fe = (0, A.useRef)(oe);
-        fe.current = oe;
-        let pe = (0, A.useRef)(null), [me, he] = (0, A.useState)(!1), [ge, _e] = (0, A.useState)(!1), [ve, ye] = (0, A.useState)(1), be = t.type === `video`, xe;
-        xe = p ? be ? !b : !b || !ge : be ? v && _.status !== V.Success : !b || !ge;
-        let Se = p ? !!T : _.status === V.Error, Ce = T ?? `Failed to load this attachment.`, we = jW(e, t.sender) ?? UW(t.sender) ?? t.sender, Te = NW(e, t.sender), Ee = Te ? iG(u, Te, d, 96, 96, `crop`) ?? void 0 : void 0;
+        }), ge = (0, A.useRef)(null), _e = (0, A.useRef)(de);
+        _e.current = de;
+        let ve = (0, A.useRef)(null), [ye, be] = (0, A.useState)(!1), [xe, Se] = (0, A.useState)(1), Ce = t.type === `video`, we;
+        we = Ce ? !y || !k : !y || !ye;
+        let Te = !!w || te || !p && !h && _.status === V.Error, Ee = `Failed to load this attachment.`;
+        w ? Ee = w : p && (Ee = `Could not load this ${Ce ? `video` : `image`} from ${t.embed?.provider === `twitter` ? `Twitter` : `Bluesky`}.`);
+        let De = jW(e, t.sender) ?? UW(t.sender) ?? t.sender, Oe = NW(e, t.sender), ke = Oe ? iG(u, Oe, d, 96, 96, `crop`) ?? void 0 : void 0, Ae = (0, A.useCallback)((e)=>{
+            e.muted = r, e.defaultMuted = r, r ? e.setAttribute(`muted`, ``) : e.removeAttribute(`muted`), e.volume = +!r;
+            let t = e.play();
+            t && typeof t.catch == `function` && t.catch(()=>void 0);
+        }, [
+            r
+        ]);
         (0, A.useEffect)(()=>{
-            let e = w.current;
-            if (!(!e || !b)) {
-                if (n && !E && ee) {
-                    e.play().catch(()=>he(!0));
-                    return;
-                }
-                e.pause(), n || (e.currentTime = 0, k(0), D(!1));
+            let e = C.current;
+            if (!e || !Ce || !y) return;
+            if (!n || T || !ae) {
+                e.pause(), n || (e.currentTime = 0, ie(0), E(!1));
+                return;
             }
+            let t = ()=>Ae(e);
+            if (e.readyState >= 2) {
+                Ae(e);
+                return;
+            }
+            return e.addEventListener(`loadeddata`, t), ()=>e.removeEventListener(`loadeddata`, t);
         }, [
             n,
-            E,
-            ee,
-            b
+            T,
+            ae,
+            y,
+            Ce,
+            Ae
         ]), (0, A.useEffect)(()=>{
-            n || se(1);
+            n || fe(1);
         }, [
             n,
-            se
+            fe
         ]), (0, A.useEffect)(()=>{
-            ye(1), _e(!1);
+            Se(1), be(!1), ee(!1), ne(!1);
         }, [
-            b
+            y
         ]), (0, A.useEffect)(()=>{
-            ce || ue({
+            pe || he({
                 translateX: 0,
                 translateY: 0
             });
         }, [
-            ce
+            pe
         ]);
-        let De = (e)=>{
-            if (fe.current === 1 || !Ne(e.clientX, e.clientY)) return;
+        let je = (e)=>{
+            if (_e.current === 1 || !Ue(e.clientX, e.clientY)) return;
             e.preventDefault();
             let t = (e)=>{
-                e.preventDefault(), ue((t)=>({
-                        translateX: t.translateX + e.movementX / fe.current,
-                        translateY: t.translateY + e.movementY / fe.current
+                e.preventDefault(), he((t)=>({
+                        translateX: t.translateX + e.movementX / _e.current,
+                        translateY: t.translateY + e.movementY / _e.current
                     }));
             }, n = ()=>{
                 document.removeEventListener(`mousemove`, t), document.removeEventListener(`mouseup`, n);
@@ -159642,99 +159656,153 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             document.addEventListener(`mousemove`, t), document.addEventListener(`mouseup`, n);
         };
         (0, A.useEffect)(()=>{
-            l(t.key, !!ie);
+            l(t.key, !!le);
         }, [
             t.key,
-            ie,
+            le,
             l
         ]), (0, A.useEffect)(()=>()=>l(t.key, !1), [
             t.key,
             l
         ]);
-        let Oe = ()=>{
-            let e = w.current;
-            !e || !e.duration || Number.isNaN(e.duration) || k(e.currentTime / e.duration);
-        }, ke = (0, A.useCallback)((e)=>{
-            let t = w.current;
-            if (!t || !t.duration || Number.isNaN(t.duration)) return;
-            let n = Math.max(0, Math.min(1, e));
-            t.currentTime = n * t.duration, k(n);
-        }, []), Ae = (e)=>{
-            let t = e.currentTarget.getBoundingClientRect();
-            t.width !== 0 && ke((e.clientX - t.left) / t.width);
-        }, je = (e)=>{
-            e.currentTarget.setPointerCapture(e.pointerId), Ae(e);
-        }, Me = (e)=>{
-            e.currentTarget.hasPointerCapture(e.pointerId) && Ae(e);
-        }, Ne = (e, t)=>{
-            let n = de.current?.getBoundingClientRect();
-            return !n || n.width === 0 || n.height === 0 ? !1 : e >= n.left && e <= n.right && t >= n.top && t <= n.bottom;
-        }, Pe = ve > 0 ? 1 / ve : 1, Fe = Math.abs(oe - Pe) < .01, Ie = (0, A.useCallback)(()=>{
-            se((e)=>{
-                if (e !== 1) return 1;
-                let t = ve > 0 ? 1 / ve : 1;
-                return t > 1.05 ? Math.min(X7, t) : qtt;
-            });
+        let Me = ()=>{
+            let e = C.current;
+            !e || !e.duration || Number.isNaN(e.duration) || ie(e.currentTime / e.duration);
+        }, Ne = (0, A.useCallback)(()=>{
+            let e = C.current;
+            if (e) {
+                if (e.paused) {
+                    E(!1), Ae(e);
+                    return;
+                }
+                E(!0), e.pause();
+            }
         }, [
-            se,
-            ve
-        ]), Le = (e)=>{
-            _e(!0);
-            let t = e.currentTarget;
-            t.naturalWidth > 0 && t.clientWidth > 0 && ye(t.clientWidth / t.naturalWidth);
-        }, Re = (e)=>{
-            if (!ee) {
-                te(!0);
+            Ae
+        ]), Pe = ()=>O(!1), Fe = ()=>O(!0), Ie = ()=>{
+            ee(!0), ne(!1);
+        }, Le = (0, A.useRef)(!1), Re = (0, A.useCallback)(()=>{
+            if (!p && !Le.current) {
+                Le.current = !0, v();
                 return;
             }
-            if (!Ne(e.clientX, e.clientY)) {
-                if (ce) return;
+            ne(!0);
+        }, [
+            p,
+            v
+        ]);
+        (0, A.useEffect)(()=>{
+            if (!Ce || !y || k || te || w) return;
+            let e = window.setTimeout(()=>{
+                let e = C.current;
+                !e || e.readyState >= 2 || (console.warn(`[gallery] video produced no frame`, {
+                    eventId: t.eventId,
+                    key: t.key,
+                    source: t.source,
+                    hls: !!t.hls,
+                    mimeType: t.mimeType,
+                    readyState: e.readyState,
+                    networkState: e.networkState,
+                    errorCode: e.error?.code,
+                    src: t.source === `embed` ? t.httpUrl : t.mxcUrl
+                }), ne(!0));
+            }, Ktt);
+            return ()=>window.clearTimeout(e);
+        }, [
+            Ce,
+            y,
+            k,
+            te,
+            w,
+            t.eventId,
+            t.key,
+            t.source,
+            t.hls,
+            t.mimeType,
+            t.httpUrl,
+            t.mxcUrl
+        ]);
+        let ze = (0, A.useCallback)((e)=>{
+            let t = C.current;
+            if (!t || !t.duration || Number.isNaN(t.duration)) return;
+            let n = Math.max(0, Math.min(1, e));
+            t.currentTime = n * t.duration, ie(n);
+        }, []), Be = (e)=>{
+            let t = e.currentTarget.getBoundingClientRect();
+            t.width !== 0 && ze((e.clientX - t.left) / t.width);
+        }, Ve = (e)=>{
+            e.currentTarget.setPointerCapture(e.pointerId), Be(e);
+        }, He = (e)=>{
+            e.currentTarget.hasPointerCapture(e.pointerId) && Be(e);
+        }, Ue = (e, t)=>{
+            let n = ge.current?.getBoundingClientRect();
+            return !n || n.width === 0 || n.height === 0 ? !1 : e >= n.left && e <= n.right && t >= n.top && t <= n.bottom;
+        }, We = xe > 0 ? 1 / xe : 1, Ge = Math.abs(de - We) < .01, Ke = (0, A.useCallback)(()=>{
+            fe((e)=>{
+                if (e !== 1) return 1;
+                let t = xe > 0 ? 1 / xe : 1;
+                return t > 1.05 ? Math.min(X7, t) : Jtt;
+            });
+        }, [
+            fe,
+            xe
+        ]), qe = (e)=>{
+            be(!0);
+            let t = e.currentTarget;
+            t.naturalWidth > 0 && t.clientWidth > 0 && Se(t.clientWidth / t.naturalWidth);
+        }, Je = (e)=>{
+            if (!ae) {
+                oe(!0);
+                return;
+            }
+            if (!Ue(e.clientX, e.clientY)) {
+                if (pe) return;
                 c();
                 return;
             }
-            if (be) {
-                D((e)=>!e), he(!1);
+            if (Ce) {
+                Ne();
                 return;
             }
-            re((e)=>!e);
-        }, ze = (e)=>{
-            be || !ee || Ne(e.clientX, e.clientY) && (e.preventDefault(), Ie());
-        }, Be = (e)=>{
-            if (be || !ee || !e.ctrlKey && !e.metaKey) return;
+            ce((e)=>!e);
+        }, Ye = (e)=>{
+            Ce || !ae || Ue(e.clientX, e.clientY) && (e.preventDefault(), Ke());
+        }, Xe = (e)=>{
+            if (Ce || !ae || !e.ctrlKey && !e.metaKey) return;
             e.preventDefault();
             let t = Math.exp(-e.deltaY / 300);
-            se((e)=>Math.min(X7, Math.max(Jtt, e * t)));
-        }, Ve = (e)=>{
-            if (!(be || !ee) && !(e.touches.length === 1 && !Ne(e.touches[0].clientX, e.touches[0].clientY))) {
+            fe((e)=>Math.min(X7, Math.max(Ytt, e * t)));
+        }, Ze = (e)=>{
+            if (!(Ce || !ae) && !(e.touches.length === 1 && !Ue(e.touches[0].clientX, e.touches[0].clientY))) {
                 if (e.touches.length === 2) {
                     let [t, n] = [
                         e.touches[0],
                         e.touches[1]
                     ];
-                    pe.current = {
+                    ve.current = {
                         baseDist: Math.hypot(n.clientX - t.clientX, n.clientY - t.clientY),
-                        baseZoom: oe,
+                        baseZoom: de,
                         lastX: (t.clientX + n.clientX) / 2,
                         lastY: (t.clientY + n.clientY) / 2,
                         fingers: 2
                     };
                     return;
                 }
-                if (e.touches.length === 1 && ce) {
+                if (e.touches.length === 1 && pe) {
                     let [t] = [
                         e.touches[0]
                     ];
-                    pe.current = {
+                    ve.current = {
                         baseDist: 0,
-                        baseZoom: oe,
+                        baseZoom: de,
                         lastX: t.clientX,
                         lastY: t.clientY,
                         fingers: 1
                     };
                 }
             }
-        }, He = (e)=>{
-            let t = pe.current;
+        }, Qe = (e)=>{
+            let t = ve.current;
             if (t) {
                 if (t.fingers === 2 && e.touches.length === 2) {
                     let [n, r] = [
@@ -159744,38 +159812,38 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     if (t.baseDist === 0) return;
                     e.preventDefault();
                     let a = t.baseZoom * (i / t.baseDist);
-                    se(Math.min(X7, Math.max(Jtt, a)));
+                    fe(Math.min(X7, Math.max(Ytt, a)));
                     return;
                 }
-                if (t.fingers === 1 && e.touches.length === 1 && ce) {
+                if (t.fingers === 1 && e.touches.length === 1 && pe) {
                     let [n] = [
                         e.touches[0]
                     ], r = n.clientX - t.lastX, i = n.clientY - t.lastY;
-                    t.lastX = n.clientX, t.lastY = n.clientY, e.preventDefault(), ue((e)=>({
-                            translateX: e.translateX + r / oe,
-                            translateY: e.translateY + i / oe
+                    t.lastX = n.clientX, t.lastY = n.clientY, e.preventDefault(), he((e)=>({
+                            translateX: e.translateX + r / de,
+                            translateY: e.translateY + i / de
                         }));
                 }
             }
-        }, Ue = (e)=>{
-            e.touches.length === 0 && (pe.current = null);
-        }, We = be && (E || me), Ge = !ee, Ke = `Close, or click the image for details`;
-        Ge ? Ke = `Reveal spoiler` : be && (Ke = `Play or pause, or click beside the video to close`);
-        let qe = t.width && t.height ? `${t.width}×${t.height}` : void 0, Je = [
+        }, $e = (e)=>{
+            e.touches.length === 0 && (ve.current = null);
+        }, et = Ce && D, tt = !ae, nt = `Close, or click the image for details`;
+        tt ? nt = `Reveal spoiler` : Ce && (nt = `Play or pause, or click beside the video to close`);
+        let rt = b.src ?? b.fallbackSrc, it = rt ?? (Ce ? void 0 : y), at = t.width && t.height ? `${t.width}×${t.height}` : void 0, ot = [
             `${qX(t.ts)} ${GX(t.ts, i)}`,
-            qe,
+            at,
             typeof t.size == `number` ? Ea(t.size) : void 0
         ].filter(Boolean).join(` · `);
         return (0, j.jsxs)(j.Fragment, {
             children: [
-                (x.src ?? x.fallbackSrc) && !Ge && (0, j.jsx)(`img`, {
+                it && !tt && (0, j.jsx)(`img`, {
                     className: `_19f8w3w3 _1mqalmd1 _1mqalmd0`,
-                    src: x.src ?? x.fallbackSrc,
+                    src: it,
                     alt: ``,
                     "aria-hidden": !0,
                     referrerPolicy: p ? `no-referrer` : void 0
                 }),
-                typeof t.blurHash == `string` && xe && (0, j.jsx)(L2, {
+                typeof t.blurHash == `string` && we && (0, j.jsx)(L2, {
                     style: {
                         position: `absolute`,
                         inset: 0,
@@ -159787,51 +159855,55 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     hash: t.blurHash,
                     punch: 1
                 }),
-                b && be && (0, j.jsx)(`video`, {
+                y && Ce && (0, j.jsx)(`video`, {
                     className: `_19f8w3w2 _1mqalmd1 _1mqalmd0`,
                     ref: (e)=>{
-                        w.current = e, de.current = e;
+                        C.current = e, ge.current = e;
                     },
-                    src: h ? void 0 : b,
-                    poster: x.src ?? x.fallbackSrc,
+                    src: h ? void 0 : y,
+                    poster: rt,
                     title: t.filename,
-                    style: Ge ? {
+                    style: tt ? {
                         filter: `blur(44px)`
                     } : void 0,
                     loop: !0,
                     muted: r,
                     playsInline: !0,
                     preload: `auto`,
-                    onTimeUpdate: Oe,
-                    onError: y
+                    onTimeUpdate: Me,
+                    onLoadedData: Ie,
+                    onPlay: Pe,
+                    onPause: Fe,
+                    onError: Re
                 }),
-                b && !be && (0, j.jsx)(`img`, {
+                y && !Ce && (0, j.jsx)(`img`, {
                     className: `_19f8w3w2 _1mqalmd1 _1mqalmd0`,
                     ref: (e)=>{
-                        de.current = e;
+                        ge.current = e;
                     },
-                    src: b,
+                    src: y,
                     alt: t.filename,
                     style: {
-                        ...Ge ? {
+                        ...tt ? {
                             filter: `blur(44px)`
                         } : void 0,
-                        transform: `scale(${oe}) translate(${le.translateX}px, ${le.translateY}px)`,
+                        transform: `scale(${de}) translate(${me.translateX}px, ${me.translateY}px)`,
                         transformOrigin: `center center`,
-                        imageRendering: oe > Pe + .01 ? `pixelated` : void 0
+                        imageRendering: de > We + .01 ? `pixelated` : void 0
                     },
                     draggable: !1,
                     referrerPolicy: p ? `no-referrer` : void 0,
-                    onLoad: Le
+                    onLoad: qe,
+                    onError: Re
                 }),
-                xe && !Se && (0, j.jsx)(P, {
+                we && !Te && (0, j.jsx)(P, {
                     className: `_19f8w3wg _1mqalmd1 _1mqalmd0`,
                     children: (0, j.jsx)(R, {
                         variant: `Secondary`,
                         size: `400`
                     })
                 }),
-                Se && (0, j.jsx)(P, {
+                Te && (0, j.jsx)(P, {
                     className: `_19f8w3wg _1mqalmd1 _1mqalmd0`,
                     children: (0, j.jsxs)(P, {
                         className: `_19f8w3wc _1mqalmd1 _1mqalmd0`,
@@ -159845,7 +159917,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             }),
                             (0, j.jsx)(z, {
                                 size: `T300`,
-                                children: Ce
+                                children: Ee
                             })
                         ]
                     })
@@ -159854,20 +159926,20 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     type: `button`,
                     className: Vtt,
                     style: {
-                        touchAction: ce ? `none` : void 0,
-                        cursor: ce ? `grab` : void 0
+                        touchAction: pe ? `none` : void 0,
+                        cursor: pe ? `grab` : void 0
                     },
-                    onClick: Re,
-                    onDoubleClick: ze,
-                    onWheel: Be,
-                    onMouseDown: De,
-                    onTouchStart: Ve,
-                    onTouchMove: He,
-                    onTouchEnd: Ue,
-                    onTouchCancel: Ue,
-                    "aria-label": Ke
+                    onClick: Je,
+                    onDoubleClick: Ye,
+                    onWheel: Xe,
+                    onMouseDown: je,
+                    onTouchStart: Ze,
+                    onTouchMove: Qe,
+                    onTouchEnd: $e,
+                    onTouchCancel: $e,
+                    "aria-label": nt
                 }),
-                Ge && (0, j.jsx)(P, {
+                tt && (0, j.jsx)(P, {
                     className: `_19f8w3wg _1mqalmd1 _1mqalmd0`,
                     children: (0, j.jsx)(Cn, {
                         style: {
@@ -159877,14 +159949,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         radii: `Pill`,
                         size: `500`,
                         outlined: !0,
-                        onClick: ()=>te(!0),
+                        onClick: ()=>oe(!0),
                         children: (0, j.jsx)(z, {
                             size: `B300`,
                             children: t.spoilerReason || `Spoiler`
                         })
                     })
                 }),
-                We && ee && !xe && (0, j.jsx)(P, {
+                n && et && ae && !we && (0, j.jsx)(P, {
                     className: `_19f8w3wg _1mqalmd1 _1mqalmd0`,
                     children: (0, j.jsx)(P, {
                         className: `_19f8w3wh _1mqalmd1 _1mqalmd0`,
@@ -159914,23 +159986,23 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                     size: `200`,
                                     children: (0, j.jsx)(QJ, {
                                         userId: t.sender,
-                                        src: Ee,
-                                        alt: we,
+                                        src: ke,
+                                        alt: De,
                                         renderFallback: ()=>(0, j.jsx)(z, {
                                                 size: `H6`,
-                                                children: Wa(we)
+                                                children: Wa(De)
                                             })
                                     })
                                 }),
                                 (0, j.jsx)(z, {
                                     size: `H5`,
                                     truncate: !0,
-                                    children: we
+                                    children: De
                                 })
                             ]
                         }),
                         t.caption && (0, j.jsx)(z, {
-                            className: ne ? `_19f8w3w9 _1mqalmd1 _1mqalmd0` : `_19f8w3w8 _1mqalmd1 _1mqalmd0`,
+                            className: se ? `_19f8w3w9 _1mqalmd1 _1mqalmd0` : `_19f8w3w8 _1mqalmd1 _1mqalmd0`,
                             size: `T300`,
                             children: t.caption
                         }),
@@ -159955,7 +160027,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 opacity: .7
                             },
                             truncate: !0,
-                            children: Je
+                            children: ot
                         })
                     ]
                 }),
@@ -159965,36 +160037,36 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         (0, j.jsx)(qn, {
                             position: `Left`,
                             align: `End`,
-                            anchor: ie,
+                            anchor: le,
                             content: (0, j.jsx)(O6, {
                                 imagePackRooms: a,
                                 returnFocusOnDeactivate: !1,
                                 allowTextCustomEmoji: !0,
                                 onEmojiSelect: (e)=>{
-                                    S.react(e), ae(void 0);
+                                    x.react(e), ue(void 0);
                                 },
                                 onCustomEmojiSelect: (e, t)=>{
-                                    S.react(e, t), ae(void 0);
+                                    x.react(e, t), ue(void 0);
                                 },
-                                requestClose: ()=>ae(void 0)
+                                requestClose: ()=>ue(void 0)
                             }),
                             children: (0, j.jsxs)(`button`, {
                                 type: `button`,
                                 className: Y7,
-                                onClick: (e)=>ae((t)=>t ? void 0 : e.currentTarget.getBoundingClientRect()),
-                                "aria-pressed": S.reacted,
-                                "aria-expanded": !!ie,
+                                onClick: (e)=>ue((t)=>t ? void 0 : e.currentTarget.getBoundingClientRect()),
+                                "aria-pressed": x.reacted,
+                                "aria-expanded": !!le,
                                 "aria-label": `React to this message`,
                                 children: [
                                     (0, j.jsx)(I, {
                                         size: `400`,
                                         src: B.SmilePlus,
-                                        filled: S.reacted
+                                        filled: x.reacted
                                     }),
                                     (0, j.jsx)(z, {
                                         as: `span`,
                                         size: `L400`,
-                                        children: S.count > 0 ? S.count : `React`
+                                        children: x.count > 0 ? x.count : `React`
                                     })
                                 ]
                             })
@@ -160019,17 +160091,17 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         (0, j.jsxs)(`button`, {
                             type: `button`,
                             className: Y7,
-                            onClick: C.download,
-                            disabled: C.downloading || h,
-                            "aria-label": `Download ${C.downloadName}`,
+                            onClick: S.download,
+                            disabled: S.downloading || h,
+                            "aria-label": `Download ${S.downloadName}`,
                             children: [
-                                C.downloading ? (0, j.jsx)(R, {
+                                S.downloading ? (0, j.jsx)(R, {
                                     variant: `Secondary`,
                                     size: `300`
                                 }) : (0, j.jsx)(I, {
                                     size: `400`,
                                     src: B.Download,
-                                    filled: C.hasError
+                                    filled: S.hasError
                                 }),
                                 (0, j.jsx)(z, {
                                     as: `span`,
@@ -160038,21 +160110,21 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 })
                             ]
                         }),
-                        !be && b && (0, j.jsxs)(`button`, {
+                        !Ce && y && (0, j.jsxs)(`button`, {
                             type: `button`,
                             className: `_19f8w3wb _1mqalmd1 _1mqalmd0`,
-                            onClick: Ie,
-                            "aria-pressed": ce,
-                            "aria-label": ce ? `Fit the image to the screen` : Fe ? `Zoom into this image` : `Show this image at its own size`,
+                            onClick: Ke,
+                            "aria-pressed": pe,
+                            "aria-label": pe ? `Fit the image to the screen` : Ge ? `Zoom into this image` : `Show this image at its own size`,
                             children: [
                                 (0, j.jsx)(I, {
                                     size: `400`,
-                                    src: ce ? B.Minus : B.Plus
+                                    src: pe ? B.Minus : B.Plus
                                 }),
                                 (0, j.jsx)(z, {
                                     as: `span`,
                                     size: `L400`,
-                                    children: ce ? `${Math.round(oe * ve * 100)}%` : `Zoom`
+                                    children: pe ? `${Math.round(de * xe * 100)}%` : `Zoom`
                                 })
                             ]
                         }),
@@ -160075,21 +160147,21 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         })
                     ]
                 }),
-                be && b && !f && (0, j.jsx)(P, {
+                Ce && y && !f && (0, j.jsx)(P, {
                     className: `_19f8w3wd _1mqalmd1 _1mqalmd0`,
-                    onPointerDown: je,
-                    onPointerMove: Me,
+                    onPointerDown: Ve,
+                    onPointerMove: He,
                     children: (0, j.jsx)(P, {
                         className: `_19f8w3we _1mqalmd1 _1mqalmd0`,
                         children: (0, j.jsx)(P, {
                             className: `_19f8w3wf _1mqalmd1 _1mqalmd0`,
                             style: {
-                                width: `${Math.round(O * 100)}%`
+                                width: `${Math.round(re * 100)}%`
                             }
                         })
                     })
                 }),
-                be && b && f && (0, j.jsx)(P, {
+                Ce && y && f && (0, j.jsx)(P, {
                     className: `_19f8w3wd _1mqalmd1 _1mqalmd0`,
                     style: {
                         pointerEvents: `none`
@@ -160099,7 +160171,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         children: (0, j.jsx)(P, {
                             className: `_19f8w3wf _1mqalmd1 _1mqalmd0`,
                             style: {
-                                width: `${Math.round(O * 100)}%`
+                                width: `${Math.round(re * 100)}%`
                             }
                         })
                     })
@@ -160107,7 +160179,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    function Xtt({ room: e, items: t, imagePackRooms: n, initialEventId: r, initialItemKey: i, loading: a, hasMore: o, loadMore: s, requestClose: c, onOpenGallery: l, onJump: u, onReply: d }) {
+    function Ztt({ room: e, items: t, imagePackRooms: n, initialEventId: r, initialItemKey: i, loading: a, hasMore: o, loadMore: s, requestClose: c, onOpenGallery: l, onJump: u, onReply: d }) {
         let f = (0, A.useRef)(null), [p] = Y(q, `hour24Clock`), [m, h] = (0, A.useState)(!0), [g, _] = (0, A.useState)(0), v = (0, A.useRef)(i), y = (0, A.useRef)(!1), b = (0, A.useRef)(void 0), x = (0, A.useRef)(new Set), S = (0, A.useCallback)((e, t)=>{
             t ? x.current.add(e) : x.current.delete(e);
         }, []), C = (0, A.useMemo)(()=>[
@@ -160369,7 +160441,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             C.map((t, r)=>(0, j.jsx)(P, {
                                     className: Ptt,
                                     shrink: `No`,
-                                    children: Math.abs(r - g) <= Htt && (0, j.jsx)(Ytt, {
+                                    children: Math.abs(r - g) <= Htt && (0, j.jsx)(Xtt, {
                                         room: e,
                                         item: t,
                                         active: r === g,
@@ -160399,12 +160471,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var Ztt = (e)=>{
-        let t = $tt(e);
+    var Qtt = (e)=>{
+        let t = ent(e);
         return t ? [
             t
-        ] : Qtt(e);
-    }, Qtt = (e)=>{
+        ] : $tt(e);
+    }, $tt = (e)=>{
         if (e.isRedacted() || e.getType() !== PH.RoomMessage) return [];
         let t = e.getId(), n = e.getRoomId();
         if (!t || !n) return [];
@@ -160451,7 +160523,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 }
             ];
         });
-    }, $tt = (e)=>{
+    }, ent = (e)=>{
         if (e.isRedacted() || e.getType() !== PH.RoomMessage) return;
         let t = e.getId(), n = e.getRoomId();
         if (!t || !n) return;
@@ -160491,16 +160563,16 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             spoiler: r[Q$] === !0,
             spoilerReason: r[$$]
         };
-    }, ent = new Set([
+    }, tnt = new Set([
         qI.Text,
         qI.Notice,
         qI.Emote
-    ]), tnt = (e)=>{
+    ]), nnt = (e)=>{
         if (e.isRedacted() || e.getType() !== PH.RoomMessage) return [];
         let t = e.getId(), n = e.getRoomId();
         if (!t || !n) return [];
         let r = e.getContent(), i = r.msgtype;
-        if (!((i === qI.Image || i === qI.Video) && r.filename && r.filename !== r.body) && (typeof i != `string` || !ent.has(i))) return [];
+        if (!((i === qI.Image || i === qI.Video) && r.filename && r.filename !== r.body) && (typeof i != `string` || !tnt.has(i))) return [];
         let a = typeof r.body == `string` ? kW(r.body) : ``;
         if (!a) return [];
         let o = typeof r.formatted_body == `string` ? r.formatted_body : void 0, s = e.getSender() ?? ``, c = e.getTs(), l = [], u = new Set;
@@ -160515,9 +160587,9 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 provider: r
             }));
         }), l;
-    }, nnt = 80, rnt = 6, int = 24, Z7 = (e)=>[
+    }, rnt = 80, int = 6, ant = 24, Z7 = (e)=>[
             ...e
-        ].sort((e, t)=>t.ts - e.ts), ant = 4, ont = {
+        ].sort((e, t)=>t.ts - e.ts), ont = 4, snt = {
         "image/jpeg": `jpg`,
         "image/png": `png`,
         "image/gif": `gif`,
@@ -160525,7 +160597,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         "image/avif": `avif`,
         "video/mp4": `mp4`,
         "video/webm": `webm`
-    }, snt = (e, t)=>{
+    }, cnt = (e, t)=>{
         let n = {
             provider: e.provider,
             postUrl: e.url,
@@ -160533,7 +160605,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             authorHandle: t.authorHandle
         }, r = t.authorHandle ?? t.authorName ?? e.provider;
         return t.media.map((i, a)=>{
-            let o = gPe(i.url) ?? i.mimeType ?? (i.type === `image` ? `image/jpeg` : `video/mp4`), s = ont[o] ?? (i.type === `image` ? `jpg` : `mp4`), c = t.media.length > 1 ? `-${a + 1}` : ``;
+            let o = gPe(i.url) ?? i.mimeType ?? (i.type === `image` ? `image/jpeg` : `video/mp4`), s = snt[o] ?? (i.type === `image` ? `jpg` : `mp4`), c = t.media.length > 1 ? `-${a + 1}` : ``;
             return {
                 key: `${e.eventId}|${e.url}|${a}`,
                 eventId: e.eventId,
@@ -160556,7 +160628,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 spoiler: !1
             };
         });
-    }, cnt = (e, t)=>{
+    }, lnt = (e, t)=>{
         let n = J(), [r] = Y(q, `useVxTwitter`), [i] = Y(q, `useBlueskyEmbeds`), [a] = Y(q, `urlPreview`), [o] = Y(q, `encUrlPreview`), s = e.hasEncryptionStateEvent() ? o : a, c = (0, A.useMemo)(()=>({
                 twitter: s && r,
                 bluesky: s && i
@@ -160600,9 +160672,9 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             await Promise.all(r.map((e)=>e.isEncrypted() && e.getType() === PH.RoomMessageEncrypted && !e.isDecryptionFailure() ? n.decryptEventIfNeeded(e).catch(()=>void 0) : void 0));
             let i = 0;
             return r.forEach((t)=>{
-                Ztt(t).forEach((t)=>{
+                Qtt(t).forEach((t)=>{
                     e.items.push(t), i += 1;
-                }), u.current && tnt(t).forEach((t)=>{
+                }), u.current && nnt(t).forEach((t)=>{
                     let n = `${t.eventId}|${t.url}`;
                     e.resolvedEmbeds.has(n) || (e.resolvedEmbeds.add(n), e.pendingEmbeds.push(t));
                 });
@@ -160623,9 +160695,9 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             e.pendingEmbeds = [];
                             break;
                         }
-                        let n = e.pendingEmbeds.splice(0, ant), r = (await Promise.all(n.map(async (e)=>{
+                        let n = e.pendingEmbeds.splice(0, ont), r = (await Promise.all(n.map(async (e)=>{
                             let n = await dVe(e.url, t).catch(()=>void 0);
-                            return n ? snt(e, n) : [];
+                            return n ? cnt(e, n) : [];
                         }))).flat();
                         if (r.length === 0) continue;
                         if (!p.current) break;
@@ -160648,7 +160720,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 let r = `target-reached`, i = await T(t);
                 E(t), O(t);
                 let a = 0, o;
-                for(; p.current && i < int && !t.exhausted && a < rnt;){
+                for(; p.current && i < ant && !t.exhausted && a < int;){
                     if (!t.timeline.getPaginationToken(CL.BACKWARDS)) {
                         t.exhausted = !0, r = `no-pagination-token`;
                         break;
@@ -160658,7 +160730,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     try {
                         e = await n.paginateEventTimeline(t.timeline, {
                             backwards: !0,
-                            limit: nnt
+                            limit: rnt
                         });
                     } catch (t) {
                         console.warn(`[gallery] pagination threw`, t), o = t, e = !1;
@@ -160669,7 +160741,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     }
                     i += await T(t), E(t);
                 }
-                E(t), O(t), a >= rnt && !t.exhausted && (r = `pagination-budget`), console.info(`[gallery] scan`, {
+                E(t), O(t), a >= int && !t.exhausted && (r = `pagination-budget`), console.info(`[gallery] scan`, {
                     roomId: t.roomId,
                     stopped: r,
                     eventsScanned: t.scanned,
@@ -160709,12 +160781,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 if (!r) return;
                 if (e.isEncrypted() && e.getType() === PH.RoomMessageEncrypted && !e.isDecryptionFailure() && await n.decryptEventIfNeeded(e).catch(()=>void 0), t.seen.has(r) || (t.seen.add(r), t.scanned += 1), u.current) {
                     let n = !1;
-                    tnt(e).forEach((e)=>{
+                    nnt(e).forEach((e)=>{
                         let r = `${e.eventId}|${e.url}`;
                         t.resolvedEmbeds.has(r) || (t.resolvedEmbeds.add(r), t.pendingEmbeds.push(e), n = !0);
                     }), n && O(t);
                 }
-                let i = Ztt(e);
+                let i = Qtt(e);
                 if (i.length === 0) return;
                 let a = new Set(t.items.map((e)=>e.key)), o = i.filter((e)=>!a.has(e.key));
                 o.length !== 0 && (t.items = Z7([
@@ -160735,12 +160807,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 if (!r) return;
                 if (n.seen.has(r) || (n.seen.add(r), n.scanned += 1), u.current) {
                     let e = !1;
-                    tnt(t).forEach((t)=>{
+                    nnt(t).forEach((t)=>{
                         let r = `${t.eventId}|${t.url}`;
                         n.resolvedEmbeds.has(r) || (n.resolvedEmbeds.add(r), n.pendingEmbeds.push(t), e = !0);
                     }), e && O(n);
                 }
-                let i = Ztt(t);
+                let i = Qtt(t);
                 if (i.length === 0) return;
                 let a = new Set(n.items.map((e)=>e.key)), o = i.filter((e)=>!a.has(e.key));
                 o.length !== 0 && (n.items = Z7([
@@ -160773,21 +160845,21 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             v,
             S
         ]);
-    }, lnt = (0, A.createContext)(void 0);
-    function unt({ room: e, enabled: t, children: n }) {
-        let r = cnt(e, t);
-        return (0, j.jsx)(lnt.Provider, {
+    }, unt = (0, A.createContext)(void 0);
+    function dnt({ room: e, enabled: t, children: n }) {
+        let r = lnt(e, t);
+        return (0, j.jsx)(unt.Provider, {
             value: r,
             children: n
         });
     }
-    var dnt = ()=>{
-        let e = (0, A.useContext)(lnt);
+    var fnt = ()=>{
+        let e = (0, A.useContext)(unt);
         if (!e) throw Error(`Room media is not provided!`);
         return e;
     };
-    function fnt({ room: e }) {
-        let t = dnt(), [n, r] = Ho(M4), i = Bo(j4), a = Vo(j4), { navigateRoom: o } = h2(), s = Bo(aq), c = N7(e.roomId, s), l = No(), u = (0, A.useCallback)(()=>r(void 0), [
+    function pnt({ room: e }) {
+        let t = fnt(), [n, r] = Ho(M4), i = Bo(j4), a = Vo(j4), { navigateRoom: o } = h2(), s = Bo(aq), c = N7(e.roomId, s), l = No(), u = (0, A.useCallback)(()=>r(void 0), [
             r
         ]), d = (0, A.useCallback)((e)=>{
             r(void 0), a(!1), o(e.roomId, e.eventId);
@@ -160820,7 +160892,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             r,
             a
         ]);
-        return !n || n.roomId !== e.roomId ? null : (0, j.jsx)(Xtt, {
+        return !n || n.roomId !== e.roomId ? null : (0, j.jsx)(Ztt, {
             room: e,
             items: t.items,
             imagePackRooms: c,
@@ -160835,8 +160907,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             onReply: f
         });
     }
-    var pnt = `cpe8mi0 _1mqalmd1 _1mqalmd0`, mnt = `cpe8mi1 _1mqalmd1 _1mqalmd0`, hnt = `cpe8mi2 _1mqalmd1 _1mqalmd0`, gnt = `cpe8mi3 _1mqalmd1 _1mqalmd0`, _nt = `cpe8mi4 _1mqalmd1 _1mqalmd0`, vnt = `cpe8mib _1mqalmd1 _1mqalmd0`, ynt = 3;
-    function bnt({ item: e, onOpen: t }) {
+    var mnt = `cpe8mi0 _1mqalmd1 _1mqalmd0`, hnt = `cpe8mi1 _1mqalmd1 _1mqalmd0`, gnt = `cpe8mi2 _1mqalmd1 _1mqalmd0`, _nt = `cpe8mi3 _1mqalmd1 _1mqalmd0`, vnt = `cpe8mi4 _1mqalmd1 _1mqalmd0`, ynt = `cpe8mib _1mqalmd1 _1mqalmd0`, bnt = 3;
+    function xnt({ item: e, onOpen: t }) {
         let n = J(), r = $Y(), i = (0, A.useRef)(null), [a, o] = (0, A.useState)(!1);
         (0, A.useEffect)(()=>{
             let e = i.current;
@@ -160854,17 +160926,17 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         (0, A.useEffect)(()=>l(!1), [
             s.src
         ]);
-        let u = c ? s.fallbackSrc : s.src, d = !s.src && e.type === `video` && e.source === `attachment` && e.mxcUrl && !e.encInfo && a ? iG(n, e.mxcUrl, r) ?? void 0 : void 0, f = e.type === `video` && typeof e.duration == `number` && e.duration > 0 ? Da(e.duration) : void 0, p = `${e.type === `video` ? `Video` : `Photo`}: ${e.filename}`;
+        let u = c ? s.fallbackSrc : s.src, d = c && !s.fallbackSrc, f = (!s.src || d) && e.type === `video` && e.source === `attachment` && e.mxcUrl && !e.encInfo && a ? iG(n, e.mxcUrl, r) ?? void 0 : void 0, p = e.type === `video` && typeof e.duration == `number` && e.duration > 0 ? Da(e.duration) : void 0, m = `${e.type === `video` ? `Video` : `Photo`}: ${e.filename}`;
         return (0, j.jsxs)(`button`, {
             type: `button`,
-            className: _nt,
+            className: vnt,
             ref: i,
             "data-gallery-item": ``,
             onClick: ()=>t(e),
-            "aria-label": p,
+            "aria-label": m,
             title: e.caption || e.filename,
             children: [
-                typeof e.blurHash == `string` && !u && (0, j.jsx)(L2, {
+                typeof e.blurHash == `string` && (!u || d) && (0, j.jsx)(L2, {
                     style: {
                         width: `100%`,
                         height: `100%`
@@ -160874,36 +160946,39 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     hash: e.blurHash,
                     punch: 1
                 }),
-                u && (0, j.jsx)(`img`, {
+                u && !d && (0, j.jsx)(`img`, {
                     className: `cpe8mi5 _1mqalmd1 _1mqalmd0${e.spoiler ? ` cpe8mi6 _1mqalmd1 _1mqalmd0` : ``}`,
                     src: u,
                     alt: e.filename,
                     loading: `lazy`,
                     draggable: !1,
                     onError: ()=>{
-                        c || !s.fallbackSrc || (console.warn(`[gallery] thumbnail 404 — falling back to the full image`, {
+                        c || (console.warn(`[gallery] still failed to load`, {
                             eventId: e.eventId,
-                            thumbnail: s.src
+                            source: e.source,
+                            type: e.type,
+                            thumbnail: s.src,
+                            fallback: s.fallbackSrc
                         }), l(!0));
                     },
                     referrerPolicy: e.source === `embed` ? `no-referrer` : void 0
                 }),
-                !u && d && (0, j.jsx)(`video`, {
+                (!u || d) && f && (0, j.jsx)(`video`, {
                     className: `cpe8mi5 _1mqalmd1 _1mqalmd0${e.spoiler ? ` cpe8mi6 _1mqalmd1 _1mqalmd0` : ``}`,
-                    src: d,
+                    src: f,
                     preload: `metadata`,
                     muted: !0,
                     playsInline: !0,
                     tabIndex: -1
                 }),
-                !u && !d && s.loading && (0, j.jsx)(P, {
+                !u && !f && s.loading && (0, j.jsx)(P, {
                     className: `cpe8mia _1mqalmd1 _1mqalmd0`,
                     children: (0, j.jsx)(R, {
                         variant: `Secondary`,
                         size: `300`
                     })
                 }),
-                !u && !d && !s.loading && s.unavailable && (0, j.jsx)(P, {
+                (!u || d) && !f && !s.loading && (s.unavailable || d) && (0, j.jsx)(P, {
                     className: `cpe8mia _1mqalmd1 _1mqalmd0`,
                     children: (0, j.jsx)(I, {
                         size: `300`,
@@ -160953,7 +161028,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         })
                     })
                 }),
-                f && (0, j.jsx)(P, {
+                p && (0, j.jsx)(P, {
                     className: `cpe8mi7 _1mqalmd1 _1mqalmd0`,
                     justifyContent: `End`,
                     children: (0, j.jsx)(`span`, {
@@ -160961,14 +161036,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         children: (0, j.jsx)(z, {
                             as: `span`,
                             size: `L400`,
-                            children: f
+                            children: p
                         })
                     })
                 })
             ]
         });
     }
-    var xnt = (e)=>UX(e) ? `Today` : WX(e) ? `Yesterday` : qX(e), Snt = (e)=>{
+    var Snt = (e)=>UX(e) ? `Today` : WX(e) ? `Yesterday` : qX(e), Cnt = (e)=>{
         let t = [];
         return e.forEach((e)=>{
             let n = t[t.length - 1];
@@ -160984,8 +161059,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             });
         }), t;
     };
-    function Cnt() {
-        let e = dnt(), t = Vo(j4), n = Vo(M4), [r, i] = (0, A.useState)(`all`), a = (0, A.useRef)(null), o = (0, A.useRef)(null), { items: s, loading: c, hasMore: l, loadMore: u, scanned: d } = e, [f, p] = (0, A.useState)(!1);
+    function wnt() {
+        let e = fnt(), t = Vo(j4), n = Vo(M4), [r, i] = (0, A.useState)(`all`), a = (0, A.useRef)(null), o = (0, A.useRef)(null), { items: s, loading: c, hasMore: l, loadMore: u, scanned: d } = e, [f, p] = (0, A.useState)(!1);
         (0, A.useEffect)(()=>{
             let e = a.current;
             if (!e) return;
@@ -161003,7 +161078,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         ]), h = (0, A.useMemo)(()=>r === `all` ? s : s.filter((e)=>e.type === r), [
             s,
             r
-        ]), g = (0, A.useMemo)(()=>Snt(h), [
+        ]), g = (0, A.useMemo)(()=>Cnt(h), [
             h
         ]), _ = (0, A.useRef)(0), v = (0, A.useRef)(-1);
         (0, A.useEffect)(()=>{
@@ -161011,7 +161086,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             if (!e || !l || c) return;
             h.length !== v.current && (v.current = h.length, _.current = 0);
             let n = new IntersectionObserver((e)=>{
-                e.some((e)=>e.isIntersecting) && (_.current >= ynt || (_.current += 1, u()));
+                e.some((e)=>e.isIntersecting) && (_.current >= bnt || (_.current += 1, u()));
             }, {
                 root: t ?? null,
                 rootMargin: `400px`
@@ -161033,7 +161108,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         }, [
             r
         ]), (0, A.useEffect)(()=>{
-            r !== `all` && (h.length > 0 || !l || c || b.current >= ynt || (b.current += 1, u()));
+            r !== `all` && (h.length > 0 || !l || c || b.current >= bnt || (b.current += 1, u()));
         }, [
             r,
             h.length,
@@ -161065,7 +161140,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             direction: `Column`,
             children: [
                 (0, j.jsxs)(P, {
-                    className: pnt,
+                    className: mnt,
                     shrink: `No`,
                     direction: `Column`,
                     gap: `200`,
@@ -161132,7 +161207,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         hideTrack: !0,
                         visibility: `Hover`,
                         children: (0, j.jsxs)(P, {
-                            className: mnt,
+                            className: hnt,
                             direction: `Column`,
                             gap: `400`,
                             children: [
@@ -161141,16 +161216,16 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                         gap: `200`,
                                         children: [
                                             (0, j.jsx)(P, {
-                                                className: hnt,
+                                                className: gnt,
                                                 children: (0, j.jsx)(z, {
                                                     size: `L400`,
                                                     priority: `300`,
-                                                    children: xnt(e.ts)
+                                                    children: Snt(e.ts)
                                                 })
                                             }),
                                             (0, j.jsx)(`div`, {
-                                                className: gnt,
-                                                children: e.items.map((e)=>(0, j.jsx)(bnt, {
+                                                className: _nt,
+                                                children: e.items.map((e)=>(0, j.jsx)(xnt, {
                                                         item: e,
                                                         onOpen: x
                                                     }, e.key))
@@ -161202,7 +161277,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                     })
                                 }),
                                 (0, j.jsxs)(P, {
-                                    className: vnt,
+                                    className: ynt,
                                     direction: `Column`,
                                     alignItems: `Center`,
                                     justifyContent: `Center`,
@@ -161240,16 +161315,16 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var wnt = /^F\d+$/, Tnt = (e)=>{
+    var Tnt = /^F\d+$/, Ent = (e)=>{
         let { code: t } = e;
-        return !(e.metaKey || e.altKey || e.ctrlKey || wnt.test(t) || t.startsWith(`OS`) || t.startsWith(`Meta`) || t.startsWith(`Shift`) || t.startsWith(`Alt`) || t.startsWith(`Control`) || t.startsWith(`Arrow`) || t.startsWith(`Page`) || t.startsWith(`End`) || t.startsWith(`Home`) || t === `Tab` || t === `Space` || t === `Enter` || t === `NumLock` || t === `ScrollLock`);
+        return !(e.metaKey || e.altKey || e.ctrlKey || Tnt.test(t) || t.startsWith(`OS`) || t.startsWith(`Meta`) || t.startsWith(`Shift`) || t.startsWith(`Alt`) || t.startsWith(`Control`) || t.startsWith(`Arrow`) || t.startsWith(`Page`) || t.startsWith(`End`) || t.startsWith(`Home`) || t === `Tab` || t === `Space` || t === `Enter` || t === `NumLock` || t === `ScrollLock`);
     };
-    function Ent({ eventId: e }) {
+    function Dnt({ eventId: e }) {
         let t = (0, A.useRef)(null), n = (0, A.useRef)(null), [r] = Y(q, `hideReadReceipts`), i = Bo(j4), a = Bo(M4), o = n7(), { roomId: s } = o, c = O0e(), l = J(), u = bZ(o, K.RoomTombstone), d = wZ(), f = h1(g1(o), d).event(G.RoomMessage, l.getSafeUserId());
         j7(window, (0, A.useCallback)((e)=>{
             if (i || VY()) return;
             let t = document.getElementById(`portalContainer`);
-            t && t.children.length > 0 || (Tnt(e) || Zp(`mod+v`, e)) && b5(c);
+            t && t.children.length > 0 || (Ent(e) || Zp(`mod+v`, e)) && b5(c);
         }, [
             c,
             i
@@ -161258,14 +161333,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         return (0, j.jsxs)(cY, {
             ref: n,
             children: [
-                (0, j.jsxs)(unt, {
+                (0, j.jsxs)(dnt, {
                     room: o,
                     enabled: p,
                     children: [
                         (0, j.jsx)(P, {
                             grow: `Yes`,
                             direction: `Column`,
-                            children: i ? (0, j.jsx)(Cnt, {}) : (0, j.jsxs)(j.Fragment, {
+                            children: i ? (0, j.jsx)(wnt, {}) : (0, j.jsxs)(j.Fragment, {
                                 children: [
                                     (0, j.jsx)(P9e, {
                                         room: o,
@@ -161279,7 +161354,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 ]
                             })
                         }),
-                        (0, j.jsx)(fnt, {
+                        (0, j.jsx)(pnt, {
                             room: o
                         })
                     ]
@@ -161332,13 +161407,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var Dnt = `_18fjf6z0`, Ont = `_18fjf6z1`, knt = `_18fjf6z2`, Ant = `_18fjf6z3`, jnt = `_18fjf6z4`, Mnt = `_18fjf6z5`, Nnt = `_18fjf6z8`, Pnt = `_18fjf6z9`, Fnt = `_18fjf6za`, Int = `_18fjf6zb`, Lnt = To(!1), Rnt = To(0), Q7 = {
+    var Ont = `_18fjf6z0`, knt = `_18fjf6z1`, Ant = `_18fjf6z2`, jnt = `_18fjf6z3`, Mnt = `_18fjf6z4`, Nnt = `_18fjf6z5`, Pnt = `_18fjf6z8`, Fnt = `_18fjf6z9`, Int = `_18fjf6za`, Lnt = `_18fjf6zb`, Rnt = To(!1), znt = To(0), Q7 = {
         filterJoined: (e)=>e.membership === NH.Join,
         filterInvited: (e)=>e.membership === NH.Invite,
         filterLeaved: (e)=>e.membership === NH.Leave && e.events.member?.getStateKey() === e.events.member?.getSender(),
         filterKicked: (e)=>e.membership === NH.Leave && e.events.member?.getStateKey() !== e.events.member?.getSender(),
         filterBanned: (e)=>e.membership === NH.Ban
-    }, znt = ()=>(0, A.useMemo)(()=>[
+    }, Bnt = ()=>(0, A.useMemo)(()=>[
                 {
                     name: `Joined`,
                     filterFn: Q7.filterJoined
@@ -161359,12 +161434,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     name: `Banned`,
                     filterFn: Q7.filterBanned
                 }
-            ], []), Bnt = (e, t)=>t[e] ?? t[0], $7 = {
+            ], []), Vnt = (e, t)=>t[e] ?? t[0], $7 = {
         Ascending: (e, t)=>e.name.toLowerCase() < t.name.toLowerCase() ? -1 : 1,
         Descending: (e, t)=>e.name.toLowerCase() > t.name.toLowerCase() ? -1 : 1,
         NewestFirst: (e, t)=>(t.events.member?.getTs() ?? 0) - (e.events.member?.getTs() ?? 0),
         Oldest: (e, t)=>(e.events.member?.getTs() ?? 0) - (t.events.member?.getTs() ?? 0)
-    }, Vnt = ()=>(0, A.useMemo)(()=>[
+    }, Hnt = ()=>(0, A.useMemo)(()=>[
                 {
                     name: `A to Z`,
                     sortFn: $7.Ascending
@@ -161381,42 +161456,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     name: `Oldest`,
                     sortFn: $7.Oldest
                 }
-            ], []), Hnt = (e, t)=>t[e] ?? t[0], Unt = (e, t)=>(0, A.useCallback)((n, r)=>e.has(n.userId) && e.has(r.userId) ? 0 : e.has(n.userId) ? -1 : e.has(r.userId) ? 1 : t(r.userId) - t(n.userId), [
+            ], []), Unt = (e, t)=>t[e] ?? t[0], Wnt = (e, t)=>(0, A.useCallback)((n, r)=>e.has(n.userId) && e.has(r.userId) ? 0 : e.has(n.userId) ? -1 : e.has(r.userId) ? 1 : t(r.userId) - t(n.userId), [
             e
         ]);
-    function Wnt({ selected: e, onSelect: t, requestClose: n }) {
-        let r = znt();
-        return (0, j.jsx)(Yp.FocusTrap, {
-            focusTrapOptions: {
-                initialFocus: !1,
-                onDeactivate: n,
-                clickOutsideDeactivates: !0,
-                isKeyForward: (e)=>e.key === `ArrowDown`,
-                isKeyBackward: (e)=>e.key === `ArrowUp`,
-                escapeDeactivates: nm
-            },
-            children: (0, j.jsx)(Pn, {
-                style: {
-                    padding: N.space.S100
-                },
-                children: r.map((r, i)=>(0, j.jsx)(Nn, {
-                        variant: `Surface`,
-                        "aria-pressed": e === i,
-                        size: `300`,
-                        radii: `300`,
-                        onClick: ()=>{
-                            t(i), n();
-                        },
-                        children: (0, j.jsx)(z, {
-                            size: `T300`,
-                            children: r.name
-                        })
-                    }, r.name))
-            })
-        });
-    }
     function Gnt({ selected: e, onSelect: t, requestClose: n }) {
-        let r = Vnt();
+        let r = Bnt();
         return (0, j.jsx)(Yp.FocusTrap, {
             focusTrapOptions: {
                 initialFocus: !1,
@@ -161446,14 +161490,45 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var Knt = 20, qnt = 5e4, Jnt = 100, Ynt = 2, Xnt = (e, t)=>({
+    function Knt({ selected: e, onSelect: t, requestClose: n }) {
+        let r = Hnt();
+        return (0, j.jsx)(Yp.FocusTrap, {
+            focusTrapOptions: {
+                initialFocus: !1,
+                onDeactivate: n,
+                clickOutsideDeactivates: !0,
+                isKeyForward: (e)=>e.key === `ArrowDown`,
+                isKeyBackward: (e)=>e.key === `ArrowUp`,
+                escapeDeactivates: nm
+            },
+            children: (0, j.jsx)(Pn, {
+                style: {
+                    padding: N.space.S100
+                },
+                children: r.map((r, i)=>(0, j.jsx)(Nn, {
+                        variant: `Surface`,
+                        "aria-pressed": e === i,
+                        size: `300`,
+                        radii: `300`,
+                        onClick: ()=>{
+                            t(i), n();
+                        },
+                        children: (0, j.jsx)(z, {
+                            size: `T300`,
+                            children: r.name
+                        })
+                    }, r.name))
+            })
+        });
+    }
+    var qnt = 20, Jnt = 5e4, Ynt = 100, Xnt = 2, Znt = (e, t)=>({
             ...e.getEffectiveEvent(),
             room_id: t
-        }), Znt = (e, t)=>{
+        }), Qnt = (e, t)=>{
         if (e.length === 0) return [];
         let n = e.map((n, r)=>({
                 rank: e.length - r,
-                event: Xnt(n, t),
+                event: Znt(n, t),
                 context: {
                     events_before: [],
                     events_after: [],
@@ -161467,11 +161542,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 items: n
             }
         ];
-    }, Qnt = (e, t, n)=>{
+    }, $nt = (e, t, n)=>{
         if (e.getType() !== G.RoomMessage || e.isRedacted()) return !1;
         let r = e.getContent(), i = typeof r.body == `string` ? r.body.toLowerCase() : ``;
         return i ? i.includes(t) ? !0 : n.length > 1 && n.every((e)=>i.includes(e)) : !1;
-    }, $nt = (e, t)=>{
+    }, ert = (e, t)=>{
         let n = J(), r = (0, A.useRef)(null);
         return (0, A.useCallback)(async (i, a)=>{
             let o = t?.toLowerCase().trim();
@@ -161496,11 +161571,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     !i || u.has(i) || (u.add(i), c.scanned += 1, t.push(r));
                 }
                 await Promise.all(t.map((e)=>e.isEncrypted() && e.getType() === G.RoomMessageEncrypted && !e.isDecryptionFailure() ? n.decryptEventIfNeeded(e).catch(()=>void 0) : void 0));
-                for(let e = 0; e < t.length; e += 1)Qnt(t[e], o, s) && c.matches.push(t[e]);
-            }, f = i && parseInt(i, 10) || 0, p = f + Knt;
+                for(let e = 0; e < t.length; e += 1)$nt(t[e], o, s) && c.matches.push(t[e]);
+            }, f = i && parseInt(i, 10) || 0, p = f + qnt;
             await d();
             let m = 0;
-            for(; !a?.aborted && c.matches.length < p && !c.exhausted && c.scanned < qnt && m < Ynt;){
+            for(; !a?.aborted && c.matches.length < p && !c.exhausted && c.scanned < Jnt && m < Xnt;){
                 if (!l.getPaginationToken(CL.BACKWARDS)) {
                     c.exhausted = !0;
                     break;
@@ -161510,7 +161585,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 try {
                     e = await n.paginateEventTimeline(l, {
                         backwards: !0,
-                        limit: Jnt
+                        limit: Ynt
                     });
                 } catch  {
                     e = !1;
@@ -161521,11 +161596,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 }
                 await d();
             }
-            if (c.scanned >= qnt && (c.exhausted = !0), a?.aborted) throw new DOMException(`Search cancelled`, `AbortError`);
-            let h = c.matches.slice(f, f + Knt), g = f + h.length, _ = c.matches.length > g || !c.exhausted;
+            if (c.scanned >= Jnt && (c.exhausted = !0), a?.aborted) throw new DOMException(`Search cancelled`, `AbortError`);
+            let h = c.matches.slice(f, f + qnt), g = f + h.length, _ = c.matches.length > g || !c.exhausted;
             return {
                 highlights: s,
-                groups: Znt(h, e.roomId),
+                groups: Qnt(h, e.roomId),
                 nextToken: _ ? String(g) : void 0
             };
         }, [
@@ -161533,8 +161608,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             e,
             t
         ]);
-    }, ert = 20, trt = 20;
-    function nrt({ room: e, term: t, onOpen: n }) {
+    }, trt = 20, nrt = 20;
+    function rrt({ room: e, term: t, onOpen: n }) {
         let r = J(), i = Bo(rq), [a] = Y(q, `mediaAutoLoad`), [o] = Y(q, `urlPreview`), [s] = Y(q, `legacyUsernameColor`), [c] = Y(q, `hour24Clock`), [l] = Y(q, `dateFormatString`), u = e.hasEncryptionStateEvent(), d = ORe((0, A.useMemo)(()=>({
                 term: t,
                 order: qz.Recent,
@@ -161544,7 +161619,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             }), [
             t,
             e.roomId
-        ])), f = $nt(e, t), p = u ? f : d, { status: m, data: h, error: g, fetchNextPage: _, hasNextPage: v, isFetchingNextPage: y } = qf({
+        ])), f = ert(e, t), p = u ? f : d, { status: m, data: h, error: g, fetchNextPage: _, hasNextPage: v, isFetchingNextPage: y } = qf({
             enabled: !!t,
             queryKey: [
                 `room-search`,
@@ -161564,9 +161639,9 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             h
         ]), S = (0, A.useRef)(0), C = `${e.roomId}|${u}|${t ?? ``}`, w = (0, A.useRef)(C);
         w.current !== C && (w.current = C, S.current = 0);
-        let T = S.current < ert, E = (0, A.useMemo)(()=>b.reduce((e, t)=>e + t.items.length, 0), [
+        let T = S.current < trt, E = (0, A.useMemo)(()=>b.reduce((e, t)=>e + t.items.length, 0), [
             b
-        ]) < trt && v && T;
+        ]) < nrt && v && T;
         return (0, A.useEffect)(()=>{
             E && !y && m === `success` && (S.current += 1, _());
         }, [
@@ -161591,7 +161666,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             ,
                             , 
                         ].keys()
-                    ].map((e)=>(0, j.jsx)(X, {
+                    ].map((e)=>(0, j.jsx)(hY, {
                             variant: `SurfaceVariant`,
                             style: {
                                 minHeight: Dt(64)
@@ -161674,7 +161749,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         }) : null;
     }
-    function rrt({ mx: e, useAuthentication: t, room: n, member: r, onClick: i, pressed: a, typing: o }) {
+    function irt({ mx: e, useAuthentication: t, room: n, member: r, onClick: i, pressed: a, typing: o }) {
         let s = jW(n, r.userId) ?? UW(r.userId) ?? r.userId, c = r.getMxcAvatarUrl(), l = c ? e.mxcUrlToHttp(c, 100, 100, `crop`, void 0, !1, t) : void 0, u = pX(r.userId), d = u?.status || void 0, f = mX(r.userId);
         return (0, j.jsx)(Nn, {
             style: {
@@ -161743,24 +161818,24 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var irt = {
+    var art = {
         limit: 1e3,
         matchOptions: {
             contain: !0
         }
-    }, art = 3, ort = (e)=>UW(e) ?? e, srt = (e, t)=>MW(e, t, ort);
-    function crt({ room: e, members: t, overlay: n, onClose: r }) {
+    }, ort = 3, srt = (e)=>UW(e) ?? e, crt = (e, t)=>MW(e, t, srt);
+    function lrt({ room: e, members: t, overlay: n, onClose: r }) {
         let i = J(), a = $Y(), o = Eq(q, `isPeopleDrawer`), s = (0, A.useCallback)(()=>{
             r ? r() : o(!1);
         }, [
             r,
             o
-        ]), c = om(), l = nY(`membersPane`), { navigateRoom: u } = h2(), d = (0, A.useRef)(null), f = (0, A.useRef)(null), p = (0, A.useRef)(null), [m, h] = (0, A.useState)(), g = wZ(), _ = g1(e), v = Z3(e, _, g), y = EZ(g), b = t.length < e.getJoinedMemberCount(), x = S0(), S = k0(), C = b0()?.userId, w = znt(), T = Vnt(), [E, D] = Y(q, `memberSortFilterIndex`), [O, k] = (0, A.useState)(0), ee = Bnt(O, w), te = Hnt(E, T), ne = Unt(_, y), re = h0(e.roomId), ie = (0, A.useMemo)(()=>t.filter(ee.filterFn).sort(te.sortFn).sort(ne), [
+        ]), c = om(), l = nY(`membersPane`), { navigateRoom: u } = h2(), d = (0, A.useRef)(null), f = (0, A.useRef)(null), p = (0, A.useRef)(null), [m, h] = (0, A.useState)(), g = wZ(), _ = g1(e), v = Z3(e, _, g), y = EZ(g), b = t.length < e.getJoinedMemberCount(), x = S0(), S = k0(), C = b0()?.userId, w = Bnt(), T = Hnt(), [E, D] = Y(q, `memberSortFilterIndex`), [O, k] = (0, A.useState)(0), ee = Vnt(O, w), te = Unt(E, T), ne = Wnt(_, y), re = h0(e.roomId), ie = (0, A.useMemo)(()=>t.filter(ee.filterFn).sort(te.sortFn).sort(ne), [
             t,
             ee,
             te,
             ne
-        ]), [ae, oe, se] = P0(ie, srt, irt);
+        ]), [ae, oe, se] = P0(ie, crt, art);
         !ae && f.current?.value && oe(f.current.value);
         let ce = ae ? ae.items : ie, le = SWe(ce, v), ue = Y1({
             count: le.length,
@@ -161769,7 +161844,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             overscan: 10
         }), de = rK((0, A.useCallback)((e)=>{
             let t = e.target.value.trim();
-            t ? oe(t) : se(), h(t.length >= art ? t : void 0);
+            t ? oe(t) : se(), h(t.length >= ort ? t : void 0);
         }, [
             oe,
             se
@@ -161781,7 +161856,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             u,
             c,
             s
-        ]), [pe, me] = Ho(Rnt);
+        ]), [pe, me] = Ho(znt);
         (0, A.useEffect)(()=>{
             pe !== 0 && (f.current?.focus(), f.current?.select(), me(0));
         }, [
@@ -161797,7 +161872,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             r && x(e.roomId, S?.roomId, r, n.getBoundingClientRect(), `Left`);
         };
         return (0, j.jsxs)(P, {
-            className: (0, xt.default)(n ? Ont : Dnt, BK({
+            className: (0, xt.default)(n ? knt : Ont, BK({
                 variant: `Background`
             })),
             shrink: `No`,
@@ -161806,7 +161881,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             direction: `Column`,
             children: [
                 (0, j.jsx)(Dn, {
-                    className: knt,
+                    className: Ant,
                     variant: `Background`,
                     size: `600`,
                     children: (0, j.jsxs)(P, {
@@ -161848,7 +161923,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     })
                 }),
                 (0, j.jsx)(P, {
-                    className: Ant,
+                    className: jnt,
                     direction: `Column`,
                     shrink: `No`,
                     children: (0, j.jsx)(An, {
@@ -161884,7 +161959,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     })
                 }),
                 (0, j.jsx)(P, {
-                    className: jnt,
+                    className: Mnt,
                     grow: `Yes`,
                     children: (0, j.jsx)(Qn, {
                         ref: d,
@@ -161893,13 +161968,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         visibility: `Hover`,
                         hideTrack: !0,
                         children: (0, j.jsxs)(P, {
-                            className: Mnt,
+                            className: Nnt,
                             direction: `Column`,
                             gap: `200`,
                             children: [
                                 (0, j.jsx)(P, {
                                     ref: p,
-                                    className: Nnt,
+                                    className: Pnt,
                                     direction: `Column`,
                                     gap: `200`,
                                     children: (0, j.jsxs)(P, {
@@ -161928,7 +162003,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                         position: `Bottom`,
                                                         align: `Start`,
                                                         offset: 4,
-                                                        content: (0, j.jsx)(Wnt, {
+                                                        content: (0, j.jsx)(Gnt, {
                                                             selected: O,
                                                             onSelect: k,
                                                             requestClose: ()=>t(void 0)
@@ -161960,7 +162035,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                         position: `Bottom`,
                                                         align: `End`,
                                                         offset: 4,
-                                                        content: (0, j.jsx)(Gnt, {
+                                                        content: (0, j.jsx)(Knt, {
                                                             selected: E,
                                                             onSelect: D,
                                                             requestClose: ()=>t(void 0)
@@ -162009,7 +162084,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                     children: `No "${ee.name}" Members`
                                 }),
                                 (0, j.jsx)(P, {
-                                    className: Pnt,
+                                    className: Fnt,
                                     direction: `Column`,
                                     gap: `100`,
                                     children: (0, j.jsx)(`div`, {
@@ -162023,10 +162098,10 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                 style: {
                                                     transform: `translateY(${t.start}px)`
                                                 },
-                                                className: Int,
+                                                className: Lnt,
                                                 "data-index": t.index,
                                                 ref: ue.measureElement,
-                                                children: (0, j.jsx)(rrt, {
+                                                children: (0, j.jsx)(irt, {
                                                     mx: i,
                                                     useAuthentication: a,
                                                     room: e,
@@ -162041,7 +162116,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                 },
                                                 "data-index": t.index,
                                                 ref: ue.measureElement,
-                                                className: (0, xt.default)(Fnt, Int),
+                                                className: (0, xt.default)(Int, Lnt),
                                                 size: `L400`,
                                                 children: n.name
                                             }, `${e.roomId}-${t.index}`);
@@ -162055,7 +162130,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 m && (0, j.jsx)(P, {
                                     className: `_18fjf6z8`,
                                     direction: `Column`,
-                                    children: (0, j.jsx)(nrt, {
+                                    children: (0, j.jsx)(rrt, {
                                         room: e,
                                         term: m,
                                         onOpen: fe
@@ -162068,16 +162143,16 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var lrt = `_10hybyx0`, urt = `_10hybyx1`, drt = `_10hybyx2`, frt = `_10hybyx3`, prt = `_10hybyx4`, mrt = `_10hybyx5`;
-    function hrt() {
+    var urt = `_10hybyx0`, drt = `_10hybyx1`, frt = `_10hybyx2`, prt = `_10hybyx3`, mrt = `_10hybyx4`, hrt = `_10hybyx5`;
+    function grt() {
         return (0, j.jsx)(Mn, {
             variant: `SurfaceVariant`,
             size: `300`,
             direction: `Vertical`,
-            className: drt
+            className: frt
         });
     }
-    function grt({ enabled: e, onToggle: t }) {
+    function _rt({ enabled: e, onToggle: t }) {
         let [n, r] = Xf(t), i = n.status === V.Loading;
         return (0, j.jsx)(pr, {
             position: `Top`,
@@ -162105,7 +162180,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 })
         });
     }
-    function _rt({ enabled: e, onToggle: t }) {
+    function vrt({ enabled: e, onToggle: t }) {
         return (0, j.jsx)(pr, {
             position: `Top`,
             delay: 500,
@@ -162131,7 +162206,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 })
         });
     }
-    function vrt({ enabled: e, onToggle: t }) {
+    function yrt({ enabled: e, onToggle: t }) {
         let [n, r] = Xf(t), i = n.status === V.Loading;
         return (0, j.jsx)(pr, {
             position: `Top`,
@@ -162159,7 +162234,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 })
         });
     }
-    function yrt({ enabled: e, onToggle: t }) {
+    function brt({ enabled: e, onToggle: t }) {
         return (0, j.jsx)(pr, {
             position: `Top`,
             delay: 500,
@@ -162185,7 +162260,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 })
         });
     }
-    function brt() {
+    function xrt() {
         let [e, t] = Ho(X0);
         return (0, j.jsx)(pr, {
             position: `Top`,
@@ -162212,14 +162287,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 })
         });
     }
-    function xrt({ canJoin: e }) {
+    function Srt({ canJoin: e }) {
         let t = n7(), n = Z0(), r = $0(n), i = i7(), a = n && n.roomId !== t.roomId, o = Q0(i), s = n?.roomId === t.roomId && !r, c = a || !e, { microphone: l, video: u, sound: d, toggleMicrophone: f, toggleVideo: p, toggleSound: m } = LLe(), h = (0, A.useCallback)(async ()=>f(), [
             f
         ]), g = (0, A.useCallback)(async ()=>p(), [
             p
         ]);
-        return (0, j.jsxs)(X, {
-            className: urt,
+        return (0, j.jsxs)(hY, {
+            className: drt,
             variant: `SurfaceVariant`,
             gap: `400`,
             radii: `500`,
@@ -162233,28 +162308,28 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     justifyContent: `SpaceBetween`,
                     gap: `200`,
                     children: [
-                        (0, j.jsx)(grt, {
+                        (0, j.jsx)(_rt, {
                             enabled: l,
                             onToggle: h
                         }),
-                        (0, j.jsx)(_rt, {
+                        (0, j.jsx)(vrt, {
                             enabled: d,
                             onToggle: m
                         })
                     ]
                 }),
-                (0, j.jsx)(hrt, {}),
+                (0, j.jsx)(grt, {}),
                 (0, j.jsxs)(P, {
                     shrink: `No`,
                     alignItems: `Inherit`,
                     justifyContent: `SpaceBetween`,
                     gap: `200`,
                     children: [
-                        (0, j.jsx)(vrt, {
+                        (0, j.jsx)(yrt, {
                             enabled: u,
                             onToggle: g
                         }),
-                        (0, j.jsx)(brt, {})
+                        (0, j.jsx)(xrt, {})
                     ]
                 }),
                 (0, j.jsx)(P, {
@@ -162287,13 +162362,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    function Srt({ member: e }) {
+    function Crt({ member: e }) {
         let t = J(), n = $Y(), r = n7(), i = S0(), { userId: a } = e;
         if (!a) return null;
         let o = jW(r, a) ?? UW(a) ?? a, s = NW(r, a), c = s ? iG(t, s, n, 96, 96) ?? void 0 : void 0, l = e.callIntent === `audio`;
-        return (0, j.jsx)(X, {
+        return (0, j.jsx)(hY, {
             as: `button`,
-            className: frt,
+            className: prt,
             variant: `SurfaceVariant`,
             radii: `500`,
             onClick: (e)=>i(r.roomId, void 0, a, ZY(e.nativeEvent), `Right`),
@@ -162332,14 +162407,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         }, e.memberId);
     }
-    function Crt({ members: e, max: t = 4 }) {
+    function wrt({ members: e, max: t = 4 }) {
         let [n, r] = (0, A.useState)(!1), i = n ? e : e.slice(0, 4), a = e.length - i.length;
         return (0, j.jsxs)(j.Fragment, {
             children: [
-                i.map((e)=>(0, j.jsx)(Srt, {
+                i.map((e)=>(0, j.jsx)(Crt, {
                         member: e
                     }, e.memberId)),
-                e.length > t && (0, j.jsxs)(X, {
+                e.length > t && (0, j.jsxs)(hY, {
                     as: `button`,
                     className: `_10hybyx3`,
                     variant: `SurfaceVariant`,
@@ -162369,7 +162444,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    function wrt({ callEmbed: e }) {
+    function Trt({ callEmbed: e }) {
         let t = (0, A.useRef)(null), [n, r] = (0, A.useState)(document.body.clientWidth < 500);
         rm((0, A.useCallback)(()=>{
             let e = t.current;
@@ -162402,11 +162477,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             y || v();
         }), (0, j.jsx)(P, {
             ref: t,
-            className: prt,
+            className: mrt,
             justifyContent: `Center`,
             alignItems: `Center`,
-            children: (0, j.jsxs)(X, {
-                className: urt,
+            children: (0, j.jsxs)(hY, {
+                className: drt,
                 variant: `SurfaceVariant`,
                 gap: `400`,
                 radii: `500`,
@@ -162425,28 +162500,28 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 justifyContent: `Inherit`,
                                 gap: `200`,
                                 children: [
-                                    (0, j.jsx)(grt, {
+                                    (0, j.jsx)(_rt, {
                                         enabled: i,
                                         onToggle: h
                                     }),
-                                    (0, j.jsx)(_rt, {
+                                    (0, j.jsx)(vrt, {
                                         enabled: o,
                                         onToggle: ()=>e.control.toggleSound()
                                     })
                                 ]
                             }),
-                            !n && (0, j.jsx)(hrt, {}),
+                            !n && (0, j.jsx)(grt, {}),
                             (0, j.jsxs)(P, {
                                 shrink: `No`,
                                 alignItems: `Inherit`,
                                 justifyContent: `Inherit`,
                                 gap: `200`,
                                 children: [
-                                    (0, j.jsx)(vrt, {
+                                    (0, j.jsx)(yrt, {
                                         enabled: a,
                                         onToggle: g
                                     }),
-                                    (0, j.jsx)(yrt, {
+                                    (0, j.jsx)(brt, {
                                         enabled: s,
                                         onToggle: ()=>e.control.toggleScreenshare()
                                     })
@@ -162454,7 +162529,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             })
                         ]
                     }),
-                    !n && (0, j.jsx)(hrt, {}),
+                    !n && (0, j.jsx)(grt, {}),
                     (0, j.jsxs)(P, {
                         alignItems: `Center`,
                         gap: `Inherit`,
@@ -162467,7 +162542,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 justifyContent: `Inherit`,
                                 gap: `200`,
                                 children: [
-                                    (0, j.jsx)(brt, {}),
+                                    (0, j.jsx)(xrt, {}),
                                     (0, j.jsx)(qn, {
                                         anchor: l,
                                         position: `Top`,
@@ -162573,7 +162648,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    function Trt() {
+    function Ert() {
         return (0, j.jsx)(z, {
             style: {
                 margin: `auto`,
@@ -162584,7 +162659,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `Your homeserver does not support calling.`
         });
     }
-    function Ert() {
+    function Drt() {
         return (0, j.jsx)(z, {
             style: {
                 margin: `auto`,
@@ -162595,8 +162670,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `Your browser does not support WebRTC, which is required for calling.`
         });
     }
-    function Drt({ hasParticipant: e, livekitSupported: t, rtcSupported: n }) {
-        return n === !1 ? (0, j.jsx)(Ert, {}) : t === !1 ? (0, j.jsx)(Trt, {}) : e ? null : (0, j.jsx)(z, {
+    function Ort({ hasParticipant: e, livekitSupported: t, rtcSupported: n }) {
+        return n === !1 ? (0, j.jsx)(Drt, {}) : t === !1 ? (0, j.jsx)(Ert, {}) : e ? null : (0, j.jsx)(z, {
             style: {
                 margin: `auto`
             },
@@ -162605,7 +162680,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `Voice chat’s empty — Be the first to hop in!`
         });
     }
-    function Ort() {
+    function krt() {
         return (0, j.jsx)(z, {
             style: {
                 margin: `auto`
@@ -162615,7 +162690,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `You don't have permission to join!`
         });
     }
-    function krt() {
+    function Art() {
         return (0, j.jsx)(z, {
             style: {
                 margin: `auto`,
@@ -162626,13 +162701,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `Already in another call — End the current call to join!`
         });
     }
-    function Art() {
+    function jrt() {
         let e = J(), t = n7(), n = e2(), r = t2(), i = wZ(), a = h1(g1(t), i).stateEvent(K.GroupCallMemberPrefix, e.getSafeUserId()), o = H0(B0(t)), s = o.length > 0, c = Z0(), l = c && c.roomId !== t.roomId, u = a && n && r;
         return (0, j.jsx)(Qn, {
             variant: `Surface`,
             hideTrack: !0,
             children: (0, j.jsx)(P, {
-                className: lrt,
+                className: urt,
                 alignItems: `Center`,
                 justifyContent: `Center`,
                 children: (0, j.jsxs)(P, {
@@ -162670,22 +162745,22 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 })
                             ]
                         }),
-                        (0, j.jsx)(Crt, {
+                        (0, j.jsx)(wrt, {
                             members: o
                         }),
-                        (0, j.jsx)(xrt, {
+                        (0, j.jsx)(Srt, {
                             canJoin: u
                         }),
                         (0, j.jsxs)(P, {
-                            className: mrt,
+                            className: hrt,
                             alignItems: `Center`,
                             children: [
-                                !l && (a ? (0, j.jsx)(Drt, {
+                                !l && (a ? (0, j.jsx)(Ort, {
                                     hasParticipant: s,
                                     livekitSupported: n,
                                     rtcSupported: r
-                                }) : (0, j.jsx)(Ort, {})),
-                                l && (0, j.jsx)(krt, {})
+                                }) : (0, j.jsx)(krt, {})),
+                                l && (0, j.jsx)(Art, {})
                             ]
                         })
                     ]
@@ -162693,7 +162768,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    function jrt({ joined: e, containerRef: t }) {
+    function Mrt({ joined: e, containerRef: t }) {
         let n = Z0();
         return (0, j.jsxs)(P, {
             grow: `Yes`,
@@ -162703,13 +162778,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     grow: `Yes`,
                     ref: t
                 }),
-                n && e && (0, j.jsx)(wrt, {
+                n && e && (0, j.jsx)(Trt, {
                     callEmbed: n
                 })
             ]
         });
     }
-    function Mrt() {
+    function Nrt() {
         let e = n7(), t = (0, A.useRef)(null);
         NLe(t);
         let n = Z0(), r = $0(n), i = n?.roomId === e.roomId && r;
@@ -162722,16 +162797,16 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             },
             grow: `Yes`,
             children: [
-                !i && (0, j.jsx)(Art, {}),
-                (0, j.jsx)(jrt, {
+                !i && (0, j.jsx)(jrt, {}),
+                (0, j.jsx)(Mrt, {
                     joined: i,
                     containerRef: t
                 })
             ]
         });
     }
-    var Nrt = `_13de4120`, Prt = `_13de4121`, Frt = `_13de4122`;
-    function Irt({ room: e, eventId: t, renderContent: n, onOpen: r, canPinEvent: i, getMemberPowerTag: a, accessibleTagColors: o, legacyUsernameColor: s, hour24Clock: c, dateFormatString: l }) {
+    var Prt = `_13de4120`, Frt = `_13de4121`, Irt = `_13de4122`;
+    function Lrt({ room: e, eventId: t, renderContent: n, onOpen: r, canPinEvent: i, getMemberPowerTag: a, accessibleTagColors: o, legacyUsernameColor: s, hour24Clock: c, dateFormatString: l }) {
         let u = e4(e, t), d = $Y(), f = J(), [p, m] = Xf((0, A.useCallback)(()=>{
             let n = {
                 pinned: (pW(e, K.RoomPinnedEvents)?.getContent() ?? {
@@ -162872,7 +162947,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var Lrt = (0, A.forwardRef)(({ room: e, requestClose: t }, n)=>{
+    var Rrt = (0, A.forwardRef)(({ room: e, requestClose: t }, n)=>{
         let r = J(), i = r.getUserId(), a = wZ(), o = g1(e), s = h1(o, a).stateEvent(K.RoomPinnedEvents, i), c = V4(), l = L4(e, a), u = Z3(e, o, a), d = $3(AY().kind, c, l), f = Z5(e), p = (0, A.useMemo)(()=>Array.from(f).reverse(), [
             f
         ]), m = $Y(), [h] = Y(q, `mediaAutoLoad`), [g] = Y(q, `urlPreview`), _ = i7(), [v] = Y(q, `legacyUsernameColor`), [y] = Y(q, `hour24Clock`), [b] = Y(q, `dateFormatString`), { navigateRoom: x } = h2(), S = (0, A.useRef)(null), C = Y1({
@@ -163007,13 +163082,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         };
         return (0, j.jsx)(Pn, {
             ref: n,
-            className: Nrt,
+            className: Prt,
             children: (0, j.jsxs)(P, {
                 grow: `Yes`,
                 direction: `Column`,
                 children: [
                     (0, j.jsxs)(Dn, {
-                        className: Prt,
+                        className: Frt,
                         size: `500`,
                         children: [
                             (0, j.jsx)(P, {
@@ -163045,7 +163120,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             hideTrack: !0,
                             visibility: `Hover`,
                             children: (0, j.jsx)(P, {
-                                className: Frt,
+                                className: Irt,
                                 direction: `Column`,
                                 gap: `100`,
                                 children: p.length > 0 ? (0, j.jsx)(`div`, {
@@ -163061,14 +163136,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                 paddingBottom: N.space.S200
                                             },
                                             ref: C.measureElement,
-                                            children: (0, j.jsx)(X, {
+                                            children: (0, j.jsx)(hY, {
                                                 style: {
                                                     padding: N.space.S400,
                                                     borderRadius: N.radii.R300
                                                 },
                                                 variant: `SurfaceVariant`,
                                                 direction: `Column`,
-                                                children: (0, j.jsx)(Irt, {
+                                                children: (0, j.jsx)(Lrt, {
                                                     room: e,
                                                     eventId: n,
                                                     renderContent: O,
@@ -163130,14 +163205,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 ]
             })
         });
-    }), Rrt = `_1j4fvkl0`, zrt = `_1j4fvkl1`, Brt = `_1j4fvkl2`, Vrt = `_1j4fvkl3`;
+    }), zrt = `_1j4fvkl0`, Brt = `_1j4fvkl1`, Vrt = `_1j4fvkl2`, Hrt = `_1j4fvkl3`;
     function e9({ title: e, children: t }) {
         return (0, j.jsxs)(P, {
             direction: `Column`,
             gap: `100`,
             children: [
                 (0, j.jsx)(z, {
-                    className: Brt,
+                    className: Vrt,
                     size: `L400`,
                     children: e
                 }),
@@ -163150,7 +163225,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             size: `300`,
                             hideTrack: !0,
                             children: (0, j.jsx)(P, {
-                                className: Vrt,
+                                className: Hrt,
                                 direction: `Column`,
                                 gap: `100`,
                                 children: t
@@ -163161,7 +163236,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var Hrt = (0, A.forwardRef)(({ min: e, max: t, value: n, onChange: r }, i)=>{
+    var Urt = (0, A.forwardRef)(({ min: e, max: t, value: n, onChange: r }, i)=>{
         let [a] = Y(q, `hour24Clock`), o = (0, TK.default)(n).hour(), s = a ? o : iAe(o), c = (0, TK.default)(n).minute(), l = o >= 12, u = (n)=>{
             r(Math.min(Math.max(e, n), t));
         }, d = (e)=>{
@@ -163175,12 +163250,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             u(t);
         }, m = (0, TK.default)(e).hour(), h = (0, TK.default)(t).hour(), g = (0, TK.default)(e).minute(), _ = (0, TK.default)(t).minute(), v = m >= 12, y = h >= 12, b = YX(e, n), x = YX(t, n);
         return (0, j.jsx)(Pn, {
-            className: Rrt,
+            className: zrt,
             ref: i,
             children: (0, j.jsxs)(P, {
                 direction: `Row`,
                 gap: `200`,
-                className: zrt,
+                className: Brt,
                 children: [
                     (0, j.jsx)(e9, {
                         title: `Hour`,
@@ -163260,7 +163335,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 ]
             })
         });
-    }), Urt = (0, A.forwardRef)(({ min: e, max: t, value: n, onChange: r }, i)=>{
+    }), Wrt = (0, A.forwardRef)(({ min: e, max: t, value: n, onChange: r }, i)=>{
         let a = (0, TK.default)(n).year(), o = (0, TK.default)(n).month() + 1, s = (0, TK.default)(n).date(), c = (n)=>{
             r(Math.min(Math.max(e, n), t));
         }, l = (e)=>{
@@ -163275,12 +163350,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             u(o, e);
         }, p = (0, TK.default)(e).year(), m = (0, TK.default)(t).year(), h = m - p + 1, g = (0, TK.default)(e).month() + 1, _ = (0, TK.default)(t).month() + 1, v = (0, TK.default)(e).date(), y = (0, TK.default)(t).date();
         return (0, j.jsx)(Pn, {
-            className: Rrt,
+            className: zrt,
             ref: i,
             children: (0, j.jsxs)(P, {
                 direction: `Row`,
                 gap: `200`,
-                className: zrt,
+                className: Brt,
                 children: [
                     (0, j.jsx)(e9, {
                         title: `Day`,
@@ -163333,7 +163408,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     });
-    function Wrt({ onCancel: e, onSubmit: t }) {
+    function Grt({ onCancel: e, onSubmit: t }) {
         let n = J(), r = n7(), i = Jf(), a = bZ(r, K.RoomCreate), o = oAe(), s = sAe(), c = (0, A.useMemo)(()=>a?.getTs() ?? 0, [
             a
         ]), [l, u] = (0, A.useState)(()=>Date.now()), [d] = Y(q, `hour24Clock`), [f, p] = (0, A.useState)(), [m, h] = (0, A.useState)(), g = (e)=>{
@@ -163442,7 +163517,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                                         isKeyBackward: (e)=>e.key === `ArrowUp` || e.key === `ArrowLeft`,
                                                                         escapeDeactivates: nm
                                                                     },
-                                                                    children: (0, j.jsx)(Hrt, {
+                                                                    children: (0, j.jsx)(Urt, {
                                                                         min: c,
                                                                         max: Date.now(),
                                                                         value: l,
@@ -163498,7 +163573,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                                         isKeyBackward: (e)=>e.key === `ArrowUp` || e.key === `ArrowLeft`,
                                                                         escapeDeactivates: nm
                                                                     },
-                                                                    children: (0, j.jsx)(Urt, {
+                                                                    children: (0, j.jsx)(Wrt, {
                                                                         min: c,
                                                                         max: Date.now(),
                                                                         value: l,
@@ -163591,7 +163666,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    function Grt({ room: e, requestClose: t }) {
+    function Krt({ room: e, requestClose: t }) {
         let { navigateRoom: n } = h2(), [r] = Y(q, `hour24Clock`), i = (0, A.useMemo)(()=>Array.from(e.polls.values()).sort((e, t)=>t.rootEvent.getTs() - e.rootEvent.getTs()), [
             e
         ]), a = i.filter((e)=>!e.isEnded), o = i.filter((e)=>e.isEnded), s = (i)=>{
@@ -163696,7 +163771,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                             size: `L400`,
                                                             children: `Active`
                                                         }),
-                                                        (0, j.jsx)(X, {
+                                                        (0, j.jsx)(hY, {
                                                             variant: `SurfaceVariant`,
                                                             direction: `Column`,
                                                             gap: `100`,
@@ -163712,7 +163787,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                             size: `L400`,
                                                             children: `Ended`
                                                         }),
-                                                        (0, j.jsx)(X, {
+                                                        (0, j.jsx)(hY, {
                                                             variant: `SurfaceVariant`,
                                                             direction: `Column`,
                                                             gap: `100`,
@@ -163731,17 +163806,17 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var Krt = new Set([
+    var qrt = new Set([
         qI.Image,
         qI.Video,
         qI.Audio,
         qI.File
-    ]), qrt = (e)=>e === qI.Image ? B.Photo : e === qI.Video || e === qI.Audio ? B.Play : B.File;
-    function Jrt({ room: e, requestClose: t }) {
+    ]), Jrt = (e)=>e === qI.Image ? B.Photo : e === qI.Video || e === qI.Audio ? B.Play : B.File;
+    function Yrt({ room: e, requestClose: t }) {
         let { navigateRoom: n } = h2(), [r] = Y(q, `hour24Clock`), i = (0, A.useMemo)(()=>e.getUnfilteredTimelineSet().getLiveTimeline().getEvents().filter((e)=>{
                 if (e.isRedacted() || e.getType() !== `m.room.message`) return !1;
                 let t = e.getContent();
-                return Krt.has(t.msgtype ?? ``) ? !O4(t) : !1;
+                return qrt.has(t.msgtype ?? ``) ? !O4(t) : !1;
             }).reverse(), [
             e
         ]);
@@ -163808,7 +163883,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                     priority: `300`,
                                                     children: `No attachments in the part of this room you have loaded. Scroll further back to find older ones.`
                                                 }),
-                                                i.length > 0 && (0, j.jsx)(X, {
+                                                i.length > 0 && (0, j.jsx)(hY, {
                                                     variant: `SurfaceVariant`,
                                                     direction: `Column`,
                                                     gap: `100`,
@@ -163820,7 +163895,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                             variant: `Surface`,
                                                             before: (0, j.jsx)(I, {
                                                                 size: `100`,
-                                                                src: qrt(a.msgtype)
+                                                                src: Jrt(a.msgtype)
                                                             }),
                                                             onClick: ()=>{
                                                                 let r = i.getId();
@@ -163860,7 +163935,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var Yrt = (e)=>{
+    var Xrt = (e)=>{
         let t = (0, A.useCallback)(()=>{
             let t = e.getLiveTimeline().getState(SL.Forward), n = new Map;
             return t && t.events.forEach((e, t)=>{
@@ -163882,10 +163957,10 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             e,
             t
         ]), n;
-    }, Xrt = [
+    }, Zrt = [
         `m.widget`,
         `im.vector.modular.widgets`
-    ], Zrt = (e)=>e.map((e)=>{
+    ], Qrt = (e)=>e.map((e)=>{
             let t = e.getContent(), n = e.getStateKey(), r = t.url, i = t.type;
             if (!(!n || typeof r != `string` || typeof i != `string`)) return {
                 id: n,
@@ -163897,20 +163972,20 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 senderId: e.getSender() ?? void 0,
                 data: t.data ?? {}
             };
-        }).filter((e)=>e !== void 0), Qrt = (e)=>{
-        let t = Yrt(e);
+        }).filter((e)=>e !== void 0), $rt = (e)=>{
+        let t = Xrt(e);
         return (0, A.useMemo)(()=>{
             let e = new Map;
-            return Xrt.slice().reverse().forEach((n)=>{
+            return Zrt.slice().reverse().forEach((n)=>{
                 let r = t.get(n);
-                r && Zrt(Array.from(r.values())).forEach((t)=>e.set(t.id, t));
+                r && Qrt(Array.from(r.values())).forEach((t)=>e.set(t.id, t));
             }), Array.from(e.values());
         }, [
             t
         ]);
-    }, $rt = new Set([
+    }, eit = new Set([
         `https:`
-    ]), eit = /^(localhost|127(?:\.\d+){3}|0\.0\.0\.0|\[?::1\]?|10(?:\.\d+){3}|192\.168(?:\.\d+){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d+){2}|.*\.local|.*\.localhost)$/i, tit = (e)=>{
+    ]), tit = /^(localhost|127(?:\.\d+){3}|0\.0\.0\.0|\[?::1\]?|10(?:\.\d+){3}|192\.168(?:\.\d+){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d+){2}|.*\.local|.*\.localhost)$/i, nit = (e)=>{
         let t;
         try {
             t = new URL(e);
@@ -163921,7 +163996,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 message: `That is not a valid URL.`
             };
         }
-        return $rt.has(t.protocol) ? t.username || t.password ? {
+        return eit.has(t.protocol) ? t.username || t.password ? {
             ok: !1,
             reason: `credentials`,
             message: `Widget URLs must not contain credentials.`
@@ -163929,7 +164004,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ok: !1,
             reason: `same-origin`,
             message: `This widget is served from the same address as the app itself, which would give it access to your account. Refusing to load it.`
-        } : eit.test(t.hostname) ? {
+        } : tit.test(t.hostname) ? {
             ok: !1,
             reason: `private-host`,
             message: `Widgets cannot be loaded from local or private addresses.`
@@ -163941,7 +164016,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             reason: `scheme`,
             message: `Widgets must be served over https.`
         };
-    }, nit = (e, t)=>{
+    }, rit = (e, t)=>{
         let n = {
             $matrix_widget_id: t.widgetId,
             $matrix_room_id: t.roomId,
@@ -163952,32 +164027,32 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             $matrix_base_url: t.baseUrl ?? ``
         };
         return Object.entries(n).reduce((e, [t, n])=>e.split(t).join(encodeURIComponent(n)), e);
-    }, rit = `im.vector.setting.allowed_widgets`, t9 = (e)=>e.getAccountData(`im.vector.setting.allowed_widgets`)?.getContent() ?? {}, iit = (e, t)=>{
+    }, iit = `im.vector.setting.allowed_widgets`, t9 = (e)=>e.getAccountData(`im.vector.setting.allowed_widgets`)?.getContent() ?? {}, ait = (e, t)=>{
         let n = t9(e).allowed?.[t] ?? {};
         return new Set(Object.entries(n).filter(([, e])=>e === !0).map(([e])=>e));
-    }, ait = async (e, t, n)=>{
+    }, oit = async (e, t, n)=>{
         let r = t9(e), i = {
             ...r.allowed ?? {}
         };
         i[t] = {
             ...i[t] ?? {},
             ...n
-        }, await e.setAccountData(rit, {
+        }, await e.setAccountData(iit, {
             ...r,
             allowed: i
         });
-    }, oit = async (e, t)=>{
+    }, sit = async (e, t)=>{
         let n = t9(e), r = {
             ...n.allowed ?? {}
         };
-        delete r[t], await e.setAccountData(rit, {
+        delete r[t], await e.setAccountData(iit, {
             ...n,
             allowed: r
         });
-    }, sit = (e, t, n)=>{
+    }, cit = (e, t, n)=>{
         let r = t9(e).allowed?.[t] ?? {};
         return Array.from(n).filter((e)=>!(e in r));
-    }, cit = class extends yLe {
+    }, lit = class extends yLe {
         constructor(e, t, n){
             super(e, t), this.granted = n;
         }
@@ -163989,7 +164064,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 state: QV.OpenIDRequestState.Blocked
             });
         }
-    }, lit = {
+    }, uit = {
         [QV.MatrixCapabilities.AlwaysOnScreen]: {
             text: `Stay visible on screen while you use other rooms`
         },
@@ -164029,7 +164104,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             text: `Read messages sent directly to your devices`,
             sensitive: !0
         }
-    }, uit = (e)=>{
+    }, dit = (e)=>{
         let t = e.direction === QV.EventDirection.Send ? `Send` : `Read`, n = e.keyStr ? `${e.eventType} (${e.keyStr})` : e.eventType, r = e.eventType === `m.room.message` || e.eventType === `m.room.encrypted` || e.direction === QV.EventDirection.Send;
         return e.eventType === `m.room.message` ? {
             text: t === `Send` ? `Send messages to this room as you` : `Read messages in this room`,
@@ -164038,8 +164113,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             text: `${t} "${n}" events in this room`,
             sensitive: r
         };
-    }, dit = (e)=>{
-        let t = lit[e];
+    }, fit = (e)=>{
+        let t = uit[e];
         if (t) return {
             capability: e,
             text: t.text,
@@ -164050,7 +164125,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             e
         ]);
         if (n.length > 0) {
-            let t = uit(n[0]);
+            let t = dit(n[0]);
             return {
                 capability: e,
                 text: t.text,
@@ -164064,9 +164139,9 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             unknown: !0,
             sensitive: !0
         };
-    }, fit = (e)=>Array.from(e).map(dit).sort((e, t)=>Number(t.sensitive) - Number(e.sensitive));
-    function pit({ widget: e, requested: t, onDecide: n, onCancel: r }) {
-        let i = (0, A.useMemo)(()=>fit(t), [
+    }, pit = (e)=>Array.from(e).map(fit).sort((e, t)=>Number(t.sensitive) - Number(e.sensitive));
+    function mit({ widget: e, requested: t, onDecide: n, onCancel: r }) {
+        let i = (0, A.useMemo)(()=>pit(t), [
             t
         ]), [a, o] = (0, A.useState)(()=>Object.fromEntries(t.map((e)=>[
                     e,
@@ -164187,10 +164262,10 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    function mit({ room: e, widget: t, onClose: n }) {
-        let r = J(), i = (0, A.useRef)(null), a = (0, A.useRef)(void 0), o = (0, A.useMemo)(()=>tit(t.url), [
+    function hit({ room: e, widget: t, onClose: n }) {
+        let r = J(), i = (0, A.useRef)(null), a = (0, A.useRef)(void 0), o = (0, A.useMemo)(()=>nit(t.url), [
             t.url
-        ]), s = (0, A.useMemo)(()=>sit(r, t.permissionKey, [
+        ]), s = (0, A.useMemo)(()=>cit(r, t.permissionKey, [
                 `m.always_on_screen`,
                 `m.sticker`,
                 `org.matrix.msc2762.receive.state_event:m.room.member`,
@@ -164200,7 +164275,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             r,
             t.permissionKey
         ]), [c, l] = (0, A.useState)(s.length > 0), [u, d] = (0, A.useState)(!1), f = (0, A.useCallback)(async (e)=>{
-            await ait(r, t.permissionKey, e), l(!1);
+            await oit(r, t.permissionKey, e), l(!1);
         }, [
             r,
             t.permissionKey
@@ -164209,7 +164284,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             if (c || !o.ok) return;
             let n = i.current;
             if (!n) return;
-            let s = nit(t.url, {
+            let s = rit(t.url, {
                 widgetId: t.id,
                 roomId: e.roomId,
                 userId: r.getSafeUserId(),
@@ -164224,7 +164299,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 url: t.url,
                 name: t.name,
                 data: t.data
-            }, f = iit(r, t.permissionKey), p = new cit(r, e.roomId, f), m = new QV.ClientWidgetApi(new QV.Widget(u), l, p);
+            }, f = ait(r, t.permissionKey), p = new lit(r, e.roomId, f), m = new QV.ClientWidgetApi(new QV.Widget(u), l, p);
             return a.current = m, d(!0), ()=>{
                 m.stop(), a.current = void 0, l.remove();
             };
@@ -164234,7 +164309,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             t,
             e.roomId,
             r
-        ]), o.ok ? c ? (0, j.jsx)(pit, {
+        ]), o.ok ? c ? (0, j.jsx)(mit, {
             widget: t,
             requested: s,
             onDecide: f,
@@ -164351,11 +164426,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var hit = `im.vector.modular.widgets`;
-    function git({ room: e, requestClose: t }) {
-        let n = J(), r = Qrt(e), i = wZ(), a = h1(g1(e), i).stateEvent(hit, n.getSafeUserId()), [o, s] = (0, A.useState)(), [c, l] = (0, A.useState)(``), [u, d] = (0, A.useState)(``), [f, p] = (0, A.useState)(), [m, h] = Xf((0, A.useCallback)(async (t, r)=>{
+    var git = `im.vector.modular.widgets`;
+    function _it({ room: e, requestClose: t }) {
+        let n = J(), r = $rt(e), i = wZ(), a = h1(g1(e), i).stateEvent(git, n.getSafeUserId()), [o, s] = (0, A.useState)(), [c, l] = (0, A.useState)(``), [u, d] = (0, A.useState)(``), [f, p] = (0, A.useState)(), [m, h] = Xf((0, A.useCallback)(async (t, r)=>{
             let i = `prinny-${Date.now()}`;
-            await n.sendStateEvent(e.roomId, hit, {
+            await n.sendStateEvent(e.roomId, git, {
                 type: `customwidget`,
                 url: t,
                 name: r || `Widget`,
@@ -164365,7 +164440,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             n,
             e.roomId
         ])), [g, _] = Xf((0, A.useCallback)(async (t)=>{
-            await n.sendStateEvent(e.roomId, t.eventType, {}, t.id), await oit(n, t.permissionKey);
+            await n.sendStateEvent(e.roomId, t.eventType, {}, t.id), await sit(n, t.permissionKey);
         }, [
             n,
             e.roomId
@@ -164415,7 +164490,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                         })
                                     ]
                                 }),
-                                o ? (0, j.jsx)(mit, {
+                                o ? (0, j.jsx)(hit, {
                                     room: e,
                                     widget: o,
                                     onClose: ()=>s(void 0)
@@ -164438,8 +164513,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                     children: `This room has no widgets.`
                                                 }),
                                                 r.map((e)=>{
-                                                    let t = tit(e.url);
-                                                    return (0, j.jsxs)(X, {
+                                                    let t = nit(e.url);
+                                                    return (0, j.jsxs)(hY, {
                                                         variant: `SurfaceVariant`,
                                                         direction: `Column`,
                                                         gap: `200`,
@@ -164517,7 +164592,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                     as: `form`,
                                                     onSubmit: (e)=>{
                                                         e.preventDefault();
-                                                        let t = tit(c.trim());
+                                                        let t = nit(c.trim());
                                                         if (!t.ok) {
                                                             p(t.message);
                                                             return;
@@ -164597,10 +164672,10 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var _it = 100, n9 = (e)=>e.replace(/&/g, `&amp;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/"/g, `&quot;`), vit = (e)=>{
+    var vit = 100, n9 = (e)=>e.replace(/&/g, `&amp;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/"/g, `&quot;`), yit = (e)=>{
         let t = e.getContent().msgtype;
         return t === qI.Image || t === qI.Video || t === qI.Audio || t === qI.File;
-    }, yit = (e, t)=>{
+    }, bit = (e, t)=>{
         let n = t.getContent(), r = typeof n.body == `string` ? n.body : ``;
         if (t.isRedacted()) return `[message deleted]`;
         if (t.getType() === `m.room.encrypted`) return `[could not decrypt]`;
@@ -164619,13 +164694,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             default:
                 return r;
         }
-    }, bit = async (e, t, n)=>{
+    }, xit = async (e, t, n)=>{
         let r = [], i = null, a = e.getCrypto();
         for(; r.length < n.limit;){
             if (n.signal.aborted) throw Error(`aborted`);
             let o;
             try {
-                o = await e.createMessagesRequest(t.roomId, i, Math.min(_it, n.limit - r.length), SL.Backward);
+                o = await e.createMessagesRequest(t.roomId, i, Math.min(vit, n.limit - r.length), SL.Backward);
             } catch  {
                 break;
             }
@@ -164638,21 +164713,21 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             i = o.end ?? null;
         }
         return r.filter((e)=>e.getType() === `m.room.message` || e.isEncrypted()).sort((e, t)=>e.getTs() - t.getTs()).slice(-n.limit);
-    }, xit = (e, t)=>{
+    }, Sit = (e, t)=>{
         let n = t.map((t)=>{
             let n = t.getSender() ?? ``, r = jW(e, n) ?? UW(n) ?? n;
-            return `[${new Date(t.getTs()).toISOString()}] ${r}: ${yit(e, t)}`;
+            return `[${new Date(t.getTs()).toISOString()}] ${r}: ${bit(e, t)}`;
         });
         return `${e.name}\n${`=`.repeat(e.name.length)}\n\n${n.join(`
 `)}\n`;
-    }, Sit = (e, t)=>JSON.stringify({
+    }, Cit = (e, t)=>JSON.stringify({
             room_id: e.roomId,
             room_name: e.name,
             exported_at: new Date().toISOString(),
             messages: t.map((e)=>e.getEffectiveEvent())
-        }, null, 2), Cit = (e, t, n)=>{
+        }, null, 2), wit = (e, t, n)=>{
         let r = t.map((t)=>{
-            let r = t.getSender() ?? ``, i = jW(e, r) ?? UW(r) ?? r, a = new Date(t.getTs()).toLocaleString(), o = t.getId() ?? ``, s = n.get(o), c = n9(yit(e, t));
+            let r = t.getSender() ?? ``, i = jW(e, r) ?? UW(r) ?? r, a = new Date(t.getTs()).toLocaleString(), o = t.getId() ?? ``, s = n.get(o), c = n9(bit(e, t));
             if (s) {
                 let e = t.getContent().msgtype, n = n9(s);
                 c = e === qI.Image ? `<a href="${n}"><img src="${n}" alt="${n9(String(t.getContent().body ?? ``))}" /></a>` : `<a href="${n}">${c}</a>`;
@@ -164684,24 +164759,24 @@ ${r}
 </body>
 </html>
 `;
-    }, wit = async (e, t, n)=>{
+    }, Tit = async (e, t, n)=>{
         let r = t.getContent(), i = r.file?.url ?? r.url;
         if (typeof i != `string`) return;
         let a = iG(e, i, n);
         if (!a) return;
         let o = r.info?.mimetype ?? `application/octet-stream`, [s, c] = await fm(r.file ? oG(a, (e)=>ZW(e, o, r.file)) : aG(a));
         if (!s) return c;
-    }, Tit = async (e, t, n)=>{
-        let r = await bit(e, t, n), i = new Map, a = [], o = 0;
+    }, Eit = async (e, t, n)=>{
+        let r = await xit(e, t, n), i = new Map, a = [], o = 0;
         if (n.includeAttachments) {
-            let t = r.filter(vit);
+            let t = r.filter(yit);
             for(let s = 0; s < t.length; s += 1){
                 if (n.signal.aborted) throw Error(`aborted`);
                 let c = t[s], l = c.getId(), u = c.getContent();
                 if ((typeof u.info?.size == `number` ? u.info.size : 0) > n.maxAttachmentBytes) o += 1;
                 else if (l) {
                     n.onProgress(`Downloading attachments (${s + 1}/${t.length})`, r.length);
-                    let o = await wit(e, c, n.useAuthentication);
+                    let o = await Tit(e, c, n.useAuthentication);
                     if (o) {
                         let e = p1(typeof u.body == `string` ? u.body : `attachment`), t = `media/${l.replace(/[^a-zA-Z0-9]/g, ``)}-${e}`;
                         i.set(l, t), a.push({
@@ -164715,7 +164790,7 @@ ${r}
         }
         n.onProgress(`Writing file`, r.length);
         let s = new Date().toISOString().slice(0, 10), c = `${p1(t.name || t.roomId).replace(/\s+/g, `-`) || `room`}-${s}`, l, u;
-        return n.format === `json` ? (l = Sit(t, r), u = `json`) : n.format === `txt` ? (l = xit(t, r), u = `txt`) : (l = Cit(t, r, i), u = `html`), a.length === 0 ? {
+        return n.format === `json` ? (l = Cit(t, r), u = `json`) : n.format === `txt` ? (l = Sit(t, r), u = `txt`) : (l = wit(t, r, i), u = `html`), a.length === 0 ? {
             blob: new Blob([
                 l
             ], {
@@ -164732,7 +164807,7 @@ ${r}
             filename: `${c}.zip`,
             skippedAttachments: o
         });
-    }, Eit = [
+    }, Dit = [
         {
             value: `html`,
             label: `HTML`,
@@ -164748,16 +164823,16 @@ ${r}
             label: `JSON`,
             hint: `Raw events, for tooling`
         }
-    ], Dit = 25;
-    function Oit({ room: e, requestClose: t }) {
+    ], Oit = 25;
+    function kit({ room: e, requestClose: t }) {
         let n = J(), r = $Y(), [i, a] = (0, A.useState)(`html`), [o, s] = (0, A.useState)(KJ() ? 500 : 2e3), [c, l] = (0, A.useState)(!1), [u, d] = (0, A.useState)(), [f, p] = (0, A.useState)(0), m = (0, A.useRef)(void 0), [h, g] = Xf((0, A.useCallback)(async ()=>{
             let t = new AbortController;
             m.current = t, p(0);
-            let a = await Tit(n, e, {
+            let a = await Eit(n, e, {
                 format: i,
                 limit: o,
                 includeAttachments: c,
-                maxAttachmentBytes: Dit * 1024 * 1024,
+                maxAttachmentBytes: Oit * 1024 * 1024,
                 useAuthentication: r,
                 signal: t.signal,
                 onProgress: (e, t)=>d(`${e}… ${t} messages`)
@@ -164843,7 +164918,7 @@ ${r}
                                                         (0, j.jsx)(P, {
                                                             gap: `100`,
                                                             wrap: `Wrap`,
-                                                            children: Eit.map((e)=>(0, j.jsx)(F, {
+                                                            children: Dit.map((e)=>(0, j.jsx)(F, {
                                                                     size: `300`,
                                                                     radii: `Pill`,
                                                                     variant: i === e.value ? `Primary` : `Secondary`,
@@ -164859,7 +164934,7 @@ ${r}
                                                         (0, j.jsx)(z, {
                                                             size: `T200`,
                                                             priority: `300`,
-                                                            children: Eit.find((e)=>e.value === i)?.hint
+                                                            children: Dit.find((e)=>e.value === i)?.hint
                                                         })
                                                     ]
                                                 }),
@@ -164890,9 +164965,9 @@ ${r}
                                                         })
                                                     ]
                                                 }),
-                                                (0, j.jsx)(vY, {
+                                                (0, j.jsx)(X, {
                                                     title: `Include attachments`,
-                                                    description: `Bundles the export and its media into a zip. Files over ${Dit}MB are left out.`,
+                                                    description: `Bundles the export and its media into a zip. Files over ${Oit}MB are left out.`,
                                                     after: (0, j.jsx)(ar, {
                                                         variant: `Primary`,
                                                         value: c,
@@ -164972,7 +165047,7 @@ ${r}
             })
         });
     }
-    var kit = (0, A.forwardRef)(({ room: e, requestClose: t }, n)=>{
+    var Ait = (0, A.forwardRef)(({ room: e, requestClose: t }, n)=>{
         let r = J(), [i] = Y(q, `hideReadReceipts`), a = u0(e.roomId, Sq), o = wZ(), s = h1(g1(e), o).action(`invite`, r.getSafeUserId()), c = _q(hq(), e.roomId), { navigateRoom: l } = h2(), [u, d] = (0, A.useState)(!1), f = Vo(j4), p = ()=>{
             f(!0), t();
         }, m = ()=>{
@@ -165144,7 +165219,7 @@ ${r}
                                                 children: `Widgets`
                                             })
                                         }),
-                                        n && (0, j.jsx)(git, {
+                                        n && (0, j.jsx)(_it, {
                                             room: e,
                                             requestClose: ()=>{
                                                 r(!1), t();
@@ -165194,7 +165269,7 @@ ${r}
                                                 children: `Files`
                                             })
                                         }),
-                                        n && (0, j.jsx)(Jrt, {
+                                        n && (0, j.jsx)(Yrt, {
                                             room: e,
                                             requestClose: ()=>{
                                                 r(!1), t();
@@ -165226,7 +165301,7 @@ ${r}
                                                 children: `Export Chat`
                                             })
                                         }),
-                                        n && (0, j.jsx)(Oit, {
+                                        n && (0, j.jsx)(kit, {
                                             room: e,
                                             requestClose: ()=>{
                                                 r(!1), t();
@@ -165258,7 +165333,7 @@ ${r}
                                                 children: `Polls`
                                             })
                                         }),
-                                        n && (0, j.jsx)(Grt, {
+                                        n && (0, j.jsx)(Krt, {
                                             room: e,
                                             requestClose: ()=>{
                                                 r(!1), t();
@@ -165290,7 +165365,7 @@ ${r}
                                                 children: `Jump to Time`
                                             })
                                         }),
-                                        n && (0, j.jsx)(Wrt, {
+                                        n && (0, j.jsx)(Grt, {
                                             onSubmit: (n)=>{
                                                 r(!1), l(e.roomId, n), t();
                                             },
@@ -165348,7 +165423,7 @@ ${r}
             ]
         });
     });
-    function Ait({ livekitSupported: e, hasCallPermission: t }) {
+    function jit({ livekitSupported: e, hasCallPermission: t }) {
         let n = n7(), r = i7(), i = Z0(), a = Q0(r), o = i && i.roomId === n.roomId, s = i && !o, c = !!(s || o || !e || !t), l = s ? `Already in another call — End the current call to join!` : e ? t ? null : `You do not have permission to start a call in this room.` : `Your homeserver does not advertise a LiveKit/MatrixRTC focus, so calls cannot be started.`, u = ()=>{
             c || a(n, {
                 microphone: !0,
@@ -165411,8 +165486,8 @@ ${r}
             ]
         });
     }
-    function jit({ callView: e }) {
-        let t = du(), n = J(), r = $Y(), i = om(), a = n7(), o = k0(), s = wZ(), c = h1(g1(a), s).stateEvent(K.GroupCallMemberPrefix, n.getSafeUserId()), l = e2(), u = t2(), [d, f] = (0, A.useState)(), [p, m] = (0, A.useState)(), h = i7(), g = Z5(a), _ = I0(a, h), v = L0(a), y = R0(a), b = _ ? iG(n, _, r, 96, 96, `crop`) ?? void 0 : void 0, [x, S] = Y(q, `isPeopleDrawer`), C = h ? nG(a, n.getSafeUserId()) : void 0, w = pX(C ?? ``), [T, E] = Ho(Lnt), D = Vo(Rnt), [O, k] = Ho(j4), ee = ()=>{
+    function Mit({ callView: e }) {
+        let t = du(), n = J(), r = $Y(), i = om(), a = n7(), o = k0(), s = wZ(), c = h1(g1(a), s).stateEvent(K.GroupCallMemberPrefix, n.getSafeUserId()), l = e2(), u = t2(), [d, f] = (0, A.useState)(), [p, m] = (0, A.useState)(), h = i7(), g = Z5(a), _ = I0(a, h), v = L0(a), y = R0(a), b = _ ? iG(n, _, r, 96, 96, `crop`) ?? void 0 : void 0, [x, S] = Y(q, `isPeopleDrawer`), C = h ? nG(a, n.getSafeUserId()) : void 0, w = pX(C ?? ``), [T, E] = Ho(Rnt), D = Vo(znt), [O, k] = Ho(j4), ee = ()=>{
             k((e)=>!e);
         }, te = ()=>{
             if (e) {
@@ -165636,13 +165711,13 @@ ${r}
                                         isKeyBackward: (e)=>e.key === `ArrowUp`,
                                         escapeDeactivates: nm
                                     },
-                                    children: (0, j.jsx)(Lrt, {
+                                    children: (0, j.jsx)(Rrt, {
                                         room: a,
                                         requestClose: ()=>m(void 0)
                                     })
                                 })
                             }),
-                            !a.isCallRoom() && u && (0, j.jsx)(Ait, {
+                            !a.isCallRoom() && u && (0, j.jsx)(jit, {
                                 livekitSupported: l,
                                 hasCallPermission: c
                             }),
@@ -165701,7 +165776,7 @@ ${r}
                                         isKeyBackward: (e)=>e.key === `ArrowUp`,
                                         escapeDeactivates: nm
                                     },
-                                    children: (0, j.jsx)(kit, {
+                                    children: (0, j.jsx)(Ait, {
                                         room: a,
                                         requestClose: ()=>f(void 0)
                                     })
@@ -165713,7 +165788,7 @@ ${r}
             })
         });
     }
-    function Mit({ room: e }) {
+    function Nit({ room: e }) {
         let t = J(), n = $Y(), r = S5(t, e.roomId), i = wZ(), a = h1(g1(e), i), o = t.getSafeUserId(), s = a.action(`invite`, o), c = a.action(`kick`, o), [l, u] = (0, A.useState)([]), d = (0, A.useMemo)(()=>r.filter((e)=>e.membership === aL.Knock && !l.includes(e.userId)), [
             r,
             l
@@ -165823,7 +165898,7 @@ ${r}
             ]
         });
     }
-    var Nit = (e, t)=>{
+    var Pit = (e, t)=>{
         let n = J(), [r, i] = (0, A.useState)([]), [a, o] = (0, A.useState)(), [s, c] = (0, A.useState)(!0), [l, u] = (0, A.useState)(!1), [d, f] = (0, A.useState)(0), p = (0, A.useCallback)(async (r)=>{
             c(!0);
             try {
@@ -165891,7 +165966,7 @@ ${r}
             ])
         };
     };
-    function Pit({ room: e, mEvent: t, htmlReactParserOptions: n, linkifyOpts: r, hour24Clock: i, dateFormatString: a, mediaAutoLoad: o, urlPreview: s }) {
+    function Fit({ room: e, mEvent: t, htmlReactParserOptions: n, linkifyOpts: r, hour24Clock: i, dateFormatString: a, mediaAutoLoad: o, urlPreview: s }) {
         let c = J(), l = $Y(), u = t.getSender() ?? ``, d = jW(e, u) ?? UW(u) ?? u, f = NW(e, u);
         return (0, j.jsx)(S2, {
             space: `300`,
@@ -165953,8 +166028,8 @@ ${r}
             })
         });
     }
-    function Fit({ room: e, rootId: t, onClose: n }) {
-        let r = J(), i = O0e(), a = (0, A.useRef)(null), o = (0, A.useRef)(null), s = e4(e, t), { events: c, loading: l, canPaginate: u, paginate: d } = Nit(e, t), [f] = Y(q, `hour24Clock`), [p] = Y(q, `dateFormatString`), [m] = Y(q, `mediaAutoLoad`), [h] = Y(q, `urlPreview`), [g] = Y(q, `renderMaths`), _ = z7e(g), v = $Y(), y = P4(e.roomId), b = F4(), x = (0, A.useMemo)(()=>({
+    function Iit({ room: e, rootId: t, onClose: n }) {
+        let r = J(), i = O0e(), a = (0, A.useRef)(null), o = (0, A.useRef)(null), s = e4(e, t), { events: c, loading: l, canPaginate: u, paginate: d } = Pit(e, t), [f] = Y(q, `hour24Clock`), [p] = Y(q, `dateFormatString`), [m] = Y(q, `mediaAutoLoad`), [h] = Y(q, `urlPreview`), [g] = Y(q, `renderMaths`), _ = z7e(g), v = $Y(), y = P4(e.roomId), b = F4(), x = (0, A.useMemo)(()=>({
                 ...H$,
                 render: G$((t)=>W$(r, e.roomId, t, U$(y)))
             }), [
@@ -166050,7 +166125,7 @@ ${r}
                                     },
                                     children: `The message this thread started from could not be loaded.`
                                 }),
-                                s && (0, j.jsx)(Pit, {
+                                s && (0, j.jsx)(Fit, {
                                     room: e,
                                     mEvent: s,
                                     htmlReactParserOptions: S,
@@ -166117,7 +166192,7 @@ ${r}
                                         size: `400`
                                     })
                                 }),
-                                c.map((t)=>(0, j.jsx)(Pit, {
+                                c.map((t)=>(0, j.jsx)(Fit, {
                                         room: e,
                                         mEvent: t,
                                         htmlReactParserOptions: S,
@@ -166149,7 +166224,7 @@ ${r}
             ]
         });
     }
-    function Iit() {
+    function Lit() {
         let { eventId: e } = hu(), t = Vo(X0), n = om(), r = nY(`callChatPane`), i = ()=>t(!1);
         return (0, j.jsxs)(cY, {
             style: n === am.Desktop ? {
@@ -166204,7 +166279,7 @@ ${r}
                 (0, j.jsx)(P, {
                     grow: `Yes`,
                     direction: `Column`,
-                    children: (0, j.jsx)(Ent, {
+                    children: (0, j.jsx)(Dnt, {
                         eventId: e
                     })
                 })
@@ -166244,7 +166319,7 @@ ${r}
         });
     }
     function i9() {
-        let { eventId: e } = hu(), t = n7(), n = J(), r = H0(B0(t)), i = Z0(), [a] = Y(q, `isPeopleDrawer`), [o] = Y(q, `hideReadReceipts`), [s, c] = Ho(Lnt), l = om();
+        let { eventId: e } = hu(), t = n7(), n = J(), r = H0(B0(t)), i = Z0(), [a] = Y(q, `isPeopleDrawer`), [o] = Y(q, `hideReadReceipts`), [s, c] = Ho(Rnt), l = om();
         (0, A.useEffect)(()=>(c(!1), ()=>c(!1)), [
             t.roomId,
             c
@@ -166289,12 +166364,12 @@ ${r}
                                 grow: `Yes`,
                                 direction: `Column`,
                                 children: [
-                                    (0, j.jsx)(jit, {
+                                    (0, j.jsx)(Mit, {
                                         callView: !0
                                     }),
                                     (0, j.jsx)(P, {
                                         grow: `Yes`,
-                                        children: (0, j.jsx)(Mrt, {})
+                                        children: (0, j.jsx)(Nrt, {})
                                     })
                                 ]
                             }),
@@ -166305,8 +166380,8 @@ ${r}
                                     position: `relative`
                                 },
                                 children: [
-                                    (0, j.jsx)(jit, {}),
-                                    (0, j.jsx)(Mit, {
+                                    (0, j.jsx)(Mit, {}),
+                                    (0, j.jsx)(Nit, {
                                         room: t
                                     }),
                                     (0, j.jsx)(qet, {
@@ -166314,7 +166389,7 @@ ${r}
                                     }),
                                     (0, j.jsx)(P, {
                                         grow: `Yes`,
-                                        children: (0, j.jsx)(Ent, {
+                                        children: (0, j.jsx)(Dnt, {
                                             eventId: e
                                         })
                                     }),
@@ -166324,7 +166399,7 @@ ${r}
                                             inset: 0,
                                             zIndex: 11
                                         },
-                                        children: (0, j.jsx)(Fit, {
+                                        children: (0, j.jsx)(Iit, {
                                             room: t,
                                             rootId: h,
                                             onClose: m
@@ -166336,7 +166411,7 @@ ${r}
                                             inset: 0,
                                             zIndex: 10
                                         },
-                                        children: (0, j.jsx)(crt, {
+                                        children: (0, j.jsx)(lrt, {
                                             room: t,
                                             members: _,
                                             overlay: !0,
@@ -166352,7 +166427,7 @@ ${r}
                                         side: `After`,
                                         label: `call chat`
                                     }),
-                                    (0, j.jsx)(Iit, {})
+                                    (0, j.jsx)(Lit, {})
                                 ]
                             }),
                             !b && l === am.Desktop && h && (0, j.jsxs)(j.Fragment, {
@@ -166365,7 +166440,7 @@ ${r}
                                     (0, j.jsx)(P, {
                                         shrink: `No`,
                                         style: x.style,
-                                        children: (0, j.jsx)(Fit, {
+                                        children: (0, j.jsx)(Iit, {
                                             room: t,
                                             rootId: h,
                                             onClose: m
@@ -166380,7 +166455,7 @@ ${r}
                                         side: `After`,
                                         label: `member list`
                                     }),
-                                    (0, j.jsx)(crt, {
+                                    (0, j.jsx)(lrt, {
                                         room: t,
                                         members: _
                                     }, t.roomId)
@@ -166397,7 +166472,7 @@ ${r}
         return new Set(t);
     }, (e, t)=>{
         cK(e, Array.from(t));
-    }), Lit = To((e)=>e(a9), (e, t, n)=>{
+    }), Rit = To((e)=>e(a9), (e, t, n)=>{
         let r = e(a9), { type: i, roomIds: a } = n;
         if (i === `DELETE` && a.find((e)=>r.has(e))) {
             t(a9, _t(r, (e)=>{
@@ -166411,7 +166486,7 @@ ${r}
                 e.forEach((e)=>t.add(e));
             }));
         }
-    }), Rit = `_1p73zhk0`, zit = (0, A.forwardRef)(({ powerLevels: e, requestClose: t }, n)=>{
+    }), zit = `_1p73zhk0`, Bit = (0, A.forwardRef)(({ powerLevels: e, requestClose: t }, n)=>{
         let r = J(), i = O0(), a = h1(g1(i), e).action(`invite`, r.getSafeUserId()), o = p7(), [s, c] = (0, A.useState)(!1);
         return (0, j.jsxs)(Pn, {
             ref: n,
@@ -166526,12 +166601,12 @@ ${r}
             ]
         });
     });
-    function Bit({ showProfile: e, powerLevels: t }) {
+    function Vit({ showProfile: e, powerLevels: t }) {
         let n = J(), r = $Y(), i = O0(), a = Eq(q, `isPeopleDrawer`), [o, s] = (0, A.useState)(), c = om(), l = L0(i), u = I0(i), d = u ? iG(n, u, r, 96, 96, `crop`) ?? void 0 : void 0, f = (e)=>{
             s(e.currentTarget.getBoundingClientRect());
         };
         return (0, j.jsx)(lY, {
-            className: e ? void 0 : Rit,
+            className: e ? void 0 : zit,
             balance: !0,
             children: (0, j.jsxs)(P, {
                 grow: `Yes`,
@@ -166655,7 +166730,7 @@ ${r}
                                         isKeyBackward: (e)=>e.key === `ArrowUp`,
                                         escapeDeactivates: nm
                                     },
-                                    children: (0, j.jsx)(zit, {
+                                    children: (0, j.jsx)(Bit, {
                                         powerLevels: t,
                                         requestClose: ()=>s(void 0)
                                     })
@@ -166667,7 +166742,7 @@ ${r}
             })
         });
     }
-    function Vit() {
+    function Hit() {
         let e = J(), t = $Y(), n = O0(), r = L0(n), i = R0(n), a = I0(n), o = a ? iG(e, a, t, 96, 96, `crop`) ?? void 0 : void 0;
         return (0, j.jsx)(pY, {
             icon: (0, j.jsx)(ln, {
@@ -166721,8 +166796,8 @@ ${r}
             })
         });
     }
-    var Hit = `closedLobbyCategories`, Uit = (e)=>{
-        let t = lK(`${Hit}${e}`, (e)=>{
+    var Uit = `closedLobbyCategories`, Wit = (e)=>{
+        let t = lK(`${Uit}${e}`, (e)=>{
             let t = sK(e, []);
             return new Set(t);
         }, (e, t)=>{
@@ -166739,7 +166814,7 @@ ${r}
                 e.add(r.categoryId);
             }));
         });
-    }, Wit = (...e)=>e.join(`|`), Git = c(((e)=>{
+    }, Git = (...e)=>e.join(`|`), Kit = c(((e)=>{
         Object.defineProperty(e, "__esModule", {
             value: !0
         }), e.bind = void 0;
@@ -166750,7 +166825,7 @@ ${r}
             };
         }
         e.bind = t;
-    })), Kit = c(((e)=>{
+    })), qit = c(((e)=>{
         var t = e && e.__assign || function() {
             return t = Object.assign || function(e) {
                 for(var t, n = 1, r = arguments.length; n < r; n++)for(var i in t = arguments[n], t)Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
@@ -166760,7 +166835,7 @@ ${r}
         Object.defineProperty(e, "__esModule", {
             value: !0
         }), e.bindAll = void 0;
-        var n = Git();
+        var n = Kit();
         function r(e) {
             if (e !== void 0) return typeof e == `boolean` ? {
                 capture: e
@@ -166787,29 +166862,29 @@ ${r}
         Object.defineProperty(e, "__esModule", {
             value: !0
         }), e.bindAll = e.bind = void 0;
-        var t = Git();
+        var t = Kit();
         Object.defineProperty(e, "bind", {
             enumerable: !0,
             get: function() {
                 return t.bind;
             }
         });
-        var n = Kit();
+        var n = qit();
         Object.defineProperty(e, "bindAll", {
             enumerable: !0,
             get: function() {
                 return n.bindAll;
             }
         });
-    }))(), qit = `data-pdnd-honey-pot`;
-    function Jit(e) {
+    }))(), Jit = `data-pdnd-honey-pot`;
+    function Yit(e) {
         return e instanceof Element && e.hasAttribute(`data-pdnd-honey-pot`);
     }
-    function Yit(e) {
+    function Xit(e) {
         var t = vm(document.elementsFromPoint(e.x, e.y), 2), n = t[0], r = t[1];
-        return n ? Jit(n) ? r ?? null : n : null;
+        return n ? Yit(n) ? r ?? null : n : null;
     }
-    var Xit = 2147483647, Zit = {
+    var Zit = 2147483647, Qit = {
         inset: `unset`,
         border: `none`,
         padding: 0,
@@ -166832,10 +166907,10 @@ ${r}
             return t.result;
         };
     }
-    var Qit = s9(function() {
+    var $it = s9(function() {
         return typeof HTMLElement < `u` && typeof HTMLElement.prototype.showPopover == `function`;
     });
-    function $it(e, t) {
+    function eat(e, t) {
         var n = Object.keys(e);
         if (Object.getOwnPropertySymbols) {
             var r = Object.getOwnPropertySymbols(e);
@@ -166845,44 +166920,44 @@ ${r}
         }
         return n;
     }
-    function eat(e) {
+    function tat(e) {
         for(var t = 1; t < arguments.length; t++){
             var n = arguments[t] == null ? {} : arguments[t];
-            t % 2 ? $it(Object(n), !0).forEach(function(t) {
+            t % 2 ? eat(Object(n), !0).forEach(function(t) {
                 U(e, t, n[t]);
-            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : $it(Object(n)).forEach(function(t) {
+            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : eat(Object(n)).forEach(function(t) {
                 Object.defineProperty(e, t, Object.getOwnPropertyDescriptor(n, t));
             });
         }
         return e;
     }
-    var c9 = 2, tat = c9 / 2;
-    function nat(e) {
+    var c9 = 2, nat = c9 / 2;
+    function rat(e) {
         return {
             x: Math.floor(e.x),
             y: Math.floor(e.y)
         };
     }
-    function rat(e) {
+    function iat(e) {
         return {
-            x: e.x - tat,
-            y: e.y - tat
+            x: e.x - nat,
+            y: e.y - nat
         };
     }
-    function iat(e) {
+    function aat(e) {
         return {
             x: Math.max(e.x, 0),
             y: Math.max(e.y, 0)
         };
     }
-    function aat(e) {
+    function oat(e) {
         return {
             x: Math.min(e.x, window.innerWidth - c9),
             y: Math.min(e.y, window.innerHeight - c9)
         };
     }
-    function oat(e) {
-        var t = e.client, n = aat(iat(rat(nat(t))));
+    function sat(e) {
+        var t = e.client, n = oat(aat(iat(rat(t))));
         return DOMRect.fromRect({
             x: n.x,
             y: n.y,
@@ -166890,7 +166965,7 @@ ${r}
             height: c9
         });
     }
-    function sat(e) {
+    function cat(e) {
         var t = e.clientRect;
         return {
             left: `${t.left}px`,
@@ -166899,38 +166974,38 @@ ${r}
             height: `${t.height}px`
         };
     }
-    function cat(e) {
+    function lat(e) {
         var t = e.client, n = e.clientRect;
         return t.x >= n.x && t.x <= n.x + n.width && t.y >= n.y && t.y <= n.y + n.height;
     }
-    function lat(e) {
+    function uat(e) {
         var t = e.initial, n = document.createElement(`div`);
-        n.setAttribute(qit, `true`), Qit() && n.setAttribute(`popover`, `manual`);
-        var r = oat({
+        n.setAttribute(Jit, `true`), $it() && n.setAttribute(`popover`, `manual`);
+        var r = sat({
             client: t
         });
-        Object.assign(n.style, eat(eat({
+        Object.assign(n.style, tat(tat({
             position: `fixed`
-        }, Qit() ? Zit : {
-            zIndex: Xit
+        }, $it() ? Qit : {
+            zIndex: Zit
         }), {}, {
             backgroundColor: `transparent`,
             padding: 0,
             margin: 0,
             boxSizing: `border-box`,
             pointerEvents: `auto`
-        }, sat({
+        }, cat({
             clientRect: r
-        }))), document.body.appendChild(n), Qit() && n.showPopover();
+        }))), document.body.appendChild(n), $it() && n.showPopover();
         var i = (0, o9.bind)(window, {
             type: `pointermove`,
             listener: function(e) {
-                r = oat({
+                r = sat({
                     client: {
                         x: e.clientX,
                         y: e.clientY
                     }
-                }), Object.assign(n.style, sat({
+                }), Object.assign(n.style, cat({
                     clientRect: r
                 }));
             },
@@ -166940,7 +167015,7 @@ ${r}
         });
         return function(e) {
             var t = e.current;
-            if (i(), cat({
+            if (i(), lat({
                 client: t,
                 clientRect: r
             })) {
@@ -166984,7 +167059,7 @@ ${r}
             });
         };
     }
-    function uat() {
+    function dat() {
         var e = null;
         function t() {
             return e = null, (0, o9.bind)(window, {
@@ -167006,7 +167081,7 @@ ${r}
                 var r = n.eventName, i = n.payload;
                 if (r === `onDragStart`) {
                     var a = i.location.initial.input;
-                    t = lat({
+                    t = uat({
                         initial: e ?? {
                             x: a.clientX,
                             y: a.clientY
@@ -167029,31 +167104,31 @@ ${r}
             getOnPostDispatch: n
         };
     }
-    function dat(e) {
+    function fat(e) {
         if (Array.isArray(e)) return gm(e);
     }
-    function fat() {
+    function pat() {
         throw TypeError(`Invalid attempt to spread non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
     }
-    function pat(e) {
-        return dat(e) || Mce(e) || _m(e) || fat();
+    function mat(e) {
+        return fat(e) || Mce(e) || _m(e) || pat();
     }
-    var mat = s9(function() {
+    var hat = s9(function() {
         return navigator.userAgent.includes(`Firefox`);
-    }), hat = s9(function() {
+    }), gat = s9(function() {
         var e = navigator.userAgent;
         return e.includes(`AppleWebKit`) && !e.includes(`Chrome`);
-    }), gat = {
+    }), _at = {
         isLeavingWindow: Symbol(`leaving`),
         isEnteringWindow: Symbol(`entering`)
     };
-    function _at(e) {
+    function vat(e) {
         var t = e.dragLeave;
-        return hat() ? t.hasOwnProperty(gat.isLeavingWindow) : !1;
+        return gat() ? t.hasOwnProperty(_at.isLeavingWindow) : !1;
     }
     (function() {
-        if (typeof window > `u` || !hat()) return;
+        if (typeof window > `u` || !gat()) return;
         function e() {
             return {
                 enterCount: 0,
@@ -167082,32 +167157,32 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             {
                 type: `dragenter`,
                 listener: function(e) {
-                    !t.isOverWindow && t.enterCount === 0 && (e[gat.isEnteringWindow] = !0), t.isOverWindow = !0, t.enterCount++;
+                    !t.isOverWindow && t.enterCount === 0 && (e[_at.isEnteringWindow] = !0), t.isOverWindow = !0, t.enterCount++;
                 }
             },
             {
                 type: `dragleave`,
                 listener: function(e) {
-                    t.enterCount--, t.isOverWindow && t.enterCount === 0 && (e[gat.isLeavingWindow] = !0, t.isOverWindow = !1);
+                    t.enterCount--, t.isOverWindow && t.enterCount === 0 && (e[_at.isLeavingWindow] = !0, t.isOverWindow = !1);
                 }
             }
         ], {
             capture: !0
         });
     })();
-    function vat(e) {
+    function yat(e) {
         return `nodeName` in e;
     }
-    function yat(e) {
-        return vat(e) && e.ownerDocument !== document;
-    }
     function bat(e) {
-        var t = e.dragLeave, n = t.type, r = t.relatedTarget;
-        return n === `dragleave` ? hat() ? _at({
-            dragLeave: t
-        }) : r == null ? !0 : mat() ? yat(r) : r instanceof HTMLIFrameElement : !1;
+        return yat(e) && e.ownerDocument !== document;
     }
     function xat(e) {
+        var t = e.dragLeave, n = t.type, r = t.relatedTarget;
+        return n === `dragleave` ? gat() ? vat({
+            dragLeave: t
+        }) : r == null ? !0 : hat() ? bat(r) : r instanceof HTMLIFrameElement : !1;
+    }
+    function Sat(e) {
         var t = e.onDragEnd;
         return [
             {
@@ -167143,7 +167218,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             pageY: e.pageY
         };
     }
-    var Sat = function(e) {
+    var Cat = function(e) {
         var t = [], n = null, r = function() {
             t = [
                 ...arguments
@@ -167174,7 +167249,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             flush: n
         };
     }();
-    function Cat(e) {
+    function wat(e) {
         var t = e.source, n = e.initial, r = e.dispatchEvent, i = {
             dropTargets: []
         };
@@ -167209,7 +167284,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             },
             dragUpdate: function(e) {
                 var r = e.current;
-                u9.flush(), Sat.cancel(), a({
+                u9.flush(), Cat.cancel(), a({
                     eventName: `onDropTargetChange`,
                     payload: {
                         source: t,
@@ -167223,7 +167298,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             },
             drag: function(e) {
                 var r = e.current;
-                Sat(function() {
+                Cat(function() {
                     u9.flush(), a({
                         eventName: `onDrag`,
                         payload: {
@@ -167239,7 +167314,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             },
             drop: function(e) {
                 var r = e.current, o = e.updatedSourcePayload;
-                u9.flush(), Sat.cancel(), a({
+                u9.flush(), Cat.cancel(), a({
                     eventName: `onDrop`,
                     payload: {
                         source: o ?? t,
@@ -167253,44 +167328,44 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         };
     }
-    var wat = {
+    var Tat = {
         isActive: !1
     };
-    function Tat() {
-        return !wat.isActive;
-    }
-    function Eat(e) {
-        return e.dataTransfer ? e.dataTransfer.setDragImage.bind(e.dataTransfer) : null;
+    function Eat() {
+        return !Tat.isActive;
     }
     function Dat(e) {
+        return e.dataTransfer ? e.dataTransfer.setDragImage.bind(e.dataTransfer) : null;
+    }
+    function Oat(e) {
         var t = e.current, n = e.next;
         if (t.length !== n.length) return !0;
         for(var r = 0; r < t.length; r++)if (t[r].element !== n[r].element) return !0;
         return !1;
     }
-    function Oat(e) {
+    function kat(e) {
         var t = e.event, n = e.dragType, r = e.getDropTargetsOver, i = e.dispatchEvent;
-        if (!Tat()) return;
-        var a = Aat({
+        if (!Eat()) return;
+        var a = jat({
             event: t,
             dragType: n,
             getDropTargetsOver: r
         });
-        wat.isActive = !0;
+        Tat.isActive = !0;
         var o = {
             current: a
         };
-        kat({
+        Aat({
             event: t,
             current: a.dropTargets
         });
-        var s = Cat({
+        var s = wat({
             source: n.payload,
             dispatchEvent: i,
             initial: a
         });
         function c(e) {
-            var t = Dat({
+            var t = Oat({
                 current: o.current.dropTargets,
                 next: e.dropTargets
             });
@@ -167300,7 +167375,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         function l(e) {
             var t = l9(e), i = r({
-                target: Jit(e.target) ? Yit({
+                target: Yit(e.target) ? Xit({
                     x: t.clientX,
                     y: t.clientY
                 }) : e.target,
@@ -167308,7 +167383,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 source: n.payload,
                 current: o.current.dropTargets
             });
-            i.length && (e.preventDefault(), kat({
+            i.length && (e.preventDefault(), Aat({
                 event: e,
                 current: i
             })), c({
@@ -167326,7 +167401,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }), d();
         }
         function d() {
-            wat.isActive = !1, f();
+            Tat.isActive = !1, f();
         }
         var f = (0, o9.bindAll)(window, [
             {
@@ -167344,7 +167419,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             {
                 type: `dragleave`,
                 listener: function(e) {
-                    bat({
+                    xat({
                         dragLeave: e
                     }) && (c({
                         input: o.current.input,
@@ -167362,7 +167437,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         u();
                         return;
                     }
-                    e.preventDefault(), kat({
+                    e.preventDefault(), Aat({
                         event: e,
                         current: o.current.dropTargets
                     }), s.drop({
@@ -167380,20 +167455,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     }, u();
                 }
             }
-        ].concat(pat(xat({
+        ].concat(mat(Sat({
             onDragEnd: u
         }))), {
             capture: !0
         });
         s.start({
-            nativeSetDragImage: Eat(t)
+            nativeSetDragImage: Dat(t)
         });
     }
-    function kat(e) {
+    function Aat(e) {
         var t = e.event, n = e.current[0]?.dropEffect;
         n != null && t.dataTransfer && (t.dataTransfer.dropEffect = n);
     }
-    function Aat(e) {
+    function jat(e) {
         var t = e.event, n = e.dragType, r = e.getDropTargetsOver, i = l9(t);
         return n.startedFrom === `external` ? {
             input: i,
@@ -167408,24 +167483,24 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         };
     }
-    var jat = {
-        canStart: Tat,
-        start: Oat
-    }, Mat = new Map;
-    function Nat(e) {
-        var t = e.typeKey, n = e.mount, r = Mat.get(t);
+    var Mat = {
+        canStart: Eat,
+        start: kat
+    }, Nat = new Map;
+    function Pat(e) {
+        var t = e.typeKey, n = e.mount, r = Nat.get(t);
         if (r) return r.usageCount++, r;
         var i = {
             typeKey: t,
             unmount: n(),
             usageCount: 1
         };
-        return Mat.set(t, i), i;
+        return Nat.set(t, i), i;
     }
-    function Pat(e) {
-        var t = Nat(e);
+    function Fat(e) {
+        var t = Pat(e);
         return function() {
-            t.usageCount--, !(t.usageCount > 0) && (t.unmount(), Mat.delete(e.typeKey));
+            t.usageCount--, !(t.usageCount > 0) && (t.unmount(), Nat.delete(e.typeKey));
         };
     }
     function d9() {
@@ -167438,13 +167513,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             });
         };
     }
-    function Fat(e, t) {
+    function Iat(e, t) {
         var n = t.attribute, r = t.value;
         return e.setAttribute(n, r), function() {
             return e.removeAttribute(n);
         };
     }
-    function Iat(e, t) {
+    function Lat(e, t) {
         var n = Object.keys(e);
         if (Object.getOwnPropertySymbols) {
             var r = Object.getOwnPropertySymbols(e);
@@ -167457,18 +167532,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function f9(e) {
         for(var t = 1; t < arguments.length; t++){
             var n = arguments[t] == null ? {} : arguments[t];
-            t % 2 ? Iat(Object(n), !0).forEach(function(t) {
+            t % 2 ? Lat(Object(n), !0).forEach(function(t) {
                 U(e, t, n[t]);
-            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : Iat(Object(n)).forEach(function(t) {
+            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : Lat(Object(n)).forEach(function(t) {
                 Object.defineProperty(e, t, Object.getOwnPropertyDescriptor(n, t));
             });
         }
         return e;
     }
-    function Lat(e, t) {
+    function Rat(e, t) {
         var n = typeof Symbol < `u` && e[Symbol.iterator] || e[`@@iterator`];
         if (!n) {
-            if (Array.isArray(e) || (n = Rat(e)) || t && e && typeof e.length == `number`) {
+            if (Array.isArray(e) || (n = zat(e)) || t && e && typeof e.length == `number`) {
                 n && (e = n);
                 var r = 0, i = function() {};
                 return {
@@ -167511,22 +167586,22 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         };
     }
-    function Rat(e, t) {
+    function zat(e, t) {
         if (e) {
-            if (typeof e == `string`) return zat(e, t);
+            if (typeof e == `string`) return Bat(e, t);
             var n = {}.toString.call(e).slice(8, -1);
-            return n === `Object` && e.constructor && (n = e.constructor.name), n === `Map` || n === `Set` ? Array.from(e) : n === `Arguments` || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? zat(e, t) : void 0;
+            return n === `Object` && e.constructor && (n = e.constructor.name), n === `Map` || n === `Set` ? Array.from(e) : n === `Arguments` || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? Bat(e, t) : void 0;
         }
     }
-    function zat(e, t) {
+    function Bat(e, t) {
         (t == null || t > e.length) && (t = e.length);
         for(var n = 0, r = Array(t); n < t; n++)r[n] = e[n];
         return r;
     }
-    function Bat(e) {
+    function Vat(e) {
         return e.slice(0).reverse();
     }
-    function Vat(e) {
+    function Hat(e) {
         var t = e.typeKey, n = e.defaultDropEffect, r = new WeakMap, i = `data-drop-target-for-${t}`, a = `[${i}]`;
         function o(e) {
             return r.set(e.element, e), function() {
@@ -167534,7 +167609,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             };
         }
         function s(e) {
-            return s9(d9(Fat(e.element, {
+            return s9(d9(Iat(e.element, {
                 attribute: i,
                 value: `true`
             }), o(e)));
@@ -167573,13 +167648,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 source: t,
                 target: d.element.parentElement,
                 input: o,
-                result: [].concat(pat(l), [
+                result: [].concat(mat(l), [
                     h
                 ])
             });
         }
         function l(e) {
-            var t = e.eventName, n = e.payload, i = Lat(n.location.current.dropTargets), a;
+            var t = e.eventName, n = e.payload, i = Rat(n.location.current.dropTargets), a;
             try {
                 for(i.s(); !(a = i.n()).done;){
                     var o, s = a.value, c = r.get(s.element), l = f9(f9({}, n), {}, {
@@ -167601,7 +167676,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             onDropTargetChange: function(e) {
                 var t = e.payload, n = new Set(t.location.current.dropTargets.map(function(e) {
                     return e.element;
-                })), i = new Set, a = Lat(t.location.previous.dropTargets), o;
+                })), i = new Set, a = Rat(t.location.previous.dropTargets), o;
                 try {
                     for(a.s(); !(o = a.n()).done;){
                         var s, c = o.value;
@@ -167619,7 +167694,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 } finally{
                     a.f();
                 }
-                var p = Lat(t.location.current.dropTargets), m;
+                var p = Rat(t.location.current.dropTargets), m;
                 try {
                     for(p.s(); !(m = p.n()).done;){
                         var h, g, _ = m.value;
@@ -167647,7 +167722,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 input: i
             });
             if (o.length >= a.length) return o;
-            for(var s = Bat(a), l = Bat(o), u = [], d = 0; d < s.length; d++){
+            for(var s = Vat(a), l = Vat(o), u = [], d = 0; d < s.length; d++){
                 var f, p = s[d], m = l[d];
                 if (m != null) {
                     u.push(m);
@@ -167667,7 +167742,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     isActiveDueToStickiness: !0
                 }));
             }
-            return Bat(u);
+            return Vat(u);
         }
         return {
             dropTargetForConsumers: s,
@@ -167675,10 +167750,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             dispatchEvent: d
         };
     }
-    function Hat(e, t) {
+    function Uat(e, t) {
         var n = typeof Symbol < `u` && e[Symbol.iterator] || e[`@@iterator`];
         if (!n) {
-            if (Array.isArray(e) || (n = Uat(e)) || t && e && typeof e.length == `number`) {
+            if (Array.isArray(e) || (n = Wat(e)) || t && e && typeof e.length == `number`) {
                 n && (e = n);
                 var r = 0, i = function() {};
                 return {
@@ -167721,19 +167796,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         };
     }
-    function Uat(e, t) {
+    function Wat(e, t) {
         if (e) {
-            if (typeof e == `string`) return Wat(e, t);
+            if (typeof e == `string`) return Gat(e, t);
             var n = {}.toString.call(e).slice(8, -1);
-            return n === `Object` && e.constructor && (n = e.constructor.name), n === `Map` || n === `Set` ? Array.from(e) : n === `Arguments` || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? Wat(e, t) : void 0;
+            return n === `Object` && e.constructor && (n = e.constructor.name), n === `Map` || n === `Set` ? Array.from(e) : n === `Arguments` || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? Gat(e, t) : void 0;
         }
     }
-    function Wat(e, t) {
+    function Gat(e, t) {
         (t == null || t > e.length) && (t = e.length);
         for(var n = 0, r = Array(t); n < t; n++)r[n] = e[n];
         return r;
     }
-    function Gat(e, t) {
+    function Kat(e, t) {
         var n = Object.keys(e);
         if (Object.getOwnPropertySymbols) {
             var r = Object.getOwnPropertySymbols(e);
@@ -167743,24 +167818,24 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         return n;
     }
-    function Kat(e) {
+    function qat(e) {
         for(var t = 1; t < arguments.length; t++){
             var n = arguments[t] == null ? {} : arguments[t];
-            t % 2 ? Gat(Object(n), !0).forEach(function(t) {
+            t % 2 ? Kat(Object(n), !0).forEach(function(t) {
                 U(e, t, n[t]);
-            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : Gat(Object(n)).forEach(function(t) {
+            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : Kat(Object(n)).forEach(function(t) {
                 Object.defineProperty(e, t, Object.getOwnPropertyDescriptor(n, t));
             });
         }
         return e;
     }
-    function qat() {
+    function Jat() {
         var e = new Set, t = null;
         function n(e) {
             t && (!e.canMonitor || e.canMonitor(t.canMonitorArgs)) && t.active.add(e);
         }
         function r(r) {
-            var i = Kat({}, r);
+            var i = qat({}, r);
             e.add(i), n(i);
             function a() {
                 e.delete(i), t && t.active.delete(i);
@@ -167777,7 +167852,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     },
                     active: new Set
                 };
-                var o = Hat(e), s;
+                var o = Uat(e), s;
                 try {
                     for(o.s(); !(s = o.n()).done;){
                         var c = s.value;
@@ -167805,8 +167880,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             monitorForConsumers: r
         };
     }
-    function Jat(e) {
-        var t = e.typeKey, n = e.mount, r = e.dispatchEventToSource, i = e.onPostDispatch, a = e.defaultDropEffect, o = qat(), s = Vat({
+    function Yat(e) {
+        var t = e.typeKey, n = e.mount, r = e.dispatchEventToSource, i = e.onPostDispatch, a = e.defaultDropEffect, o = Jat(), s = Hat({
             typeKey: t,
             defaultDropEffect: a
         });
@@ -167815,7 +167890,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         function l(e) {
             var t = e.event, n = e.dragType;
-            jat.start({
+            Mat.start({
                 event: t,
                 dragType: n,
                 getDropTargetsOver: s.getIsOver,
@@ -167825,11 +167900,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         function u() {
             function e() {
                 return n({
-                    canStart: jat.canStart,
+                    canStart: Mat.canStart,
                     start: l
                 });
             }
-            return Pat({
+            return Fat({
                 typeKey: t,
                 mount: e
             });
@@ -167840,19 +167915,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             monitor: o.monitorForConsumers
         };
     }
-    var Yat = s9(function() {
+    var Xat = s9(function() {
         return navigator.userAgent.toLocaleLowerCase().includes(`android`);
-    }), Xat = `pdnd:android-fallback`, Zat = `text/plain`, Qat = `application/vnd.pdnd`, p9 = new WeakMap;
-    function $at(e) {
+    }), Zat = `pdnd:android-fallback`, Qat = `text/plain`, $at = `application/vnd.pdnd`, p9 = new WeakMap;
+    function eot(e) {
         return p9.set(e.element, e), function() {
             p9.delete(e.element);
         };
     }
-    var eot = uat(), tot = Jat({
+    var tot = dat(), not = Yat({
         typeKey: `element`,
         defaultDropEffect: `move`,
         mount: function(e) {
-            return d9(eot.bindEvents(), (0, o9.bind)(document, {
+            return d9(tot.bindEvents(), (0, o9.bind)(document, {
                 type: `dragstart`,
                 listener: function(t) {
                     if (e.canStart(t) && !t.defaultPrevented && t.dataTransfer) {
@@ -167870,7 +167945,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     return;
                                 }
                                 if (r.dragHandle) {
-                                    var o = Yit({
+                                    var o = Xit({
                                         x: i.clientX,
                                         y: i.clientY
                                     });
@@ -167884,7 +167959,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     var u = vm(l[c], 2), d = u[0], f = u[1];
                                     t.dataTransfer.setData(d, f ?? ``);
                                 }
-                                Yat() && !t.dataTransfer.types.includes(`text/plain`) && !t.dataTransfer.types.includes(`text/uri-list`) && t.dataTransfer.setData(Zat, Xat), t.dataTransfer.setData(Qat, ``);
+                                Xat() && !t.dataTransfer.types.includes(`text/plain`) && !t.dataTransfer.types.includes(`text/uri-list`) && t.dataTransfer.setData(Qat, Zat), t.dataTransfer.setData($at, ``);
                                 var p = {
                                     type: `element`,
                                     payload: {
@@ -167908,17 +167983,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             var t, n, r = e.eventName, i = e.payload;
             (t = p9.get(i.source.element)) == null || (n = t[r]) == null || n.call(t, i);
         },
-        onPostDispatch: eot.getOnPostDispatch()
-    }), not = tot.dropTarget, rot = tot.monitor;
-    function iot(e) {
-        return s9(d9(tot.registerUsage(), $at(e), Fat(e.element, {
+        onPostDispatch: tot.getOnPostDispatch()
+    }), rot = not.dropTarget, iot = not.monitor;
+    function aot(e) {
+        return s9(d9(not.registerUsage(), eot(e), Iat(e.element, {
             attribute: `draggable`,
             value: `true`
         })));
     }
     var m9 = new Map, h9 = new Set;
-    function aot(e) {
-        oot(e);
+    function oot(e) {
+        sot(e);
         var t = m9.get(e);
         if (t) return t;
         var n = {
@@ -167926,35 +168001,35 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
         return m9.set(e, n), n;
     }
-    function oot(e) {
+    function sot(e) {
         h9.add(e);
     }
-    function sot(e) {
+    function cot(e) {
         h9.clear(), e(), m9.forEach(function(e, t) {
             h9.has(t) || m9.delete(t);
         }), h9.clear();
     }
-    function cot() {
+    function lot() {
         m9.clear();
     }
-    var lot = new Map;
-    function uot(e) {
-        var t = lot.get(e);
-        if (t) return t;
-        var n = dot(e);
-        return lot.set(e, n), n;
-    }
+    var uot = new Map;
     function dot(e) {
+        var t = uot.get(e);
+        if (t) return t;
+        var n = fot(e);
+        return uot.set(e, n), n;
+    }
+    function fot(e) {
         var t = {
             type: `idle`
         }, n = [];
         function r(e) {
             if (t.type === `running`) {
-                var i = e - t.timeLastFrameFinished, a = t.latestArgs, o = Yit({
+                var i = e - t.timeLastFrameFinished, a = t.latestArgs, o = Xit({
                     x: a.location.current.input.clientX,
                     y: a.location.current.input.clientY
                 });
-                sot(function() {
+                cot(function() {
                     n.forEach(function(e) {
                         return e({
                             underUsersPointer: o,
@@ -167966,7 +168041,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         }
         function i() {
-            t.type !== `idle` && (cancelAnimationFrame(t.frameId), cot(), t = {
+            t.type !== `idle` && (cancelAnimationFrame(t.frameId), lot(), t = {
                 type: `idle`
             });
         }
@@ -168002,13 +168077,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         };
     }
-    var fot = `data-auto-scrollable`, pot = `[${fot}="true"]`;
-    function mot(e) {
-        return e.setAttribute(fot, `true`), function() {
-            return e.removeAttribute(fot);
+    var pot = `data-auto-scrollable`, mot = `[${pot}="true"]`;
+    function hot(e) {
+        return e.setAttribute(pot, `true`), function() {
+            return e.removeAttribute(pot);
         };
     }
-    function hot(e, t) {
+    function got(e, t) {
         var n = Object.keys(e);
         if (Object.getOwnPropertySymbols) {
             var r = Object.getOwnPropertySymbols(e);
@@ -168018,18 +168093,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         return n;
     }
-    function got(e) {
+    function _ot(e) {
         for(var t = 1; t < arguments.length; t++){
             var n = arguments[t] == null ? {} : arguments[t];
-            t % 2 ? hot(Object(n), !0).forEach(function(t) {
+            t % 2 ? got(Object(n), !0).forEach(function(t) {
                 U(e, t, n[t]);
-            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : hot(Object(n)).forEach(function(t) {
+            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : got(Object(n)).forEach(function(t) {
                 Object.defineProperty(e, t, Object.getOwnPropertyDescriptor(n, t));
             });
         }
         return e;
     }
-    var _ot = {
+    var vot = {
         startHitboxAtPercentageRemainingOfElement: {
             top: .25,
             right: .25,
@@ -168044,16 +168119,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         },
         timeDampeningDurationMs: 400,
         maxMainAxisHitboxSize: 180
-    }, vot = {
+    }, yot = {
         standard: 900,
         fast: 1500
     };
-    function yot(e) {
-        return got(got({}, _ot), {}, {
-            maxPixelScrollPerSecond: vot[e?.maxScrollSpeed ?? `standard`]
+    function bot(e) {
+        return _ot(_ot({}, vot), {}, {
+            maxPixelScrollPerSecond: yot[e?.maxScrollSpeed ?? `standard`]
         });
     }
-    var bot = {
+    var xot = {
         top: function(e) {
             return e.scrollTop > 0;
         },
@@ -168066,36 +168141,36 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         left: function(e) {
             return e.scrollLeft > 0;
         }
-    }, xot = [
+    }, Sot = [
         `top`,
         `right`,
         `bottom`,
         `left`
-    ], Sot = {
+    ], Cot = {
         top: `vertical`,
         right: `horizontal`,
         bottom: `vertical`,
         left: `horizontal`
-    }, Cot = {
+    }, wot = {
         start: `top`,
         end: `bottom`,
         point: `y`,
         size: `height`
-    }, wot = {
+    }, Tot = {
         start: `left`,
         end: `right`,
         point: `x`,
         size: `width`
-    }, Tot = {
+    }, Eot = {
         vertical: {
-            mainAxis: Cot,
-            crossAxis: wot
+            mainAxis: wot,
+            crossAxis: Tot
         },
         horizontal: {
-            mainAxis: wot,
-            crossAxis: Cot
+            mainAxis: Tot,
+            crossAxis: wot
         }
-    }, Eot = {
+    }, Dot = {
         top: `start`,
         right: `end`,
         bottom: `end`,
@@ -168104,11 +168179,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function g9(e) {
         var t = e.edge, n = e.axis;
         return function(e) {
-            var r = e.clientRect, i = e.config, a = Tot[n], o = a.mainAxis, s = a.crossAxis, c = Eot[t], l = Math.min(i.startHitboxAtPercentageRemainingOfElement[t] * r[o.size], i.maxMainAxisHitboxSize);
+            var r = e.clientRect, i = e.config, a = Eot[n], o = a.mainAxis, s = a.crossAxis, c = Dot[t], l = Math.min(i.startHitboxAtPercentageRemainingOfElement[t] * r[o.size], i.maxMainAxisHitboxSize);
             return DOMRect.fromRect(U(U(U(U({}, o.point, c === `start` ? r[o.point] : r[o.point] + r[o.size] - l), s.point, r[s.point]), o.size, l), s.size, r[s.size]));
         };
     }
-    var Dot = {
+    var Oot = {
         top: g9({
             axis: `vertical`,
             edge: `top`
@@ -168126,69 +168201,69 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             edge: `left`
         })
     };
-    function Oot(e) {
+    function kot(e) {
         var t = e.startOfRange, n = e.endOfRange, r = e.value;
         if (!(t < n) || r < t) return 0;
         if (r > n) return 1;
         var i = n - t;
         return (r - t) / i;
     }
-    function kot(e) {
+    function Aot(e) {
         var t = e.timeSinceLastFrame, n = e.config, r = n.maxPixelScrollPerSecond / 1e3, i = Math.ceil(r * t), a = n.maxPixelScrollPerSecond / 60;
         return Math.min(i, a);
     }
-    function Aot(e) {
-        var t = e.client, n = e.axis, r = e.edge, i = e.hitbox, a = e.config, o = Tot[n].mainAxis, s = Eot[r], c = i[o.size] * a.maxScrollAtPercentageRemainingOfHitbox[r];
-        return s === `end` ? Oot({
+    function jot(e) {
+        var t = e.client, n = e.axis, r = e.edge, i = e.hitbox, a = e.config, o = Eot[n].mainAxis, s = Dot[r], c = i[o.size] * a.maxScrollAtPercentageRemainingOfHitbox[r];
+        return s === `end` ? kot({
             startOfRange: i[o.start],
             endOfRange: i[o.end] - c,
             value: t[o.point]
-        }) : 1 - Oot({
+        }) : 1 - kot({
             startOfRange: i[o.start] + c,
             endOfRange: i[o.end],
             value: t[o.point]
         });
     }
     function _9(e) {
-        var t = e.client, n = e.timeSinceLastFrame, r = e.engagement, i = e.axis, a = e.hitbox, o = e.edge, s = e.isDistanceDampeningEnabled, c = e.config, l = kot({
+        var t = e.client, n = e.timeSinceLastFrame, r = e.engagement, i = e.axis, a = e.hitbox, o = e.edge, s = e.isDistanceDampeningEnabled, c = e.config, l = Aot({
             timeSinceLastFrame: n,
             config: c
-        }), u = (s ? Aot({
+        }), u = (s ? jot({
             client: t,
             edge: o,
             hitbox: a,
             axis: i,
             config: c
-        }) : 1) * Oot({
+        }) : 1) * kot({
             startOfRange: r.timeOfEngagementStart,
             endOfRange: r.timeOfEngagementStart + c.timeDampeningDurationMs,
             value: Date.now()
         }), d = Math.max(l * u, 1);
-        return Eot[o] === `end` ? d : -1 * d;
+        return Dot[o] === `end` ? d : -1 * d;
     }
-    function jot(e, t) {
+    function Mot(e, t) {
         return t === `all` || e === t;
     }
-    function Mot(e) {
+    function Not(e) {
         var t = e.client, n = e.clientRect;
         return t.x >= n.x && t.x <= n.x + n.width && t.y >= n.y && t.y <= n.y + n.height;
     }
-    function Not(e) {
+    function Pot(e) {
         return e.getBoundingClientRect();
     }
-    function Pot(e) {
-        var t = e.element, n = e.input, r = e.timeSinceLastFrame, i = e.engagement, a = e.config, o = e.allowedAxis, s = e.getRect, c = s === void 0 ? Not : s, l = {
+    function Fot(e) {
+        var t = e.element, n = e.input, r = e.timeSinceLastFrame, i = e.engagement, a = e.config, o = e.allowedAxis, s = e.getRect, c = s === void 0 ? Pot : s, l = {
             x: n.clientX,
             y: n.clientY
-        }, u = c(t), d = xot.reduce(function(e, n) {
-            var r = Dot[n]({
+        }, u = c(t), d = Sot.reduce(function(e, n) {
+            var r = Oot[n]({
                 clientRect: u,
                 config: a
-            }), i = Sot[n];
-            return !jot(i, o) || !Mot({
+            }), i = Cot[n];
+            return !Mot(i, o) || !Not({
                 client: l,
                 clientRect: r
-            }) || !bot[n](t) || e.set(n, {
+            }) || !xot[n](t) || e.set(n, {
                 edge: n,
                 hitbox: r
             }), e;
@@ -168244,10 +168319,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }()
         };
     }
-    function Fot(e, t) {
+    function Iot(e, t) {
         var n = typeof Symbol < `u` && e[Symbol.iterator] || e[`@@iterator`];
         if (!n) {
-            if (Array.isArray(e) || (n = Iot(e)) || t && e && typeof e.length == `number`) {
+            if (Array.isArray(e) || (n = Lot(e)) || t && e && typeof e.length == `number`) {
                 n && (e = n);
                 var r = 0, i = function() {};
                 return {
@@ -168290,33 +168365,33 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         };
     }
-    function Iot(e, t) {
+    function Lot(e, t) {
         if (e) {
-            if (typeof e == `string`) return Lot(e, t);
+            if (typeof e == `string`) return Rot(e, t);
             var n = {}.toString.call(e).slice(8, -1);
-            return n === `Object` && e.constructor && (n = e.constructor.name), n === `Map` || n === `Set` ? Array.from(e) : n === `Arguments` || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? Lot(e, t) : void 0;
+            return n === `Object` && e.constructor && (n = e.constructor.name), n === `Map` || n === `Set` ? Array.from(e) : n === `Arguments` || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? Rot(e, t) : void 0;
         }
     }
-    function Lot(e, t) {
+    function Rot(e, t) {
         (t == null || t > e.length) && (t = e.length);
         for(var n = 0, r = Array(t); n < t; n++)r[n] = e[n];
         return r;
     }
-    function Rot(e) {
+    function zot(e) {
         return !!(e.top || e.left);
     }
-    function zot(e) {
+    function Bot(e) {
         var t = e.target, n = e.input, r = e.source, i = e.findEntry, a = e.timeSinceLastFrame, o = e.available, s = o === void 0 ? {
             top: !0,
             left: !0
         } : o;
-        if (!Rot(s) || !t) return s;
-        var c = t.closest(pot);
+        if (!zot(s) || !t) return s;
+        var c = t.closest(mot);
         if (!c) return s;
         var l = i(c);
         if (!l) return s;
         function u() {
-            return zot({
+            return Bot({
                 target: c?.parentElement ?? null,
                 findEntry: i,
                 source: r,
@@ -168331,7 +168406,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             element: c
         };
         if (l.canScroll && !l.canScroll(d)) return u();
-        var f = aot(c), p = yot(l.getConfiguration?.call(l, d)), m = Pot({
+        var f = oot(c), p = bot(l.getConfiguration?.call(l, d)), m = Fot({
             element: c,
             engagement: f,
             input: n,
@@ -168344,21 +168419,21 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
         return s.top && m.top !== 0 && (h.top = m.top, s.top = !1), s.left && m.left !== 0 && (h.left = m.left, s.left = !1), (h.top !== 0 || h.left !== 0) && c.scrollBy(h), u();
     }
-    function Bot(e) {
+    function Vot(e) {
         var t = e.input, n = e.timeSinceLastFrame, r = e.available, i = e.source, a = e.entries, o = document.documentElement, s = {
             input: t,
             source: i,
             element: o
-        }, c = Fot(a), l;
+        }, c = Iot(a), l;
         try {
             for(c.s(); !(l = c.n()).done;){
                 var u = l.value;
                 if (!(u.canScroll && !u.canScroll(s))) {
-                    var d = Pot({
+                    var d = Fot({
                         element: o,
-                        engagement: aot(o),
+                        engagement: oot(o),
                         input: t,
-                        config: yot(u.getConfiguration?.call(u, s)),
+                        config: bot(u.getConfiguration?.call(u, s)),
                         allowedAxis: u.getAllowedAxis?.call(u, s) ?? `all`,
                         getRect: function(e) {
                             return DOMRect.fromRect({
@@ -168383,15 +168458,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             c.f();
         }
     }
-    function Vot(e) {
-        var t = e.input, n = e.findEntry, r = e.timeSinceLastFrame, i = e.source, a = e.getWindowScrollEntries, o = e.underUsersPointer, s = zot({
+    function Hot(e) {
+        var t = e.input, n = e.findEntry, r = e.timeSinceLastFrame, i = e.source, a = e.getWindowScrollEntries, o = e.underUsersPointer, s = Bot({
             target: o,
             timeSinceLastFrame: r,
             input: t,
             source: i,
             findEntry: n
         });
-        Rot(s) && Bot({
+        zot(s) && Vot({
             input: t,
             source: i,
             entries: a(),
@@ -168399,7 +168474,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             available: s
         });
     }
-    function Hot(e, t) {
+    function Uot(e, t) {
         var n = Object.keys(e);
         if (Object.getOwnPropertySymbols) {
             var r = Object.getOwnPropertySymbols(e);
@@ -168409,26 +168484,26 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         return n;
     }
-    function Uot(e) {
+    function Wot(e) {
         for(var t = 1; t < arguments.length; t++){
             var n = arguments[t] == null ? {} : arguments[t];
-            t % 2 ? Hot(Object(n), !0).forEach(function(t) {
+            t % 2 ? Uot(Object(n), !0).forEach(function(t) {
                 U(e, t, n[t]);
-            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : Hot(Object(n)).forEach(function(t) {
+            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : Uot(Object(n)).forEach(function(t) {
                 Object.defineProperty(e, t, Object.getOwnPropertyDescriptor(n, t));
             });
         }
         return e;
     }
-    function Wot(e) {
+    function Got(e) {
         var t = e.monitor, n = new Map, r = new Set;
         function i(e) {
-            return n.set(e.element, e), s9(d9(mot(e.element), function() {
+            return n.set(e.element, e), s9(d9(hot(e.element), function() {
                 return n.delete(e.element);
             }));
         }
         function a() {
-            var e = Uot({}, arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {});
+            var e = Wot({}, arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {});
             r.add(e);
             function t() {
                 r.delete(e);
@@ -168443,7 +168518,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         function c(e) {
             var t = e.latestArgs, n = e.underUsersPointer, r = e.timeSinceLastFrame;
-            Vot({
+            Hot({
                 input: t.location.current.input,
                 source: t.source,
                 findEntry: o,
@@ -168452,20 +168527,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 getWindowScrollEntries: s
             });
         }
-        return uot(t).onFrame(c), {
+        return dot(t).onFrame(c), {
             autoScroll: i,
             autoScrollWindow: a
         };
     }
-    var Got = Wot({
-        monitor: rot
-    }), Kot = Got.autoScroll;
-    Got.autoScrollWindow;
-    var qot = `_10dxgc60 _1rwrsxz0 _1mqalmd1 _1mqalmd0 _1rwrsxz3`, Jot = `_10dxgc63 _10dxgc62 _10dxgc61`, Yot = `_10dxgc64 _10dxgc62 _10dxgc61`, Xot = (e, t, n, r)=>{
+    var Kot = Got({
+        monitor: iot
+    }), qot = Kot.autoScroll;
+    Kot.autoScrollWindow;
+    var Jot = `_10dxgc60 _1rwrsxz0 _1mqalmd1 _1mqalmd0 _1rwrsxz3`, Yot = `_10dxgc63 _10dxgc62 _10dxgc61`, Xot = `_10dxgc64 _10dxgc62 _10dxgc61`, Zot = (e, t, n, r)=>{
         let [i, a] = (0, A.useState)(!1);
         return (0, A.useEffect)(()=>{
             let i = t.current, o = r?.current ?? void 0;
-            return i ? iot({
+            return i ? aot({
                 element: i,
                 dragHandle: o,
                 getInitialData: ()=>e,
@@ -168482,10 +168557,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e,
             n
         ]), i;
-    }, Zot = en(({ className: e, ...t }, n)=>(0, j.jsx)(P, {
+    }, Qot = en(({ className: e, ...t }, n)=>(0, j.jsx)(P, {
             justifyContent: `Center`,
             alignItems: `Center`,
-            className: (0, xt.default)(qot, e),
+            className: (0, xt.default)(Jot, e),
             ref: n,
             ...t,
             children: (0, j.jsx)(I, {
@@ -168493,12 +168568,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 src: B.VerticalDots
             })
         }));
-    function Qot({ item: e, afterSpace: t, nextRoomId: n, canDrop: r }) {
+    function $ot({ item: e, afterSpace: t, nextRoomId: n, canDrop: r }) {
         let i = (0, A.useRef)(null), [a, o] = (0, A.useState)(`idle`);
         return (0, A.useEffect)(()=>{
             let t = i.current;
             if (!t) throw Error(`drop target ref is not set properly`);
-            return not({
+            return rot({
                 element: t,
                 getData: ()=>({
                         item: e,
@@ -168518,23 +168593,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n,
             r
         ]), (0, j.jsx)(`div`, {
-            className: t ? Yot : Jot,
+            className: t ? Xot : Yot,
             "data-hover": a !== `idle`,
             "data-error": a === `not-allow`,
             ref: i
         });
     }
-    var $ot = (e, t, n)=>{
+    var est = (e, t, n)=>{
         (0, A.useEffect)(()=>{
             let r = e.current;
             if (!r) throw Error(`Scroll element ref not configured`);
-            return d9(rot({
+            return d9(iot({
                 onDrop: ({ source: e, location: r })=>{
                     t(void 0);
                     let { dropTargets: i } = r.current;
                     i.length !== 0 && n(e.data, i[0].data);
                 }
-            }), Kot({
+            }), qot({
                 element: r
             }));
         }, [
@@ -168542,8 +168617,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t,
             n
         ]);
-    }, est = (0, A.createContext)(null), tst = est.Provider, nst = ()=>{
-        let e = (0, A.useContext)(est);
+    }, tst = (0, A.createContext)(null), nst = tst.Provider, rst = ()=>{
+        let e = (0, A.useContext)(tst);
         if (!e) throw Error(`ClosedLobbyCategoriesAtom is not provided!`);
         return e;
     }, v9 = (e, t, n)=>{
@@ -168565,7 +168640,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 });
             }
         }), i.forEach((e)=>a.push(e)), a;
-    }, rst = (e)=>{
+    }, ist = (e)=>{
         let t = J(), [n, r] = (0, A.useState)(()=>{
             let n = hW(t, MH.CinnySpaces)?.getContent();
             return v9(t, e, n);
@@ -168588,7 +168663,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n,
             r
         ];
-    }, ist = (e, t)=>e.map((e)=>{
+    }, ast = (e, t)=>e.map((e)=>{
             if (typeof e == `string`) return e === t ? null : e;
             if (e.content.includes(t)) {
                 let n = e.content.filter((e)=>e !== t);
@@ -168598,10 +168673,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 };
             }
             return e;
-        }).filter((e)=>e !== null), ast = (e, t)=>({
+        }).filter((e)=>e !== null), ost = (e, t)=>({
             ...hW(e, MH.CinnySpaces)?.getContent() ?? {},
             sidebar: t
-        }), ost = zK({
+        }), sst = zK({
         defaultClassName: `_1321e2t0`,
         variantClassNames: {
             outlined: {
@@ -168610,15 +168685,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         },
         defaultVariants: {},
         compoundVariants: []
-    }), y9 = `_1321e2t2`, sst = `_1321e2t3`, cst = `_1xrrjei0`, b9 = `_1xrrjei1 _1mqalmd1 _1mqalmd0`, lst = To(void 0), ust = ()=>Bo(lst), dst = ()=>{
-        let e = Vo(lst);
+    }), y9 = `_1321e2t2`, cst = `_1321e2t3`, lst = `_1xrrjei0`, b9 = `_1xrrjei1 _1mqalmd1 _1mqalmd0`, ust = To(void 0), dst = ()=>Bo(ust), fst = ()=>{
+        let e = Vo(ust);
         return (0, A.useCallback)(()=>{
             e(void 0);
         }, [
             e
         ]);
-    }, fst = ()=>{
-        let e = Vo(lst);
+    }, pst = ()=>{
+        let e = Vo(ust);
         return (0, A.useCallback)((t, n)=>{
             e({
                 spaceId: t,
@@ -168627,15 +168702,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }, [
             e
         ]);
-    }, pst = To(void 0), mst = ()=>Bo(pst), hst = ()=>{
-        let e = Vo(pst);
+    }, mst = To(void 0), hst = ()=>Bo(mst), gst = ()=>{
+        let e = Vo(mst);
         return (0, A.useCallback)(()=>{
             e(void 0);
         }, [
             e
         ]);
-    }, gst = ()=>{
-        let e = Vo(pst);
+    }, _st = ()=>{
+        let e = Vo(mst);
         return (0, A.useCallback)((t)=>{
             e({
                 spaceId: t
@@ -168643,7 +168718,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }, [
             e
         ]);
-    }, _st = {
+    }, vst = {
         limit: 500,
         matchOptions: {
             contain: !0
@@ -168652,7 +168727,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ignoreWhitespace: !1
         }
     };
-    function vst({ parentId: e, space: t, requestClose: n }) {
+    function yst({ parentId: e, space: t, requestClose: n }) {
         let r = J(), i = $Y(), a = Jf(), o = Bo(rq), s = B1(r, nq), c = H1(r, nq, o), l = U1(r, nq, o), u = Bo(aq), d = (0, A.useRef)(null), [f, p] = (0, A.useState)([]), m = j0(A0()), h = (0, A.useMemo)(()=>(t ? [
                 ...s
             ] : [
@@ -168668,7 +168743,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             r
         ]), [g, _, v] = P0(h, (0, A.useCallback)((e)=>m(e)?.name ?? e, [
             m
-        ]), _st), y = g?.query ? q$(g.query.split(` `)) : void 0, b = g ? g.items : h, x = Y1({
+        ]), vst), y = g?.query ? q$(g.query.split(` `)) : void 0, b = g ? g.items : h, x = Y1({
             count: b.length,
             getScrollElement: ()=>d.current,
             estimateSize: ()=>32,
@@ -168953,7 +169028,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function yst() {
+    function bst() {
         return (0, j.jsx)(pr, {
             position: `Right`,
             align: `Center`,
@@ -168988,7 +169063,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function bst() {
+    function xst() {
         return (0, j.jsx)(P, {
             gap: `200`,
             alignItems: `Center`,
@@ -168996,10 +169071,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 grow: `Yes`,
                 gap: `200`,
                 alignItems: `Center`,
-                className: sst,
+                className: cst,
                 children: [
                     (0, j.jsx)(ln, {
-                        className: cst,
+                        className: lst,
                         size: `200`,
                         radii: `300`
                     }),
@@ -169015,7 +169090,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function xst({ roomId: e, suggested: t }) {
+    function Sst({ roomId: e, suggested: t }) {
         return (0, j.jsx)(Cn, {
             as: `span`,
             className: y9,
@@ -169066,7 +169141,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Sst({ roomId: e, via: t, name: n, avatarUrl: r, suggested: i }) {
+    function Cst({ roomId: e, via: t, name: n, avatarUrl: r, suggested: i }) {
         let a = J(), [o, s] = Xf((0, A.useCallback)(()=>a.joinRoom(e, {
                 viaServers: t
             }), [
@@ -169135,7 +169210,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Cst({ roomId: e, name: t, avatarUrl: n, suggested: r, closed: i, categoryId: a, handleClose: o }) {
+    function wst({ roomId: e, name: t, avatarUrl: n, suggested: r, closed: i, categoryId: a, handleClose: o }) {
         return (0, j.jsx)(Cn, {
             "data-category-id": a,
             onClick: o,
@@ -169183,7 +169258,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function wst({ closed: e, categoryId: t, handleClose: n }) {
+    function Tst({ closed: e, categoryId: t, handleClose: n }) {
         return (0, j.jsx)(Cn, {
             "data-category-id": t,
             onClick: n,
@@ -169205,8 +169280,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Tst({ item: e }) {
-        let [t, n] = (0, A.useState)(), r = fst(), [i, a] = (0, A.useState)(!1), o = (e)=>{
+    function Est({ item: e }) {
+        let [t, n] = (0, A.useState)(), r = pst(), [i, a] = (0, A.useState)(!1), o = (e)=>{
             n(e.currentTarget.getBoundingClientRect());
         }, s = (t)=>{
             r(e.roomId, t), n(void 0);
@@ -169246,7 +169321,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             variant: `Primary`,
                             fill: `None`,
                             onClick: ()=>s(c7.VoiceRoom),
-                            after: (0, j.jsx)(yst, {}),
+                            after: (0, j.jsx)(bst, {}),
                             children: (0, j.jsx)(z, {
                                 size: `T300`,
                                 children: `Voice Room`
@@ -169282,15 +169357,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         children: `Add Room`
                     })
                 }),
-                i && (0, j.jsx)(vst, {
+                i && (0, j.jsx)(yst, {
                     parentId: e.roomId,
                     requestClose: ()=>a(!1)
                 })
             ]
         });
     }
-    function Est({ item: e }) {
-        let [t, n] = (0, A.useState)(), r = gst(), [i, a] = (0, A.useState)(!1);
+    function Dst({ item: e }) {
+        let [t, n] = (0, A.useState)(), r = _st(), [i, a] = (0, A.useState)(!1);
         return (0, j.jsxs)(qn, {
             anchor: t,
             position: `Bottom`,
@@ -169354,7 +169429,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         children: `Add Space`
                     })
                 }),
-                i && (0, j.jsx)(vst, {
+                i && (0, j.jsx)(yst, {
                     space: !0,
                     parentId: e.roomId,
                     requestClose: ()=>a(!1)
@@ -169362,13 +169437,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var Dst = en(({ className: e, summary: t, loading: n, joined: r, closed: i, categoryId: a, item: o, handleClose: s, options: c, before: l, after: u, canEditChild: d, canReorder: f, onDragging: p, getRoom: m, ...h }, g)=>{
+    var Ost = en(({ className: e, summary: t, loading: n, joined: r, closed: i, categoryId: a, item: o, handleClose: s, options: c, before: l, after: u, canEditChild: d, canReorder: f, onDragging: p, getRoom: m, ...h }, g)=>{
         let _ = J(), v = $Y(), { roomId: y, content: b } = o, x = m(y), S = (0, A.useRef)(null);
-        return Xot(o, S, p), (0, j.jsxs)(P, {
+        return Zot(o, S, p), (0, j.jsxs)(P, {
             shrink: `No`,
             alignItems: `Center`,
             gap: `200`,
-            className: (0, xt.default)(ost({
+            className: (0, xt.default)(sst({
                 outlined: !r || i
             }), e),
             ...h,
@@ -169385,7 +169460,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             ref: f ? S : null,
                             children: x ? (0, j.jsx)(q3e, {
                                 room: x,
-                                children: (e)=>o.parentId ? (0, j.jsx)(Cst, {
+                                children: (e)=>o.parentId ? (0, j.jsx)(wst, {
                                         roomId: y,
                                         name: e.name,
                                         avatarUrl: DW(_, x, 96, v),
@@ -169393,18 +169468,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         closed: i,
                                         categoryId: a,
                                         handleClose: s
-                                    }) : (0, j.jsx)(wst, {
+                                    }) : (0, j.jsx)(Tst, {
                                         closed: i,
                                         categoryId: a,
                                         handleClose: s
                                     })
                             }) : (0, j.jsxs)(j.Fragment, {
                                 children: [
-                                    !t && (n ? (0, j.jsx)(bst, {}) : (0, j.jsx)(xst, {
+                                    !t && (n ? (0, j.jsx)(xst, {}) : (0, j.jsx)(Sst, {
                                         roomId: o.roomId,
                                         suggested: o.content.suggested
                                     })),
-                                    t && (0, j.jsx)(Sst, {
+                                    t && (0, j.jsx)(Cst, {
                                         roomId: y,
                                         via: o.content.via,
                                         name: t.name || t.canonical_alias || y,
@@ -169419,10 +169494,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             alignItems: `Inherit`,
                             gap: `200`,
                             children: [
-                                (0, j.jsx)(Tst, {
+                                (0, j.jsx)(Est, {
                                     item: o
                                 }),
-                                o.parentId === void 0 && (0, j.jsx)(Est, {
+                                o.parentId === void 0 && (0, j.jsx)(Dst, {
                                     item: o
                                 })
                             ]
@@ -169434,7 +169509,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     });
-    function Ost({ item: e, requestClose: t }) {
+    function kst({ item: e, requestClose: t }) {
         let n = J(), { roomId: r, parentId: i, content: a } = e, [o, s] = Xf((0, A.useCallback)(()=>{
             let e = {
                 ...a,
@@ -169468,7 +169543,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function kst({ item: e, requestClose: t }) {
+    function Ast({ item: e, requestClose: t }) {
         let n = J(), { roomId: r, parentId: i } = e, [a, o] = Xf((0, A.useCallback)(()=>n.sendStateEvent(i, K.SpaceChild, {}, r), [
             n,
             i,
@@ -169499,7 +169574,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Ast({ item: e, requestClose: t, disabled: n }) {
+    function jst({ item: e, requestClose: t, disabled: n }) {
         let r = J().getRoom(e.roomId), [i, a] = (0, A.useState)(!1);
         return (0, j.jsxs)(j.Fragment, {
             children: [
@@ -169529,7 +169604,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function jst({ item: e, requestClose: t, disabled: n }) {
+    function Mst({ item: e, requestClose: t, disabled: n }) {
         let r = T0(), i = p7(), a = k0();
         return (0, j.jsx)(Nn, {
             onClick: ()=>{
@@ -169546,7 +169621,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Mst({ item: e, joined: t, powerLevels: n, canEditChild: r, pinned: i, onTogglePin: a }) {
+    function Nst({ item: e, joined: t, powerLevels: n, canEditChild: r, pinned: i, onTogglePin: a }) {
         let o = J(), [s, c] = (0, A.useState)(), l = ()=>n ? m1(_1(o, e.roomId), n).action(`invite`, o.getSafeUserId()) : !1, u = (e)=>{
             c(e.currentTarget.getBoundingClientRect());
         }, d = (0, A.useCallback)(()=>c(void 0), []);
@@ -169607,12 +169682,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 children: i ? `Unpin from Sidebar` : `Pin to Sidebar`
                                             })
                                         }),
-                                        (0, j.jsx)(Ast, {
+                                        (0, j.jsx)(jst, {
                                             item: e,
                                             requestClose: d,
                                             disabled: !l()
                                         }),
-                                        (0, j.jsx)(jst, {
+                                        (0, j.jsx)(Mst, {
                                             item: e,
                                             requestClose: d
                                         }),
@@ -169667,11 +169742,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         padding: N.space.S100
                                     },
                                     children: [
-                                        (0, j.jsx)(Ost, {
+                                        (0, j.jsx)(kst, {
                                             item: e,
                                             requestClose: d
                                         }),
-                                        (0, j.jsx)(kst, {
+                                        (0, j.jsx)(Ast, {
                                             item: e,
                                             requestClose: d
                                         })
@@ -169684,8 +169759,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var Nst = `_7ry8260`, Pst = `_7ry8262`;
-    function Fst({ roomId: e, via: t }) {
+    var Pst = `_7ry8260`, Fst = `_7ry8262`;
+    function Ist({ roomId: e, via: t }) {
         let n = J(), [r, i] = Xf((0, A.useCallback)(()=>n.joinRoom(e, {
                 viaServers: t
             }), [
@@ -169757,13 +169832,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Ist() {
+    function Lst() {
         return (0, j.jsxs)(P, {
             grow: `Yes`,
             gap: `300`,
             children: [
                 (0, j.jsx)(ln, {
-                    className: cst
+                    className: lst
                 }),
                 (0, j.jsxs)(P, {
                     grow: `Yes`,
@@ -169806,7 +169881,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Lst({ roomId: e, suggested: t, inaccessibleRoom: n, via: r }) {
+    function Rst({ roomId: e, suggested: t, inaccessibleRoom: n, via: r }) {
         return (0, j.jsxs)(P, {
             grow: `Yes`,
             gap: `300`,
@@ -169826,7 +169901,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 (0, j.jsxs)(P, {
                     grow: `Yes`,
                     direction: `Column`,
-                    className: Pst,
+                    className: Fst,
                     children: [
                         (0, j.jsxs)(P, {
                             gap: `200`,
@@ -169873,14 +169948,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         })
                     ]
                 }),
-                !n && (0, j.jsx)(Fst, {
+                !n && (0, j.jsx)(Ist, {
                     roomId: e,
                     via: r
                 })
             ]
         });
     }
-    function Rst({ roomId: e, roomType: t, name: n, topic: r, avatarUrl: i, suggested: a, memberCount: o, joinRule: s, options: c }) {
+    function zst({ roomId: e, roomType: t, name: n, topic: r, avatarUrl: i, suggested: a, memberCount: o, joinRule: s, options: c }) {
         return (0, j.jsxs)(P, {
             grow: `Yes`,
             gap: `300`,
@@ -169991,12 +170066,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var zst = en(({ item: e, loading: t, error: n, summary: r, dm: i, onOpen: a, options: o, before: s, after: c, onDragging: l, canReorder: u, getRoom: d, ...f }, p)=>{
+    var Bst = en(({ item: e, loading: t, error: n, summary: r, dm: i, onOpen: a, options: o, before: s, after: c, onDragging: l, canReorder: u, getRoom: d, ...f }, p)=>{
         let m = J(), h = $Y(), { roomId: g, content: _ } = e, v = d(g), y = (0, A.useRef)(null), b = (0, A.useRef)(null);
-        Xot(e, y, l, b);
+        Zot(e, y, l, b);
         let x = v?.getMyMembership() === NH.Join;
-        return (0, j.jsxs)(X, {
-            className: Nst,
+        return (0, j.jsxs)(hY, {
+            className: Pst,
             variant: `SurfaceVariant`,
             gap: `300`,
             alignItems: `Center`,
@@ -170008,12 +170083,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     ref: u ? y : null,
                     grow: `Yes`,
                     children: [
-                        u && (0, j.jsx)(Zot, {
+                        u && (0, j.jsx)(Qot, {
                             ref: b
                         }),
                         v ? (0, j.jsx)(q3e, {
                             room: v,
-                            children: (e)=>(0, j.jsx)(Rst, {
+                            children: (e)=>(0, j.jsx)(zst, {
                                     roomId: g,
                                     roomType: e.roomType,
                                     name: e.name,
@@ -170039,22 +170114,22 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 src: B.ArrowRight
                                             })
                                         })
-                                    }) : (0, j.jsx)(Fst, {
+                                    }) : (0, j.jsx)(Ist, {
                                         roomId: g,
                                         via: _.via
                                     })
                                 })
                         }) : (0, j.jsxs)(j.Fragment, {
                             children: [
-                                !r && (n ? (0, j.jsx)(Lst, {
+                                !r && (n ? (0, j.jsx)(Rst, {
                                     roomId: g,
                                     inaccessibleRoom: !1,
                                     suggested: _.suggested,
                                     via: _.via
                                 }) : (0, j.jsxs)(j.Fragment, {
                                     children: [
-                                        t && (0, j.jsx)(Ist, {}),
-                                        !t && (0, j.jsx)(Lst, {
+                                        t && (0, j.jsx)(Lst, {}),
+                                        !t && (0, j.jsx)(Rst, {
                                             roomId: g,
                                             inaccessibleRoom: !0,
                                             suggested: _.suggested,
@@ -170062,7 +170137,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         })
                                     ]
                                 })),
-                                r && (0, j.jsx)(Rst, {
+                                r && (0, j.jsx)(zst, {
                                     roomId: g,
                                     roomType: r.room_type,
                                     name: r.name || r.canonical_alias || g,
@@ -170071,7 +170146,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     memberCount: r.num_joined_members,
                                     suggested: _.suggested,
                                     joinRule: r.join_rule,
-                                    options: (0, j.jsx)(Fst, {
+                                    options: (0, j.jsx)(Ist, {
                                         roomId: g,
                                         via: _.via
                                     })
@@ -170084,7 +170159,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 c
             ]
         });
-    }), Bst = (0, A.forwardRef)(({ summary: e, spaceItem: t, roomItems: n, allJoinedRooms: r, mDirects: i, roomsPowerLevels: a, categoryId: o, closed: s, handleClose: c, draggingItem: l, onDragging: u, canDrop: d, disabledReorder: f, nextSpaceId: p, getRoom: m, pinned: h, togglePinToSidebar: g, onOpenRoom: _, onSpacesFound: v }, y)=>{
+    }), Vst = (0, A.forwardRef)(({ summary: e, spaceItem: t, roomItems: n, allJoinedRooms: r, mDirects: i, roomsPowerLevels: a, categoryId: o, closed: s, handleClose: c, draggingItem: l, onDragging: u, canDrop: d, disabledReorder: f, nextSpaceId: p, getRoom: m, pinned: h, togglePinToSidebar: g, onOpenRoom: _, onSpacesFound: v }, y)=>{
         let b = J(), { fetching: x, error: S, rooms: C } = B6e(t.roomId, !0), w = (0, A.useMemo)(()=>{
             let e = new Map;
             return C.forEach((t)=>{
@@ -170108,7 +170183,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             gap: `100`,
             ref: y,
             children: [
-                (0, j.jsx)(Dst, {
+                (0, j.jsx)(Ost, {
                     summary: C.get(t.roomId) ?? e,
                     loading: x,
                     item: t,
@@ -170119,7 +170194,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     getRoom: m,
                     canEditChild: !!D?.stateEvent(K.SpaceChild, b.getSafeUserId()),
                     canReorder: ee && !f && ne ? ne.stateEvent(K.SpaceChild, b.getSafeUserId()) : !1,
-                    options: k && ee && (0, j.jsx)(Mst, {
+                    options: k && ee && (0, j.jsx)(Nst, {
                         item: {
                             ...t,
                             parentId: k
@@ -170130,7 +170205,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         pinned: h,
                         onTogglePin: g
                     }),
-                    after: (0, j.jsx)(Qot, {
+                    after: (0, j.jsx)($ot, {
                         item: t,
                         nextRoomId: s ? p : re?.[0]?.roomId,
                         afterSpace: !0,
@@ -170144,7 +170219,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     gap: `100`,
                     children: re.map((e, t)=>{
                         let n = C.get(e.roomId), o = a.get(e.roomId) ?? {}, s = t === re.length ? p : re[t + 1]?.roomId, c = l?.roomId === e.roomId && l.parentId === e.parentId;
-                        return (0, j.jsx)(zst, {
+                        return (0, j.jsx)(Bst, {
                             item: e,
                             loading: x,
                             error: S,
@@ -170153,13 +170228,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             onOpen: _,
                             getRoom: m,
                             canReorder: !!D?.stateEvent(K.SpaceChild, b.getSafeUserId()) && !f,
-                            options: (0, j.jsx)(Mst, {
+                            options: (0, j.jsx)(Nst, {
                                 item: e,
                                 powerLevels: o,
                                 joined: r.has(e.roomId),
                                 canEditChild: !!D?.stateEvent(K.SpaceChild, b.getSafeUserId())
                             }),
-                            after: (0, j.jsx)(Qot, {
+                            after: (0, j.jsx)($ot, {
                                 item: e,
                                 nextRoomId: s,
                                 canDrop: d
@@ -170168,7 +170243,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             onDragging: u
                         }, e.roomId);
                     })
-                }) : re && (0, j.jsx)(X, {
+                }) : re && (0, j.jsx)(hY, {
                     variant: `SurfaceVariant`,
                     gap: `300`,
                     alignItems: `Center`,
@@ -170198,7 +170273,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
             ]
         });
-    }), Vst = (e, t, n)=>{
+    }), Hst = (e, t, n)=>{
         let r = J(), i = (0, A.useCallback)((i, a)=>{
             if (!(`space` in a.item)) return !1;
             let o = e.roomId, s = t.get(o) ?? {}, c = m1(_1(r, o), s);
@@ -170226,17 +170301,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             a
         ]);
     };
-    function Hst() {
+    function Ust() {
         let e = du(), t = J(), n = Bo(rq), r = Bo(nq), i = (0, A.useMemo)(()=>new Set(r), [
             r
-        ]), a = O0(), o = CZ(a), s = (0, A.useMemo)(()=>new a8e(32, 126, 6), []), c = S5(t, a.roomId), l = (0, A.useRef)(null), u = (0, A.useRef)(null), [d, f] = (0, A.useState)(), [p, m] = Ho(Lit), [h] = Y(q, `isPeopleDrawer`), g = om(), [_, v] = (0, A.useState)(!0), [y, b] = Ho(nst()), [x] = rst(V1(t, nq, Bo(aq))), S = (0, A.useMemo)(()=>{
+        ]), a = O0(), o = CZ(a), s = (0, A.useMemo)(()=>new a8e(32, 126, 6), []), c = S5(t, a.roomId), l = (0, A.useRef)(null), u = (0, A.useRef)(null), [d, f] = (0, A.useState)(), [p, m] = Ho(Rit), [h] = Y(q, `isPeopleDrawer`), g = om(), [_, v] = (0, A.useState)(!0), [y, b] = Ho(rst()), [x] = ist(V1(t, nq, Bo(aq))), S = (0, A.useMemo)(()=>{
             let e = x.flatMap((e)=>typeof e == `string` ? e : e.content);
             return new Set(e);
         }, [
             x
         ]), [C, w] = (0, A.useState)(()=>new Map);
         im((0, A.useCallback)(()=>u.current, []), (0, A.useCallback)((e, t)=>f(t), []));
-        let T = j0(i), [E, D] = (0, A.useState)(), O = F6e(a.roomId, p, T, (0, A.useCallback)((e)=>y.has(Wit(a.roomId, e)) || (E ? `space` in E : !1), [
+        let T = j0(i), [E, D] = (0, A.useState)(), O = F6e(a.roomId, p, T, (0, A.useCallback)((e)=>y.has(Git(a.roomId, e)) || (E ? `space` in E : !1), [
             y,
             a.roomId,
             E
@@ -170255,7 +170330,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }).filter((e)=>!!e), [
             O,
             T
-        ])), ne = Vst(a, te, T), [re, ie] = Xf((0, A.useCallback)(async (e, n)=>{
+        ])), ne = Hst(a, te, T), [re, ie] = Xf((0, A.useCallback)(async (e, n)=>{
             if (!e.parentId) return;
             let r = O.map((e)=>e.space).filter((t)=>t.roomId !== e.roomId), i = r.findIndex((e)=>e.roomId === n.roomId) + 1;
             r.splice(i, 0, {
@@ -170329,7 +170404,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             O,
             s
         ])), ce = oe.status === V.Loading || ae;
-        $ot(l, D, (0, A.useCallback)((e, t)=>{
+        est(l, D, (0, A.useCallback)((e, t)=>{
             ne(e, t) && (`space` in e ? ie(e, t.item) : se(e, t.item));
         }, [
             se,
@@ -170354,9 +170429,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             let i = JW(t, a.roomId);
             e(jG(i, JW(t, r)));
         }, fe = (0, A.useCallback)((e)=>{
-            let n = ist(x, e);
+            let n = ast(x, e);
             S.has(e) || n.push(e);
-            let r = ast(t, n);
+            let r = ost(t, n);
             t.setAccountData(MH.CinnySpaces, r);
         }, [
             t,
@@ -170370,7 +170445,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 children: [
                     (0, j.jsxs)(cY, {
                         children: [
-                            (0, j.jsx)(Bit, {
+                            (0, j.jsx)(Vit, {
                                 showProfile: !_,
                                 powerLevels: te.get(a.roomId) ?? {}
                             }),
@@ -170414,19 +170489,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                             style: {
                                                                 paddingTop: 0
                                                             },
-                                                            children: (0, j.jsx)(Vit, {})
+                                                            children: (0, j.jsx)(Hit, {})
                                                         }),
                                                         ee.map((e)=>{
                                                             let t = O[e.index];
                                                             if (!t) return null;
-                                                            let r = O[e.index + 1]?.space.roomId, o = Wit(a.roomId, t.space.roomId);
+                                                            let r = O[e.index + 1]?.space.roomId, o = Git(a.roomId, t.space.roomId);
                                                             return (0, j.jsx)(Z1, {
                                                                 virtualItem: e,
                                                                 style: {
                                                                     paddingTop: e.index === 0 ? 0 : N.space.S500
                                                                 },
                                                                 ref: k.measureElement,
-                                                                children: (0, j.jsx)(Bst, {
+                                                                children: (0, j.jsx)(Vst, {
                                                                     spaceItem: t.space,
                                                                     summary: C.get(t.space.roomId),
                                                                     roomItems: t.rooms,
@@ -170490,7 +170565,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 direction: `Vertical`,
                                 size: `300`
                             }),
-                            (0, j.jsx)(crt, {
+                            (0, j.jsx)(lrt, {
                                 room: a,
                                 members: c
                             })
@@ -170500,8 +170575,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var Ust = /^##\s+(\d{2}\.\d{2}\.\d{4})\s*$/, Wst = /^-\s+`([a-f0-9]{7,8})`\s+(.+?)\s*$/;
-    function Gst(e) {
+    var Wst = /^##\s+(\d{2}\.\d{2}\.\d{4})\s*$/, Gst = /^-\s+`([a-f0-9]{7,8})`\s+(.+?)\s*$/;
+    function Kst(e) {
         let t = [], n = e.split(/(`[^`]+`)/);
         for (let e of n)e && (e.startsWith("`") && e.endsWith("`") && e.length >= 2 ? t.push({
             kind: `code`,
@@ -170512,11 +170587,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }));
         return t;
     }
-    function Kst(e) {
+    function qst(e) {
         let t = [], n = null;
         for (let r of e.split(`
 `)){
-            let e = r.trimEnd(), i = e.match(Ust);
+            let e = r.trimEnd(), i = e.match(Wst);
             if (i) {
                 n && n.bullets.length > 0 && t.push(n), n = {
                     rawDate: i[1],
@@ -170525,15 +170600,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 continue;
             }
             if (!n) continue;
-            let a = e.match(Wst);
+            let a = e.match(Gst);
             a && n.bullets.push({
                 sha: a[1],
-                parts: Gst(a[2])
+                parts: Kst(a[2])
             });
         }
         return n && n.bullets.length > 0 && t.push(n), t;
     }
-    var qst = [
+    var Jst = [
         `Jan`,
         `Feb`,
         `Mar`,
@@ -170547,14 +170622,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         `Nov`,
         `Dec`
     ];
-    function Jst(e) {
+    function Yst(e) {
         let t = e.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
         if (!t) return e;
         let n = parseInt(t[1], 10), r = parseInt(t[2], 10) - 1, i = t[3];
-        return r < 0 || r > 11 ? e : `${n} ${qst[r]} ${i}`;
+        return r < 0 || r > 11 ? e : `${n} ${Jst[r]} ${i}`;
     }
-    var Yst = '# Changelog\n\nUser-facing changes per commit. Most recent at the top.\n\n## 24.08.2026\n\n- `b555afc` Fixed **text typing in backwards**, properly this time — the whole mechanism, not another guess at it. When the composer loses its cursor while still being the thing you are typing into, the editor wipes the blinking caret on every redraw and then answers its own wipe by throwing the cursor away again, so the state feeds itself. Typing into a box with no cursor puts each character at the *start*, in front of the one before it. Selecting some text used to be the only way out — that hands the cursor back — and that workaround is exactly what this now does for you, on every keystroke, before the character lands. It no longer matters what took the cursor away in the first place.\n- `b555afc` Fixed **not being able to select text in "View Source"**. Only "Copy All" worked. The hover toolbar over a message cancels presses on itself so that dragging across a message does not select from the wrong end — and because the menus it opens are its children as far as React is concerned, that cancellation was reaching inside every window they opened. Starting a selection is precisely what was being cancelled. Read Receipts, edit history and the forward dialog were silenced the same way.\n- `b555afc` Fixed **the read indicator disappearing from a message that has been edited**. Someone\'s read marker points at the newest thing they have seen, and an edit is a real event in the conversation that draws no message of its own — so after an edit the marker sat on something invisible and the avatar simply vanished. Read markers now show against the nearest message at or before them, which also fixes them disappearing onto a reaction or a deletion.\n- `b555afc` Fixed **the conversation scrolling itself hundreds of messages into the past when you open a photo**. Opening a picture starts the media scan, which reads back through the room\'s history — and the conversation behind it was not told that history had arrived, so it kept showing "the same place" while the place had moved. Closing the picture left you somewhere else entirely. In-room search moved the conversation the same way.\n- `b555afc` Fixed **clicking a photo opening a different one**. The viewer shows the room\'s whole media history, and when the picture you tapped was further back than the scan had read, it quietly showed you whatever was nearest instead — so you arrived at the wrong photo and had to walk to the one you asked for. It now goes and finds it, and says that it is looking rather than showing the wrong picture. Walking past the oldest picture it has found now fetches more instead of claiming that is everything.\n- `b555afc` Changed **the media viewer to run in conversation order** — oldest at the top, so moving down through it moves forward through the chat, the same direction the conversation runs. It was upside down: Up took you later and Down took you earlier. The grid is unchanged, newest first, which is the right way round for a grid.\n- `b555afc` Fixed **the gallery jumping while it fills in**. Photos from linked posts arrive over the network a moment after the grid appears and are slotted in by date, which pushes everything below them down — repeatedly, while you are scrolling. Your place is now held. This also corrects the same anchoring in the conversation, which had been choosing the wrong message to hold on to whenever the page was scrolled down.\n\n## 23.08.2026\n\n- `172dd7f` Added **embedded photos and videos to the gallery**. A Twitter or Bluesky link posted in the room is a picture as far as anyone reading is concerned, but the gallery only knew about files uploaded as attachments, so a room whose photos mostly arrive as links looked nearly empty. The gallery now pulls the media out of those posts as well — Twitter photos, Twitter GIFs and videos, Bluesky images and video, Bluesky\'s Tenor GIFs — and each one is its own tile, so a four-photo tweet is four tiles. Link previews being off, or the Twitter/Bluesky embeds being off, turns it off too: resolving one of these is a request to a host the sender chose, not one you did. Link-preview cards from your own homeserver are deliberately left out — those are site thumbnails, not the conversation\'s photos.\n- `172dd7f` Changed **the media feed into the viewer**. Zoom used to be a separate screen stacked on top of the feed; now the feed itself pans and zooms — double-click, pinch, ⌘/Ctrl+scroll, drag — and clicking beside the picture closes it, the way every other full-screen image behaves. Zoom is measured against the picture\'s own size, snaps to 1:1 when that is a real magnification, and stops smoothing past 100% so you see the actual pixels. The buttons beside it are now React (the full emoji picker, not just a heart), Reply, Jump, Save and Zoom, and Reply drops you back in the conversation with the message quoted.\n- `172dd7f` Removed **the message box from gallery view**, along with the pinned-message banner and the read-receipt row underneath it. Gallery is a wall of pictures; a composer sat under it doing nothing, and typing while it was open reached for an editor that was not there.\n- `172dd7f` Fixed **the black band behind the date in the gallery**, and the loud pill at the end of it. The date header was painted for a different kind of background than the page it sits on.\n- `172dd7f` Fixed **gallery tiles coming out blank**. The grid asks the homeserver for a thumbnail, which the conversation never does — it shows the file itself — so a picture that renders perfectly in chat could be a grey square in the gallery whenever the server declined to thumbnail it (remote media, an unusual format, thumbnailing switched off). It now falls back to the file itself, and a picture that genuinely cannot be shown says so instead of being a silent grey square.\n- `172dd7f` Fixed **the gallery giving up after one look back**. Each round reads a few hundred messages; if that stretch happened to contain no pictures, the grid was left exactly as it was — and the thing watching for "you have reached the end" only reports *changes*, so having already reached the end, it never fired again. The walk stopped there, in a room that might have plenty further back, looking for all the world like it had found everything. It now carries on while the end of the grid is still on screen, and asking for more by hand buys another run of it.\n- `172dd7f` Fixed **pictures missing from the gallery in encrypted rooms**. The scan reads each message once and asks it what it holds; in an encrypted room the keys for older messages often arrive a moment later, and anything not yet readable at the instant it was passed answered "nothing" and was never asked again — so the photo was absent from the gallery for the rest of the session while sitting perfectly visible in the conversation. Messages that become readable later are now folded in where they belong.\n- `172dd7f` Added **a collapsed chat list**. Dragging the divider far enough left snaps the column down to a rail of avatars — name, category headings and the panel title go, the unread badge moves onto the avatar corner, and hovering names the chat. Applies to Home, Rooms and spaces alike.\n- `172dd7f` Fixed **the conversation jumping under you while you read**. A message that grows *after* it appears — a link preview card arriving a moment later, a few hundred pixels tall, usually above what you are looking at — pushed everything down, and nothing put it back: the browser feature that would normally hold your place has never shipped in the Linux desktop shell\'s web engine. The view is now anchored to the message at the top of the screen and restored when anything above it changes size. Being at the live end of the conversation is unaffected — new messages still scroll in.\n- `172dd7f` Fixed **a room quietly losing the ability to load older messages**. One failed request for history left the "already loading" flag set forever, so every later attempt in that room was ignored for the rest of the session — scrolling up simply stopped working, with nothing to say why. It now clears the flag whether the request succeeded or not, and says so in the console when it failed.\n- `172dd7f` Fixed **the "new messages" line often not appearing at all**. Where the line goes was worked out from the messages actually drawn on screen, but the marker it follows can point at something that is never drawn on its own — a reaction, an edit, a thread reply — which is extremely common, and every one of those meant no line. It also re-anchors when you leave the window while caught up, instead of staying stuck where the room was when you opened it.\n- `172dd7f` Fixed **messages whose content is gone reading as "Unsupported message (no body)"**. They are shown as deleted, which is what they are — messages, stickers and polls alike. Deleted membership, name, topic and avatar changes show the same way instead of being parsed as though their content still existed.\n- `172dd7f` Fixed **Reply doing nothing on a poll**. Replying required the message to carry plain text, which a poll and other structured messages do not, so the button was live and had no effect.\n- `172dd7f` Fixed **the microphone being left open**. Cancelling a voice message — or switching room, or closing the composer — while the permission prompt was still up could not reach the recorder, because it was only handed over once recording had already started. The recorder then opened into a screen that had moved on and stayed open. Tapping record twice in quick succession no longer starts two of them either.\n- `172dd7f` Fixed **a numbered list stopping at ten**. `10.` was not recognised as a list item, so a list that reached ten broke in half at that point. Three-digit numbers no longer clip off the left edge either.\n- `172dd7f` Added **custom emoji to reply quotes**. The quoted line above a reply showed the emoji\'s name in colons where the picture should be.\n- `172dd7f` Fixed **an empty gap under messages containing links**. When none of the links produced a preview card the space held for those cards stayed behind, as a permanent empty band under the message.\n- `172dd7f` Fixed **mentions in encrypted rooms never reaching the inbox**. The list of what mentioned you is worked out by the homeserver, which cannot read an encrypted room — so in exactly the rooms most people are in here, being mentioned showed up nowhere. Encrypted rooms are now checked on this device, where the messages can actually be read.\n- `172dd7f` Added **support for multi-file galleries** (MSC4274) — a single message carrying several pictures, videos and files, sent by clients that support it, now renders as a grid rather than a line of fallback text, and its pictures appear individually in the room gallery and feed. Sending them is off by default in Settings → Messages, because clients that do not support it will see only the text fallback.\n\n## 22.08.2026\n\n- `c1993d7` Added **a media gallery for the whole conversation**. The photo button in the room header turns the chat into a wall of everything anyone has sent in it — photos and videos, newest first, grouped by day, with All/Photos/Videos filters that count what they hold. It reads further back through the conversation as you scroll, so it is not limited to what happens to be loaded, and it works the same in an encrypted room: the obvious way to build this asks the server for "messages containing a URL", which finds nothing at all in an encrypted room and would have quietly shown an empty gallery in exactly the rooms most people are in here.\n- `c1993d7` Added **a swipeable media feed**. Tapping a tile in the gallery — or a photo in the timeline, or the new Feed button on a video — opens it full screen, one attachment per flick, video playing the moment it arrives and rewinding when it leaves. Beside it: a heart (a real reaction, visible to the room), Save, a jump straight to that message in the conversation, and Zoom for stills. Muted by default with a mute button and **M** to toggle; arrow keys, **j**/**k**, space and page keys move through it, Escape leaves. It keeps reading older history as you approach the end, and only the attachment on screen and the one either side of it are ever loaded.\n- `c1993d7` Changed **what happens when you tap a photo**: it opens the feed at that photo instead of the single-image viewer, so the next attachment is one flick away rather than a trip back to the timeline. The old zoom-and-pan viewer is still there — it is the Zoom button in the feed — and **Settings → Messages → Open Media in Feed** turns the new behaviour off entirely.\n- `c1993d7` Split **"hide activity" into two switches**: one for read receipts, one for typing. They were a single toggle over two unrelated signals — "don\'t broadcast what I have read" and "don\'t broadcast that I am composing" — and wanting one without the other is the normal case. Anyone who had the old switch on gets both, so nobody starts broadcasting something they had chosen to hide.\n- `c1993d7` Changed **attachment cards** to a filename and one download that saves the file under the name its sender gave it. The card used to carry a banner — a pill with the file extension, the filename, a download icon — stacked on top of a player that already had its own controls. Audio and video are now played by the browser\'s own element over the shared media loader, which means a long file starts playing as it streams rather than after it has downloaded in full.\n- `c1993d7` Improved **YouTube link previews**: the title and channel now come from the host that serves the embed rather than from the homeserver\'s preview, which YouTube usually answers with a consent page or a 403 — leaving a player with no idea what was in it. The Piped instance list is down to two hosts that actually work from both the web app and the desktop shell; the bare-IP and http:// entries could never have loaded in a browser.\n- `c1993d7` Fixed **the microphone looking permanently blocked to people who had never been asked**. In the Android and desktop shells the permission is decided at the moment recording is attempted, so asking beforehand answers "denied" — and that sent the composer straight to the "blocked, go to system settings" dead end. Only an actual refusal counts as one now.\n- `c1993d7` Fixed **the member list\'s controls wrapping mid-phrase** in a narrow panel, putting "A to" on one line and "Z" underneath. The member count gives up the space instead.\n\n## 19.08.2026\n\n- `db6d27e` Fixed **the timestamp beside the avatar sitting too far left**. Hovering a timestamp shows the moment on the sender\'s clock, and room for that is held open on every message from them so nothing jumps when it appears — but the space being held was for the time *and the city* ("15:40 Helsinki"), which is far wider than a time, and under the avatar, where the timestamp is lined up against the message, that pushed it a city\'s width off to the left. The hover now shows the time on its own and names the place in the tooltip instead, so nothing is held open and the timestamp sits where it should. The date still appears when the message lands on a different day where they are.\n- `cc76c7b` Fixed **code blocks running off the side as one endless line**. A code block containing one long line — a log line, a JSON blob, a pasted paragraph — was rendered on a single line with a horizontal scrollbar under it, because that is what `<pre>` does. Long lines now wrap, keeping leading indentation and runs of spaces, and a single unbroken token (a base64 blob, a long URL) breaks rather than overflowing. Horizontal scrolling remains for what wrapping cannot fix.\n- `cc76c7b` Fixed **the "expand" control missing from tall code blocks**. Whether a block was tall enough to collapse was decided by counting newlines, which is wrong now that lines wrap: a 700-character line has no newlines at all and filled the screen with no way to collapse it, while fifteen short lines might not have reached the limit. It is now measured from what is actually on screen, re-measured when fonts finish loading or the window resizes, and the collapsed box is a fixed number of lines rather than pixels — so the larger text on mobile no longer halves how much you see.\n- `cc76c7b` Fixed **Copy quietly doing nothing while saying "Copied"**. Copying could fail — an unfocused window, a refused permission — and the button reported success anyway, so the next paste produced whatever was in the clipboard before, with nothing to point at the copy as the cause. It now reports "Copy failed" when it fails. The fallback path also **stripped every line break**, so a multi-line code block copied as one line; that is fixed too, along with a 99999-character cap that silently truncated long blocks.\n- `cc76c7b` Fixed **"Mark Unread" not bringing the indicator back in the chat list**. It moved your read marker back but never set the unread flag the list draws its badge from, and the badge is fed by notification counts, which do not grow again just because the marker moved backwards — so the message was marked and the list looked unchanged. It now flags the room as well, and a room you flag while you are still looking at it stays flagged until you leave, instead of being marked read again by the next scroll. "Mark as Unread" in the chat list is no longer greyed out for the chat you have open.\n- `cc76c7b` Added **a microphone permission prompt before the system one**, the first time you record a voice message, and a **Microphone access** row in Settings → Audio. Android asks "Allow Prinny to record audio?" with no context and only asks once — a no there is close to permanent — so it is worth saying what the microphone is for first, and worth having somewhere to fix it from if it was refused by accident.\n- `cc76c7b` Fixed **four layout faults, three of them only visible on a phone**: the clock shown while a message is sending sat a word\'s width away from the timestamp it belongs to; the hover timestamp under the avatar ran off the left edge of the screen; sender names were cut off with an ellipsis as soon as the header ran short of width, even with a whole empty line below them; and the sender\'s local time on hover broke across two lines, so the city read as a second timestamp.\n- `94494bd` Added **Discord-compatible webhooks** to `@prinny/bot`. Anything that already posts to a Discord webhook URL — a CI job, a monitor, a Grafana alert, a GitHub repository webhook, a Slack-shaped integration — works against a Matrix room by changing the host and nothing else. Embeds, buttons, polls, file uploads, threads and per-message sender names are all mapped across, and a webhook message is shown under the name it was posted with, tagged WEBHOOK.\n\n- `d31ce06` Fixed **Alt+Up/Down jumping to the wrong chat**. They moved through your chats in an order that had nothing to do with the one on screen — pinned chats were not first, the sort was not applied, and "Show unread only" was ignored — so pressing Alt+Down went to some other chat rather than the one below. They now follow the list exactly as it reads, in every sidebar: chats, rooms and inside a space, including collapsed sections and your own ordering. Where Home shows rooms above chats, Alt+Down off the last room carries on into the first chat. One consequence worth knowing: with "Show unread only" on, these keys now cycle only the unread chats, because that is what the list is showing.\n- `2bc1923` Fixed **the sender\'s local time on hover ignoring your date format**. Hovering a timestamp shows the same moment on the sender\'s clock, and adds the date when it lands on a different day where they are — that date was always written "19 Aug" instead of the format set in Settings → General. It now uses your date and 12/24-hour settings, the same as every other timestamp in the app.\n\n## 18.08.2026\n\n- `35eaff8` Fixed **swiping in from the left in Settings on Android doing nothing**, and the Back button with it. Android keeps the outer edge of the screen for its own back gesture, so that swipe never reached Prinny at all — what arrived was a plain "go back", and Settings is not somewhere you navigated to, so going back moved the screen *behind* it and left Settings sitting there. It now steps back the way the X does: out of a section to the list, and off the list to close. Pressing Back does the same.\n- `79bead6` Added **a proper error screen** for the kind of failure that takes the whole app down. Until now that landed on the router\'s own developer page — "Unexpected Application Error!", a minified stack, and a note addressed to whoever wrote the app — which is where yesterday\'s "Server versions are not provided!" crash left you: nothing to do about it, no way back, and nothing to say it was even Prinny. It now explains itself, keeps the technical detail behind a fold for when it is worth reporting, and offers **Reload**, plus **Reset app data and sign out** for a failure that comes back on every launch.\n- `79bead6` Added **a build check for the mistake behind that crash** — a part of the app asking for something that is only set up by the very thing asking. It passes type-checking and linting and shows itself only at runtime, as the entire client replaced by an error page on startup, which is exactly how it reached a release. The build now refuses it and names the component, the hook and the missing piece.\n\n## 17.08.2026\n\n- `0956b9d` Fixed **Prinny failing to start** with "Server versions are not provided!". Introduced the same day by the notification-avatar caching: it asked about your homeserver\'s capabilities from a place in the app that is set up *before* that information exists, and the error took the whole client down to a blank error page rather than being contained. It now runs from a point where the connection is already established.\n\n- `570934d` Fixed **the same new message being flagged twice** when unread chats are shown as avatars in the left rail. The chat\'s own avatar lit up and so did Home, a few pixels apart, for one message. Home now leaves it to the avatar, which is the more useful of the two because it tells you *who*.\n- `570934d` Fixed **the local-time hover flickering** when you held the pointer on a timestamp. The two versions of the text are different lengths, so swapping them resized the thing you were pointing at out from under the pointer, which ended the hover, which put it back — several times a second while you held perfectly still. The timestamp now reserves room for both, so nothing moves.\n- `570934d` Improved **what that hover actually says**. It was a bare time with no am/pm and nothing to say whose clock it was. It now follows your 12/24-hour setting like every other timestamp, and names the place — "07:40 AM Chicago" rather than "07:40".\n- `570934d` Fixed **double-click to reply doing nothing** when you double-clicked the message itself. It was deliberately ignoring the text, on the reasoning that double-clicking words means "select this word" — but the text is the part you aim at, so the feature only worked on the empty space beside a message and looked broken. It now works anywhere on the message; the word still gets selected as well, and the switch to turn it off is where it always was.\n\n- `0ed87bd` Fixed **the Windows taskbar button barely flashing** for a new message. It was asking Windows for the wrong kind of alert — one that blinks the button exactly four times and then goes quiet, so unless you happened to be looking at the taskbar in that second, nothing appeared to have happened at all. It now stays lit until you actually bring Prinny to the front, the way Discord does. Nothing flashes while you are already reading.\n\n- `6ab2314` Fixed **the Android back gesture closing Prinny** instead of going back. Swiping back or pressing Back quit the app from anywhere — including from a room you had just opened — so the only way back to your chat list was the on-screen controls. It now steps back through where you have been, and only leaves the app once there is nowhere left to go. One thing it still cannot dismiss is the Settings dialog, which isn\'t a place you navigated to; Back there moves the screen behind it instead.\n\n- `bfe1dcf` `e2a6624` Added **the sender\'s picture to Android notifications** that arrive while the app is closed. Those are posted by the app\'s Android half, which runs with no account and no connection of its own, so it had no way to fetch anyone\'s avatar and showed none. Pictures are now saved while the app is running and looked up by who sent the message, so nothing has to be downloaded — or signed in — at the moment a notification arrives. Someone messaging you for the very first time while the app is shut will still have no picture until the app next runs.\n- `bfe1dcf` `e2a6624` Fixed **your phone notifying you about messages you already read on another device**, and leaving them sitting in the notification shade afterwards. When you read a room somewhere else, your server sends a message saying "nothing unread here anymore" — Prinny was treating that as a new message and posting **New message** for it, so reading on the desktop actually *created* a notification on your phone. It now clears that room\'s notification instead.\n\n- `67c9298` Added **the sender\'s local time on a timestamp**. Hover the time on someone\'s message and it becomes the time it was on *their* clock when they sent it, for as long as you\'re pointing at it. It answers the thing a timestamp cannot in a room spread across the world — a reply at 03:40 their time means something different from a slow one. If the time difference lands the message on another day where they are, the date is shown too, because "08:30" under a message dated yesterday would just be wrong. Only works for people who have set their time zone in Settings → Account, and nothing changes on hover for anyone who hasn\'t. Your own time zone is set in the same place.\n- `2b09da0` Added **"Default Inbox Tab"** to Settings → General → Layout, and fixed the Inbox ignoring it. Opening the Inbox went wherever you had left it last time, remembered from before any of this existed — so it kept landing on Notifications no matter what the default was meant to be, and there were three separate ways in (the sidebar, the top bar, and the address itself) that each decided for themselves. They now all ask the same setting, and the setting decides rather than being overruled by where you happened to be last. It defaults to All.\n- `67c9298` Changed **the Inbox to open on All** rather than Notifications, now that All exists and contains both.\n- `fe18690` Added **an "All" filter to Invites, and made it the default**. Invites are sorted into Primary, Public and Spam by guesswork — do you share a room with the sender, does anything look like spam, has the sender been banned somewhere you are — and the page used to open on Primary only. An invite the guess put in either of the other two was not just further down, it was nowhere, unless you knew to go and look. The three groups are still shown separately, with Spam still behind its warning, so nothing arrives without the context that says what it is; empty groups are simply skipped.\n- `fe18690` Added **an "All" inbox** alongside Notifications and Invites, showing both on one page with invites at the top. Invites and Notifications were each half an inbox, so whichever you opened, the other half was somewhere you had to remember to check.\n- `fe18690` Fixed **invitations showing up as `m.room.member` event in your notifications**. That is the raw name of the thing an invite is made of, and it was being printed because nothing had been written to describe it — the notification that most needed to explain itself was the one explaining least. It now reads the same way an invite reads in a room\'s timeline, and it handles the neighbouring cases too, like someone accepting a request to join.\n- `fe18690` Added **`/status`** for setting your status message from the composer — the one that follows you everywhere and shows next to your name, the same box as Settings → Account → Status. Not to be confused with the room topic. `/status` on its own clears it, which is otherwise something you have to open Settings to do.\n- `44af202` `824cbd8` Fixed **ntfy users being quietly routed through a stranger\'s server**. Notifications are delivered to your phone by way of a "gateway", and the app works out which one to use by asking your push server whether it can act as one. That question was being asked in a way a browser is not allowed to hear the answer to — ntfy.sh replies correctly, but without the header a browser requires before it will let the app read the reply — so the answer was thrown away unread and Prinny fell back to the shared public gateway run by the UnifiedPush project. Notifications still arrived, which is why this went unnoticed, but it meant every message notification took a detour through a third party — carrying the sender and the message text for any room that is not encrypted. The question is now asked by the app itself rather than through the browser, so ntfy answers for its own gateway and your notifications go straight there.\n- `b624a17` Added **"Register pusher" to the Push Delivery panel**, which says what your homeserver actually replied instead of leaving you with a red mark and no reason. Registering with your server is the last step of setting up notifications and the easiest one to get stuck on, and until now a refusal was written to a log you cannot open from a phone — so a distributor handing over an address we will not use, a server turning the registration down, and the attempt never being made all looked exactly the same. The panel now also shows **which push gateway is in use**, because it is picked for you and is not always the obvious one: it is chosen by asking your push server whether it speaks Matrix, and ntfy.sh does not answer that question in a way the app is allowed to read, so ntfy users are quietly routed through the public UnifiedPush gateway instead. It works, but it puts a third party in the path of your notifications, and you should be able to see that rather than have to guess at it.\n- `98a0ae0` Removed **the "Check for Updates" button on Android**, where it never did anything. Android updates itself — Prinny checks on startup, downloads the new version and asks you to install it — so the button had nothing to do, and tapping it left it sitting there still saying "Check for Updates". It is still there on desktop, where it is the thing that applies an update. \n- `98a0ae0` Changed **the swipe-back in Settings to start from the left edge**, the way Android\'s own back gesture does. It used to trigger on a sideways drag begun anywhere on the screen, which is fine in a chat but wrong in Settings: the page is full of switches and sliders, so nudging one sideways could throw you off the page you were trying to adjust. Chats and the main screen keep the swipe-from-anywhere behaviour.\n- `949b169` Added **a status line under each chat in the sidebar**. A direct message now shows what the other person is up to beneath their name — what they are listening to or playing if they are broadcasting that, and otherwise the status message they set. The activity wins when there is one, because a chat list is read for what someone is doing *now*, while a status message often sits unchanged for weeks. The member list is deliberately unchanged: there the status still wins and the activity shows as the small icon in front of it. Rows do not get taller — the space was already being reserved.\n- `949b169` Changed **where the sender\'s `@name:server.com` sits when you hover a message**. It now goes hard against the right edge, tucked *under* the reply and reaction buttons instead of standing to their left, so it no longer takes a strip out of the line beside them. On phones it is gone entirely: it is there for a mouse pointer, and a touch screen has none, so it could only ever turn up as a stray box after a long-press.\n- `c6e0a64` `a026e6e` Added **a Push Delivery panel** to Settings → Notifications on Android, which says which part of push is broken instead of leaving you to guess. Background notifications here need a separate distributor app on your phone (ntfy, Sunup, NextPush — there is no Google push in this client) and a registration held by your homeserver, and every possible break in that chain used to look exactly the same from the outside: notifications simply did not arrive. The panel checks each step on its own — whether a distributor is installed, whether one is selected, whether it has actually answered, whether an address was issued, whether your homeserver is sending to *that* address, and whether Android is letting Prinny post at all — and tells you what to do about the one that failed. **Re-register** also doubles as the way to pick a distributor.\n- `a026e6e` Fixed **Prinny forgetting its push address every time it was closed**. The address lived only in memory, and a messaging app\'s process is shut down by Android constantly — so every launch found nothing, reported nothing, and went back to the distributor to be told the very address it had just discarded. It is now remembered properly. Re-registering also no longer throws away a working address before asking for a new one, which used to leave the app with nothing at all if that request was slow or failed.\n- `c6e0a64` Fixed **notifications stopping for good after your distributor changed its address**. Your homeserver was left holding the old one and kept sending there — to nobody — while a fresh registration piled up alongside it rather than replacing it, because the address is the very thing that identifies a registration. Retired ones are now cleared out. Only Prinny\'s own are touched; registrations belonging to your other apps and devices are left alone.\n\n## 16.08.2026\n\n- `c91e1d2` Fixed **Android notifications never arriving**, and it was not the part anyone had been looking at. Prinny asks the shell to do the Android-only work — register for push, keep the connection alive in the background, post the notification — and every one of those requests was being refused before it got anywhere, because the app never granted itself permission to make them. So no push was ever registered with your homeserver, meaning the server had nothing to send to, and the carefully-written code that turns a push into a notification had never once run. The same refusal silently disabled **notification avatars, the taskbar unread badge, drag-and-drop file sending, link previews, Discord rich presence and Twitter/X media** on desktop, each of which quietly fell back to doing nothing or doing less.\n- `9beda76` Fixed **Android notifications going nowhere even once they arrive**: tapping one did not open the room, a rotated push address was never re-registered, and an incoming push never nudged the app to sync. All three listened on the wrong channel — the shell delivers these to a per-plugin subscription, not the app-wide one they were waiting on.\n- `9beda76` Fixed **Prinny never asking for Android\'s notification permission**. It was only ever requested from Settings → Notifications → Enable, so unless you went looking for that switch, Android silently discarded every notification the app posted — while notifications from *downloads* kept working, because those are posted by Android itself and need no permission from us. It is now asked for on first run, once.\n- `c91e1d2` Fixed **the attachment button doing nothing on Android**. Adding mic and camera support for calls replaced a piece of the WebView the app does not own, and the file picker lived in the part that got replaced — so every attach button, and every avatar or sticker upload, opened no picker at all and reported no error. That piece is now wrapped rather than replaced, which also brings back JavaScript dialogs, the location prompt and WebView logging.\n- `c91e1d2` Fixed **two identical "Messages" entries** in Android\'s notification settings. Messages received in the background used a different channel from the rest, so silencing the one you could see left the other one ringing.\n- `9beda76` Improved **what Prinny says when Android push cannot be set up**. A device with no UnifiedPush distributor installed (ntfy, Sunup, NextPush) now says so, and says that background notifications will not arrive until one is — there is no Google-push path in this client, so that app is required. A distributor that refuses the registration is now reported too, instead of being dropped in silence.\n- `7190544` Changed **where the sender\'s address shows up** on a run of messages from one person. It is now drawn once, on the first message of the run — beside the name and the time, where the sender is actually identified — instead of on every message, which labelled the same person over and over. Hovering *any* message of the run brings it up, so pointing at the fifth message in a row still answers "who sent this?" without you having to find the top of the group.\n- `dbd3e7f` Fixed **push notifications arriving with a blank generic icon** instead of the Prinny one. The app asked the browser for an icon at a path that does not exist in the built app, and the browser quietly substituted its own rather than reporting anything. The icons listed for installing Prinny as an app were stale in the same way. Both now work whether you use prinny.app or host it yourself.\n- `25bf6a3` Added **sharing into Prinny from Android\'s share sheet**. Pick Prinny when sharing a link, some text or files from another app, choose the room, and it lands in the composer with everything attached. Nothing is sent automatically — you still see it and press send, and a share that arrives while Prinny is closed is kept and shown once it has started up.\n- `d4cf7e1` Added **proper Hacker News link previews**, built from HN\'s own data: the story title, who posted it, the score, the comment count, and a link straight to the discussion. HN publishes nothing for a preview to read, so cards for it used to come out with the site\'s navigation strip ("new | past | comments | ask | show…") as the description. Off by default with the other link integrations — Settings → General. Also fixed **thumbnails being requested over and over** after the server had already refused them once.\n- `b2d1039` Fixed **link previews of a URL nobody sent**. A link containing spaces was cut at the first one, so the preview was of a shortened address that leads nowhere — and an audio or video file linked that way never got its player, it fell back to a dead generic card. Links written as `<…>` or as text pointing somewhere else failed the same way. Previews now follow the actual link in the message.\n- `326cc50` Fixed **the sender\'s address drifting about** on a run of messages from one person. Hovering a message shows the full `@name:server.com` at its right; on the first message of the run it sat hard against the edge and on every message after it 152px short of it, so the label jumped sideways as you moved down the group. The one that looked right was the wrong one — it was tucked under the hover toolbar with the tops of its letters cut off. Both now sit in the same place, clear of the toolbar.\n- `abad72a` Added **marking a room unread** — right-click a room in the list, *Mark as Unread*. The unread dot comes back so you remember to return to it, and unlike a local flag it follows you to your other devices and to other Matrix apps, because it uses the standard way of recording that rather than a Prinny-only one. Flags set from another app show up here too, including the older key Element used for years. Reading the room clears it. The option is greyed out on the room you are currently looking at, because that room marks itself read again the moment you scroll it — better to grey it out than to let it quietly undo itself.\n- `abad72a` Fixed **your recently-used emoji not following you to other Matrix apps**. Prinny only ever wrote Element\'s private key for that list, so nothing else could see it; it now writes the standard one as well and reads whichever is there. The two store the list in genuinely different shapes, which is why this was not simply a rename. The Recent row is also now in *recent* order — it had been sorting by how often you had used an emoji, so a face you used once this morning sat behind one you used a lot last year.\n- `abad72a` Added **telling other apps when a picture you send is animated**. Without that flag the app at the other end cannot know a GIF, animated WebP or APNG moves until it has downloaded the whole thing, and asking a server for a small preview of one gets a single frozen frame back. Prinny now inspects the actual file rather than trusting the file extension, so a `.webp` that happens to be a still is not announced as a GIF — and where it genuinely cannot tell, it says nothing rather than guessing. Covers pictures, stickers, and images you add to a sticker set.\n- `abad72a` Added **a time zone on your profile** — Settings → Profile → *Time Zone*, with a *Detect* button and type-ahead over every zone your device knows. Other people then see the local time where you are on your profile card, ticking while it is open. Leave it empty to show nothing, which is how it starts.\n- `e2d971e` Changed **the Windows installer**. It now carries Prinny artwork — the mascot and wordmark down the side of the welcome page, a header on every page, and the app icon on the installer file itself — and the footer no longer advertises the toolkit that built it. The separate `.msi` download is gone. Nothing ever used it: updates have only ever gone through the `.exe`, it still wore upstream Prinny\'s blue-and-bird artwork, and its way of updating replaces the Start Menu shortcut, which quietly breaks a pinned taskbar icon and, because Windows ties notifications to that shortcut, stops desktop notifications arriving at all.\n\n## 15.08.2026\n\n- `67c01fe` Fixed **videos and GIFs playing in a clunky custom player**. A video had a **Watch** button you had to press before anything happened, then downloaded the whole file before it could start, and once going it looped forever with the length and file size stamped over the corner — sensible for a GIF, odd for an hour-long clip. Video now uses the player your browser provides, the same way voice messages already did, and only fetches what it needs to start. **GIFs are told apart from videos properly** for the first time: one sent from the GIF picker loops silently with no player bar, and a video gets ordinary controls and waits for you. If your device refuses to autoplay a GIF, controls appear so you can still start it.\n- `67c01fe` Fixed **notifications never arriving on Android**. The app was registering for push with your homeserver in a way the server has to refuse, so no notification was ever set up and nothing was ever sent — which looked like the app not supporting notifications at all. It now finds the right address for whichever push app you use (ntfy, Sunup and the rest), which is the step other clients do and this one skipped. If it still fails, it now says so clearly instead of leaving one hidden line in a log nobody can read.\n- `67c01fe` Fixed **the cursor landing before a `/command`** after picking it from the list, instead of after it. Mentions and emoji shortcuts had the same fault. This is also the likeliest cause of **text coming out backwards** as you typed: with the cursor stuck before what you just inserted, every letter goes in at the same spot and the word builds up in reverse.\n- `67c01fe` Fixed **read receipts sitting past the end of a message**. Replying to something longer than your reply pushed the little avatars out to where the quoted message ended, floating well past the message they belong to. They now sit at the end of the message itself, on its last line.\n- `67c01fe` Removed **the empty strip down the right of every message**. It was reserved for the buttons that appear when you hover, but it was also being reserved on phones, which never show those buttons — so the narrowest screens were giving up the most width for nothing, and it was why the **new messages** line stopped short of the edge. The buttons now sit over the end of the message when you hover it, and messages use the full width.\n- `67c01fe` Fixed **the hovered timestamp on grouped messages** sitting too high and too far from the message, and **the little clock on a message still sending** riding above the timestamp beside it.\n- `67c01fe` Fixed **emoji that your device has no picture for** being offered in the picker anyway, where they showed as an empty box — and then arrived as an empty box for whoever you sent them to. The newest handful (orca, distorted face, fingerprint, face with bags under eyes and a few more) are hidden until your system can actually draw them, and reappear on their own once it can.\n- `d6129bf` Fixed **the chat list showing up empty while the app was connecting**, and staying empty until you reloaded the page. The list draws only the rows that fit on screen, which means it has to find the panel it scrolls inside — and it was looking a fraction too early, before the browser had finished attaching it. Getting nothing back, it drew no rows at all. It never looked again, so the list stayed blank; anything that happened to redraw it afterwards fixed it, which is why it came right on a busy account and stuck on a quiet one that had just finished its first sync. Introduced a day ago, when the room and chat lists were merged into one shared list.\n- `d6129bf` Fixed **the same fault in message search**, where it has been hiding since long before this client was forked — results only appear once you type, and typing was enough to shake it loose.\n- `166d537` Fixed **selecting a message by dragging from the right of it**, which highlighted the message from its left edge instead of following your cursor. This is the third go at it and the first that was actually tested against the bug rather than reasoned about: the row of buttons that appears when you hover a message floats just above that message, which puts it over the blank right-hand end of the message *above* it — and pressing on a button cannot put a cursor in text, so the browser started the selection at the beginning of the message instead of where you pressed. Short messages failed every time, because a one-line message is shorter than that strip of buttons is tall and so its whole right-hand end sits underneath; longer messages only lost their first line. Pressing there no longer starts a selection in the wrong place, and every button in the strip still works. The two earlier attempts had moved the reserved space around on the theory that the buttons were covering text — they were not, they were catching the press — so this one costs no width.\n- `166d537` Added **someone\'s status next to their avatar**, as a thought bubble, when you open their profile. It was only ever visible in your own profile preview in Settings before.\n- `166d537` Added **About Me to the profile you see when you click someone**. Their biography was already there but unlabelled and easy to miss; it now looks the same as it does in Settings, because both are now drawn by the same code.\n- `166d537` Fixed **the profile preview in Settings not matching the profile everyone else sees**. It was a separate copy of the same card that had drifted out of step — different spacing under the banner, a different avatar treatment, and a plain colour where the real card shows a blurred version of your avatar. It is now the real card, so what you see while editing is what other people get.\n- `166d537` Fixed **opening someone\'s avatar showing it in a small boxed window**. Every other image in the app opens in the full-screen viewer with zoom and download; avatars were the one exception, wrapped in a dialog that shrank them. They now open like everything else.\n- `166d537` Added **the time of a message in the space where its avatar would be**, when you hover it. Messages grouped under one name have no timestamp of their own — the one at the top belongs to the first message of the group — so there was no way to tell when any of the others were sent without opening something.\n- `166d537` Removed **the GIF button from the message box**. GIFs are a tab on the same panel the sticker and emoji buttons already open, so the button was a third way to open one panel on one of its tabs. Nothing is lost: the tab is still there, still controlled by the same *GIF picker* setting in Settings → General.\n- `166d537` Changed **Piped**, which is what plays YouTube links without YouTube watching you: it is now **on by default** and set to `piped.gmach.online`. The instance list is down to that and `piped.private.coffee` — the rest were bare IP addresses and unencrypted addresses that a browser refuses to load anyway, so they only ever worked in the desktop app and mostly made the list look longer than it was.\n- `166d537` Fixed **long lists sometimes rendering in the wrong place** when a list did not start at the very top of the area it scrolls in. The measurement that corrects for this could never run at all — it looked for the scrolling container a moment before the browser had finished attaching it, treated that as nothing to do, and never looked again.\n\n> **Not yet tested by anyone:** everything above except the selection fix has been\n> built and checked but not actually clicked. The profile changes are the ones that\n> move things around on screen, so those are worth a look first.\n\n- `5fa7b32` Added **a Discord-shaped layout, in five separate switches** — Settings → General. **Unified sidebar** puts your rooms and your direct messages in one list under Home instead of two tabs. **Direct message buttons** puts your chats as avatar buttons on the left-hand rail, next to your spaces. **Top bar** runs a strip across the top of the window and moves the inbox into it. **Profile in top bar** moves your name, avatar and the settings button up there too. **Rooms space** makes Rooms its own entry on the rail, leaving Home to your chats. Every one of them is off to begin with, and turning any of them off puts things back exactly as they were. Links never break when you flip one: a chat you bookmarked, the room you had open when you closed the app, and a link somebody sent you all keep working whichever layout you are in. Pinned chats and *Show unread only* work the same in every one of these lists, because there is now only one list — the same one, shown in different places.\n- `5fa7b32` Added **dragging rooms into the order you want**. Grab a room in the list and drop it where it should go. Your order is yours alone — nobody else in the room sees it — and it follows you to your other devices, kept separately for each space. The old sort-order picker is gone: it was a choice between three orders nobody wanted, and this replaces it.\n- `5fa7b32` Added **a GIF picker**, off by default — Settings → General → *GIF picker*. It adds a GIF tab to the emoji board and a button by the attach icon, with categories and a search box. **Favourite a GIF** from the picker or straight from a GIF somebody sent, and your favourites follow you to your other devices.\n- `5fa7b32` Added **pronouns, a profile banner and a biography** to profiles, yours and everyone else\'s. Settings → Profile edits all three and shows you a live preview of the card other people see. The banner has its own crop tool. These need a homeserver that supports extended profiles; on one that does not, nothing appears and nothing breaks — which is itself a fix, because an unsupported homeserver used to blank out the name and avatar as well.\n- `5fa7b32` Added **rich presence** — what someone is listening to or playing, on their profile card, off by default (Settings → General → *Show rich presence*). Album art and links in it always ask before opening and show you the real address, since whoever published it wrote the label. On the desktop app there is also **publishing your own** (Settings → Account), which listens for Spotify, games and anything else that talks to Discord and shares it as your status. See the note at the bottom of this entry — the desktop half has never been run yet.\n- `5fa7b32` Added **a status line under people\'s names** in the member list, so their status message shows next to who they are rather than only on their profile.\n- `5fa7b32` Changed **clicking someone\'s name in a message** — it opens their profile instead of dropping a @mention into whatever you were typing. Their profile card is also tidier: the homeserver sits inline rather than on its own line, the actions are condensed, and you can start a direct message from the card and type the first one straight into it.\n- `5fa7b32` Added **double-clicking a message to reply to it**. Double-clicking to select a word still selects a word, and double-clicking a link or a button still does what it always did.\n- `5fa7b32` Added **copying several messages as a clean transcript**. Select a run of messages and copy: you get names and text, not the surrounding furniture.\n- `5fa7b32` Added **auto-replacing emoji shortcodes** as you type — `:sob:` becomes 😭 — off by default (Settings → General). It works in the message box and when editing a message.\n- `5fa7b32` Added **low animation mode**, off by default. GIFs and videos hold still until you hover them, and the typing dots stop bouncing. For anyone who finds a busy room exhausting, or is paying for the battery.\n- `5fa7b32` Added **auto-embedding media links from hosts you trust**. A bare link to a video file plays inline instead of sitting there as a link, but only for hosts on a list you write yourself (Settings → General) and only for actual video files. The match is exact, so putting `example.com` on the list does not also trust `example.com.somebody-else.net`.\n- `5fa7b32` Added **auto-joining every room in a space**, off by default — globally in Settings, or for one space in that space\'s settings, subspaces included. Joining the space then gets you everything in it instead of a list to work through by hand.\n- `5fa7b32` Added **an "only verified sessions" switch** for encryption (Settings → Sessions). With it on, your messages are not sent to devices you have not verified.\n- `5fa7b32` Added **a notification menu on a space** — set every room in it to the same notification setting in one go, rather than one room at a time.\n- `5fa7b32` Added **reset notifications to defaults**, a single action in Settings → Notifications for when the per-room settings have got away from you. Nothing else was removed; the granular controls are all still there.\n- `5fa7b32` Added **downloading an emoji or sticker set as a zip**, and renamed **packs** to **sets** throughout, which is what everything else calls them.\n- `5fa7b32` Added **leaving every room in a space when you leave the space** — a checkbox on the leave dialog, unticked to begin with, so leaving a space still only leaves the space unless you say otherwise.\n- `5fa7b32` Changed **search results** to group by room, with the messages either side of each hit and the sender\'s name and avatar, so a result reads like a conversation rather than a line of text. Several things about search were also simply wrong: the number of results was the number on this page rather than the total, loading more could drop or duplicate hits, results in encrypted rooms were mislabelled, and a failure printed the raw error at you instead of saying what went wrong.\n- `5fa7b32` Changed **the jump-to-room menu (Ctrl/Cmd-K)** so it no longer offers you the room you are already in.\n- `5fa7b32` Changed **the call banner**: it shows how long the call has been running, who is in it under the room\'s entry in the list, and a badge on the space so you can see there is a call in a space you are not looking at.\n- `5fa7b32` Changed **the image crop tool**, which previously had an Apply button that did nothing at all — it is a working crop tool now, used for avatars and the new profile banners.\n- `5fa7b32` Fixed **images in the timeline being cropped**. A picture that was not the shape of the space it was given had its edges cut off rather than being fitted into it.\n- `5fa7b32` Fixed **not being able to scrub through a voice message or a video**. Dragging the progress bar restarted from the beginning or did nothing, because the request for "just this part of the file" was being thrown away and the whole file sent instead — every time, for every seek.\n- `5fa7b32` Fixed **replies being silently dropped when you attach a picture or a file**. Replying and then attaching sent the attachment as an ordinary message with no reply on it, and nothing said so. Stickers had the same fault.\n- `5fa7b32` Fixed **a message that failed to send looking exactly like one that sent**. Messages now dim while they are on their way, and one that did not make it says so with **Retry** and **Remove** next to it.\n- `5fa7b32` Fixed **the timeline scrolling away from the bottom on its own** while images and embeds finished loading. It was deciding whether to follow new messages based on where the scroll had been a second earlier.\n- `5fa7b32` Fixed **clicking a notification in the browser dumping you in the inbox** instead of the message it was about. The desktop app already went to the right place; only the browser did not.\n- `5fa7b32` Fixed **the keyboard closing after every message on a phone**, so a run of short replies no longer means reopening it each time.\n- `5fa7b32` Fixed **notifications not saying where they came from**. The room and space are in the title now, and each room\'s notifications replace each other instead of stacking up.\n- `5fa7b32` Added **telling you when your browser refuses the app storage it needs** — a private window with storage blocked, or a disk that is full — instead of failing in ways that look like unrelated bugs.\n- `5fa7b32` Added **checking what software your homeserver runs** at startup (Synapse, Conduit, and so on), used to avoid asking a server for things it does not have. If the check fails it is treated as unknown and nothing changes.\n- `5fa7b32` Changed **the icons** throughout the app to a single consistent set.\n- `5fa7b32` Fixed **long lists rendering blank in the wrong place** when a list did not start at the very top of what it scrolls in. Nothing in the app hit this before; the new unified sidebar, which stacks two lists in one scroll, would have.\n\n> **Not yet tested by anyone:** the five layout switches above have been built and\n> checked but never actually clicked in a browser, and **publishing** your rich\n> presence to the desktop app has never been run at all — the piece that talks to\n> Discord compiles but has not yet spoken to it. Both are expected to need a round\n> of fixing. Everything else in this entry has been through the usual checks.\n\n## 14.08.2026\n\n- `d883df6` Fixed **images and avatars failing to load with a "Missing access token" error**, sometimes for a whole session, sometimes coming back only after switching to another chat and back. Images are fetched by a small helper the app installs in your browser, because a picture cannot carry your login with it the way an ordinary request can — and that helper was not always being told who you are. Three separate ways it could be left in the dark are fixed: it was never told on the very first load after it was installed or updated; it was never told again once it took over; and if it asked and the answer was slow, it gave up and then kept waiting on that same dead question for every image afterwards, so the whole session stayed broken. Reloading with **Ctrl+Shift+R** was its own version of this — that kind of reload deliberately bypasses the helper, and it had no way to take over again, so every image failed until an ordinary reload. It now asks to take over. Downloads that *can* carry your login — files, voice messages, images in encrypted rooms — now do so themselves, so they no longer depend on the helper at all.\n- `d883df6` Fixed **not being able to reach the buttons that appear when you hover a message**. Moving towards them meant leaving the message, and they vanished before the pointer arrived. Yesterday\'s fix for dragging a selection from the right of a message moved that row of buttons *outside* the message to get it off the message above — but the buttons are only drawn while the message under your pointer is the one they belong to, so putting them outside meant crossing a dead gap to reach them. The space they sit in is now part of the message itself: they are still clear of the message above, so selections still start where you press, and the highlight when you hover now extends all the way under the buttons.\n- `d883df6` Added **pinning a chat to the top of the list**. Right-click a direct message or a room in Home and choose **Pin to Top**. Pinned chats sort above everything else and stay visible even with *Show unread only* switched on, which is the point — a filter that hid the chats you deliberately pinned would defeat it. Pins are stored the same way **Element** stores Favourites, so a chat pinned here is already a favourite there and vice versa, with nothing to set up on either side. Rooms inside a space are not pinnable: that list follows the space\'s own order, so a pin would have nowhere to go.\n- `d883df6` Fixed **the arrow next to CHATS and the *Show unread only* menu option doing the same thing to each other\'s confusion**. The arrow never collapsed anything — it filtered the list down to unread chats, exactly like the menu option, but with a separate on/off state of its own, so the menu could say unread-only was off while the list showed only unread chats. Direct Messages and Home have only ever had one section each, so the arrow is gone from both and the menu option is now the only filter. Home did not have that option before and now does. Spaces keep their arrows, since they have real sections to collapse.\n- `d883df6` Added **the right-click menu to search results**. Right-clicking a message you found in search gave the browser\'s own menu instead of Prinny\'s. You now get Open in Room, Forward, Edit History, Copy Link, Pin, Delete, Report and — with developer tools on — View Source. Reply, react and edit are not there: they need the message open in its conversation, which is what **Open in Room** is for.\n\n## 13.08.2026\n\n- `2f11ee8` Fixed **selecting a short message by dragging from the right of it**. Starting the drag in the empty space to the right of a one-line message grabbed the text from the far left instead of from where you pressed. The row of buttons that appears when you hover a message is pinned 30px above itself, so it was floating over the message *above* — and a one-line message is shorter than that strip of buttons, so the whole right-hand end of it was covered. Pressing there pressed a button rather than the text, and with nothing to anchor to the selection jumped to the start of the line. Messages now leave room for that button row instead of letting it sit on top of the message above, so the whole width of a message is grabbable again. Long messages were never affected — they are tall enough that the strip only covers a corner. Phones and tablets are unchanged: they never show the buttons, so they keep the full width.\n- `2f11ee8` Changed **how a @name looks**. Mentions were drawn as a boxed pill with a border, which was a lot of furniture in the middle of a sentence — most noticeably in the message box while you were still typing. A mention is now just text in that person\'s own colour, the same one their name has in the conversation. Mentions of **you** still stand out, in the same green as before but without the box, so you can still tell at a glance when a message is aimed at you.\n\n- `8c6b26a` Fixed **registration failing on homeservers that use hCaptcha**, if you self-host with the Docker image. The security policy the container serves never allowed hCaptcha\'s script, so the captcha box stayed blank and sign-up could not be completed — with nothing but a blocked-resource line in the console to say why. The policy shipped to self-hosters via `webapp-release` already allowed it; only the Docker one lagged behind. Nothing to change on your side beyond pulling a new image.\n- `8c6b26a` Removed **a pile of dead build machinery** from both repositories — the Netlify deploy (unconfigured here, and never once run), a contributor-agreement bot pointing at upstream\'s paperwork, issue and discussion templates for issue trackers that are switched off, a second dependency-update bot that was never installed, and two checks that went red on every automated dependency update while gating nothing. A permanently red build hides a genuinely broken one, so this is worth more than the tidiness. The checks that do work — the pull-request build, the type check and the Docker image check — are kept, and the Docker one is repaired so it still fires when the base image is updated.\n\n- `6ac7769` Fixed **X/Twitter links making a pointless request that always failed**. Posts from x.com are drawn by the client itself, but the homeserver was still asked to fetch a preview for the same link — an answer that got thrown away unread, and one X never gives out anyway: it serves a placeholder ("Post / X", a stock image, no text) to anything that is not a browser, and refuses many servers outright, which is where the `502 Got error 403` in the console came from. Nothing was broken at your homeserver\'s end. The request is now made only if the client-side fetch fails, which is the case where the ordinary preview card is what you see.\n- `6ac7769` Fixed **a pile of console errors on every start**. Failed link previews logged an "Uncaught (in promise)" stack trace for a failure already handled; a homeserver without OIDC logged "Configured OIDC OP does not support required functions" as an error even though that is the normal answer; a busy account tripped "MaxListenersExceededWarning: 51 RoomState.events listeners" because every room-related hook registered its own listener (now one shared listener, so the count no longer grows with your room list — and the client stops walking a fifty-entry list on every state change); and the web app logged five blocked mixed-content requests probing YouTube (Piped) instances it could never have loaded over https.\n- `46b469d` Fixed **not being able to type or send in a thread**. With a thread open in the side panel, one of the two message boxes stopped working: clicking it put the cursor there, but nothing you typed appeared and Enter and the send button did nothing. Both boxes were being built from the same shared blank document, and the editor library tracks its position by that document, so whichever box drew last took ownership and the other one could no longer work out where the cursor was. Each box now gets its own. Room and thread composers work at the same time, and drafts still stay separate.\n- `46b469d` Fixed **code blocks that start on the same line as the ```**. Typing ``` and pasting several lines after it — the usual way to paste code — produced literal backticks instead of a code block, because the fence had to be alone on its line and the closing ``` had to be on a line of its own. All four Discord forms now work: ` ```code``` `, ` ```lang ` then the code, code starting right after the opening ```, and the closing ``` at the end of the last line. A language is still picked up when the fence is followed by a single word (` ```js `), and anything else on that line is treated as code.\n- `d971afd` Added **`piped.gmach.online`** to the instance list — a real domain with a valid certificate (verified working), so the web app has a second instance that actually loads, not just a bare IP.\n- `d08c6cc` Added **a Piped instance picker with automatic failover**. Instead of one hardcoded instance, YouTube embeds now choose from a list — Settings → General → *Piped instance* lets you pick one or leave it on **Auto**, which probes the list and uses the first that responds. (On the web app, `http://` instances are blocked as mixed content and only work in the desktop app; Auto skips unreachable ones for you.)\n- `90eef8a` Fixed **code formatting to match Discord**. A single-line ` ```code``` ` now renders as a code block instead of showing literal backticks, and inline code accepts double backticks (` ``a`b`` `) so you can put a backtick inside. The rest of the formatting — **bold**, *italic*, `__underline__`, `~~strike~~`, `||spoiler||` — was already Discord-compatible.\n- `30112a4` Fixed **`-` bullet lists turning into numbered lists**. A list written with `-` (or `+`) was sent as an ordered `<ol>` — numbered even in the raw Matrix source. All of `-`, `*` and `+` are now bullet lists, matching every other Matrix/Markdown client.\n- `30112a4` Fixed **the thread panel\'s avatar filling its whole column**. The sender avatar now sits in a fixed-size box like it does in the main timeline.\n- `61e9b8a` Fixed **images and voice messages that failed to load** ("Mismatched SHA-256 digest" in the console). When the app\'s access token was refreshed, the service worker kept sending the old one for media, so every image/voice note silently failed until a reload. The worker now notices the rejection, refreshes its token and retries, and media download failures report the real error instead of a misleading digest mismatch.\n- `61e9b8a` Fixed **a member list flooding the console** with a repeated "event not found" 404 and an EventEmitter memory-leak warning in rooms with many people. Presence now uses a single shared subscription instead of one per member, and the pinned-message banner no longer requests an empty event id.\n- `61e9b8a` Fixed **stray React Router and fullscreen warnings** on load — the landing route now shows a loading splash while it redirects, and video embeds no longer double up the fullscreen permission.\n- `2d0d32d` Added **an update button in Settings → About**, next to Source Code. It tells you what it is doing — checking, downloading, or that you are up to date — and when an update is waiting it installs it, rather than sending you looking for the banner.\n- `2d0d32d` Fixed **the update banner telling you to "tap" on a desktop**. It now says tap or click to match the device you are actually using. The banner text is also centred properly instead of sitting off to one side.\n- `842520e` Changed **where the web client\'s source lives**: the repository is now `coffeegrind123/prinny` instead of `coffeegrind123/cinny`, matching the name of the app. If you self-host by cloning the `webapp-release` branch, your existing copy keeps updating — GitHub forwards the old address — but the address to use from now on is `https://github.com/coffeegrind123/prinny.git`.\n- `260e107` Fixed **the in-app updater reporting that no update was available for your platform**, on every desktop install. The published update file listed no platforms at all, so each client failed with "None of the fallback platforms were found". The builds themselves were fine — signed and uploaded correctly — but the step that writes that file runs seconds after they finish, and GitHub had not started serving the freshly uploaded signatures yet, so it recorded every platform as missing and reported success. It now retries those downloads, and refuses to publish an update file that would disable updating rather than quietly shipping one.\n- `40b72fa` Added **buttons under bot messages**. A bot can now put real buttons on what it sends — press one and it acts, with a spinner on the button until it answers back and a note if it never does. Buttons can also open a link, copy something to your clipboard, or fill the composer for you. A link button always asks first and shows the site it genuinely goes to, because the wording on a button is written by whoever sent it and the address is not. Destructive buttons look destructive. If you would rather not have buttons at all, Settings → General → Show Bot Buttons turns them off and you get the plain numbered list instead — which is also what people on other Matrix clients see, so a conversation with a bot works the same for everyone in the room.\n- `40b72fa` Added **a bot\'s commands to the `/` menu**. Bots can publish what they understand, so typing `/` lists their commands and descriptions alongside the client\'s own, with the bot\'s name beside each one. A new button by the attach icon opens the same list, and it only appears in rooms where a bot has actually published something. Where two bots offer the same command, picking one addresses it properly so they do not both answer.\n- `40b72fa` Added **quick-reply buttons above the composer**. A bot can offer a set of ready answers; pressing one sends it as an ordinary message. They stay put across a reload and follow you to your other devices, and a bot can clear them or ask you for one specific thing with the composer already pointed at its question.\n- `40b72fa` Added **a BOT tag** next to the name of any account that has published bot commands in a room, in both the conversation and the member list.\n- `40b72fa` Fixed **commands meant for a bot being silently swallowed**. Typing any `/command` this client did not itself recognise cleared the composer and sent nothing at all, with no error — so bot commands simply never arrived. They are now sent as written.\n- `0ec210e` Added **links that open a chat with a bot**, the equivalent of a `t.me` link. Following one opens a direct message and sends its opening command, after asking you first and showing exactly which account and exactly what will be sent.\n\n## 12.08.2026\n\n- `1b99127` Fixed **GIFs and videos in Twitter/X posts not playing at all**. They loaded as an empty box or a dead frame while ordinary GIF links played fine. Twitter\'s video servers refuse any request that says which page it came from, and the setting meant to strip that does nothing on a video — it only exists for pictures, which is exactly why pictures were unaffected. The file is now fetched separately, without that header, and handed to the player. This also means a Twitter clip that previously failed inside the desktop app now has a second way to load rather than showing an error.\n- `1b99127` Fixed **voice messages sitting in a grey box** with a "Voice message" label above them and a download button beside the player. All three were repeating what the player already gives you — it has its own background, and its menu already offers Download. Just the player now.\n- `1b99127` Fixed **long lists in dialogs not scrolling**. The Files dialog, poll history, widgets, edit history, forwarding, export and add-to-space all cut their list off at the bottom edge with no scrollbar and no way to reach the rest.\n- `1b99127` Fixed **the Add Email Address box in Settings still being narrower** than the identity-server one beside it.\n- `805df93` Added **draggable dividers between the columns**. The room list on the left and the member list, thread panel and call chat on the right can all be resized by dragging the line beside them. Double-click a divider to put it back. Widths are remembered, scale with your zoom setting, and are capped so two wide columns cannot squeeze the conversation out. Keyboard: focus a divider and use the arrow keys, Shift+arrow to move faster, Home/End for the extremes, Enter to reset.\n- `3f54ed7` Fixed **selecting text that starts on a link**. Dragging from a link towards the left selected nothing and the highlight jumped somewhere else entirely, because the browser was starting to drag the link rather than select the text. Links in messages are no longer draggable; they are still clickable and copyable.\n- `3f54ed7` Fixed **input boxes in Settings being narrower than the rest and a darker colour**, most visibly the add-email-address field beside the display-name one. The same fault affected the identity-server field, the account-deletion confirmation, the poll answer fields and the server-browser search.\n- `3f54ed7` Fixed **voice messages**, which now play in the audio player your system provides instead of a custom one. The old player could not draw a progress bar for the format voice notes are actually sent in — its own seek bar had nothing to measure against — and it decoded every clip in the background just to draw a waveform, whether or not you ever pressed play.\n- `3f54ed7` Fixed **dialogs being taller than their contents**, such as the widgets dialog, which drew a full-height panel with a large empty band under a short list.\n- `3f54ed7` Moved **creating a poll and sharing your location** out of the composer to the `/poll` and `/location` commands, freeing the buttons beside the attach icon. `/location` only appears when your homeserver actually provides a map server — before, it opened a picker with nothing to aim at.\n- `4a4c58c` Fixed **GIFs not playing when you link one**. A linked GIF showed a single frozen frame, because the preview picture came from the server\'s thumbnailer and a thumbnail of an animation is one still image. GIFs now play, whether the link is the GIF file itself, a Tenor or Giphy page, or a post that contains one.\n- `4a4c58c` Fixed **GIFs in Twitter/X posts** showing a play button that had to be pressed, instead of looping on their own.\n- `4a4c58c` Fixed **GIFs in Bluesky posts** showing only a still thumbnail. Bluesky attaches a GIF as a link rather than as media, so there was nothing to play. They now loop, and use a version around fifty times smaller than the one Bluesky points at — fetched from Tenor directly, so reading a GIF no longer tells Bluesky\'s servers you looked at it.\n- `4a4c58c` Fixed **a GIF that could not be started at all** on Linux and Android. Both refuse to start video on their own, and a looping GIF has no play button by design, so it sat there as a dead picture. If playback is refused, controls now appear. Click a playing GIF to pause it.\n- `4a4c58c` Fixed **image links producing no preview** when the server could not fetch one, and **`og:image`-based video and audio players** that were permanently broken on pages advertising media they do not actually serve — those now show a picture and a link instead of a dead player.\n- `93001c0` Fixed **the Android build failing to release**. `matrix:` links tapped in another app also never reached the client on Android; the app registered itself as the handler but nothing was reading the link.\n- `b3946e0` Added **voice messages**. Press the microphone in the composer, review what you recorded, then send it. They arrive with a waveform and a duration in Element and other clients, and voice notes from those clients now show as a proper player here instead of an anonymous file. Recording stops and releases the microphone when you cancel, switch rooms or close the app.\n- `b3946e0` Added **a thread panel**. Threads could be started before but never read — replies landed loose in the conversation and there was nowhere to open. A message that started a thread now shows how many replies it has and opens them in a panel beside the room, or full screen on a phone. Replies still appear in the main conversation as well, so nothing has disappeared.\n- `b3946e0` Added **polls**. Create one from the composer, vote, and end it when you are done. Polls sent from other clients used to show as "unsupported content" and now work properly. A poll set to hide its results shows nothing at all until it ends, not even to you.\n- `b3946e0` Added **forwarding a message** to one or more rooms, from the message menu.\n- `b3946e0` Added **edit history** on messages that have been edited, fetched from the server so it works for edits made before you opened the app.\n- `b3946e0` Added **a pinned-message banner** above the composer, so a pin is visible without opening the room menu. Dismissing it hides only that pin; pinning something new brings it back.\n- `b3946e0` Added **approving people who ask to join**. Setting a room to "ask to join" used to be a trap: requests arrived with nothing to show them, so people waited on a room that looked like it had ignored them.\n- `b3946e0` Added **exporting a conversation** as HTML, plain text or JSON, with attachments bundled alongside it. Also added **a file list** for the room, so you can find that PDF without scrolling for it.\n- `b3946e0` Added **sharing a location**, either where you are or a pin you drop, and **live location sharing** for 15 minutes, an hour or eight hours. While you are sharing, a banner stays on screen that cannot be dismissed — only stopped. Maps are off until you turn them on, because drawing one tells whoever serves the map tiles where you are looking.\n- `b3946e0` Added **widgets**. Room widgets can be opened, added and removed, and each one asks before it is allowed to read or send anything, item by item. Widgets never get the microphone, the camera or your Matrix identity, and one served from the same address as the app itself is refused outright.\n- `b3946e0` Added **changing your password, adding and removing email addresses, and closing your account** in Settings. Changing a password previously meant logging out and using the reset flow, which needed access to the email on the account.\n- `b3946e0` Added **privacy settings**: block all incoming invites, choose when media previews load, and hide avatars in invitations from strangers.\n- `b3946e0` Added **thirteen more slash commands**, including `/nick`, `/topic`, `/roomname`, `/myavatar`, `/whois`, `/query`, `/plain`, `/html` and `/rainbow`.\n- `b3946e0` Added **chat effects** — `/confetti`, `/fireworks`, `/snowfall`, `/rainfall` and `/hearts`, which also fire when someone sends the matching emoji. Skipped entirely if your system asks for reduced motion.\n- `b3946e0` Added **LaTeX rendering** for maths in messages, off by default.\n- `b3946e0` Added **microphone settings** — choose an input device and turn echo cancellation, noise suppression and gain control on or off. Used by voice messages and calls alike.\n- `b3946e0` Fixed **audio attachments being sent without a duration**, which made them show as unknown-length in every other client.\n- `f96ddb0` Fixed **the microphone never working on Linux**. The window\'s browser engine ships with capture switched off and silently refuses any request nothing is listening for, so recording and call audio could not have worked on that build. Screen sharing from a call is covered too.\n- `f96ddb0` Fixed **the app being killed on macOS the first time it touched the microphone or camera**, instead of asking for permission.\n- `f96ddb0` Added **opening `matrix:` links**, both inside the app and from other programs, on all four platforms. They previously did nothing at all when clicked.\n- `f96ddb0` Added **starting at login**, launching minimized to the tray. Related: a window closed to the tray no longer comes back invisible the next time you start the app by hand.\n- `f96ddb0` Added **hiding the window from screenshots and screen recordings**, in Settings. Works on Windows and macOS; most Linux desktops ignore it.\n- `f96ddb0` Added **spell checking on Linux**, which the window\'s browser engine leaves off by default, using the languages from your own system settings.\n\n## 11.08.2026\n\n- `451148f` Fixed **the icon bar on the left not moving with the swipe on mobile**. It stayed put while the conversation list slid, then appeared or disappeared abruptly at the end, shifting everything sideways. It now slides away together with the list, and the chat opens at the full width of the screen without jumping.\n- `bcb92f0` Improved **message search filling in as it goes**. It used to sit blank while it worked, then stop at the first match it found — so a single recent hit looked like the whole answer and older messages only turned up if you scrolled. Results now arrive a few at a time and keep coming until there is a proper list of them.\n- `bcb92f0` Improved **the settings menu on phones**, spacing the entries out and making each one a larger touch target so neighbouring rows are harder to hit by accident.\n- `bcb92f0` Added **link previews in encrypted rooms by default**. Note this asks your homeserver to fetch the link, which it cannot otherwise see inside an encrypted message — the setting turns it back off.\n- `bcb92f0` Improved **where the Telegram sticker import setting lives**, moving it from General to Emojis & Stickers, next to the packs it applies to.\n- `7679ea5` Improved **swiping toward a chat on mobile**, which now uncovers the conversation as you swipe, the same way swiping out of a chat reveals the list behind it. Previously there was nothing on the other side and the chat only appeared once the swipe finished. Rooms revealed this way are not marked as read — only opening one does that.\n- `7679ea5` Improved **search being the same everywhere**. The search button used to lead to two different screens depending on the window size, and the one on phones could only search messages. There is now a single search, and it finds both people and messages on every device.\n- `7679ea5` Fixed **the settings menu sitting against the top of the screen on mobile**, leaving a large gap below. The list is now centred vertically; the logout button stays where it was.\n- `fe3fdd7` Fixed **swiping back toward a chat looking broken on mobile**. The conversation list went transparent mid-swipe, leaving just the room names floating over nothing. It now slides as one solid page, matching the swipe in the other direction.\n- `fe3fdd7` Improved **the people sidebar search box**, which now spans the full width of the sidebar instead of being squeezed next to the close button. The sidebar also gained a "People" heading.\n- `fe3fdd7` Fixed **the search screen being too wide on small phones**, where it could be pushed past the edge of the screen and scroll sideways.\n- `fe3fdd7` Improved **settings layout**, centring each settings page in the available space rather than letting it hug the left edge — matching how the rest of the app already lays out its pages.\n- `c6a0111` Added **importing Telegram sticker packs**. Open any image pack you can edit, choose "Import from Telegram", and paste a `t.me/addstickers/...` link — its stickers are downloaded and added to the pack. Animated and video stickers are skipped and counted, since packs can only show still images. This needs a Telegram bot token, set once in Settings → General: Telegram publishes sticker packs nowhere else, so there is no way to import without one. Creating a bot with @BotFather takes a moment and is free, and the token is kept on your device only — never sent to your homeserver.\n- `15bd574` Fixed **the attach button doing nothing on Android**. Tapping `+` in the composer, or using the upload shortcut, opened no file picker and gave no error. The file type it asked for was written in a form Android rejects, so the system found nothing able to handle the request and silently gave up. Other pickers in the app — profile picture, sticker pack image — were unaffected and kept working, which is why this looked like an attachments-only problem.\n- `985f7b9` Improved **third-party code once more**, replacing six small packages with equivalent code kept in this project — number formatting, keyboard shortcut matching, file downloads, image placeholders and error handling. The two with any real logic were checked against the packages they replace over tens of thousands of generated cases with no behaviour difference, including on macOS, where the shortcut key differs.\n- `19bad2e` Improved **third-party code in the client further**, removing two packages that nothing used and twelve more from the desktop shell that were never imported by anything. Together with the earlier commit-hook removal today, the web client now resolves 801 packages instead of 950.\n- `db9bb8d` Fixed **the web app at prinny.app/app failing to load with "Failed to load"**, usually right as you signed in. A tab left open while a new version was published kept asking for pieces of the old version that no longer exist on the server; the sign-in step is what requested one first, so the app appeared to break specifically at login. Such a tab now notices and refreshes itself onto the current version instead of dying. If it happens again before this update reaches you, a hard refresh clears it.\n- `db9bb8d` Fixed **the web app not being installable to your home screen or desktop**. Its app manifest was requested from the wrong address on prinny.app/app and always came back missing, so browsers saw no installable app.\n- `5989652` Improved **the amount of third-party code that goes into a build**, down from 950 packages to 803. A commit-hook stack inherited from upstream — husky, lint-staged and commitizen — was fully commented out and could not run, so removing it costs nothing and takes 147 packages out of the supply chain. Leftover upstream project files (code of conduct, contributing guide, sample reverse-proxy configs for a different project\'s name) and a version-stamping script that had been superseded were removed at the same time.\n- `b3341b9` Fixed **ending up with several copies of Prinny running on Windows**, and the pinned taskbar shortcut appearing to do nothing. Closing to the tray hides the window, so the app looked shut down and each new launch started another client. Launching again now restores and focuses the one already running — from the shortcut, the taskbar pin or the Start menu — and a pinned Prinny shares one taskbar button with the running window instead of showing two.\n- `3a1e9bb` Improved **what happens on a server that will not let apps complete sign-up**. Some servers require a step they keep to their own website. Instead of a blank error page, the app now says so plainly and links that server\'s actual sign-up page, so you can create the account there and come straight back to sign in.\n- `258978b` Added **support for servers that use hCaptcha**. Some homeservers run hCaptcha while still presenting it as the standard captcha step, and the app was drawing Google\'s box with an hCaptcha key — which can never be solved, so registration on those servers was impossible. The right captcha is now shown for each.\n- `258978b` Fixed **being turned away from servers with an unfamiliar sign-up step**. Anything the app does not handle itself — a phone-number check, a captcha provider it does not recognise, something a server invented — now opens the server\'s own sign-up page in a second window; finish there and you are brought straight back. Previously this said "this application does not support registration on this homeserver" and stopped.\n- `94a3982` Added **a directory of public Matrix servers**, replacing the matrixrooms.info room feed. Around 1,150 servers, merged and deduplicated every day from three independent lists (asra.gr, joinmatrix.org, privacydev.net). Explore now offers "Browse public servers" — pick any server and read its own public room directory, instead of one third party\'s view of which rooms are worth seeing.\n- `94a3982` Improved **choosing a homeserver when signing in or registering**. The field now completes as you type, the way a browser address bar does: type `tchn` and it fills in `tchncs.de` with the rest selected, so carrying on typing simply overwrites it. The magnifier beside the field opens the full directory, searchable by name, software, country or hosting provider, and filterable by open registration, captcha, email requirement and Tor friendliness.\n- `94a3982` Fixed **the server list being unreadable in a browser**. None of the three upstream lists allow cross-origin requests, so the web version could not have fetched them at all. The merge now happens once a day on prinny.app and every version — desktop, Android and web — reads the same prepared file. Self-hosters can point `publicServersUrl` at their own copy.\n- `8bf8ba9` Fixed **the release pipeline silently skipping a build**. Two pushes close together left one release half-built and the second push produced no build at all — the second run cancelled the first *after* it had already created the release and uploaded three platforms, then declined to build anything itself because that release now existed. Builds queue instead of cancelling, the version number now accounts for a release that has been drafted but not yet tagged, and a build can be re-run by hand without inventing a commit.\n- `86d4a10` Fixed **nothing watching the app\'s dependencies for security patches**. The configuration said one bot handled them; that bot was never installed, and the approval step it waited on could not exist because the repository has issues turned off. So no patch was ever proposed, which is how 22 known-vulnerable packages piled up. Dependency alerts and automatic security updates are now switched on for both repositories, with a bot that needs no extra setup.\n- `86d4a10` Improved **download size**: the bundled video-call widget was shipping 18 MB of debug source maps that no user ever loads. Total download drops from 63 MB to 45 MB.\n- `86d4a10` Fixed **desktop shell shipping five unused system integrations**. Clipboard, file-system, shell-command, HTTP and dialog plugins were compiled into every build but granted no permission and called by nothing — dead code that also pinned an XML parser with two denial-of-service advisories. Removed. Copying text is unaffected; it uses the browser API.\n- `86d4a10` Fixed **known-vulnerable Rust libraries in the desktop shell**, including two certificate-validation bugs in the TLS stack (`rustls-webpki` — name constraints wrongly accepted for URI and wildcard certificates) and a remote memory-exhaustion bug in the QUIC networking layer.\n- `a4600e5` Fixed **an image attachment being able to open attacker-written content inside the app**. A sender chooses the `mimetype` on a picture they send, and the image and sticker renderers passed that value straight through when building the local media object — so a picture could declare itself as HTML, and the image viewer\'s "open in browser" button would then open it as a page running with the app\'s own permissions. Images and stickers are now restricted to real picture formats, and that button refuses anything that is not an ordinary web link.\n- `a4600e5` Fixed **push notifications trusting everything the push server sent**. The service worker displayed whatever text arrived and handed the room identifier it was given straight to the app\'s navigation. Notification text is now length-limited and stripped of control characters, and the room and event identifiers must look like real Matrix identifiers before anything is shown or opened. This matters more now that pushes carry real message content.\n- `a4600e5` Fixed **a code block in a message being able to freeze the client**. Syntax highlighting ran on the main thread with no size limit, and the sender picks the language from 287 options. Measured across every grammar we ship, the cost grows with the square of the length: `javascript` on a plain run of letters takes **4.1 s at 32 000 characters and 40 s at 100 000**, and `scss` reaches **8.6 s and 84 s**. Code blocks over 4 096 characters now render in full but without colours (worst case ~130 ms). This also fixes an honest large paste hanging the app.\n- `a4600e5` Fixed **an emoji shortcode being able to break out of the HTML it is written into** when a message is edited and re-sent. Every neighbouring field was escaped; this one was not.\n- `a4600e5` Fixed **all 22 known-vulnerable dependencies, 10 of them high severity — now zero**. The important one is the PDF renderer (`pdfjs-dist` 5.7.284 → 6.2.108), where a malicious PDF could run JavaScript in the app, in a client that renders PDFs strangers send you. Also the router (open redirect and XSS), the user-agent parser (a hang on a crafted string), and `lodash` — the only vulnerable package that actually reached the shipped app. The PDF upgrade is a major version: it needed code changes, and the new renderer fetches WebAssembly decoders at runtime that were not previously bundled, without which **scanned documents would have rendered blank with no error** — those are now shipped. Verified in a real browser that PDFs still render and the app still starts.\n- `a4600e5` **Self-hosters: the Docker image now listens on port 8080, not 80**, because it no longer runs as root. Change the container side of your port mapping (`-p 80:80` → `-p 80:8080`) and any Compose or Kubernetes manifest that names port 80. README updated.\n- `c0b94a6` **Android: reinstall required once.** Release APKs are now signed with a new key, because the previous signing key had been committed to the public repository and anyone could sign an APK your phone would accept as a Prinny update. Android refuses an update signed by a different key, so this build will not install over your current one — **uninstall Prinny and install this APK fresh**. In-app updates work normally again afterwards. Sorry for the one-time hassle; there is no way to rotate a leaked signing key without it.\n- `c0b94a6` Fixed **Android notifications only arriving while the app was open**. The push receiver decided who should show a notification by checking whether the app\'s plugin object existed — but that flag is set on first launch and never cleared, so every push was handed to the WebView, and Android suspends WebView JavaScript the moment the app leaves the screen. Nothing rendered. The receiver now checks whether the app is genuinely on screen (`MainActivity.isAppInForeground`) and posts the notification from native code when it is not, so notifications arrive with the app closed. Notifications also show the real sender and message with `BigTextStyle`, get **one notification per room** instead of all rooms overwriting a single entry, and tapping one opens the right room. Encrypted rooms show "New message" — the server cannot read them, which is the encryption working.\n- `c0b94a6` Fixed the **Android in-app updater installing an APK without checking it**. `UpdateChecker` parsed the published `sha256` and then never used it, and staged the download in shared public storage under a predictable name where another app could replace it. It now verifies the SHA-256 before prompting (deleting the file on mismatch), stages in app-private storage, requires an `https` GitHub host, and registers its download receiver as `RECEIVER_NOT_EXPORTED`.\n- `c0b94a6` Fixed **embedded web content being able to turn on your microphone and camera**. The Android WebView permission handler granted capture based only on whether the app held the OS permission, never checking which origin asked — so any third-party iframe (a link preview, an embed) could obtain mic and camera silently once you had made one call. Capture is now restricted to the app\'s own origin, and page scripts can no longer flip the microphone foreground-service type on their own.\n- `c0b94a6` Fixed **a single message being able to freeze the client**. The jumbo-emoji check used a nested-quantifier regex whose cost doubled every ~2.5 characters: a message of ~70 colons locked the render thread for minutes, and the event persisted so reopening the room re-froze it. Measured 55 colons: **3.7 s → 0.14 ms**, and flat at 1000. The URL matcher\'s variable-length lookbehind was quadratic on long messages (**853 ms → 0.8 ms** on 40 000 characters), and an empty search term could spin the highlighter forever — a double space in the room switcher was enough. `utils/regex.ts`, `utils/findAndReplace.ts`, `plugins/react-custom-html-parser.tsx`.\n- `c0b94a6` Fixed **links and embeds handing arbitrary URL schemes to the operating system**. On desktop, a link opening a new window is passed to the OS URL opener, so a homeserver-supplied or message-supplied `file:`, UNC or app-protocol URL invoked a local handler. All such URLs are now validated as `http(s)` at the point of use (new `utils/safeUrl.ts`), `ftp:` and `magnet:` are no longer accepted in message links, and the native side enforces its own scheme allowlist.\n- `c0b94a6` Fixed **login credentials being sendable to the wrong server**. The homeserver allowlist was checked against the name you typed while the login request went to the `base_url` that server\'s own `.well-known` returned, which was never re-checked; and an `http://` prefix in a `/login/:server` link survived into the credential request. Discovery now forces `https`, the route parameter must be a bare hostname, and the allowlist is re-applied to the discovered URL.\n- `c0b94a6` Added a **"Hide message content"** notification setting (Settings → Notifications) so system notifications can show only the sender. Decrypted message text otherwise goes into the OS notification store, where other software on the device may read it.\n- `c0b94a6` Added a **Bluesky post embeds** toggle and made every third-party embed state plainly that enabling it sends the link and your IP address to that service. Bluesky previews previously fetched from `public.api.bsky.app` with no setting at all. Link previews for **encrypted** rooms are now off by default — asking the server to preview a URL from a message it cannot read hands it that URL.\n- `c0b94a6` Improved **rendering safety for hostile room state and media**: power-level tag icons can no longer be an arbitrary URL that beacons every viewer\'s IP on each render, attachment dimensions are clamped, download filenames are sanitised, blob MIME types can no longer be declared as active content, and megolm key-file import bounds its key-derivation work.\n- `c0b94a6` Improved **desktop native hardening**: the app now refuses to start if another process already holds its frontend port (that port grants native permissions, so whoever answers on it inherits them), the SSRF guards cover 0.0.0.0/8 and IPv4-in-IPv6 encodings, redirects are re-validated per hop, downloads are size-capped, and drag-drop file access is consumed once instead of lasting the whole session. The permission grant to the page dropped filesystem, HTTP, dialog, clipboard, shell and global-shortcut access, none of which the client uses.\n- `c0b94a6` Improved **self-hosting and build security**: every shipped nginx/Caddy/Netlify config now sets a Content-Security-Policy and related headers (verified in a real browser, including WebAssembly crypto and the bundled call widget), production source maps are no longer published, the Docker image runs unprivileged (**publish `-p 80:8080` now**), the web root no longer exposes `.git`, and CI pins its actions, drops install scripts, and stops packaging its own credentials into the source archive.\n\n## 10.08.2026\n\n- `22f0979` Updated **sanitize-html to 2.17.6** — a security release for the HTML sanitizer every incoming message body passes through. Upstream cinny `90837f7`.\n- `3ef594f8` Upgraded the **in-app call stack to element-call 0.20.1** (from 0.19.3) and **matrix-js-sdk to 41.7.0**. Fixes the **call settings and reaction buttons doing nothing** — element-call moved its settings button to a new `data-testid` and our control layer was still walking `previousElementSibling` off the leave button, so it was clicking the wrong nodes. **Screenshare and spotlight buttons now update their state**, the **mic/video buttons disable while a toggle is in flight** (instead of letting you desync them with fast clicks), and **incoming-call popups no longer appear for voice rooms**. `plugins/call/CallControl.ts`, `CallEmbedProvider.tsx`, `call-status/CallControl.tsx`, `call/CallControls.tsx`, `call/Controls.tsx`, `call/PrescreenControls.tsx`. Upstream cinny `e379714`.\n- `aba72c2` Fixed **"Manage devices" opening a dead page** on homeservers that have moved to the stable spec — account management now uses the stable MSC2965 action names instead of the unstable `org.matrix.msc2965.*` ones. `useAccountManagement.ts`. Upstream cinny `a9245c8`.\n- `03ad4e7` Fixed **long space names and descriptions overflowing the lobby header** instead of truncating. `LobbyHero.css.tsx`, `page/style.css.ts`. Upstream cinny `762e99a`.\n- `69fc00c` Updated **folds to 2.7.1** (the UI component library). Upstream cinny `730a748`.\n\n## 07.06.2026\n\n- `c9ca749` Unified **people + message search into the members drawer** — the search box moved into the drawer header and the **"N Members"** title moved down beside the Filter/Sort chips. One box now drives both: matching members filter the list instantly, and a new **Messages** section below shows matching messages (with a "Search older messages" button to page deeper). The standalone search icon and search panel are gone on desktop; mobile/tablet keep the search overlay since there\'s no drawer there. New `RoomMessageResults.tsx` renders the inline results for encrypted (local scan) and unencrypted (server) rooms alike. `MembersDrawer.tsx`, `Room.tsx`, `RoomViewHeader.tsx`.\n- `c9ca749` Made **encrypted-room search much faster** — back-paginated events are now decrypted **in parallel** instead of one-at-a-time (the per-event serial decrypt was the bottleneck), and each page back-paginates a bounded number of rounds before returning, so as-you-type search stays responsive and deeper history loads on demand. `useClientRoomSearch.ts`.\n- `ba1c6b1` Fixed **encrypted-room search returning no results** — the client-side scan (`useClientRoomSearch.ts`) walked the *entire* room history (up to 50k events / hundreds of back-pagination round-trips) before returning even one match, so for any encrypted room with real history the search just sat on loading skeletons and never showed anything. It now streams: it scans the already-synced history and back-paginates only far enough to fill the requested page, returning matches immediately and resuming pagination on demand as you scroll. Dense terms appear almost instantly; "no results" is only shown once history is genuinely exhausted (still bounded at 50k events).\n\n## 06.06.2026\n\n- `36a04bf` Made **all link-preview embeds 2x larger** — the card max-width went 216→432px and the image/video height caps doubled (300→600, 320→640), so YouTube, Twitter/X, Bluesky and generic embeds all render bigger (everything inside is width:100% of the card, so it scales proportionally). `UrlPreview.css.tsx`.\n- `36a04bf` Fixed **multi-image Twitter/X embeds stacking vertically** — they now render in a 2-column grid (side by side), matching the Bluesky layout. `UrlPreviewCard.tsx`.\n- `36a04bf` Repurposed the embed **"Show all" button for long descriptions** — removed the old og: metadata dump that lived behind it; now a description over 100 words shows the first 100 with a Show all / Show less toggle, and shorter ones show in full. `UrlPreviewCard.tsx`.\n- `36a04bf` Replaced the custom **audio-attachment player with native HTML `<audio controls>`** — encrypted/authenticated media is fetched to a blob first, plain media streams directly. `AudioContent.tsx`, `RenderMessageContent.tsx`.\n- `36a04bf` Fixed a **softlock when swiping right in Settings on mobile** — the swipe slid the container fully off-screen (via `commitOffset`) expecting a route change to unmount it, but Settings navigates subpage→menu in place, so it stayed stuck off-screen. Settings now snaps back instead. `Settings.tsx`.\n- `36a04bf` Fixed **swiping back into the last conversation on mobile** — `MobileSwipeOpen` remounts on every in/out transition (so its `useState` last-room reset to nothing) and its fallback link selector matched no real path. The last-opened room is now remembered across remounts and the fallback targets the top room in the list. `MobileSwipeOpen.tsx`.\n- `36a04bf` Fixed the **Inbox page layout on mobile** — Notifications/Invites rendered in normal flow, so the absolute nav backdrop painted over them. They\'re now wrapped in `MobileSwipeBack` (an opaque z-index:1 layer, like rooms), which fixes the stacking and adds the swipe-back gesture. `Router.tsx`.\n- `36a04bf` Made the **mobile UI 15% larger** — bumped the root font-size to 115% under 640px; folds sizes everything in rem, so fonts/spacing/icons/controls scale together. `index.css`.\n- `36a04bf` Made the **Settings menu items full-width and centered on mobile**. `Settings.tsx`, `settings/styles.css.ts`.\n- `36a04bf` Colored the **mobile safe-area insets** (notch / home-indicator bars) with the themed grey surface instead of black. `SafeArea.css.ts`, `index.css`.\n- `5eb6249` Added **message search in end-to-end encrypted rooms** — the room search button is no longer hidden in encrypted rooms, and a new client-side search (`useClientRoomSearch.ts`) runs there instead of the server. Since the homeserver only holds ciphertext, it back-paginates and decrypts the local timeline (bounded at 50k events), matches message bodies (phrase, falling back to all-words), and returns the same paginated/virtualized result shape as the server path so `RoomSearch` uses either interchangeably. Encrypted rooms show a notice that search runs locally over history synced to this device. Non-encrypted rooms still use server-side `mx.search`.\n- `5eb6249` Fixed reacting to a message scrolling the timeline to the most recent message — a reaction is an `m.reaction` live event "sent by you", so the Scroll-to-Bottom-on-Send path (and the at-bottom auto-scroll) yanked the viewport to the live edge. `RoomTimeline.tsx` now gates both scroll paths on `isLiveDisplayEvent` (skips reactions, edits and redactions, mirroring the render filter); the range still advances so reactions render in place without moving the view.\n- `5eb6249` Moved the **cancel-reply (✕) button to the right** of the reply preview, nearer the send controls, so dismissing a reply needs less mouse travel. An invisible spacer keeps the message you\'re replying to aligned with the text input below (`RoomInput.tsx`).\n- `5eb6249` Improved the **desktop update toast** — clicking it (or its "Open" action) now downloads and installs the update directly, the same as the banner\'s Update button. The toast is tagged `kind: \'update\'` and routed by a dedicated listener so it no longer falls through the message-click → room-navigation path (`useUpdateCheck.ts`, `desktop-notifications.ts`).\n- `5eb6249` Improved the connecting screen — it now shows **Connecting to `<homeserver>`…** instead of a bare "Connecting…", so you can see which server is being reached (`SyncStatus.tsx`).\n- `5eb6249` Fixed **presence dots not appearing** until a live presence event arrived — `useUserPresence` now syncs immediately from whatever the store already holds (the peer\'s `User` object is often created lazily after first render), handles an empty user id, and avoids a stale `undefined` that hid the badge.\n\n## 30.05.2026\n\n- `605d9de` Added **client-side link-preview fallback** (Settings → General, desktop/mobile app only, **default off**) — when your homeserver\'s `preview_url` can\'t generate a link card (commonly a `504` because the target site blocks Synapse\'s non-browser User-Agent), the app now fetches the page itself with a real Chrome UA and parses its OG/Twitter meta tags locally. New Rust `fetch_og_preview` IPC command fetches server-side (bypassing CORS) but keeps every SSRF guard from the media proxy — scheme check, post-DNS private/loopback/link-local/CGNAT/cloud-metadata rejection, DNS pinning against rebinding, per-hop redirect re-vetting (auto-redirects disabled), and a 512 KiB response cap — and, unlike `fetch_remote_bytes`, accepts any *public* host since a generic preview can point anywhere. `UrlPreviewCard.tsx` falls back to it only after the homeserver preview errors, and renders a direct `https` `og:image` straight through (homeserver previews use `mxc://`). Skipped for Twitter/X, Bluesky, YouTube and direct-audio URLs, which already render without the homeserver.\n- `8e99e44` Hardened the desktop media proxy against SSRF — the Rust `fetch_remote_bytes` IPC command (used for Twitter/X and Bluesky video/images) now requires `http`/`https`, restricts the host to a `twimg.com`/`bsky.app` allowlist, resolves DNS and **rejects any private/loopback/link-local/CGNAT/cloud-metadata (`169.254.169.254`) address**, pins the vetted IP on the request to defeat DNS-rebinding, and only follows redirects that stay on the allowlist. Previously it fetched any URL server-side, bypassing CORS.\n- `8e99e44` Fixed the notification-icon cacher leaking the Matrix access token — `cache_notification_icon` now forwards the `Authorization` header **only** when the avatar URL is under the logged-in homeserver\'s `/_matrix/` media endpoint (origin + path validated against `mx.baseUrl`); every other URL is fetched with no credentials and SSRF-guarded.\n- `8e99e44` Hardened `read_dropped_file` — it now reads **only** paths the user actually drag-dropped onto the window (captured from the native drag-drop event), so an injected script can no longer read arbitrary files such as `/etc/passwd`.\n- `8e99e44` Removed the unused `shell:allow-execute` / `shell:allow-open` desktop capabilities (arbitrary process spawn from the webview — nothing in the app used them), tightened the CSP `script-src` to drop remote `http:`/`https:` origins (keeps `unsafe-eval` for the crypto WASM), and scoped the Android `FileProvider` from the whole external-storage/cache roots down to just `Download/` (the only dir the updater APK uses).\n- `8e99e44` Added a non-blocking `security-audit` CI job (npm production-dependency audit gated at critical; `high` + `cargo audit` advisory) and applied `npm audit fix` for the `@octokit/*` ReDoS advisories in the release tooling.\n- `66a3bab` Fixed the Android in-app updater never installing — every release was CI-signed with a **freshly generated random keystore**, so Android rejected each update with "App not installed" (`INSTALL_FAILED_UPDATE_INCOMPATIBLE`: signatures don\'t match the installed app). The APK downloaded but could never install over the previous build, even after granting "install unknown apps." CI now signs every release with a **stable committed key** (`prinny-ci.keystore`), with an optional `ANDROID_KEYSTORE_BASE64` secret override. Existing users need ONE manual reinstall to land on the stable key; after that, in-app updates work.\n- `d9aca00` Added **in-conversation message search** — a search button in the room header (right side, by the call icons) now opens a right-side results panel instead of navigating away. Server-side `mx.search` scoped to the current room, paginated and virtualized (`@tanstack/react-query` infinite query + `@tanstack/react-virtual`) for long histories; click a result to jump to that message in the timeline. Works on web, desktop (side panel), and mobile/tablet (full-screen overlay that closes on result tap). Unavailable in end-to-end encrypted rooms (server can\'t index encrypted messages) — shows a notice.\n- `d9aca00` Added **presence/status bubbles inside the chat and the room header** — message avatars now show the sender\'s online/idle/offline dot (matching the members panel and DM list), and DM headers show the other user\'s presence next to their name.\n- `d9aca00` Made **URL-preview embeds/videos ~50% smaller** (Discord-like) — the preview card max width dropped 432→216px and video height is capped at 320px, so portrait clips render around 180×320 instead of filling the message column. `UrlPreview.css.tsx` + loading-placeholder caps in `UrlPreviewCard.tsx`.\n- `f29c063` Added a **Scroll to Bottom on Send** setting (Settings → General → Editor, on by default) — when you send a message while scrolled up in a room, the timeline now jumps back to the live edge so your own message scrolls into view. Implemented in `useLiveEventArrive` (`RoomTimeline.tsx`): a live event whose sender is the current user resets the timeline via `getInitialTimeline` and triggers `scrollToBottom`, reusing the `handleJumpToLatest` path. Gated on the sender being us, so other people\'s messages never yank the viewport.\n- `38f0d1c` Fixed `:3` (and other single-char emoticons like `:p`, `:D`, `:o`) triggering the emoji autocomplete and auto-replacing on Enter — the `EMOTICON_QUERY_RE` shortcode trigger in `getAutocompleteQuery` matched any run of word characters after `:`, including a single one. Tightened to `[a-zA-Z0-9_+-]{2,}` so the picker only opens once there are at least two characters after the `:` (Discord parity); `:12` → `:1234:` still completes.\n- `32c880f` Fixed emoji/mention autocomplete arrow-key selection — pressing Up/Down moved the highlight (via the focus-trap) but Enter/Tab always inserted the *top* item and the caret jumped to the start of the composer. A window-level capture handler in `EmoticonAutocomplete`, `UserMentionAutocomplete`, `RoomMentionAutocomplete` and `CommandAutocomplete` was hardcoded to commit index 0. Each menu item now carries a `data-autocomplete-index`, and Enter/Tab click the focused item (reusing the mouse-click path, so the selected emoji/mention inserts and the cursor stays put); falls back to the first result when focus is still in the editor.\n- `32c880f` Fixed typing `:)` (and other punctuation smileys) auto-inserting an unrelated emoji on Enter — the emoji shortcode trigger matched any non-space text after `:`. `getAutocompleteQuery` now only treats `:` as an emoji query when the following text matches `[a-zA-Z0-9_+-]` (real shortcodes like `+1`, `e-mail`), so `:)`, `:(`, etc. send as literal text.\n- `32c880f` Improved Element-style read receipts for users without an avatar — the bare grey initial (which read like a stray newline glyph) is now centred inside a circle tinted with the user\'s `colorMXID` placeholder colour, matching how `UserAvatar` renders avatar fallbacks.\n- `32c880f` Fixed Alt+Up / Alt+Down not moving between DMs — outside a space the handler fell through to "all non-space rooms", so in the Direct Messages list it jumped to arbitrary non-DM rooms. It now matches the open sidebar: space → that space\'s rooms, Direct → DMs only, Home → orphan rooms.\n- `32c880f` Added `Ctrl+?` (Ctrl+Shift+/) as a second shortcut to toggle the keyboard-shortcuts panel, alongside the existing rebindable `Ctrl+/` (Discord parity; `Cmd+Shift+/` on macOS).\n- `c32d959` Fixed calls dropping — backported upstream\'s call-drop fix (#2954). Membership counting in `useCall`, `useCallEmbed` and `CallEmbedProvider` was using the experimental slot-based `MatrixRTCSession.sessionMembershipsForSlot()` API (carried over from an earlier backport), which could miss active participants and tear the call down. Reverted to the stable synchronous `rtcSession.memberships`, restoring reliable "call ongoing" detection and incoming-call dismissal.\n\n## 19.05.2026\n\n- `5694870` Fixed Android updater re-downloading every launch and never installing — `UpdateChecker.kt` now (1) checks for an existing APK on disk and a previously-enqueued DownloadManager job before queueing a fresh download, so a downloaded-but-uninstalled APK is reused instead of re-pulled; (2) registers a `BroadcastReceiver` for `ACTION_DOWNLOAD_COMPLETE` and fires the install intent itself with a FileProvider `content://` URI — DownloadManager\'s built-in tap-the-notification handler still generates a `file://` URI that crashes Android 7+ with `FileUriExposedException`, which was the silent failure when the user tried to install; (3) cleans up stale APKs once the new version is the installed one; (4) targets `Context.RECEIVER_EXPORTED` on Android 14+ so the dynamic receiver actually fires; (5) auto-prompts install at most once per cold start when the APK is already downloaded, so a dismissed dialog isn\'t re-shown on every relaunch.\n- `aa75417` Fixed update banner overflow on mobile — the size-300 action Button (32px tall) was poking out below a banner that auto-sized to the text height (~36px) and the Box didn\'t always stretch to the parent column, so the banner ended where the text ended and the button sat half-outside. Added explicit `width: 100%`, `min-height: 48px`, and `flex-shrink: 0` to the shared container style; the inner text Box got `min-width: 0` + `truncate` so long messages ellipsis instead of pushing the button out horizontally.\n- `fff19fa` Fixed mobile swipe gestures and modal layout — `useSwipeGesture` now refuses to engage when there is no navigation target (empty Home no longer follows the finger to nowhere); `MobileSwipeOpen` resolves the target as selected → last → first-rendered room link, so swiping in the DM tab opens the most-recent conversation; commit animates the foreground fully off-screen instead of snapping back, and `MobileFriendlyPageNav` now renders the page-nav as an absolute backdrop behind the room view on mobile sub-routes so swipe-back reveals the actual nav underneath. `Settings` modal supports left→right swipe as "X" (subpage → menu list → close) and on mobile no longer collapses to a tiny top-left island — `Modal500` explicitly flexes the content column and `interactive-widget=resizes-content` + new `useKeyboardInset` hook keep the chat input above the on-screen keyboard without leaving a gap of safe-area padding hovering over the keyboard.\n- `380ca1a` Fixed Element-style read receipts duplicating across many old messages — `useElementReadReceipts` was memoizing once per Message instance and never invalidating, so as receipts moved forward older mounted Messages kept showing the indicator at their original position. Now subscribes to `RoomEvent.Receipt` and `RoomEvent.Timeline` and rebuilds the receipt map consistently across every Message.\n- `380ca1a` Made message hover effect more subtle — `selected` background (when the right-click menu / emoji board / reaction picker is anchored on a message) was using `Surface.ContainerActive`, the same intensity the theme reserves for pressed states. Demoted to `Surface.ContainerHover` and added a faint hover tint at the same tone so plain hover and right-click feel continuous.\n- `f3e6d88` Improved multi-link embeds — multiple URL preview cards in one message now stack vertically (Discord-style) on every viewport. Previously the desktop layout was a horizontal scroller; the column layout was mobile-only.\n- `f3e6d88` Improved embed image rendering — tiny favicon-style images (`og:image:width` ≤ 96 AND `og:image:height` ≤ 96) are no longer rendered as the embed\'s main image. The text-only card (title / description / siteName) still shows. Article hero shots / post media render as before.\n\n## 18.05.2026\n\n- `9c481ba` Improved mobile layout — nav pane (Home / Direct / Search / Inbox indices) now stretches to the full viewport on mobile via inline `width: 100%` override on `PageNav` so the changelog-side empty-state doesn\'t leave whitespace.\n- `9c481ba` Improved mobile settings modal — fills viewport (`100vw` × `100dvh`), square corners, safe-area-inset padding so notch/home-bar don\'t obscure controls. Keybinds tab hidden on mobile (physical-keyboard only).\n- `9c481ba` Fixed `body { height: 100% }` keyboard breakage — switched to `100dvh` with `100%` fallback so the on-screen keyboard pushes the layout up instead of leaving inputs hidden behind it.\n- `9c481ba` Fixed gallery tap-out reopening viewer — overlay\'s `onDeactivate` now plants a transparent full-screen blocker for 350ms that swallows the next pointerdown/click, preventing the tap from bubbling through to the underlying message image.\n- `9c481ba` Mobile image viewer: tap-to-zoom replaced with pinch-to-zoom — two-finger gesture tracks distance ratio from initial pinch and scales accordingly (bounds 0.1×–5× matching the +/- buttons). Single-tap zoom kept on desktop where double-firing isn\'t an issue.\n- `47f158f` Followed up on draft-release fix — passed `draft: true` to all softprops/action-gh-release uploads (was defaulting to false and flipping the release to published on the first upload, defeating the whole point of staging as a draft); dropped the versioned `prinny-webapp-vX.Y.Z.zip` variant since the release tag already versions it and every other platform asset is single-named.\n- `ec98378` Fixed release-pipeline window where `/latest/download/*.apk` 404\'d during Android cross-compile — releases now stay drafts until every platform build (windows + linux + macos + android + webapp-zip + archive) has uploaded its artifacts, then publish atomically. Old versioned releases are deleted after publish, not before, so the previous tag stays "latest" until the new one is fully assembled.\n- `2b24087` Added README download link for the web client zip — `prinny-webapp.zip` is now uploaded with a stable filename alongside the versioned one so `releases/latest/download/prinny-webapp.zip` resolves.\n- `d047dd6` Added platform notification for update banner — `useUpdateCheck` fires `sendDesktopNotification` the first time each new version becomes available; deduped per-version so a dismissed banner doesn\'t re-notify on repeat polls. Android Tauri skipped (UpdateChecker.kt\'s own DownloadManager notification covers it).\n- `09cc5ee` Added web client dist zip to GitHub releases — new `webapp-zip` job in prinny-client\'s `build.yml` attaches `prinny-webapp-vX.Y.Z.zip` (rebrand + `npm run build` output) to every release for self-hosters who\'d rather download than `git pull`.\n- `6932b32` Replaced welcome splash with bundled changelog viewer — empty-state screen now reads `cinny/CHANGELOG.md` baked in at build time (Vite `?raw` import) and renders the latest dated bullets, links each SHA to the cinny commit page.\n- `0a803b4` Added Web Push for background notifications — service worker `push`/`notificationclick` handlers, Matrix HTTP pusher with VAPID public key from `config.json`. Falls back to foreground `window.Notification` when no gateway configured. Also flipped `usePiped` default to `false` so YouTube links resolve through youtube.com unless opted in.\n- `5abc142` Fixed Slate "Cannot resolve a DOM node" crash on message edit with emoji — new `safeFocusEditor` wrapper falls back to deselect + DOM focus when the selection is stale after autocomplete close.\n- `2afe5a1` Fixed Ctrl+/ keybinds modal silently closing itself — two window listeners cancelled each other in one tick; removed the duplicate so the toggle actually fires.\n- `2afe5a1` Fixed soundcloak embeds spamming 502s — skip homeserver `preview_url` for direct-audio URLs since it rejects `audio/mpeg`.\n- `2afe5a1` Fixed fullscreen button greyed out on YouTube iframe — `allow="fullscreen"` was overridden by the rest of the permissions policy.\n- `2afe5a1` Improved composer layout — attachment button moves to left of editor, send to the right (Discord-style).\n- `2afe5a1` Improved mobile gallery — title bar relocates to the bottom on mobile, both rows span full viewport width.\n- `2afe5a1` Improved mobile swipe gestures — follows the finger via transform with a 180ms ease-out settle on release; right-edge forward-swipe now returns to the last-visited DM.\n- `2afe5a1` Fixed double notifications on web — `sendDesktopNotification` was firing alongside an explicit `new Notification` with click handler.\n- `1180ddb` Added auto-bump-cinny workflow — reactive `repository_dispatch` from cinny\'s publish-webapp keeps prinny-client\'s submodule pointer current within ~30s of every cinny push.\n- `0a803b4` Added Web self-host download row to README — `git clone -b webapp-release https://github.com/coffeegrind123/cinny.git /usr/share/webapps/prinny` for self-hosters.\n- `4461ea0` Fixed Android updater re-downloading APK on every launch — `tauri.properties` was missing so `versionName` defaulted to `"1.0"`; `bump-version.mjs` now writes it explicitly with both versionName + versionCode.\n\n## 17.05.2026\n\n- `15a60e9` Added webapp-release publish workflow — built dist auto-publishes to the `webapp-release` branch of `coffeegrind123/cinny` on every push to `desktop-notifications`. Self-hosters install with `git clone` + `git pull`, no `npm` at deploy time.\n- `8a50134` Fixed standalone webapp build — version imports in `AuthFooter.tsx` and `WelcomePage.tsx` were going 5 directories up (which only resolves when cinny is nested under prinny-client). Switched to 4-up so both build contexts work.\n\n[End of changelog. Earlier history lives in git log.]\n', Xst = `https://github.com/coffeegrind123/prinny-client/releases`, Zst = `https://github.com/coffeegrind123/prinny/commit/`;
-    function Qst({ children: e }) {
+    var Xst = '# Changelog\n\nUser-facing changes per commit. Most recent at the top.\n\n## 24.08.2026\n\n- `c28f866` Fixed **videos not playing in the media viewer** — Bluesky and Twitter clips, and uploaded videos too. Two of the three shells this app runs in refuse to start a video on their own until you have touched something, and the viewer was asking them to at the moment the page opened, before there was anything to play. For a Bluesky video that was guaranteed to fail, because its player is still being fetched at that point. The press that was meant to rescue it made things worse: on an already-stopped video the first press meant "stop", so nothing happened, and only the second one started it. It now waits until there is a picture to show before asking, and one press plays.\n- `c28f866` Fixed **the black screen where a video should be**. The viewer treated a video as loaded the moment it knew its address rather than when it had a frame, so a clip that was still arriving showed nothing at all — no picture, no spinner — and a Bluesky clip did that from the moment it opened. There is a spinner now, and a video that never arrives says so instead of spinning forever: a picture that cannot be fetched, a Twitter or Bluesky clip its host refused, or a clip that quietly fails to decode all name themselves now.\n- `c28f866` Improved **opening pictures in an encrypted room** — each one was being downloaded and unlocked twice over, on three pages at a time, the second copy only to blur into the background behind it.\n- `c28f866` Fixed **broken tiles in the gallery**. A photo from a linked post whose host refused the request left a broken image with nothing to explain it; those tiles now fall back the way the others do. Videos also stopped filling the console with a "no thumbnail" complaint that could never have been anything else.\n- `b555afc` Fixed **text typing in backwards**, properly this time — the whole mechanism, not another guess at it. When the composer loses its cursor while still being the thing you are typing into, the editor wipes the blinking caret on every redraw and then answers its own wipe by throwing the cursor away again, so the state feeds itself. Typing into a box with no cursor puts each character at the *start*, in front of the one before it. Selecting some text used to be the only way out — that hands the cursor back — and that workaround is exactly what this now does for you, on every keystroke, before the character lands. It no longer matters what took the cursor away in the first place.\n- `b555afc` Fixed **not being able to select text in "View Source"**. Only "Copy All" worked. The hover toolbar over a message cancels presses on itself so that dragging across a message does not select from the wrong end — and because the menus it opens are its children as far as React is concerned, that cancellation was reaching inside every window they opened. Starting a selection is precisely what was being cancelled. Read Receipts, edit history and the forward dialog were silenced the same way.\n- `b555afc` Fixed **the read indicator disappearing from a message that has been edited**. Someone\'s read marker points at the newest thing they have seen, and an edit is a real event in the conversation that draws no message of its own — so after an edit the marker sat on something invisible and the avatar simply vanished. Read markers now show against the nearest message at or before them, which also fixes them disappearing onto a reaction or a deletion.\n- `b555afc` Fixed **the conversation scrolling itself hundreds of messages into the past when you open a photo**. Opening a picture starts the media scan, which reads back through the room\'s history — and the conversation behind it was not told that history had arrived, so it kept showing "the same place" while the place had moved. Closing the picture left you somewhere else entirely. In-room search moved the conversation the same way.\n- `b555afc` Fixed **clicking a photo opening a different one**. The viewer shows the room\'s whole media history, and when the picture you tapped was further back than the scan had read, it quietly showed you whatever was nearest instead — so you arrived at the wrong photo and had to walk to the one you asked for. It now goes and finds it, and says that it is looking rather than showing the wrong picture. Walking past the oldest picture it has found now fetches more instead of claiming that is everything.\n- `b555afc` Changed **the media viewer to run in conversation order** — oldest at the top, so moving down through it moves forward through the chat, the same direction the conversation runs. It was upside down: Up took you later and Down took you earlier. The grid is unchanged, newest first, which is the right way round for a grid.\n- `b555afc` Fixed **the gallery jumping while it fills in**. Photos from linked posts arrive over the network a moment after the grid appears and are slotted in by date, which pushes everything below them down — repeatedly, while you are scrolling. Your place is now held. This also corrects the same anchoring in the conversation, which had been choosing the wrong message to hold on to whenever the page was scrolled down.\n\n## 23.08.2026\n\n- `172dd7f` Added **embedded photos and videos to the gallery**. A Twitter or Bluesky link posted in the room is a picture as far as anyone reading is concerned, but the gallery only knew about files uploaded as attachments, so a room whose photos mostly arrive as links looked nearly empty. The gallery now pulls the media out of those posts as well — Twitter photos, Twitter GIFs and videos, Bluesky images and video, Bluesky\'s Tenor GIFs — and each one is its own tile, so a four-photo tweet is four tiles. Link previews being off, or the Twitter/Bluesky embeds being off, turns it off too: resolving one of these is a request to a host the sender chose, not one you did. Link-preview cards from your own homeserver are deliberately left out — those are site thumbnails, not the conversation\'s photos.\n- `172dd7f` Changed **the media feed into the viewer**. Zoom used to be a separate screen stacked on top of the feed; now the feed itself pans and zooms — double-click, pinch, ⌘/Ctrl+scroll, drag — and clicking beside the picture closes it, the way every other full-screen image behaves. Zoom is measured against the picture\'s own size, snaps to 1:1 when that is a real magnification, and stops smoothing past 100% so you see the actual pixels. The buttons beside it are now React (the full emoji picker, not just a heart), Reply, Jump, Save and Zoom, and Reply drops you back in the conversation with the message quoted.\n- `172dd7f` Removed **the message box from gallery view**, along with the pinned-message banner and the read-receipt row underneath it. Gallery is a wall of pictures; a composer sat under it doing nothing, and typing while it was open reached for an editor that was not there.\n- `172dd7f` Fixed **the black band behind the date in the gallery**, and the loud pill at the end of it. The date header was painted for a different kind of background than the page it sits on.\n- `172dd7f` Fixed **gallery tiles coming out blank**. The grid asks the homeserver for a thumbnail, which the conversation never does — it shows the file itself — so a picture that renders perfectly in chat could be a grey square in the gallery whenever the server declined to thumbnail it (remote media, an unusual format, thumbnailing switched off). It now falls back to the file itself, and a picture that genuinely cannot be shown says so instead of being a silent grey square.\n- `172dd7f` Fixed **the gallery giving up after one look back**. Each round reads a few hundred messages; if that stretch happened to contain no pictures, the grid was left exactly as it was — and the thing watching for "you have reached the end" only reports *changes*, so having already reached the end, it never fired again. The walk stopped there, in a room that might have plenty further back, looking for all the world like it had found everything. It now carries on while the end of the grid is still on screen, and asking for more by hand buys another run of it.\n- `172dd7f` Fixed **pictures missing from the gallery in encrypted rooms**. The scan reads each message once and asks it what it holds; in an encrypted room the keys for older messages often arrive a moment later, and anything not yet readable at the instant it was passed answered "nothing" and was never asked again — so the photo was absent from the gallery for the rest of the session while sitting perfectly visible in the conversation. Messages that become readable later are now folded in where they belong.\n- `172dd7f` Added **a collapsed chat list**. Dragging the divider far enough left snaps the column down to a rail of avatars — name, category headings and the panel title go, the unread badge moves onto the avatar corner, and hovering names the chat. Applies to Home, Rooms and spaces alike.\n- `172dd7f` Fixed **the conversation jumping under you while you read**. A message that grows *after* it appears — a link preview card arriving a moment later, a few hundred pixels tall, usually above what you are looking at — pushed everything down, and nothing put it back: the browser feature that would normally hold your place has never shipped in the Linux desktop shell\'s web engine. The view is now anchored to the message at the top of the screen and restored when anything above it changes size. Being at the live end of the conversation is unaffected — new messages still scroll in.\n- `172dd7f` Fixed **a room quietly losing the ability to load older messages**. One failed request for history left the "already loading" flag set forever, so every later attempt in that room was ignored for the rest of the session — scrolling up simply stopped working, with nothing to say why. It now clears the flag whether the request succeeded or not, and says so in the console when it failed.\n- `172dd7f` Fixed **the "new messages" line often not appearing at all**. Where the line goes was worked out from the messages actually drawn on screen, but the marker it follows can point at something that is never drawn on its own — a reaction, an edit, a thread reply — which is extremely common, and every one of those meant no line. It also re-anchors when you leave the window while caught up, instead of staying stuck where the room was when you opened it.\n- `172dd7f` Fixed **messages whose content is gone reading as "Unsupported message (no body)"**. They are shown as deleted, which is what they are — messages, stickers and polls alike. Deleted membership, name, topic and avatar changes show the same way instead of being parsed as though their content still existed.\n- `172dd7f` Fixed **Reply doing nothing on a poll**. Replying required the message to carry plain text, which a poll and other structured messages do not, so the button was live and had no effect.\n- `172dd7f` Fixed **the microphone being left open**. Cancelling a voice message — or switching room, or closing the composer — while the permission prompt was still up could not reach the recorder, because it was only handed over once recording had already started. The recorder then opened into a screen that had moved on and stayed open. Tapping record twice in quick succession no longer starts two of them either.\n- `172dd7f` Fixed **a numbered list stopping at ten**. `10.` was not recognised as a list item, so a list that reached ten broke in half at that point. Three-digit numbers no longer clip off the left edge either.\n- `172dd7f` Added **custom emoji to reply quotes**. The quoted line above a reply showed the emoji\'s name in colons where the picture should be.\n- `172dd7f` Fixed **an empty gap under messages containing links**. When none of the links produced a preview card the space held for those cards stayed behind, as a permanent empty band under the message.\n- `172dd7f` Fixed **mentions in encrypted rooms never reaching the inbox**. The list of what mentioned you is worked out by the homeserver, which cannot read an encrypted room — so in exactly the rooms most people are in here, being mentioned showed up nowhere. Encrypted rooms are now checked on this device, where the messages can actually be read.\n- `172dd7f` Added **support for multi-file galleries** (MSC4274) — a single message carrying several pictures, videos and files, sent by clients that support it, now renders as a grid rather than a line of fallback text, and its pictures appear individually in the room gallery and feed. Sending them is off by default in Settings → Messages, because clients that do not support it will see only the text fallback.\n\n## 22.08.2026\n\n- `c1993d7` Added **a media gallery for the whole conversation**. The photo button in the room header turns the chat into a wall of everything anyone has sent in it — photos and videos, newest first, grouped by day, with All/Photos/Videos filters that count what they hold. It reads further back through the conversation as you scroll, so it is not limited to what happens to be loaded, and it works the same in an encrypted room: the obvious way to build this asks the server for "messages containing a URL", which finds nothing at all in an encrypted room and would have quietly shown an empty gallery in exactly the rooms most people are in here.\n- `c1993d7` Added **a swipeable media feed**. Tapping a tile in the gallery — or a photo in the timeline, or the new Feed button on a video — opens it full screen, one attachment per flick, video playing the moment it arrives and rewinding when it leaves. Beside it: a heart (a real reaction, visible to the room), Save, a jump straight to that message in the conversation, and Zoom for stills. Muted by default with a mute button and **M** to toggle; arrow keys, **j**/**k**, space and page keys move through it, Escape leaves. It keeps reading older history as you approach the end, and only the attachment on screen and the one either side of it are ever loaded.\n- `c1993d7` Changed **what happens when you tap a photo**: it opens the feed at that photo instead of the single-image viewer, so the next attachment is one flick away rather than a trip back to the timeline. The old zoom-and-pan viewer is still there — it is the Zoom button in the feed — and **Settings → Messages → Open Media in Feed** turns the new behaviour off entirely.\n- `c1993d7` Split **"hide activity" into two switches**: one for read receipts, one for typing. They were a single toggle over two unrelated signals — "don\'t broadcast what I have read" and "don\'t broadcast that I am composing" — and wanting one without the other is the normal case. Anyone who had the old switch on gets both, so nobody starts broadcasting something they had chosen to hide.\n- `c1993d7` Changed **attachment cards** to a filename and one download that saves the file under the name its sender gave it. The card used to carry a banner — a pill with the file extension, the filename, a download icon — stacked on top of a player that already had its own controls. Audio and video are now played by the browser\'s own element over the shared media loader, which means a long file starts playing as it streams rather than after it has downloaded in full.\n- `c1993d7` Improved **YouTube link previews**: the title and channel now come from the host that serves the embed rather than from the homeserver\'s preview, which YouTube usually answers with a consent page or a 403 — leaving a player with no idea what was in it. The Piped instance list is down to two hosts that actually work from both the web app and the desktop shell; the bare-IP and http:// entries could never have loaded in a browser.\n- `c1993d7` Fixed **the microphone looking permanently blocked to people who had never been asked**. In the Android and desktop shells the permission is decided at the moment recording is attempted, so asking beforehand answers "denied" — and that sent the composer straight to the "blocked, go to system settings" dead end. Only an actual refusal counts as one now.\n- `c1993d7` Fixed **the member list\'s controls wrapping mid-phrase** in a narrow panel, putting "A to" on one line and "Z" underneath. The member count gives up the space instead.\n\n## 19.08.2026\n\n- `db6d27e` Fixed **the timestamp beside the avatar sitting too far left**. Hovering a timestamp shows the moment on the sender\'s clock, and room for that is held open on every message from them so nothing jumps when it appears — but the space being held was for the time *and the city* ("15:40 Helsinki"), which is far wider than a time, and under the avatar, where the timestamp is lined up against the message, that pushed it a city\'s width off to the left. The hover now shows the time on its own and names the place in the tooltip instead, so nothing is held open and the timestamp sits where it should. The date still appears when the message lands on a different day where they are.\n- `cc76c7b` Fixed **code blocks running off the side as one endless line**. A code block containing one long line — a log line, a JSON blob, a pasted paragraph — was rendered on a single line with a horizontal scrollbar under it, because that is what `<pre>` does. Long lines now wrap, keeping leading indentation and runs of spaces, and a single unbroken token (a base64 blob, a long URL) breaks rather than overflowing. Horizontal scrolling remains for what wrapping cannot fix.\n- `cc76c7b` Fixed **the "expand" control missing from tall code blocks**. Whether a block was tall enough to collapse was decided by counting newlines, which is wrong now that lines wrap: a 700-character line has no newlines at all and filled the screen with no way to collapse it, while fifteen short lines might not have reached the limit. It is now measured from what is actually on screen, re-measured when fonts finish loading or the window resizes, and the collapsed box is a fixed number of lines rather than pixels — so the larger text on mobile no longer halves how much you see.\n- `cc76c7b` Fixed **Copy quietly doing nothing while saying "Copied"**. Copying could fail — an unfocused window, a refused permission — and the button reported success anyway, so the next paste produced whatever was in the clipboard before, with nothing to point at the copy as the cause. It now reports "Copy failed" when it fails. The fallback path also **stripped every line break**, so a multi-line code block copied as one line; that is fixed too, along with a 99999-character cap that silently truncated long blocks.\n- `cc76c7b` Fixed **"Mark Unread" not bringing the indicator back in the chat list**. It moved your read marker back but never set the unread flag the list draws its badge from, and the badge is fed by notification counts, which do not grow again just because the marker moved backwards — so the message was marked and the list looked unchanged. It now flags the room as well, and a room you flag while you are still looking at it stays flagged until you leave, instead of being marked read again by the next scroll. "Mark as Unread" in the chat list is no longer greyed out for the chat you have open.\n- `cc76c7b` Added **a microphone permission prompt before the system one**, the first time you record a voice message, and a **Microphone access** row in Settings → Audio. Android asks "Allow Prinny to record audio?" with no context and only asks once — a no there is close to permanent — so it is worth saying what the microphone is for first, and worth having somewhere to fix it from if it was refused by accident.\n- `cc76c7b` Fixed **four layout faults, three of them only visible on a phone**: the clock shown while a message is sending sat a word\'s width away from the timestamp it belongs to; the hover timestamp under the avatar ran off the left edge of the screen; sender names were cut off with an ellipsis as soon as the header ran short of width, even with a whole empty line below them; and the sender\'s local time on hover broke across two lines, so the city read as a second timestamp.\n- `94494bd` Added **Discord-compatible webhooks** to `@prinny/bot`. Anything that already posts to a Discord webhook URL — a CI job, a monitor, a Grafana alert, a GitHub repository webhook, a Slack-shaped integration — works against a Matrix room by changing the host and nothing else. Embeds, buttons, polls, file uploads, threads and per-message sender names are all mapped across, and a webhook message is shown under the name it was posted with, tagged WEBHOOK.\n\n- `d31ce06` Fixed **Alt+Up/Down jumping to the wrong chat**. They moved through your chats in an order that had nothing to do with the one on screen — pinned chats were not first, the sort was not applied, and "Show unread only" was ignored — so pressing Alt+Down went to some other chat rather than the one below. They now follow the list exactly as it reads, in every sidebar: chats, rooms and inside a space, including collapsed sections and your own ordering. Where Home shows rooms above chats, Alt+Down off the last room carries on into the first chat. One consequence worth knowing: with "Show unread only" on, these keys now cycle only the unread chats, because that is what the list is showing.\n- `2bc1923` Fixed **the sender\'s local time on hover ignoring your date format**. Hovering a timestamp shows the same moment on the sender\'s clock, and adds the date when it lands on a different day where they are — that date was always written "19 Aug" instead of the format set in Settings → General. It now uses your date and 12/24-hour settings, the same as every other timestamp in the app.\n\n## 18.08.2026\n\n- `35eaff8` Fixed **swiping in from the left in Settings on Android doing nothing**, and the Back button with it. Android keeps the outer edge of the screen for its own back gesture, so that swipe never reached Prinny at all — what arrived was a plain "go back", and Settings is not somewhere you navigated to, so going back moved the screen *behind* it and left Settings sitting there. It now steps back the way the X does: out of a section to the list, and off the list to close. Pressing Back does the same.\n- `79bead6` Added **a proper error screen** for the kind of failure that takes the whole app down. Until now that landed on the router\'s own developer page — "Unexpected Application Error!", a minified stack, and a note addressed to whoever wrote the app — which is where yesterday\'s "Server versions are not provided!" crash left you: nothing to do about it, no way back, and nothing to say it was even Prinny. It now explains itself, keeps the technical detail behind a fold for when it is worth reporting, and offers **Reload**, plus **Reset app data and sign out** for a failure that comes back on every launch.\n- `79bead6` Added **a build check for the mistake behind that crash** — a part of the app asking for something that is only set up by the very thing asking. It passes type-checking and linting and shows itself only at runtime, as the entire client replaced by an error page on startup, which is exactly how it reached a release. The build now refuses it and names the component, the hook and the missing piece.\n\n## 17.08.2026\n\n- `0956b9d` Fixed **Prinny failing to start** with "Server versions are not provided!". Introduced the same day by the notification-avatar caching: it asked about your homeserver\'s capabilities from a place in the app that is set up *before* that information exists, and the error took the whole client down to a blank error page rather than being contained. It now runs from a point where the connection is already established.\n\n- `570934d` Fixed **the same new message being flagged twice** when unread chats are shown as avatars in the left rail. The chat\'s own avatar lit up and so did Home, a few pixels apart, for one message. Home now leaves it to the avatar, which is the more useful of the two because it tells you *who*.\n- `570934d` Fixed **the local-time hover flickering** when you held the pointer on a timestamp. The two versions of the text are different lengths, so swapping them resized the thing you were pointing at out from under the pointer, which ended the hover, which put it back — several times a second while you held perfectly still. The timestamp now reserves room for both, so nothing moves.\n- `570934d` Improved **what that hover actually says**. It was a bare time with no am/pm and nothing to say whose clock it was. It now follows your 12/24-hour setting like every other timestamp, and names the place — "07:40 AM Chicago" rather than "07:40".\n- `570934d` Fixed **double-click to reply doing nothing** when you double-clicked the message itself. It was deliberately ignoring the text, on the reasoning that double-clicking words means "select this word" — but the text is the part you aim at, so the feature only worked on the empty space beside a message and looked broken. It now works anywhere on the message; the word still gets selected as well, and the switch to turn it off is where it always was.\n\n- `0ed87bd` Fixed **the Windows taskbar button barely flashing** for a new message. It was asking Windows for the wrong kind of alert — one that blinks the button exactly four times and then goes quiet, so unless you happened to be looking at the taskbar in that second, nothing appeared to have happened at all. It now stays lit until you actually bring Prinny to the front, the way Discord does. Nothing flashes while you are already reading.\n\n- `6ab2314` Fixed **the Android back gesture closing Prinny** instead of going back. Swiping back or pressing Back quit the app from anywhere — including from a room you had just opened — so the only way back to your chat list was the on-screen controls. It now steps back through where you have been, and only leaves the app once there is nowhere left to go. One thing it still cannot dismiss is the Settings dialog, which isn\'t a place you navigated to; Back there moves the screen behind it instead.\n\n- `bfe1dcf` `e2a6624` Added **the sender\'s picture to Android notifications** that arrive while the app is closed. Those are posted by the app\'s Android half, which runs with no account and no connection of its own, so it had no way to fetch anyone\'s avatar and showed none. Pictures are now saved while the app is running and looked up by who sent the message, so nothing has to be downloaded — or signed in — at the moment a notification arrives. Someone messaging you for the very first time while the app is shut will still have no picture until the app next runs.\n- `bfe1dcf` `e2a6624` Fixed **your phone notifying you about messages you already read on another device**, and leaving them sitting in the notification shade afterwards. When you read a room somewhere else, your server sends a message saying "nothing unread here anymore" — Prinny was treating that as a new message and posting **New message** for it, so reading on the desktop actually *created* a notification on your phone. It now clears that room\'s notification instead.\n\n- `67c9298` Added **the sender\'s local time on a timestamp**. Hover the time on someone\'s message and it becomes the time it was on *their* clock when they sent it, for as long as you\'re pointing at it. It answers the thing a timestamp cannot in a room spread across the world — a reply at 03:40 their time means something different from a slow one. If the time difference lands the message on another day where they are, the date is shown too, because "08:30" under a message dated yesterday would just be wrong. Only works for people who have set their time zone in Settings → Account, and nothing changes on hover for anyone who hasn\'t. Your own time zone is set in the same place.\n- `2b09da0` Added **"Default Inbox Tab"** to Settings → General → Layout, and fixed the Inbox ignoring it. Opening the Inbox went wherever you had left it last time, remembered from before any of this existed — so it kept landing on Notifications no matter what the default was meant to be, and there were three separate ways in (the sidebar, the top bar, and the address itself) that each decided for themselves. They now all ask the same setting, and the setting decides rather than being overruled by where you happened to be last. It defaults to All.\n- `67c9298` Changed **the Inbox to open on All** rather than Notifications, now that All exists and contains both.\n- `fe18690` Added **an "All" filter to Invites, and made it the default**. Invites are sorted into Primary, Public and Spam by guesswork — do you share a room with the sender, does anything look like spam, has the sender been banned somewhere you are — and the page used to open on Primary only. An invite the guess put in either of the other two was not just further down, it was nowhere, unless you knew to go and look. The three groups are still shown separately, with Spam still behind its warning, so nothing arrives without the context that says what it is; empty groups are simply skipped.\n- `fe18690` Added **an "All" inbox** alongside Notifications and Invites, showing both on one page with invites at the top. Invites and Notifications were each half an inbox, so whichever you opened, the other half was somewhere you had to remember to check.\n- `fe18690` Fixed **invitations showing up as `m.room.member` event in your notifications**. That is the raw name of the thing an invite is made of, and it was being printed because nothing had been written to describe it — the notification that most needed to explain itself was the one explaining least. It now reads the same way an invite reads in a room\'s timeline, and it handles the neighbouring cases too, like someone accepting a request to join.\n- `fe18690` Added **`/status`** for setting your status message from the composer — the one that follows you everywhere and shows next to your name, the same box as Settings → Account → Status. Not to be confused with the room topic. `/status` on its own clears it, which is otherwise something you have to open Settings to do.\n- `44af202` `824cbd8` Fixed **ntfy users being quietly routed through a stranger\'s server**. Notifications are delivered to your phone by way of a "gateway", and the app works out which one to use by asking your push server whether it can act as one. That question was being asked in a way a browser is not allowed to hear the answer to — ntfy.sh replies correctly, but without the header a browser requires before it will let the app read the reply — so the answer was thrown away unread and Prinny fell back to the shared public gateway run by the UnifiedPush project. Notifications still arrived, which is why this went unnoticed, but it meant every message notification took a detour through a third party — carrying the sender and the message text for any room that is not encrypted. The question is now asked by the app itself rather than through the browser, so ntfy answers for its own gateway and your notifications go straight there.\n- `b624a17` Added **"Register pusher" to the Push Delivery panel**, which says what your homeserver actually replied instead of leaving you with a red mark and no reason. Registering with your server is the last step of setting up notifications and the easiest one to get stuck on, and until now a refusal was written to a log you cannot open from a phone — so a distributor handing over an address we will not use, a server turning the registration down, and the attempt never being made all looked exactly the same. The panel now also shows **which push gateway is in use**, because it is picked for you and is not always the obvious one: it is chosen by asking your push server whether it speaks Matrix, and ntfy.sh does not answer that question in a way the app is allowed to read, so ntfy users are quietly routed through the public UnifiedPush gateway instead. It works, but it puts a third party in the path of your notifications, and you should be able to see that rather than have to guess at it.\n- `98a0ae0` Removed **the "Check for Updates" button on Android**, where it never did anything. Android updates itself — Prinny checks on startup, downloads the new version and asks you to install it — so the button had nothing to do, and tapping it left it sitting there still saying "Check for Updates". It is still there on desktop, where it is the thing that applies an update. \n- `98a0ae0` Changed **the swipe-back in Settings to start from the left edge**, the way Android\'s own back gesture does. It used to trigger on a sideways drag begun anywhere on the screen, which is fine in a chat but wrong in Settings: the page is full of switches and sliders, so nudging one sideways could throw you off the page you were trying to adjust. Chats and the main screen keep the swipe-from-anywhere behaviour.\n- `949b169` Added **a status line under each chat in the sidebar**. A direct message now shows what the other person is up to beneath their name — what they are listening to or playing if they are broadcasting that, and otherwise the status message they set. The activity wins when there is one, because a chat list is read for what someone is doing *now*, while a status message often sits unchanged for weeks. The member list is deliberately unchanged: there the status still wins and the activity shows as the small icon in front of it. Rows do not get taller — the space was already being reserved.\n- `949b169` Changed **where the sender\'s `@name:server.com` sits when you hover a message**. It now goes hard against the right edge, tucked *under* the reply and reaction buttons instead of standing to their left, so it no longer takes a strip out of the line beside them. On phones it is gone entirely: it is there for a mouse pointer, and a touch screen has none, so it could only ever turn up as a stray box after a long-press.\n- `c6e0a64` `a026e6e` Added **a Push Delivery panel** to Settings → Notifications on Android, which says which part of push is broken instead of leaving you to guess. Background notifications here need a separate distributor app on your phone (ntfy, Sunup, NextPush — there is no Google push in this client) and a registration held by your homeserver, and every possible break in that chain used to look exactly the same from the outside: notifications simply did not arrive. The panel checks each step on its own — whether a distributor is installed, whether one is selected, whether it has actually answered, whether an address was issued, whether your homeserver is sending to *that* address, and whether Android is letting Prinny post at all — and tells you what to do about the one that failed. **Re-register** also doubles as the way to pick a distributor.\n- `a026e6e` Fixed **Prinny forgetting its push address every time it was closed**. The address lived only in memory, and a messaging app\'s process is shut down by Android constantly — so every launch found nothing, reported nothing, and went back to the distributor to be told the very address it had just discarded. It is now remembered properly. Re-registering also no longer throws away a working address before asking for a new one, which used to leave the app with nothing at all if that request was slow or failed.\n- `c6e0a64` Fixed **notifications stopping for good after your distributor changed its address**. Your homeserver was left holding the old one and kept sending there — to nobody — while a fresh registration piled up alongside it rather than replacing it, because the address is the very thing that identifies a registration. Retired ones are now cleared out. Only Prinny\'s own are touched; registrations belonging to your other apps and devices are left alone.\n\n## 16.08.2026\n\n- `c91e1d2` Fixed **Android notifications never arriving**, and it was not the part anyone had been looking at. Prinny asks the shell to do the Android-only work — register for push, keep the connection alive in the background, post the notification — and every one of those requests was being refused before it got anywhere, because the app never granted itself permission to make them. So no push was ever registered with your homeserver, meaning the server had nothing to send to, and the carefully-written code that turns a push into a notification had never once run. The same refusal silently disabled **notification avatars, the taskbar unread badge, drag-and-drop file sending, link previews, Discord rich presence and Twitter/X media** on desktop, each of which quietly fell back to doing nothing or doing less.\n- `9beda76` Fixed **Android notifications going nowhere even once they arrive**: tapping one did not open the room, a rotated push address was never re-registered, and an incoming push never nudged the app to sync. All three listened on the wrong channel — the shell delivers these to a per-plugin subscription, not the app-wide one they were waiting on.\n- `9beda76` Fixed **Prinny never asking for Android\'s notification permission**. It was only ever requested from Settings → Notifications → Enable, so unless you went looking for that switch, Android silently discarded every notification the app posted — while notifications from *downloads* kept working, because those are posted by Android itself and need no permission from us. It is now asked for on first run, once.\n- `c91e1d2` Fixed **the attachment button doing nothing on Android**. Adding mic and camera support for calls replaced a piece of the WebView the app does not own, and the file picker lived in the part that got replaced — so every attach button, and every avatar or sticker upload, opened no picker at all and reported no error. That piece is now wrapped rather than replaced, which also brings back JavaScript dialogs, the location prompt and WebView logging.\n- `c91e1d2` Fixed **two identical "Messages" entries** in Android\'s notification settings. Messages received in the background used a different channel from the rest, so silencing the one you could see left the other one ringing.\n- `9beda76` Improved **what Prinny says when Android push cannot be set up**. A device with no UnifiedPush distributor installed (ntfy, Sunup, NextPush) now says so, and says that background notifications will not arrive until one is — there is no Google-push path in this client, so that app is required. A distributor that refuses the registration is now reported too, instead of being dropped in silence.\n- `7190544` Changed **where the sender\'s address shows up** on a run of messages from one person. It is now drawn once, on the first message of the run — beside the name and the time, where the sender is actually identified — instead of on every message, which labelled the same person over and over. Hovering *any* message of the run brings it up, so pointing at the fifth message in a row still answers "who sent this?" without you having to find the top of the group.\n- `dbd3e7f` Fixed **push notifications arriving with a blank generic icon** instead of the Prinny one. The app asked the browser for an icon at a path that does not exist in the built app, and the browser quietly substituted its own rather than reporting anything. The icons listed for installing Prinny as an app were stale in the same way. Both now work whether you use prinny.app or host it yourself.\n- `25bf6a3` Added **sharing into Prinny from Android\'s share sheet**. Pick Prinny when sharing a link, some text or files from another app, choose the room, and it lands in the composer with everything attached. Nothing is sent automatically — you still see it and press send, and a share that arrives while Prinny is closed is kept and shown once it has started up.\n- `d4cf7e1` Added **proper Hacker News link previews**, built from HN\'s own data: the story title, who posted it, the score, the comment count, and a link straight to the discussion. HN publishes nothing for a preview to read, so cards for it used to come out with the site\'s navigation strip ("new | past | comments | ask | show…") as the description. Off by default with the other link integrations — Settings → General. Also fixed **thumbnails being requested over and over** after the server had already refused them once.\n- `b2d1039` Fixed **link previews of a URL nobody sent**. A link containing spaces was cut at the first one, so the preview was of a shortened address that leads nowhere — and an audio or video file linked that way never got its player, it fell back to a dead generic card. Links written as `<…>` or as text pointing somewhere else failed the same way. Previews now follow the actual link in the message.\n- `326cc50` Fixed **the sender\'s address drifting about** on a run of messages from one person. Hovering a message shows the full `@name:server.com` at its right; on the first message of the run it sat hard against the edge and on every message after it 152px short of it, so the label jumped sideways as you moved down the group. The one that looked right was the wrong one — it was tucked under the hover toolbar with the tops of its letters cut off. Both now sit in the same place, clear of the toolbar.\n- `abad72a` Added **marking a room unread** — right-click a room in the list, *Mark as Unread*. The unread dot comes back so you remember to return to it, and unlike a local flag it follows you to your other devices and to other Matrix apps, because it uses the standard way of recording that rather than a Prinny-only one. Flags set from another app show up here too, including the older key Element used for years. Reading the room clears it. The option is greyed out on the room you are currently looking at, because that room marks itself read again the moment you scroll it — better to grey it out than to let it quietly undo itself.\n- `abad72a` Fixed **your recently-used emoji not following you to other Matrix apps**. Prinny only ever wrote Element\'s private key for that list, so nothing else could see it; it now writes the standard one as well and reads whichever is there. The two store the list in genuinely different shapes, which is why this was not simply a rename. The Recent row is also now in *recent* order — it had been sorting by how often you had used an emoji, so a face you used once this morning sat behind one you used a lot last year.\n- `abad72a` Added **telling other apps when a picture you send is animated**. Without that flag the app at the other end cannot know a GIF, animated WebP or APNG moves until it has downloaded the whole thing, and asking a server for a small preview of one gets a single frozen frame back. Prinny now inspects the actual file rather than trusting the file extension, so a `.webp` that happens to be a still is not announced as a GIF — and where it genuinely cannot tell, it says nothing rather than guessing. Covers pictures, stickers, and images you add to a sticker set.\n- `abad72a` Added **a time zone on your profile** — Settings → Profile → *Time Zone*, with a *Detect* button and type-ahead over every zone your device knows. Other people then see the local time where you are on your profile card, ticking while it is open. Leave it empty to show nothing, which is how it starts.\n- `e2d971e` Changed **the Windows installer**. It now carries Prinny artwork — the mascot and wordmark down the side of the welcome page, a header on every page, and the app icon on the installer file itself — and the footer no longer advertises the toolkit that built it. The separate `.msi` download is gone. Nothing ever used it: updates have only ever gone through the `.exe`, it still wore upstream Prinny\'s blue-and-bird artwork, and its way of updating replaces the Start Menu shortcut, which quietly breaks a pinned taskbar icon and, because Windows ties notifications to that shortcut, stops desktop notifications arriving at all.\n\n## 15.08.2026\n\n- `67c01fe` Fixed **videos and GIFs playing in a clunky custom player**. A video had a **Watch** button you had to press before anything happened, then downloaded the whole file before it could start, and once going it looped forever with the length and file size stamped over the corner — sensible for a GIF, odd for an hour-long clip. Video now uses the player your browser provides, the same way voice messages already did, and only fetches what it needs to start. **GIFs are told apart from videos properly** for the first time: one sent from the GIF picker loops silently with no player bar, and a video gets ordinary controls and waits for you. If your device refuses to autoplay a GIF, controls appear so you can still start it.\n- `67c01fe` Fixed **notifications never arriving on Android**. The app was registering for push with your homeserver in a way the server has to refuse, so no notification was ever set up and nothing was ever sent — which looked like the app not supporting notifications at all. It now finds the right address for whichever push app you use (ntfy, Sunup and the rest), which is the step other clients do and this one skipped. If it still fails, it now says so clearly instead of leaving one hidden line in a log nobody can read.\n- `67c01fe` Fixed **the cursor landing before a `/command`** after picking it from the list, instead of after it. Mentions and emoji shortcuts had the same fault. This is also the likeliest cause of **text coming out backwards** as you typed: with the cursor stuck before what you just inserted, every letter goes in at the same spot and the word builds up in reverse.\n- `67c01fe` Fixed **read receipts sitting past the end of a message**. Replying to something longer than your reply pushed the little avatars out to where the quoted message ended, floating well past the message they belong to. They now sit at the end of the message itself, on its last line.\n- `67c01fe` Removed **the empty strip down the right of every message**. It was reserved for the buttons that appear when you hover, but it was also being reserved on phones, which never show those buttons — so the narrowest screens were giving up the most width for nothing, and it was why the **new messages** line stopped short of the edge. The buttons now sit over the end of the message when you hover it, and messages use the full width.\n- `67c01fe` Fixed **the hovered timestamp on grouped messages** sitting too high and too far from the message, and **the little clock on a message still sending** riding above the timestamp beside it.\n- `67c01fe` Fixed **emoji that your device has no picture for** being offered in the picker anyway, where they showed as an empty box — and then arrived as an empty box for whoever you sent them to. The newest handful (orca, distorted face, fingerprint, face with bags under eyes and a few more) are hidden until your system can actually draw them, and reappear on their own once it can.\n- `d6129bf` Fixed **the chat list showing up empty while the app was connecting**, and staying empty until you reloaded the page. The list draws only the rows that fit on screen, which means it has to find the panel it scrolls inside — and it was looking a fraction too early, before the browser had finished attaching it. Getting nothing back, it drew no rows at all. It never looked again, so the list stayed blank; anything that happened to redraw it afterwards fixed it, which is why it came right on a busy account and stuck on a quiet one that had just finished its first sync. Introduced a day ago, when the room and chat lists were merged into one shared list.\n- `d6129bf` Fixed **the same fault in message search**, where it has been hiding since long before this client was forked — results only appear once you type, and typing was enough to shake it loose.\n- `166d537` Fixed **selecting a message by dragging from the right of it**, which highlighted the message from its left edge instead of following your cursor. This is the third go at it and the first that was actually tested against the bug rather than reasoned about: the row of buttons that appears when you hover a message floats just above that message, which puts it over the blank right-hand end of the message *above* it — and pressing on a button cannot put a cursor in text, so the browser started the selection at the beginning of the message instead of where you pressed. Short messages failed every time, because a one-line message is shorter than that strip of buttons is tall and so its whole right-hand end sits underneath; longer messages only lost their first line. Pressing there no longer starts a selection in the wrong place, and every button in the strip still works. The two earlier attempts had moved the reserved space around on the theory that the buttons were covering text — they were not, they were catching the press — so this one costs no width.\n- `166d537` Added **someone\'s status next to their avatar**, as a thought bubble, when you open their profile. It was only ever visible in your own profile preview in Settings before.\n- `166d537` Added **About Me to the profile you see when you click someone**. Their biography was already there but unlabelled and easy to miss; it now looks the same as it does in Settings, because both are now drawn by the same code.\n- `166d537` Fixed **the profile preview in Settings not matching the profile everyone else sees**. It was a separate copy of the same card that had drifted out of step — different spacing under the banner, a different avatar treatment, and a plain colour where the real card shows a blurred version of your avatar. It is now the real card, so what you see while editing is what other people get.\n- `166d537` Fixed **opening someone\'s avatar showing it in a small boxed window**. Every other image in the app opens in the full-screen viewer with zoom and download; avatars were the one exception, wrapped in a dialog that shrank them. They now open like everything else.\n- `166d537` Added **the time of a message in the space where its avatar would be**, when you hover it. Messages grouped under one name have no timestamp of their own — the one at the top belongs to the first message of the group — so there was no way to tell when any of the others were sent without opening something.\n- `166d537` Removed **the GIF button from the message box**. GIFs are a tab on the same panel the sticker and emoji buttons already open, so the button was a third way to open one panel on one of its tabs. Nothing is lost: the tab is still there, still controlled by the same *GIF picker* setting in Settings → General.\n- `166d537` Changed **Piped**, which is what plays YouTube links without YouTube watching you: it is now **on by default** and set to `piped.gmach.online`. The instance list is down to that and `piped.private.coffee` — the rest were bare IP addresses and unencrypted addresses that a browser refuses to load anyway, so they only ever worked in the desktop app and mostly made the list look longer than it was.\n- `166d537` Fixed **long lists sometimes rendering in the wrong place** when a list did not start at the very top of the area it scrolls in. The measurement that corrects for this could never run at all — it looked for the scrolling container a moment before the browser had finished attaching it, treated that as nothing to do, and never looked again.\n\n> **Not yet tested by anyone:** everything above except the selection fix has been\n> built and checked but not actually clicked. The profile changes are the ones that\n> move things around on screen, so those are worth a look first.\n\n- `5fa7b32` Added **a Discord-shaped layout, in five separate switches** — Settings → General. **Unified sidebar** puts your rooms and your direct messages in one list under Home instead of two tabs. **Direct message buttons** puts your chats as avatar buttons on the left-hand rail, next to your spaces. **Top bar** runs a strip across the top of the window and moves the inbox into it. **Profile in top bar** moves your name, avatar and the settings button up there too. **Rooms space** makes Rooms its own entry on the rail, leaving Home to your chats. Every one of them is off to begin with, and turning any of them off puts things back exactly as they were. Links never break when you flip one: a chat you bookmarked, the room you had open when you closed the app, and a link somebody sent you all keep working whichever layout you are in. Pinned chats and *Show unread only* work the same in every one of these lists, because there is now only one list — the same one, shown in different places.\n- `5fa7b32` Added **dragging rooms into the order you want**. Grab a room in the list and drop it where it should go. Your order is yours alone — nobody else in the room sees it — and it follows you to your other devices, kept separately for each space. The old sort-order picker is gone: it was a choice between three orders nobody wanted, and this replaces it.\n- `5fa7b32` Added **a GIF picker**, off by default — Settings → General → *GIF picker*. It adds a GIF tab to the emoji board and a button by the attach icon, with categories and a search box. **Favourite a GIF** from the picker or straight from a GIF somebody sent, and your favourites follow you to your other devices.\n- `5fa7b32` Added **pronouns, a profile banner and a biography** to profiles, yours and everyone else\'s. Settings → Profile edits all three and shows you a live preview of the card other people see. The banner has its own crop tool. These need a homeserver that supports extended profiles; on one that does not, nothing appears and nothing breaks — which is itself a fix, because an unsupported homeserver used to blank out the name and avatar as well.\n- `5fa7b32` Added **rich presence** — what someone is listening to or playing, on their profile card, off by default (Settings → General → *Show rich presence*). Album art and links in it always ask before opening and show you the real address, since whoever published it wrote the label. On the desktop app there is also **publishing your own** (Settings → Account), which listens for Spotify, games and anything else that talks to Discord and shares it as your status. See the note at the bottom of this entry — the desktop half has never been run yet.\n- `5fa7b32` Added **a status line under people\'s names** in the member list, so their status message shows next to who they are rather than only on their profile.\n- `5fa7b32` Changed **clicking someone\'s name in a message** — it opens their profile instead of dropping a @mention into whatever you were typing. Their profile card is also tidier: the homeserver sits inline rather than on its own line, the actions are condensed, and you can start a direct message from the card and type the first one straight into it.\n- `5fa7b32` Added **double-clicking a message to reply to it**. Double-clicking to select a word still selects a word, and double-clicking a link or a button still does what it always did.\n- `5fa7b32` Added **copying several messages as a clean transcript**. Select a run of messages and copy: you get names and text, not the surrounding furniture.\n- `5fa7b32` Added **auto-replacing emoji shortcodes** as you type — `:sob:` becomes 😭 — off by default (Settings → General). It works in the message box and when editing a message.\n- `5fa7b32` Added **low animation mode**, off by default. GIFs and videos hold still until you hover them, and the typing dots stop bouncing. For anyone who finds a busy room exhausting, or is paying for the battery.\n- `5fa7b32` Added **auto-embedding media links from hosts you trust**. A bare link to a video file plays inline instead of sitting there as a link, but only for hosts on a list you write yourself (Settings → General) and only for actual video files. The match is exact, so putting `example.com` on the list does not also trust `example.com.somebody-else.net`.\n- `5fa7b32` Added **auto-joining every room in a space**, off by default — globally in Settings, or for one space in that space\'s settings, subspaces included. Joining the space then gets you everything in it instead of a list to work through by hand.\n- `5fa7b32` Added **an "only verified sessions" switch** for encryption (Settings → Sessions). With it on, your messages are not sent to devices you have not verified.\n- `5fa7b32` Added **a notification menu on a space** — set every room in it to the same notification setting in one go, rather than one room at a time.\n- `5fa7b32` Added **reset notifications to defaults**, a single action in Settings → Notifications for when the per-room settings have got away from you. Nothing else was removed; the granular controls are all still there.\n- `5fa7b32` Added **downloading an emoji or sticker set as a zip**, and renamed **packs** to **sets** throughout, which is what everything else calls them.\n- `5fa7b32` Added **leaving every room in a space when you leave the space** — a checkbox on the leave dialog, unticked to begin with, so leaving a space still only leaves the space unless you say otherwise.\n- `5fa7b32` Changed **search results** to group by room, with the messages either side of each hit and the sender\'s name and avatar, so a result reads like a conversation rather than a line of text. Several things about search were also simply wrong: the number of results was the number on this page rather than the total, loading more could drop or duplicate hits, results in encrypted rooms were mislabelled, and a failure printed the raw error at you instead of saying what went wrong.\n- `5fa7b32` Changed **the jump-to-room menu (Ctrl/Cmd-K)** so it no longer offers you the room you are already in.\n- `5fa7b32` Changed **the call banner**: it shows how long the call has been running, who is in it under the room\'s entry in the list, and a badge on the space so you can see there is a call in a space you are not looking at.\n- `5fa7b32` Changed **the image crop tool**, which previously had an Apply button that did nothing at all — it is a working crop tool now, used for avatars and the new profile banners.\n- `5fa7b32` Fixed **images in the timeline being cropped**. A picture that was not the shape of the space it was given had its edges cut off rather than being fitted into it.\n- `5fa7b32` Fixed **not being able to scrub through a voice message or a video**. Dragging the progress bar restarted from the beginning or did nothing, because the request for "just this part of the file" was being thrown away and the whole file sent instead — every time, for every seek.\n- `5fa7b32` Fixed **replies being silently dropped when you attach a picture or a file**. Replying and then attaching sent the attachment as an ordinary message with no reply on it, and nothing said so. Stickers had the same fault.\n- `5fa7b32` Fixed **a message that failed to send looking exactly like one that sent**. Messages now dim while they are on their way, and one that did not make it says so with **Retry** and **Remove** next to it.\n- `5fa7b32` Fixed **the timeline scrolling away from the bottom on its own** while images and embeds finished loading. It was deciding whether to follow new messages based on where the scroll had been a second earlier.\n- `5fa7b32` Fixed **clicking a notification in the browser dumping you in the inbox** instead of the message it was about. The desktop app already went to the right place; only the browser did not.\n- `5fa7b32` Fixed **the keyboard closing after every message on a phone**, so a run of short replies no longer means reopening it each time.\n- `5fa7b32` Fixed **notifications not saying where they came from**. The room and space are in the title now, and each room\'s notifications replace each other instead of stacking up.\n- `5fa7b32` Added **telling you when your browser refuses the app storage it needs** — a private window with storage blocked, or a disk that is full — instead of failing in ways that look like unrelated bugs.\n- `5fa7b32` Added **checking what software your homeserver runs** at startup (Synapse, Conduit, and so on), used to avoid asking a server for things it does not have. If the check fails it is treated as unknown and nothing changes.\n- `5fa7b32` Changed **the icons** throughout the app to a single consistent set.\n- `5fa7b32` Fixed **long lists rendering blank in the wrong place** when a list did not start at the very top of what it scrolls in. Nothing in the app hit this before; the new unified sidebar, which stacks two lists in one scroll, would have.\n\n> **Not yet tested by anyone:** the five layout switches above have been built and\n> checked but never actually clicked in a browser, and **publishing** your rich\n> presence to the desktop app has never been run at all — the piece that talks to\n> Discord compiles but has not yet spoken to it. Both are expected to need a round\n> of fixing. Everything else in this entry has been through the usual checks.\n\n## 14.08.2026\n\n- `d883df6` Fixed **images and avatars failing to load with a "Missing access token" error**, sometimes for a whole session, sometimes coming back only after switching to another chat and back. Images are fetched by a small helper the app installs in your browser, because a picture cannot carry your login with it the way an ordinary request can — and that helper was not always being told who you are. Three separate ways it could be left in the dark are fixed: it was never told on the very first load after it was installed or updated; it was never told again once it took over; and if it asked and the answer was slow, it gave up and then kept waiting on that same dead question for every image afterwards, so the whole session stayed broken. Reloading with **Ctrl+Shift+R** was its own version of this — that kind of reload deliberately bypasses the helper, and it had no way to take over again, so every image failed until an ordinary reload. It now asks to take over. Downloads that *can* carry your login — files, voice messages, images in encrypted rooms — now do so themselves, so they no longer depend on the helper at all.\n- `d883df6` Fixed **not being able to reach the buttons that appear when you hover a message**. Moving towards them meant leaving the message, and they vanished before the pointer arrived. Yesterday\'s fix for dragging a selection from the right of a message moved that row of buttons *outside* the message to get it off the message above — but the buttons are only drawn while the message under your pointer is the one they belong to, so putting them outside meant crossing a dead gap to reach them. The space they sit in is now part of the message itself: they are still clear of the message above, so selections still start where you press, and the highlight when you hover now extends all the way under the buttons.\n- `d883df6` Added **pinning a chat to the top of the list**. Right-click a direct message or a room in Home and choose **Pin to Top**. Pinned chats sort above everything else and stay visible even with *Show unread only* switched on, which is the point — a filter that hid the chats you deliberately pinned would defeat it. Pins are stored the same way **Element** stores Favourites, so a chat pinned here is already a favourite there and vice versa, with nothing to set up on either side. Rooms inside a space are not pinnable: that list follows the space\'s own order, so a pin would have nowhere to go.\n- `d883df6` Fixed **the arrow next to CHATS and the *Show unread only* menu option doing the same thing to each other\'s confusion**. The arrow never collapsed anything — it filtered the list down to unread chats, exactly like the menu option, but with a separate on/off state of its own, so the menu could say unread-only was off while the list showed only unread chats. Direct Messages and Home have only ever had one section each, so the arrow is gone from both and the menu option is now the only filter. Home did not have that option before and now does. Spaces keep their arrows, since they have real sections to collapse.\n- `d883df6` Added **the right-click menu to search results**. Right-clicking a message you found in search gave the browser\'s own menu instead of Prinny\'s. You now get Open in Room, Forward, Edit History, Copy Link, Pin, Delete, Report and — with developer tools on — View Source. Reply, react and edit are not there: they need the message open in its conversation, which is what **Open in Room** is for.\n\n## 13.08.2026\n\n- `2f11ee8` Fixed **selecting a short message by dragging from the right of it**. Starting the drag in the empty space to the right of a one-line message grabbed the text from the far left instead of from where you pressed. The row of buttons that appears when you hover a message is pinned 30px above itself, so it was floating over the message *above* — and a one-line message is shorter than that strip of buttons, so the whole right-hand end of it was covered. Pressing there pressed a button rather than the text, and with nothing to anchor to the selection jumped to the start of the line. Messages now leave room for that button row instead of letting it sit on top of the message above, so the whole width of a message is grabbable again. Long messages were never affected — they are tall enough that the strip only covers a corner. Phones and tablets are unchanged: they never show the buttons, so they keep the full width.\n- `2f11ee8` Changed **how a @name looks**. Mentions were drawn as a boxed pill with a border, which was a lot of furniture in the middle of a sentence — most noticeably in the message box while you were still typing. A mention is now just text in that person\'s own colour, the same one their name has in the conversation. Mentions of **you** still stand out, in the same green as before but without the box, so you can still tell at a glance when a message is aimed at you.\n\n- `8c6b26a` Fixed **registration failing on homeservers that use hCaptcha**, if you self-host with the Docker image. The security policy the container serves never allowed hCaptcha\'s script, so the captcha box stayed blank and sign-up could not be completed — with nothing but a blocked-resource line in the console to say why. The policy shipped to self-hosters via `webapp-release` already allowed it; only the Docker one lagged behind. Nothing to change on your side beyond pulling a new image.\n- `8c6b26a` Removed **a pile of dead build machinery** from both repositories — the Netlify deploy (unconfigured here, and never once run), a contributor-agreement bot pointing at upstream\'s paperwork, issue and discussion templates for issue trackers that are switched off, a second dependency-update bot that was never installed, and two checks that went red on every automated dependency update while gating nothing. A permanently red build hides a genuinely broken one, so this is worth more than the tidiness. The checks that do work — the pull-request build, the type check and the Docker image check — are kept, and the Docker one is repaired so it still fires when the base image is updated.\n\n- `6ac7769` Fixed **X/Twitter links making a pointless request that always failed**. Posts from x.com are drawn by the client itself, but the homeserver was still asked to fetch a preview for the same link — an answer that got thrown away unread, and one X never gives out anyway: it serves a placeholder ("Post / X", a stock image, no text) to anything that is not a browser, and refuses many servers outright, which is where the `502 Got error 403` in the console came from. Nothing was broken at your homeserver\'s end. The request is now made only if the client-side fetch fails, which is the case where the ordinary preview card is what you see.\n- `6ac7769` Fixed **a pile of console errors on every start**. Failed link previews logged an "Uncaught (in promise)" stack trace for a failure already handled; a homeserver without OIDC logged "Configured OIDC OP does not support required functions" as an error even though that is the normal answer; a busy account tripped "MaxListenersExceededWarning: 51 RoomState.events listeners" because every room-related hook registered its own listener (now one shared listener, so the count no longer grows with your room list — and the client stops walking a fifty-entry list on every state change); and the web app logged five blocked mixed-content requests probing YouTube (Piped) instances it could never have loaded over https.\n- `46b469d` Fixed **not being able to type or send in a thread**. With a thread open in the side panel, one of the two message boxes stopped working: clicking it put the cursor there, but nothing you typed appeared and Enter and the send button did nothing. Both boxes were being built from the same shared blank document, and the editor library tracks its position by that document, so whichever box drew last took ownership and the other one could no longer work out where the cursor was. Each box now gets its own. Room and thread composers work at the same time, and drafts still stay separate.\n- `46b469d` Fixed **code blocks that start on the same line as the ```**. Typing ``` and pasting several lines after it — the usual way to paste code — produced literal backticks instead of a code block, because the fence had to be alone on its line and the closing ``` had to be on a line of its own. All four Discord forms now work: ` ```code``` `, ` ```lang ` then the code, code starting right after the opening ```, and the closing ``` at the end of the last line. A language is still picked up when the fence is followed by a single word (` ```js `), and anything else on that line is treated as code.\n- `d971afd` Added **`piped.gmach.online`** to the instance list — a real domain with a valid certificate (verified working), so the web app has a second instance that actually loads, not just a bare IP.\n- `d08c6cc` Added **a Piped instance picker with automatic failover**. Instead of one hardcoded instance, YouTube embeds now choose from a list — Settings → General → *Piped instance* lets you pick one or leave it on **Auto**, which probes the list and uses the first that responds. (On the web app, `http://` instances are blocked as mixed content and only work in the desktop app; Auto skips unreachable ones for you.)\n- `90eef8a` Fixed **code formatting to match Discord**. A single-line ` ```code``` ` now renders as a code block instead of showing literal backticks, and inline code accepts double backticks (` ``a`b`` `) so you can put a backtick inside. The rest of the formatting — **bold**, *italic*, `__underline__`, `~~strike~~`, `||spoiler||` — was already Discord-compatible.\n- `30112a4` Fixed **`-` bullet lists turning into numbered lists**. A list written with `-` (or `+`) was sent as an ordered `<ol>` — numbered even in the raw Matrix source. All of `-`, `*` and `+` are now bullet lists, matching every other Matrix/Markdown client.\n- `30112a4` Fixed **the thread panel\'s avatar filling its whole column**. The sender avatar now sits in a fixed-size box like it does in the main timeline.\n- `61e9b8a` Fixed **images and voice messages that failed to load** ("Mismatched SHA-256 digest" in the console). When the app\'s access token was refreshed, the service worker kept sending the old one for media, so every image/voice note silently failed until a reload. The worker now notices the rejection, refreshes its token and retries, and media download failures report the real error instead of a misleading digest mismatch.\n- `61e9b8a` Fixed **a member list flooding the console** with a repeated "event not found" 404 and an EventEmitter memory-leak warning in rooms with many people. Presence now uses a single shared subscription instead of one per member, and the pinned-message banner no longer requests an empty event id.\n- `61e9b8a` Fixed **stray React Router and fullscreen warnings** on load — the landing route now shows a loading splash while it redirects, and video embeds no longer double up the fullscreen permission.\n- `2d0d32d` Added **an update button in Settings → About**, next to Source Code. It tells you what it is doing — checking, downloading, or that you are up to date — and when an update is waiting it installs it, rather than sending you looking for the banner.\n- `2d0d32d` Fixed **the update banner telling you to "tap" on a desktop**. It now says tap or click to match the device you are actually using. The banner text is also centred properly instead of sitting off to one side.\n- `842520e` Changed **where the web client\'s source lives**: the repository is now `coffeegrind123/prinny` instead of `coffeegrind123/cinny`, matching the name of the app. If you self-host by cloning the `webapp-release` branch, your existing copy keeps updating — GitHub forwards the old address — but the address to use from now on is `https://github.com/coffeegrind123/prinny.git`.\n- `260e107` Fixed **the in-app updater reporting that no update was available for your platform**, on every desktop install. The published update file listed no platforms at all, so each client failed with "None of the fallback platforms were found". The builds themselves were fine — signed and uploaded correctly — but the step that writes that file runs seconds after they finish, and GitHub had not started serving the freshly uploaded signatures yet, so it recorded every platform as missing and reported success. It now retries those downloads, and refuses to publish an update file that would disable updating rather than quietly shipping one.\n- `40b72fa` Added **buttons under bot messages**. A bot can now put real buttons on what it sends — press one and it acts, with a spinner on the button until it answers back and a note if it never does. Buttons can also open a link, copy something to your clipboard, or fill the composer for you. A link button always asks first and shows the site it genuinely goes to, because the wording on a button is written by whoever sent it and the address is not. Destructive buttons look destructive. If you would rather not have buttons at all, Settings → General → Show Bot Buttons turns them off and you get the plain numbered list instead — which is also what people on other Matrix clients see, so a conversation with a bot works the same for everyone in the room.\n- `40b72fa` Added **a bot\'s commands to the `/` menu**. Bots can publish what they understand, so typing `/` lists their commands and descriptions alongside the client\'s own, with the bot\'s name beside each one. A new button by the attach icon opens the same list, and it only appears in rooms where a bot has actually published something. Where two bots offer the same command, picking one addresses it properly so they do not both answer.\n- `40b72fa` Added **quick-reply buttons above the composer**. A bot can offer a set of ready answers; pressing one sends it as an ordinary message. They stay put across a reload and follow you to your other devices, and a bot can clear them or ask you for one specific thing with the composer already pointed at its question.\n- `40b72fa` Added **a BOT tag** next to the name of any account that has published bot commands in a room, in both the conversation and the member list.\n- `40b72fa` Fixed **commands meant for a bot being silently swallowed**. Typing any `/command` this client did not itself recognise cleared the composer and sent nothing at all, with no error — so bot commands simply never arrived. They are now sent as written.\n- `0ec210e` Added **links that open a chat with a bot**, the equivalent of a `t.me` link. Following one opens a direct message and sends its opening command, after asking you first and showing exactly which account and exactly what will be sent.\n\n## 12.08.2026\n\n- `1b99127` Fixed **GIFs and videos in Twitter/X posts not playing at all**. They loaded as an empty box or a dead frame while ordinary GIF links played fine. Twitter\'s video servers refuse any request that says which page it came from, and the setting meant to strip that does nothing on a video — it only exists for pictures, which is exactly why pictures were unaffected. The file is now fetched separately, without that header, and handed to the player. This also means a Twitter clip that previously failed inside the desktop app now has a second way to load rather than showing an error.\n- `1b99127` Fixed **voice messages sitting in a grey box** with a "Voice message" label above them and a download button beside the player. All three were repeating what the player already gives you — it has its own background, and its menu already offers Download. Just the player now.\n- `1b99127` Fixed **long lists in dialogs not scrolling**. The Files dialog, poll history, widgets, edit history, forwarding, export and add-to-space all cut their list off at the bottom edge with no scrollbar and no way to reach the rest.\n- `1b99127` Fixed **the Add Email Address box in Settings still being narrower** than the identity-server one beside it.\n- `805df93` Added **draggable dividers between the columns**. The room list on the left and the member list, thread panel and call chat on the right can all be resized by dragging the line beside them. Double-click a divider to put it back. Widths are remembered, scale with your zoom setting, and are capped so two wide columns cannot squeeze the conversation out. Keyboard: focus a divider and use the arrow keys, Shift+arrow to move faster, Home/End for the extremes, Enter to reset.\n- `3f54ed7` Fixed **selecting text that starts on a link**. Dragging from a link towards the left selected nothing and the highlight jumped somewhere else entirely, because the browser was starting to drag the link rather than select the text. Links in messages are no longer draggable; they are still clickable and copyable.\n- `3f54ed7` Fixed **input boxes in Settings being narrower than the rest and a darker colour**, most visibly the add-email-address field beside the display-name one. The same fault affected the identity-server field, the account-deletion confirmation, the poll answer fields and the server-browser search.\n- `3f54ed7` Fixed **voice messages**, which now play in the audio player your system provides instead of a custom one. The old player could not draw a progress bar for the format voice notes are actually sent in — its own seek bar had nothing to measure against — and it decoded every clip in the background just to draw a waveform, whether or not you ever pressed play.\n- `3f54ed7` Fixed **dialogs being taller than their contents**, such as the widgets dialog, which drew a full-height panel with a large empty band under a short list.\n- `3f54ed7` Moved **creating a poll and sharing your location** out of the composer to the `/poll` and `/location` commands, freeing the buttons beside the attach icon. `/location` only appears when your homeserver actually provides a map server — before, it opened a picker with nothing to aim at.\n- `4a4c58c` Fixed **GIFs not playing when you link one**. A linked GIF showed a single frozen frame, because the preview picture came from the server\'s thumbnailer and a thumbnail of an animation is one still image. GIFs now play, whether the link is the GIF file itself, a Tenor or Giphy page, or a post that contains one.\n- `4a4c58c` Fixed **GIFs in Twitter/X posts** showing a play button that had to be pressed, instead of looping on their own.\n- `4a4c58c` Fixed **GIFs in Bluesky posts** showing only a still thumbnail. Bluesky attaches a GIF as a link rather than as media, so there was nothing to play. They now loop, and use a version around fifty times smaller than the one Bluesky points at — fetched from Tenor directly, so reading a GIF no longer tells Bluesky\'s servers you looked at it.\n- `4a4c58c` Fixed **a GIF that could not be started at all** on Linux and Android. Both refuse to start video on their own, and a looping GIF has no play button by design, so it sat there as a dead picture. If playback is refused, controls now appear. Click a playing GIF to pause it.\n- `4a4c58c` Fixed **image links producing no preview** when the server could not fetch one, and **`og:image`-based video and audio players** that were permanently broken on pages advertising media they do not actually serve — those now show a picture and a link instead of a dead player.\n- `93001c0` Fixed **the Android build failing to release**. `matrix:` links tapped in another app also never reached the client on Android; the app registered itself as the handler but nothing was reading the link.\n- `b3946e0` Added **voice messages**. Press the microphone in the composer, review what you recorded, then send it. They arrive with a waveform and a duration in Element and other clients, and voice notes from those clients now show as a proper player here instead of an anonymous file. Recording stops and releases the microphone when you cancel, switch rooms or close the app.\n- `b3946e0` Added **a thread panel**. Threads could be started before but never read — replies landed loose in the conversation and there was nowhere to open. A message that started a thread now shows how many replies it has and opens them in a panel beside the room, or full screen on a phone. Replies still appear in the main conversation as well, so nothing has disappeared.\n- `b3946e0` Added **polls**. Create one from the composer, vote, and end it when you are done. Polls sent from other clients used to show as "unsupported content" and now work properly. A poll set to hide its results shows nothing at all until it ends, not even to you.\n- `b3946e0` Added **forwarding a message** to one or more rooms, from the message menu.\n- `b3946e0` Added **edit history** on messages that have been edited, fetched from the server so it works for edits made before you opened the app.\n- `b3946e0` Added **a pinned-message banner** above the composer, so a pin is visible without opening the room menu. Dismissing it hides only that pin; pinning something new brings it back.\n- `b3946e0` Added **approving people who ask to join**. Setting a room to "ask to join" used to be a trap: requests arrived with nothing to show them, so people waited on a room that looked like it had ignored them.\n- `b3946e0` Added **exporting a conversation** as HTML, plain text or JSON, with attachments bundled alongside it. Also added **a file list** for the room, so you can find that PDF without scrolling for it.\n- `b3946e0` Added **sharing a location**, either where you are or a pin you drop, and **live location sharing** for 15 minutes, an hour or eight hours. While you are sharing, a banner stays on screen that cannot be dismissed — only stopped. Maps are off until you turn them on, because drawing one tells whoever serves the map tiles where you are looking.\n- `b3946e0` Added **widgets**. Room widgets can be opened, added and removed, and each one asks before it is allowed to read or send anything, item by item. Widgets never get the microphone, the camera or your Matrix identity, and one served from the same address as the app itself is refused outright.\n- `b3946e0` Added **changing your password, adding and removing email addresses, and closing your account** in Settings. Changing a password previously meant logging out and using the reset flow, which needed access to the email on the account.\n- `b3946e0` Added **privacy settings**: block all incoming invites, choose when media previews load, and hide avatars in invitations from strangers.\n- `b3946e0` Added **thirteen more slash commands**, including `/nick`, `/topic`, `/roomname`, `/myavatar`, `/whois`, `/query`, `/plain`, `/html` and `/rainbow`.\n- `b3946e0` Added **chat effects** — `/confetti`, `/fireworks`, `/snowfall`, `/rainfall` and `/hearts`, which also fire when someone sends the matching emoji. Skipped entirely if your system asks for reduced motion.\n- `b3946e0` Added **LaTeX rendering** for maths in messages, off by default.\n- `b3946e0` Added **microphone settings** — choose an input device and turn echo cancellation, noise suppression and gain control on or off. Used by voice messages and calls alike.\n- `b3946e0` Fixed **audio attachments being sent without a duration**, which made them show as unknown-length in every other client.\n- `f96ddb0` Fixed **the microphone never working on Linux**. The window\'s browser engine ships with capture switched off and silently refuses any request nothing is listening for, so recording and call audio could not have worked on that build. Screen sharing from a call is covered too.\n- `f96ddb0` Fixed **the app being killed on macOS the first time it touched the microphone or camera**, instead of asking for permission.\n- `f96ddb0` Added **opening `matrix:` links**, both inside the app and from other programs, on all four platforms. They previously did nothing at all when clicked.\n- `f96ddb0` Added **starting at login**, launching minimized to the tray. Related: a window closed to the tray no longer comes back invisible the next time you start the app by hand.\n- `f96ddb0` Added **hiding the window from screenshots and screen recordings**, in Settings. Works on Windows and macOS; most Linux desktops ignore it.\n- `f96ddb0` Added **spell checking on Linux**, which the window\'s browser engine leaves off by default, using the languages from your own system settings.\n\n## 11.08.2026\n\n- `451148f` Fixed **the icon bar on the left not moving with the swipe on mobile**. It stayed put while the conversation list slid, then appeared or disappeared abruptly at the end, shifting everything sideways. It now slides away together with the list, and the chat opens at the full width of the screen without jumping.\n- `bcb92f0` Improved **message search filling in as it goes**. It used to sit blank while it worked, then stop at the first match it found — so a single recent hit looked like the whole answer and older messages only turned up if you scrolled. Results now arrive a few at a time and keep coming until there is a proper list of them.\n- `bcb92f0` Improved **the settings menu on phones**, spacing the entries out and making each one a larger touch target so neighbouring rows are harder to hit by accident.\n- `bcb92f0` Added **link previews in encrypted rooms by default**. Note this asks your homeserver to fetch the link, which it cannot otherwise see inside an encrypted message — the setting turns it back off.\n- `bcb92f0` Improved **where the Telegram sticker import setting lives**, moving it from General to Emojis & Stickers, next to the packs it applies to.\n- `7679ea5` Improved **swiping toward a chat on mobile**, which now uncovers the conversation as you swipe, the same way swiping out of a chat reveals the list behind it. Previously there was nothing on the other side and the chat only appeared once the swipe finished. Rooms revealed this way are not marked as read — only opening one does that.\n- `7679ea5` Improved **search being the same everywhere**. The search button used to lead to two different screens depending on the window size, and the one on phones could only search messages. There is now a single search, and it finds both people and messages on every device.\n- `7679ea5` Fixed **the settings menu sitting against the top of the screen on mobile**, leaving a large gap below. The list is now centred vertically; the logout button stays where it was.\n- `fe3fdd7` Fixed **swiping back toward a chat looking broken on mobile**. The conversation list went transparent mid-swipe, leaving just the room names floating over nothing. It now slides as one solid page, matching the swipe in the other direction.\n- `fe3fdd7` Improved **the people sidebar search box**, which now spans the full width of the sidebar instead of being squeezed next to the close button. The sidebar also gained a "People" heading.\n- `fe3fdd7` Fixed **the search screen being too wide on small phones**, where it could be pushed past the edge of the screen and scroll sideways.\n- `fe3fdd7` Improved **settings layout**, centring each settings page in the available space rather than letting it hug the left edge — matching how the rest of the app already lays out its pages.\n- `c6a0111` Added **importing Telegram sticker packs**. Open any image pack you can edit, choose "Import from Telegram", and paste a `t.me/addstickers/...` link — its stickers are downloaded and added to the pack. Animated and video stickers are skipped and counted, since packs can only show still images. This needs a Telegram bot token, set once in Settings → General: Telegram publishes sticker packs nowhere else, so there is no way to import without one. Creating a bot with @BotFather takes a moment and is free, and the token is kept on your device only — never sent to your homeserver.\n- `15bd574` Fixed **the attach button doing nothing on Android**. Tapping `+` in the composer, or using the upload shortcut, opened no file picker and gave no error. The file type it asked for was written in a form Android rejects, so the system found nothing able to handle the request and silently gave up. Other pickers in the app — profile picture, sticker pack image — were unaffected and kept working, which is why this looked like an attachments-only problem.\n- `985f7b9` Improved **third-party code once more**, replacing six small packages with equivalent code kept in this project — number formatting, keyboard shortcut matching, file downloads, image placeholders and error handling. The two with any real logic were checked against the packages they replace over tens of thousands of generated cases with no behaviour difference, including on macOS, where the shortcut key differs.\n- `19bad2e` Improved **third-party code in the client further**, removing two packages that nothing used and twelve more from the desktop shell that were never imported by anything. Together with the earlier commit-hook removal today, the web client now resolves 801 packages instead of 950.\n- `db9bb8d` Fixed **the web app at prinny.app/app failing to load with "Failed to load"**, usually right as you signed in. A tab left open while a new version was published kept asking for pieces of the old version that no longer exist on the server; the sign-in step is what requested one first, so the app appeared to break specifically at login. Such a tab now notices and refreshes itself onto the current version instead of dying. If it happens again before this update reaches you, a hard refresh clears it.\n- `db9bb8d` Fixed **the web app not being installable to your home screen or desktop**. Its app manifest was requested from the wrong address on prinny.app/app and always came back missing, so browsers saw no installable app.\n- `5989652` Improved **the amount of third-party code that goes into a build**, down from 950 packages to 803. A commit-hook stack inherited from upstream — husky, lint-staged and commitizen — was fully commented out and could not run, so removing it costs nothing and takes 147 packages out of the supply chain. Leftover upstream project files (code of conduct, contributing guide, sample reverse-proxy configs for a different project\'s name) and a version-stamping script that had been superseded were removed at the same time.\n- `b3341b9` Fixed **ending up with several copies of Prinny running on Windows**, and the pinned taskbar shortcut appearing to do nothing. Closing to the tray hides the window, so the app looked shut down and each new launch started another client. Launching again now restores and focuses the one already running — from the shortcut, the taskbar pin or the Start menu — and a pinned Prinny shares one taskbar button with the running window instead of showing two.\n- `3a1e9bb` Improved **what happens on a server that will not let apps complete sign-up**. Some servers require a step they keep to their own website. Instead of a blank error page, the app now says so plainly and links that server\'s actual sign-up page, so you can create the account there and come straight back to sign in.\n- `258978b` Added **support for servers that use hCaptcha**. Some homeservers run hCaptcha while still presenting it as the standard captcha step, and the app was drawing Google\'s box with an hCaptcha key — which can never be solved, so registration on those servers was impossible. The right captcha is now shown for each.\n- `258978b` Fixed **being turned away from servers with an unfamiliar sign-up step**. Anything the app does not handle itself — a phone-number check, a captcha provider it does not recognise, something a server invented — now opens the server\'s own sign-up page in a second window; finish there and you are brought straight back. Previously this said "this application does not support registration on this homeserver" and stopped.\n- `94a3982` Added **a directory of public Matrix servers**, replacing the matrixrooms.info room feed. Around 1,150 servers, merged and deduplicated every day from three independent lists (asra.gr, joinmatrix.org, privacydev.net). Explore now offers "Browse public servers" — pick any server and read its own public room directory, instead of one third party\'s view of which rooms are worth seeing.\n- `94a3982` Improved **choosing a homeserver when signing in or registering**. The field now completes as you type, the way a browser address bar does: type `tchn` and it fills in `tchncs.de` with the rest selected, so carrying on typing simply overwrites it. The magnifier beside the field opens the full directory, searchable by name, software, country or hosting provider, and filterable by open registration, captcha, email requirement and Tor friendliness.\n- `94a3982` Fixed **the server list being unreadable in a browser**. None of the three upstream lists allow cross-origin requests, so the web version could not have fetched them at all. The merge now happens once a day on prinny.app and every version — desktop, Android and web — reads the same prepared file. Self-hosters can point `publicServersUrl` at their own copy.\n- `8bf8ba9` Fixed **the release pipeline silently skipping a build**. Two pushes close together left one release half-built and the second push produced no build at all — the second run cancelled the first *after* it had already created the release and uploaded three platforms, then declined to build anything itself because that release now existed. Builds queue instead of cancelling, the version number now accounts for a release that has been drafted but not yet tagged, and a build can be re-run by hand without inventing a commit.\n- `86d4a10` Fixed **nothing watching the app\'s dependencies for security patches**. The configuration said one bot handled them; that bot was never installed, and the approval step it waited on could not exist because the repository has issues turned off. So no patch was ever proposed, which is how 22 known-vulnerable packages piled up. Dependency alerts and automatic security updates are now switched on for both repositories, with a bot that needs no extra setup.\n- `86d4a10` Improved **download size**: the bundled video-call widget was shipping 18 MB of debug source maps that no user ever loads. Total download drops from 63 MB to 45 MB.\n- `86d4a10` Fixed **desktop shell shipping five unused system integrations**. Clipboard, file-system, shell-command, HTTP and dialog plugins were compiled into every build but granted no permission and called by nothing — dead code that also pinned an XML parser with two denial-of-service advisories. Removed. Copying text is unaffected; it uses the browser API.\n- `86d4a10` Fixed **known-vulnerable Rust libraries in the desktop shell**, including two certificate-validation bugs in the TLS stack (`rustls-webpki` — name constraints wrongly accepted for URI and wildcard certificates) and a remote memory-exhaustion bug in the QUIC networking layer.\n- `a4600e5` Fixed **an image attachment being able to open attacker-written content inside the app**. A sender chooses the `mimetype` on a picture they send, and the image and sticker renderers passed that value straight through when building the local media object — so a picture could declare itself as HTML, and the image viewer\'s "open in browser" button would then open it as a page running with the app\'s own permissions. Images and stickers are now restricted to real picture formats, and that button refuses anything that is not an ordinary web link.\n- `a4600e5` Fixed **push notifications trusting everything the push server sent**. The service worker displayed whatever text arrived and handed the room identifier it was given straight to the app\'s navigation. Notification text is now length-limited and stripped of control characters, and the room and event identifiers must look like real Matrix identifiers before anything is shown or opened. This matters more now that pushes carry real message content.\n- `a4600e5` Fixed **a code block in a message being able to freeze the client**. Syntax highlighting ran on the main thread with no size limit, and the sender picks the language from 287 options. Measured across every grammar we ship, the cost grows with the square of the length: `javascript` on a plain run of letters takes **4.1 s at 32 000 characters and 40 s at 100 000**, and `scss` reaches **8.6 s and 84 s**. Code blocks over 4 096 characters now render in full but without colours (worst case ~130 ms). This also fixes an honest large paste hanging the app.\n- `a4600e5` Fixed **an emoji shortcode being able to break out of the HTML it is written into** when a message is edited and re-sent. Every neighbouring field was escaped; this one was not.\n- `a4600e5` Fixed **all 22 known-vulnerable dependencies, 10 of them high severity — now zero**. The important one is the PDF renderer (`pdfjs-dist` 5.7.284 → 6.2.108), where a malicious PDF could run JavaScript in the app, in a client that renders PDFs strangers send you. Also the router (open redirect and XSS), the user-agent parser (a hang on a crafted string), and `lodash` — the only vulnerable package that actually reached the shipped app. The PDF upgrade is a major version: it needed code changes, and the new renderer fetches WebAssembly decoders at runtime that were not previously bundled, without which **scanned documents would have rendered blank with no error** — those are now shipped. Verified in a real browser that PDFs still render and the app still starts.\n- `a4600e5` **Self-hosters: the Docker image now listens on port 8080, not 80**, because it no longer runs as root. Change the container side of your port mapping (`-p 80:80` → `-p 80:8080`) and any Compose or Kubernetes manifest that names port 80. README updated.\n- `c0b94a6` **Android: reinstall required once.** Release APKs are now signed with a new key, because the previous signing key had been committed to the public repository and anyone could sign an APK your phone would accept as a Prinny update. Android refuses an update signed by a different key, so this build will not install over your current one — **uninstall Prinny and install this APK fresh**. In-app updates work normally again afterwards. Sorry for the one-time hassle; there is no way to rotate a leaked signing key without it.\n- `c0b94a6` Fixed **Android notifications only arriving while the app was open**. The push receiver decided who should show a notification by checking whether the app\'s plugin object existed — but that flag is set on first launch and never cleared, so every push was handed to the WebView, and Android suspends WebView JavaScript the moment the app leaves the screen. Nothing rendered. The receiver now checks whether the app is genuinely on screen (`MainActivity.isAppInForeground`) and posts the notification from native code when it is not, so notifications arrive with the app closed. Notifications also show the real sender and message with `BigTextStyle`, get **one notification per room** instead of all rooms overwriting a single entry, and tapping one opens the right room. Encrypted rooms show "New message" — the server cannot read them, which is the encryption working.\n- `c0b94a6` Fixed the **Android in-app updater installing an APK without checking it**. `UpdateChecker` parsed the published `sha256` and then never used it, and staged the download in shared public storage under a predictable name where another app could replace it. It now verifies the SHA-256 before prompting (deleting the file on mismatch), stages in app-private storage, requires an `https` GitHub host, and registers its download receiver as `RECEIVER_NOT_EXPORTED`.\n- `c0b94a6` Fixed **embedded web content being able to turn on your microphone and camera**. The Android WebView permission handler granted capture based only on whether the app held the OS permission, never checking which origin asked — so any third-party iframe (a link preview, an embed) could obtain mic and camera silently once you had made one call. Capture is now restricted to the app\'s own origin, and page scripts can no longer flip the microphone foreground-service type on their own.\n- `c0b94a6` Fixed **a single message being able to freeze the client**. The jumbo-emoji check used a nested-quantifier regex whose cost doubled every ~2.5 characters: a message of ~70 colons locked the render thread for minutes, and the event persisted so reopening the room re-froze it. Measured 55 colons: **3.7 s → 0.14 ms**, and flat at 1000. The URL matcher\'s variable-length lookbehind was quadratic on long messages (**853 ms → 0.8 ms** on 40 000 characters), and an empty search term could spin the highlighter forever — a double space in the room switcher was enough. `utils/regex.ts`, `utils/findAndReplace.ts`, `plugins/react-custom-html-parser.tsx`.\n- `c0b94a6` Fixed **links and embeds handing arbitrary URL schemes to the operating system**. On desktop, a link opening a new window is passed to the OS URL opener, so a homeserver-supplied or message-supplied `file:`, UNC or app-protocol URL invoked a local handler. All such URLs are now validated as `http(s)` at the point of use (new `utils/safeUrl.ts`), `ftp:` and `magnet:` are no longer accepted in message links, and the native side enforces its own scheme allowlist.\n- `c0b94a6` Fixed **login credentials being sendable to the wrong server**. The homeserver allowlist was checked against the name you typed while the login request went to the `base_url` that server\'s own `.well-known` returned, which was never re-checked; and an `http://` prefix in a `/login/:server` link survived into the credential request. Discovery now forces `https`, the route parameter must be a bare hostname, and the allowlist is re-applied to the discovered URL.\n- `c0b94a6` Added a **"Hide message content"** notification setting (Settings → Notifications) so system notifications can show only the sender. Decrypted message text otherwise goes into the OS notification store, where other software on the device may read it.\n- `c0b94a6` Added a **Bluesky post embeds** toggle and made every third-party embed state plainly that enabling it sends the link and your IP address to that service. Bluesky previews previously fetched from `public.api.bsky.app` with no setting at all. Link previews for **encrypted** rooms are now off by default — asking the server to preview a URL from a message it cannot read hands it that URL.\n- `c0b94a6` Improved **rendering safety for hostile room state and media**: power-level tag icons can no longer be an arbitrary URL that beacons every viewer\'s IP on each render, attachment dimensions are clamped, download filenames are sanitised, blob MIME types can no longer be declared as active content, and megolm key-file import bounds its key-derivation work.\n- `c0b94a6` Improved **desktop native hardening**: the app now refuses to start if another process already holds its frontend port (that port grants native permissions, so whoever answers on it inherits them), the SSRF guards cover 0.0.0.0/8 and IPv4-in-IPv6 encodings, redirects are re-validated per hop, downloads are size-capped, and drag-drop file access is consumed once instead of lasting the whole session. The permission grant to the page dropped filesystem, HTTP, dialog, clipboard, shell and global-shortcut access, none of which the client uses.\n- `c0b94a6` Improved **self-hosting and build security**: every shipped nginx/Caddy/Netlify config now sets a Content-Security-Policy and related headers (verified in a real browser, including WebAssembly crypto and the bundled call widget), production source maps are no longer published, the Docker image runs unprivileged (**publish `-p 80:8080` now**), the web root no longer exposes `.git`, and CI pins its actions, drops install scripts, and stops packaging its own credentials into the source archive.\n\n## 10.08.2026\n\n- `22f0979` Updated **sanitize-html to 2.17.6** — a security release for the HTML sanitizer every incoming message body passes through. Upstream cinny `90837f7`.\n- `3ef594f8` Upgraded the **in-app call stack to element-call 0.20.1** (from 0.19.3) and **matrix-js-sdk to 41.7.0**. Fixes the **call settings and reaction buttons doing nothing** — element-call moved its settings button to a new `data-testid` and our control layer was still walking `previousElementSibling` off the leave button, so it was clicking the wrong nodes. **Screenshare and spotlight buttons now update their state**, the **mic/video buttons disable while a toggle is in flight** (instead of letting you desync them with fast clicks), and **incoming-call popups no longer appear for voice rooms**. `plugins/call/CallControl.ts`, `CallEmbedProvider.tsx`, `call-status/CallControl.tsx`, `call/CallControls.tsx`, `call/Controls.tsx`, `call/PrescreenControls.tsx`. Upstream cinny `e379714`.\n- `aba72c2` Fixed **"Manage devices" opening a dead page** on homeservers that have moved to the stable spec — account management now uses the stable MSC2965 action names instead of the unstable `org.matrix.msc2965.*` ones. `useAccountManagement.ts`. Upstream cinny `a9245c8`.\n- `03ad4e7` Fixed **long space names and descriptions overflowing the lobby header** instead of truncating. `LobbyHero.css.tsx`, `page/style.css.ts`. Upstream cinny `762e99a`.\n- `69fc00c` Updated **folds to 2.7.1** (the UI component library). Upstream cinny `730a748`.\n\n## 07.06.2026\n\n- `c9ca749` Unified **people + message search into the members drawer** — the search box moved into the drawer header and the **"N Members"** title moved down beside the Filter/Sort chips. One box now drives both: matching members filter the list instantly, and a new **Messages** section below shows matching messages (with a "Search older messages" button to page deeper). The standalone search icon and search panel are gone on desktop; mobile/tablet keep the search overlay since there\'s no drawer there. New `RoomMessageResults.tsx` renders the inline results for encrypted (local scan) and unencrypted (server) rooms alike. `MembersDrawer.tsx`, `Room.tsx`, `RoomViewHeader.tsx`.\n- `c9ca749` Made **encrypted-room search much faster** — back-paginated events are now decrypted **in parallel** instead of one-at-a-time (the per-event serial decrypt was the bottleneck), and each page back-paginates a bounded number of rounds before returning, so as-you-type search stays responsive and deeper history loads on demand. `useClientRoomSearch.ts`.\n- `ba1c6b1` Fixed **encrypted-room search returning no results** — the client-side scan (`useClientRoomSearch.ts`) walked the *entire* room history (up to 50k events / hundreds of back-pagination round-trips) before returning even one match, so for any encrypted room with real history the search just sat on loading skeletons and never showed anything. It now streams: it scans the already-synced history and back-paginates only far enough to fill the requested page, returning matches immediately and resuming pagination on demand as you scroll. Dense terms appear almost instantly; "no results" is only shown once history is genuinely exhausted (still bounded at 50k events).\n\n## 06.06.2026\n\n- `36a04bf` Made **all link-preview embeds 2x larger** — the card max-width went 216→432px and the image/video height caps doubled (300→600, 320→640), so YouTube, Twitter/X, Bluesky and generic embeds all render bigger (everything inside is width:100% of the card, so it scales proportionally). `UrlPreview.css.tsx`.\n- `36a04bf` Fixed **multi-image Twitter/X embeds stacking vertically** — they now render in a 2-column grid (side by side), matching the Bluesky layout. `UrlPreviewCard.tsx`.\n- `36a04bf` Repurposed the embed **"Show all" button for long descriptions** — removed the old og: metadata dump that lived behind it; now a description over 100 words shows the first 100 with a Show all / Show less toggle, and shorter ones show in full. `UrlPreviewCard.tsx`.\n- `36a04bf` Replaced the custom **audio-attachment player with native HTML `<audio controls>`** — encrypted/authenticated media is fetched to a blob first, plain media streams directly. `AudioContent.tsx`, `RenderMessageContent.tsx`.\n- `36a04bf` Fixed a **softlock when swiping right in Settings on mobile** — the swipe slid the container fully off-screen (via `commitOffset`) expecting a route change to unmount it, but Settings navigates subpage→menu in place, so it stayed stuck off-screen. Settings now snaps back instead. `Settings.tsx`.\n- `36a04bf` Fixed **swiping back into the last conversation on mobile** — `MobileSwipeOpen` remounts on every in/out transition (so its `useState` last-room reset to nothing) and its fallback link selector matched no real path. The last-opened room is now remembered across remounts and the fallback targets the top room in the list. `MobileSwipeOpen.tsx`.\n- `36a04bf` Fixed the **Inbox page layout on mobile** — Notifications/Invites rendered in normal flow, so the absolute nav backdrop painted over them. They\'re now wrapped in `MobileSwipeBack` (an opaque z-index:1 layer, like rooms), which fixes the stacking and adds the swipe-back gesture. `Router.tsx`.\n- `36a04bf` Made the **mobile UI 15% larger** — bumped the root font-size to 115% under 640px; folds sizes everything in rem, so fonts/spacing/icons/controls scale together. `index.css`.\n- `36a04bf` Made the **Settings menu items full-width and centered on mobile**. `Settings.tsx`, `settings/styles.css.ts`.\n- `36a04bf` Colored the **mobile safe-area insets** (notch / home-indicator bars) with the themed grey surface instead of black. `SafeArea.css.ts`, `index.css`.\n- `5eb6249` Added **message search in end-to-end encrypted rooms** — the room search button is no longer hidden in encrypted rooms, and a new client-side search (`useClientRoomSearch.ts`) runs there instead of the server. Since the homeserver only holds ciphertext, it back-paginates and decrypts the local timeline (bounded at 50k events), matches message bodies (phrase, falling back to all-words), and returns the same paginated/virtualized result shape as the server path so `RoomSearch` uses either interchangeably. Encrypted rooms show a notice that search runs locally over history synced to this device. Non-encrypted rooms still use server-side `mx.search`.\n- `5eb6249` Fixed reacting to a message scrolling the timeline to the most recent message — a reaction is an `m.reaction` live event "sent by you", so the Scroll-to-Bottom-on-Send path (and the at-bottom auto-scroll) yanked the viewport to the live edge. `RoomTimeline.tsx` now gates both scroll paths on `isLiveDisplayEvent` (skips reactions, edits and redactions, mirroring the render filter); the range still advances so reactions render in place without moving the view.\n- `5eb6249` Moved the **cancel-reply (✕) button to the right** of the reply preview, nearer the send controls, so dismissing a reply needs less mouse travel. An invisible spacer keeps the message you\'re replying to aligned with the text input below (`RoomInput.tsx`).\n- `5eb6249` Improved the **desktop update toast** — clicking it (or its "Open" action) now downloads and installs the update directly, the same as the banner\'s Update button. The toast is tagged `kind: \'update\'` and routed by a dedicated listener so it no longer falls through the message-click → room-navigation path (`useUpdateCheck.ts`, `desktop-notifications.ts`).\n- `5eb6249` Improved the connecting screen — it now shows **Connecting to `<homeserver>`…** instead of a bare "Connecting…", so you can see which server is being reached (`SyncStatus.tsx`).\n- `5eb6249` Fixed **presence dots not appearing** until a live presence event arrived — `useUserPresence` now syncs immediately from whatever the store already holds (the peer\'s `User` object is often created lazily after first render), handles an empty user id, and avoids a stale `undefined` that hid the badge.\n\n## 30.05.2026\n\n- `605d9de` Added **client-side link-preview fallback** (Settings → General, desktop/mobile app only, **default off**) — when your homeserver\'s `preview_url` can\'t generate a link card (commonly a `504` because the target site blocks Synapse\'s non-browser User-Agent), the app now fetches the page itself with a real Chrome UA and parses its OG/Twitter meta tags locally. New Rust `fetch_og_preview` IPC command fetches server-side (bypassing CORS) but keeps every SSRF guard from the media proxy — scheme check, post-DNS private/loopback/link-local/CGNAT/cloud-metadata rejection, DNS pinning against rebinding, per-hop redirect re-vetting (auto-redirects disabled), and a 512 KiB response cap — and, unlike `fetch_remote_bytes`, accepts any *public* host since a generic preview can point anywhere. `UrlPreviewCard.tsx` falls back to it only after the homeserver preview errors, and renders a direct `https` `og:image` straight through (homeserver previews use `mxc://`). Skipped for Twitter/X, Bluesky, YouTube and direct-audio URLs, which already render without the homeserver.\n- `8e99e44` Hardened the desktop media proxy against SSRF — the Rust `fetch_remote_bytes` IPC command (used for Twitter/X and Bluesky video/images) now requires `http`/`https`, restricts the host to a `twimg.com`/`bsky.app` allowlist, resolves DNS and **rejects any private/loopback/link-local/CGNAT/cloud-metadata (`169.254.169.254`) address**, pins the vetted IP on the request to defeat DNS-rebinding, and only follows redirects that stay on the allowlist. Previously it fetched any URL server-side, bypassing CORS.\n- `8e99e44` Fixed the notification-icon cacher leaking the Matrix access token — `cache_notification_icon` now forwards the `Authorization` header **only** when the avatar URL is under the logged-in homeserver\'s `/_matrix/` media endpoint (origin + path validated against `mx.baseUrl`); every other URL is fetched with no credentials and SSRF-guarded.\n- `8e99e44` Hardened `read_dropped_file` — it now reads **only** paths the user actually drag-dropped onto the window (captured from the native drag-drop event), so an injected script can no longer read arbitrary files such as `/etc/passwd`.\n- `8e99e44` Removed the unused `shell:allow-execute` / `shell:allow-open` desktop capabilities (arbitrary process spawn from the webview — nothing in the app used them), tightened the CSP `script-src` to drop remote `http:`/`https:` origins (keeps `unsafe-eval` for the crypto WASM), and scoped the Android `FileProvider` from the whole external-storage/cache roots down to just `Download/` (the only dir the updater APK uses).\n- `8e99e44` Added a non-blocking `security-audit` CI job (npm production-dependency audit gated at critical; `high` + `cargo audit` advisory) and applied `npm audit fix` for the `@octokit/*` ReDoS advisories in the release tooling.\n- `66a3bab` Fixed the Android in-app updater never installing — every release was CI-signed with a **freshly generated random keystore**, so Android rejected each update with "App not installed" (`INSTALL_FAILED_UPDATE_INCOMPATIBLE`: signatures don\'t match the installed app). The APK downloaded but could never install over the previous build, even after granting "install unknown apps." CI now signs every release with a **stable committed key** (`prinny-ci.keystore`), with an optional `ANDROID_KEYSTORE_BASE64` secret override. Existing users need ONE manual reinstall to land on the stable key; after that, in-app updates work.\n- `d9aca00` Added **in-conversation message search** — a search button in the room header (right side, by the call icons) now opens a right-side results panel instead of navigating away. Server-side `mx.search` scoped to the current room, paginated and virtualized (`@tanstack/react-query` infinite query + `@tanstack/react-virtual`) for long histories; click a result to jump to that message in the timeline. Works on web, desktop (side panel), and mobile/tablet (full-screen overlay that closes on result tap). Unavailable in end-to-end encrypted rooms (server can\'t index encrypted messages) — shows a notice.\n- `d9aca00` Added **presence/status bubbles inside the chat and the room header** — message avatars now show the sender\'s online/idle/offline dot (matching the members panel and DM list), and DM headers show the other user\'s presence next to their name.\n- `d9aca00` Made **URL-preview embeds/videos ~50% smaller** (Discord-like) — the preview card max width dropped 432→216px and video height is capped at 320px, so portrait clips render around 180×320 instead of filling the message column. `UrlPreview.css.tsx` + loading-placeholder caps in `UrlPreviewCard.tsx`.\n- `f29c063` Added a **Scroll to Bottom on Send** setting (Settings → General → Editor, on by default) — when you send a message while scrolled up in a room, the timeline now jumps back to the live edge so your own message scrolls into view. Implemented in `useLiveEventArrive` (`RoomTimeline.tsx`): a live event whose sender is the current user resets the timeline via `getInitialTimeline` and triggers `scrollToBottom`, reusing the `handleJumpToLatest` path. Gated on the sender being us, so other people\'s messages never yank the viewport.\n- `38f0d1c` Fixed `:3` (and other single-char emoticons like `:p`, `:D`, `:o`) triggering the emoji autocomplete and auto-replacing on Enter — the `EMOTICON_QUERY_RE` shortcode trigger in `getAutocompleteQuery` matched any run of word characters after `:`, including a single one. Tightened to `[a-zA-Z0-9_+-]{2,}` so the picker only opens once there are at least two characters after the `:` (Discord parity); `:12` → `:1234:` still completes.\n- `32c880f` Fixed emoji/mention autocomplete arrow-key selection — pressing Up/Down moved the highlight (via the focus-trap) but Enter/Tab always inserted the *top* item and the caret jumped to the start of the composer. A window-level capture handler in `EmoticonAutocomplete`, `UserMentionAutocomplete`, `RoomMentionAutocomplete` and `CommandAutocomplete` was hardcoded to commit index 0. Each menu item now carries a `data-autocomplete-index`, and Enter/Tab click the focused item (reusing the mouse-click path, so the selected emoji/mention inserts and the cursor stays put); falls back to the first result when focus is still in the editor.\n- `32c880f` Fixed typing `:)` (and other punctuation smileys) auto-inserting an unrelated emoji on Enter — the emoji shortcode trigger matched any non-space text after `:`. `getAutocompleteQuery` now only treats `:` as an emoji query when the following text matches `[a-zA-Z0-9_+-]` (real shortcodes like `+1`, `e-mail`), so `:)`, `:(`, etc. send as literal text.\n- `32c880f` Improved Element-style read receipts for users without an avatar — the bare grey initial (which read like a stray newline glyph) is now centred inside a circle tinted with the user\'s `colorMXID` placeholder colour, matching how `UserAvatar` renders avatar fallbacks.\n- `32c880f` Fixed Alt+Up / Alt+Down not moving between DMs — outside a space the handler fell through to "all non-space rooms", so in the Direct Messages list it jumped to arbitrary non-DM rooms. It now matches the open sidebar: space → that space\'s rooms, Direct → DMs only, Home → orphan rooms.\n- `32c880f` Added `Ctrl+?` (Ctrl+Shift+/) as a second shortcut to toggle the keyboard-shortcuts panel, alongside the existing rebindable `Ctrl+/` (Discord parity; `Cmd+Shift+/` on macOS).\n- `c32d959` Fixed calls dropping — backported upstream\'s call-drop fix (#2954). Membership counting in `useCall`, `useCallEmbed` and `CallEmbedProvider` was using the experimental slot-based `MatrixRTCSession.sessionMembershipsForSlot()` API (carried over from an earlier backport), which could miss active participants and tear the call down. Reverted to the stable synchronous `rtcSession.memberships`, restoring reliable "call ongoing" detection and incoming-call dismissal.\n\n## 19.05.2026\n\n- `5694870` Fixed Android updater re-downloading every launch and never installing — `UpdateChecker.kt` now (1) checks for an existing APK on disk and a previously-enqueued DownloadManager job before queueing a fresh download, so a downloaded-but-uninstalled APK is reused instead of re-pulled; (2) registers a `BroadcastReceiver` for `ACTION_DOWNLOAD_COMPLETE` and fires the install intent itself with a FileProvider `content://` URI — DownloadManager\'s built-in tap-the-notification handler still generates a `file://` URI that crashes Android 7+ with `FileUriExposedException`, which was the silent failure when the user tried to install; (3) cleans up stale APKs once the new version is the installed one; (4) targets `Context.RECEIVER_EXPORTED` on Android 14+ so the dynamic receiver actually fires; (5) auto-prompts install at most once per cold start when the APK is already downloaded, so a dismissed dialog isn\'t re-shown on every relaunch.\n- `aa75417` Fixed update banner overflow on mobile — the size-300 action Button (32px tall) was poking out below a banner that auto-sized to the text height (~36px) and the Box didn\'t always stretch to the parent column, so the banner ended where the text ended and the button sat half-outside. Added explicit `width: 100%`, `min-height: 48px`, and `flex-shrink: 0` to the shared container style; the inner text Box got `min-width: 0` + `truncate` so long messages ellipsis instead of pushing the button out horizontally.\n- `fff19fa` Fixed mobile swipe gestures and modal layout — `useSwipeGesture` now refuses to engage when there is no navigation target (empty Home no longer follows the finger to nowhere); `MobileSwipeOpen` resolves the target as selected → last → first-rendered room link, so swiping in the DM tab opens the most-recent conversation; commit animates the foreground fully off-screen instead of snapping back, and `MobileFriendlyPageNav` now renders the page-nav as an absolute backdrop behind the room view on mobile sub-routes so swipe-back reveals the actual nav underneath. `Settings` modal supports left→right swipe as "X" (subpage → menu list → close) and on mobile no longer collapses to a tiny top-left island — `Modal500` explicitly flexes the content column and `interactive-widget=resizes-content` + new `useKeyboardInset` hook keep the chat input above the on-screen keyboard without leaving a gap of safe-area padding hovering over the keyboard.\n- `380ca1a` Fixed Element-style read receipts duplicating across many old messages — `useElementReadReceipts` was memoizing once per Message instance and never invalidating, so as receipts moved forward older mounted Messages kept showing the indicator at their original position. Now subscribes to `RoomEvent.Receipt` and `RoomEvent.Timeline` and rebuilds the receipt map consistently across every Message.\n- `380ca1a` Made message hover effect more subtle — `selected` background (when the right-click menu / emoji board / reaction picker is anchored on a message) was using `Surface.ContainerActive`, the same intensity the theme reserves for pressed states. Demoted to `Surface.ContainerHover` and added a faint hover tint at the same tone so plain hover and right-click feel continuous.\n- `f3e6d88` Improved multi-link embeds — multiple URL preview cards in one message now stack vertically (Discord-style) on every viewport. Previously the desktop layout was a horizontal scroller; the column layout was mobile-only.\n- `f3e6d88` Improved embed image rendering — tiny favicon-style images (`og:image:width` ≤ 96 AND `og:image:height` ≤ 96) are no longer rendered as the embed\'s main image. The text-only card (title / description / siteName) still shows. Article hero shots / post media render as before.\n\n## 18.05.2026\n\n- `9c481ba` Improved mobile layout — nav pane (Home / Direct / Search / Inbox indices) now stretches to the full viewport on mobile via inline `width: 100%` override on `PageNav` so the changelog-side empty-state doesn\'t leave whitespace.\n- `9c481ba` Improved mobile settings modal — fills viewport (`100vw` × `100dvh`), square corners, safe-area-inset padding so notch/home-bar don\'t obscure controls. Keybinds tab hidden on mobile (physical-keyboard only).\n- `9c481ba` Fixed `body { height: 100% }` keyboard breakage — switched to `100dvh` with `100%` fallback so the on-screen keyboard pushes the layout up instead of leaving inputs hidden behind it.\n- `9c481ba` Fixed gallery tap-out reopening viewer — overlay\'s `onDeactivate` now plants a transparent full-screen blocker for 350ms that swallows the next pointerdown/click, preventing the tap from bubbling through to the underlying message image.\n- `9c481ba` Mobile image viewer: tap-to-zoom replaced with pinch-to-zoom — two-finger gesture tracks distance ratio from initial pinch and scales accordingly (bounds 0.1×–5× matching the +/- buttons). Single-tap zoom kept on desktop where double-firing isn\'t an issue.\n- `47f158f` Followed up on draft-release fix — passed `draft: true` to all softprops/action-gh-release uploads (was defaulting to false and flipping the release to published on the first upload, defeating the whole point of staging as a draft); dropped the versioned `prinny-webapp-vX.Y.Z.zip` variant since the release tag already versions it and every other platform asset is single-named.\n- `ec98378` Fixed release-pipeline window where `/latest/download/*.apk` 404\'d during Android cross-compile — releases now stay drafts until every platform build (windows + linux + macos + android + webapp-zip + archive) has uploaded its artifacts, then publish atomically. Old versioned releases are deleted after publish, not before, so the previous tag stays "latest" until the new one is fully assembled.\n- `2b24087` Added README download link for the web client zip — `prinny-webapp.zip` is now uploaded with a stable filename alongside the versioned one so `releases/latest/download/prinny-webapp.zip` resolves.\n- `d047dd6` Added platform notification for update banner — `useUpdateCheck` fires `sendDesktopNotification` the first time each new version becomes available; deduped per-version so a dismissed banner doesn\'t re-notify on repeat polls. Android Tauri skipped (UpdateChecker.kt\'s own DownloadManager notification covers it).\n- `09cc5ee` Added web client dist zip to GitHub releases — new `webapp-zip` job in prinny-client\'s `build.yml` attaches `prinny-webapp-vX.Y.Z.zip` (rebrand + `npm run build` output) to every release for self-hosters who\'d rather download than `git pull`.\n- `6932b32` Replaced welcome splash with bundled changelog viewer — empty-state screen now reads `cinny/CHANGELOG.md` baked in at build time (Vite `?raw` import) and renders the latest dated bullets, links each SHA to the cinny commit page.\n- `0a803b4` Added Web Push for background notifications — service worker `push`/`notificationclick` handlers, Matrix HTTP pusher with VAPID public key from `config.json`. Falls back to foreground `window.Notification` when no gateway configured. Also flipped `usePiped` default to `false` so YouTube links resolve through youtube.com unless opted in.\n- `5abc142` Fixed Slate "Cannot resolve a DOM node" crash on message edit with emoji — new `safeFocusEditor` wrapper falls back to deselect + DOM focus when the selection is stale after autocomplete close.\n- `2afe5a1` Fixed Ctrl+/ keybinds modal silently closing itself — two window listeners cancelled each other in one tick; removed the duplicate so the toggle actually fires.\n- `2afe5a1` Fixed soundcloak embeds spamming 502s — skip homeserver `preview_url` for direct-audio URLs since it rejects `audio/mpeg`.\n- `2afe5a1` Fixed fullscreen button greyed out on YouTube iframe — `allow="fullscreen"` was overridden by the rest of the permissions policy.\n- `2afe5a1` Improved composer layout — attachment button moves to left of editor, send to the right (Discord-style).\n- `2afe5a1` Improved mobile gallery — title bar relocates to the bottom on mobile, both rows span full viewport width.\n- `2afe5a1` Improved mobile swipe gestures — follows the finger via transform with a 180ms ease-out settle on release; right-edge forward-swipe now returns to the last-visited DM.\n- `2afe5a1` Fixed double notifications on web — `sendDesktopNotification` was firing alongside an explicit `new Notification` with click handler.\n- `1180ddb` Added auto-bump-cinny workflow — reactive `repository_dispatch` from cinny\'s publish-webapp keeps prinny-client\'s submodule pointer current within ~30s of every cinny push.\n- `0a803b4` Added Web self-host download row to README — `git clone -b webapp-release https://github.com/coffeegrind123/cinny.git /usr/share/webapps/prinny` for self-hosters.\n- `4461ea0` Fixed Android updater re-downloading APK on every launch — `tauri.properties` was missing so `versionName` defaulted to `"1.0"`; `bump-version.mjs` now writes it explicitly with both versionName + versionCode.\n\n## 17.05.2026\n\n- `15a60e9` Added webapp-release publish workflow — built dist auto-publishes to the `webapp-release` branch of `coffeegrind123/cinny` on every push to `desktop-notifications`. Self-hosters install with `git clone` + `git pull`, no `npm` at deploy time.\n- `8a50134` Fixed standalone webapp build — version imports in `AuthFooter.tsx` and `WelcomePage.tsx` were going 5 directories up (which only resolves when cinny is nested under prinny-client). Switched to 4-up so both build contexts work.\n\n[End of changelog. Earlier history lives in git log.]\n', Zst = `https://github.com/coffeegrind123/prinny-client/releases`, Qst = `https://github.com/coffeegrind123/prinny/commit/`;
+    function $st({ children: e }) {
         return (0, j.jsx)(`span`, {
             style: {
                 fontFamily: `ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace`,
@@ -170567,8 +170642,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             children: e
         });
     }
-    function $st({ bullet: e }) {
-        let t = `${Zst}${e.sha}`;
+    function ect({ bullet: e }) {
+        let t = `${Qst}${e.sha}`;
         return (0, j.jsxs)(P, {
             gap: `200`,
             alignItems: `Start`,
@@ -170603,7 +170678,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         flex: 1,
                         minWidth: 0
                     },
-                    children: e.parts.map((e, t)=>e.kind === `code` ? (0, j.jsx)(Qst, {
+                    children: e.parts.map((e, t)=>e.kind === `code` ? (0, j.jsx)($st, {
                             children: e.value
                         }, t) : (0, j.jsx)(A.Fragment, {
                             children: e.value
@@ -170612,8 +170687,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function ect() {
-        let e = (0, A.useMemo)(()=>Kst(Yst), []);
+    function tct() {
+        let e = (0, A.useMemo)(()=>qst(Xst), []);
         return (0, j.jsx)(cY, {
             children: (0, j.jsx)(Qn, {
                 size: `300`,
@@ -170644,7 +170719,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         `Prinny Client`,
                                         ` `,
                                         (0, j.jsxs)(`a`, {
-                                            href: Xst,
+                                            href: Zst,
                                             target: `_blank`,
                                             rel: `noreferrer noopener`,
                                             style: {
@@ -170683,13 +170758,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 style: {
                                                     color: M.Secondary.Main
                                                 },
-                                                children: Jst(e.rawDate)
+                                                children: Yst(e.rawDate)
                                             })
                                         }),
                                         (0, j.jsx)(P, {
                                             direction: `Column`,
                                             gap: `200`,
-                                            children: e.bullets.map((e, t)=>(0, j.jsx)($st, {
+                                            children: e.bullets.map((e, t)=>(0, j.jsx)(ect, {
                                                     bullet: e
                                                 }, `${e.sha}-${t}`))
                                         })
@@ -170738,9 +170813,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     function x9() {
-        return (0, j.jsx)(ect, {});
+        return (0, j.jsx)(tct, {});
     }
-    var tct = `_1ho1fyw0 _1mqalmd1 _1mqalmd0`, nct = `_1ho1fyw1 _1mqalmd1 _1mqalmd0`, rct = zK({
+    var nct = `_1ho1fyw0 _1mqalmd1 _1mqalmd0`, rct = `_1ho1fyw1 _1mqalmd1 _1mqalmd0`, ict = zK({
         defaultClassName: `_1ho1fyw4 _1mqalmd1 _1mqalmd0 _1bugis91 _1ho1fyw3`,
         variantClassNames: {
             active: {
@@ -170749,7 +170824,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         },
         defaultVariants: {},
         compoundVariants: []
-    }), ict = zK({
+    }), act = zK({
         defaultClassName: `_1ho1fyw6 _1mqalmd1 _1mqalmd0`,
         variantClassNames: {
             hasCount: {
@@ -170761,7 +170836,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             hasCount: !1
         },
         compoundVariants: []
-    }), act = zK({
+    }), oct = zK({
         defaultClassName: `_1ho1fyw9`,
         variantClassNames: {
             size: {
@@ -170777,7 +170852,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             size: `400`
         },
         compoundVariants: []
-    }), oct = zK({
+    }), sct = zK({
         defaultClassName: `_1ho1fywe _1rwrsxz0 _1mqalmd1 _1mqalmd0 _1rwrsxz1 _1bugis90 _1ho1fyw3`,
         variantClassNames: {
             state: {
@@ -170789,7 +170864,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             state: `Close`
         },
         compoundVariants: []
-    }), sct = zK({
+    }), cct = zK({
         defaultClassName: `_1ho1fywh`,
         variantClassNames: {
             position: {
@@ -170799,18 +170874,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         },
         defaultVariants: {},
         compoundVariants: []
-    }), cct = en(({ as: e = `div`, className: t, ...n }, r)=>(0, j.jsx)(e, {
-            className: (0, xt.default)(tct, t),
+    }), lct = en(({ as: e = `div`, className: t, ...n }, r)=>(0, j.jsx)(e, {
+            className: (0, xt.default)(nct, t),
             ...n,
             ref: r
         })), S9 = en(({ as: e = `div`, className: t, active: n, ...r }, i)=>(0, j.jsx)(e, {
-            className: (0, xt.default)(rct({
+            className: (0, xt.default)(ict({
                 active: n
             }), t),
             ...r,
             ref: i
         })), C9 = en(({ as: e = `div`, className: t, hasCount: n, ...r }, i)=>(0, j.jsx)(e, {
-            className: (0, xt.default)(ict({
+            className: (0, xt.default)(act({
                 hasCount: n
             }), t),
             ...r,
@@ -170833,27 +170908,27 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }) : t(()=>void 0);
     }
     var T9 = en(({ className: e, size: t, outlined: n, radii: r, ...i }, a)=>(0, j.jsx)(ln, {
-            className: (0, xt.default)(act({
+            className: (0, xt.default)(oct({
                 size: t,
                 outlined: n
             }), e),
             radii: r,
             ...i,
             ref: a
-        })), lct = en(({ as: e = `div`, className: t, state: n, ...r }, i)=>(0, j.jsx)(e, {
-            className: (0, xt.default)(oct({
+        })), uct = en(({ as: e = `div`, className: t, state: n, ...r }, i)=>(0, j.jsx)(e, {
+            className: (0, xt.default)(sct({
                 state: n
             }), t),
             ...r,
             ref: i
-        })), uct = en(({ as: e = `div`, className: t, position: n, ...r }, i)=>(0, j.jsx)(e, {
-            className: (0, xt.default)(sct({
+        })), dct = en(({ as: e = `div`, className: t, position: n, ...r }, i)=>(0, j.jsx)(e, {
+            className: (0, xt.default)(cct({
                 position: n
             }), t),
             ...r,
             ref: i
         }));
-    function dct({ scrollable: e, sticky: t }) {
+    function fct({ scrollable: e, sticky: t }) {
         return (0, j.jsxs)(j.Fragment, {
             children: [
                 (0, j.jsx)(P, {
@@ -170870,7 +170945,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     var E9 = en(({ as: e = `div`, className: t, ...n }, r)=>(0, j.jsx)(e, {
-            className: (0, xt.default)(nct, t),
+            className: (0, xt.default)(rct, t),
             ...n,
             ref: r
         }));
@@ -170885,7 +170960,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             size: `300`
         });
     }
-    var fct = (0, A.forwardRef)(({ rooms: e, requestClose: t }, n)=>{
+    var pct = (0, A.forwardRef)(({ rooms: e, requestClose: t }, n)=>{
         let [r] = Y(q, `hideReadReceipts`), i = l0(e, Sq), a = J();
         return (0, j.jsx)(Pn, {
             ref: n,
@@ -170923,7 +170998,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     });
-    function pct() {
+    function mct() {
         let e = du(), t = om(), n = Bo(K1()), r = k1(), i = W1(), a = G1(), o = r.directsInHome && !r.dmRailButtons, s = (0, A.useMemo)(()=>{
             let e = [];
             return r.roomsInHome && e.push(...i), o && e.push(...a), e;
@@ -170984,7 +171059,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             isKeyBackward: (e)=>e.key === `ArrowUp`,
                             escapeDeactivates: nm
                         },
-                        children: (0, j.jsx)(fct, {
+                        children: (0, j.jsx)(pct, {
                             rooms: s,
                             requestClose: ()=>p(void 0)
                         })
@@ -170993,7 +171068,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var mct = (0, A.forwardRef)(({ requestClose: e }, t)=>{
+    var hct = (0, A.forwardRef)(({ requestClose: e }, t)=>{
         let n = G1(), [r] = Y(q, `hideReadReceipts`), i = l0(n, Sq), a = J();
         return (0, j.jsx)(Pn, {
             ref: t,
@@ -171031,7 +171106,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     });
-    function hct() {
+    function gct() {
         let e = du(), t = J(), n = om(), r = Bo(K1()), i = U1(t, nq, Bo(rq)), a = k1(), o = l0((0, A.useMemo)(()=>a.dmRailButtons ? [] : i, [
             a.dmRailButtons,
             i
@@ -171087,7 +171162,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             isKeyBackward: (e)=>e.key === `ArrowUp`,
                             escapeDeactivates: nm
                         },
-                        children: (0, j.jsx)(mct, {
+                        children: (0, j.jsx)(hct, {
                             requestClose: ()=>c(void 0)
                         })
                     })
@@ -171095,13 +171170,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function gct({ roomId: e, children: t }) {
+    function _ct({ roomId: e, children: t }) {
         return t(u0(e, Sq));
     }
-    function _ct({ rooms: e, children: t }) {
+    function vct({ rooms: e, children: t }) {
         return t(l0(e, Sq));
     }
-    var vct = (0, A.forwardRef)(({ room: e, requestClose: t }, n)=>{
+    var yct = (0, A.forwardRef)(({ room: e, requestClose: t }, n)=>{
         let [r] = Y(q, `hideReadReceipts`), i = J();
         return (0, j.jsx)(Pn, {
             ref: n,
@@ -171138,7 +171213,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     });
-    function yct({ room: e, selected: t, onClick: n }) {
+    function bct({ room: e, selected: t, onClick: n }) {
         let r = J(), i = $Y(), [a, o] = (0, A.useState)(), s = (e)=>{
             e.preventDefault();
             let t = e.currentTarget.getBoundingClientRect();
@@ -171146,7 +171221,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 if (!e) return t;
             });
         };
-        return (0, j.jsx)(gct, {
+        return (0, j.jsx)(_ct, {
             roomId: e.roomId,
             children: (c)=>(0, j.jsxs)(S9, {
                     active: t,
@@ -171191,7 +171266,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     isKeyBackward: (e)=>e.key === `ArrowUp`,
                                     escapeDeactivates: nm
                                 },
-                                children: (0, j.jsx)(vct, {
+                                children: (0, j.jsx)(yct, {
                                     room: e,
                                     requestClose: ()=>o(void 0)
                                 })
@@ -171201,7 +171276,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function bct() {
+    function xct() {
         let e = J(), t = du(), n = G1(), r = X1(), i = Bo(Sq), a = (0, A.useMemo)(()=>Array.from(n).filter((e)=>i.has(e) || e === r).sort(s2(e)), [
             e,
             n,
@@ -171217,7 +171292,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 (0, j.jsx)(E9, {
                     children: a.map((t)=>{
                         let n = e.getRoom(t);
-                        return n ? (0, j.jsx)(yct, {
+                        return n ? (0, j.jsx)(bct, {
                             room: n,
                             selected: r === t,
                             onClick: o
@@ -171227,7 +171302,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var xct = (0, A.forwardRef)(({ requestClose: e }, t)=>{
+    var Sct = (0, A.forwardRef)(({ requestClose: e }, t)=>{
         let n = W1(), [r] = Y(q, `hideReadReceipts`), i = l0(n, Sq), a = J();
         return (0, j.jsx)(Pn, {
             ref: t,
@@ -171265,7 +171340,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     });
-    function Sct() {
+    function Cct() {
         let e = du(), t = om(), n = Bo(K1()), r = l0(W1(), Sq), i = PIe(), [a, o] = (0, A.useState)(), s = ()=>{
             let r = n.get(`rooms`);
             if (r && t !== am.Mobile) {
@@ -171318,7 +171393,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             isKeyBackward: (e)=>e.key === `ArrowUp`,
                             escapeDeactivates: nm
                         },
-                        children: (0, j.jsx)(xct, {
+                        children: (0, j.jsx)(Sct, {
                             requestClose: ()=>o(void 0)
                         })
                     })
@@ -171326,24 +171401,24 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Cct(e, t) {
+    function wct(e, t) {
         var n = Object.keys(e), r = Object.keys(t);
         return n.length === r.length && n.every(function(n) {
             return Object.is(e[n], t[n]);
         });
     }
-    function wct() {
-        var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : Cct, t = null;
+    function Tct() {
+        var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : wct, t = null;
         return function(n) {
             return t && e(t.value, n) || (t = {
                 value: n
             }), t.value;
         };
     }
-    var Tct = [
+    var Ect = [
         `block`
     ];
-    function Ect(e, t) {
+    function Dct(e, t) {
         var n = Object.keys(e);
         if (Object.getOwnPropertySymbols) {
             var r = Object.getOwnPropertySymbols(e);
@@ -171353,44 +171428,44 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         return n;
     }
-    function Dct(e) {
+    function Oct(e) {
         for(var t = 1; t < arguments.length; t++){
             var n = arguments[t] == null ? {} : arguments[t];
-            t % 2 ? Ect(Object(n), !0).forEach(function(t) {
+            t % 2 ? Dct(Object(n), !0).forEach(function(t) {
                 U(e, t, n[t]);
-            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : Ect(Object(n)).forEach(function(t) {
+            }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n)) : Dct(Object(n)).forEach(function(t) {
                 Object.defineProperty(e, t, Object.getOwnPropertyDescriptor(n, t));
             });
         }
         return e;
     }
-    var Oct = Symbol(`tree-item-instruction`);
-    function kct(e) {
+    var kct = Symbol(`tree-item-instruction`);
+    function Act(e) {
         return {
             x: (e.right + e.left) / 2,
             y: (e.bottom + e.top) / 2
         };
     }
-    function Act(e) {
+    function jct(e) {
         var t = e.client, n = e.borderBox, r = n.height / 4;
         return t.y <= n.top + r ? `reorder-above` : t.y >= n.bottom - r ? `reorder-below` : `make-child`;
     }
-    function jct(e) {
+    function Mct(e) {
         var t = e.element, n = e.input, r = e.currentLevel, i = e.indentPerLevel, a = e.mode, o = {
             x: n.clientX,
             y: n.clientY
         }, s = t.getBoundingClientRect();
         if (a === `standard`) return {
-            type: Act({
+            type: jct({
                 borderBox: s,
                 client: o
             }),
             indentPerLevel: i,
             currentLevel: r
         };
-        var c = kct(s);
+        var c = Act(s);
         if (a === `expanded`) {
-            var l = Act({
+            var l = jct({
                 borderBox: s,
                 client: o
             });
@@ -171416,7 +171491,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             };
         }
         return {
-            type: Act({
+            type: jct({
                 borderBox: s,
                 client: o
             }),
@@ -171424,32 +171499,32 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             currentLevel: r
         };
     }
-    function Mct(e, t) {
-        return e.type === t.type ? e.type === `instruction-blocked` && t.type === `instruction-blocked` ? Mct(e.desired, t.desired) : Cct(e, t) : !1;
+    function Nct(e, t) {
+        return e.type === t.type ? e.type === `instruction-blocked` && t.type === `instruction-blocked` ? Nct(e.desired, t.desired) : wct(e, t) : !1;
     }
-    var Nct = wct(Mct);
-    function Pct(e) {
+    var Pct = Tct(Nct);
+    function Fct(e) {
         var t = e.desired, n = e.block;
         return n != null && n.includes(t.type) && t.type !== `instruction-blocked` ? {
             type: `instruction-blocked`,
             desired: t
         } : t;
     }
-    function Fct(e, t) {
-        var n = t.block, r = Nct(Pct({
-            desired: jct(dle(t, Tct)),
+    function Ict(e, t) {
+        var n = t.block, r = Pct(Fct({
+            desired: Mct(dle(t, Ect)),
             block: n
         }));
-        return Dct(Dct({}, e), {}, U({}, Oct, r));
+        return Oct(Oct({}, e), {}, U({}, kct, r));
     }
-    function Ict(e) {
-        return e[Oct] ?? null;
+    function Lct(e) {
+        return e[kct] ?? null;
     }
-    var Lct = (0, A.createContext)(null), Rct = Lct.Provider, zct = ()=>{
-        let e = (0, A.useContext)(Lct);
+    var Rct = (0, A.createContext)(null), zct = Rct.Provider, Bct = ()=>{
+        let e = (0, A.useContext)(Rct);
         if (!e) throw Error(`OpenedSidebarFolderAtom is not provided!`);
         return e;
-    }, Bct = (0, A.forwardRef)(({ room: e, requestClose: t, onUnpin: n }, r)=>{
+    }, Vct = (0, A.forwardRef)(({ room: e, requestClose: t, onUnpin: n }, r)=>{
         let i = J(), [a] = Y(q, `hideReadReceipts`), o = Bo(aq), s = CZ(e), c = h1(g1(e), s).action(`invite`, i.getSafeUserId()), l = p7(), [u, d] = (0, A.useState)(!1), f = z1(nq, e.roomId, cIe(i, o)), p = hq(), m = l0(f, Sq);
         return (0, j.jsxs)(Pn, {
             ref: r,
@@ -171620,11 +171695,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
             ]
         });
-    }), Vct = (e, t, n, r)=>{
+    }), Hct = (e, t, n, r)=>{
         let [i, a] = (0, A.useState)(!1);
         return (0, A.useEffect)(()=>{
             let i = t.current, o = r?.current ?? void 0;
-            return i ? iot({
+            return i ? aot({
                 element: i,
                 dragHandle: o,
                 getInitialData: ()=>({
@@ -171643,11 +171718,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e,
             n
         ]), i;
-    }, Hct = (e, t)=>{
+    }, Uct = (e, t)=>{
         let [n, r] = (0, A.useState)();
         return (0, A.useEffect)(()=>{
             let n = t.current;
-            if (n) return not({
+            if (n) return rot({
                 element: n,
                 canDrop: ({ source: t })=>t.data.item !== e,
                 getData: ({ input: t, element: n })=>{
@@ -171655,7 +171730,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         `reparent`
                     ];
                     typeof e == `object` && e.spaceId && i.push(`make-child`);
-                    let a = Ict(Fct({}, {
+                    let a = Lct(Ict({}, {
                         input: t,
                         element: n,
                         currentLevel: 0,
@@ -171676,11 +171751,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t
         ]), n;
     };
-    function Uct(e, t, n) {
+    function Wct(e, t, n) {
         let [r, i] = (0, A.useState)();
         return (0, A.useEffect)(()=>{
             let r = t.current;
-            if (r) return not({
+            if (r) return rot({
                 element: r,
                 canDrop: ({ source: t })=>t.data.item !== e,
                 getData: ()=>(i(n), {
@@ -171696,11 +171771,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n
         ]), r;
     }
-    var Wct = (e, t, n)=>{
+    var Gct = (e, t, n)=>{
         (0, A.useEffect)(()=>{
             let r = e.current;
             if (!r) throw Error(`Scroll element ref not configured`);
-            return d9(rot({
+            return d9(iot({
                 onDrop: ({ source: e, location: r })=>{
                     t(void 0);
                     let { dropTargets: i } = r.current;
@@ -171708,7 +171783,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     let a = e.data.item, o = i[0].data.item, s = i[0].data.instructionType;
                     s && n(a, o, s);
                 }
-            }), Kot({
+            }), qot({
                 element: r
             }));
         }, [
@@ -171717,7 +171792,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n
         ]);
     };
-    function Gct({ space: e, selected: t, activeCallRoomId: n, onClick: r, folder: i, onDragging: a, disabled: o, onUnpin: s }) {
+    function Kct({ space: e, selected: t, activeCallRoomId: n, onClick: r, folder: i, onDragging: a, disabled: o, onUnpin: s }) {
         let c = J(), l = $Y(), u = (0, A.useRef)(null), d = (0, A.useMemo)(()=>i ? {
                 folder: i,
                 spaceId: e.roomId
@@ -171725,15 +171800,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             i,
             e
         ]);
-        Vct(d, u, a);
-        let f = Hct(d, u)?.type, p = _Le(e), m = !!n && bW(e).includes(n), [h, g] = (0, A.useState)(), _ = (e)=>{
+        Hct(d, u, a);
+        let f = Uct(d, u)?.type, p = _Le(e), m = !!n && bW(e).includes(n), [h, g] = (0, A.useState)(), _ = (e)=>{
             e.preventDefault();
             let t = e.currentTarget.getBoundingClientRect();
             g((e)=>{
                 if (!e) return t;
             });
         };
-        return (0, j.jsx)(gct, {
+        return (0, j.jsx)(_ct, {
             roomId: e.roomId,
             children: (n)=>(0, j.jsxs)(S9, {
                     active: t,
@@ -171809,7 +171884,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     isKeyBackward: (e)=>e.key === `ArrowUp`,
                                     escapeDeactivates: nm
                                 },
-                                children: (0, j.jsx)(Bct, {
+                                children: (0, j.jsx)(Vct, {
                                     room: e,
                                     requestClose: ()=>g(void 0),
                                     onUnpin: s
@@ -171820,19 +171895,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function Kct({ folder: e, onClose: t, children: n }) {
+    function qct({ folder: e, onClose: t, children: n }) {
         let r = (0, A.useRef)(null), i = (0, A.useRef)(null), a = (0, A.useMemo)(()=>({
                 folder: e,
                 open: !0
             }), [
             e
-        ]), o = Uct(a, r, `reorder-above`), s = Uct(a, i, `reorder-below`);
-        return (0, j.jsxs)(lct, {
+        ]), o = Wct(a, r, `reorder-above`), s = Wct(a, i, `reorder-below`);
+        return (0, j.jsxs)(uct, {
             state: `Open`,
             "data-drop-above": o === `reorder-above`,
             "data-drop-below": s === `reorder-below`,
             children: [
-                (0, j.jsx)(uct, {
+                (0, j.jsx)(dct, {
                     ref: r,
                     position: `Top`
                 }),
@@ -171851,22 +171926,22 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     })
                 }),
                 n,
-                (0, j.jsx)(uct, {
+                (0, j.jsx)(dct, {
                     ref: i,
                     position: `Bottom`
                 })
             ]
         });
     }
-    function qct({ folder: e, selected: t, onOpen: n, onDragging: r, disabled: i }) {
+    function Jct({ folder: e, selected: t, onOpen: n, onDragging: r, disabled: i }) {
         let a = J(), o = $Y(), s = (0, A.useRef)(null), c = (0, A.useMemo)(()=>({
                 folder: e
             }), [
             e
         ]);
-        Vct(c, s, r);
-        let l = Hct(c, s)?.type, u = e.name ?? e.content.map((e)=>a.getRoom(e)?.name ?? ``).join(`, `) ?? `Unnamed`;
-        return (0, j.jsx)(_ct, {
+        Hct(c, s, r);
+        let l = Uct(c, s)?.type, u = e.name ?? e.content.map((e)=>a.getRoom(e)?.name ?? ``).join(`, `) ?? `Unnamed`;
+        return (0, j.jsx)(vct, {
             rooms: e.content,
             children: (r)=>(0, j.jsxs)(S9, {
                     active: t,
@@ -171878,7 +171953,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     children: [
                         (0, j.jsx)(w9, {
                             tooltip: i ? void 0 : u,
-                            children: (t)=>(0, j.jsx)(lct, {
+                            children: (t)=>(0, j.jsx)(uct, {
                                     "data-id": e.id,
                                     as: `button`,
                                     ref: t,
@@ -171914,9 +171989,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function Jct({ scrollRef: e }) {
-        let t = du(), n = J(), r = om(), i = V1(n, nq, Bo(aq)), [a, o] = rst(i), s = Bo(K1()), [c, l] = Ho(zct()), [u, d] = (0, A.useState)(), f = Z0(), p = $0(f) ? f?.roomId : void 0;
-        Wct(e, d, (0, A.useCallback)((e, t, r)=>{
+    function Yct({ scrollRef: e }) {
+        let t = du(), n = J(), r = om(), i = V1(n, nq, Bo(aq)), [a, o] = ist(i), s = Bo(K1()), [c, l] = Ho(Bct()), [u, d] = (0, A.useState)(), f = Z0(), p = $0(f) ? f?.roomId : void 0;
+        Gct(e, d, (0, A.useCallback)((e, t, r)=>{
             let s = [], c = (e, t)=>typeof e == `string` && typeof t == `string` ? e === t : typeof e == `object` && typeof t == `object` && e.id === t.folder.id, u = (e)=>typeof e == `string` ? [
                     e
                 ] : e.spaceId ? [
@@ -171993,7 +172068,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 }
                 s.push(n);
             });
-            let d = ast(n, s);
+            let d = ost(n, s);
             o(v9(n, i, d)), n.setAccountData(MH.CinnySpaces, d);
         }, [
             n,
@@ -172024,7 +172099,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             });
         }, _ = (0, A.useCallback)((e)=>{
             if (i.includes(e)) return;
-            let t = ist(a, e), r = ast(n, t);
+            let t = ast(a, e), r = ost(n, t);
             o(v9(n, i, r)), n.setAccountData(MH.CinnySpaces, r);
         }, [
             n,
@@ -172037,12 +172112,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 (0, j.jsx)(D9, {}),
                 (0, j.jsx)(E9, {
                     children: a.map((e)=>{
-                        if (typeof e == `object`) return c.has(e.id) ? (0, j.jsx)(Kct, {
+                        if (typeof e == `object`) return c.has(e.id) ? (0, j.jsx)(qct, {
                             folder: e,
                             onClose: g,
                             children: e.content.map((t)=>{
                                 let r = n.getRoom(t);
-                                return r ? (0, j.jsx)(Gct, {
+                                return r ? (0, j.jsx)(Kct, {
                                     space: r,
                                     selected: r.roomId === m,
                                     activeCallRoomId: p,
@@ -172053,7 +172128,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     onUnpin: i.includes(r.roomId) ? void 0 : _
                                 }, r.roomId) : null;
                             })
-                        }, e.id) : (0, j.jsx)(qct, {
+                        }, e.id) : (0, j.jsx)(Jct, {
                             folder: e,
                             selected: !!m && e.content.includes(m),
                             onOpen: g,
@@ -172061,7 +172136,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             disabled: typeof u == `object` && u.folder.id === e.id
                         }, e.id);
                         let t = n.getRoom(e);
-                        return t ? (0, j.jsx)(Gct, {
+                        return t ? (0, j.jsx)(Kct, {
                             space: t,
                             selected: t.roomId === m,
                             activeCallRoomId: p,
@@ -172075,7 +172150,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Yct() {
+    function Xct() {
         let e = om(), t = du(), n = JJ(), r = Dwe(), i = Bo(eq).length, a = ()=>{
             if (e === am.Mobile) {
                 t(FG());
@@ -172109,7 +172184,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Xct() {
+    function Zct() {
         let e = J(), t = om(), n = Qf(), r = du(), i = Bo(K1()), a = m8e(), o = ()=>{
             if (t === am.Mobile) {
                 r(MG());
@@ -172148,7 +172223,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Zct() {
+    function Qct() {
         let e = J(), t = $Y(), n = e.getUserId(), r = QY(n), [i, a] = (0, A.useState)(!1), o = r.displayName ?? UW(n) ?? n, s = r.avatarUrl ? iG(e, r.avatarUrl, t, 96, 96, `crop`) ?? void 0 : void 0, c = ()=>a(!0), l = ()=>a(!1);
         return (0, j.jsxs)(S9, {
             active: i,
@@ -172178,7 +172253,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Qct() {
+    function $ct() {
         let e = J(), t = e.getCrypto(), [n] = Mke(), [r, i] = Pke(n), a = rZ(t, e.getSafeUserId(), r?.device_id) === nZ.Unverified, o = Nke(i), s = dAe(t, e.getSafeUserId(), o), [c, l] = (0, A.useState)(!1), u = ()=>l(!1);
         return (0, j.jsxs)(j.Fragment, {
             children: [
@@ -172229,10 +172304,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function $ct() {
-        return eZ() ? (0, j.jsx)(Qct, {}) : null;
-    }
     function elt() {
+        return eZ() ? (0, j.jsx)($ct, {}) : null;
+    }
+    function tlt() {
         let [e, t] = Ho(T7e), n = ()=>t(!0);
         return (0, j.jsx)(S9, {
             active: e,
@@ -172251,13 +172326,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var tlt = ()=>!!cu({
+    var nlt = ()=>!!cu({
             path: Iye(),
             caseSensitive: !0,
             end: !1
         });
-    function nlt() {
-        let e = tlt(), t = du(), [n, r] = (0, A.useState)(), [i, a] = (0, A.useState)(!1), o = (e)=>{
+    function rlt() {
+        let e = nlt(), t = du(), [n, r] = (0, A.useState)(), [i, a] = (0, A.useState)(!1), o = (e)=>{
             r(n ? void 0 : e.currentTarget.getBoundingClientRect());
         }, s = ()=>{
             t(Iye()), r(void 0);
@@ -172286,7 +172361,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 children: (0, j.jsxs)(P, {
                                     direction: `Column`,
                                     children: [
-                                        (0, j.jsx)(X, {
+                                        (0, j.jsx)(hY, {
                                             style: {
                                                 padding: N.space.S300
                                             },
@@ -172297,7 +172372,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             as: `button`,
                                             type: `button`,
                                             onClick: s,
-                                            children: (0, j.jsxs)(vY, {
+                                            children: (0, j.jsxs)(X, {
                                                 before: (0, j.jsx)(I, {
                                                     size: `400`,
                                                     src: B.Space
@@ -172315,7 +172390,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 ]
                                             })
                                         }),
-                                        (0, j.jsx)(X, {
+                                        (0, j.jsx)(hY, {
                                             style: {
                                                 padding: N.space.S300
                                             },
@@ -172326,7 +172401,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             as: `button`,
                                             type: `button`,
                                             onClick: c,
-                                            children: (0, j.jsxs)(vY, {
+                                            children: (0, j.jsxs)(X, {
                                                 before: (0, j.jsx)(I, {
                                                     size: `400`,
                                                     src: B.Link
@@ -172376,10 +172451,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function rlt() {
+    function ilt() {
         let e = (0, A.useRef)(null), t = k1();
-        return (0, j.jsx)(cct, {
-            children: (0, j.jsx)(dct, {
+        return (0, j.jsx)(lct, {
+            children: (0, j.jsx)(fct, {
                 scrollable: (0, j.jsxs)(Qn, {
                     ref: e,
                     variant: `Background`,
@@ -172387,20 +172462,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     children: [
                         (0, j.jsxs)(E9, {
                             children: [
-                                (0, j.jsx)(pct, {}),
-                                t.roomsPseudoSpace && (0, j.jsx)(Sct, {}),
-                                t.directTab && (0, j.jsx)(hct, {})
+                                (0, j.jsx)(mct, {}),
+                                t.roomsPseudoSpace && (0, j.jsx)(Cct, {}),
+                                t.directTab && (0, j.jsx)(gct, {})
                             ]
                         }),
-                        t.dmRailButtons && (0, j.jsx)(bct, {}),
-                        (0, j.jsx)(Jct, {
+                        t.dmRailButtons && (0, j.jsx)(xct, {}),
+                        (0, j.jsx)(Yct, {
                             scrollRef: e
                         }),
                         (0, j.jsx)(D9, {}),
                         (0, j.jsxs)(E9, {
                             children: [
-                                (0, j.jsx)(Xct, {}),
-                                (0, j.jsx)(nlt, {})
+                                (0, j.jsx)(Zct, {}),
+                                (0, j.jsx)(rlt, {})
                             ]
                         })
                     ]
@@ -172410,10 +172485,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         (0, j.jsx)(D9, {}),
                         (0, j.jsxs)(E9, {
                             children: [
+                                (0, j.jsx)(tlt, {}),
                                 (0, j.jsx)(elt, {}),
-                                (0, j.jsx)($ct, {}),
-                                !t.topBar && (0, j.jsx)(Yct, {}),
-                                !t.topBarProfile && (0, j.jsx)(Zct, {})
+                                !t.topBar && (0, j.jsx)(Xct, {}),
+                                !t.topBarProfile && (0, j.jsx)(Qct, {})
                             ]
                         })
                     ]
@@ -172421,7 +172496,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function ilt({ children: e }) {
+    function alt({ children: e }) {
         let t = om(), n = cu({
             path: pp,
             caseSensitive: !0,
@@ -172451,11 +172526,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             children: t
         });
     }
-    var alt, olt = (e)=>{
-        alt = e;
-    }, slt = ()=>alt;
-    function clt() {
-        let e = J(), t = slt(), n = t ? e.getRoom(t) : void 0;
+    var olt, slt = (e)=>{
+        olt = e;
+    }, clt = ()=>olt;
+    function llt() {
+        let e = J(), t = clt(), n = t ? e.getRoom(t) : void 0;
         return n ? (0, j.jsx)(`div`, {
             "aria-hidden": !0,
             style: {
@@ -172478,12 +172553,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function k9({ children: e }) {
         let t = om(), n = du(), r = J(), i = (0, A.useRef)(null), a = X1(), o = Bo(rq);
         (0, A.useEffect)(()=>{
-            a && olt(a);
+            a && slt(a);
         }, [
             a
         ]);
         let s = (0, A.useCallback)(()=>{
-            let e = a ?? slt();
+            let e = a ?? clt();
             if (e && r.getRoom(e)) {
                 let t = JW(r, e);
                 return Array.from(o.values()).some((t)=>t.includes(e)) ? OG(t) : wG(t);
@@ -172548,7 +172623,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 flexShrink: 0,
                                 display: `flex`
                             },
-                            children: (0, j.jsx)(rlt, {})
+                            children: (0, j.jsx)(ilt, {})
                         }),
                         (0, j.jsx)(`div`, {
                             "data-mobile-swipe-open": l ? `true` : void 0,
@@ -172566,8 +172641,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             children: e
         });
     }
-    var llt = `openedSidebarFolder`, ult = (e)=>{
-        let t = lK(`${llt}${e}`, (e)=>{
+    var ult = `openedSidebarFolder`, dlt = (e)=>{
+        let t = lK(`${ult}${e}`, (e)=>{
             let t = sK(e, []);
             return new Set(t);
         }, (e, t)=>{
@@ -172584,32 +172659,32 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 e.add(r.id);
             }));
         });
-    }, dlt = `callPreferences`, flt = {
+    }, flt = `callPreferences`, plt = {
         microphone: !0,
         video: !1,
         sound: !0
-    }, plt = (e)=>lK(`${dlt}${e}`, (e)=>sK(e, flt), (e, t)=>{
+    }, mlt = (e)=>lK(`${flt}${e}`, (e)=>sK(e, plt), (e, t)=>{
             cK(e, t);
         });
-    function mlt({ children: e }) {
+    function hlt({ children: e }) {
         let t = J().getUserId(), n = (0, A.useMemo)(()=>D6e(t), [
             t
-        ]), r = (0, A.useMemo)(()=>Uit(t), [
+        ]), r = (0, A.useMemo)(()=>Wit(t), [
             t
         ]), i = (0, A.useMemo)(()=>bxe(t), [
             t
-        ]), a = (0, A.useMemo)(()=>ult(t), [
+        ]), a = (0, A.useMemo)(()=>dlt(t), [
             t
-        ]), o = (0, A.useMemo)(()=>plt(t), [
+        ]), o = (0, A.useMemo)(()=>mlt(t), [
             t
         ]);
         return (0, j.jsx)(Z6e, {
             value: n,
-            children: (0, j.jsx)(tst, {
+            children: (0, j.jsx)(nst, {
                 value: r,
                 children: (0, j.jsx)(pIe, {
                     value: i,
-                    children: (0, j.jsx)(Rct, {
+                    children: (0, j.jsx)(zct, {
                         value: a,
                         children: (0, j.jsx)(FLe, {
                             value: o,
@@ -172620,27 +172695,27 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var hlt = `/assets/prinny-unread-BZ1rSVi0.svg`, glt = `/assets/prinny-highlight-CO1bFsCX.svg`, _lt = `/assets/notification-EtLMRd0T.ogg`, vlt = `/assets/invite-DROg5x7-.ogg`, A9 = 64, ylt = `#1245A8`, blt = `#9D0F0F`, xlt = new Map, Slt = (e)=>new Promise((t, n)=>{
+    var glt = `/assets/prinny-unread-BZ1rSVi0.svg`, _lt = `/assets/prinny-highlight-CO1bFsCX.svg`, vlt = `/assets/notification-EtLMRd0T.ogg`, ylt = `/assets/invite-DROg5x7-.ogg`, A9 = 64, blt = `#1245A8`, xlt = `#9D0F0F`, Slt = new Map, Clt = (e)=>new Promise((t, n)=>{
             let r = new Image;
             r.onload = ()=>t(r), r.onerror = ()=>n(Error(`favicon base image failed to load: ${e}`)), r.src = e;
-        }), Clt = async (e, t, n)=>{
+        }), wlt = async (e, t, n)=>{
         if (t <= 0) return;
-        let r = `${e}|${t}|${n}`, i = xlt.get(r);
+        let r = `${e}|${t}|${n}`, i = Slt.get(r);
         if (i) return i;
         try {
-            let i = await Slt(e), a = document.createElement(`canvas`);
+            let i = await Clt(e), a = document.createElement(`canvas`);
             a.width = A9, a.height = A9;
             let o = a.getContext(`2d`);
             if (!o) return;
             o.drawImage(i, 0, 0, A9, A9);
             let s = t > 99 ? `99+` : String(t), c = s.length > 2, l = c ? 22 : 19, u = A9 - l - 2, d = A9 - l - 2;
-            o.beginPath(), o.arc(u, d, l + 4, 0, Math.PI * 2), o.fillStyle = `#FFFFFF`, o.fill(), o.beginPath(), o.arc(u, d, l, 0, Math.PI * 2), o.fillStyle = n ? blt : ylt, o.fill(), o.fillStyle = `#FFFFFF`, o.font = `bold ${c ? 20 : 26}px system-ui, sans-serif`, o.textAlign = `center`, o.textBaseline = `middle`, o.fillText(s, u, d + 1);
+            o.beginPath(), o.arc(u, d, l + 4, 0, Math.PI * 2), o.fillStyle = `#FFFFFF`, o.fill(), o.beginPath(), o.arc(u, d, l, 0, Math.PI * 2), o.fillStyle = n ? xlt : blt, o.fill(), o.fillStyle = `#FFFFFF`, o.font = `bold ${c ? 20 : 26}px system-ui, sans-serif`, o.textAlign = `center`, o.textBaseline = `middle`, o.fillText(s, u, d + 1);
             let f = a.toDataURL(`image/png`);
-            return xlt.set(r, f), f;
+            return Slt.set(r, f), f;
         } catch  {
             return;
         }
-    }, wlt = (e, t)=>{
+    }, Tlt = (e, t)=>{
         let n = (0, A.useRef)(t);
         return (0, A.useEffect)(()=>{
             n.current = e;
@@ -172648,14 +172723,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), n.current;
     };
-    function Tlt() {
+    function Elt() {
         let [e] = Y(q, `minimizeToTray`), t = (0, A.useRef)(e);
         t.current = e;
         let n = (0, A.useRef)(!1);
         (0, A.useEffect)(()=>{
             !fK() || n.current || (n.current = !0, (async ()=>{
                 let { TrayIcon: e } = await l(async ()=>{
-                    let { TrayIcon: e } = await import(`./tray-pYNH_QoN.js`).then(async (m)=>{
+                    let { TrayIcon: e } = await import(`./tray-D00h4Fz4.js`).then(async (m)=>{
                         await m.__tla;
                         return m;
                     });
@@ -172663,7 +172738,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         TrayIcon: e
                     };
                 }, __vite__mapDeps([13,1])), { Menu: n } = await l(async ()=>{
-                    let { Menu: e } = await import(`./menu-AVWFNJJ9.js`).then(async (m)=>{
+                    let { Menu: e } = await import(`./menu-Cyh6ecuE.js`).then(async (m)=>{
                         await m.__tla;
                         return m;
                     });
@@ -172671,7 +172746,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         Menu: e
                     };
                 }, __vite__mapDeps([14,1])), { defaultWindowIcon: r } = await l(async ()=>{
-                    let { defaultWindowIcon: e } = await import(`./app-HVV-Blb8.js`).then(async (m)=>{
+                    let { defaultWindowIcon: e } = await import(`./app-_VI4_tR-.js`).then(async (m)=>{
                         await m.__tla;
                         return m;
                     });
@@ -172679,7 +172754,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         defaultWindowIcon: e
                     };
                 }, __vite__mapDeps([15,1])), { getCurrentWindow: i } = await l(async ()=>{
-                    let { getCurrentWindow: e } = await Promise.resolve().then(()=>Klt);
+                    let { getCurrentWindow: e } = await Promise.resolve().then(()=>qlt);
                     return {
                         getCurrentWindow: e
                     };
@@ -172724,7 +172799,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })());
         }, []);
     }
-    var Elt = ()=>{
+    var Dlt = ()=>{
         let [e] = Y(q, `contentProtection`);
         (0, A.useEffect)(()=>{
             fK() && a(`set_content_protection`, {
@@ -172734,7 +172809,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]);
     };
-    function Dlt() {
+    function Olt() {
         let e = (0, A.useRef)(typeof document > `u` || document.hasFocus());
         return (0, A.useEffect)(()=>{
             let t = ()=>{
@@ -172749,7 +172824,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return fK() && (async ()=>{
                 try {
                     let { getCurrentWindow: t } = await l(async ()=>{
-                        let { getCurrentWindow: e } = await Promise.resolve().then(()=>Klt);
+                        let { getCurrentWindow: e } = await Promise.resolve().then(()=>qlt);
                         return {
                             getCurrentWindow: e
                         };
@@ -172765,8 +172840,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             };
         }, []), e;
     }
-    var Olt = ()=>{
-        let e = J(), [t] = Y(q, `autoJoinSpaceRooms`), n = B1(e, nq), r = Bo(Lit), [i] = rst(V1(e, nq, Bo(aq))), a = (0, A.useRef)(new Set), [o, s] = yZ();
+    var klt = ()=>{
+        let e = J(), [t] = Y(q, `autoJoinSpaceRooms`), n = B1(e, nq), r = Bo(Rit), [i] = ist(V1(e, nq, Bo(aq))), a = (0, A.useRef)(new Set), [o, s] = yZ();
         cq(e, (0, A.useCallback)((e)=>{
             let t = e.getType();
             (t === K.SpaceAutoJoin || t === K.SpaceChild) && s();
@@ -172836,19 +172911,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             r,
             l
         ]);
-    }, klt = (e)=>{
-        if (!(e === void 0 || !Number.isFinite(e) || e <= 0)) return e > 0xe8d4a51000 ? e : e * 1e3;
     }, Alt = (e)=>{
+        if (!(e === void 0 || !Number.isFinite(e) || e <= 0)) return e > 0xe8d4a51000 ? e : e * 1e3;
+    }, jlt = (e)=>{
         if (e) try {
             let t = new URL(e);
             return t.protocol === `http:` || t.protocol === `https:` ? e : void 0;
         } catch  {
             return;
         }
-    }, jlt = (e)=>{
+    }, Mlt = (e)=>{
         let t = e.details, n = e.state;
         if (e.type === 2 && t && n) {
-            let r = klt(e.timestamps?.start), i = klt(e.timestamps?.end), a = r && i && i > r ? {
+            let r = Alt(e.timestamps?.start), i = Alt(e.timestamps?.end), a = r && i && i > r ? {
                 length: Math.round((i - r) / 1e3),
                 time_complete: i
             } : void 0;
@@ -172861,7 +172936,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     progress: a,
                     player: e.name || void 0
                 },
-                coverUrl: Alt(e.assets?.large_image)
+                coverUrl: jlt(e.assets?.large_image)
             };
         }
         let r = e.name || e.details || `Discord`, i = [
@@ -172874,15 +172949,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 name: r,
                 details: Array.from(new Set(i)).join(` · `) || void 0
             },
-            coverUrl: Alt(e.assets?.large_image)
+            coverUrl: jlt(e.assets?.large_image)
         };
-    }, Mlt = (e)=>e.type === $xe, Nlt = (e, t)=>Mlt(e) ? {
+    }, Nlt = (e)=>e.type === $xe, Plt = (e, t)=>Nlt(e) ? {
             ...e,
             cover_art: t
         } : {
             ...e,
             image: t
-        }, Plt = (e, t)=>e === null || t === null ? e === t : JSON.stringify(e) === JSON.stringify(t), Flt = 5e3, Ilt = `rich-presence-activity`, Llt = ()=>{
+        }, Flt = (e, t)=>e === null || t === null ? e === t : JSON.stringify(e) === JSON.stringify(t), Ilt = 5e3, Llt = `rich-presence-activity`, Rlt = ()=>{
         let e = J(), [t] = Y(q, `publishRichPresence`), n = Vo(GOe);
         (0, A.useEffect)(()=>{
             if (!t) {
@@ -172890,7 +172965,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 return;
             }
             let r = !1, i = !1, a = null, o = null, s = 0, c = !1, u, d = new Map, f = new Set, p, m = async ()=>{
-                if (!(r || c) && !Plt(a, o)) {
+                if (!(r || c) && !Flt(a, o)) {
                     c = !0;
                     try {
                         a ? await e.setExtendedProfileProperty(EK, a) : await e.deleteExtendedProfileProperty(EK), o = a, s = Date.now();
@@ -172898,7 +172973,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     c = !1;
                 }
             }, h = (e, t)=>{
-                r || !t || p !== e || !a || (Mlt(a) ? a.cover_art : a.image) || (a = Nlt(a, t), m());
+                r || !t || p !== e || !a || (Nlt(a) ? a.cover_art : a.image) || (a = Plt(a, t), m());
             }, g = (t)=>{
                 if (d.has(t)) {
                     h(t, d.get(t) ?? null);
@@ -172914,14 +172989,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 if (!r) {
                     if (!e) a = null, p = void 0;
                     else {
-                        let { payload: t, coverUrl: n } = jlt(e);
+                        let { payload: t, coverUrl: n } = Mlt(e);
                         a = t, p = n, n && g(n);
                     }
-                    Date.now() - s >= Flt && m();
+                    Date.now() - s >= Ilt && m();
                 }
             }, v = setInterval(()=>{
                 m();
-            }, Flt);
+            }, Ilt);
             return (async ()=>{
                 if (!await KK()) {
                     n(void 0);
@@ -172953,7 +173028,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     return;
                 }
                 if (i = !0, r) return;
-                let o = await t(Ilt, (e)=>_(e.payload));
+                let o = await t(Llt, (e)=>_(e.payload));
                 if (r) {
                     o();
                     return;
@@ -172987,23 +173062,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n
         ]);
     };
-    function Rlt() {
-        return Llt(), null;
+    function zlt() {
+        return Rlt(), null;
     }
-    var zlt = 50, Blt = (e)=>`user:${e}`, Vlt = (e)=>`room:${e}`;
-    function Hlt(e) {
+    var Blt = 50, Vlt = (e)=>`user:${e}`, Hlt = (e)=>`room:${e}`;
+    function Ult(e) {
         let t = Bo(rq), n = Bo(nq), r = $Y();
         (0, A.useEffect)(()=>{
             if (!e) return;
             let i = !1;
             return (async ()=>{
                 if (!await WK() || i) return;
-                let a = e.getAccessToken(), o = r && a ? `Bearer ${a}` : void 0, s = n.map((t)=>e.getRoom(t)).filter((e)=>!!e).sort((e, t)=>t.getLastActiveTimestamp() - e.getLastActiveTimestamp()).slice(0, zlt);
+                let a = e.getAccessToken(), o = r && a ? `Bearer ${a}` : void 0, s = n.map((t)=>e.getRoom(t)).filter((e)=>!!e).sort((e, t)=>t.getLastActiveTimestamp() - e.getLastActiveTimestamp()).slice(0, Blt);
                 for (let n of s){
                     if (i) return;
                     let a = t.has(n.roomId), s = a ? OW(e, n, 96, r) : DW(e, n, 96, r);
                     if (!s) continue;
-                    let c = a ? nG(n, e.getSafeUserId()) : void 0, l = c ? Blt(c) : Vlt(n.roomId);
+                    let c = a ? nG(n, e.getSafeUserId()) : void 0, l = c ? Vlt(c) : Hlt(n.roomId);
                     await Ixe(s, o, e.baseUrl, l).catch(()=>void 0);
                 }
             })().catch(()=>{}), ()=>{
@@ -173016,8 +173091,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             r
         ]);
     }
-    let Ult, M9, Wlt;
-    Ult = class {
+    let Wlt, M9, Glt;
+    Wlt = class {
         constructor(...e){
             this.type = `Logical`, e.length === 1 ? `Logical` in e[0] ? (this.width = e[0].Logical.width, this.height = e[0].Logical.height) : (this.width = e[0].width, this.height = e[0].height) : (this.width = e[0], this.height = e[1]);
         }
@@ -173039,7 +173114,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             this.type = `Physical`, e.length === 1 ? `Physical` in e[0] ? (this.width = e[0].Physical.width, this.height = e[0].Physical.height) : (this.width = e[0].width, this.height = e[0].height) : (this.width = e[0], this.height = e[1]);
         }
         toLogical(e) {
-            return new Ult(this.width / e, this.height / e);
+            return new Wlt(this.width / e, this.height / e);
         }
         [s]() {
             return {
@@ -173056,7 +173131,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             this.size = e;
         }
         toLogical(e) {
-            return this.size instanceof Ult ? this.size : this.size.toLogical(e);
+            return this.size instanceof Wlt ? this.size : this.size.toLogical(e);
         }
         toPhysical(e) {
             return this.size instanceof j9 ? this.size : this.size.toPhysical(e);
@@ -173073,7 +173148,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return this[s]();
         }
     };
-    Wlt = class {
+    Glt = class {
         constructor(...e){
             this.type = `Logical`, e.length === 1 ? `Logical` in e[0] ? (this.x = e[0].Logical.x, this.y = e[0].Logical.y) : (this.x = e[0].x, this.y = e[0].y) : (this.x = e[0], this.y = e[1]);
         }
@@ -173095,7 +173170,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             this.type = `Physical`, e.length === 1 ? `Physical` in e[0] ? (this.x = e[0].Physical.x, this.y = e[0].Physical.y) : (this.x = e[0].x, this.y = e[0].y) : (this.x = e[0], this.y = e[1]);
         }
         toLogical(e) {
-            return new Wlt(this.x / e, this.y / e);
+            return new Glt(this.x / e, this.y / e);
         }
         [s]() {
             return {
@@ -173112,7 +173187,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             this.position = e;
         }
         toLogical(e) {
-            return this.position instanceof Wlt ? this.position : this.position.toLogical(e);
+            return this.position instanceof Glt ? this.position : this.position.toLogical(e);
         }
         toPhysical(e) {
             return this.position instanceof N9 ? this.position : this.position.toPhysical(e);
@@ -173129,7 +173204,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return this[s]();
         }
     };
-    Glt = class e extends i {
+    Klt = class e extends i {
         constructor(e){
             super(e);
         }
@@ -173162,24 +173237,24 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
     };
     F9 = function(e) {
-        return e == null ? null : typeof e == `string` ? e : e instanceof Glt ? e.rid : e;
+        return e == null ? null : typeof e == `string` ? e : e instanceof Klt ? e.rid : e;
     };
-    var Klt = t({
-        CloseRequestedEvent: ()=>qlt,
-        Effect: ()=>$lt,
-        EffectState: ()=>eut,
+    var qlt = t({
+        CloseRequestedEvent: ()=>Jlt,
+        Effect: ()=>eut,
+        EffectState: ()=>tut,
         PhysicalPosition: ()=>N9,
         PhysicalSize: ()=>j9,
-        ProgressBarStatus: ()=>Jlt,
+        ProgressBarStatus: ()=>Ylt,
         UserAttentionType: ()=>I9,
-        Window: ()=>Xlt,
+        Window: ()=>Zlt,
         getAllWindows: ()=>R9,
         getCurrentWindow: ()=>L9
     }), I9;
     (function(e) {
         e[e.Critical = 1] = `Critical`, e[e.Informational = 2] = `Informational`;
     })(I9 ||= {});
-    var qlt = class {
+    var Jlt = class {
         constructor(e){
             this._preventDefault = !1, this.event = e.event, this.id = e.id;
         }
@@ -173189,24 +173264,24 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         isPreventDefault() {
             return this._preventDefault;
         }
-    }, Jlt;
+    }, Ylt;
     (function(e) {
         e.None = `none`, e.Normal = `normal`, e.Indeterminate = `indeterminate`, e.Paused = `paused`, e.Error = `error`;
-    })(Jlt ||= {});
+    })(Ylt ||= {});
     function L9() {
-        return new Xlt(window.__TAURI_INTERNALS__.metadata.currentWindow.label, {
+        return new Zlt(window.__TAURI_INTERNALS__.metadata.currentWindow.label, {
             skip: !0
         });
     }
     async function R9() {
-        return a(`plugin:window|get_all_windows`).then((e)=>e.map((e)=>new Xlt(e, {
+        return a(`plugin:window|get_all_windows`).then((e)=>e.map((e)=>new Zlt(e, {
                     skip: !0
                 })));
     }
-    var Ylt = [
+    var Xlt = [
         `tauri://created`,
         `tauri://error`
-    ], Xlt = class {
+    ], Zlt = class {
         constructor(e, t = {}){
             this.label = e, this.listeners = Object.create(null), t?.skip || a(`plugin:window|create`, {
                 options: {
@@ -173252,7 +173327,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             });
         }
         async emit(e, t) {
-            if (Ylt.includes(e)) {
+            if (Xlt.includes(e)) {
                 for (let n of this.listeners[e] || [])n({
                     event: e,
                     id: -1,
@@ -173263,7 +173338,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return d(e, t);
         }
         async emitTo(e, t, n) {
-            if (Ylt.includes(t)) {
+            if (Xlt.includes(t)) {
                 for (let e of this.listeners[t] || [])e({
                     event: t,
                     id: -1,
@@ -173274,7 +173349,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return p(e, t, n);
         }
         _handleTauriEvent(e, t) {
-            return Ylt.includes(e) ? (e in this.listeners ? this.listeners[e].push(t) : this.listeners[e] = [
+            return Xlt.includes(e) ? (e in this.listeners ? this.listeners[e].push(t) : this.listeners[e] = [
                 t
             ], !0) : !1;
         }
@@ -173697,7 +173772,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         async onCloseRequested(e) {
             return this.listen(m.WINDOW_CLOSE_REQUESTED, async (t)=>{
-                let n = new qlt(t);
+                let n = new Jlt(t);
                 await e(n), n.isPreventDefault() || await this.destroy();
             });
         }
@@ -173762,29 +173837,29 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         async onThemeChanged(e) {
             return this.listen(m.WINDOW_THEME_CHANGED, e);
         }
-    }, Zlt;
+    }, Qlt;
     (function(e) {
         e.Disabled = `disabled`, e.Throttle = `throttle`, e.Suspend = `suspend`;
-    })(Zlt ||= {});
-    var Qlt;
-    (function(e) {
-        e.Default = `default`, e.FluentOverlay = `fluentOverlay`;
     })(Qlt ||= {});
     var $lt;
     (function(e) {
-        e.AppearanceBased = `appearanceBased`, e.Light = `light`, e.Dark = `dark`, e.MediumLight = `mediumLight`, e.UltraDark = `ultraDark`, e.Titlebar = `titlebar`, e.Selection = `selection`, e.Menu = `menu`, e.Popover = `popover`, e.Sidebar = `sidebar`, e.HeaderView = `headerView`, e.Sheet = `sheet`, e.WindowBackground = `windowBackground`, e.HudWindow = `hudWindow`, e.FullScreenUI = `fullScreenUI`, e.Tooltip = `tooltip`, e.ContentBackground = `contentBackground`, e.UnderWindowBackground = `underWindowBackground`, e.UnderPageBackground = `underPageBackground`, e.Mica = `mica`, e.Blur = `blur`, e.Acrylic = `acrylic`, e.Tabbed = `tabbed`, e.TabbedDark = `tabbedDark`, e.TabbedLight = `tabbedLight`;
+        e.Default = `default`, e.FluentOverlay = `fluentOverlay`;
     })($lt ||= {});
     var eut;
     (function(e) {
-        e.FollowsWindowActiveState = `followsWindowActiveState`, e.Active = `active`, e.Inactive = `inactive`;
+        e.AppearanceBased = `appearanceBased`, e.Light = `light`, e.Dark = `dark`, e.MediumLight = `mediumLight`, e.UltraDark = `ultraDark`, e.Titlebar = `titlebar`, e.Selection = `selection`, e.Menu = `menu`, e.Popover = `popover`, e.Sidebar = `sidebar`, e.HeaderView = `headerView`, e.Sheet = `sheet`, e.WindowBackground = `windowBackground`, e.HudWindow = `hudWindow`, e.FullScreenUI = `fullScreenUI`, e.Tooltip = `tooltip`, e.ContentBackground = `contentBackground`, e.UnderWindowBackground = `underWindowBackground`, e.UnderPageBackground = `underPageBackground`, e.Mica = `mica`, e.Blur = `blur`, e.Acrylic = `acrylic`, e.Tabbed = `tabbed`, e.TabbedDark = `tabbedDark`, e.TabbedLight = `tabbedLight`;
     })(eut ||= {});
-    var tut = {
+    var tut;
+    (function(e) {
+        e.FollowsWindowActiveState = `followsWindowActiveState`, e.Active = `active`, e.Inactive = `inactive`;
+    })(tut ||= {});
+    var nut = {
         roomid: `!`,
         r: `#`,
         u: `@`,
         user: `@`,
         room: `#`
-    }, nut = (e)=>/^[!#@][^\s:]+:[^\s:/]+(?::\d+)?$/.test(e) && e.length <= 255, rut = (e)=>e.startsWith(`$`) && e.length > 1 && e.length <= 255 && !/\s/.test(e), iut = (e)=>{
+    }, rut = (e)=>/^[!#@][^\s:]+:[^\s:/]+(?::\d+)?$/.test(e) && e.length <= 255, iut = (e)=>e.startsWith(`$`) && e.length > 1 && e.length <= 255 && !/\s/.test(e), aut = (e)=>{
         let t;
         try {
             t = new URL(e);
@@ -173794,10 +173869,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         if (t.protocol !== `matrix:`) return;
         let n = t.pathname.replace(/^\/+/, ``).split(`/`).filter((e)=>e !== ``);
         if (n.length < 2) return;
-        let [r, i, ...a] = n, o = tut[r.toLowerCase()];
+        let [r, i, ...a] = n, o = nut[r.toLowerCase()];
         if (!o) return;
         let s = decodeURIComponent(i), c = s.startsWith(o) ? s : `${o}${s}`;
-        if (!nut(c)) return;
+        if (!rut(c)) return;
         if (o === `@`) return {
             kind: `user`,
             userId: c
@@ -173805,7 +173880,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         let l = t.searchParams.getAll(`via`).filter((e)=>e !== `` && !/\s/.test(e)).slice(0, 10);
         if (a.length >= 2 && a[0].toLowerCase() === `e`) {
             let e = `$${decodeURIComponent(a[1]).replace(/^\$/, ``)}`;
-            if (rut(e)) return {
+            if (iut(e)) return {
                 kind: `room`,
                 roomIdOrAlias: c,
                 eventId: e,
@@ -173817,7 +173892,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             roomIdOrAlias: c,
             viaServers: l
         };
-    }, aut = (e)=>{
+    }, out = (e)=>{
         let t;
         try {
             t = new URL(e);
@@ -173828,7 +173903,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         let n = t.hash.replace(/^#\/?/, ``);
         if (!n) return;
         let r = n.indexOf(`?`), i = r === -1 ? `` : n.slice(r + 1), [a, o] = (r === -1 ? n : n.slice(0, r)).split(`/`), s = decodeURIComponent(a);
-        if (!nut(s)) return;
+        if (!rut(s)) return;
         if (s.startsWith(`@`)) return {
             kind: `user`,
             userId: s
@@ -173836,7 +173911,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         let c = new URLSearchParams(i).getAll(`via`).filter((e)=>e !== `` && !/\s/.test(e)).slice(0, 10);
         if (o) {
             let e = decodeURIComponent(o);
-            if (rut(e)) return {
+            if (iut(e)) return {
                 kind: `room`,
                 roomIdOrAlias: s,
                 eventId: e,
@@ -173848,13 +173923,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             roomIdOrAlias: s,
             viaServers: c
         };
-    }, out = (e)=>{
+    }, sut = (e)=>{
         let t = e.trim();
-        return t.toLowerCase().startsWith(`matrix:`) ? iut(t) : aut(t);
-    }, sut = ()=>{
+        return t.toLowerCase().startsWith(`matrix:`) ? aut(t) : out(t);
+    }, cut = ()=>{
         let e = J(), t = du(), { navigateRoom: n, navigateSpace: r } = h2();
         return (0, A.useCallback)((i)=>{
-            let a = out(i);
+            let a = sut(i);
             if (!a) return !1;
             if (a.kind === `user`) {
                 let t = e.getRooms().find((e)=>e.getMyMembership() === `join` && e.getJoinedMemberCount() === 2 && e.getMember(a.userId));
@@ -173873,8 +173948,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             r
         ]);
     };
-    function cut() {
-        let e = sut();
+    function lut() {
+        let e = cut();
         return (0, A.useEffect)(()=>{
             let t = (t)=>{
                 if (t.button !== 0 || t.metaKey || t.ctrlKey || t.shiftKey || t.altKey) return;
@@ -173911,7 +173986,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), null;
     }
-    var lut = /^@[^\s:]+:[^\s/]+$/, uut = (e)=>{
+    var uut = /^@[^\s:]+:[^\s/]+$/, dut = (e)=>{
         let t;
         try {
             t = new URL(e);
@@ -173932,7 +174007,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         } catch  {
             return null;
         }
-        if (!lut.test(r)) return null;
+        if (!uut.test(r)) return null;
         let i = t.searchParams.get(`start`);
         return i === null ? {
             userId: r
@@ -173940,11 +174015,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             userId: r,
             payload: i
         } : null;
-    }, dut = (e)=>e ? `/start ${e}` : `/start`, fut = {
+    }, fut = (e)=>e ? `/start ${e}` : `/start`, put = {
         padding: `0 ${N.space.S200} 0 ${N.space.S400}`,
         borderBottomWidth: N.borderWidth.B300
     };
-    function put() {
+    function mut() {
         let e = J(), { navigateRoom: t } = h2(), [n, r] = (0, A.useState)(null), [i, a] = Xf((0, A.useCallback)(async (n)=>{
             let r = tG(e, n.userId)?.roomId;
             return r || (r = (await e.createRoom({
@@ -173959,13 +174034,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 ]
             })).room_id, await rG(e, r, n.userId)), await e.sendMessage(r, {
                 msgtype: qI.Text,
-                body: dut(n.payload)
+                body: fut(n.payload)
             }), t(r), r;
         }, [
             e,
             t
         ])), o = (0, A.useCallback)((e)=>{
-            let t = uut(e);
+            let t = dut(e);
             return t ? (r(t), !0) : !1;
         }, []);
         (0, A.useEffect)(()=>{
@@ -174023,7 +174098,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         variant: `Surface`,
                         children: [
                             (0, j.jsxs)(Dn, {
-                                style: fut,
+                                style: put,
                                 variant: `Surface`,
                                 size: `500`,
                                 children: [
@@ -174072,7 +174147,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             (0, j.jsx)(z, {
                                                 size: `T300`,
                                                 children: (0, j.jsx)(`code`, {
-                                                    children: dut(n.payload)
+                                                    children: fut(n.payload)
                                                 })
                                             })
                                         ]
@@ -174126,14 +174201,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var mut = (e)=>{
+    var hut = (e)=>{
         if (typeof e != `object` || !e) return !1;
         let t = e;
         return typeof t.text != `string` || typeof t.subject != `string` || !Array.isArray(t.files) ? !1 : t.files.every((e)=>typeof e == `object` && !!e && typeof e.token == `string`);
-    }, hut = (e)=>{
+    }, gut = (e)=>{
         let { text: t, subject: n } = e;
         return n ? t ? t.includes(n) ? t : `${n}\n${t}` : n : t;
-    }, gut = async (e)=>{
+    }, _ut = async (e)=>{
         let { invoke: t } = await l(async ()=>{
             let { invoke: e } = await import(`./core-_Ucixcrw.js`).then(async (m)=>{
                 await m.__tla;
@@ -174151,7 +174226,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ], n.name, {
             type: n.mime
         });
-    }, _ut = async (e)=>{
+    }, vut = async (e)=>{
         if (!fK()) return ()=>{};
         try {
             let { addPluginListener: t, invoke: n } = await l(async ()=>{
@@ -174164,7 +174239,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     invoke: t
                 };
             }, []), r = await t(`share-target`, `share-received`, (t)=>{
-                if (!mut(t)) {
+                if (!hut(t)) {
                     console.error(`[share] Ignoring share payload of unexpected shape:`, t);
                     return;
                 }
@@ -174179,7 +174254,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         } catch (e) {
             return console.error(`[share] Failed to register share-received listener:`, e), ()=>{};
         }
-    }, vut = {
+    }, yut = {
         limit: 1e3,
         matchOptions: {
             contain: !0
@@ -174187,7 +174262,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         normalizeOptions: {
             ignoreWhitespace: !1
         }
-    }, yut = (e)=>e.split(`
+    }, but = (e)=>e.split(`
 `).map((e)=>({
                 type: l5.Paragraph,
                 children: [
@@ -174196,7 +174271,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     }
                 ]
             }));
-    function but({ payload: e, requestClose: t }) {
+    function xut({ payload: e, requestClose: t }) {
         let n = J(), r = No(), i = $Y(), { navigateRoom: a } = h2(), o = (0, A.useRef)(null), s = Bo(rq), c = H1(n, nq, s), l = U1(n, nq, s), u = j0(A0()), [d, f] = (0, A.useState)(), p = (0, A.useMemo)(()=>[
                 ...l,
                 ...c
@@ -174206,7 +174281,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n
         ]), [m, h, g] = P0(p, (0, A.useCallback)((e)=>u(e)?.name ?? e, [
             u
-        ]), vut), _ = m ? m.items : p, v = Y1({
+        ]), yut), _ = m ? m.items : p, v = Y1({
             count: _.length,
             getScrollElement: ()=>o.current,
             estimateSize: ()=>40,
@@ -174224,11 +174299,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }, [S, C] = Xf((0, A.useCallback)(async (t)=>{
             let n = u(t);
             if (!n) throw Error(`That room is no longer available.`);
-            let i = hut(e);
-            i && r.set(oDe(t), yut(i));
+            let i = gut(e);
+            i && r.set(oDe(t), but(i));
             let a = [];
             for (let t of e.files)try {
-                a.push(await gut(t.token));
+                a.push(await _ut(t.token));
             } catch (e) {
                 console.error(`[share] Could not read a shared file:`, e);
             }
@@ -174430,7 +174505,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             (0, j.jsx)(z, {
                                                 size: `T200`,
                                                 priority: `300`,
-                                                children: k > 0 ? `${k} ${k === 1 ? `file` : `files`}${hut(e) ? ` and text` : ``} will be added to the composer — nothing is sent until you send it.` : `This will be added to the composer — nothing is sent until you send it.`
+                                                children: k > 0 ? `${k} ${k === 1 ? `file` : `files`}${gut(e) ? ` and text` : ``} will be added to the composer — nothing is sent until you send it.` : `This will be added to the composer — nothing is sent until you send it.`
                                             }),
                                             E && T && (0, j.jsxs)(z, {
                                                 size: `T200`,
@@ -174489,32 +174564,32 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function xut() {
+    function Sut() {
         let [e, t] = (0, A.useState)(null);
         return (0, A.useEffect)(()=>{
             let e, n = !1;
-            return _ut((e)=>t(e)).then((t)=>{
+            return vut((e)=>t(e)).then((t)=>{
                 n ? t() : e = t;
             }), ()=>{
                 n = !0, e?.();
             };
-        }, []), e ? (0, j.jsx)(but, {
+        }, []), e ? (0, j.jsx)(xut, {
             payload: e,
             requestClose: ()=>t(null)
         }) : null;
     }
-    function Sut() {
+    function Cut() {
         let [e] = Y(q, `twitterEmoji`);
         return e ? document.documentElement.style.setProperty(`--font-emoji`, `Twemoji`) : document.documentElement.style.setProperty(`--font-emoji`, `Twemoji_DISABLED`), null;
     }
-    function Cut() {
+    function wut() {
         let [e] = Y(q, `pageZoom`);
         return e === 100 ? document.documentElement.style.removeProperty(`font-size`) : document.documentElement.style.setProperty(`font-size`, `calc(1em * ${e / 100})`), null;
     }
-    function wut() {
-        return Tlt(), Elt(), null;
-    }
     function Tut() {
+        return Elt(), Dlt(), null;
+    }
+    function Eut() {
         let e = Bo(Sq);
         return (0, A.useEffect)(()=>{
             let t = 0, n = !1;
@@ -174524,9 +174599,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 JY(hp);
                 return;
             }
-            JY(n ? glt : hlt);
+            JY(n ? _lt : glt);
             let r = !0;
-            return Clt(hp, t, n).then((e)=>{
+            return wlt(hp, t, n).then((e)=>{
                 r && e && JY(e);
             }), ()=>{
                 r = !1;
@@ -174535,7 +174610,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), null;
     }
-    function Eut() {
+    function Dut() {
         let e = Bo(Sq);
         return (0, A.useEffect)(()=>{
             if (!fK()) return;
@@ -174559,9 +174634,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), null;
     }
-    function Dut() {
-        let e = (0, A.useRef)(null), t = Bo(eq), n = wlt(t.length, 0), r = J();
-        Hlt(r);
+    function Out() {
+        let e = (0, A.useRef)(null), t = Bo(eq), n = Tlt(t.length, 0), r = J();
+        Ult(r);
         let i = du(), [a] = Y(q, `showNotifications`), [o] = Y(q, `isNotificationSounds`), s = (0, A.useCallback)((e)=>{
             if (fK() && vK(`Invitation`, {
                 icon: hp,
@@ -174598,13 +174673,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 display: `none`
             },
             children: (0, j.jsx)(`source`, {
-                src: vlt,
+                src: ylt,
                 type: `audio/ogg`
             })
         });
     }
-    function Out() {
-        let e = (0, A.useRef)(null), t = (0, A.useRef)(new Map), n = J(), r = $Y(), [i] = Y(q, `showNotifications`), [a] = Y(q, `isNotificationSounds`), [o] = Y(q, `notificationContentMode`), { navigateRoom: s } = h2(), c = Dlt(), l = Owe(), u = X1(), d = Bo(rq), f = Bo(aq), p = (0, A.useCallback)(({ title: e, roomAvatar: t, notificationBody: i, roomId: a, eventId: c })=>{
+    function kut() {
+        let e = (0, A.useRef)(null), t = (0, A.useRef)(new Map), n = J(), r = $Y(), [i] = Y(q, `showNotifications`), [a] = Y(q, `isNotificationSounds`), [o] = Y(q, `notificationContentMode`), { navigateRoom: s } = h2(), c = Olt(), l = Owe(), u = X1(), d = Bo(rq), f = Bo(aq), p = (0, A.useCallback)(({ title: e, roomAvatar: t, notificationBody: i, roomId: a, eventId: c })=>{
             let l = n.getAccessToken(), u = r && l ? `Bearer ${l}` : void 0;
             if (fK() && vK(e, {
                 icon: t,
@@ -174712,35 +174787,35 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 display: `none`
             },
             children: (0, j.jsx)(`source`, {
-                src: _lt,
+                src: vlt,
                 type: `audio/ogg`
             })
         });
     }
-    function kut() {
-        return Olt(), null;
+    function Aut() {
+        return klt(), null;
     }
-    function Aut({ children: e }) {
+    function jut({ children: e }) {
         return (0, j.jsxs)(j.Fragment, {
             children: [
-                (0, j.jsx)(Sut, {}),
                 (0, j.jsx)(Cut, {}),
-                (0, j.jsx)(Tut, {}),
-                (0, j.jsx)(Eut, {}),
                 (0, j.jsx)(wut, {}),
+                (0, j.jsx)(Eut, {}),
                 (0, j.jsx)(Dut, {}),
+                (0, j.jsx)(Tut, {}),
                 (0, j.jsx)(Out, {}),
-                (0, j.jsx)(D7e, {}),
-                (0, j.jsx)(cut, {}),
-                (0, j.jsx)(put, {}),
-                (0, j.jsx)(xut, {}),
                 (0, j.jsx)(kut, {}),
-                (0, j.jsx)(Rlt, {}),
+                (0, j.jsx)(D7e, {}),
+                (0, j.jsx)(lut, {}),
+                (0, j.jsx)(mut, {}),
+                (0, j.jsx)(Sut, {}),
+                (0, j.jsx)(Aut, {}),
+                (0, j.jsx)(zlt, {}),
                 e
             ]
         });
     }
-    function jut() {
+    function Mut() {
         let e = kY();
         return (0, A.useEffect)(()=>{
             document.body.className = ``, document.body.classList.add(wt, Tt), e === TY.Dark && document.body.classList.add(...DY.classNames), e === TY.Light && document.body.classList.add(...EY.classNames);
@@ -174748,7 +174823,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), null;
     }
-    function Mut({ children: e }) {
+    function Nut({ children: e }) {
         let t = FTe(), [n] = Y(q, `monochromeMode`), [r] = Y(q, `lowAnimationMode`);
         return (0, A.useEffect)(()=>{
             document.body.className = ``, document.body.classList.add(wt, Tt), document.body.classList.add(...t.classNames), r && document.body.classList.add(`low-animation-mode`), n ? document.body.style.filter = `grayscale(1)` : document.body.style.filter = ``;
@@ -174761,7 +174836,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             children: e
         });
     }
-    var z9 = `_1aclz590`, Nut = (e)=>{
+    var z9 = `_1aclz590`, Put = (e)=>{
         let t = bZ(e, K.RoomCanonicalAlias)?.getContent();
         return [
             t?.alias,
@@ -174774,7 +174849,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 t
             ])
         ];
-    }, Put = (e)=>{
+    }, Fut = (e)=>{
         let t = J();
         return (0, A.useCallback)(async (n)=>{
             let r = pW(e, K.RoomCanonicalAlias)?.getContent(), i = [];
@@ -174790,7 +174865,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t,
             e
         ]);
-    }, Fut = (e)=>{
+    }, Iut = (e)=>{
         let t = J();
         return {
             publishAliases: (0, A.useCallback)(async (n)=>{
@@ -174822,7 +174897,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 e
             ])
         };
-    }, Iut = (e)=>{
+    }, Lut = (e)=>{
         let t = J(), n = Jf(), [r, i] = Xf((0, A.useCallback)(async ()=>(await t.getLocalAliases(e)).aliases, [
             t,
             e
@@ -174850,15 +174925,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ])
         };
     };
-    function Lut({ permissions: e }) {
-        let t = J(), n = n7(), r = e.stateEvent(K.RoomCanonicalAlias, t.getSafeUserId()), [i, a] = Nut(n), [o, s] = Xf(Put(n)), c = o.status === V.Loading;
-        return (0, j.jsxs)(X, {
+    function Rut({ permissions: e }) {
+        let t = J(), n = n7(), r = e.stateEvent(K.RoomCanonicalAlias, t.getSafeUserId()), [i, a] = Put(n), [o, s] = Xf(Fut(n)), c = o.status === V.Loading;
+        return (0, j.jsxs)(hY, {
             className: z9,
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `400`,
             children: [
-                (0, j.jsx)(vY, {
+                (0, j.jsx)(X, {
                     title: `Published Addresses`,
                     description: (0, j.jsxs)(`span`, {
                         children: [
@@ -174960,7 +175035,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Rut({ addLocalAlias: e }) {
+    function zut({ addLocalAlias: e }) {
         let t = HW(J().getSafeUserId()), n = Jf(), [r, i] = Xf(e), a = r.status === V.Loading;
         return (0, j.jsxs)(P, {
             as: `form`,
@@ -175037,8 +175112,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function zut({ localAliases: e, removeLocalAlias: t, canEditCanonical: n }) {
-        let r = n7(), i = Jf(), [, a] = Nut(r), { publishAliases: o, unpublishAliases: s } = Fut(r), [c, l] = (0, A.useState)([]), u = c.find((e)=>a.includes(e)), d = (e)=>{
+    function But({ localAliases: e, removeLocalAlias: t, canEditCanonical: n }) {
+        let r = n7(), i = Jf(), [, a] = Put(r), { publishAliases: o, unpublishAliases: s } = Iut(r), [c, l] = (0, A.useState)([]), u = c.find((e)=>a.includes(e)), d = (e)=>{
             l((t)=>{
                 if (t.includes(e)) return t.filter((t)=>t !== e);
                 let n = [
@@ -175179,15 +175254,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function But({ permissions: e }) {
-        let t = J(), n = n7(), r = e.stateEvent(K.RoomCanonicalAlias, t.getSafeUserId()), [i, a] = (0, A.useState)(!1), { localAliasesState: o, addLocalAlias: s, removeLocalAlias: c } = Iut(n.roomId);
-        return (0, j.jsxs)(X, {
+    function Vut({ permissions: e }) {
+        let t = J(), n = n7(), r = e.stateEvent(K.RoomCanonicalAlias, t.getSafeUserId()), [i, a] = (0, A.useState)(!1), { localAliasesState: o, addLocalAlias: s, removeLocalAlias: c } = Lut(n.roomId);
+        return (0, j.jsxs)(hY, {
             className: z9,
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `400`,
             children: [
-                (0, j.jsx)(vY, {
+                (0, j.jsx)(X, {
                     title: `Local Addresses`,
                     description: `Set local address so users can join through your homeserver.`,
                     after: (0, j.jsx)(F, {
@@ -175237,7 +175312,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 size: `L400`,
                                 children: `No Addresses`
                             })
-                        }) : (0, j.jsx)(zut, {
+                        }) : (0, j.jsx)(But, {
                             localAliases: o.data,
                             removeLocalAlias: c,
                             canEditCanonical: r
@@ -175254,28 +175329,28 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         })
                     ]
                 }),
-                i && (0, j.jsx)(Rut, {
+                i && (0, j.jsx)(zut, {
                     addLocalAlias: s
                 })
             ]
         });
     }
-    var Vut = `m.megolm.v1.aes-sha2`;
-    function Hut({ permissions: e }) {
-        let t = J(), n = n7(), r = e.stateEvent(K.RoomEncryption, t.getSafeUserId()), i = bZ(n, K.RoomEncryption)?.getContent()?.algorithm === Vut, [a, o] = Xf((0, A.useCallback)(async ()=>{
+    var Hut = `m.megolm.v1.aes-sha2`;
+    function Uut({ permissions: e }) {
+        let t = J(), n = n7(), r = e.stateEvent(K.RoomEncryption, t.getSafeUserId()), i = bZ(n, K.RoomEncryption)?.getContent()?.algorithm === Hut, [a, o] = Xf((0, A.useCallback)(async ()=>{
             await t.sendStateEvent(n.roomId, K.RoomEncryption, {
-                algorithm: Vut
+                algorithm: Hut
             });
         }, [
             t,
             n.roomId
         ])), s = a.status === V.Loading, [c, l] = (0, A.useState)(!1);
-        return (0, j.jsx)(X, {
+        return (0, j.jsx)(hY, {
             className: z9,
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `400`,
-            children: (0, j.jsxs)(vY, {
+            children: (0, j.jsxs)(X, {
                 title: `Room Encryption`,
                 description: i ? `Messages in this room are protected by end-to-end encryption.` : `Once enabled, encryption cannot be disabled!`,
                 after: i ? (0, j.jsx)(pn, {
@@ -175384,19 +175459,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var Uut = ()=>(0, A.useMemo)(()=>({
+    var Wut = ()=>(0, A.useMemo)(()=>({
                 [Uz.Invited]: `After Invite`,
                 [Uz.Joined]: `After Join`,
                 [Uz.Shared]: `All Messages`,
                 [Uz.WorldReadable]: `All Messages (Guests)`
-            }), []), Wut = ()=>(0, A.useMemo)(()=>[
+            }), []), Gut = ()=>(0, A.useMemo)(()=>[
                 Uz.Shared,
                 Uz.Invited,
                 Uz.Joined,
                 Uz.WorldReadable
             ], []);
-    function Gut({ permissions: e }) {
-        let t = J(), n = n7(), r = e.stateEvent(K.RoomHistoryVisibility, t.getSafeUserId()), i = bZ(n, K.RoomHistoryVisibility)?.getContent().history_visibility ?? Uz.Shared, a = Wut(), o = Uut(), [s, c] = (0, A.useState)(), l = (e)=>{
+    function Kut({ permissions: e }) {
+        let t = J(), n = n7(), r = e.stateEvent(K.RoomHistoryVisibility, t.getSafeUserId()), i = bZ(n, K.RoomHistoryVisibility)?.getContent().history_visibility ?? Uz.Shared, a = Gut(), o = Wut(), [s, c] = (0, A.useState)(), l = (e)=>{
             c(e.currentTarget.getBoundingClientRect());
         }, [u, d] = Xf((0, A.useCallback)(async (e)=>{
             let r = {
@@ -175409,12 +175484,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ])), f = u.status === V.Loading, p = (e)=>{
             d(e), c(void 0);
         };
-        return (0, j.jsx)(X, {
+        return (0, j.jsx)(hY, {
             className: z9,
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `400`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 title: `Message History Visibility`,
                 description: `Changes to history visibility will only apply to future messages. The visibility of existing history will have no effect.`,
                 after: (0, j.jsx)(qn, {
@@ -175480,7 +175555,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var Kut = (e)=>(0, A.useMemo)(()=>({
+    var qut = (e)=>(0, A.useMemo)(()=>({
                 [Bz.Invite]: EW(B, e, Bz.Invite),
                 [Bz.Knock]: EW(B, e, Bz.Knock),
                 knock_restricted: EW(B, e, Bz.Restricted),
@@ -175489,7 +175564,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 [Bz.Private]: EW(B, e, Bz.Private)
             }), [
             e
-        ]), qut = ()=>(0, A.useMemo)(()=>({
+        ]), Jut = ()=>(0, A.useMemo)(()=>({
                 [Bz.Invite]: `Invite Only`,
                 [Bz.Knock]: `Knock & Invite`,
                 knock_restricted: `Space Members or Knock`,
@@ -175497,7 +175572,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 [Bz.Public]: `Public`,
                 [Bz.Private]: `Invite Only`
             }), []);
-    function Jut({ icons: e, labels: t, rules: n, value: r, onChange: i, disabled: a, changing: o }) {
+    function Yut({ icons: e, labels: t, rules: n, value: r, onChange: i, disabled: a, changing: o }) {
         let [s, c] = (0, A.useState)(), l = (e)=>{
             c(e.currentTarget.getBoundingClientRect());
         }, u = (0, A.useCallback)((e)=>{
@@ -175574,7 +175649,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Yut({ permissions: e }) {
+    function Xut({ permissions: e }) {
         let t = J(), n = n7(), r = uG(n.getVersion()), i = lG(n.getVersion()), a = cG(n.getVersion()), o = Bo(aq), s = k0(), c = lIe(t, o), l = z1(nq, s?.roomId ?? ``, c), u = e.stateEvent(K.RoomJoinRules, t.getSafeUserId()), d = bZ(n, K.RoomJoinRules)?.getContent()?.join_rule ?? Bz.Invite, f = (0, A.useMemo)(()=>{
             let e = [
                 Bz.Invite
@@ -175585,7 +175660,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             i,
             a,
             s
-        ]), p = Kut(n.getType()), m = qut(), [h, g] = Xf((0, A.useCallback)(async (e)=>{
+        ]), p = qut(n.getType()), m = Jut(), [h, g] = Xf((0, A.useCallback)(async (e)=>{
             let r = [];
             if (e === Bz.Restricted || e === `knock_restricted`) {
                 let e = o.get(n.roomId), t = mW(n, K.SpaceParent).map((e)=>e.getStateKey()).filter((e)=>typeof e == `string`).filter((t)=>e?.has(t));
@@ -175611,15 +175686,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             l,
             o
         ])), _ = h.status === V.Loading;
-        return (0, j.jsx)(X, {
+        return (0, j.jsx)(hY, {
             className: z9,
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `400`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 title: n.isSpaceRoom() ? `Space Access` : `Room Access`,
                 description: n.isSpaceRoom() ? `Change how people can join the space.` : `Change how people can join the room.`,
-                after: (0, j.jsx)(Jut, {
+                after: (0, j.jsx)(Yut, {
                     icons: p,
                     labels: m,
                     rules: f,
@@ -175638,7 +175713,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Xut({ canEditAvatar: e, canEditName: t, canEditTopic: n, avatar: r, name: i, topic: a, onClose: o }) {
+    function Zut({ canEditAvatar: e, canEditName: t, canEditTopic: n, avatar: r, name: i, topic: a, onClose: o }) {
         let s = n7(), c = J(), l = Jf(), u = $Y(), d = z0(s), [f, p] = (0, A.useState)(r), m = f ? iG(c, f, u) ?? void 0 : void 0, [h, g] = (0, A.useState)(), _ = tX(h) ? f === r : !1, v = (0, A.useMemo)(()=>{
             if (h) return iX(h);
         }, [
@@ -175838,7 +175913,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Zut({ permissions: e }) {
+    function Qut({ permissions: e }) {
         let t = J(), n = $Y(), r = n7(), i = I0(r, Bo(rq).has(r.roomId)), a = L0(r), o = R0(r), s = z0(r), c = e.stateEvent(K.RoomAvatar, t.getSafeUserId()), l = e.stateEvent(K.RoomName, t.getSafeUserId()), u = e.stateEvent(K.RoomTopic, t.getSafeUserId()), d = c || l || u, f = i ? iG(t, i, n, 96, 96, `crop`) ?? void 0 : void 0, [p, m] = (0, A.useState)(!1), h = (0, A.useCallback)(()=>m(!1), []);
         return (0, j.jsxs)(P, {
             direction: `Column`,
@@ -175848,12 +175923,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     size: `L400`,
                     children: `Profile`
                 }),
-                (0, j.jsx)(X, {
+                (0, j.jsx)(hY, {
                     className: z9,
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: p ? (0, j.jsx)(Xut, {
+                    children: p ? (0, j.jsx)(Zut, {
                         canEditAvatar: c,
                         canEditName: l,
                         canEditTopic: u,
@@ -175874,7 +175949,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         gap: `100`,
                                         children: [
                                             (0, j.jsx)(z, {
-                                                className: gY,
+                                                className: _Y,
                                                 size: `H5`,
                                                 children: a ?? `Unknown`
                                             }),
@@ -175932,7 +176007,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var Qut = (e)=>{
+    var $ut = (e)=>{
         let t = J(), [n, r] = Xf((0, A.useCallback)(async ()=>(await t.getRoomDirectoryVisibility(e)).visibility === Rz.Public, [
             t,
             e
@@ -175952,14 +176027,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ])
         };
     };
-    function $ut({ permissions: e }) {
-        let t = J(), n = n7(), r = e.stateEvent(K.RoomCanonicalAlias, t.getSafeUserId()), i = bZ(n, K.RoomJoinRules)?.getContent()?.join_rule ?? Bz.Invite, { visibilityState: a, setVisibility: o } = Qut(n.roomId), [s, c] = Xf(o), l = a.status === V.Loading || s.status === V.Loading, u = i === Bz.Public || i === Bz.Knock || i === `knock_restricted`;
-        return (0, j.jsx)(X, {
+    function edt({ permissions: e }) {
+        let t = J(), n = n7(), r = e.stateEvent(K.RoomCanonicalAlias, t.getSafeUserId()), i = bZ(n, K.RoomJoinRules)?.getContent()?.join_rule ?? Bz.Invite, { visibilityState: a, setVisibility: o } = $ut(n.roomId), [s, c] = Xf(o), l = a.status === V.Loading || s.status === V.Loading, u = i === Bz.Public || i === Bz.Knock || i === `knock_restricted`;
+        return (0, j.jsx)(hY, {
             className: z9,
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `400`,
-            children: (0, j.jsxs)(vY, {
+            children: (0, j.jsxs)(X, {
                 title: `Publish to Directory`,
                 description: n.isSpaceRoom() ? `List the space in the public directory to make it discoverable by others.` : `List the room in the public directory to make it discoverable by others.`,
                 after: (0, j.jsxs)(P, {
@@ -175995,7 +176070,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function edt({ requestClose: e }) {
+    function tdt({ requestClose: e }) {
         let t = J(), n = n7(), r = Jf(), i = g1(n), a = LK()[`m.room_versions`], [o, s] = (0, A.useState)(a?.default ?? `1`);
         (0, A.useEffect)(()=>{
             s(a?.default ?? `1`);
@@ -176082,7 +176157,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 onChange: s,
                                                 disabled: m
                                             }),
-                                            c && (0, j.jsx)(X, {
+                                            c && (0, j.jsx)(hY, {
                                                 style: {
                                                     padding: N.space.S300
                                                 },
@@ -176132,18 +176207,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function tdt({ permissions: e, requestClose: t }) {
+    function ndt({ permissions: e, requestClose: t }) {
         let n = J(), r = n7(), { navigateRoom: i, navigateSpace: a } = h2(), o = bZ(r, K.RoomCreate)?.getContent(), s = o?.room_version ?? `1`, c = o?.predecessor?.room_id, l = bZ(r, K.RoomTombstone)?.getContent(), u = l?.replacement_room, d = e.stateEvent(K.RoomTombstone, n.getSafeUserId()), f = ()=>{
             u && (t(), r.isSpaceRoom() ? a(u) : i(u));
         }, p = ()=>{
             c && (t(), r.isSpaceRoom() ? a(c) : i(c, o.predecessor?.event_id));
         }, [m, h] = (0, A.useState)(!1);
-        return (0, j.jsx)(X, {
+        return (0, j.jsx)(hY, {
             className: z9,
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `400`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 title: r.isSpaceRoom() ? `Upgrade Space` : `Upgrade Room`,
                 description: u ? l.body || `This ${r.isSpaceRoom() ? `space` : `room`} has been replaced!` : `Current version: ${s}.`,
                 after: (0, j.jsxs)(P, {
@@ -176186,13 +176261,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         })
                     ]
                 }),
-                children: m && (0, j.jsx)(edt, {
+                children: m && (0, j.jsx)(tdt, {
                     requestClose: ()=>h(!1)
                 })
             })
         });
     }
-    function ndt({ requestClose: e }) {
+    function rdt({ requestClose: e }) {
         let t = n7(), n = CZ(t), r = h1(g1(t), n);
         return (0, j.jsxs)(cY, {
             children: [
@@ -176235,7 +176310,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 direction: `Column`,
                                 gap: `700`,
                                 children: [
-                                    (0, j.jsx)(Zut, {
+                                    (0, j.jsx)(Qut, {
                                         permissions: r
                                     }),
                                     (0, j.jsxs)(P, {
@@ -176246,16 +176321,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 size: `L400`,
                                                 children: `Options`
                                             }),
-                                            (0, j.jsx)(Yut, {
+                                            (0, j.jsx)(Xut, {
                                                 permissions: r
                                             }),
-                                            (0, j.jsx)(Gut, {
+                                            (0, j.jsx)(Kut, {
                                                 permissions: r
                                             }),
-                                            (0, j.jsx)(Hut, {
+                                            (0, j.jsx)(Uut, {
                                                 permissions: r
                                             }),
-                                            (0, j.jsx)($ut, {
+                                            (0, j.jsx)(edt, {
                                                 permissions: r
                                             })
                                         ]
@@ -176268,10 +176343,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 size: `L400`,
                                                 children: `Addresses`
                                             }),
-                                            (0, j.jsx)(Lut, {
+                                            (0, j.jsx)(Rut, {
                                                 permissions: r
                                             }),
-                                            (0, j.jsx)(But, {
+                                            (0, j.jsx)(Vut, {
                                                 permissions: r
                                             })
                                         ]
@@ -176284,7 +176359,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 size: `L400`,
                                                 children: `Advanced Options`
                                             }),
-                                            (0, j.jsx)(tdt, {
+                                            (0, j.jsx)(ndt, {
                                                 permissions: r,
                                                 requestClose: e
                                             })
@@ -176298,10 +176373,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var rdt = `_1cx2qle0 _1mqalmd1 _1mqalmd0 _1bugis90 _1bugis91`, idt = (e, t)=>jW(e, t.userId) ?? UW(t.userId) ?? t.userId, adt = en(({ as: e = `button`, mx: t, room: n, member: r, useAuthentication: i, after: a, ...o }, s)=>{
-        let c = idt(n, r), l = UW(r.userId), u = r.getMxcAvatarUrl(), d = u ? t.mxcUrlToHttp(u, 100, 100, `crop`, void 0, !1, i) : void 0;
+    var idt = `_1cx2qle0 _1mqalmd1 _1mqalmd0 _1bugis90 _1bugis91`, adt = (e, t)=>jW(e, t.userId) ?? UW(t.userId) ?? t.userId, odt = en(({ as: e = `button`, mx: t, room: n, member: r, useAuthentication: i, after: a, ...o }, s)=>{
+        let c = adt(n, r), l = UW(r.userId), u = r.getMxcAvatarUrl(), d = u ? t.mxcUrlToHttp(u, 100, 100, `crop`, void 0, !1, i) : void 0;
         return (0, j.jsxs)(e, {
-            className: rdt,
+            className: idt,
             ...o,
             ref: s,
             children: [
@@ -176349,7 +176424,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 a
             ]
         });
-    }), odt = en(({ as: e = `div`, fill: t, server: n, ...r }, i)=>(0, j.jsx)(pn, {
+    }), sdt = en(({ as: e = `div`, fill: t, server: n, ...r }, i)=>(0, j.jsx)(pn, {
             as: e,
             variant: `Secondary`,
             fill: t,
@@ -176362,7 +176437,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 truncate: !0,
                 children: n
             })
-        })), sdt = {
+        })), cdt = {
         limit: 1e3,
         matchOptions: {
             contain: !0
@@ -176370,14 +176445,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         normalizeOptions: {
             ignoreWhitespace: !1
         }
-    }, cdt = (e)=>UW(e) ?? e, ldt = (e, t)=>MW(e, t, cdt);
-    function udt({ requestClose: e }) {
-        let t = J(), n = $Y(), r = n7(), i = S5(t, r.roomId), a = i.length < r.getJoinedMemberCount(), o = S0(), s = b0(), c = k0(), l = CZ(r), u = g1(r), d = Z3(r, u, l), f = EZ(l), [p, m] = (0, A.useState)(0), [h, g] = Y(q, `memberSortFilterIndex`), _ = Bnt(p, znt()), v = Hnt(h, Vnt()), y = Unt(u, f), b = (0, A.useRef)(null), x = (0, A.useRef)(null), S = (0, A.useRef)(null), C = (0, A.useMemo)(()=>Array.from(i).filter(_.filterFn).sort(v.sortFn).sort(y), [
+    }, ldt = (e)=>UW(e) ?? e, udt = (e, t)=>MW(e, t, ldt);
+    function ddt({ requestClose: e }) {
+        let t = J(), n = $Y(), r = n7(), i = S5(t, r.roomId), a = i.length < r.getJoinedMemberCount(), o = S0(), s = b0(), c = k0(), l = CZ(r), u = g1(r), d = Z3(r, u, l), f = EZ(l), [p, m] = (0, A.useState)(0), [h, g] = Y(q, `memberSortFilterIndex`), _ = Vnt(p, Bnt()), v = Unt(h, Hnt()), y = Wnt(u, f), b = (0, A.useRef)(null), x = (0, A.useRef)(null), S = (0, A.useRef)(null), C = (0, A.useMemo)(()=>Array.from(i).filter(_.filterFn).sort(v.sortFn).sort(y), [
             i,
             _,
             v,
             y
-        ]), [w, T, E] = P0(C, ldt, sdt);
+        ]), [w, T, E] = P0(C, udt, cdt);
         !w && x.current?.value && T(x.current.value);
         let D = SWe(w?.items ?? C, d), O = Y1({
             count: D.length,
@@ -176495,7 +176570,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                         position: `Bottom`,
                                                         align: `Start`,
                                                         offset: 4,
-                                                        content: (0, j.jsx)(Wnt, {
+                                                        content: (0, j.jsx)(Gnt, {
                                                             selected: p,
                                                             onSelect: m,
                                                             requestClose: ()=>t(void 0)
@@ -176523,7 +176598,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                         position: `Bottom`,
                                                         align: `End`,
                                                         offset: 4,
-                                                        content: (0, j.jsx)(Gnt, {
+                                                        content: (0, j.jsx)(Knt, {
                                                             selected: h,
                                                             onSelect: g,
                                                             requestClose: ()=>t(void 0)
@@ -176594,7 +176669,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                         style: {
                                                             paddingTop: N.space.S200
                                                         },
-                                                        children: (0, j.jsx)(adt, {
+                                                        children: (0, j.jsx)(odt, {
                                                             "data-user-id": i.userId,
                                                             onClick: te,
                                                             "aria-pressed": s?.userId === i.userId,
@@ -176606,7 +176681,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                                 as: `span`,
                                                                 shrink: `No`,
                                                                 alignSelf: `End`,
-                                                                children: (0, j.jsx)(odt, {
+                                                                children: (0, j.jsx)(sdt, {
                                                                     server: a,
                                                                     fill: `None`
                                                                 })
@@ -176639,7 +176714,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     var B9 = `_1lne79o0`;
-    function ddt({ packs: e, roomId: t }) {
+    function fdt({ packs: e, roomId: t }) {
         let n = J(), r = Jf(), [i, a] = Xf((0, A.useCallback)(async (e, r)=>{
             let i = {
                 pack: {
@@ -176651,12 +176726,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n,
             t
         ])), o = i.status === V.Loading;
-        return (0, j.jsx)(X, {
+        return (0, j.jsx)(hY, {
             className: B9,
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `400`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 title: `New Set`,
                 description: `Add your own emoji and sticker set to use in room.`,
                 children: (0, j.jsxs)(P, {
@@ -176724,7 +176799,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function fdt({ onViewPack: e }) {
+    function pdt({ onViewPack: e }) {
         let t = J(), n = $Y(), r = n7(), i = Jf(), a = CZ(r), o = h1(g1(r), a).stateEvent(K.PoniesRoomEmotes, t.getSafeUserId()), s = jje(r), c = (0, A.useMemo)(()=>s.filter((e)=>!e.deleted), [
             s
         ]), [l, u] = (0, A.useState)([]), d = l.length > 0, [f, p] = Xf((0, A.useCallback)(async ()=>{
@@ -176754,7 +176829,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             size: `L400`,
                             children: `Sets`
                         }),
-                        o && (0, j.jsx)(ddt, {
+                        o && (0, j.jsx)(fdt, {
                             roomId: r.roomId,
                             packs: c
                         }),
@@ -176762,12 +176837,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             let i = r.getAvatarUrl(lZ.Emoticon), a = i ? iG(t, i, n) : void 0, { address: s } = r;
                             if (!s) return null;
                             let c = !!l.find((e)=>pZ(e, s));
-                            return (0, j.jsx)(X, {
+                            return (0, j.jsx)(hY, {
                                 className: B9,
                                 variant: c ? `Critical` : `SurfaceVariant`,
                                 direction: `Column`,
                                 gap: `400`,
-                                children: (0, j.jsx)(vY, {
+                                children: (0, j.jsx)(X, {
                                     title: (0, j.jsx)(`span`, {
                                         style: {
                                             textDecoration: c ? `line-through` : void 0
@@ -176775,7 +176850,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         children: r.meta.name ?? `Unknown`
                                     }),
                                     description: (0, j.jsx)(`span`, {
-                                        className: _Y,
+                                        className: vY,
                                         children: r.meta.attribution
                                     }),
                                     before: (0, j.jsxs)(P, {
@@ -176836,7 +176911,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 })
                             }, r.id);
                         }),
-                        c.length === 0 && (0, j.jsx)(X, {
+                        c.length === 0 && (0, j.jsx)(hY, {
                             className: `_1lne79o0`,
                             variant: `SurfaceVariant`,
                             direction: `Column`,
@@ -176944,7 +177019,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function pdt({ requestClose: e }) {
+    function mdt({ requestClose: e }) {
         let [t, n] = (0, A.useState)();
         return t ? (0, j.jsx)(eFe, {
             address: t.address,
@@ -176991,7 +177066,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: (0, j.jsx)(P, {
                                 direction: `Column`,
                                 gap: `700`,
-                                children: (0, j.jsx)(fdt, {
+                                children: (0, j.jsx)(pdt, {
                                     onViewPack: n
                                 })
                             })
@@ -177001,7 +177076,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var mdt = ()=>(0, A.useMemo)(()=>[
+    var hdt = ()=>(0, A.useMemo)(()=>[
                 {
                     name: `Messages`,
                     items: [
@@ -177206,10 +177281,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         }
                     ]
                 }
-            ], []), hdt = {
+            ], []), gdt = {
         user: !0
     };
-    function gdt({ powerLevels: e, permissionGroups: t, canEdit: n }) {
+    function _dt({ powerLevels: e, permissionGroups: t, canEdit: n }) {
         let r = J(), i = n7(), a = Jf(), o = L4(i, e), s = (0, A.useMemo)(()=>Math.max(...I4(o)), [
             o
         ]), [c, l] = (0, A.useState)(new Map);
@@ -177247,7 +177322,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return (0, j.jsxs)(j.Fragment, {
             children: [
                 (()=>{
-                    let t = DZ(e, hdt), r = c.get(hdt) ?? t, i = R4(o, r), a = r !== t;
+                    let t = DZ(e, gdt), r = c.get(gdt) ?? t, i = R4(o, r), a = r !== t;
                     return (0, j.jsxs)(P, {
                         direction: `Column`,
                         gap: `100`,
@@ -177256,18 +177331,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 size: `L400`,
                                 children: `Users`
                             }),
-                            (0, j.jsx)(X, {
+                            (0, j.jsx)(hY, {
                                 variant: `SurfaceVariant`,
                                 className: B9,
                                 direction: `Column`,
                                 gap: `400`,
-                                children: (0, j.jsx)(vY, {
+                                children: (0, j.jsx)(X, {
                                     title: `Default Power`,
                                     description: `Default power level for all users.`,
                                     after: (0, j.jsx)(aHe, {
                                         powerLevelTags: o,
                                         value: r,
-                                        onChange: (e)=>u(hdt, e, t),
+                                        onChange: (e)=>u(gdt, e, t),
                                         children: (e, t)=>(0, j.jsx)(Cn, {
                                                 variant: a ? `Success` : `Secondary`,
                                                 outlined: a,
@@ -177308,12 +177383,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             }),
                             t.items.map((t, r)=>{
                                 let i = DZ(e, t.location), a = c.get(t.location) ?? i, l = R4(o, a), d = a !== i;
-                                return (0, j.jsx)(X, {
+                                return (0, j.jsx)(hY, {
                                     variant: `SurfaceVariant`,
                                     className: B9,
                                     direction: `Column`,
                                     gap: `400`,
-                                    children: (0, j.jsx)(vY, {
+                                    children: (0, j.jsx)(X, {
                                         title: t.name,
                                         description: t.description,
                                         after: (0, j.jsx)(aHe, {
@@ -177426,7 +177501,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function _dt({ powerLevels: e, power: t, permissionGroups: n, children: r }) {
+    function vdt({ powerLevels: e, power: t, permissionGroups: n, children: r }) {
         let [i, a] = (0, A.useState)();
         return (0, j.jsx)(qn, {
             anchor: i,
@@ -177495,23 +177570,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }, !!i)
         });
     }
-    function vdt({ powerLevels: e, permissionGroups: t, onEdit: n }) {
+    function ydt({ powerLevels: e, permissionGroups: t, onEdit: n }) {
         let r = J(), i = $Y(), a = n7(), o = L4(a, e), s = g1(a), c = V4(), l = c.icon && Q3(r, i, c.icon);
         return (0, j.jsxs)(P, {
             direction: `Column`,
             gap: `100`,
             children: [
-                s.size > 0 && (0, j.jsxs)(X, {
+                s.size > 0 && (0, j.jsxs)(hY, {
                     variant: `SurfaceVariant`,
                     className: `_1lne79o0`,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Founders`,
                             description: `Founding members has all permissions and can only be changed during upgrade.`
                         }),
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             children: (0, j.jsx)(P, {
                                 gap: `200`,
                                 wrap: `Wrap`,
@@ -177538,13 +177613,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         })
                     ]
                 }),
-                (0, j.jsxs)(X, {
+                (0, j.jsxs)(hY, {
                     variant: `SurfaceVariant`,
                     className: B9,
                     direction: `Column`,
                     gap: `400`,
                     children: [
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             title: `Power Levels`,
                             description: `Manage and customize incremental power levels for users.`,
                             after: n && (0, j.jsx)(P, {
@@ -177563,13 +177638,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 })
                             })
                         }),
-                        (0, j.jsx)(vY, {
+                        (0, j.jsx)(X, {
                             children: (0, j.jsx)(P, {
                                 gap: `200`,
                                 wrap: `Wrap`,
                                 children: I4(o).map((n)=>{
                                     let a = o[n], s = a.icon && Q3(r, i, a.icon);
-                                    return (0, j.jsx)(_dt, {
+                                    return (0, j.jsx)(vdt, {
                                         powerLevels: e,
                                         power: n,
                                         permissionGroups: t,
@@ -177611,7 +177686,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return e;
         }).apply(this, arguments);
     }
-    function ydt(e, t) {
+    function bdt(e, t) {
         if (e == null) return {};
         var n, r, i = {}, a = Object.keys(e);
         for(r = 0; r < a.length; r++)t.indexOf(n = a[r]) >= 0 || (i[n] = e[n]);
@@ -177627,38 +177702,38 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return t === void 0 && (t = 0), n === void 0 && (n = 1), e > n ? n : e < t ? t : e;
     }, W9 = function(e) {
         return `touches` in e;
-    }, bdt = function(e) {
+    }, xdt = function(e) {
         return e && e.ownerDocument.defaultView || self;
-    }, xdt = function(e, t, n) {
+    }, Sdt = function(e, t, n) {
         var r = e.getBoundingClientRect(), i = W9(t) ? function(e, t) {
             for(var n = 0; n < e.length; n++)if (e[n].identifier === t) return e[n];
             return e[0];
         }(t.touches, n) : t;
         return {
-            left: U9((i.pageX - (r.left + bdt(e).pageXOffset)) / r.width),
-            top: U9((i.pageY - (r.top + bdt(e).pageYOffset)) / r.height)
+            left: U9((i.pageX - (r.left + xdt(e).pageXOffset)) / r.width),
+            top: U9((i.pageY - (r.top + xdt(e).pageYOffset)) / r.height)
         };
-    }, Sdt = function(e) {
+    }, Cdt = function(e) {
         !W9(e) && e.preventDefault();
-    }, Cdt = A.memo(function(e) {
-        var t = e.onMove, n = e.onKey, r = e.onEnd, i = ydt(e, [
+    }, wdt = A.memo(function(e) {
+        var t = e.onMove, n = e.onKey, r = e.onEnd, i = bdt(e, [
             `onMove`,
             `onKey`,
             `onEnd`
         ]), a = (0, A.useRef)(null), o = H9(t), s = H9(n), c = H9(r), l = (0, A.useRef)(null), u = (0, A.useRef)(!1), d = (0, A.useMemo)(function() {
             var e = function(e) {
-                Sdt(e), (W9(e) ? e.touches.length > 0 : e.buttons > 0) && a.current ? o(xdt(a.current, e, l.current)) : (n(!1), c());
+                Cdt(e), (W9(e) ? e.touches.length > 0 : e.buttons > 0) && a.current ? o(Sdt(a.current, e, l.current)) : (n(!1), c());
             }, t = function() {
                 n(!1), c();
             };
             function n(n) {
-                var r = u.current, i = bdt(a.current), o = n ? i.addEventListener : i.removeEventListener;
+                var r = u.current, i = xdt(a.current), o = n ? i.addEventListener : i.removeEventListener;
                 o(r ? `touchmove` : `mousemove`, e), o(r ? `touchend` : `mouseup`, t);
             }
             return [
                 function(e) {
                     var t = e.nativeEvent, r = a.current;
-                    if (r && (Sdt(t), !function(e, t) {
+                    if (r && (Cdt(t), !function(e, t) {
                         return t && !W9(e);
                     }(t, u.current) && r)) {
                         if (W9(t)) {
@@ -177666,7 +177741,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             var i = t.changedTouches || [];
                             i.length && (l.current = i[0].identifier);
                         }
-                        r.focus(), o(xdt(r, t, l.current)), n(!0);
+                        r.focus(), o(Sdt(r, t, l.current)), n(!0);
                     }
                 },
                 function(e) {
@@ -177701,10 +177776,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             tabIndex: 0,
             role: `slider`
         }));
-    }), wdt = function(e) {
+    }), Tdt = function(e) {
         return e.filter(Boolean).join(` `);
-    }, Tdt = function(e) {
-        var t = e.color, n = e.left, r = e.top, i = r === void 0 ? .5 : r, a = wdt([
+    }, Edt = function(e) {
+        var t = e.color, n = e.left, r = e.top, i = r === void 0 ? .5 : r, a = Tdt([
             `react-colorful__pointer`,
             e.className
         ]);
@@ -177724,9 +177799,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return t === void 0 && (t = 0), n === void 0 && (n = 10 ** t), Math.round(n * e) / n;
     };
     360 / (2 * Math.PI);
-    var Edt = function(e) {
-        return Ndt(Ddt(e));
-    }, Ddt = function(e) {
+    var Ddt = function(e) {
+        return Pdt(Odt(e));
+    }, Odt = function(e) {
         return e[0] === `#` && (e = e.substring(1)), e.length < 6 ? {
             r: parseInt(e[0] + e[0], 16),
             g: parseInt(e[1] + e[1], 16),
@@ -177738,9 +177813,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             b: parseInt(e.substring(4, 6), 16),
             a: e.length === 8 ? G9(parseInt(e.substring(6, 8), 16) / 255, 2) : 1
         };
-    }, Odt = function(e) {
-        return Mdt(jdt(e));
     }, kdt = function(e) {
+        return Ndt(Mdt(e));
+    }, Adt = function(e) {
         var t = e.s, n = e.v, r = e.a, i = (200 - t) * n / 100;
         return {
             h: G9(e.h),
@@ -177748,10 +177823,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             l: G9(i / 2),
             a: G9(r, 2)
         };
-    }, Adt = function(e) {
-        var t = kdt(e);
-        return `hsl(` + t.h + `, ` + t.s + `%, ` + t.l + `%)`;
     }, jdt = function(e) {
+        var t = Adt(e);
+        return `hsl(` + t.h + `, ` + t.s + `%, ` + t.l + `%)`;
+    }, Mdt = function(e) {
         var t = e.h, n = e.s, r = e.v, i = e.a;
         t = t / 360 * 6, n /= 100, r /= 100;
         var a = Math.floor(t), o = r * (1 - n), s = r * (1 - (t - a) * n), c = r * (1 - (1 - t + a) * n), l = a % 6;
@@ -177785,10 +177860,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }, K9 = function(e) {
         var t = e.toString(16);
         return t.length < 2 ? `0` + t : t;
-    }, Mdt = function(e) {
+    }, Ndt = function(e) {
         var t = e.r, n = e.g, r = e.b, i = e.a, a = i < 1 ? K9(G9(255 * i)) : ``;
         return `#` + K9(t) + K9(n) + K9(r) + a;
-    }, Ndt = function(e) {
+    }, Pdt = function(e) {
         var t = e.r, n = e.g, r = e.b, i = e.a, a = Math.max(t, n, r), o = a - Math.min(t, n, r), s = o ? a === t ? (n - r) / o : a === n ? 2 + (r - t) / o : 4 + (t - n) / o : 0;
         return {
             h: G9(60 * (s < 0 ? s + 6 : s)),
@@ -177796,14 +177871,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             v: G9(a / 255 * 100),
             a: i
         };
-    }, Pdt = A.memo(function(e) {
-        var t = e.hue, n = e.onChange, r = e.onChangeEnd, i = wdt([
+    }, Fdt = A.memo(function(e) {
+        var t = e.hue, n = e.onChange, r = e.onChangeEnd, i = Tdt([
             `react-colorful__hue`,
             e.className
         ]);
         return A.createElement(`div`, {
             className: i
-        }, A.createElement(Cdt, {
+        }, A.createElement(wdt, {
             onMove: function(e) {
                 n({
                     h: 360 * e.left
@@ -177819,19 +177894,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             "aria-valuenow": G9(t),
             "aria-valuemax": `360`,
             "aria-valuemin": `0`
-        }, A.createElement(Tdt, {
+        }, A.createElement(Edt, {
             className: `react-colorful__hue-pointer`,
             left: t / 360,
-            color: Adt({
+            color: jdt({
                 h: t,
                 s: 100,
                 v: 100,
                 a: 1
             })
         })));
-    }), Fdt = A.memo(function(e) {
+    }), Idt = A.memo(function(e) {
         var t = e.hsva, n = e.onChange, r = e.onChangeEnd, i = {
-            backgroundColor: Adt({
+            backgroundColor: jdt({
                 h: t.h,
                 s: 100,
                 v: 100,
@@ -177841,7 +177916,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return A.createElement(`div`, {
             className: `react-colorful__saturation`,
             style: i
-        }, A.createElement(Cdt, {
+        }, A.createElement(wdt, {
             onMove: function(e) {
                 n({
                     s: 100 * e.left,
@@ -177857,20 +177932,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             onEnd: r,
             "aria-label": `Color`,
             "aria-valuetext": `Saturation ` + G9(t.s) + `%, Brightness ` + G9(t.v) + `%`
-        }, A.createElement(Tdt, {
+        }, A.createElement(Edt, {
             className: `react-colorful__saturation-pointer`,
             top: 1 - t.v / 100,
             left: t.s / 100,
-            color: Adt(t)
+            color: jdt(t)
         })));
-    }), Idt = function(e, t) {
+    }), Ldt = function(e, t) {
         if (e === t) return !0;
         for(var n in e)if (e[n] !== t[n]) return !1;
         return !0;
-    }, Ldt = function(e, t) {
-        return e.toLowerCase() === t.toLowerCase() || Idt(Ddt(e), Ddt(t));
+    }, Rdt = function(e, t) {
+        return e.toLowerCase() === t.toLowerCase() || Ldt(Odt(e), Odt(t));
     };
-    function Rdt(e, t, n, r) {
+    function zdt(e, t, n, r) {
         var i = H9(n), a = H9(r), o = (0, A.useState)(function() {
             return e.toHsva(t);
         }), s = o[0], c = o[1], l = (0, A.useRef)({
@@ -177890,7 +177965,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), (0, A.useEffect)(function() {
             var t;
-            Idt(s, l.current.hsva) || e.equal(t = e.fromHsva(s), l.current.color) || (l.current = {
+            Ldt(s, l.current.hsva) || e.equal(t = e.fromHsva(s), l.current.color) || (l.current = {
                 hsva: s,
                 color: t
             }, i(t), u.current = !0);
@@ -177912,62 +177987,62 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ])
         ];
     }
-    var zdt, Bdt = typeof window < `u` ? A.useLayoutEffect : A.useEffect, Vdt = function() {
-        return zdt || (typeof __webpack_nonce__ < `u` ? __webpack_nonce__ : void 0);
-    }, Hdt = new Map, Udt = function(e) {
-        Bdt(function() {
+    var Bdt, Vdt = typeof window < `u` ? A.useLayoutEffect : A.useEffect, Hdt = function() {
+        return Bdt || (typeof __webpack_nonce__ < `u` ? __webpack_nonce__ : void 0);
+    }, Udt = new Map, Wdt = function(e) {
+        Vdt(function() {
             var t = e.current ? e.current.ownerDocument : document;
-            if (t !== void 0 && !Hdt.has(t)) {
+            if (t !== void 0 && !Udt.has(t)) {
                 var n = t.createElement(`style`);
-                n.innerHTML = `.react-colorful{position:relative;display:flex;flex-direction:column;width:200px;height:200px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default}.react-colorful__saturation{position:relative;flex-grow:1;border-color:transparent;border-bottom:12px solid #000;border-radius:8px 8px 0 0;background-image:linear-gradient(0deg,#000,transparent),linear-gradient(90deg,#fff,hsla(0,0%,100%,0))}.react-colorful__alpha-gradient,.react-colorful__pointer-fill{content:"";position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;border-radius:inherit}.react-colorful__alpha-gradient,.react-colorful__saturation{box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}.react-colorful__alpha,.react-colorful__hue{position:relative;height:24px}.react-colorful__hue{background:linear-gradient(90deg,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red)}.react-colorful__last-control{border-radius:0 0 8px 8px}.react-colorful__interactive{position:absolute;left:0;top:0;right:0;bottom:0;border-radius:inherit;outline:none;touch-action:none}.react-colorful__pointer{position:absolute;z-index:1;box-sizing:border-box;width:28px;height:28px;transform:translate(-50%,-50%);background-color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,.2)}.react-colorful__interactive:focus .react-colorful__pointer{transform:translate(-50%,-50%) scale(1.1)}.react-colorful__alpha,.react-colorful__alpha-pointer{background-color:#fff;background-image:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><path d="M8 0h8v8H8zM0 8h8v8H0z"/></svg>')}.react-colorful__saturation-pointer{z-index:3}.react-colorful__hue-pointer{z-index:2}`, Hdt.set(t, n);
-                var r = Vdt();
+                n.innerHTML = `.react-colorful{position:relative;display:flex;flex-direction:column;width:200px;height:200px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default}.react-colorful__saturation{position:relative;flex-grow:1;border-color:transparent;border-bottom:12px solid #000;border-radius:8px 8px 0 0;background-image:linear-gradient(0deg,#000,transparent),linear-gradient(90deg,#fff,hsla(0,0%,100%,0))}.react-colorful__alpha-gradient,.react-colorful__pointer-fill{content:"";position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;border-radius:inherit}.react-colorful__alpha-gradient,.react-colorful__saturation{box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}.react-colorful__alpha,.react-colorful__hue{position:relative;height:24px}.react-colorful__hue{background:linear-gradient(90deg,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red)}.react-colorful__last-control{border-radius:0 0 8px 8px}.react-colorful__interactive{position:absolute;left:0;top:0;right:0;bottom:0;border-radius:inherit;outline:none;touch-action:none}.react-colorful__pointer{position:absolute;z-index:1;box-sizing:border-box;width:28px;height:28px;transform:translate(-50%,-50%);background-color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,.2)}.react-colorful__interactive:focus .react-colorful__pointer{transform:translate(-50%,-50%) scale(1.1)}.react-colorful__alpha,.react-colorful__alpha-pointer{background-color:#fff;background-image:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><path d="M8 0h8v8H8zM0 8h8v8H0z"/></svg>')}.react-colorful__saturation-pointer{z-index:3}.react-colorful__hue-pointer{z-index:2}`, Udt.set(t, n);
+                var r = Hdt();
                 r && n.setAttribute(`nonce`, r), t.head.appendChild(n);
             }
         }, []);
-    }, Wdt = function(e) {
-        var t = e.className, n = e.colorModel, r = e.color, i = r === void 0 ? n.defaultColor : r, a = e.onChange, o = e.onChangeEnd, s = ydt(e, [
+    }, Gdt = function(e) {
+        var t = e.className, n = e.colorModel, r = e.color, i = r === void 0 ? n.defaultColor : r, a = e.onChange, o = e.onChangeEnd, s = bdt(e, [
             `className`,
             `colorModel`,
             `color`,
             `onChange`,
             `onChangeEnd`
         ]), c = (0, A.useRef)(null);
-        Udt(c);
-        var l = Rdt(n, i, a, o), u = l[0], d = l[1], f = l[2], p = wdt([
+        Wdt(c);
+        var l = zdt(n, i, a, o), u = l[0], d = l[1], f = l[2], p = Tdt([
             `react-colorful`,
             t
         ]);
         return A.createElement(`div`, V9({}, s, {
             ref: c,
             className: p
-        }), A.createElement(Fdt, {
+        }), A.createElement(Idt, {
             hsva: u,
             onChange: d,
             onChangeEnd: f
-        }), A.createElement(Pdt, {
+        }), A.createElement(Fdt, {
             hue: u.h,
             onChange: d,
             onChangeEnd: f,
             className: `react-colorful__last-control`
         }));
-    }, Gdt = {
+    }, Kdt = {
         defaultColor: `000`,
-        toHsva: Edt,
+        toHsva: Ddt,
         fromHsva: function(e) {
-            return Odt({
+            return kdt({
                 h: e.h,
                 s: e.s,
                 v: e.v,
                 a: 1
             });
         },
-        equal: Ldt
-    }, Kdt = function(e) {
-        return A.createElement(Wdt, V9({}, e, {
-            colorModel: Gdt
+        equal: Rdt
+    }, qdt = function(e) {
+        return A.createElement(Gdt, V9({}, e, {
+            colorModel: Kdt
         }));
     };
-    function qdt({ picker: e, onRemove: t, children: n }) {
+    function Jdt({ picker: e, onRemove: t, children: n }) {
         let [r, i] = (0, A.useState)();
         return (0, j.jsx)(qn, {
             anchor: r,
@@ -178010,7 +178085,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }, !!r)
         });
     }
-    function Jdt({ maxPower: e, power: t, tag: n, onSave: r, onClose: i }) {
+    function Ydt({ maxPower: e, power: t, tag: n, onSave: r, onClose: i }) {
         let a = J(), o = n7(), s = Bo(aq), c = $Y(), l = dG(o.getVersion()), u = N7(o.roomId, s), [d, f] = (0, A.useState)(), p = eX(f, !1), [m, h] = (0, A.useState)(n?.color), [g, _] = (0, A.useState)(n?.icon), v = d && !g, y = g && Q3(a, c, g), b = (0, A.useMemo)(()=>{
             if (d) return iX(d);
         }, [
@@ -178057,8 +178132,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     }),
                                     (0, j.jsx)(P, {
                                         gap: `200`,
-                                        children: (0, j.jsx)(qdt, {
-                                            picker: (0, j.jsx)(Kdt, {
+                                        children: (0, j.jsx)(Jdt, {
+                                            picker: (0, j.jsx)(qdt, {
                                                 color: m,
                                                 onChange: h
                                             }),
@@ -178264,7 +178339,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Ydt({ powerLevels: e, requestClose: t }) {
+    function Xdt({ powerLevels: e, requestClose: t }) {
         let n = J(), r = $Y(), i = n7(), a = Jf(), [o, s] = (0, A.useMemo)(()=>{
             let t = QVe(e);
             return [
@@ -178371,16 +178446,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                         size: `L400`,
                                                         children: `Power Levels`
                                                     }),
-                                                    (0, j.jsx)(yst, {})
+                                                    (0, j.jsx)(bst, {})
                                                 ]
                                             }),
-                                            (0, j.jsxs)(X, {
+                                            (0, j.jsxs)(hY, {
                                                 variant: `SurfaceVariant`,
                                                 className: B9,
                                                 direction: `Column`,
                                                 gap: `400`,
                                                 children: [
-                                                    (0, j.jsx)(vY, {
+                                                    (0, j.jsx)(X, {
                                                         title: `New Power Level`,
                                                         description: `Create a new power level.`,
                                                         after: !p && (0, j.jsx)(F, {
@@ -178397,7 +178472,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                             })
                                                         })
                                                     }),
-                                                    p && (0, j.jsx)(Jdt, {
+                                                    p && (0, j.jsx)(Ydt, {
                                                         maxPower: s,
                                                         onSave: g,
                                                         onClose: ()=>m(!1)
@@ -178406,20 +178481,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             }),
                                             I4(C).map((e)=>{
                                                 let t = C[e], i = t.icon && Q3(n, r, t.icon);
-                                                return (0, j.jsx)(X, {
+                                                return (0, j.jsx)(hY, {
                                                     variant: d.has(e) ? `Critical` : `SurfaceVariant`,
                                                     className: B9,
                                                     direction: `Column`,
                                                     gap: `400`,
                                                     children: (0, j.jsx)(VG, {
                                                         initial: !1,
-                                                        children: (n, r)=>n ? (0, j.jsx)(Jdt, {
+                                                        children: (n, r)=>n ? (0, j.jsx)(Ydt, {
                                                                 maxPower: s,
                                                                 power: e,
                                                                 tag: t,
                                                                 onSave: g,
                                                                 onClose: ()=>r(!1)
-                                                            }) : (0, j.jsx)(vY, {
+                                                            }) : (0, j.jsx)(X, {
                                                                 before: (0, j.jsx)(z4, {
                                                                     color: t.color
                                                                 }),
@@ -178599,9 +178674,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Xdt({ requestClose: e }) {
-        let t = J(), n = n7(), r = CZ(n), i = h1(g1(n), r), a = i.stateEvent(K.PowerLevelTags, t.getSafeUserId()), o = i.stateEvent(K.RoomPowerLevels, t.getSafeUserId()), s = mdt(), [c, l] = (0, A.useState)(!1);
-        return a && c ? (0, j.jsx)(Ydt, {
+    function Zdt({ requestClose: e }) {
+        let t = J(), n = n7(), r = CZ(n), i = h1(g1(n), r), a = i.stateEvent(K.PowerLevelTags, t.getSafeUserId()), o = i.stateEvent(K.RoomPowerLevels, t.getSafeUserId()), s = hdt(), [c, l] = (0, A.useState)(!1);
+        return a && c ? (0, j.jsx)(Xdt, {
             powerLevels: r,
             requestClose: ()=>l(!1)
         }) : (0, j.jsxs)(cY, {
@@ -178645,14 +178720,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 direction: `Column`,
                                 gap: `700`,
                                 children: [
-                                    (0, j.jsx)(vdt, {
+                                    (0, j.jsx)(ydt, {
                                         powerLevels: r,
                                         onEdit: a ? ()=>{
                                             l(!0);
                                         } : void 0,
                                         permissionGroups: s
                                     }),
-                                    (0, j.jsx)(gdt, {
+                                    (0, j.jsx)(_dt, {
                                         canEdit: o,
                                         powerLevels: r,
                                         permissionGroups: s
@@ -178666,7 +178741,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     var q9 = 2;
-    function Zdt({ type: e, stateKey: t, content: n, requestClose: r }) {
+    function Qdt({ type: e, stateKey: t, content: n, requestClose: r }) {
         let i = J(), a = n7(), o = Jf(), s = (0, A.useMemo)(()=>JSON.stringify(n, void 0, q9), [
             n
         ]), c = (0, A.useRef)(null), [l, u] = (0, A.useState)(), { handleKeyDown: d, operations: f, getTarget: p } = b1(c, q9), [m, h] = Xf((0, A.useCallback)((n)=>i.sendStateEvent(a.roomId, e, n, t), [
@@ -178718,12 +178793,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             size: `L400`,
                             children: `State Event`
                         }),
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             className: B9,
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             gap: `400`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: e,
                                 description: t,
                                 after: (0, j.jsxs)(P, {
@@ -178815,7 +178890,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Qdt({ content: e, eventJSONStr: t, onEditContent: n }) {
+    function $dt({ content: e, eventJSONStr: t, onEditContent: n }) {
         return (0, j.jsx)(P, {
             direction: `Column`,
             style: {
@@ -178855,7 +178930,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             })
                         ]
                     }),
-                    (0, j.jsx)(X, {
+                    (0, j.jsx)(hY, {
                         variant: `SurfaceVariant`,
                         children: (0, j.jsx)(Qn, {
                             visibility: `Always`,
@@ -178875,7 +178950,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function $dt({ type: e, stateKey: t, requestClose: n }) {
+    function eft({ type: e, stateKey: t, requestClose: n }) {
         let r = J(), i = n7(), a = bZ(i, e, t), [o, s] = (0, A.useState)(), c = CZ(i), l = h1(g1(i), c).stateEvent(e, r.getSafeUserId()), u = (0, A.useMemo)(()=>a ? JSON.stringify(a.event, null, q9) : ``, [
             a
         ]), d = (0, A.useCallback)(()=>{
@@ -178925,12 +179000,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 (0, j.jsx)(P, {
                     grow: `Yes`,
                     direction: `Column`,
-                    children: o ? (0, j.jsx)(Zdt, {
+                    children: o ? (0, j.jsx)(Qdt, {
                         type: e,
                         stateKey: t,
                         content: o,
                         requestClose: d
-                    }) : (0, j.jsx)(Qdt, {
+                    }) : (0, j.jsx)($dt, {
                         content: a?.getContent() ?? {},
                         onEditContent: l ? s : void 0,
                         eventJSONStr: u
@@ -178939,9 +179014,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var eft = 2;
-    function tft({ type: e, stateKey: t, requestClose: n }) {
-        let r = J(), i = n7(), a = Jf(), o = typeof t == `string`, s = (0, A.useRef)(null), [c, l] = (0, A.useState)(), { handleKeyDown: u, operations: d, getTarget: f } = b1(s, eft), [p, m] = Xf((0, A.useCallback)((e, t, n)=>typeof t == `string` ? r.sendStateEvent(i.roomId, e, n, t) : r.sendEvent(i.roomId, e, n), [
+    var tft = 2;
+    function nft({ type: e, stateKey: t, requestClose: n }) {
+        let r = J(), i = n7(), a = Jf(), o = typeof t == `string`, s = (0, A.useRef)(null), [c, l] = (0, A.useState)(), { handleKeyDown: u, operations: d, getTarget: f } = b1(s, tft), [p, m] = Xf((0, A.useCallback)((e, t, n)=>typeof t == `string` ? r.sendStateEvent(i.roomId, e, n, t) : r.sendEvent(i.roomId, e, n), [
             r,
             i
         ])), h = p.status === V.Loading;
@@ -179141,7 +179216,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var nft = (e)=>{
+    var rft = (e)=>{
         let t = (0, A.useCallback)(()=>{
             let t = new Map;
             return Array.from(e.accountData.entries()).forEach(([e, n])=>{
@@ -179163,8 +179238,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t
         ]), n;
     };
-    function rft({ requestClose: e }) {
-        let [t, n] = Y(q, `developerTools`), r = J(), i = n7(), a = Yrt(i), o = nft(i), [s, c] = (0, A.useState)(!1), [l, u] = (0, A.useState)(), [d, f] = (0, A.useState)(), [p, m] = (0, A.useState)(), [h, g] = (0, A.useState)(!1), [_, v] = (0, A.useState)(), y = (0, A.useCallback)(()=>{
+    function ift({ requestClose: e }) {
+        let [t, n] = Y(q, `developerTools`), r = J(), i = n7(), a = Xrt(i), o = rft(i), [s, c] = (0, A.useState)(!1), [l, u] = (0, A.useState)(), [d, f] = (0, A.useState)(), [p, m] = (0, A.useState)(), [h, g] = (0, A.useState)(!1), [_, v] = (0, A.useState)(), y = (0, A.useCallback)(()=>{
             f(void 0), m(void 0), v(void 0);
         }, []), b = (0, A.useCallback)(async (e, t)=>{
             await r.setRoomAccountData(i.roomId, e, t);
@@ -179172,10 +179247,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             r,
             i.roomId
         ]);
-        return _ === void 0 ? p ? (0, j.jsx)(tft, {
+        return _ === void 0 ? p ? (0, j.jsx)(nft, {
             ...p,
             requestClose: y
-        }) : d ? (0, j.jsx)($dt, {
+        }) : d ? (0, j.jsx)(eft, {
             ...d,
             requestClose: y
         }) : (0, j.jsxs)(cY, {
@@ -179227,12 +179302,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 size: `L400`,
                                                 children: `Options`
                                             }),
-                                            (0, j.jsx)(X, {
+                                            (0, j.jsx)(hY, {
                                                 className: B9,
                                                 variant: `SurfaceVariant`,
                                                 direction: `Column`,
                                                 gap: `400`,
-                                                children: (0, j.jsx)(vY, {
+                                                children: (0, j.jsx)(X, {
                                                     title: `Enable Developer Tools`,
                                                     after: (0, j.jsx)(ar, {
                                                         variant: `Primary`,
@@ -179241,12 +179316,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                     })
                                                 })
                                             }),
-                                            t && (0, j.jsx)(X, {
+                                            t && (0, j.jsx)(hY, {
                                                 className: `_1lne79o0`,
                                                 variant: `SurfaceVariant`,
                                                 direction: `Column`,
                                                 gap: `400`,
-                                                children: (0, j.jsx)(vY, {
+                                                children: (0, j.jsx)(X, {
                                                     title: `Room ID`,
                                                     description: `Copy room ID to clipboard. ("${i.roomId}")`,
                                                     after: (0, j.jsx)(F, {
@@ -179273,12 +179348,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 size: `L400`,
                                                 children: `Data`
                                             }),
-                                            (0, j.jsx)(X, {
+                                            (0, j.jsx)(hY, {
                                                 className: `_1lne79o0`,
                                                 variant: `SurfaceVariant`,
                                                 direction: `Column`,
                                                 gap: `400`,
-                                                children: (0, j.jsx)(vY, {
+                                                children: (0, j.jsx)(X, {
                                                     title: `New Message Event`,
                                                     description: `Create and send a new message event within the room.`,
                                                     after: (0, j.jsx)(F, {
@@ -179295,13 +179370,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                     })
                                                 })
                                             }),
-                                            (0, j.jsxs)(X, {
+                                            (0, j.jsxs)(hY, {
                                                 className: `_1lne79o0`,
                                                 variant: `SurfaceVariant`,
                                                 direction: `Column`,
                                                 gap: `400`,
                                                 children: [
-                                                    (0, j.jsx)(vY, {
+                                                    (0, j.jsx)(X, {
                                                         title: `Room State`,
                                                         description: `State events of the room.`,
                                                         after: (0, j.jsx)(F, {
@@ -179458,13 +179533,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                     })
                                                 ]
                                             }),
-                                            (0, j.jsxs)(X, {
+                                            (0, j.jsxs)(hY, {
                                                 className: `_1lne79o0`,
                                                 variant: `SurfaceVariant`,
                                                 direction: `Column`,
                                                 gap: `400`,
                                                 children: [
-                                                    (0, j.jsx)(vY, {
+                                                    (0, j.jsx)(X, {
                                                         title: `Account Data`,
                                                         description: `Private personalization data stored within room.`,
                                                         after: (0, j.jsx)(F, {
@@ -179566,7 +179641,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             requestClose: y
         });
     }
-    var ift = ()=>(0, A.useMemo)(()=>[
+    var aft = ()=>(0, A.useMemo)(()=>[
                 {
                     page: C0.GeneralPage,
                     name: `General`,
@@ -179593,8 +179668,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     icon: B.Terminal
                 }
             ], []);
-    function aft({ initialPage: e, requestClose: t }) {
-        let n = n7(), r = J(), i = $Y(), a = I0(n, Bo(rq).has(n.roomId)), o = L0(n), s = z0(n), c = a ? iG(r, a, i, 96, 96, `crop`) ?? void 0 : void 0, l = om(), [u, d] = (0, A.useState)(()=>e || (l === am.Mobile ? void 0 : C0.GeneralPage)), f = ift(), p = ()=>{
+    function oft({ initialPage: e, requestClose: t }) {
+        let n = n7(), r = J(), i = $Y(), a = I0(n, Bo(rq).has(n.roomId)), o = L0(n), s = z0(n), c = a ? iG(r, a, i, 96, 96, `crop`) ?? void 0 : void 0, l = om(), [u, d] = (0, A.useState)(()=>e || (l === am.Mobile ? void 0 : C0.GeneralPage)), f = aft(), p = ()=>{
             if (l === am.Mobile) {
                 d(void 0);
                 return;
@@ -179679,25 +179754,25 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 ]
             }),
             children: [
-                u === C0.GeneralPage && (0, j.jsx)(ndt, {
+                u === C0.GeneralPage && (0, j.jsx)(rdt, {
                     requestClose: p
                 }),
-                u === C0.MembersPage && (0, j.jsx)(udt, {
+                u === C0.MembersPage && (0, j.jsx)(ddt, {
                     requestClose: p
                 }),
-                u === C0.PermissionsPage && (0, j.jsx)(Xdt, {
+                u === C0.PermissionsPage && (0, j.jsx)(Zdt, {
                     requestClose: p
                 }),
-                u === C0.EmojisStickersPage && (0, j.jsx)(pdt, {
+                u === C0.EmojisStickersPage && (0, j.jsx)(mdt, {
                     requestClose: p
                 }),
-                u === C0.DeveloperToolsPage && (0, j.jsx)(rft, {
+                u === C0.DeveloperToolsPage && (0, j.jsx)(ift, {
                     requestClose: p
                 })
             ]
         });
     }
-    function oft({ state: e }) {
+    function sft({ state: e }) {
         let { roomId: t, spaceId: n, page: r } = e, i = sLe(), a = j0(A0()), o = a(t), s = n ? a(n) : void 0;
         return o ? (0, j.jsx)(sm, {
             requestClose: i,
@@ -179705,7 +179780,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 value: s ?? null,
                 children: (0, j.jsx)(t7, {
                     value: o,
-                    children: (0, j.jsx)(aft, {
+                    children: (0, j.jsx)(oft, {
                         initialPage: r,
                         requestClose: i
                     })
@@ -179713,20 +179788,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         }) : null;
     }
-    function sft() {
+    function cft() {
         let e = oLe();
-        return e ? (0, j.jsx)(oft, {
+        return e ? (0, j.jsx)(sft, {
             state: e
         }) : null;
     }
-    function cft({ children: e }) {
+    function lft({ children: e }) {
         let t = OCe();
         return (0, j.jsx)(DCe, {
             value: t,
             children: e
         });
     }
-    function lft({ permissions: e }) {
+    function uft({ permissions: e }) {
         let t = J(), n = n7(), r = e.stateEvent(K.SpaceAutoJoin, t.getSafeUserId()), i = bZ(n, K.SpaceAutoJoin)?.getContent().auto_join === !0, [a, o] = Xf((0, A.useCallback)(async (e)=>{
             let r = {
                 auto_join: e
@@ -179736,12 +179811,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t,
             n.roomId
         ])), s = a.status === V.Loading;
-        return (0, j.jsx)(X, {
+        return (0, j.jsx)(hY, {
             className: z9,
             variant: `SurfaceVariant`,
             direction: `Column`,
             gap: `400`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 title: `Auto Join Rooms`,
                 description: `Tell members' clients to automatically join all rooms and subspaces of this space.`,
                 after: (0, j.jsxs)(P, {
@@ -179768,7 +179843,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function uft({ requestClose: e }) {
+    function dft({ requestClose: e }) {
         let t = n7(), n = CZ(t), r = h1(g1(t), n);
         return (0, j.jsxs)(cY, {
             children: [
@@ -179811,7 +179886,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 direction: `Column`,
                                 gap: `700`,
                                 children: [
-                                    (0, j.jsx)(Zut, {
+                                    (0, j.jsx)(Qut, {
                                         permissions: r
                                     }),
                                     (0, j.jsxs)(P, {
@@ -179822,13 +179897,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 size: `L400`,
                                                 children: `Options`
                                             }),
-                                            (0, j.jsx)(Yut, {
+                                            (0, j.jsx)(Xut, {
                                                 permissions: r
                                             }),
-                                            (0, j.jsx)($ut, {
+                                            (0, j.jsx)(edt, {
                                                 permissions: r
                                             }),
-                                            (0, j.jsx)(lft, {
+                                            (0, j.jsx)(uft, {
                                                 permissions: r
                                             })
                                         ]
@@ -179841,10 +179916,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 size: `L400`,
                                                 children: `Addresses`
                                             }),
-                                            (0, j.jsx)(Lut, {
+                                            (0, j.jsx)(Rut, {
                                                 permissions: r
                                             }),
-                                            (0, j.jsx)(But, {
+                                            (0, j.jsx)(Vut, {
                                                 permissions: r
                                             })
                                         ]
@@ -179857,7 +179932,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 size: `L400`,
                                                 children: `Advanced Options`
                                             }),
-                                            (0, j.jsx)(tdt, {
+                                            (0, j.jsx)(ndt, {
                                                 permissions: r,
                                                 requestClose: e
                                             })
@@ -179871,7 +179946,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var dft = ()=>(0, A.useMemo)(()=>[
+    var fft = ()=>(0, A.useMemo)(()=>[
                 {
                     name: `Manage`,
                     items: [
@@ -180006,9 +180081,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     ]
                 }
             ], []);
-    function fft({ requestClose: e }) {
-        let t = J(), n = n7(), r = CZ(n), i = h1(g1(n), r), a = i.stateEvent(K.PowerLevelTags, t.getSafeUserId()), o = i.stateEvent(K.RoomPowerLevels, t.getSafeUserId()), s = dft(), [c, l] = (0, A.useState)(!1);
-        return a && c ? (0, j.jsx)(Ydt, {
+    function pft({ requestClose: e }) {
+        let t = J(), n = n7(), r = CZ(n), i = h1(g1(n), r), a = i.stateEvent(K.PowerLevelTags, t.getSafeUserId()), o = i.stateEvent(K.RoomPowerLevels, t.getSafeUserId()), s = fft(), [c, l] = (0, A.useState)(!1);
+        return a && c ? (0, j.jsx)(Xdt, {
             powerLevels: r,
             requestClose: ()=>l(!1)
         }) : (0, j.jsxs)(cY, {
@@ -180052,14 +180127,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 direction: `Column`,
                                 gap: `700`,
                                 children: [
-                                    (0, j.jsx)(vdt, {
+                                    (0, j.jsx)(ydt, {
                                         powerLevels: r,
                                         onEdit: a ? ()=>{
                                             l(!0);
                                         } : void 0,
                                         permissionGroups: s
                                     }),
-                                    (0, j.jsx)(gdt, {
+                                    (0, j.jsx)(_dt, {
                                         canEdit: o,
                                         powerLevels: r,
                                         permissionGroups: s
@@ -180072,7 +180147,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var pft = ()=>(0, A.useMemo)(()=>[
+    var mft = ()=>(0, A.useMemo)(()=>[
                 {
                     page: f7.GeneralPage,
                     name: `General`,
@@ -180099,8 +180174,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     icon: B.Terminal
                 }
             ], []);
-    function mft({ initialPage: e, requestClose: t }) {
-        let n = n7(), r = J(), i = $Y(), a = I0(n, Bo(rq).has(n.roomId)), o = L0(n), s = z0(n), c = a ? iG(r, a, i, 96, 96, `crop`) ?? void 0 : void 0, l = om(), [u, d] = (0, A.useState)(()=>e || (l === am.Mobile ? void 0 : f7.GeneralPage)), f = pft(), p = ()=>{
+    function hft({ initialPage: e, requestClose: t }) {
+        let n = n7(), r = J(), i = $Y(), a = I0(n, Bo(rq).has(n.roomId)), o = L0(n), s = z0(n), c = a ? iG(r, a, i, 96, 96, `crop`) ?? void 0 : void 0, l = om(), [u, d] = (0, A.useState)(()=>e || (l === am.Mobile ? void 0 : f7.GeneralPage)), f = mft(), p = ()=>{
             if (l === am.Mobile) {
                 d(void 0);
                 return;
@@ -180185,25 +180260,25 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 ]
             }),
             children: [
-                u === f7.GeneralPage && (0, j.jsx)(uft, {
+                u === f7.GeneralPage && (0, j.jsx)(dft, {
                     requestClose: p
                 }),
-                u === f7.MembersPage && (0, j.jsx)(udt, {
+                u === f7.MembersPage && (0, j.jsx)(ddt, {
                     requestClose: p
                 }),
-                u === f7.PermissionsPage && (0, j.jsx)(fft, {
+                u === f7.PermissionsPage && (0, j.jsx)(pft, {
                     requestClose: p
                 }),
-                u === f7.EmojisStickersPage && (0, j.jsx)(pdt, {
+                u === f7.EmojisStickersPage && (0, j.jsx)(mdt, {
                     requestClose: p
                 }),
-                u === f7.DeveloperToolsPage && (0, j.jsx)(rft, {
+                u === f7.DeveloperToolsPage && (0, j.jsx)(ift, {
                     requestClose: p
                 })
             ]
         });
     }
-    function hft({ state: e }) {
+    function gft({ state: e }) {
         let { roomId: t, spaceId: n, page: r } = e, i = i8e(), a = j0(A0()), o = a(t), s = n && n !== t ? a(n) : void 0;
         return o ? (0, j.jsx)(sm, {
             requestClose: i,
@@ -180211,7 +180286,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 value: s ?? null,
                 children: (0, j.jsx)(t7, {
                     value: o,
-                    children: (0, j.jsx)(mft, {
+                    children: (0, j.jsx)(hft, {
                         initialPage: r,
                         requestClose: i
                     })
@@ -180219,13 +180294,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         }) : null;
     }
-    function gft() {
+    function _ft() {
         let e = r8e();
-        return e ? (0, j.jsx)(hft, {
+        return e ? (0, j.jsx)(gft, {
             state: e
         }) : null;
     }
-    var _ft = (e)=>{
+    var vft = (e)=>{
         let [t, n] = (0, A.useState)(()=>e ? IK(e) : void 0);
         return (0, A.useEffect)(()=>{
             n(e ? IK(e) : void 0);
@@ -180238,13 +180313,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }, [
             e
         ]), e ? 15e3 : -1), t;
-    }, vft = ()=>{
+    }, yft = ()=>{
         let { unstable_features: e } = mm();
         return !!(e?.[`uk.half-shot.msc2666`] || e?.[`uk.half-shot.msc2666.mutual_rooms`] || e?.[`uk.half-shot.msc2666.query_mutual_rooms`]);
-    }, yft = ()=>{
+    }, bft = ()=>{
         let { unstable_features: e, versions: t } = mm();
         return !!(t.includes(`v1.19`) || e?.[`uk.half-shot.msc2666.query_mutual_rooms.stable`]);
-    }, bft = async (e, t)=>{
+    }, xft = async (e, t)=>{
         let n = new Set, r;
         do {
             let i = await e.http.authedRequest(rR.Get, `/mutual_rooms`, {
@@ -180256,8 +180331,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             i.joined.forEach((e)=>n.add(e)), r = i.next_batch;
         }while (typeof r == `string`);
         return Array.from(n);
-    }, xft = (e)=>{
-        let t = J(), n = vft(), r = yft(), [i] = Zf((0, A.useCallback)(()=>r ? bft(t, e) : n ? t._unstable_getSharedRooms(e) : Promise.resolve([]), [
+    }, Sft = (e)=>{
+        let t = J(), n = yft(), r = bft(), [i] = Zf((0, A.useCallback)(()=>r ? xft(t, e) : n ? t._unstable_getSharedRooms(e) : Promise.resolve([]), [
             t,
             e,
             n,
@@ -180265,8 +180340,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ]));
         return i;
     };
-    function Sft({ userId: e }) {
-        let t = J(), n = yft(), r = vft(), i = xft(e), { navigateRoom: a, navigateSpace: o } = h2(), s = x0(), c = G1(), l = $Y(), u = j0(A0()), [d, f] = (0, A.useState)(), p = (e)=>{
+    function Cft({ userId: e }) {
+        let t = J(), n = bft(), r = yft(), i = Sft(e), { navigateRoom: a, navigateSpace: o } = h2(), s = x0(), c = G1(), l = $Y(), u = j0(A0()), [d, f] = (0, A.useState)(), p = (e)=>{
             f(e.currentTarget.getBoundingClientRect());
         }, m = ()=>f(void 0), h = (0, A.useMemo)(()=>{
             let e = {
@@ -180430,13 +180505,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Cft() {
+    function wft() {
         return (0, j.jsx)(S1, {
             style: {
                 padding: N.space.S200
             },
             variant: `Critical`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 children: (0, j.jsxs)(P, {
                     direction: `Column`,
                     gap: `200`,
@@ -180461,7 +180536,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function wft({ userId: e, membership: t, canInvite: n, canKick: r, canBan: i, canUnban: a }) {
+    function Tft({ userId: e, membership: t, canInvite: n, canKick: r, canBan: i, canUnban: a }) {
         let o = J(), s = n7(), [c, l] = (0, A.useState)(), [u, d] = (0, A.useState)(``), f = (e)=>{
             l(e.currentTarget.getBoundingClientRect());
         }, p = ()=>l(void 0), m = jX(), h = m.includes(e), [g, _] = Xf((0, A.useCallback)(async ()=>{
@@ -180611,7 +180686,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var Tft = (e, t)=>({
+    var Eft = (e, t)=>({
             hasMorePower: (0, A.useCallback)((n, r)=>{
                 let i = e.has(n), a = e.has(r);
                 return i && a ? !1 : i ? !0 : !a && TZ.user(t, n) > TZ.user(t, r);
@@ -180620,7 +180695,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 t
             ])
         });
-    function Eft({ power: e, onCancel: t, onChange: n }) {
+    function Dft({ power: e, onCancel: t, onChange: n }) {
         return (0, j.jsx)(Bn, {
             open: !0,
             backdrop: (0, j.jsx)(Vn, {}),
@@ -180696,7 +180771,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Dft({ power: e, onCancel: t, onChange: n }) {
+    function Oft({ power: e, onCancel: t, onChange: n }) {
         return (0, j.jsx)(Bn, {
             open: !0,
             backdrop: (0, j.jsx)(Vn, {}),
@@ -180772,8 +180847,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Oft({ userId: e }) {
-        let t = J(), n = n7(), r = k0(), i = $Y(), a = T0(), o = p7(), s = CZ(n), c = g1(n), l = h1(c, s), u = EZ(s), { hasMorePower: d } = Tft(c, s), f = L4(n, s), p = Z3(n, c, s), m = t.getSafeUserId(), h = l.stateEvent(K.RoomPowerLevels, m) && (m === e || d(m, e)), g = p(e), _ = g.icon && Q3(t, i, g.icon), [v, y] = (0, A.useState)(), b = (e)=>{
+    function kft({ userId: e }) {
+        let t = J(), n = n7(), r = k0(), i = $Y(), a = T0(), o = p7(), s = CZ(n), c = g1(n), l = h1(c, s), u = EZ(s), { hasMorePower: d } = Eft(c, s), f = L4(n, s), p = Z3(n, c, s), m = t.getSafeUserId(), h = l.stateEvent(K.RoomPowerLevels, m) && (m === e || d(m, e)), g = p(e), _ = g.icon && Q3(t, i, g.icon), [v, y] = (0, A.useState)(), b = (e)=>{
             y(e.currentTarget.getBoundingClientRect());
         }, x = ()=>y(void 0), [S, C] = Xf((0, A.useCallback)(async (r)=>{
             await t.setPowerLevel(n.roomId, e, r);
@@ -180920,14 +180995,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         })
                     })
                 }),
-                typeof E == `number` ? (0, j.jsx)(Eft, {
+                typeof E == `number` ? (0, j.jsx)(Dft, {
                     power: E,
                     onCancel: ()=>D(void 0),
                     onChange: (e)=>{
                         D(void 0), C(e);
                     }
                 }) : null,
-                typeof O == `number` ? (0, j.jsx)(Dft, {
+                typeof O == `number` ? (0, j.jsx)(Oft, {
                     power: O,
                     onCancel: ()=>k(void 0),
                     onChange: (e)=>{
@@ -180937,14 +181012,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function kft({ reason: e, kickedBy: t, ts: n }) {
+    function Aft({ reason: e, kickedBy: t, ts: n }) {
         let [r] = Y(q, `hour24Clock`), [i] = Y(q, `dateFormatString`), a = n ? GX(n, r) : void 0, o = n ? KX(n, i) : void 0;
         return (0, j.jsx)(S1, {
             style: {
                 padding: N.space.S200
             },
             variant: `Critical`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 children: (0, j.jsxs)(P, {
                     direction: `Column`,
                     gap: `200`,
@@ -180999,14 +181074,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Aft({ reason: e, bannedBy: t, ts: n }) {
+    function jft({ reason: e, bannedBy: t, ts: n }) {
         let [r] = Y(q, `hour24Clock`), [i] = Y(q, `dateFormatString`), a = n ? GX(n, r) : void 0, o = n ? KX(n, i) : void 0;
         return (0, j.jsx)(S1, {
             style: {
                 padding: N.space.S200
             },
             variant: `Critical`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 children: (0, j.jsxs)(P, {
                     direction: `Column`,
                     gap: `200`,
@@ -181061,14 +181136,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function jft({ reason: e, invitedBy: t, ts: n }) {
+    function Mft({ reason: e, invitedBy: t, ts: n }) {
         let [r] = Y(q, `hour24Clock`), [i] = Y(q, `dateFormatString`), a = n ? GX(n, r) : void 0, o = n ? KX(n, i) : void 0;
         return (0, j.jsx)(S1, {
             style: {
                 padding: N.space.S200
             },
             variant: `Success`,
-            children: (0, j.jsx)(vY, {
+            children: (0, j.jsx)(X, {
                 children: (0, j.jsxs)(P, {
                     direction: `Column`,
                     gap: `200`,
@@ -181123,7 +181198,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var Mft = (e, t)=>{
+    var Nft = (e, t)=>{
         let n = e.getMember(t), [r, i] = (0, A.useState)(()=>n?.membership ?? NH.Leave);
         return (0, A.useEffect)(()=>{
             let r = (n, r)=>{
@@ -181138,7 +181213,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t
         ]), r;
     };
-    function Nft() {
+    function Pft() {
         let e = J(), t = $Y(), n = n7(), r = k0(), i = T0(), a = p7(), [o, s] = (0, A.useState)(), c = V4(), l = c.icon && Q3(e, t, c.icon), u = (e)=>{
             s(e.currentTarget.getBoundingClientRect());
         }, d = ()=>s(void 0);
@@ -181201,7 +181276,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Pft({ userId: e }) {
+    function Fft({ userId: e }) {
         let t = J(), n = du(), r = x0(), [i, a] = (0, A.useState)(``), o = UW(e) ?? e, [s, c] = Xf((0, A.useCallback)(async (n)=>{
             let r = tG(t, e)?.roomId;
             if (!r) {
@@ -181287,8 +181362,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Fft({ userId: e }) {
-        let t = J(), n = $Y(), r = jX().includes(e), i = n7(), a = CZ(i), o = g1(i), s = h1(o, a), { hasMorePower: c } = Tft(o, a), l = t.getSafeUserId(), u = o.has(e), d = s.action(`kick`, l) && c(l, e), f = s.action(`ban`, l) && c(l, e), p = s.action(`ban`, l), m = s.action(`invite`, l), h = i.getMember(e), g = Mft(i, e), _ = jW(i, e), v = NW(i, e), y = (v && iG(t, v, n)) ?? void 0, b = pX(e), x = mX(e), S = QY(e), C = NK(S.extended).map((e)=>e.summary).join(`, `), w = fSe(S.extended), T = PK(S.extended), E = _ft(FK(S.extended)), D = w ? iG(t, w, n) ?? void 0 : void 0;
+    function Ift({ userId: e }) {
+        let t = J(), n = $Y(), r = jX().includes(e), i = n7(), a = CZ(i), o = g1(i), s = h1(o, a), { hasMorePower: c } = Eft(o, a), l = t.getSafeUserId(), u = o.has(e), d = s.action(`kick`, l) && c(l, e), f = s.action(`ban`, l) && c(l, e), p = s.action(`ban`, l), m = s.action(`invite`, l), h = i.getMember(e), g = Nft(i, e), _ = jW(i, e), v = NW(i, e), y = (v && iG(t, v, n)) ?? void 0, b = pX(e), x = mX(e), S = QY(e), C = NK(S.extended).map((e)=>e.summary).join(`, `), w = fSe(S.extended), T = PK(S.extended), E = vft(FK(S.extended)), D = w ? iG(t, w, n) ?? void 0 : void 0;
         return (0, j.jsxs)(P, {
             direction: `Column`,
             children: [
@@ -181326,13 +181401,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     gap: `200`,
                                     wrap: `Wrap`,
                                     children: [
-                                        u ? (0, j.jsx)(Nft, {}) : (0, j.jsx)(Oft, {
+                                        u ? (0, j.jsx)(Pft, {}) : (0, j.jsx)(kft, {
                                             userId: e
                                         }),
-                                        e !== l && (0, j.jsx)(Sft, {
+                                        e !== l && (0, j.jsx)(Cft, {
                                             userId: e
                                         }),
-                                        e !== l && (0, j.jsx)(wft, {
+                                        e !== l && (0, j.jsx)(Tft, {
                                             userId: e,
                                             membership: g,
                                             canInvite: m,
@@ -181363,23 +181438,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         x && (0, j.jsx)(nOe, {
                             presence: x
                         }),
-                        r && (0, j.jsx)(Cft, {}),
-                        h && g === NH.Ban && (0, j.jsx)(Aft, {
+                        r && (0, j.jsx)(wft, {}),
+                        h && g === NH.Ban && (0, j.jsx)(jft, {
                             reason: h.events.member?.getContent().reason,
                             bannedBy: h.events.member?.getSender(),
                             ts: h.events.member?.getTs()
                         }),
-                        h && g === NH.Leave && h.events.member && h.events.member.getSender() !== e && (0, j.jsx)(kft, {
+                        h && g === NH.Leave && h.events.member && h.events.member.getSender() !== e && (0, j.jsx)(Aft, {
                             reason: h.events.member?.getContent().reason,
                             kickedBy: h.events.member?.getSender(),
                             ts: h.events.member?.getTs()
                         }),
-                        h && g === NH.Invite && (0, j.jsx)(jft, {
+                        h && g === NH.Invite && (0, j.jsx)(Mft, {
                             reason: h.events.member?.getContent().reason,
                             invitedBy: h.events.member?.getSender(),
                             ts: h.events.member?.getTs()
                         }),
-                        e !== l && !r && (0, j.jsx)(Pft, {
+                        e !== l && !r && (0, j.jsx)(Fft, {
                             userId: e
                         })
                     ]
@@ -181387,7 +181462,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Ift({ state: e }) {
+    function Lft({ state: e }) {
         let { roomId: t, spaceId: n, userId: r, cords: i, position: a } = e, o = j0(A0()), s = o(t), c = n ? o(n) : void 0, l = x0();
         return s ? (0, j.jsx)(qn, {
             anchor: i,
@@ -181408,7 +181483,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         value: c ?? null,
                         children: (0, j.jsx)(t7, {
                             value: s,
-                            children: (0, j.jsx)(Fft, {
+                            children: (0, j.jsx)(Ift, {
                                 userId: r
                             })
                         })
@@ -181417,19 +181492,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         }) : null;
     }
-    function Lft() {
+    function Rft() {
         let e = b0();
-        return e ? (0, j.jsx)(Ift, {
+        return e ? (0, j.jsx)(Lft, {
             state: e
         }) : null;
     }
-    function Rft({ value: e, onSelect: t, disabled: n, getIcon: r }) {
+    function zft({ value: e, onSelect: t, disabled: n, getIcon: r }) {
         return (0, j.jsxs)(P, {
             shrink: `No`,
             direction: `Column`,
             gap: `100`,
             children: [
-                (0, j.jsx)(X, {
+                (0, j.jsx)(hY, {
                     style: {
                         padding: N.space.S300
                     },
@@ -181441,7 +181516,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     "aria-pressed": e === c7.TextRoom,
                     onClick: ()=>t(c7.TextRoom),
                     disabled: n,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         before: (0, j.jsx)(I, {
                             size: `400`,
                             src: r(c7.TextRoom)
@@ -181470,7 +181545,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         })
                     })
                 }),
-                (0, j.jsx)(X, {
+                (0, j.jsx)(hY, {
                     style: {
                         padding: N.space.S300
                     },
@@ -181482,7 +181557,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     "aria-pressed": e === c7.VoiceRoom,
                     onClick: ()=>t(c7.VoiceRoom),
                     disabled: n,
-                    children: (0, j.jsx)(vY, {
+                    children: (0, j.jsx)(X, {
                         before: (0, j.jsx)(I, {
                             size: `400`,
                             src: r(c7.VoiceRoom)
@@ -181507,7 +181582,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     truncate: !0,
                                     children: `- Live audio and video conversations.`
                                 }),
-                                (0, j.jsx)(yst, {})
+                                (0, j.jsx)(bst, {})
                             ]
                         })
                     })
@@ -181515,11 +181590,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var zft = (e, t)=>{
+    var Bft = (e, t)=>{
         let n = t === c7.VoiceRoom, r = Bz.Public;
         return e === l7.Restricted && (r = Bz.Restricted), e === l7.Private && (r = Bz.Knock), EW(B, n ? IH.Call : void 0, r);
-    }, Bft = (e)=>e === c7.VoiceRoom ? B.VolumeHigh : B.Hash;
-    function Vft({ defaultAccess: e, defaultType: t, space: n, onCreate: r }) {
+    }, Vft = (e)=>e === c7.VoiceRoom ? B.VolumeHigh : B.Hash;
+    function Hft({ defaultAccess: e, defaultType: t, space: n, onCreate: r }) {
         let i = J(), a = Jf(), o = LK()[`m.room_versions`], [s, c] = (0, A.useState)(o?.default ?? `1`);
         (0, A.useEffect)(()=>{
             c(o?.default ?? `1`);
@@ -181568,11 +181643,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             size: `L400`,
                             children: `Type`
                         }),
-                        (0, j.jsx)(Rft, {
+                        (0, j.jsx)(zft, {
                             value: u,
                             onSelect: d,
                             disabled: re,
-                            getIcon: Bft
+                            getIcon: Vft
                         })
                     ]
                 }),
@@ -181589,7 +181664,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             onSelect: p,
                             canRestrict: l,
                             disabled: re,
-                            getIcon: (e)=>zft(e, u)
+                            getIcon: (e)=>Bft(e, u)
                         })
                     ]
                 }),
@@ -181606,7 +181681,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             required: !0,
                             before: (0, j.jsx)(I, {
                                 size: `100`,
-                                src: zft(f, u)
+                                src: Bft(f, u)
                             }),
                             name: `nameInput`,
                             autoFocus: !0,
@@ -181671,7 +181746,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 })
                             ]
                         }),
-                        m && (0, j.jsx)(X, {
+                        m && (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S300
                             },
@@ -181686,14 +181761,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         }),
                         f !== l7.Public && (0, j.jsxs)(j.Fragment, {
                             children: [
-                                (0, j.jsx)(X, {
+                                (0, j.jsx)(hY, {
                                     style: {
                                         padding: N.space.S300
                                     },
                                     variant: `SurfaceVariant`,
                                     direction: `Column`,
                                     gap: `500`,
-                                    children: (0, j.jsx)(vY, {
+                                    children: (0, j.jsx)(X, {
                                         title: `End-to-End Encryption`,
                                         description: `Once this feature is enabled, it can't be disabled after the room is created.`,
                                         after: (0, j.jsx)(ar, {
@@ -181704,14 +181779,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         })
                                     })
                                 }),
-                                w && (E || D) && (0, j.jsx)(X, {
+                                w && (E || D) && (0, j.jsx)(hY, {
                                     style: {
                                         padding: N.space.S300
                                     },
                                     variant: `SurfaceVariant`,
                                     direction: `Column`,
                                     gap: `500`,
-                                    children: (0, j.jsx)(vY, {
+                                    children: (0, j.jsx)(X, {
                                         title: `Knock to Join`,
                                         description: `Anyone can send request to join this room.`,
                                         after: (0, j.jsx)(ar, {
@@ -181724,14 +181799,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 })
                             ]
                         }),
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S300
                             },
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             gap: `500`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: `Allow Federation`,
                                 description: `Users from other servers can join.`,
                                 after: (0, j.jsx)(ar, {
@@ -181799,8 +181874,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Hft({ state: e }) {
-        let { spaceId: t, type: n } = e, r = dst(), i = j0(A0()), a = t ? i(t) : void 0;
+    function Uft({ state: e }) {
+        let { spaceId: t, type: n } = e, r = fst(), i = j0(A0()), a = t ? i(t) : void 0;
         return (0, j.jsx)(D0, {
             value: a ?? null,
             children: (0, j.jsx)(Bn, {
@@ -181857,7 +181932,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             },
                                             direction: `Column`,
                                             gap: `500`,
-                                            children: (0, j.jsx)(Vft, {
+                                            children: (0, j.jsx)(Hft, {
                                                 space: a,
                                                 onCreate: r,
                                                 defaultType: n
@@ -181872,13 +181947,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Uft() {
-        let e = ust();
-        return e ? (0, j.jsx)(Hft, {
+    function Wft() {
+        let e = dst();
+        return e ? (0, j.jsx)(Uft, {
             state: e
         }) : null;
     }
-    function Wft() {
+    function Gft() {
         let e = om(), { navigateRoom: t } = h2();
         return (0, j.jsxs)(cY, {
             children: [
@@ -181919,7 +181994,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 title: `Create Room`,
                                                 subTitle: `Build a Room for Real-Time Conversations.`
                                             }),
-                                            (0, j.jsx)(Vft, {
+                                            (0, j.jsx)(Hft, {
                                                 onCreate: t
                                             })
                                         ]
@@ -181932,8 +182007,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var Gft = (e)=>e === l7.Private ? B.SpaceLock : e === l7.Restricted ? B.Space : B.SpaceGlobe;
-    function Kft({ defaultAccess: e, space: t, onCreate: n }) {
+    var Kft = (e)=>e === l7.Private ? B.SpaceLock : e === l7.Restricted ? B.Space : B.SpaceGlobe;
+    function qft({ defaultAccess: e, space: t, onCreate: n }) {
         let r = J(), i = Jf(), a = LK()[`m.room_versions`], [o, s] = (0, A.useState)(a?.default ?? `1`);
         (0, A.useEffect)(()=>{
             s(a?.default ?? `1`);
@@ -181984,7 +182059,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             onSelect: u,
                             canRestrict: c,
                             disabled: O,
-                            getIcon: Gft
+                            getIcon: Kft
                         })
                     ]
                 }),
@@ -182001,7 +182076,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             required: !0,
                             before: (0, j.jsx)(I, {
                                 size: `100`,
-                                src: Gft(l)
+                                src: Kft(l)
                             }),
                             name: `nameInput`,
                             autoFocus: !0,
@@ -182066,7 +182141,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 })
                             ]
                         }),
-                        d && (0, j.jsx)(X, {
+                        d && (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S300
                             },
@@ -182079,14 +182154,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 onRemove: m
                             })
                         }),
-                        l !== l7.Public && y && (x || S) && (0, j.jsx)(X, {
+                        l !== l7.Public && y && (x || S) && (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S300
                             },
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             gap: `500`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: `Knock to Join`,
                                 description: `Anyone can send request to join this space.`,
                                 after: (0, j.jsx)(ar, {
@@ -182097,14 +182172,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 })
                             })
                         }),
-                        (0, j.jsx)(X, {
+                        (0, j.jsx)(hY, {
                             style: {
                                 padding: N.space.S300
                             },
                             variant: `SurfaceVariant`,
                             direction: `Column`,
                             gap: `500`,
-                            children: (0, j.jsx)(vY, {
+                            children: (0, j.jsx)(X, {
                                 title: `Allow Federation`,
                                 description: `Users from other servers can join.`,
                                 after: (0, j.jsx)(ar, {
@@ -182172,8 +182247,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function qft({ state: e }) {
-        let { spaceId: t } = e, n = hst(), r = j0(A0()), i = t ? r(t) : void 0;
+    function Jft({ state: e }) {
+        let { spaceId: t } = e, n = gst(), r = j0(A0()), i = t ? r(t) : void 0;
         return (0, j.jsx)(D0, {
             value: i ?? null,
             children: (0, j.jsx)(Bn, {
@@ -182231,7 +182306,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             },
                                             direction: `Column`,
                                             gap: `500`,
-                                            children: (0, j.jsx)(Kft, {
+                                            children: (0, j.jsx)(qft, {
                                                 space: i,
                                                 onCreate: n
                                             })
@@ -182245,13 +182320,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Jft() {
-        let e = mst();
-        return e ? (0, j.jsx)(qft, {
+    function Yft() {
+        let e = hst();
+        return e ? (0, j.jsx)(Jft, {
             state: e
         }) : null;
     }
-    function Yft() {
+    function Xft() {
         let { navigateSpace: e } = h2();
         return (0, j.jsx)(cY, {
             children: (0, j.jsx)(P, {
@@ -182274,7 +182349,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             title: `Create Space`,
                                             subTitle: `Build a space for your community.`
                                         }),
-                                        (0, j.jsx)(Kft, {
+                                        (0, j.jsx)(qft, {
                                             onCreate: e
                                         })
                                     ]
@@ -182286,7 +182361,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var Xft = (e, t)=>{
+    var Zft = (e, t)=>{
         let [n, r] = (0, A.useState)(t);
         return {
             index: n,
@@ -182312,11 +182387,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 t
             ])
         };
-    }, Zft = (e)=>{
+    }, Qft = (e)=>{
         if (e === `#`) return `#`;
         if (e === `*`) return `*`;
         if (e === `@`) return `@`;
-    }, Qft = (e, t, n, r, i)=>{
+    }, $ft = (e, t, n, r, i)=>{
         let a = J();
         return (0, A.useMemo)(()=>{
             let o = (e)=>e !== i;
@@ -182332,10 +182407,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e,
             i
         ]);
-    }, $ft = (e, t, n)=>{
+    }, ept = (e, t, n)=>{
         let r = t(e);
         return r && nG(r, n);
-    }, ept = (e, t, n, r, i)=>(0, A.useMemo)(()=>{
+    }, tpt = (e, t, n, r, i)=>(0, A.useMemo)(()=>{
             let a = (e)=>e !== i;
             return e === void 0 ? [
                 ...t,
@@ -182348,7 +182423,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n,
             e,
             i
-        ]), tpt = {
+        ]), npt = {
         matchOptions: {
             contain: !0
         },
@@ -182356,11 +182431,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ignoreWhitespace: !1
         }
     };
-    function npt({ requestClose: e }) {
-        let t = J(), n = $Y(), r = (0, A.useRef)(null), i = (0, A.useRef)(null), { navigateRoom: a, navigateSpace: o } = h2(), s = Bo(Sq), c = X1(), [l, u] = (0, A.useState)(), d = j0(A0()), f = Bo(aq), p = V1(t, nq, f), m = Bo(rq), h = H1(t, nq, m), g = B1(t, nq), _ = U1(t, nq, m), v = Qft(l, h, _, g, c), [y, b, x] = P0(ept(l, h, _, g, c), (0, A.useCallback)((e)=>{
+    function rpt({ requestClose: e }) {
+        let t = J(), n = $Y(), r = (0, A.useRef)(null), i = (0, A.useRef)(null), { navigateRoom: a, navigateSpace: o } = h2(), s = Bo(Sq), c = X1(), [l, u] = (0, A.useState)(), d = j0(A0()), f = Bo(aq), p = V1(t, nq, f), m = Bo(rq), h = H1(t, nq, m), g = B1(t, nq), _ = U1(t, nq, m), v = $ft(l, h, _, g, c), [y, b, x] = P0(tpt(l, h, _, g, c), (0, A.useCallback)((e)=>{
             let n = d(e)?.name ?? e;
             if (m.has(e)) {
-                let r = $ft(e, d, t.getSafeUserId()), i = r && UW(r);
+                let r = ept(e, d, t.getSafeUserId()), i = r && UW(r);
                 if (i) return [
                     n,
                     i
@@ -182371,11 +182446,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             d,
             m,
             t
-        ]), tpt), S = y ? y.items : v, C = Xft(S.length, 0), w = y?.query ? q$(y.query.split(` `)) : void 0, T = (t, n)=>{
+        ]), npt), S = y ? y.items : v, C = Zft(S.length, 0), w = y?.query ? q$(y.query.split(` `)) : void 0, T = (t, n)=>{
             n ? o(t) : a(t), e();
         }, E = (e)=>{
             C.reset();
-            let t = e.currentTarget.value.trim(), n = t.match(/^[#@*]/)?.[0], r = typeof n == `string` && Zft(n);
+            let t = e.currentTarget.value.trim(), n = t.match(/^[#@*]/)?.[0], r = typeof n == `string` && Qft(n);
             if (r ? (t = t.slice(1), u(r)) : u(void 0), t === ``) {
                 x();
                 return;
@@ -182481,7 +182556,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             children: S.map((e, r)=>{
                                                 let i = d(e);
                                                 if (!i) return null;
-                                                let a = m.has(e), o = a && $ft(e, d, t.getSafeUserId()), c = o && UW(o), l = o && HW(o), u = yW(f, e), h = u && p.filter((e)=>u.has(e)), g = h && BW(t, e, h), _ = f.get(e), v = _ && BW(t, e, Array.from(_)), y = s.get(e);
+                                                let a = m.has(e), o = a && ept(e, d, t.getSafeUserId()), c = o && UW(o), l = o && HW(o), u = yW(f, e), h = u && p.filter((e)=>u.has(e)), g = h && BW(t, e, h), _ = f.get(e), v = _ && BW(t, e, Array.from(_)), y = s.get(e);
                                                 return (0, j.jsx)(Nn, {
                                                     as: `button`,
                                                     "data-focus-index": r,
@@ -182619,7 +182694,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function rpt() {
+    function ipt() {
         let [e, t] = Ho(T7e);
         return j7(window, (0, A.useCallback)((n)=>{
             if (Zp(`mod+k`, n)) {
@@ -182634,11 +182709,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }, [
             e,
             t
-        ])), e && (0, j.jsx)(npt, {
+        ])), e && (0, j.jsx)(rpt, {
             requestClose: ()=>t(!1)
         });
     }
-    var ipt = [
+    var apt = [
         w1.Messages,
         w1.Navigation,
         w1.Formatting,
@@ -182646,7 +182721,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         w1.Input,
         w1.Call
     ];
-    function apt({ keys: e }) {
+    function opt({ keys: e }) {
         return (0, j.jsx)(P, {
             gap: `100`,
             alignItems: `Center`,
@@ -182671,9 +182746,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 }, t))
         });
     }
-    function opt({ requestClose: e }) {
+    function spt({ requestClose: e }) {
         let [t] = Y(q, `keybinds`), n = GJ() ? wY.Command : `Ctrl`, r = (0, A.useRef)(null), i = new Map;
-        for (let e of ipt)i.set(e, []);
+        for (let e of apt)i.set(e, []);
         for (let e of T1){
             let n = e.gesture ? e.defaultKeys : t[e.id] ?? e.defaultKeys;
             i.get(e.category)?.push({
@@ -182720,7 +182795,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         (0, j.jsx)(P, {
                                             gap: `200`,
                                             alignItems: `Center`,
-                                            children: (0, j.jsx)(apt, {
+                                            children: (0, j.jsx)(opt, {
                                                 keys: [
                                                     n,
                                                     `/`
@@ -182741,7 +182816,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         },
                                         direction: `Column`,
                                         gap: `500`,
-                                        children: ipt.map((e)=>{
+                                        children: apt.map((e)=>{
                                             let t = i.get(e);
                                             return !t || t.length === 0 ? null : (0, j.jsxs)(P, {
                                                 direction: `Column`,
@@ -182780,7 +182855,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                                             children: e.description
                                                                         })
                                                                     }),
-                                                                    (0, j.jsx)(apt, {
+                                                                    (0, j.jsx)(opt, {
                                                                         keys: e.gesture ? [
                                                                             e.keys
                                                                         ] : RFe(e.keys)
@@ -182800,28 +182875,28 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function spt() {
+    function cpt() {
         let [e, t] = Ho(IFe), n = (0, A.useCallback)(()=>t(!1), [
             t
         ]);
-        return e ? (0, j.jsx)(opt, {
+        return e ? (0, j.jsx)(spt, {
             requestClose: n
         }) : null;
     }
-    var cpt = `q1kz0e0`, lpt = `q1kz0e1`, upt = `q1kz0e2`, dpt = `q1kz0e3`, fpt = `q1kz0e4`;
-    function ppt(e) {
+    var lpt = `q1kz0e0`, upt = `q1kz0e1`, dpt = `q1kz0e2`, fpt = `q1kz0e3`, ppt = `q1kz0e4`;
+    function mpt(e) {
         let t = Math.max(0, Math.floor(e / 1e3)), n = Math.floor(t / 3600), r = Math.floor(t % 3600 / 60), i = t % 60;
         return n > 0 ? `${n}:${String(r).padStart(2, `0`)}:${String(i).padStart(2, `0`)}` : `${r}:${String(i).padStart(2, `0`)}`;
     }
-    function mpt(e) {
+    function hpt(e) {
         let [t, n] = (0, A.useState)(Date.now());
         return (0, A.useEffect)(()=>{
             let e = setInterval(()=>n(Date.now()), 1e3);
             return ()=>clearInterval(e);
-        }, []), e.length === 0 ? `0:00` : ppt(t - Math.min(...e.map((e)=>e.createdTs())));
+        }, []), e.length === 0 ? `0:00` : mpt(t - Math.min(...e.map((e)=>e.createdTs())));
     }
-    function hpt({ room: e, members: t }) {
-        let n = J(), r = $Y(), i = S0(), a = mpt(t), [o, s] = (0, A.useState)();
+    function gpt({ room: e, members: t }) {
+        let n = J(), r = $Y(), i = S0(), a = hpt(t), [o, s] = (0, A.useState)();
         return (0, j.jsx)(qn, {
             anchor: o,
             position: `Top`,
@@ -182894,7 +182969,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 variant: `Surface`,
                 fill: `Soft`,
                 before: (0, j.jsx)(`span`, {
-                    className: cpt,
+                    className: lpt,
                     children: (0, j.jsx)(I, {
                         size: `200`,
                         src: B.VolumeHigh,
@@ -182910,7 +182985,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     s(e.currentTarget.getBoundingClientRect());
                 },
                 children: (0, j.jsx)(z, {
-                    className: lpt,
+                    className: upt,
                     as: `span`,
                     size: `L400`,
                     children: a
@@ -182918,7 +182993,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function gpt({ room: e }) {
+    function _pt({ room: e }) {
         let t = J(), n = L0(e), r = Bo(aq), i = V1(t, nq, r), a = Bo(rq).has(e.roomId), o = j0(A0()), s = yW(r, e.roomId), c = s && i.filter((e)=>s.has(e)), l = c && BW(t, e.roomId, c), { navigateRoom: u } = h2();
         return (0, j.jsx)(Cn, {
             variant: `Background`,
@@ -182960,10 +183035,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             variant: `Background`,
             size: `300`,
             direction: `Vertical`,
-            className: dpt
+            className: fpt
         });
     }
-    function _pt({ enabled: e, onToggle: t, disabled: n }) {
+    function vpt({ enabled: e, onToggle: t, disabled: n }) {
         let [r, i] = Xf(t), a = r.status === V.Loading;
         return (0, j.jsx)(pr, {
             position: `Top`,
@@ -182990,7 +183065,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function vpt({ enabled: e, onToggle: t, disabled: n }) {
+    function ypt({ enabled: e, onToggle: t, disabled: n }) {
         return (0, j.jsx)(pr, {
             position: `Top`,
             tooltip: (0, j.jsx)(fr, {
@@ -183016,7 +183091,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function ypt({ enabled: e, onToggle: t, disabled: n }) {
+    function bpt({ enabled: e, onToggle: t, disabled: n }) {
         let [r, i] = Xf(t), a = r.status === V.Loading;
         return (0, j.jsx)(pr, {
             position: `Top`,
@@ -183043,7 +183118,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function bpt({ enabled: e, onToggle: t, disabled: n }) {
+    function xpt({ enabled: e, onToggle: t, disabled: n }) {
         return (0, j.jsx)(pr, {
             position: `Top`,
             tooltip: (0, j.jsx)(fr, {
@@ -183069,7 +183144,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function xpt({ callEmbed: e, compact: t, callJoined: n }) {
+    function Spt({ callEmbed: e, compact: t, callJoined: n }) {
         let { microphone: r, video: i, sound: a, screenshare: o } = CLe(e.control), s = Vo(Y0), c = (0, A.useCallback)(()=>e.control.toggleMicrophone(), [
             e
         ]), l = (0, A.useCallback)(()=>e.control.toggleVideo(), [
@@ -183086,23 +183161,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     alignItems: `Inherit`,
                     gap: `200`,
                     children: [
-                        (0, j.jsx)(_pt, {
+                        (0, j.jsx)(vpt, {
                             enabled: r,
                             onToggle: c,
                             disabled: !n
                         }),
-                        (0, j.jsx)(vpt, {
+                        (0, j.jsx)(ypt, {
                             enabled: a,
                             onToggle: ()=>e.control.toggleSound(),
                             disabled: !n
                         }),
                         !t && (0, j.jsx)(J9, {}),
-                        (0, j.jsx)(ypt, {
+                        (0, j.jsx)(bpt, {
                             enabled: i,
                             onToggle: l,
                             disabled: !n
                         }),
-                        !t && (0, j.jsx)(bpt, {
+                        !t && (0, j.jsx)(xpt, {
                             enabled: o,
                             onToggle: ()=>e.control.toggleScreenshare(),
                             disabled: !n
@@ -183141,7 +183216,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var Spt = zK({
+    var Cpt = zK({
         defaultClassName: `_1uu0zpn0`,
         variantClassNames: {
             size: {
@@ -183166,16 +183241,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             variant: `Surface`
         },
         compoundVariants: []
-    }), Cpt = en(({ size: e, variant: t, className: n, ...r }, i)=>(0, j.jsx)(ln, {
+    }), wpt = en(({ size: e, variant: t, className: n, ...r }, i)=>(0, j.jsx)(ln, {
             size: e,
-            className: (0, xt.default)(Spt({
+            className: (0, xt.default)(Cpt({
                 size: e,
                 variant: t
             }), n),
             ...r,
             ref: i
         }));
-    function wpt({ room: e, members: t, speakers: n, max: r = 6 }) {
+    function Tpt({ room: e, members: t, speakers: n, max: r = 6 }) {
         let i = J(), a = $Y(), o = S0(), s = t.slice(0, r), c = r && t.length > r ? t.length - r : 0;
         return (0, j.jsxs)(P, {
             alignItems: `Center`,
@@ -183184,8 +183259,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     let { userId: r } = t;
                     if (!r) return null;
                     let s = jW(e, r) ?? UW(r) ?? r, c = NW(e, r), l = c ? iG(i, c, a, 96, 96) ?? void 0 : void 0;
-                    return (0, j.jsx)(Cpt, {
-                        className: n.has(t.sender) ? fpt : void 0,
+                    return (0, j.jsx)(wpt, {
+                        className: n.has(t.sender) ? ppt : void 0,
                         title: s,
                         as: `button`,
                         variant: `Background`,
@@ -183217,7 +183292,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var Tpt = (e, t, n)=>{
+    var Ept = (e, t, n)=>{
         let r = (0, A.useMemo)(()=>new MutationObserver(e), [
             e
         ]);
@@ -183233,14 +183308,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t,
             n
         ]), r;
-    }, Ept = (e)=>{
+    }, Dpt = (e)=>{
         let [t, n] = (0, A.useState)(new Set), r = H0(B0(e.room)), i = $0(e), a = (0, A.useMemo)(()=>{
             if (r && i) return e.document?.querySelectorAll(`[data-video-fit]`);
         }, [
             e,
             r,
             i
-        ]), o = Tpt((0, A.useCallback)((t)=>{
+        ]), o = Ept((0, A.useCallback)((t)=>{
             let r = new Set;
             t.forEach((t)=>{
                 if (t.type !== `attributes`) return;
@@ -183267,7 +183342,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             o
         ]), t;
     };
-    function Dpt({ room: e, speakers: t }) {
+    function Opt({ room: e, speakers: t }) {
         let n = Array.from(t).map((t)=>jW(e, t) ?? UW(t) ?? t);
         return (0, j.jsxs)(P, {
             alignItems: `Center`,
@@ -183396,10 +183471,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Opt({ callEmbed: e }) {
-        let { room: t } = e, n = H0(B0(t)), r = ore(), i = $0(e), a = Ept(e), o = r === am.Mobile, s = i && n.length > 0;
+    function kpt({ callEmbed: e }) {
+        let { room: t } = e, n = H0(B0(t)), r = ore(), i = $0(e), a = Dpt(e), o = r === am.Mobile, s = i && n.length > 0;
         return (0, j.jsxs)(P, {
-            className: (0, xt.default)(upt, BK({
+            className: (0, xt.default)(dpt, BK({
                 variant: `Background`
             })),
             shrink: `No`,
@@ -183414,7 +183489,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     children: [
                         s ? (0, j.jsx)(P, {
                             shrink: `No`,
-                            children: (0, j.jsx)(hpt, {
+                            children: (0, j.jsx)(gpt, {
                                 room: t,
                                 members: n
                             })
@@ -183428,7 +183503,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             gap: `Inherit`,
                             children: !o && (0, j.jsxs)(j.Fragment, {
                                 children: [
-                                    (0, j.jsx)(gpt, {
+                                    (0, j.jsx)(_pt, {
                                         room: t
                                     }),
                                     a.size > 0 && (0, j.jsxs)(j.Fragment, {
@@ -183437,7 +183512,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             (0, j.jsx)(`span`, {
                                                 "data-spacing-node": !0
                                             }),
-                                            (0, j.jsx)(Dpt, {
+                                            (0, j.jsx)(Opt, {
                                                 room: t,
                                                 speakers: a
                                             })
@@ -183448,7 +183523,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         }),
                         s && (0, j.jsx)(P, {
                             shrink: `No`,
-                            children: (0, j.jsx)(wpt, {
+                            children: (0, j.jsx)(Tpt, {
                                 room: t,
                                 members: n,
                                 speakers: a
@@ -183464,11 +183539,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     children: [
                         o && (0, j.jsx)(P, {
                             grow: `Yes`,
-                            children: (0, j.jsx)(gpt, {
+                            children: (0, j.jsx)(_pt, {
                                 room: t
                             })
                         }),
-                        (0, j.jsx)(xpt, {
+                        (0, j.jsx)(Spt, {
                             callJoined: i,
                             compact: o,
                             callEmbed: e
@@ -183478,14 +183553,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function kpt() {
+    function Apt() {
         let e = Z0(), t = X1(), n = om();
-        return !e || n === am.Mobile && e.roomId === t ? null : (0, j.jsx)(Opt, {
+        return !e || n === am.Mobile && e.roomId === t ? null : (0, j.jsx)(kpt, {
             callEmbed: e
         });
     }
-    var Apt = `/assets/call-H6UnaODb.ogg`, jpt = `_9rmubx4`;
-    function Mpt({ dm: e, info: t, onIgnore: n, onAnswer: r, onReject: i }) {
+    var jpt = `/assets/call-H6UnaODb.ogg`, Mpt = `_9rmubx4`;
+    function Npt({ dm: e, info: t, onIgnore: n, onAnswer: r, onReject: i }) {
         let a = J(), o = $Y(), s = e2(), c = t2(), l = s && c, { room: u } = t, d = (0, A.useRef)(null), f = L0(u), p = I0(u, e), m = p ? iG(a, p, o, 96, 96, `crop`) ?? void 0 : void 0;
         V0(B0(u), (0, A.useCallback)((e)=>{
             e.length === 0 && n();
@@ -183538,7 +183613,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                     shrink: `No`,
                                                     children: (0, j.jsx)(ln, {
                                                         size: `500`,
-                                                        className: jpt,
+                                                        className: Mpt,
                                                         children: (0, j.jsx)(s0, {
                                                             roomId: u.roomId,
                                                             src: m,
@@ -183650,14 +183725,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         display: `none`
                     },
                     children: (0, j.jsx)(`source`, {
-                        src: Apt,
+                        src: jpt,
                         type: `audio/ogg`
                     })
                 })
             ]
         });
     }
-    function Npt({ callEmbed: e, joined: t }) {
+    function Ppt({ callEmbed: e, joined: t }) {
         let n = J(), r = Bo(rq), { navigateRoom: i } = h2(), [a, o] = (0, A.useState)(), s = a ? r.has(a.room.roomId) : !1, c = Q0(s), l = (0, A.useCallback)(async (e, t, r, i, a)=>{
             if (e.getRelation()?.rel_type !== KI.Reference || t?.isCallRoom() || (e.isEncrypted() && (e.shouldAttemptDecryption() && await e.attemptDecryption(n.getCrypto()), await e.getDecryptionPromise()), !t || e.getType() !== G.RTCNotification || e.getSender() === n.getSafeUserId() || !a.liveEvent)) return;
             let s = e.getSender(), c = e.getContent(), l = c.sender_ts - e.getTs() > 2e4 ? e.getTs() : c.sender_ts, u = Math.min(c.lifetime, 12e4), d = c.notification_type, f = (e.getRelation()?.rel_type === KI.Reference ? e.getRelation() : void 0)?.event_id, p = c[`m.mentions`]?.room || c[`m.mentions`]?.user_ids?.includes(n.getSafeUserId());
@@ -183704,7 +183779,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             c,
             i
         ]);
-        return a && e?.roomId === a.room.roomId ? null : !t && a ? (0, j.jsx)(Mpt, {
+        return a && e?.roomId === a.room.roomId ? null : !t && a ? (0, j.jsx)(Npt, {
             dm: s,
             info: a,
             onIgnore: u,
@@ -183712,7 +183787,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             onReject: d
         }) : null;
     }
-    function Ppt({ embed: e }) {
+    function Fpt({ embed: e }) {
         let t = Vo(Y0);
         return jLe(e), MLe(e), ALe(e, (0, A.useCallback)(()=>{
             t(void 0);
@@ -183722,7 +183797,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 JK(!1);
             }), []), null;
     }
-    function Fpt({ children: e }) {
+    function Ipt({ children: e }) {
         let t = Bo(Y0), n = (0, A.useRef)(null), r = $0(t);
         (0, A.useEffect)(()=>{
             if (t) return bFe(!0), ()=>{
@@ -183735,13 +183810,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return (0, j.jsxs)(TLe, {
             value: t,
             children: [
-                t && (0, j.jsx)(Ppt, {
+                t && (0, j.jsx)(Fpt, {
                     embed: t
                 }),
                 (0, j.jsxs)(DLe, {
                     value: n,
                     children: [
-                        (0, j.jsx)(Npt, {
+                        (0, j.jsx)(Ppt, {
                             callEmbed: t,
                             joined: r
                         }),
@@ -183763,7 +183838,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Ipt() {
+    function Lpt() {
         let e = ku();
         console.error(`Route error:`, e);
         let t;
@@ -183857,7 +183932,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Lpt() {
+    function Rpt() {
         return (0, j.jsx)(ep, {
             children: (0, j.jsx)(R, {
                 variant: `Secondary`,
@@ -183865,21 +183940,21 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Rpt() {
+    function zpt() {
         let e = JJ();
         return (0, j.jsx)(Bee, {
             to: e,
             replace: !0
         });
     }
-    var zpt = (e, t)=>{
+    var Bpt = (e, t)=>{
         let { hashRouter: n } = e, r = t === am.Mobile, i = qu((0, j.jsxs)(Wu, {
-            HydrateFallback: Lpt,
-            errorElement: (0, j.jsx)(Ipt, {}),
+            HydrateFallback: Rpt,
+            errorElement: (0, j.jsx)(Lpt, {}),
             children: [
                 (0, j.jsx)(Wu, {
                     index: !0,
-                    element: (0, j.jsx)(Lpt, {}),
+                    element: (0, j.jsx)(Rpt, {}),
                     loader: ()=>{
                         if (zG()) return $s(xG());
                         let e = kye(Oye(), window.location.href);
@@ -183891,7 +183966,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     element: (0, j.jsxs)(j.Fragment, {
                         children: [
                             (0, j.jsx)(age, {}),
-                            (0, j.jsx)(jut, {})
+                            (0, j.jsx)(Mut, {})
                         ]
                     }),
                     children: [
@@ -183917,31 +183992,31 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         }
                         return null;
                     },
-                    element: (0, j.jsx)(Mut, {
+                    element: (0, j.jsx)(Nut, {
                         children: (0, j.jsx)(gCe, {
-                            children: (0, j.jsx)(mlt, {
-                                children: (0, j.jsx)(cft, {
+                            children: (0, j.jsx)(hlt, {
+                                children: (0, j.jsx)(lft, {
                                     children: (0, j.jsx)(GCe, {
-                                        children: (0, j.jsxs)(Aut, {
+                                        children: (0, j.jsxs)(jut, {
                                             children: [
-                                                (0, j.jsxs)(Fpt, {
+                                                (0, j.jsxs)(Ipt, {
                                                     children: [
                                                         (0, j.jsx)($Fe, {
-                                                            nav: (0, j.jsx)(ilt, {
-                                                                children: (0, j.jsx)(rlt, {})
+                                                            nav: (0, j.jsx)(alt, {
+                                                                children: (0, j.jsx)(ilt, {})
                                                             }),
                                                             children: (0, j.jsx)(Uu, {})
                                                         }),
-                                                        (0, j.jsx)(kpt, {})
+                                                        (0, j.jsx)(Apt, {})
                                                     ]
                                                 }),
-                                                (0, j.jsx)(rpt, {}),
-                                                (0, j.jsx)(spt, {}),
-                                                (0, j.jsx)(Lft, {}),
-                                                (0, j.jsx)(Uft, {}),
-                                                (0, j.jsx)(Jft, {}),
-                                                (0, j.jsx)(sft, {}),
-                                                (0, j.jsx)(gft, {}),
+                                                (0, j.jsx)(ipt, {}),
+                                                (0, j.jsx)(cpt, {}),
+                                                (0, j.jsx)(Rft, {}),
+                                                (0, j.jsx)(Wft, {}),
+                                                (0, j.jsx)(Yft, {}),
+                                                (0, j.jsx)(cft, {}),
+                                                (0, j.jsx)(_ft, {}),
                                                 (0, j.jsx)(HAe, {}),
                                                 (0, j.jsx)(bje, {})
                                             ]
@@ -183967,11 +184042,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: [
                                 (0, j.jsx)(Wu, {
                                     index: !0,
-                                    element: r ? (0, j.jsx)(clt, {}) : (0, j.jsx)(x9, {})
+                                    element: r ? (0, j.jsx)(llt, {}) : (0, j.jsx)(x9, {})
                                 }),
                                 (0, j.jsx)(Wu, {
                                     path: ap,
-                                    element: (0, j.jsx)(Wft, {})
+                                    element: (0, j.jsx)(Gft, {})
                                 }),
                                 (0, j.jsx)(Wu, {
                                     path: op,
@@ -184006,11 +184081,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: [
                                 (0, j.jsx)(Wu, {
                                     index: !0,
-                                    element: r ? (0, j.jsx)(clt, {}) : (0, j.jsx)(x9, {})
+                                    element: r ? (0, j.jsx)(llt, {}) : (0, j.jsx)(x9, {})
                                 }),
                                 (0, j.jsx)(Wu, {
                                     path: ap,
-                                    element: (0, j.jsx)(Wft, {})
+                                    element: (0, j.jsx)(Gft, {})
                                 }),
                                 (0, j.jsx)(Wu, {
                                     path: op,
@@ -184045,7 +184120,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: [
                                 (0, j.jsx)(Wu, {
                                     index: !0,
-                                    element: r ? (0, j.jsx)(clt, {}) : (0, j.jsx)(x9, {})
+                                    element: r ? (0, j.jsx)(llt, {}) : (0, j.jsx)(x9, {})
                                 }),
                                 (0, j.jsx)(Wu, {
                                     path: ap,
@@ -184084,7 +184159,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 }),
                                 (0, j.jsx)(Wu, {
                                     path: zte,
-                                    element: (0, j.jsx)(Hst, {})
+                                    element: (0, j.jsx)(Ust, {})
                                 }),
                                 (0, j.jsx)(Wu, {
                                     path: sp,
@@ -184126,7 +184201,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         }),
                         (0, j.jsx)(Wu, {
                             path: tne,
-                            element: (0, j.jsx)(Yft, {})
+                            element: (0, j.jsx)(Xft, {})
                         }),
                         (0, j.jsxs)(Wu, {
                             path: mp,
@@ -184141,7 +184216,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: [
                                 r ? null : (0, j.jsx)(Wu, {
                                     index: !0,
-                                    element: (0, j.jsx)(Rpt, {})
+                                    element: (0, j.jsx)(zpt, {})
                                 }),
                                 (0, j.jsx)(Wu, {
                                     path: ine,
@@ -184179,7 +184254,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             basename: `/`
         });
     };
-    function Bpt() {
+    function Vpt() {
         (0, A.useEffect)(()=>{
             let e = window.visualViewport;
             if (!e) return;
@@ -184191,10 +184266,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             };
         }, []);
     }
-    var Vpt = new ote;
-    function Hpt() {
+    var Hpt = new ote;
+    function Upt() {
         let e = ore();
-        Z4e(), U9e(), W9e(), Bpt();
+        Z4e(), U9e(), W9e(), Vpt();
         let t = document.getElementById(`portalContainer`) ?? void 0;
         return (0, j.jsx)(ur, {
             value: t,
@@ -184215,11 +184290,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 children: (t)=>(0, j.jsx)(Ste, {
                                         value: t,
                                         children: (0, j.jsxs)(Uf, {
-                                            client: Vpt,
+                                            client: Hpt,
                                             children: [
                                                 (0, j.jsx)(Po, {
                                                     children: (0, j.jsx)($ee, {
-                                                        router: zpt(t, e)
+                                                        router: Bpt(t, e)
                                                     })
                                                 }),
                                                 (0, j.jsx)(vte, {
@@ -184235,7 +184310,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Upt() {
+    function Wpt() {
         let e = (e)=>{
             let t = e.target.closest(`a[href^="blob:"]`);
             if (!t) return;
@@ -184247,13 +184322,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
         return document.addEventListener(`click`, e, !0), ()=>document.removeEventListener(`click`, e, !0);
     }
-    var { slice: Wpt, forEach: Gpt } = [];
-    function Kpt(e) {
-        return Gpt.call(Wpt.call(arguments, 1), (t)=>{
+    var { slice: Gpt, forEach: Kpt } = [];
+    function qpt(e) {
+        return Kpt.call(Gpt.call(arguments, 1), (t)=>{
             if (t) for(let n in t)e[n] === void 0 && (e[n] = t[n]);
         }), e;
     }
-    function qpt(e) {
+    function Jpt(e) {
         return typeof e == `string` && [
             /<\s*script.*?>/i,
             /<\s*\/\s*script\s*>/i,
@@ -184270,7 +184345,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             /innerHTML/i
         ].some((t)=>t.test(e));
     }
-    var Jpt = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/, Ypt = function(e, t) {
+    var Ypt = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/, Xpt = function(e, t) {
         let n = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {
             path: `/`
         }, r = `${e}=${encodeURIComponent(t)}`;
@@ -184280,11 +184355,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             r += `; Max-Age=${Math.floor(e)}`;
         }
         if (n.domain) {
-            if (!Jpt.test(n.domain)) throw TypeError(`option domain is invalid`);
+            if (!Ypt.test(n.domain)) throw TypeError(`option domain is invalid`);
             r += `; Domain=${n.domain}`;
         }
         if (n.path) {
-            if (!Jpt.test(n.path)) throw TypeError(`option path is invalid`);
+            if (!Ypt.test(n.path)) throw TypeError(`option path is invalid`);
             r += `; Path=${n.path}`;
         }
         if (n.expires) {
@@ -184308,13 +184383,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 throw TypeError(`option sameSite is invalid`);
         }
         return n.partitioned && (r += `; Partitioned`), r;
-    }, Xpt = {
+    }, Zpt = {
         create (e, t, n, r) {
             let i = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : {
                 path: `/`,
                 sameSite: `strict`
             };
-            n && (i.expires = new Date, i.expires.setTime(i.expires.getTime() + n * 60 * 1e3)), r && (i.domain = r), document.cookie = Ypt(e, t, i);
+            n && (i.expires = new Date, i.expires.setTime(i.expires.getTime() + n * 60 * 1e3)), r && (i.domain = r), document.cookie = Xpt(e, t, i);
         },
         read (e) {
             let t = `${e}=`, n = document.cookie.split(`;`);
@@ -184328,17 +184403,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         remove (e, t) {
             this.create(e, ``, -1, t);
         }
-    }, Zpt = {
+    }, Qpt = {
         name: `cookie`,
         lookup (e) {
             let { lookupCookie: t } = e;
-            if (t && typeof document < `u`) return Xpt.read(t) || void 0;
+            if (t && typeof document < `u`) return Zpt.read(t) || void 0;
         },
         cacheUserLanguage (e, t) {
             let { lookupCookie: n, cookieMinutes: r, cookieDomain: i, cookieOptions: a } = t;
-            n && typeof document < `u` && Xpt.create(n, e, r, i, a);
+            n && typeof document < `u` && Zpt.create(n, e, r, i, a);
         }
-    }, Qpt = {
+    }, $pt = {
         name: `querystring`,
         lookup (e) {
             let { lookupQuerystring: t } = e, n;
@@ -184353,7 +184428,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
             return n;
         }
-    }, $pt = {
+    }, emt = {
         name: `hash`,
         lookup (e) {
             let { lookupHash: t, lookupFromHashIndex: n } = e, r;
@@ -184377,7 +184452,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
             return r;
         }
-    }, Y9 = null, emt = ()=>{
+    }, Y9 = null, tmt = ()=>{
         if (Y9 !== null) return Y9;
         try {
             if (Y9 = typeof window < `u` && window.localStorage !== null, !Y9) return !1;
@@ -184387,17 +184462,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             Y9 = !1;
         }
         return Y9;
-    }, tmt = {
+    }, nmt = {
         name: `localStorage`,
         lookup (e) {
             let { lookupLocalStorage: t } = e;
-            if (t && emt()) return window.localStorage.getItem(t) || void 0;
+            if (t && tmt()) return window.localStorage.getItem(t) || void 0;
         },
         cacheUserLanguage (e, t) {
             let { lookupLocalStorage: n } = t;
-            n && emt() && window.localStorage.setItem(n, e);
+            n && tmt() && window.localStorage.setItem(n, e);
         }
-    }, X9 = null, nmt = ()=>{
+    }, X9 = null, rmt = ()=>{
         if (X9 !== null) return X9;
         try {
             if (X9 = typeof window < `u` && window.sessionStorage !== null, !X9) return !1;
@@ -184407,17 +184482,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             X9 = !1;
         }
         return X9;
-    }, rmt = {
+    }, imt = {
         name: `sessionStorage`,
         lookup (e) {
             let { lookupSessionStorage: t } = e;
-            if (t && nmt()) return window.sessionStorage.getItem(t) || void 0;
+            if (t && rmt()) return window.sessionStorage.getItem(t) || void 0;
         },
         cacheUserLanguage (e, t) {
             let { lookupSessionStorage: n } = t;
-            n && nmt() && window.sessionStorage.setItem(n, e);
+            n && rmt() && window.sessionStorage.setItem(n, e);
         }
-    }, imt = {
+    }, amt = {
         name: `navigator`,
         lookup (e) {
             let t = [];
@@ -184428,13 +184503,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
             return t.length > 0 ? t : void 0;
         }
-    }, amt = {
+    }, omt = {
         name: `htmlTag`,
         lookup (e) {
             let { htmlTag: t } = e, n, r = t || (typeof document < `u` ? document.documentElement : null);
             return r && typeof r.getAttribute == `function` && (n = r.getAttribute(`lang`)), n;
         }
-    }, omt = {
+    }, smt = {
         name: `path`,
         lookup (e) {
             let { lookupFromPathIndex: t } = e;
@@ -184442,17 +184517,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             let n = window.location.pathname.match(/\/([a-zA-Z-]*)/g);
             if (Array.isArray(n)) return n[typeof t == `number` ? t : 0]?.replace(`/`, ``);
         }
-    }, smt = {
+    }, cmt = {
         name: `subdomain`,
         lookup (e) {
             let { lookupFromSubdomainIndex: t } = e, n = typeof t == `number` ? t + 1 : 1, r = typeof window < `u` && window.location?.hostname?.match(/^(\w{2,5})\.(([a-z0-9-]{1,63}\.[a-z]{2,6})|localhost)/i);
             if (r) return r[n];
         }
-    }, cmt = !1;
+    }, lmt = !1;
     try {
-        document.cookie, cmt = !0;
+        document.cookie, lmt = !0;
     } catch  {}
-    var lmt = [
+    var umt = [
         `querystring`,
         `cookie`,
         `localStorage`,
@@ -184460,9 +184535,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         `navigator`,
         `htmlTag`
     ];
-    cmt || lmt.splice(1, 1);
-    var umt = ()=>({
-            order: lmt,
+    lmt || umt.splice(1, 1);
+    var dmt = ()=>({
+            order: umt,
             lookupQuerystring: `lng`,
             lookupCookie: `i18next`,
             lookupLocalStorage: `i18nextLng`,
@@ -184474,7 +184549,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 `cimode`
             ],
             convertDetectedLanguage: (e)=>e
-        }), dmt = class {
+        }), fmt = class {
         constructor(e){
             let t = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
             this.type = `languageDetector`, this.detectors = {}, this.init(e, t);
@@ -184483,7 +184558,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             let e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
                 languageUtils: {}
             }, t = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, n = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
-            this.services = e, this.options = Kpt(t, this.options || {}, umt()), typeof this.options.convertDetectedLanguage == `string` && this.options.convertDetectedLanguage.indexOf(`15897`) > -1 && (this.options.convertDetectedLanguage = (e)=>e.replace(`-`, `_`)), this.options.lookupFromUrlIndex && (this.options.lookupFromPathIndex = this.options.lookupFromUrlIndex), this.i18nOptions = n, this.addDetector(Zpt), this.addDetector(Qpt), this.addDetector(tmt), this.addDetector(rmt), this.addDetector(imt), this.addDetector(amt), this.addDetector(omt), this.addDetector(smt), this.addDetector($pt);
+            this.services = e, this.options = qpt(t, this.options || {}, dmt()), typeof this.options.convertDetectedLanguage == `string` && this.options.convertDetectedLanguage.indexOf(`15897`) > -1 && (this.options.convertDetectedLanguage = (e)=>e.replace(`-`, `_`)), this.options.lookupFromUrlIndex && (this.options.lookupFromPathIndex = this.options.lookupFromUrlIndex), this.i18nOptions = n, this.addDetector(Qpt), this.addDetector($pt), this.addDetector(nmt), this.addDetector(imt), this.addDetector(amt), this.addDetector(omt), this.addDetector(smt), this.addDetector(cmt), this.addDetector(emt);
         }
         addDetector(e) {
             return this.detectors[e.name] = e, this;
@@ -184497,7 +184572,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         n
                     ]), n && (t = t.concat(n));
                 }
-            }), t = t.filter((e)=>e != null && !qpt(e)).map((e)=>this.options.convertDetectedLanguage(e)), this.services && this.services.languageUtils && this.services.languageUtils.getBestMatchFromCodes ? t : t.length > 0 ? t[0] : null;
+            }), t = t.filter((e)=>e != null && !Jpt(e)).map((e)=>this.options.convertDetectedLanguage(e)), this.services && this.services.languageUtils && this.services.languageUtils.getBestMatchFromCodes ? t : t.length > 0 ? t[0] : null;
         }
         cacheUserLanguage(e) {
             let t = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : this.options.caches;
@@ -184506,31 +184581,31 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }));
         }
     };
-    dmt.type = `languageDetector`;
-    var fmt = [];
-    fmt.forEach, fmt.slice;
-    var pmt = [
+    fmt.type = `languageDetector`;
+    var pmt = [];
+    pmt.forEach, pmt.slice;
+    var mmt = [
         `__proto__`,
         `constructor`,
         `prototype`
     ];
-    function mmt(e) {
-        return !(typeof e != `string` || e.length === 0 || e.length > 128 || pmt.indexOf(e) > -1 || e.indexOf(`..`) > -1 || e.indexOf(`\\`) > -1 || /[?#%\s@]/.test(e) || /[\x00-\x1F\x7F]/.test(e));
-    }
     function hmt(e) {
-        return !(!mmt(e) || e.indexOf(`/`) > -1);
+        return !(typeof e != `string` || e.length === 0 || e.length > 128 || mmt.indexOf(e) > -1 || e.indexOf(`..`) > -1 || e.indexOf(`\\`) > -1 || /[?#%\s@]/.test(e) || /[\x00-\x1F\x7F]/.test(e));
     }
     function gmt(e) {
-        return mmt(e);
+        return !(!hmt(e) || e.indexOf(`/`) > -1);
     }
-    var _mt = {
-        lng: hmt,
-        ns: gmt
+    function _mt(e) {
+        return hmt(e);
+    }
+    var vmt = {
+        lng: gmt,
+        ns: _mt
     };
     function Z9(e) {
         return typeof e == `string` ? e.replace(/[\r\n\x00-\x1F\x7F]/g, ` `) : e;
     }
-    function vmt(e) {
+    function ymt(e) {
         if (typeof e != `string` || e.length === 0) return e;
         try {
             let t = new URL(e);
@@ -184539,23 +184614,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return e.replace(/(\/\/)[^/@\s]+@/g, `$1`);
         }
     }
-    function ymt() {
+    function bmt() {
         return typeof XMLHttpRequest == `function` || typeof XMLHttpRequest == `object`;
     }
-    function bmt(e) {
+    function xmt(e) {
         return !!e && typeof e.then == `function`;
     }
-    function xmt(e) {
-        return bmt(e) ? e : Promise.resolve(e);
+    function Smt(e) {
+        return xmt(e) ? e : Promise.resolve(e);
     }
-    var Smt = /\{\{(.+?)\}\}/g;
-    function Cmt(e, t) {
-        let n = !1, r = e.replace(Smt, (e, r)=>{
+    var Cmt = /\{\{(.+?)\}\}/g;
+    function wmt(e, t) {
+        let n = !1, r = e.replace(Cmt, (e, r)=>{
             let i = r.trim();
-            if (pmt.indexOf(i) > -1) return e;
+            if (mmt.indexOf(i) > -1) return e;
             let a = t[i];
             if (a == null) return e;
-            let o = _mt[i] || hmt, s = String(a).split(`+`);
+            let o = vmt[i] || gmt, s = String(a).split(`+`);
             for (let t of s)if (!o(t)) return n = !0, e;
             return s.join(`+`);
         });
@@ -184563,19 +184638,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }
     var Q9 = typeof globalThis < `u` ? globalThis : typeof global < `u` ? global : typeof window < `u` ? window : void 0, $9;
     typeof fetch == `function` ? $9 = fetch : Q9 && typeof Q9.fetch == `function` && ($9 = Q9.fetch);
-    var wmt = ymt() && Q9 ? Q9.XMLHttpRequest : void 0, Tmt = typeof ActiveXObject == `function` && Q9 ? Q9.ActiveXObject : void 0, Emt = [
+    var Tmt = bmt() && Q9 ? Q9.XMLHttpRequest : void 0, Emt = typeof ActiveXObject == `function` && Q9 ? Q9.ActiveXObject : void 0, Dmt = [
         `__proto__`,
         `constructor`,
         `prototype`
-    ], Dmt = (e, t)=>{
+    ], Omt = (e, t)=>{
         if (t && typeof t == `object`) {
             let n = ``;
-            for (let e of Object.keys(t))Emt.indexOf(e) > -1 || (n += `&` + encodeURIComponent(e) + `=` + encodeURIComponent(t[e]));
+            for (let e of Object.keys(t))Dmt.indexOf(e) > -1 || (n += `&` + encodeURIComponent(e) + `=` + encodeURIComponent(t[e]));
             if (!n) return e;
             e = e + (e.indexOf(`?`) === -1 ? `?` : `&`) + n.slice(1);
         }
         return e;
-    }, Omt = (e, t, n, r)=>{
+    }, kmt = (e, t, n, r)=>{
         let i = (e)=>{
             if (!e.ok) return n(e.statusText || `Error`, {
                 status: e.status
@@ -184595,8 +184670,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         }
         typeof fetch == `function` ? fetch(e, t).then(i).catch(n) : $9(e, t).then(i).catch(n);
-    }, kmt = (e, t, n, r)=>{
-        e.queryStringParams && (t = Dmt(t, e.queryStringParams));
+    }, Amt = (e, t, n, r)=>{
+        e.queryStringParams && (t = Omt(t, e.queryStringParams));
         let i = {
             ...typeof e.customHeaders == `function` ? e.customHeaders() : e.customHeaders
         };
@@ -184608,24 +184683,24 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ...e._omitFetchOptions ? {} : a
         }, s = typeof e.alternateFetch == `function` && e.alternateFetch.length >= 1 ? e.alternateFetch : void 0;
         try {
-            Omt(t, o, r, s);
+            kmt(t, o, r, s);
         } catch (n) {
             if (!a || Object.keys(a).length === 0 || !n.message || n.message.indexOf(`not implemented`) < 0) return r(n);
             try {
                 Object.keys(a).forEach((e)=>{
                     delete o[e];
-                }), Omt(t, o, r, s), e._omitFetchOptions = !0;
+                }), kmt(t, o, r, s), e._omitFetchOptions = !0;
             } catch (e) {
                 r(e);
             }
         }
-    }, Amt = (e, t, n, r)=>{
-        n && typeof n == `object` && (n = Dmt(``, n).slice(1)), e.queryStringParams && (t = Dmt(t, e.queryStringParams));
+    }, jmt = (e, t, n, r)=>{
+        n && typeof n == `object` && (n = Omt(``, n).slice(1)), e.queryStringParams && (t = Omt(t, e.queryStringParams));
         try {
-            let i = wmt ? new wmt : new Tmt(`MSXML2.XMLHTTP.3.0`);
+            let i = Tmt ? new Tmt : new Emt(`MSXML2.XMLHTTP.3.0`);
             i.open(n ? `POST` : `GET`, t, 1), e.crossDomain || i.setRequestHeader(`X-Requested-With`, `XMLHttpRequest`), i.withCredentials = !!e.withCredentials, n && i.setRequestHeader(`Content-Type`, `application/x-www-form-urlencoded`), i.overrideMimeType && i.overrideMimeType(`application/json`);
             let a = e.customHeaders;
-            if (a = typeof a == `function` ? a() : a, a) for (let e of Object.keys(a))Emt.indexOf(e) > -1 || i.setRequestHeader(e, a[e]);
+            if (a = typeof a == `function` ? a() : a, a) for (let e of Object.keys(a))Dmt.indexOf(e) > -1 || i.setRequestHeader(e, a[e]);
             i.onreadystatechange = ()=>{
                 i.readyState > 3 && r(i.status >= 400 ? i.statusText : null, {
                     status: i.status,
@@ -184635,11 +184710,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         } catch (e) {
             console && console.log(e);
         }
-    }, jmt = (e, t, n, r)=>{
-        if (typeof n == `function` && (r = n, n = void 0), r ||= (()=>{}), $9 && t.indexOf(`file:`) !== 0) return kmt(e, t, n, r);
-        if (ymt() || typeof ActiveXObject == `function`) return Amt(e, t, n, r);
+    }, Mmt = (e, t, n, r)=>{
+        if (typeof n == `function` && (r = n, n = void 0), r ||= (()=>{}), $9 && t.indexOf(`file:`) !== 0) return Amt(e, t, n, r);
+        if (bmt() || typeof ActiveXObject == `function`) return jmt(e, t, n, r);
         r(Error(`No fetch and no xhr implementation found!`));
-    }, Mmt = ()=>({
+    }, Nmt = ()=>({
             loadPath: `/locales/{{lng}}/{{ns}}.json`,
             addPath: `/locales/add/{{lng}}/{{ns}}`,
             parse: (e)=>JSON.parse(e),
@@ -184648,7 +184723,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     [t]: n || ``
                 }),
             parseLoadPayload: (e, t)=>void 0,
-            request: jmt,
+            request: Mmt,
             reloadInterval: typeof window < `u` ? !1 : 36e5,
             customHeaders: {},
             queryStringParams: {},
@@ -184660,13 +184735,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 credentials: `same-origin`,
                 cache: `default`
             }
-        }), Nmt = class {
+        }), Pmt = class {
         constructor(e, t = {}, n = {}){
             this.services = e, this.options = t, this.allOptions = n, this.type = `backend`, this.init(e, t, n);
         }
         init(e, t = {}, n = {}) {
             if (this.services = e, this.options = {
-                ...Mmt(),
+                ...Nmt(),
                 ...this.options || {},
                 ...t
             }, this.allOptions = n, this.services && this.options.reloadInterval) {
@@ -184686,9 +184761,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         _readAny(e, t, n, r, i) {
             let a = this.options.loadPath;
-            typeof this.options.loadPath == `function` && (a = this.options.loadPath(e, n)), a = xmt(a), a.then((a)=>{
+            typeof this.options.loadPath == `function` && (a = this.options.loadPath(e, n)), a = Smt(a), a.then((a)=>{
                 if (!a) return i(null, {});
-                let o = Cmt(a, {
+                let o = wmt(a, {
                     lng: e.join(`+`),
                     ns: n.join(`+`)
                 });
@@ -184704,7 +184779,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 n
             ] : n, a = typeof r == `string` ? [
                 r
-            ] : r, o = this.options.parseLoadPayload(i, a), s = Z9(vmt(e));
+            ] : r, o = this.options.parseLoadPayload(i, a), s = Z9(ymt(e));
             this.options.request(this.options, e, o, (e, i)=>{
                 if (i && (i.status >= 500 && i.status < 600 || !i.status)) return t(`failed loading ` + s + `; status code: ` + i.status, !0);
                 if (i && i.status >= 400 && i.status < 500) return t(`failed loading ` + s + `; status code: ` + i.status, !1);
@@ -184737,7 +184812,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e.forEach((n)=>{
                 let r = this.options.addPath;
                 typeof this.options.addPath == `function` && (r = this.options.addPath(n, t));
-                let l = Cmt(r, {
+                let l = wmt(r, {
                     lng: n,
                     ns: t
                 });
@@ -184767,7 +184842,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             });
         }
     };
-    Nmt.type = `backend`, T7.use(Nmt).use(dmt).use(c7e).init({
+    Pmt.type = `backend`, T7.use(Pmt).use(fmt).use(c7e).init({
         debug: !1,
         fallbackLng: `en`,
         interpolation: {
@@ -184778,15 +184853,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             loadPath: `${Ha(`/`)}/public/locales/{{lng}}.json`
         }
     }), gt(), document.body.classList.add(wt, Tt);
-    var Pmt = `cinny:chunk-reload-at`, Fmt = 3e4;
+    var Fmt = `cinny:chunk-reload-at`, Imt = 3e4;
     if (window.addEventListener(`vite:preloadError`, (e)=>{
         let t = 0;
         try {
-            t = Number(sessionStorage.getItem(Pmt) ?? 0);
+            t = Number(sessionStorage.getItem(Fmt) ?? 0);
         } catch  {}
-        if (!(Date.now() - t < Fmt)) {
+        if (!(Date.now() - t < Imt)) {
             try {
-                sessionStorage.setItem(Pmt, String(Date.now()));
+                sessionStorage.setItem(Fmt, String(Date.now()));
             } catch  {
                 return;
             }
@@ -184819,7 +184894,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             console.error(`Root container element not found!`);
             return;
         }
-        (0, S.createRoot)(e).render((0, j.jsx)(Hpt, {}));
-    })(), Upt();
+        (0, S.createRoot)(e).render((0, j.jsx)(Upt, {}));
+    })(), Wpt();
 })();
-export { gce as $, wfe as A, aR as B, jfe as C, Afe as D, pB as E, HR as F, qI as G, AL as H, VR as I, Bce as J, XI as K, zR as L, aB as M, sB as N, uB as O, Uz as P, mI as Q, gR as R, dB as S, Pfe as T, aL as U, rR as V, G as W, RI as X, HI as Y, II as Z, zfe as _, P9 as a, v as at, Ofe as b, TAe as c, she as d, SI as et, aH as f, Vfe as g, tpe as h, j9 as i, yt as it, oB as j, Dfe as k, aW as l, FV as m, F9 as n, H as nt, W2 as o, LV as p, GI as q, N9 as r, vm as rt, KNe as s, Glt as t, U as tt, SH as u, fB as v, Nfe as w, Ffe as x, Mfe as y, mR as z, __tla };
+export { gce as $, wfe as A, aR as B, jfe as C, Afe as D, pB as E, HR as F, qI as G, AL as H, VR as I, Bce as J, XI as K, zR as L, aB as M, sB as N, uB as O, Uz as P, mI as Q, gR as R, dB as S, Pfe as T, aL as U, rR as V, G as W, RI as X, HI as Y, II as Z, zfe as _, P9 as a, v as at, Ofe as b, TAe as c, she as d, SI as et, aH as f, Vfe as g, tpe as h, j9 as i, yt as it, oB as j, Dfe as k, aW as l, FV as m, F9 as n, H as nt, W2 as o, LV as p, GI as q, N9 as r, vm as rt, KNe as s, Klt as t, U as tt, SH as u, fB as v, Nfe as w, Ffe as x, Mfe as y, mR as z, __tla };
