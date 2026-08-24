@@ -19,6 +19,11 @@ export type ResizeHandleProps = {
   side: PaneSide;
   /** Names the column, not the handle: "Room list", "Member list". */
   label: string;
+  /**
+   * Let a drag past the collapse threshold snap the column shut. Off unless the
+   * page asks for it — see `effectiveSpec` in useResizablePane.
+   */
+  allowCollapse?: boolean;
   className?: string;
 };
 
@@ -33,8 +38,12 @@ export type ResizeHandleProps = {
  * extremes, Enter restores the default. Double-click also restores the
  * default, which is where most people look first.
  */
-export function ResizeHandle({ paneId, side, label, className }: ResizeHandleProps) {
-  const { spec, size, onPointerDown, onKeyDown, onDoubleClick } = useResizeHandle(paneId, side);
+export function ResizeHandle({ paneId, side, label, allowCollapse, className }: ResizeHandleProps) {
+  const { spec, size, onPointerDown, onKeyDown, onDoubleClick } = useResizeHandle(
+    paneId,
+    side,
+    allowCollapse,
+  );
 
   return (
     <div

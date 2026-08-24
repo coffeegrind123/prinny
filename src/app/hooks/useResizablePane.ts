@@ -129,9 +129,31 @@ export type ResizablePane = {
  * Call this from the column itself. The handle uses `useResizeHandle`, which
  * writes the same variable during a drag.
  */
-export const useResizablePane = (paneId: PaneId): ResizablePane => {
+/**
+ * The spec a particular column is actually resized against.
+ *
+ * Collapsing is opt-IN per page, not a property of the pane. One `navPane`
+ * width is shared by every nav — Home, Rooms, Direct, a space, Explore, the
+ * inbox — and the collapsed rail only makes sense for a list whose rows are
+ * identifiable by their avatar alone. That is the direct-message list: a
+ * conversation with a person IS that person's face. A room is identified by its
+ * name, so the same rail leaves a column of anonymous circles above a header of
+ * squashed controls with, in the reporter's words, nothing you can do with it.
+ *
+ * A page that does not opt in therefore keeps `min` as its floor, and its
+ * handle cannot snap shut.
+ */
+const effectiveSpec = (spec: PaneSpec, allowCollapse: boolean): PaneSpec =>
+  allowCollapse || spec.collapsedSize === undefined
+    ? spec
+    : { defaultSize: spec.defaultSize, min: spec.min, max: spec.max };
+
+export const useResizablePane = (paneId: PaneId, allowCollapse = false): ResizablePane => {
   const [paneSizes] = useSetting(settingsAtom, 'paneSizes');
-  const spec = PANE_SPECS[paneId];
+  const spec = useMemo(
+    () => effectiveSpec(PANE_SPECS[paneId], allowCollapse),
+    [paneId, allowCollapse],
+  );
   const size = clampPaneSize(paneSizes?.[paneId] ?? spec.defaultSize, spec);
 
   // Layout effect, not effect: the variable has to exist before the browser
@@ -173,9 +195,16 @@ export type ResizeHandleControls = {
 const KEYBOARD_STEP = 16;
 const KEYBOARD_STEP_LARGE = 64;
 
-export const useResizeHandle = (paneId: PaneId, side: PaneSide): ResizeHandleControls => {
+export const useResizeHandle = (
+  paneId: PaneId,
+  side: PaneSide,
+  allowCollapse = false,
+): ResizeHandleControls => {
   const [paneSizes, setPaneSizes] = useSetting(settingsAtom, 'paneSizes');
-  const spec = PANE_SPECS[paneId];
+  const spec = useMemo(
+    () => effectiveSpec(PANE_SPECS[paneId], allowCollapse),
+    [paneId, allowCollapse],
+  );
   const size = clampPaneSize(paneSizes?.[paneId] ?? spec.defaultSize, spec);
 
   // A drag has to be able to read the size it started from without the hook

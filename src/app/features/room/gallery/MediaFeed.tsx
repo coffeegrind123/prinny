@@ -1048,7 +1048,7 @@ export function MediaFeed({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hour24Clock] = useSetting(settingsAtom, 'hour24Clock');
   const [muted, setMuted] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [lastScrolledIndex, setActiveIndex] = useState(0);
   const activeIdRef = useRef<string | undefined>(initialItemKey);
   const scrolledToInitial = useRef(false);
   const rafRef = useRef<number | undefined>(undefined);
@@ -1068,6 +1068,37 @@ export function MediaFeed({
    * the gallery grid wants.
    */
   const feedItems = useMemo(() => [...items].reverse(), [items]);
+
+  /**
+   * Which page is actually on screen, resolved against the list as it is now.
+   *
+   * This used to be plain state, written from the scroll handler and from the
+   * anchor effect below — both of which run *after* the render that changed the
+   * list. The media scan publishes what it has found after every page of
+   * history it reads and again after every batch of linked posts it resolves,
+   * and each of those publishes inserts older media ABOVE the reader. So for
+   * one painted frame the index named a page N rows away from the one under the
+   * scroll position, that page was outside the mount window below, and the
+   * frame came out **blank** — with the counter climbing by N each time as the
+   * effect caught up.
+   *
+   * Worse than a flicker: the media element the reader was waiting on is
+   * unmounted and rebuilt on every one of those frames, which for a video means
+   * the download restarts and hls.js is destroyed and re-created before it can
+   * produce anything. Open a video while the scan is still running and it can
+   * never finish loading — the exact report this fixes.
+   *
+   * Reading the anchor here rather than in an effect closes the gap: the render
+   * that inserts the items is the render that places the reader.
+   */
+  const activeIndex = useMemo(() => {
+    const activeId = activeIdRef.current;
+    if (activeId) {
+      const index = feedItems.findIndex((item) => item.key === activeId);
+      if (index >= 0) return index;
+    }
+    return Math.min(lastScrolledIndex, Math.max(0, feedItems.length - 1));
+  }, [feedItems, lastScrolledIndex]);
 
   /**
    * Whether the attachment the feed was opened on has been gathered yet.
@@ -1143,7 +1174,12 @@ export function MediaFeed({
   // them; a newly sent one lands at the end. Re-anchor on the attachment the
   // reader is actually looking at rather than letting the page under them
   // change.
-  useEffect(() => {
+  // A layout effect, not a plain one: this runs in the same frame as the
+  // insertion that moved the reader, so the browser never paints the scroller
+  // at an offset that names a different attachment. As a post-paint effect it
+  // guaranteed one visibly wrong frame per publish, and the scan publishes
+  // several times a second while it is walking history.
+  useLayoutEffect(() => {
     if (!scrolledToInitial.current) return;
     const el = scrollRef.current;
     const activeId = activeIdRef.current;

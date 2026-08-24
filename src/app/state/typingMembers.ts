@@ -136,7 +136,10 @@ export const useBindRoomIdToTypingMembersAtom = (
   typingMembersAtom: typeof roomIdToTypingMembersAtom,
 ) => {
   const setTypingMembers = useSetAtom(typingMembersAtom);
-  const [hideTypingStatus] = useSetting(settingsAtom, 'hideTypingStatus');
+  // What is *shown*, not what is sent — see `hideReadReceipts` in settings.ts.
+  // Suppressing your own notification is the sending switch, applied where the
+  // notification is sent, in RoomInput.
+  const [hideOthersTypingStatus] = useSetting(settingsAtom, 'hideOthersTypingStatus');
 
   useEffect(() => {
     const handleTypingEvent: RoomMemberEventHandlerMap[RoomMemberEvent.Typing] = (
@@ -152,9 +155,9 @@ export const useBindRoomIdToTypingMembersAtom = (
         roomId: member.roomId,
         userId: member.userId,
         typing: member.typing,
-        suppressedBySetting: hideTypingStatus,
+        suppressedBySetting: hideOthersTypingStatus,
       });
-      if (hideTypingStatus) {
+      if (hideOthersTypingStatus) {
         return;
       }
       setTypingMembers({
@@ -169,7 +172,7 @@ export const useBindRoomIdToTypingMembersAtom = (
     return () => {
       mx.removeListener(RoomMemberEvent.Typing, handleTypingEvent);
     };
-  }, [mx, setTypingMembers, hideTypingStatus]);
+  }, [mx, setTypingMembers, hideOthersTypingStatus]);
 
   useEffect(() => {
     // The control for the log above, and the reason it can be read at all.

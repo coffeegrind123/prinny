@@ -38,17 +38,27 @@ export interface Settings {
   twitterEmoji: boolean;
   pageZoom: number;
   /**
-   * Send read receipts privately, and hide everyone else's from this client.
+   * Send read receipts privately, so nobody is told how far you have read.
    *
    * Split out of the old `hideActivity`, which switched this and typing
    * together. They are unrelated signals — "don't broadcast what I have read"
    * and "don't broadcast that I am composing" — and wanting one without the
    * other is the normal case, not an edge one. `migrateSettings` carries an
    * existing `hideActivity` onto both.
+   *
+   * **Sending only.** It used to hide everyone else's receipts in return, which
+   * is a different wish wearing the same switch: "I don't want people watching
+   * whether I have read them yet" says nothing about wanting to stop seeing
+   * theirs, and the reciprocal half was a price nobody chose to pay. What you
+   * are shown is `hideOthersReadReceipts`.
    */
   hideReadReceipts: boolean;
-  /** Send no typing notifications, and hide everyone else's from this client. */
+  /** Send no typing notifications. Sending only — see `hideReadReceipts`. */
   hideTypingStatus: boolean;
+  /** Do not show other people's read receipts. Independent of what you send. */
+  hideOthersReadReceipts: boolean;
+  /** Do not show other people's typing notifications. */
+  hideOthersTypingStatus: boolean;
   /**
    * Send several attachments as one MSC4274 gallery message.
    *
@@ -230,6 +240,8 @@ const defaultSettings: Settings = {
   pageZoom: 100,
   hideReadReceipts: false,
   hideTypingStatus: false,
+  hideOthersReadReceipts: false,
+  hideOthersTypingStatus: false,
   galleryUploads: false,
 
   minimizeToTray: true,
@@ -351,6 +363,12 @@ const migrateSettings = (stored: LegacySettings): Partial<Settings> => {
     ...settings,
     // An explicit value for either new key wins — the user has already answered
     // this question in the new shape, and the old key is only a fallback.
+    //
+    // Only the *sending* half is carried over. `hideActivity` also hid everyone
+    // else's receipts and typing, but nobody asked for that: it rode along on a
+    // switch whose stated purpose was to stop broadcasting, and showing it again
+    // discloses nothing about the person who turned it on. `hideOthers*`
+    // therefore starts off, and is theirs to turn on if they want the quiet.
     hideReadReceipts: settings.hideReadReceipts ?? hideActivity,
     hideTypingStatus: settings.hideTypingStatus ?? hideActivity,
   };

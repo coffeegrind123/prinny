@@ -20,9 +20,15 @@ type PageRootProps = {
    * make dragging one silently move the other.
    */
   resizableNav?: boolean;
+  /**
+   * Let the nav be dragged down to its avatar rail. Opt-in per page — see
+   * `effectiveSpec` in useResizablePane for why this is not a property of the
+   * pane itself.
+   */
+  collapsibleNav?: boolean;
 };
 
-export function PageRoot({ nav, children, resizableNav }: PageRootProps) {
+export function PageRoot({ nav, children, resizableNav, collapsibleNav }: PageRootProps) {
   const screenSize = useScreenSizeContext();
 
   // `position: relative` provides the containing block for the
@@ -40,7 +46,12 @@ export function PageRoot({ nav, children, resizableNav }: PageRootProps) {
           there are never two columns to split. */}
       {screenSize !== ScreenSize.Mobile &&
         (resizableNav ? (
-          <ResizeHandle paneId="navPane" side="Before" label="room list" />
+          <ResizeHandle
+            paneId="navPane"
+            side="Before"
+            label="room list"
+            allowCollapse={collapsibleNav}
+          />
         ) : (
           <Line variant="Background" size="300" direction="Vertical" />
         ))}
@@ -53,15 +64,18 @@ type ClientDrawerLayoutProps = {
   children: ReactNode;
   /** Takes its width from the `navPane` handle instead of the size recipe. */
   resizable?: boolean;
+  /** This page's list is worth reading as an avatar rail. See `PageRootProps`. */
+  collapsible?: boolean;
 };
 export function PageNav({
   size,
   resizable,
+  collapsible,
   children,
 }: ClientDrawerLayoutProps & css.PageNavVariants) {
   const screenSize = useScreenSizeContext();
   const isMobile = screenSize === ScreenSize.Mobile;
-  const pane = useResizablePane('navPane');
+  const pane = useResizablePane('navPane', collapsible);
 
   // Mobile wins over everything: the index route renders no right pane, so the
   // nav spans the whole viewport and a stored desktop width is irrelevant.
@@ -71,7 +85,7 @@ export function PageNav({
 
   // Only a resizable desktop nav can be dragged shut, so a fixed-size or mobile
   // nav is never in the collapsed shape regardless of what the pane remembers.
-  const collapsed = !isMobile && !!resizable && pane.collapsed;
+  const collapsed = !isMobile && !!resizable && !!collapsible && pane.collapsed;
 
   return (
     <Box

@@ -2,6 +2,7 @@ import { MouseEventHandler, forwardRef, useRef, useState } from 'react';
 import {
   Box,
   Button,
+  Chip,
   Icon,
   IconButton,
   Icons,
@@ -14,7 +15,12 @@ import {
 } from 'folds';
 import { FocusTrap } from 'focus-trap-react';
 import { useNavigate } from 'react-router-dom';
-import { NavCategory, NavEmptyCenter, NavEmptyLayout } from '../../../components/nav';
+import {
+  NavCategory,
+  NavEmptyCenter,
+  NavEmptyLayout,
+  useNavCollapsed,
+} from '../../../components/nav';
 import { getDirectCreatePath } from '../../pathUtils';
 import { useNavToActivePathMapper } from '../../../hooks/useNavToActivePathMapper';
 import { useDirectRooms } from './useDirectRooms';
@@ -44,6 +50,7 @@ const DirectMenu = forwardRef<HTMLDivElement, DirectMenuProps>(({ rooms, request
 
 function DirectHeader({ rooms }: { rooms: string[] }) {
   const [menuAnchor, setMenuAnchor] = useState<RectCords>();
+  const collapsed = useNavCollapsed();
 
   const handleOpenMenu: MouseEventHandler<HTMLButtonElement> = (evt) => {
     const cords = evt.currentTarget.getBoundingClientRect();
@@ -56,18 +63,41 @@ function DirectHeader({ rooms }: { rooms: string[] }) {
   return (
     <>
       <PageNavHeader>
-        <Box alignItems="Center" grow="Yes" gap="300">
-          <Box grow="Yes">
-            <Text size="H4" truncate>
-              Direct Messages
-            </Text>
+        {collapsed ? (
+          /* The rail is 64px wide: a title and a separate overflow button do
+             not both fit, and hiding the title outright left a column of faces
+             with nothing to say which list it is. So the title IS the button —
+             "DM", centred, opening the same menu. A `span` rather than folds'
+             default `<p>`, so the rule that hides full-width nav titles on the
+             rail leaves this one alone. */
+          <Box alignItems="Center" justifyContent="Center" grow="Yes">
+            <Chip
+              variant="Background"
+              radii="400"
+              aria-pressed={!!menuAnchor}
+              onClick={handleOpenMenu}
+              title="Direct Messages"
+              aria-label="Direct Messages options"
+            >
+              <Text as="span" size="L400">
+                DM
+              </Text>
+            </Chip>
           </Box>
-          <Box>
-            <IconButton aria-pressed={!!menuAnchor} variant="Background" onClick={handleOpenMenu}>
-              <Icon src={Icons.VerticalDots} size="200" />
-            </IconButton>
+        ) : (
+          <Box alignItems="Center" grow="Yes" gap="300">
+            <Box grow="Yes">
+              <Text size="H4" truncate>
+                Direct Messages
+              </Text>
+            </Box>
+            <Box>
+              <IconButton aria-pressed={!!menuAnchor} variant="Background" onClick={handleOpenMenu}>
+                <Icon src={Icons.VerticalDots} size="200" />
+              </IconButton>
+            </Box>
           </Box>
-        </Box>
+        )}
       </PageNavHeader>
       <PopOut
         anchor={menuAnchor}
@@ -130,7 +160,7 @@ function DirectNav() {
   const noRoomToDisplay = directs.length === 0;
 
   return (
-    <PageNav resizable>
+    <PageNav resizable collapsible>
       <DirectHeader rooms={directs} />
       {noRoomToDisplay ? (
         <DirectEmpty />

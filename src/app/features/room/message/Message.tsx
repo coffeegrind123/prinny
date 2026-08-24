@@ -846,7 +846,8 @@ export type MessageProps = {
   onReactionToggle: (targetEventId: string, key: string, shortcode?: string) => void;
   reply?: ReactNode;
   reactions?: ReactNode;
-  hideReadReceipts?: boolean;
+  /** Hide OTHER people's read receipts. Nothing to do with what you send. */
+  hideOthersReadReceipts?: boolean;
   showDeveloperTools?: boolean;
   memberPowerTag?: MemberPowerTag;
   accessibleTagColors?: Map<string, string>;
@@ -880,7 +881,7 @@ export const Message = as<'div', MessageProps>(
       onEditId,
       reply,
       reactions,
-      hideReadReceipts,
+      hideOthersReadReceipts,
       showDeveloperTools,
       memberPowerTag,
       accessibleTagColors,
@@ -900,7 +901,7 @@ export const Message = as<'div', MessageProps>(
     const [showHiddenEvents] = useSetting(settingsAtom, 'showHiddenEvents');
     const elementReceipts = useElementReadReceipts(
       room,
-      readReceiptStyle === 'element' && !hideReadReceipts,
+      readReceiptStyle === 'element' && !hideOthersReadReceipts,
       showHiddenEvents
     );
     const receiptUserIds = elementReceipts.get(mEvent.getId() ?? '') ?? [];
@@ -1660,7 +1661,7 @@ export const Message = as<'div', MessageProps>(
                               </Text>
                             </MenuItem>
                           )}
-                          {!hideReadReceipts && (
+                          {!hideOthersReadReceipts && (
                             <MessageReadReceiptItem
                               room={room}
                               eventId={mEvent.getId() ?? ''}
@@ -1774,7 +1775,8 @@ export type EventProps = {
   highlight: boolean;
   canDelete?: boolean;
   messageSpacing: MessageSpacing;
-  hideReadReceipts?: boolean;
+  /** Hide OTHER people's read receipts. Nothing to do with what you send. */
+  hideOthersReadReceipts?: boolean;
   showDeveloperTools?: boolean;
 };
 export const Event = as<'div', EventProps>(
@@ -1786,7 +1788,7 @@ export const Event = as<'div', EventProps>(
       highlight,
       canDelete,
       messageSpacing,
-      hideReadReceipts,
+      hideOthersReadReceipts,
       showDeveloperTools,
       children,
       ...props
@@ -1861,7 +1863,7 @@ export const Event = as<'div', EventProps>(
                     >
                       <Menu {...props} ref={ref}>
                         <Box direction="Column" gap="100" className={css.MessageMenuGroup}>
-                          {!hideReadReceipts && (
+                          {!hideOthersReadReceipts && (
                             <MessageReadReceiptItem
                               room={room}
                               eventId={mEvent.getId() ?? ''}

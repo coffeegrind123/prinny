@@ -61,7 +61,7 @@ export function RoomView({ eventId }: { eventId?: string }) {
   const roomInputRef = useRef<HTMLDivElement>(null);
   const roomViewRef = useRef<HTMLDivElement>(null);
 
-  const [hideReadReceipts] = useSetting(settingsAtom, 'hideReadReceipts');
+  const [hideOthersReadReceipts] = useSetting(settingsAtom, 'hideOthersReadReceipts');
 
   const galleryOpen = useAtomValue(roomGalleryOpenAtom);
   const feedRequest = useAtomValue(mediaFeedRequestAtom);
@@ -162,7 +162,11 @@ export function RoomView({ eventId }: { eventId?: string }) {
               </>
             )}
           </div>
-          {hideReadReceipts ? <RoomViewFollowingPlaceholder /> : <RoomViewFollowing room={room} />}
+          {hideOthersReadReceipts ? (
+            <RoomViewFollowingPlaceholder />
+          ) : (
+            <RoomViewFollowing room={room} />
+          )}
         </Box>
       )}
     </Page>

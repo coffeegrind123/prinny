@@ -274,6 +274,9 @@ export const createRouter = (clientConfig: ClientConfig, screenSize: ScreenSize)
           element={
             <PageRoot
               resizableNav
+              // The one nav whose rows are identifiable by avatar alone: a
+              // direct message IS the person. See `effectiveSpec`.
+              collapsibleNav
               nav={
                 <MobileFriendlyPageNav path={DIRECT_PATH}>
                   <MobileSwipeOpen>

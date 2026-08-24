@@ -875,6 +875,14 @@ function Editor() {
   const [isMarkdown, setIsMarkdown] = useSetting(settingsAtom, 'isMarkdown');
   const [hideReadReceipts, setHideReadReceipts] = useSetting(settingsAtom, 'hideReadReceipts');
   const [hideTypingStatus, setHideTypingStatus] = useSetting(settingsAtom, 'hideTypingStatus');
+  const [hideOthersReadReceipts, setHideOthersReadReceipts] = useSetting(
+    settingsAtom,
+    'hideOthersReadReceipts',
+  );
+  const [hideOthersTypingStatus, setHideOthersTypingStatus] = useSetting(
+    settingsAtom,
+    'hideOthersTypingStatus',
+  );
   const [readReceiptStyle, setReadReceiptStyle] = useSetting(settingsAtom, 'readReceiptStyle');
   const [useVxTwitter, setUseVxTwitter] = useSetting(settingsAtom, 'useVxTwitter');
   const [useSoundcloak, setUseSoundcloak] = useSetting(settingsAtom, 'useSoundcloak');
@@ -925,8 +933,8 @@ function Editor() {
       </SequenceCard>
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
-          title="Hide Read Receipts"
-          description="Send your read receipts privately, so nobody is told how far you have read. Other people's read receipts are hidden from you in return."
+          title="Don't Send My Read Receipts"
+          description="Send your read receipts privately, so nobody is told how far you have read. You still see everyone else's."
           after={
             <Switch variant="Primary" value={hideReadReceipts} onChange={setHideReadReceipts} />
           }
@@ -934,10 +942,36 @@ function Editor() {
       </SequenceCard>
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
-          title="Hide Typing Notifications"
-          description="Stop telling rooms when you are composing a message. Other people's typing notifications are hidden from you in return."
+          title="Don't Send My Typing Notifications"
+          description="Stop telling rooms when you are composing a message. You still see everyone else's."
           after={
             <Switch variant="Primary" value={hideTypingStatus} onChange={setHideTypingStatus} />
+          }
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Hide Other People's Read Receipts"
+          description="Stop showing who has read up to where. Independent of whether you send your own."
+          after={
+            <Switch
+              variant="Primary"
+              value={hideOthersReadReceipts}
+              onChange={setHideOthersReadReceipts}
+            />
+          }
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Hide Other People's Typing Notifications"
+          description="Stop showing the “X is typing…” line under the conversation."
+          after={
+            <Switch
+              variant="Primary"
+              value={hideOthersTypingStatus}
+              onChange={setHideOthersTypingStatus}
+            />
           }
         />
       </SequenceCard>
