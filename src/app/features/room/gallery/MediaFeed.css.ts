@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { DefaultReset, config, toRem } from 'folds';
 
 /**
@@ -332,3 +332,48 @@ export const FeedEnd = style([
     scrollSnapAlign: 'start',
   },
 ]);
+
+/**
+ * The chrome that gets out of the way when the mouse stops moving.
+ *
+ * A media player's furniture is for operating it, and once the reader has
+ * stopped operating it they are looking at the picture — so the top bar, the
+ * sender's details, the action rail and the two legibility scrims all fade
+ * out, the way every video player does it. The transport bar along the bottom
+ * deliberately does NOT: it is the one thing that is still telling you
+ * something while you are just watching.
+ *
+ * `pointer-events: none` rather than `visibility: hidden` so the fade is
+ * something you can move the mouse back into and interrupt; the elements stay
+ * focusable, and a Tab into one of them wakes the chrome.
+ */
+export const FeedChromeFade = style({
+  transition: 'opacity 220ms ease',
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      transition: 'none',
+    },
+  },
+});
+
+export const FeedChromeGone = style({
+  opacity: 0,
+  pointerEvents: 'none',
+});
+
+/**
+ * Take the pointer with it.
+ *
+ * A cursor parked in the middle of a photo is the one piece of furniture that
+ * fading the chrome does not remove, and it is the most distracting of them.
+ * The descendant rule is needed because the controls set their own `cursor`,
+ * and the whole point is that nothing is drawing a pointer while the reader is
+ * just looking; the first mouse movement brings it straight back.
+ */
+export const FeedIdle = style({
+  cursor: 'none',
+});
+
+globalStyle(`.${FeedIdle} *`, {
+  cursor: 'none',
+});

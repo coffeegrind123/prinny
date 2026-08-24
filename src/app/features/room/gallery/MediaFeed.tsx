@@ -88,6 +88,27 @@ const MAX_TARGET_DIG_ROUNDS = 20;
  * is a spinner that never stops and says nothing.
  */
 const STALL_TIMEOUT_MS = 20000;
+/**
+ * How long the mouse has to sit still before the chrome gets out of the way.
+ *
+ * The same idea every video player uses: furniture is for operating the thing,
+ * and a reader who has stopped operating it is looking at the picture. Roughly
+ * what YouTube waits — long enough that a pause to read a caption does not
+ * clear the screen, short enough to feel deliberate.
+ */
+const CHROME_IDLE_MS = 2600;
+/** How often idleness is re-checked. Only runs while a mouse is in use. */
+const CHROME_IDLE_TICK_MS = 200;
+
+/**
+ * The chrome's classes, with the fade applied.
+ *
+ * Written as a helper because five separate elements fade together and they
+ * live in two different components — the top bar belongs to the feed, the rest
+ * to whichever page is on screen.
+ */
+const chromeClass = (base: string, hidden: boolean): string =>
+  `${base} ${css.FeedChromeFade}${hidden ? ` ${css.FeedChromeGone}` : ''}`;
 
 type FeedContentProps = {
   room: Room;
@@ -107,6 +128,18 @@ type FeedContentProps = {
    * unmounting must not clear a menu another one has open.
    */
   onPopOutChange: (key: string, open: boolean) => void;
+  /** The mouse has been still: everything but the transport bar fades out. */
+  chromeHidden: boolean;
+  /**
+   * Ask for the chrome to be kept up regardless of the mouse.
+   *
+   * Hiding the controls over a paused video — or a spoiler still covered, or a
+   * stage that has not loaded — takes away the thing the reader was about to
+   * act on and leaves them nothing to explain the black screen. Video players
+   * do not auto-hide while paused either. Keyed by page for the same reason
+   * `onPopOutChange` is: three are mounted at once.
+   */
+  onChromePin: (key: string, pinned: boolean) => void;
 };
 
 /** Zoom the double-click / Zoom button jumps to, and the wheel/pinch bounds. */
@@ -133,6 +166,8 @@ function MediaFeedContent({
   onReply,
   requestClose,
   onPopOutChange,
+  chromeHidden,
+  onChromePin,
 }: FeedContentProps) {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
@@ -399,6 +434,15 @@ function MediaFeedContent({
     onPopOutChange(item.key, !!emojiAnchor);
   }, [item.key, emojiAnchor, onPopOutChange]);
   useEffect(() => () => onPopOutChange(item.key, false), [item.key, onPopOutChange]);
+
+  // Hold the chrome up while there is something here to act on rather than
+  // watch — see `onChromePin`. Only the page being looked at gets a say; a
+  // neighbour is paused by definition and would pin the chrome permanently.
+  const chromePinned = active && ((isVideo && elementPaused) || !revealed || loading || failed);
+  useEffect(() => {
+    onChromePin(item.key, chromePinned);
+  }, [item.key, chromePinned, onChromePin]);
+  useEffect(() => () => onChromePin(item.key, false), [item.key, onChromePin]);
 
   const handleTimeUpdate = () => {
     const video = videoRef.current;
@@ -832,10 +876,10 @@ function MediaFeedContent({
         </Box>
       )}
 
-      <Box className={css.FeedScrimTop} />
-      <Box className={css.FeedScrimBottom} />
+      <Box className={chromeClass(css.FeedScrimTop, chromeHidden)} />
+      <Box className={chromeClass(css.FeedScrimBottom, chromeHidden)} />
 
-      <Box className={css.FeedInfo} direction="Column" gap="100">
+      <Box className={chromeClass(css.FeedInfo, chromeHidden)} direction="Column" gap="100">
         <Box alignItems="Center" gap="200">
           <Avatar size="200">
             <UserAvatar
@@ -870,7 +914,7 @@ function MediaFeedContent({
         </Text>
       </Box>
 
-      <Box className={css.FeedRail}>
+      <Box className={chromeClass(css.FeedRail, chromeHidden)}>
         <PopOut
           position="Left"
           align="End"
@@ -1091,6 +1135,59 @@ export function MediaFeed({
   }, []);
 
   /**
+   * Pages asking for the chrome to stay up — see `onChromePin`. A ref, not
+   * state: nothing renders from it, the idle check below simply reads it.
+   */
+  const chromePinsRef = useRef(new Set<string>());
+  const handleChromePin = useCallback((key: string, pinned: boolean) => {
+    if (pinned) chromePinsRef.current.add(key);
+    else chromePinsRef.current.delete(key);
+  }, []);
+
+  const [chromeHidden, setChromeHidden] = useState(false);
+  /**
+   * Whether a mouse is in play at all.
+   *
+   * Nothing auto-hides until one has moved. On a touch screen there is no
+   * resting pointer to give the game away, and a tap is already spoken for —
+   * it plays, pauses, or closes — so a first tap that only brought the controls
+   * back would make the feed feel like it was ignoring input.
+   */
+  const [mouseInUse, setMouseInUse] = useState(false);
+  const lastActivityRef = useRef(0);
+
+  const noteActivity = useCallback((fromMouse: boolean) => {
+    lastActivityRef.current = performance.now();
+    if (fromMouse) setMouseInUse(true);
+    setChromeHidden(false);
+  }, []);
+
+  const handlePointerMove = useCallback(
+    (evt: ReactPointerEvent<HTMLDivElement>) => noteActivity(evt.pointerType === 'mouse'),
+    [noteActivity],
+  );
+  const handleWake = useCallback(() => noteActivity(false), [noteActivity]);
+
+  // Polled rather than a timeout armed on each movement, because what counts as
+  // "still enough to hide" changes while the timer would be pending: a video
+  // finishes loading, a reader reveals a spoiler, a menu closes. A pending
+  // timeout would either fire against stale conditions or be cancelled and
+  // never re-armed until the mouse moved again, which is how a chrome that
+  // should have faded ends up sitting there for good.
+  useEffect(() => {
+    if (!mouseInUse) return undefined;
+    const timer = window.setInterval(() => {
+      if (popOutOpenRef.current.size > 0 || chromePinsRef.current.size > 0) {
+        lastActivityRef.current = performance.now();
+        setChromeHidden(false);
+        return;
+      }
+      setChromeHidden(performance.now() - lastActivityRef.current >= CHROME_IDLE_MS);
+    }, CHROME_IDLE_TICK_MS);
+    return () => window.clearInterval(timer);
+  }, [mouseInUse]);
+
+  /**
    * The room's media in conversation order — oldest first — which is the order
    * this feed is read in. `items` arrives newest-first from the scan, the order
    * the gallery grid wants.
@@ -1292,6 +1389,9 @@ export function MediaFeed({
     useCallback(
       (evt: KeyboardEvent) => {
         if (evt.altKey || evt.ctrlKey || evt.metaKey) return;
+        // Driving the feed from the keyboard is still driving it — the chrome
+        // has no business fading out from under someone pressing keys.
+        noteActivity(false);
         const { key } = evt;
         // Space and Enter belong to whatever rail button has focus; stealing
         // Space for "next" would make the buttons unusable from the keyboard.
@@ -1318,7 +1418,7 @@ export function MediaFeed({
           setMuted((value) => !value);
         }
       },
-      [move, requestClose],
+      [move, requestClose, noteActivity],
     ),
   );
 
@@ -1334,13 +1434,23 @@ export function MediaFeed({
           }}
         >
           <Box
-            className={css.Feed}
+            className={`${css.Feed}${chromeHidden ? ` ${css.FeedIdle}` : ''}`}
             direction="Column"
             ref={scrollRef}
             onScroll={handleScroll}
+            onPointerMove={handlePointerMove}
+            onPointerDown={handleWake}
+            onWheel={handleWake}
+            // Tabbing into a faded control has to bring it back, or the focus
+            // ring is the only thing on screen and there is nothing under it.
+            onFocus={handleWake}
             tabIndex={-1}
           >
-            <Box className={css.FeedTopBar} alignItems="Center" gap="200">
+            <Box
+              className={chromeClass(css.FeedTopBar, chromeHidden)}
+              alignItems="Center"
+              gap="200"
+            >
               <Box className={css.FeedBarGroup} alignItems="Center" gap="100">
                 <IconButton size="300" radii="300" variant="Background" onClick={requestClose}>
                   <Icon size="50" src={Icons.ArrowLeft} />
@@ -1458,6 +1568,8 @@ export function MediaFeed({
                     onReply={onReply}
                     requestClose={requestClose}
                     onPopOutChange={handlePopOutChange}
+                    chromeHidden={chromeHidden}
+                    onChromePin={handleChromePin}
                   />
                 )}
               </Box>
