@@ -1243,6 +1243,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
                           onTabChange={setEmojiBoardTab}
                           imagePackRooms={imagePackRooms}
                           returnFocusOnDeactivate={false}
+                          allowMashup
                           onEmojiSelect={handleEmoticonSelect}
                           onCustomEmojiSelect={handleEmoticonSelect}
                           onStickerSelect={handleStickerSelect}

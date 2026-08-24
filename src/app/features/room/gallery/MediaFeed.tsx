@@ -933,6 +933,7 @@ function MediaFeedContent({
               imagePackRooms={imagePackRooms}
               returnFocusOnDeactivate={false}
               allowTextCustomEmoji
+              allowMashup
               onEmojiSelect={(key) => {
                 reaction.react(key);
                 setEmojiAnchor(undefined);

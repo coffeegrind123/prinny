@@ -13,6 +13,7 @@ import {
 import { useMatrixClient } from './useMatrixClient';
 import { useAccountDataCallback } from './useAccountDataCallback';
 import { useStateEventCallback } from './useStateEventCallback';
+import { useMashupImagePack } from './useMashupImagePack';
 
 export const useUserImagePack = (): ImagePack | undefined => {
   const mx = useMatrixClient();
@@ -144,9 +145,15 @@ export const useRelevantImagePacks = (usage: ImageUsage, rooms: Room[]): ImagePa
   const userPack = useUserImagePack();
   const globalPacks = useGlobalImagePacks();
   const roomsPacks = useRoomsImagePacks(rooms);
+  // Emoji mashups are not stored as a real `im.ponies.*` pack, but every
+  // consumer of this hook — the board, `:` autocomplete, the search index —
+  // should see them as one. Injecting here rather than at those call sites is
+  // what keeps them from each needing to know mashups exist.
+  const mashupPack = useMashupImagePack();
 
   const relevantPacks = useMemo(() => {
     const packs = userPack ? [userPack] : [];
+    if (mashupPack) packs.push(mashupPack);
     const globalPackIds = new Set(globalPacks.map((pack) => pack.id));
 
     const relPacks = packs.concat(
@@ -155,7 +162,7 @@ export const useRelevantImagePacks = (usage: ImageUsage, rooms: Room[]): ImagePa
     );
 
     return relPacks.filter((pack) => pack.getImages(usage).length > 0);
-  }, [userPack, globalPacks, roomsPacks, usage]);
+  }, [userPack, mashupPack, globalPacks, roomsPacks, usage]);
 
   return relevantPacks;
 };

@@ -198,6 +198,11 @@ export interface Settings {
   // an IP and a query to someone who is not the homeserver. Favourites and the
   // composer shortcut follow this setting rather than having their own.
   gifPicker: boolean;
+  // Fourth tab in the emoji board: builds a new emoji from two others by
+  // stacking cut-up Twemoji. On by default — unlike the GIF tab it reaches no
+  // third party, renders entirely in the client, and only touches the network
+  // to upload the result the user picked.
+  emojiMashup: boolean;
   // Media does not autoplay; it plays while hovered instead. Also stops UI
   // animation, for motion sensitivity and for weak hardware.
   lowAnimationMode: boolean;
@@ -329,6 +334,7 @@ const defaultSettings: Settings = {
   roomsPseudoSpace: false,
 
   gifPicker: false,
+  emojiMashup: true,
   lowAnimationMode: false,
   mediaAutoEmbedHosts: [],
 

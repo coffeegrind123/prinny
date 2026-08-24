@@ -1487,6 +1487,7 @@ export const Message = as<'div', MessageProps>(
                         imagePackRooms={imagePackRooms ?? []}
                         returnFocusOnDeactivate={false}
                         allowTextCustomEmoji
+                        allowMashup
                         onEmojiSelect={(key) => {
                           onReactionToggle(mEvent.getId()!, key);
                           setEmojiBoardAnchor(undefined);

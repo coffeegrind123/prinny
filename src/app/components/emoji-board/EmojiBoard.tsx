@@ -4,12 +4,15 @@ import {
   MouseEventHandler,
   ReactNode,
   RefObject,
+  Suspense,
+  lazy,
   useCallback,
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react';
-import { Box, config, Icons, Scroll } from 'folds';
+import { Box, config, Icons, Scroll, Spinner } from 'folds';
 import { FocusTrap } from 'focus-trap-react';
 import { isKeyHotkey } from '../../utils/is-hotkey';
 import { Room } from 'matrix-js-sdk';
@@ -55,6 +58,13 @@ import { EmojiBoardTab, EmojiType } from './types';
 import { VirtualTile } from '../virtualizer';
 import { GifPicker } from './GifPicker';
 import { FavoriteGif } from '../../state/gifFavorites';
+import { useSetting } from '../../state/hooks/settings';
+import { settingsAtom } from '../../state/settings';
+
+// The mashup tab carries ~233 KB of inlined Twemoji parts. Loading it with the
+// board would make every emoji picker pay for a tab most openings never touch,
+// so it arrives on first use instead.
+const MashupPicker = lazy(() => import('./MashupPicker'));
 
 const RECENT_GROUP_ID = 'recent_group';
 const SEARCH_GROUP_ID = 'search_group';
@@ -373,6 +383,12 @@ type EmojiBoardProps = {
   onGifSelect?: (fav: FavoriteGif) => void;
   allowTextCustomEmoji?: boolean;
   addToRecentEmoji?: boolean;
+  /**
+   * Offer the Mashup tab. Opt-in per board rather than global: a mashup is a
+   * custom emoji, so it belongs anywhere one can be sent or reacted with, but
+   * not in the pickers that choose an icon for something else.
+   */
+  allowMashup?: boolean;
 };
 
 export function EmojiBoard({
@@ -387,11 +403,38 @@ export function EmojiBoard({
   onGifSelect,
   allowTextCustomEmoji,
   addToRecentEmoji = true,
+  allowMashup,
 }: EmojiBoardProps) {
   const mx = useMatrixClient();
+  const [gifPicker] = useSetting(settingsAtom, 'gifPicker');
+  const [emojiMashup] = useSetting(settingsAtom, 'emojiMashup');
 
-  const emojiTab = tab === EmojiBoardTab.Emoji;
-  const gifTab = tab === EmojiBoardTab.Gif;
+  // Boards opened for a single purpose — the reaction picker, the gallery —
+  // pass no `onTabChange` and so have no tab state of their own. They still
+  // need somewhere to put the mashup tab, so the board keeps its own when it
+  // is not being driven from outside.
+  const [uncontrolledTab, setUncontrolledTab] = useState(tab);
+  const controlled = onTabChange !== undefined;
+  const handleTabChange = controlled ? onTabChange : setUncontrolledTab;
+
+  const tabs = useMemo(() => {
+    const list: EmojiBoardTab[] = [];
+    if (controlled) list.push(EmojiBoardTab.Sticker);
+    list.push(EmojiBoardTab.Emoji);
+    if (controlled && gifPicker) list.push(EmojiBoardTab.Gif);
+    if (allowMashup && emojiMashup) list.push(EmojiBoardTab.Mashup);
+    return list;
+  }, [controlled, gifPicker, allowMashup, emojiMashup]);
+
+  // A tab that has been switched off mid-session — or one a caller asks for
+  // that this board does not offer — falls back rather than rendering nothing.
+  const requestedTab = controlled ? tab : uncontrolledTab;
+  const activeTab = tabs.includes(requestedTab) ? requestedTab : EmojiBoardTab.Emoji;
+
+  const emojiTab = activeTab === EmojiBoardTab.Emoji;
+  const gifTab = activeTab === EmojiBoardTab.Gif;
+  const mashupTab = activeTab === EmojiBoardTab.Mashup;
+  const listTab = !gifTab && !mashupTab;
   const usage = emojiTab ? ImageUsage.Emoticon : ImageUsage.Sticker;
 
   const previewAtom = useMemo(
@@ -401,9 +444,9 @@ export function EmojiBoard({
   const activeGroupIdAtom = useMemo(() => atom<string | undefined>(undefined), []);
   const setActiveGroupId = useSetAtom(activeGroupIdAtom);
   const imagePacks = useRelevantImagePacks(usage, imagePackRooms);
-  const [emojiGroupItems, stickerGroupItems] = useGroups(tab, imagePacks);
+  const [emojiGroupItems, stickerGroupItems] = useGroups(activeTab, imagePacks);
   const groups = emojiTab ? emojiGroupItems : stickerGroupItems;
-  const renderItem = useItemRenderer(tab);
+  const renderItem = useItemRenderer(activeTab);
 
   const searchList = useMemo(() => {
     let list: Array<PackImageReader | IEmoji> = [];
@@ -464,6 +507,17 @@ export function EmojiBoard({
     if (!evt.altKey && !evt.shiftKey) requestClose();
   };
 
+  // A mashup is a custom emoji that did not exist until a moment ago. Once
+  // uploaded it is an `mxc://` like any other, so it goes out through the same
+  // callback — which is what lets a caller react with one, or insert one in
+  // the composer, without knowing mashups exist.
+  const handleMashupSelect = useCallback(
+    (mxc: string, shortcode: string) => {
+      onCustomEmojiSelect?.(mxc, shortcode);
+    },
+    [onCustomEmojiSelect]
+  );
+
   const handleTextCustomEmojiSelect = (textEmoji: string) => {
     onCustomEmojiSelect?.(textEmoji, textEmoji);
     requestClose();
@@ -500,10 +554,10 @@ export function EmojiBoard({
     if (groups.length > 0) {
       virtualizer.scrollToIndex(0, { align: 'start' });
     }
-  }, [tab, virtualizer, groups]);
+  }, [activeTab, virtualizer, groups]);
 
   let sidebar: ReactNode;
-  if (gifTab) {
+  if (!listTab) {
     sidebar = undefined;
   } else if (emojiTab) {
     sidebar = (
@@ -541,10 +595,12 @@ export function EmojiBoard({
       <EmojiBoardLayout
         header={
           <Box direction="Column" gap="200">
-            {onTabChange && <EmojiBoardTabs tab={tab} onTabChange={onTabChange} />}
-            {!gifTab && (
+            {tabs.length > 1 && (
+              <EmojiBoardTabs tab={activeTab} tabs={tabs} onTabChange={handleTabChange} />
+            )}
+            {listTab && (
               <SearchInput
-                key={tab}
+                key={activeTab}
                 query={result?.query}
                 onChange={handleOnChange}
                 allowTextCustomEmoji={allowTextCustomEmoji}
@@ -555,12 +611,26 @@ export function EmojiBoard({
         }
         sidebar={sidebar}
       >
-        {gifTab ? (
-          <GifPicker onGifSelect={onGifSelect} requestClose={requestClose} />
-        ) : (
+        {gifTab && <GifPicker onGifSelect={onGifSelect} requestClose={requestClose} />}
+        {mashupTab && (
+          <Suspense
+            fallback={
+              <Box grow="Yes" alignItems="Center" justifyContent="Center">
+                <Spinner variant="Secondary" size="400" />
+              </Box>
+            }
+          >
+            <MashupPicker
+              previewAtom={previewAtom}
+              onMashupSelect={handleMashupSelect}
+              requestClose={requestClose}
+            />
+          </Suspense>
+        )}
+        {listTab && (
           <Box grow="Yes">
             <EmojiGroupHolder
-              key={tab}
+              key={activeTab}
               contentScrollRef={contentScrollRef}
               previewAtom={previewAtom}
               onGroupItemClick={handleGroupItemClick}
@@ -597,7 +667,7 @@ export function EmojiBoard({
                   );
                 })}
               </div>
-              {tab === EmojiBoardTab.Sticker && groups.length === 0 && <NoStickerPacks />}
+              {activeTab === EmojiBoardTab.Sticker && groups.length === 0 && <NoStickerPacks />}
             </EmojiGroupHolder>
           </Box>
         )}

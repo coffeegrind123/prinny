@@ -2,6 +2,7 @@ export enum EmojiBoardTab {
   Emoji = 'Emoji',
   Sticker = 'Sticker',
   Gif = 'Gif',
+  Mashup = 'Mashup',
 }
 
 export enum EmojiType {

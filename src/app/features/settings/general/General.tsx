@@ -1405,6 +1405,7 @@ function ForkFeatures() {
   const [topBarProfile, setTopBarProfile] = useSetting(settingsAtom, 'topBarProfile');
   const [roomsPseudoSpace, setRoomsPseudoSpace] = useSetting(settingsAtom, 'roomsPseudoSpace');
   const [gifPicker, setGifPicker] = useSetting(settingsAtom, 'gifPicker');
+  const [emojiMashup, setEmojiMashup] = useSetting(settingsAtom, 'emojiMashup');
   const [lowAnimationMode, setLowAnimationMode] = useSetting(settingsAtom, 'lowAnimationMode');
   const [showRichPresence, setShowRichPresence] = useSetting(settingsAtom, 'showRichPresence');
   const [emojiShortcodeReplace, setEmojiShortcodeReplace] = useSetting(
@@ -1491,6 +1492,13 @@ function ForkFeatures() {
           title="GIF Picker"
           description="Add a GIF tab to the emoji board. Searches are sent to klipy.com, which sees your IP and your query."
           after={<Switch variant="Primary" value={gifPicker} onChange={setGifPicker} />}
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Emoji Mashup"
+          description="Add a Mashup tab to the emoji board, building new emoji from two others. Drawn in the app from bundled Twemoji parts; only the one you pick is uploaded."
+          after={<Switch variant="Primary" value={emojiMashup} onChange={setEmojiMashup} />}
         />
       </SequenceCard>
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">

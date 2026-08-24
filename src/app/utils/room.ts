@@ -454,6 +454,42 @@ export const getReactionContent = (eventId: string, key: string, shortcode?: str
   shortcode,
 });
 
+/**
+ * The key to actually react with, given the one the picker produced.
+ *
+ * Matrix groups reactions by exact key string. That is fine for a unicode
+ * emoji, which everybody spells the same way, and wrong for a custom one: two
+ * people who react with the same image upload it separately and end up with
+ * two `mxc://` URIs, so the timeline shows two chips of one each instead of
+ * one chip of two.
+ *
+ * `shortcode` is the part that *is* the same for both of them — a mashup
+ * derives it from its two halves, and pack emotes carry the pack's name for it
+ * — so when an image reaction with a matching shortcode is already on the
+ * event, join it under its key rather than starting a rival chip. Toggling
+ * back off finds it there too.
+ *
+ * Unicode keys are returned untouched: they already agree.
+ */
+export const matchingReactionKey = (
+  annotationsByKey: [string, Set<MatrixEvent>][],
+  key: string,
+  shortcode?: string
+): string => {
+  if (!shortcode || !key.startsWith('mxc://')) return key;
+  if (annotationsByKey.some(([k]) => k === key)) return key;
+
+  const existing = annotationsByKey.find(
+    ([k, events]) =>
+      k.startsWith('mxc://') &&
+      Array.from(events).some(
+        (mEvent) => !mEvent.isRedacted() && mEvent.getContent().shortcode === shortcode
+      )
+  );
+
+  return existing ? existing[0] : key;
+};
+
 export const getEventReactions = (timelineSet: EventTimelineSet, eventId: string) =>
   timelineSet.relations.getChildEventsForEvent(
     eventId,

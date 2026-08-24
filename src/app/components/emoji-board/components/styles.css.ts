@@ -318,3 +318,133 @@ export const GifFavBtnActive = style({
   color: color.Primary.OnContainer,
   backgroundColor: 'rgba(0, 0, 0, 0.55)',
 });
+
+/**
+ * Mashup Picker
+ */
+
+export const MashupPicker = style({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  height: '100%',
+  // Same reason as the GIF picker: let the inner scroll area own the overflow
+  // instead of pushing past the board's fixed height.
+  minHeight: 0,
+});
+
+export const MashupToolbar = style({
+  padding: `${config.space.S200} ${config.space.S300} 0`,
+});
+
+// The face strip is one row that scrolls sideways rather than a wrapping grid.
+// 135 faces wrapped would eat most of a 440px board before a single result was
+// visible, and the results are the point of the tab.
+export const MashupFaceStrip = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: config.space.S100,
+  padding: `${config.space.S200} ${config.space.S300}`,
+  flexShrink: 0,
+  overflowX: 'auto',
+  scrollbarWidth: 'none',
+  '::-webkit-scrollbar': {
+    display: 'none',
+  },
+});
+
+export const MashupFaceBtn = style([
+  DefaultReset,
+  FocusOutline,
+  {
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: toRem(36),
+    height: toRem(36),
+    fontSize: toRem(24),
+    lineHeight: toRem(24),
+    padding: 0,
+    border: `${config.borderWidth.B300} solid transparent`,
+    borderRadius: config.radii.R300,
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
+
+    ':hover': {
+      backgroundColor: color.Surface.ContainerHover,
+    },
+  },
+]);
+
+export const MashupFaceBtnActive = style({
+  backgroundColor: color.Primary.Container,
+  borderColor: color.Primary.ContainerLine,
+});
+
+export const MashupScrollWrap = style({
+  minHeight: 0,
+});
+
+export const MashupItem = style([
+  EmojiItem,
+  {
+    position: 'relative',
+  },
+]);
+
+export const MashupImg = style([
+  DefaultReset,
+  {
+    width: toRem(32),
+    height: toRem(32),
+    objectFit: 'contain',
+  },
+]);
+
+// A mashup is only uploaded when it is picked, so the wait is real the first
+// time and invisible after. Dimming the tile in place says which one is
+// working without moving anything.
+export const MashupItemBusy = style({
+  opacity: 0.4,
+  cursor: 'progress',
+});
+
+export const MashupPinBtn = style([
+  DefaultReset,
+  FocusOutline,
+  {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 2,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: toRem(18),
+    height: toRem(18),
+    padding: 0,
+    border: 'none',
+    borderRadius: config.radii.Pill,
+    backgroundColor: color.Surface.Container,
+    color: color.Surface.OnContainer,
+    cursor: 'pointer',
+    opacity: 0,
+
+    selectors: {
+      [`${MashupItem}:hover &, &:focus-visible`]: {
+        opacity: 1,
+      },
+    },
+  },
+]);
+
+export const MashupPinBtnActive = style({
+  opacity: 1,
+  backgroundColor: color.Primary.Container,
+  color: color.Primary.OnContainer,
+});
+
+export const MashupStatus = style({
+  padding: `${config.space.S500} ${config.space.S400}`,
+});

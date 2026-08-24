@@ -87,6 +87,7 @@ import {
   getLatestEditableEvt,
   getMemberDisplayName,
   getReactionContent,
+  matchingReactionKey,
   isMembershipChanged,
   reactionOrEditEvent,
 } from '../../utils/room';
@@ -1341,7 +1342,8 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     (targetEventId: string, key: string, shortcode?: string) => {
       const relations = getEventReactions(room.getUnfilteredTimelineSet(), targetEventId);
       const allReactions = relations?.getSortedAnnotationsByKey() ?? [];
-      const [, reactionsSet] = allReactions.find(([k]) => k === key) ?? [];
+      const reactionKey = matchingReactionKey(allReactions, key, shortcode);
+      const [, reactionsSet] = allReactions.find(([k]) => k === reactionKey) ?? [];
       const reactions = reactionsSet ? Array.from(reactionsSet) : [];
       const myReaction = reactions.find(factoryEventSentBy(mx.getUserId()!));
 
@@ -1355,7 +1357,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       mx.sendEvent(
         room.roomId,
         MessageEvent.Reaction as any,
-        getReactionContent(targetEventId, key, rShortcode),
+        getReactionContent(targetEventId, reactionKey, rShortcode),
       );
     },
     [mx, room],

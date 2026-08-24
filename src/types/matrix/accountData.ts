@@ -7,6 +7,7 @@ export enum AccountDataEvent {
 
   PrinnyRoomOrder = 'app.prinny.room_order',
   PrinnyGifFavorites = 'app.prinny.gif_favorites',
+  PrinnyEmojiMashups = 'app.prinny.emoji_mashups',
 
   /**
    * MSC4356, stable since Matrix 1.18. Content is

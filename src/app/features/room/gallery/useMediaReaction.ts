@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { useForceUpdate } from '../../../hooks/useForceUpdate';
-import { getEventReactions, getReactionContent } from '../../../utils/room';
+import { getEventReactions, getReactionContent, matchingReactionKey } from '../../../utils/room';
 import { factoryEventSentBy } from '../../../utils/matrix';
 import { MessageEvent } from '../../../../types/matrix/room';
 
@@ -73,8 +73,9 @@ export const useMediaReaction = (room: Room, eventId: string): MediaReaction => 
       // the relations is how a toggle ends up sending a duplicate instead of
       // redacting.
       const currentRelations = getEventReactions(room.getUnfilteredTimelineSet(), eventId);
-      const [, currentSet] =
-        currentRelations?.getSortedAnnotationsByKey()?.find(([k]) => k === key) ?? [];
+      const byKeyNow = currentRelations?.getSortedAnnotationsByKey() ?? [];
+      const reactionKey = matchingReactionKey(byKeyNow, key, shortcode);
+      const [, currentSet] = byKeyNow.find(([k]) => k === reactionKey) ?? [];
       const current = currentSet ? Array.from(currentSet) : [];
       const existing = current.find(factoryEventSentBy(mx.getSafeUserId()));
 
@@ -86,7 +87,7 @@ export const useMediaReaction = (room: Room, eventId: string): MediaReaction => 
       mx.sendEvent(
         room.roomId,
         MessageEvent.Reaction as any,
-        getReactionContent(eventId, key, shortcode),
+        getReactionContent(eventId, reactionKey, shortcode),
       );
     },
     [mx, room, eventId],

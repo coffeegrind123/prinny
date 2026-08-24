@@ -33,10 +33,17 @@ export function Preview({ previewAtom }: PreviewProps) {
           alignItems="Center"
           justifyContent="Center"
         >
-          {key.startsWith('mxc://') ? (
+          {key.startsWith('mxc://') || key.startsWith('data:') ? (
             <img
               className={css.PreviewImg}
-              src={mxcUrlToHttp(mx, key, useAuthentication) ?? key}
+              // A mashup previews from a `data:` URI: it exists as markup
+              // before it exists on the homeserver, and is only uploaded once
+              // the user picks it.
+              src={
+                key.startsWith('data:')
+                  ? key
+                  : mxcUrlToHttp(mx, key, useAuthentication) ?? key
+              }
               alt={shortcode}
             />
           ) : (

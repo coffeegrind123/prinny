@@ -1,64 +1,50 @@
 import { CSSProperties } from 'react';
 import { Badge, Box, Text } from 'folds';
 import { EmojiBoardTab } from '../types';
-import { useSetting } from '../../../state/hooks/settings';
-import { settingsAtom } from '../../../state/settings';
 
 const styles: CSSProperties = {
   cursor: 'pointer',
 };
 
+const TAB_LABEL: Record<EmojiBoardTab, string> = {
+  [EmojiBoardTab.Sticker]: 'Sticker',
+  [EmojiBoardTab.Emoji]: 'Emoji',
+  [EmojiBoardTab.Gif]: 'GIF',
+  [EmojiBoardTab.Mashup]: 'Mashup',
+};
+
 export function EmojiBoardTabs({
   tab,
+  tabs,
   onTabChange,
 }: {
   tab: EmojiBoardTab;
+  /**
+   * Which tabs this board offers, in the order they appear. The board decides
+   * — a reaction picker has no use for stickers or GIFs, and both the GIF and
+   * Mashup tabs are settings-gated — so the strip renders what it is given
+   * rather than working it out again.
+   */
+  tabs: EmojiBoardTab[];
   onTabChange: (tab: EmojiBoardTab) => void;
 }) {
-  // The GIF tab is the only entry point to a third-party service from this
-  // board, so it appears only when asked for.
-  const [gifPicker] = useSetting(settingsAtom, 'gifPicker');
-
   return (
     <Box gap="100">
-      <Badge
-        style={styles}
-        as="button"
-        variant="Secondary"
-        fill={tab === EmojiBoardTab.Sticker ? 'Solid' : 'None'}
-        size="500"
-        onClick={() => onTabChange(EmojiBoardTab.Sticker)}
-      >
-        <Text as="span" size="L400">
-          Sticker
-        </Text>
-      </Badge>
-      <Badge
-        style={styles}
-        as="button"
-        variant="Secondary"
-        fill={tab === EmojiBoardTab.Emoji ? 'Solid' : 'None'}
-        size="500"
-        onClick={() => onTabChange(EmojiBoardTab.Emoji)}
-      >
-        <Text as="span" size="L400">
-          Emoji
-        </Text>
-      </Badge>
-      {gifPicker && (
+      {tabs.map((boardTab) => (
         <Badge
+          key={boardTab}
           style={styles}
           as="button"
           variant="Secondary"
-          fill={tab === EmojiBoardTab.Gif ? 'Solid' : 'None'}
+          fill={tab === boardTab ? 'Solid' : 'None'}
           size="500"
-          onClick={() => onTabChange(EmojiBoardTab.Gif)}
+          onClick={() => onTabChange(boardTab)}
         >
           <Text as="span" size="L400">
-            GIF
+            {TAB_LABEL[boardTab]}
           </Text>
         </Badge>
-      )}
+      ))}
     </Box>
   );
 }
