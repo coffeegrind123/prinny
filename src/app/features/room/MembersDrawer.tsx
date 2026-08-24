@@ -213,6 +213,9 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
   // Debounced term that drives the inline message search below the member list.
   // Kept separate from the member filter so member results stay instant.
   const [messageTerm, setMessageTerm] = useState<string>();
+  // Whether that message search is still working. The results live below the
+  // member list — often below the fold — so the search box itself has to say so.
+  const [messageSearching, setMessageSearching] = useState(false);
   const powerLevels = usePowerLevelsContext();
   const creators = useRoomCreators(room);
   const getPowerTag = useGetMemberPowerTag(room, creators, powerLevels);
@@ -368,7 +371,13 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
           size="400"
           radii="400"
           autoComplete="off"
-          before={<Icon size="50" src={Icons.Search} />}
+          before={
+            messageSearching ? (
+              <Spinner size="50" variant="Secondary" />
+            ) : (
+              <Icon size="50" src={Icons.Search} />
+            )
+          }
           after={
             result && (
               <Chip
@@ -557,7 +566,12 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
 
             {messageTerm && (
               <Box className={css.DrawerGroup} direction="Column">
-                <RoomMessageResults room={room} term={messageTerm} onOpen={handleMessageOpen} />
+                <RoomMessageResults
+                  room={room}
+                  term={messageTerm}
+                  onOpen={handleMessageOpen}
+                  onSearchingChange={setMessageSearching}
+                />
               </Box>
             )}
           </Box>

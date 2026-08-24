@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { Box, Button, Icon, Icons, Spinner, Text, config, toRem } from 'folds';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Box, Button, Icon, Icons, Spinner, Text, config } from 'folds';
 import { useAtomValue } from 'jotai';
 import { Room, SearchOrderBy } from 'matrix-js-sdk';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -8,10 +8,17 @@ import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
 import { mDirectAtom } from '../../state/mDirectList';
 import { ContainerColor } from '../../styles/ContainerColor.css';
-import { SequenceCard } from '../../components/sequence-card';
 import { MessageSearchParams, useMessageSearch } from './useMessageSearch';
-import { useClientRoomSearch } from './useClientRoomSearch';
+import { ClientScanProgress, useClientRoomSearch } from './useClientRoomSearch';
 import { SearchResultGroup } from './SearchResultGroup';
+import {
+  SearchProgressBar,
+  SearchSkeleton,
+  SearchStatus,
+  formatCount,
+  formatSearchDuration,
+  useSearchTimer,
+} from './SearchProgress';
 
 // Upper bound on pages the "keep looking" loop below will pull on its own.
 //
@@ -39,6 +46,12 @@ type RoomMessageResultsProps = {
   /** Debounced search term. Empty/undefined renders nothing. */
   term?: string;
   onOpen: (roomId: string, eventId: string) => void;
+  /**
+   * Raised whenever the search starts or stops. These results can sit well below
+   * the fold, so the drawer uses this to show the same state up at the search
+   * box the user is typing into.
+   */
+  onSearchingChange?: (searching: boolean) => void;
 };
 
 /**
@@ -47,7 +60,12 @@ type RoomMessageResultsProps = {
  * client-side scan; others use the homeserver `/search`. Both expose the same
  * paginated shape, so a single infinite-query drives either.
  */
-export function RoomMessageResults({ room, term, onOpen }: RoomMessageResultsProps) {
+export function RoomMessageResults({
+  room,
+  term,
+  onOpen,
+  onSearchingChange,
+}: RoomMessageResultsProps) {
   const mx = useMatrixClient();
   const mDirects = useAtomValue(mDirectAtom);
 
@@ -68,8 +86,20 @@ export function RoomMessageResults({ room, term, onOpen }: RoomMessageResultsPro
     [term, room.roomId],
   );
 
+  // How far the local scan has walked. Only the encrypted path produces this —
+  // a server `/search` reports nothing until it answers — and it is what turns
+  // "something is happening" into "3,412 messages read so far".
+  const [scanProgress, setScanProgress] = useState<ClientScanProgress>({
+    scanned: 0,
+    matches: 0,
+    exhausted: false,
+  });
+  const handleScanProgress = useCallback((progress: ClientScanProgress) => {
+    setScanProgress(progress);
+  }, []);
+
   const serverSearchMessages = useMessageSearch(msgSearchParams);
-  const clientSearchMessages = useClientRoomSearch(room, term);
+  const clientSearchMessages = useClientRoomSearch(room, term, handleScanProgress);
   const searchMessages = encrypted ? clientSearchMessages : serverSearchMessages;
 
   const { status, data, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -105,6 +135,10 @@ export function RoomMessageResults({ room, term, onOpen }: RoomMessageResultsPro
     // it (a ref write does not re-render).
     generationRef.current = searchGeneration;
     autoPagesRef.current = 0;
+    // Same reason as the budget: a new term must not inherit the old scan's
+    // counts, and an effect would land a render too late — long enough for the
+    // status line to claim the previous search's totals for this one.
+    setScanProgress({ scanned: 0, matches: 0, exhausted: false });
   }
 
   const autoBudgetLeft = autoPagesRef.current < MAX_AUTO_SEARCH_PAGES;
@@ -120,35 +154,99 @@ export function RoomMessageResults({ room, term, onOpen }: RoomMessageResultsPro
     }
   }, [stillScanning, isFetchingNextPage, status, fetchNextPage]);
 
+  // Anything in flight, including a page the user asked for with the button
+  // below. `showSkeleton` is narrower: placeholder cards only make sense while
+  // the list itself is still filling, not while a later page appends to it.
+  const searching = status === 'pending' || stillScanning || isFetchingNextPage;
+  const showSkeleton = status === 'pending' || stillScanning;
+  const elapsed = useSearchTimer(searching, searchGeneration);
+
+  // While the local scan runs it knows about matches the rendered pages have not
+  // caught up with yet, so the live count comes from it rather than from what is
+  // on screen. The server path has no such figure and falls back to the pages.
+  const foundSoFar = encrypted ? Math.max(scanProgress.matches, resultCount) : resultCount;
+  const busyDetail = [
+    encrypted && scanProgress.scanned > 0
+      ? `${formatCount(scanProgress.scanned)} read`
+      : undefined,
+    foundSoFar > 0 ? `${formatCount(foundSoFar)} found` : undefined,
+    formatSearchDuration(elapsed),
+  ]
+    .filter((part): part is string => !!part)
+    .join(' · ');
+  const doneDetail = [
+    encrypted && scanProgress.scanned > 0
+      ? `${formatCount(scanProgress.scanned)} messages read`
+      : undefined,
+    `in ${formatSearchDuration(elapsed)}`,
+  ]
+    .filter((part): part is string => !!part)
+    .join(' · ');
+
+  // Kept in a ref so a caller passing an inline closure does not re-fire the
+  // notification on every one of its own renders.
+  const onSearchingChangeRef = useRef(onSearchingChange);
+  useEffect(() => {
+    onSearchingChangeRef.current = onSearchingChange;
+  }, [onSearchingChange]);
+  useEffect(() => {
+    onSearchingChangeRef.current?.(searching);
+  }, [searching]);
+  useEffect(
+    () => () => {
+      // Unmounting (the term was cleared, or the drawer closed) aborts the scan,
+      // so whoever is showing the busy state has to be told it is over.
+      onSearchingChangeRef.current?.(false);
+    },
+    [],
+  );
+
   if (!term) return null;
 
   return (
     <Box direction="Column" gap="200">
       <Text size="L400">Messages</Text>
 
-      {status === 'pending' || stillScanning ? (
-        <Box direction="Column" gap="100">
-          {[...Array(3).keys()].map((key) => (
-            <SequenceCard variant="SurfaceVariant" key={key} style={{ minHeight: toRem(64) }} />
-          ))}
-        </Box>
-      ) : null}
+      {searching && <SearchProgressBar />}
 
-      {status === 'success' && groups.length === 0 && !stillScanning && (
+      {searching && (
+        <SearchStatus
+          searching
+          message={encrypted ? 'Searching this room…' : 'Searching messages…'}
+          detail={busyDetail}
+        />
+      )}
+
+      {!searching && status === 'success' && resultCount > 0 && (
+        <SearchStatus
+          searching={false}
+          message={`Found ${formatCount(resultCount)} ${resultCount === 1 ? 'match' : 'matches'}`}
+          detail={doneDetail}
+        />
+      )}
+
+      {status === 'success' && groups.length === 0 && !searching && (
         <Box
           className={ContainerColor({ variant: 'Surface' })}
           style={{ padding: config.space.S300, borderRadius: config.radii.R400 }}
-          alignItems="Center"
+          alignItems="Start"
           gap="200"
         >
-          <Icon size="200" src={Icons.Info} />
-          <Text size="T300">
-            {hasNextPage
-              ? // Auto-scan budget spent, history not exhausted. Say so instead
-                // of claiming "no match", which would be untrue.
-                'No matches in recent history.'
-              : 'No messages match.'}
-          </Text>
+          <Icon style={{ flexShrink: 0 }} size="200" src={Icons.Info} />
+          <Box direction="Column" gap="100">
+            <Text size="T300">
+              {hasNextPage
+                ? // Auto-scan budget spent, history not exhausted. Say so instead
+                  // of claiming "no match", which would be untrue.
+                  'No matches in recent history.'
+                : 'No messages match.'}
+            </Text>
+            {/* The search is over — say what it covered, so an empty list reads
+                as a finished answer rather than one that never started. */}
+            <Text size="T200" priority="300">
+              {doneDetail}
+            </Text>
+          </Box>
         </Box>
       )}
 
@@ -171,6 +269,8 @@ export function RoomMessageResults({ room, term, onOpen }: RoomMessageResultsPro
           />
         );
       })}
+
+      {showSkeleton && <SearchSkeleton count={3} minHeight={64} />}
 
       {hasNextPage && !stillScanning && status === 'success' && (
         <Button

@@ -1,5 +1,5 @@
 import { EventTimeline, EventType, IEventWithRoomId, MatrixEvent, Room } from 'matrix-js-sdk';
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { ResultGroup, ResultItem, SearchResult } from './useMessageSearch';
 
@@ -29,6 +29,20 @@ const PAGINATION_LIMIT = 100;
 // results that arrive a few at a time. RoomMessageResults raises its own page
 // budget to match, so overall coverage is unchanged.
 const MAX_PAGINATIONS_PER_PAGE = 2;
+
+/**
+ * Live progress of a client-side scan, reported as it walks history. The UI has
+ * nothing else to show for this path: the scan is a local loop over decrypted
+ * events, so there is no request whose duration stands in for "still working".
+ */
+export type ClientScanProgress = {
+  /** Events walked so far. */
+  scanned: number;
+  /** Matches found so far — may exceed what the current page renders. */
+  matches: number;
+  /** True once history is fully walked (or the scan cap is hit). */
+  exhausted: boolean;
+};
 
 type ClientSearchCursor = {
   term: string;
@@ -90,10 +104,26 @@ const eventMatches = (mEvent: MatrixEvent, needle: string, words: string[]): boo
  * Client-side message search for a single (typically encrypted) room.
  * Mirrors the shape returned by {@link useMessageSearch} so the drawer's message results can use
  * either interchangeably behind the same infinite-query.
+ *
+ * `onProgress` is called as the scan walks, so the caller can say how far it has
+ * got rather than only that it is busy.
  */
-export const useClientRoomSearch = (room: Room, term?: string) => {
+export const useClientRoomSearch = (
+  room: Room,
+  term?: string,
+  onProgress?: (progress: ClientScanProgress) => void,
+) => {
   const mx = useMatrixClient();
   const cursorRef = useRef<ClientSearchCursor | null>(null);
+
+  // Held in a ref, and deliberately NOT a dependency of the callback below: the
+  // caller's handler is usually an inline closure over its own state, so
+  // depending on it would give this search function a new identity on every
+  // render of the caller — including the renders its own progress reports cause.
+  const onProgressRef = useRef(onProgress);
+  useEffect(() => {
+    onProgressRef.current = onProgress;
+  }, [onProgress]);
 
   // `signal` is TanStack Query's per-fetch AbortSignal — see useMessageSearch
   // for why it must be consumed. It matters far more here: this scan issues
@@ -123,6 +153,17 @@ export const useClientRoomSearch = (room: Room, term?: string) => {
       }
       const cursor = cursorRef.current;
       const { timeline, seen } = cursor;
+
+      // Cancelled scans stay silent: a superseded term must not keep writing
+      // its counts over the ones the current search is reporting.
+      const reportProgress = () => {
+        if (signal?.aborted) return;
+        onProgressRef.current?.({
+          scanned: cursor.scanned,
+          matches: cursor.matches.length,
+          exhausted: cursor.exhausted,
+        });
+      };
 
       const scanLoaded = async () => {
         if (signal?.aborted) return;
@@ -159,6 +200,8 @@ export const useClientRoomSearch = (room: Room, term?: string) => {
             cursor.matches.push(fresh[i]);
           }
         }
+
+        reportProgress();
       };
 
       const offset = nextBatch ? parseInt(nextBatch, 10) || 0 : 0;
@@ -204,6 +247,7 @@ export const useClientRoomSearch = (room: Room, term?: string) => {
         await scanLoaded();
       }
       if (cursor.scanned >= MAX_SCANNED_EVENTS) cursor.exhausted = true;
+      reportProgress();
 
       // Cancelled mid-scan: reject rather than return a half-built page, so no
       // partial result for a stale term can land in the cache.
