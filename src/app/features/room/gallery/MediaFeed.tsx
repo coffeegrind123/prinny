@@ -494,16 +494,25 @@ function MediaFeedContent({
    * which `useMediaSrc` can retry without — so the first failure spends that
    * retry and only a second one is real. An embed has no second form of its
    * URL, so its first failure is final.
+   *
+   * An HLS stream is the exception: `useHlsPlayback` owns the element for that,
+   * and an `error` there is routinely *its* first attempt failing on an engine
+   * that overstated what it can demux — which the hook answers by switching to
+   * the other path rather than by giving up. Reporting it here would put a
+   * permanent failure over a video that is about to play, so the hook's own
+   * message is what speaks for that path, with the stall timeout below as the
+   * backstop for a stream that neither errors nor arrives.
    */
   const retriedSrcRef = useRef(false);
   const handleMediaError = useCallback(() => {
+    if (isHls) return;
     if (!isEmbed && !retriedSrcRef.current) {
       retriedSrcRef.current = true;
       onSrcError();
       return;
     }
     setMediaError(true);
-  }, [isEmbed, onSrcError]);
+  }, [isEmbed, isHls, onSrcError]);
 
   /**
    * A video that has a source, never errors and never produces a frame.

@@ -358,7 +358,9 @@ export const UrlPreviewCard = as<
   // Bluesky client-side fetch — public API, no auth needed.
   const [bskyData, setBskyData] = useState<any>(null);
   const [bskyLoading, setBskyLoading] = useState(false);
-  const [, setBskyError] = useState(false);
+  // Read, not just written: it is what lets a failed post fetch fall through to
+  // the ordinary preview instead of leaving the message with no card at all.
+  const [bskyError, setBskyError] = useState(false);
   useEffect(() => {
     if (!bskyPost) return;
     setBskyLoading(true);
@@ -483,7 +485,17 @@ export const UrlPreviewCard = as<
     if (!clientPreviewFallback) return;
     if (previewStatus.status !== AsyncStatus.Error) return;
     if (ogFallbackTried) return;
-    if (twId || bskyPost || bskyActor || hnItemId || isYt) return;
+    // A dedicated renderer only holds this off while it can still produce a
+    // card. Once its own API has definitively failed — three attempts, see
+    // `socialEmbed` — there is nothing else coming, and skipping the fallback
+    // here is what turned a moment's bad connection into a message with no
+    // preview at all. `bsky.app` and `x.com` both serve real og: tags to a
+    // fetcher, so this recovers a genuine card rather than an empty one.
+    if (twId && !vxError) return;
+    if (bskyPost && !bskyError) return;
+    if (bskyActor && !bskyProfileError) return;
+    if (hnItemId && !hnError) return;
+    if (isYt) return;
     if (directAudio) return;
     setOgFallbackTried(true);
     fetchOgPreview(embedUrl).then((data) => {
@@ -496,10 +508,14 @@ export const UrlPreviewCard = as<
     previewStatus.status,
     ogFallbackTried,
     twId,
+    vxError,
     bskyPost?.actor,
     bskyPost?.rkey,
+    bskyError,
     bskyActor,
+    bskyProfileError,
     hnItemId,
+    hnError,
     isYt,
     directAudio,
     embedUrl,

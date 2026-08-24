@@ -107,39 +107,138 @@ export const socialEmbedProvider = (url: string): SocialEmbedProvider | undefine
 export const BSKY_API = 'https://public.api.bsky.app';
 const VX_API = 'https://api.vxtwitter.com/Twitter/status';
 
-export async function resolveBskyDid(actor: string): Promise<string> {
-  if (actor.startsWith('did:')) return actor;
-  const resp = await fetch(
-    `${BSKY_API}/xrpc/com.atproto.identity.resolveHandle?handle=${encodeURIComponent(actor)}`,
-  );
-  if (!resp.ok) throw new Error(`resolveHandle HTTP ${resp.status}`);
-  const data = await resp.json();
-  if (typeof data?.did !== 'string') throw new Error('resolveHandle: no did');
-  return data.did as string;
+/**
+ * How many times one of these endpoints is asked before the answer is "no".
+ *
+ * A Bluesky card is built from two chained requests (`resolveHandle`, then
+ * `getPostThread`) and nothing else — the homeserver's own preview of a
+ * `bsky.app` link is a separate race that plenty of homeservers do not run at
+ * all. So a single dropped connection used to be the whole difference between
+ * a rendered post and a message with no card under it, with nothing logged and
+ * nothing retried: the reported "it seems to not be doing that sometimes".
+ */
+const FETCH_ATTEMPTS = 3;
+/** Backoff between attempts, multiplied by the attempt number. */
+const RETRY_BASE_MS = 600;
+
+/** An HTTP status this module decided against, kept so retries can read it. */
+class ProviderHttpError extends Error {
+  readonly status: number;
+
+  constructor(endpoint: string, status: number) {
+    super(`${endpoint} HTTP ${status}`);
+    this.name = 'ProviderHttpError';
+    this.status = status;
+  }
 }
 
-export async function fetchBskyPost(actor: string, rkey: string): Promise<any> {
-  const did = await resolveBskyDid(actor);
-  const uri = `at://${did}/app.bsky.feed.post/${rkey}`;
-  const resp = await fetch(
-    `${BSKY_API}/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(uri)}&depth=0&parentHeight=0`,
-  );
-  if (!resp.ok) throw new Error(`getPostThread HTTP ${resp.status}`);
-  return resp.json();
+/**
+ * Whether a failure is the kind that might not happen again.
+ *
+ * A rate limit and a 5xx are the server having a moment; a `TypeError` from
+ * `fetch` is the network having one (offline, DNS, TLS, a WebView tearing the
+ * request down). A 400 or a 404 is an answer — the post is gone or the handle
+ * does not exist — and asking again is just noise aimed at a host the message
+ * *sender* chose.
+ */
+const worthRetrying = (err: unknown): boolean => {
+  if (err instanceof ProviderHttpError) return err.status === 429 || err.status >= 500;
+  return true;
+};
+
+const delay = (ms: number): Promise<void> =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
+/** GET some JSON, with the retry policy above and one line if it never works. */
+const fetchJson = async (endpoint: string, url: string): Promise<any> => {
+  let lastErr: unknown;
+  for (let attempt = 1; attempt <= FETCH_ATTEMPTS; attempt += 1) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const resp = await fetch(url);
+      if (!resp.ok) throw new ProviderHttpError(endpoint, resp.status);
+      // eslint-disable-next-line no-await-in-loop
+      return await resp.json();
+    } catch (err) {
+      lastErr = err;
+      if (!worthRetrying(err) || attempt === FETCH_ATTEMPTS) break;
+      // eslint-disable-next-line no-await-in-loop
+      await delay(RETRY_BASE_MS * attempt);
+    }
+  }
+  // Every one of these used to be swallowed by a bare `.catch()` in the card,
+  // so a link with no preview looked identical whether the post was deleted,
+  // the API refused, or the machine was briefly offline.
+  console.warn('[social-embed] fetch failed', {
+    endpoint,
+    url,
+    attempts: FETCH_ATTEMPTS,
+    error: String(lastErr),
+  });
+  throw lastErr;
+};
+
+/**
+ * One in-flight-or-successful request per key, shared by every caller.
+ *
+ * The card and the room's media scan ask for exactly the same posts, and a
+ * timeline can hold the same link several times over — each of which used to
+ * be its own pair of requests to a third-party API. **Failures are deliberately
+ * not kept**: the whole point of the retry above is that these are recoverable,
+ * and a cached rejection would make the first bad moment permanent for the rest
+ * of the session.
+ */
+const requestCache = new Map<string, Promise<any>>();
+
+const shared = <T>(key: string, run: () => Promise<T>): Promise<T> => {
+  const cached = requestCache.get(key) as Promise<T> | undefined;
+  if (cached) return cached;
+  const pending = run().catch((err) => {
+    requestCache.delete(key);
+    throw err;
+  });
+  requestCache.set(key, pending);
+  return pending;
+};
+
+export function resolveBskyDid(actor: string): Promise<string> {
+  if (actor.startsWith('did:')) return Promise.resolve(actor);
+  return shared(`bsky:did:${actor}`, async () => {
+    const data = await fetchJson(
+      'resolveHandle',
+      `${BSKY_API}/xrpc/com.atproto.identity.resolveHandle?handle=${encodeURIComponent(actor)}`,
+    );
+    if (typeof data?.did !== 'string') throw new Error('resolveHandle: no did');
+    return data.did as string;
+  });
 }
 
-export async function fetchBskyProfile(actor: string): Promise<any> {
-  const resp = await fetch(
-    `${BSKY_API}/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(actor)}`,
-  );
-  if (!resp.ok) throw new Error(`getProfile HTTP ${resp.status}`);
-  return resp.json();
+export function fetchBskyPost(actor: string, rkey: string): Promise<any> {
+  return shared(`bsky:post:${actor}/${rkey}`, async () => {
+    const did = await resolveBskyDid(actor);
+    const uri = `at://${did}/app.bsky.feed.post/${rkey}`;
+    return fetchJson(
+      'getPostThread',
+      `${BSKY_API}/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(uri)}&depth=0&parentHeight=0`,
+    );
+  });
 }
 
-export async function fetchVxTweet(id: string): Promise<any> {
-  const resp = await fetch(`${VX_API}/${encodeURIComponent(id)}`);
-  if (!resp.ok) throw new Error(`vxtwitter HTTP ${resp.status}`);
-  return resp.json();
+export function fetchBskyProfile(actor: string): Promise<any> {
+  return shared(`bsky:profile:${actor}`, () =>
+    fetchJson(
+      'getProfile',
+      `${BSKY_API}/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(actor)}`,
+    ),
+  );
+}
+
+export function fetchVxTweet(id: string): Promise<any> {
+  return shared(`twitter:${id}`, () =>
+    fetchJson('vxtwitter', `${VX_API}/${encodeURIComponent(id)}`),
+  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -311,10 +410,14 @@ export type SocialEmbedOptions = {
  * The media scan walks history repeatedly (every `loadMore`, and again when a
  * limited sync restarts the timeline), and the same link is often posted more
  * than once. Without this, each pass would re-hit vxtwitter and the Bluesky
- * API for links it has already resolved. Failures are cached too, as
- * `undefined`: a link that 404s is not going to start working on the next
- * scroll, and retrying it once per page of history is a lot of requests to a
- * host chosen by whoever sent the message.
+ * API for links it has already resolved.
+ *
+ * A resolved `undefined` — a post that exists and has no pictures in it — is
+ * cached like any other answer. A **failure** is not: it is dropped from the
+ * cache so the next pass can ask again, because the request layer above only
+ * gives up after three attempts and a network that was down for those is not
+ * down for the rest of the session. Caching it made one bad moment permanently
+ * remove that post's images from the gallery.
  */
 const postCache = new Map<string, Promise<SocialEmbedPost | undefined>>();
 
@@ -375,7 +478,10 @@ export const resolveSocialEmbed = (
     const key = cacheKey('twitter', twitterId);
     const cached = postCache.get(key);
     if (cached) return cached;
-    const pending = resolveTwitter(url, twitterId).catch(() => undefined);
+    const pending = resolveTwitter(url, twitterId).catch(() => {
+      postCache.delete(key);
+      return undefined;
+    });
     postCache.set(key, pending);
     return pending;
   }
@@ -386,7 +492,10 @@ export const resolveSocialEmbed = (
     const key = cacheKey('bluesky', `${bskyPost.actor}/${bskyPost.rkey}`);
     const cached = postCache.get(key);
     if (cached) return cached;
-    const pending = resolveBluesky(url, bskyPost.actor, bskyPost.rkey).catch(() => undefined);
+    const pending = resolveBluesky(url, bskyPost.actor, bskyPost.rkey).catch(() => {
+      postCache.delete(key);
+      return undefined;
+    });
     postCache.set(key, pending);
     return pending;
   }
