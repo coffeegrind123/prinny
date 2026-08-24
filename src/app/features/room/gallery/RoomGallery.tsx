@@ -23,6 +23,7 @@ import { millisecondsToMinutesAndSeconds } from '../../../utils/common';
 import { inSameDay, timeDayMonthYear, today, yesterday } from '../../../utils/time';
 import { BlurhashCanvas } from '../../../components/BlurhashCanvas';
 import { mediaFeedRequestAtom, roomGalleryOpenAtom } from '../../../state/roomGallery';
+import { useScrollContentAnchor } from '../../../hooks/useScrollContentAnchor';
 import * as css from './RoomGallery.css';
 
 type MediaFilter = 'all' | 'image' | 'video';
@@ -93,6 +94,7 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
       type="button"
       className={css.GalleryTile}
       ref={tileRef}
+      data-gallery-item=""
       onClick={() => onOpen(item)}
       aria-label={label}
       title={item.caption || item.filename}
@@ -233,6 +235,49 @@ export function RoomGallery() {
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   const { items, loading, hasMore, loadMore, scanned } = media;
+
+  /**
+   * Whether the grid has been scrolled away from the top.
+   *
+   * At the very top, newly found media appearing above what is on screen is the
+   * point — the gallery is newest-first, so that is where a photo that has just
+   * arrived belongs. Anywhere else it is an interruption, and the anchor below
+   * takes over.
+   */
+  const [scrolledDown, setScrolledDown] = useState(false);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return undefined;
+    const handleScroll = () => setScrolledDown(el.scrollTop > 8);
+    handleScroll();
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  /**
+   * Keep the reader's place while the grid fills in around them.
+   *
+   * The gallery does not finish assembling itself when it opens: the history
+   * walk keeps finding older media, and — the part that actually moves things —
+   * linked posts resolve over the network afterwards and are merged into the
+   * list *by timestamp*, so a picture from a tweet somebody posted an hour ago
+   * arrives minutes later and is inserted near the TOP, above whatever the
+   * reader has scrolled down to. Everything below it slides, and the scroll
+   * position appears to jump up on its own, repeatedly, exactly as reported.
+   *
+   * Same fix as the timeline's, and the same reason for not leaving it to the
+   * browser's own scroll anchoring — see `useScrollContentAnchor`. `0` for the
+   * bottom exemption: the bottom of the gallery is the oldest media, not a live
+   * end, so there is nothing down there worth being dragged toward.
+   */
+  useScrollContentAnchor(
+    useCallback(() => scrollRef.current, []),
+    useCallback(() => (scrollRef.current?.firstElementChild as HTMLElement) ?? null, []),
+    '[data-gallery-item]',
+    scrolledDown,
+    filter,
+    0,
+  );
 
   const counts = useMemo(
     () => ({

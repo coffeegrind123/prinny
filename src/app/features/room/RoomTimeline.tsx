@@ -3,6 +3,7 @@ import React, {
   ClipboardEventHandler,
   Dispatch,
   MouseEventHandler,
+  MutableRefObject,
   RefObject,
   SetStateAction,
   useCallback,
@@ -312,6 +313,13 @@ const useTimelinePagination = (
   timeline: Timeline,
   setTimeline: Dispatch<SetStateAction<Timeline>>,
   limit: number,
+  /**
+   * Set true for as long as this hook's own `/messages` is in flight, so
+   * `useBackfillArrive` can tell our backfill from somebody else's — ours is
+   * already accounted for by `recalibratePagination`, and counting it twice
+   * would send the view further back than the events that arrived.
+   */
+  paginatingRef: MutableRefObject<boolean>,
 ) => {
   const timelineRef = useRef(timeline);
   timelineRef.current = timeline;
@@ -369,6 +377,7 @@ const useTimelinePagination = (
       }
 
       fetching = true;
+      paginatingRef.current = true;
       try {
         const [err] = await to(
           mx.paginateEventTimeline(timelineToPaginate, {
@@ -402,10 +411,68 @@ const useTimelinePagination = (
         }
       } finally {
         fetching = false;
+        paginatingRef.current = false;
       }
     };
-  }, [mx, alive, setTimeline, limit]);
+  }, [mx, alive, setTimeline, limit, paginatingRef]);
   return handleTimelinePagination;
+};
+
+/**
+ * Somebody else paginated this room's history, so shift the rendered window to
+ * stay on the same messages.
+ *
+ * **The bug.** `range` is a pair of indices into the concatenation of
+ * `linkedTimelines`, so it only means anything relative to how many events are
+ * in front of it. Backwards pagination prepends events at the very top, which
+ * moves every existing event further down that index space — and the timeline
+ * accounted for this only when it had done the paginating itself
+ * (`recalibratePagination`). Two other features paginate the SAME timeline
+ * object, `room.getLiveTimeline()`: the media scan behind the gallery and the
+ * feed (`useRoomMedia`), and in-room search (`useClientRoomSearch`). Opening a
+ * photo from the timeline starts that scan, up to six pages of 80 events land
+ * under the reader, `range` does not move, and the same indices are now
+ * pointing hundreds of messages earlier in the conversation. Which is the
+ * report: click an image, close it, and the chat has scrolled way up.
+ *
+ * `useLiveEventArrive` cannot cover it — it is gated on `data.liveEvent`, and
+ * backfill is by definition not live.
+ *
+ * One `+1` per event rather than a count-difference at the end: the events
+ * arrive one at a time and this has to hold after each, and React batches the
+ * updates anyway. Prepends into a timeline this view is not rendering (the
+ * reader is parked on a permalink in an older, unlinked timeline) shift nothing
+ * and are ignored.
+ */
+const useBackfillArrive = (
+  room: Room,
+  linkedTimelines: EventTimeline[],
+  ownPaginationRef: MutableRefObject<boolean>,
+  onPrepend: () => void,
+) => {
+  const linkedRef = useRef(linkedTimelines);
+  linkedRef.current = linkedTimelines;
+
+  useEffect(() => {
+    const handleTimelineEvent: EventTimelineSetHandlerMap[RoomEvent.Timeline] = (
+      mEvent,
+      eventRoom,
+      toStartOfTimeline,
+      removed,
+      data,
+    ) => {
+      if (eventRoom?.roomId !== room.roomId) return;
+      if (!toStartOfTimeline || data.liveEvent) return;
+      if (ownPaginationRef.current) return;
+      if (data.timeline && !linkedRef.current.includes(data.timeline)) return;
+      onPrepend();
+    };
+
+    room.on(RoomEvent.Timeline, handleTimelineEvent);
+    return () => {
+      room.removeListener(RoomEvent.Timeline, handleTimelineEvent);
+    };
+  }, [room, ownPaginationRef, onPrepend]);
 };
 
 const useLiveEventArrive = (room: Room, onArrive: (mEvent: MatrixEvent) => void) => {
@@ -678,11 +745,32 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   const atLiveEndRef = useRef(liveTimelineLinked && rangeAtEnd);
   atLiveEndRef.current = liveTimelineLinked && rangeAtEnd;
 
+  // True only while this component's own `/messages` is in flight — see
+  // `useBackfillArrive`, which uses it to ignore the backfill we caused.
+  const ownPaginationRef = useRef(false);
   const handleTimelinePagination = useTimelinePagination(
     mx,
     timeline,
     setTimeline,
     PAGINATION_LIMIT,
+    ownPaginationRef,
+  );
+
+  // History paginated in by the media scan or in-room search moves every
+  // rendered event further down the index space `range` is expressed in.
+  useBackfillArrive(
+    room,
+    timeline.linkedTimelines,
+    ownPaginationRef,
+    useCallback(() => {
+      setTimeline((ct) => ({
+        ...ct,
+        range: {
+          start: ct.range.start + 1,
+          end: ct.range.end + 1,
+        },
+      }));
+    }, []),
   );
 
   const getScrollElement = useCallback(() => scrollRef.current, []);

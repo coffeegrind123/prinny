@@ -49,6 +49,12 @@ const NEAR_BOTTOM_PX = 120;
  *   of items (a paginated range). The recorded anchor is dropped, because the
  *   caller is about to restore the scroll itself and two corrections for one
  *   change is one too many.
+ * @param bottomFollowPx how close to the bottom counts as following the end,
+ *   where growth is allowed to move the view. `NEAR_BOTTOM_PX` for a timeline
+ *   that grows downward at the live end. Pass 0 for a list with no live end —
+ *   the gallery grows downward as it walks back through history, and its bottom
+ *   is the OLDEST media plus a loading sentinel, so a reader parked there is
+ *   not following anything and still wants their place kept.
  */
 export const useScrollContentAnchor = (
   getScrollElement: () => HTMLElement | null,
@@ -56,12 +62,15 @@ export const useScrollContentAnchor = (
   itemSelector: string,
   enabled: boolean,
   invalidateKey: unknown,
+  bottomFollowPx: number = NEAR_BOTTOM_PX,
 ): void => {
   const anchorRef = useRef<{ el: HTMLElement; offsetTop: number; scrollTop: number } | undefined>(
     undefined,
   );
   const enabledRef = useRef(enabled);
   enabledRef.current = enabled;
+  const bottomFollowRef = useRef(bottomFollowPx);
+  bottomFollowRef.current = bottomFollowPx;
 
   // Layout effect rather than effect: ResizeObserver callbacks are delivered
   // after layout effects have run for the same frame, so a range change clears
@@ -88,9 +97,25 @@ export const useScrollContentAnchor = (
       // The topmost item whose bottom edge is still below the top of the
       // viewport: the first thing the reader can actually see, and therefore
       // the thing that must not move.
+      //
+      // Measured against the scroller's own rect rather than by comparing
+      // `offsetTop` to `scrollTop`. Those two are only in the same coordinate
+      // space when the items' `offsetParent` IS the scroller, and folds' Scroll
+      // sets no `position`, so the offsets are usually counted from somewhere up
+      // the page instead and every comparison is out by wherever the scroller
+      // sits in it. Measured in the browser: a scroller 628px down the page
+      // picked the item 15 rows above the one actually at the top edge. Growth
+      // between that stale pick and the reader is then invisible — the anchor
+      // does not move, so nothing is corrected, which is the jump this exists to
+      // stop. Rects are viewport-relative and always comparable.
+      const viewportTop = scrollEl.getBoundingClientRect().top;
       for (let i = 0; i < items.length; i += 1) {
         const el = items[i];
-        if (el.offsetTop + el.offsetHeight > scrollTop) {
+        if (el.getBoundingClientRect().bottom > viewportTop) {
+          // `offsetTop` is still the right thing to *record*: it is a layout
+          // position, so it does not move when the view scrolls, and the
+          // difference between two readings of it is exactly how much the
+          // content above this item grew. A constant parent offset cancels.
           anchorRef.current = { el, offsetTop: el.offsetTop, scrollTop };
           return;
         }
@@ -112,7 +137,9 @@ export const useScrollContentAnchor = (
       // fired during that window would drag the view back off the live end and
       // look like new messages no longer scrolling into view.
       const distanceFromBottom = scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight;
-      if (distanceFromBottom <= NEAR_BOTTOM_PX) {
+      // Strictly less than, so a caller passing 0 is exempting nothing at all —
+      // sitting exactly at the bottom still gets its place kept.
+      if (distanceFromBottom < bottomFollowRef.current) {
         anchorRef.current = undefined;
         return;
       }

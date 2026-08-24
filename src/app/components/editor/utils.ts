@@ -208,6 +208,32 @@ export const moveCursor = (editor: Editor, withSpace?: boolean) => {
 };
 
 /**
+ * Put a caret back when the editor has lost its selection.
+ *
+ * `editor.selection` is the whole of what Slate edits against: with none,
+ * `insertText` is a no-op, and the browser — which is still perfectly happy to
+ * type into a focused contenteditable — paints the characters anyway. Model and
+ * screen then disagree until the next render from the model reconciles them,
+ * and what the reader sees is their words rearranged. Measured in Chromium
+ * against this editor's own config: focused composer holding "hello ", selection
+ * cleared, type "abc" — the result is "abchello".
+ *
+ * The end of the document, because every caller reaches this having just
+ * inserted something at the cursor and being about to carry on after it.
+ * Returns whether a caret was actually restored.
+ */
+export const restoreCaretIfMissing = (editor: Editor): boolean => {
+  if (editor.selection) return false;
+  try {
+    Transforms.select(editor, Editor.end(editor, []));
+    return true;
+  } catch {
+    // Empty or detached tree — there is no valid point to select.
+    return false;
+  }
+};
+
+/**
  * Focus the slate editor without crashing when the recorded selection
  * no longer matches the DOM tree. ReactEditor.focus uses
  * `toDOMRange(editor.selection)` internally; if the selection points at
@@ -233,6 +259,23 @@ export const moveCursor = (editor: Editor, withSpace?: boolean) => {
  * this) left the composer in precisely that state.
  */
 export const safeFocusEditor = (editor: Editor) => {
+  // Before focusing, not after: `ReactEditor.focus` cannot be relied on to put
+  // a caret back, and it is a no-op in exactly the case that needs one most.
+  // Reading slate-dom's `focus()` — it returns immediately when slate already
+  // believes the editor is focused, and again when the DOM node is already the
+  // active element. Both returns skip its own "create a new selection in the
+  // top of the document if missing" branch, so a composer that kept focus while
+  // its selection was cleared stays selection-less, and the caller that asked
+  // for a caret gets none. Verified in a browser against this editor: with the
+  // composer focused and `editor.selection` null, `safeFocusEditor` returned
+  // with it still null, and typing "abc" after "hello " produced "abchello".
+  //
+  // That branch would also be the wrong repair here even when it does run: it
+  // selects `Editor.start`, so words typed after picking an emoji would land
+  // before it. Every caller of this reaches it having just inserted at the
+  // cursor, so the end of the document is where the caret was heading.
+  restoreCaretIfMissing(editor);
+
   try {
     ReactEditor.focus(editor as ReactEditor);
     return;
@@ -251,13 +294,8 @@ export const safeFocusEditor = (editor: Editor) => {
     // editor DOM node is gone — nothing more we can do
     return;
   }
-  try {
-    // End of the document is where the caret was headed anyway: this path is
-    // reached right after inserting an emoticon/mention at the cursor.
-    Transforms.select(editor, Editor.end(editor, []));
-  } catch {
-    // empty or detached tree — no valid point to select
-  }
+  // The deselect above threw the caret away deliberately; put it back.
+  restoreCaretIfMissing(editor);
 };
 
 interface PointUntilCharOptions {

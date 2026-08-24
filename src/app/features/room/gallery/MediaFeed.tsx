@@ -59,8 +59,28 @@ import * as css from './MediaFeed.css';
 
 /** Pages either side of the active one that get real media elements. */
 const WINDOW = 1;
-/** Distance from the end of the list at which more history is fetched. */
+/**
+ * Distance from the OLD end of the list at which more history is fetched.
+ * Older media is at the top, so that end is index 0.
+ */
 const LOAD_MORE_DISTANCE = 3;
+/**
+ * One page always sits above the oldest attachment, carrying whatever the walk
+ * back through history has to say — a spinner, "load older", or that this is the
+ * beginning. Always present rather than conditional, so the index-to-offset
+ * mapping below is a constant and nothing shifts under the reader when the walk
+ * changes its mind about whether there is more.
+ */
+const LEADING_PAGES = 1;
+/**
+ * How many rounds of history to walk looking for an attachment the feed was
+ * opened on but has not gathered yet. Generous, because the reader asked for
+ * that specific picture and anything short of finding it is the bug being fixed
+ * here; bounded, because an attachment the scan will never gather (a msgtype the
+ * gallery does not collect) must not turn into a walk to the start of a
+ * years-old room. Each round is up to six `/messages` pages.
+ */
+const MAX_TARGET_DIG_ROUNDS = 20;
 
 type FeedContentProps = {
   room: Room;
@@ -789,7 +809,17 @@ export type MediaFeedProps = {
  * The list it walks is the room's whole media history — the same scan the
  * gallery grid uses — so opening the feed on a photo from the timeline and
  * flicking up keeps going back through the room, fetching older history as it
- * approaches the end.
+ * approaches the top.
+ *
+ * **It reads in conversation order: oldest at the top.** The scan hands its
+ * items over newest-first, which is right for the gallery grid (a grid is read
+ * from the top-left, and what you want there is what arrived recently) and
+ * wrong for this, where the reader arrives by tapping a photo in the timeline
+ * and carries the conversation's own direction with them. With the list the
+ * other way up, Down took you EARLIER in the chat and Up took you later —
+ * reported, exactly, as "pressing the up key goes down and the down key goes
+ * up". Every other chat client's viewer moves forward in time as you go
+ * forward through it, and so does this now.
  */
 export function MediaFeed({
   room,
@@ -822,53 +852,100 @@ export function MediaFeed({
     else popOutOpenRef.current.delete(key);
   }, []);
 
+  /**
+   * The room's media in conversation order — oldest first — which is the order
+   * this feed is read in. `items` arrives newest-first from the scan, the order
+   * the gallery grid wants.
+   */
+  const feedItems = useMemo(() => [...items].reverse(), [items]);
+
+  /**
+   * Whether the attachment the feed was opened on has been gathered yet.
+   *
+   * A tap on a timeline photo names an event, and the media scan has only walked
+   * back as far as it has walked: a photo further up the conversation than that
+   * is simply not in the list yet. The old code gave up quietly there — it
+   * skipped the scroll and left the reader on index 0, i.e. some *other*
+   * attachment, presented exactly as though it were the one they tapped. That is
+   * the report: "when i click an image it doesn't open the image, it opens one
+   * that i clicked on before, so i have to press down a bunch of times to get to
+   * it." Now the walk is driven until the event turns up.
+   */
+  const targetPresent =
+    !initialEventId || feedItems.some((item) => item.eventId === initialEventId);
+  const digRoundsRef = useRef(0);
+  const [digExhausted, setDigExhausted] = useState(false);
+  const searchingForTarget = !targetPresent && !digExhausted;
+
+  useEffect(() => {
+    if (targetPresent) return;
+    // The reader has scrolled somewhere themselves, so the feed is theirs now:
+    // walking the rest of the room's history to find an attachment they have
+    // moved on from is work nobody asked for.
+    if (scrolledToInitial.current) return;
+    if (loading) return;
+    if (!hasMore || digRoundsRef.current >= MAX_TARGET_DIG_ROUNDS) {
+      setDigExhausted(true);
+      return;
+    }
+    digRoundsRef.current += 1;
+    loadMore();
+  }, [targetPresent, hasMore, loading, loadMore]);
+
   const initialIndex = useMemo(() => {
     if (initialItemKey) {
-      const exact = items.findIndex((item) => item.key === initialItemKey);
+      const exact = feedItems.findIndex((item) => item.key === initialItemKey);
       if (exact >= 0) return exact;
     }
-    if (!initialEventId) return 0;
-    const index = items.findIndex((item) => item.eventId === initialEventId);
-    return index < 0 ? 0 : index;
-  }, [items, initialEventId, initialItemKey]);
+    if (initialEventId) {
+      const index = feedItems.findIndex((item) => item.eventId === initialEventId);
+      if (index >= 0) return index;
+    }
+    // Nothing to go on, or the walk gave up: the newest attachment is the one
+    // nearest the conversation the reader came from, and it is at the end now.
+    return Math.max(0, feedItems.length - 1);
+  }, [feedItems, initialEventId, initialItemKey]);
 
   const scrollToIndex = useCallback((index: number, smooth: boolean) => {
     const el = scrollRef.current;
     if (!el || el.clientHeight === 0) return false;
-    el.scrollTo({ top: index * el.clientHeight, behavior: smooth ? 'smooth' : 'auto' });
+    el.scrollTo({
+      top: (index + LEADING_PAGES) * el.clientHeight,
+      behavior: smooth ? 'smooth' : 'auto',
+    });
     return true;
   }, []);
 
-  // Land on the attachment the feed was opened from. When it was opened from
-  // the timeline the scan may still be running, so this keeps trying until the
-  // event actually turns up in the list.
+  // Land on the attachment the feed was opened from. While the scan is still
+  // being driven toward it there is nothing to land on, so this keeps trying.
   useLayoutEffect(() => {
     if (scrolledToInitial.current) return;
-    if (items.length === 0) return;
-    if (initialEventId && !items.some((item) => item.eventId === initialEventId)) return;
+    if (feedItems.length === 0) return;
+    if (searchingForTarget) return;
     if (scrollToIndex(initialIndex, false)) {
       setActiveIndex(initialIndex);
-      activeIdRef.current = items[initialIndex]?.key;
+      activeIdRef.current = feedItems[initialIndex]?.key;
       scrolledToInitial.current = true;
     }
-  }, [items, initialEventId, initialIndex, scrollToIndex]);
+  }, [feedItems, searchingForTarget, initialIndex, scrollToIndex]);
 
-  // Older attachments append, but a newly sent one prepends and shifts every
-  // index by one. Re-anchor on the attachment the user is actually looking at
-  // rather than letting the page under them change.
+  // Older attachments arrive at the top of the list and shift every index after
+  // them; a newly sent one lands at the end. Re-anchor on the attachment the
+  // reader is actually looking at rather than letting the page under them
+  // change.
   useEffect(() => {
     if (!scrolledToInitial.current) return;
     const el = scrollRef.current;
     const activeId = activeIdRef.current;
     if (!el || !activeId || el.clientHeight === 0) return;
-    const index = items.findIndex((item) => item.key === activeId);
+    const index = feedItems.findIndex((item) => item.key === activeId);
     if (index < 0) return;
-    const expected = index * el.clientHeight;
+    const expected = (index + LEADING_PAGES) * el.clientHeight;
     if (Math.abs(el.scrollTop - expected) > 4) {
       el.scrollTop = expected;
       setActiveIndex(index);
     }
-  }, [items]);
+  }, [feedItems]);
 
   const handleScroll = useCallback(() => {
     if (rafRef.current !== undefined) return;
@@ -878,16 +955,16 @@ export function MediaFeed({
       if (!el || el.clientHeight === 0) return;
       const index = Math.max(
         0,
-        Math.min(items.length - 1, Math.round(el.scrollTop / el.clientHeight)),
+        Math.min(feedItems.length - 1, Math.round(el.scrollTop / el.clientHeight) - LEADING_PAGES),
       );
       setActiveIndex(index);
-      activeIdRef.current = items[index]?.key;
+      activeIdRef.current = feedItems[index]?.key;
       // Once the user has moved, the feed is theirs: an attachment the feed was
       // opened on but has not been found yet must not arrive from an older page
       // of history and pull them back to it.
       scrolledToInitial.current = true;
     });
-  }, [items]);
+  }, [feedItems]);
 
   useEffect(
     () => () => {
@@ -896,22 +973,30 @@ export function MediaFeed({
     [],
   );
 
-  // Fetch more history before the user reaches the end of what we have, so a
-  // fast scroll does not run into a wall.
+  // Fetch more history before the reader reaches the old end of what we have, so
+  // a fast scroll does not run into a wall. That end is the TOP now.
   useEffect(() => {
     if (!hasMore || loading) return;
-    if (items.length === 0 || activeIndex >= items.length - LOAD_MORE_DISTANCE) {
+    if (feedItems.length === 0 || activeIndex <= LOAD_MORE_DISTANCE) {
       loadMore();
     }
-  }, [activeIndex, items.length, hasMore, loading, loadMore]);
+  }, [activeIndex, feedItems.length, hasMore, loading, loadMore]);
 
   const move = useCallback(
     (delta: number) => {
-      const next = Math.max(0, Math.min(items.length - 1, activeIndex + delta));
-      if (next === activeIndex) return;
+      const next = Math.max(0, Math.min(feedItems.length - 1, activeIndex + delta));
+      if (next === activeIndex) {
+        // Already against the old end and there is more history to be had: the
+        // press means "keep going", not "nothing there". Without this, walking
+        // up to the oldest attachment the scan happens to have gathered looked
+        // like the beginning of the room's media — reported as "it thinks that's
+        // the last one, even though there are more".
+        if (delta < 0 && next === 0 && hasMore && !loading) loadMore();
+        return;
+      }
       scrollToIndex(next, true);
     },
-    [activeIndex, items.length, scrollToIndex],
+    [activeIndex, feedItems.length, hasMore, loading, loadMore, scrollToIndex],
   );
 
   useKeyDown(
@@ -949,8 +1034,6 @@ export function MediaFeed({
     ),
   );
 
-  const activeItem = items[activeIndex];
-
   return (
     <Overlay open backdrop={<OverlayBackdrop />}>
       <OverlayCenter>
@@ -975,8 +1058,12 @@ export function MediaFeed({
                   <Icon size="50" src={Icons.ArrowLeft} />
                 </IconButton>
                 <Text size="L400">
-                  {items.length === 0 ? '0' : `${activeIndex + 1} / ${items.length}`}
-                  {hasMore ? '+' : ''}
+                  {feedItems.length === 0
+                    ? '0'
+                    : // The total is a floor, not a count: older media is still
+                      // being walked back to, and the "+" says so where it
+                      // belongs — on the total, not after the position.
+                      `${activeIndex + 1} / ${hasMore ? '+' : ''}${feedItems.length}`}
                 </Text>
               </Box>
               <Box grow="Yes" />
@@ -1034,7 +1121,37 @@ export function MediaFeed({
               </Box>
             </Box>
 
-            {items.map((item, index) => (
+            {/* The one page above the oldest attachment. It is what the walk
+                back through history has to say, and it exists whatever that is
+                — see LEADING_PAGES: a page that comes and goes would move every
+                attachment under the reader each time the walk changed its
+                mind. */}
+            {feedItems.length > 0 && (
+              <Box className={css.FeedEnd} shrink="No">
+                {loading || searchingForTarget ? (
+                  <>
+                    <Spinner variant="Secondary" size="400" />
+                    <Text size="T200">
+                      {searchingForTarget ? 'Finding this attachment…' : 'Looking further back…'}
+                    </Text>
+                  </>
+                ) : (
+                  <>
+                    {hasMore ? (
+                      <Chip variant="Secondary" radii="Pill" outlined onClick={loadMore}>
+                        <Text size="B300">Load older media</Text>
+                      </Chip>
+                    ) : (
+                      <Badge variant="Secondary" fill="Soft" radii="Pill">
+                        <Text size="L400">No older media in this conversation</Text>
+                      </Badge>
+                    )}
+                  </>
+                )}
+              </Box>
+            )}
+
+            {feedItems.map((item, index) => (
               <Box key={item.key} className={css.FeedPage} shrink="No">
                 {Math.abs(index - activeIndex) <= WINDOW && (
                   <MediaFeedContent
@@ -1053,39 +1170,12 @@ export function MediaFeed({
               </Box>
             ))}
 
-            {items.length === 0 && (
+            {feedItems.length === 0 && (
               <Box className={css.FeedEnd} shrink="No">
                 {loading ? (
                   <Spinner variant="Secondary" size="400" />
                 ) : (
                   <Text size="T300">No media in this conversation yet.</Text>
-                )}
-              </Box>
-            )}
-
-            {items.length > 0 && (hasMore || loading) && (
-              <Box className={css.FeedEnd} shrink="No">
-                {loading ? (
-                  <>
-                    <Spinner variant="Secondary" size="400" />
-                    <Text size="T200">Looking further back…</Text>
-                  </>
-                ) : (
-                  <Chip variant="Secondary" radii="Pill" outlined onClick={loadMore}>
-                    <Text size="B300">Load older media</Text>
-                  </Chip>
-                )}
-              </Box>
-            )}
-            {items.length > 0 && !hasMore && !loading && (
-              <Box className={css.FeedEnd} shrink="No">
-                <Badge variant="Secondary" fill="Soft" radii="Pill">
-                  <Text size="L400">That is everything in this conversation</Text>
-                </Badge>
-                {activeItem && (
-                  <Chip variant="Secondary" radii="Pill" outlined onClick={requestClose}>
-                    <Text size="B300">Back to the conversation</Text>
-                  </Chip>
                 )}
               </Box>
             )}

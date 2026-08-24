@@ -24,6 +24,7 @@ import { RenderElement, RenderLeaf } from './Elements';
 import { CustomElement } from './slate';
 import * as css from './Editor.css';
 import { toggleKeyboardShortcut } from './keyboard';
+import { restoreCaretIfMissing } from './utils';
 
 /**
  * A fresh empty document, built per editor — never a shared constant.
@@ -129,6 +130,48 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
       [editor, onKeyDown]
     );
 
+    /**
+     * Last line of defence for the composer's caret. This is the "text comes out
+     * backwards" bug, and the whole mechanism, measured in Chromium:
+     *
+     * 1. Something leaves `editor.selection` null while the composer keeps DOM
+     *    focus. (Which routes do that is still not fully known — hence a guard
+     *    here rather than another route-by-route fix; `safeFocusEditor` covers
+     *    the ones that were identified.)
+     * 2. **Slate then erases the DOM caret on every render.** Its DOM-sync
+     *    layout effect runs with no dependency array, and with a null selection
+     *    `newDomRange` comes out null, so it takes the
+     *    `domSelection.removeAllRanges()` branch. Observed: with the selection
+     *    cleared, a real mouse click in the composer left
+     *    `getSelection().anchorNode === null` — the caret was wiped by the
+     *    render that followed the click.
+     * 3. The state sustains itself. The wipe fires `selectionchange` with no
+     *    selection, and slate's own `onDOMSelectionChange` answers that with
+     *    `Transforms.deselect`, so the model stays null and the next render
+     *    wipes again.
+     * 4. Typing into a focused contenteditable that has no selection puts the
+     *    character at the START of it. Every keystroke that loses the race
+     *    against step 3 lands in front of the one before it, and the message
+     *    builds up in reverse.
+     *
+     * It also explains the workaround the reporter found on their own — "all I
+     * have to do to fix it is select some text and then it stops going
+     * backwards". A real selection is adopted into the model by
+     * `onDOMSelectionChange`, which ends step 3's loop.
+     *
+     * Slate reads `editor.selection` *after* calling this prop —
+     * `isDOMEventHandled(event, propsOnDOMBeforeInput)` runs first — so every
+     * keystroke starts from a real caret regardless of who cleared it or of who
+     * won that race. Verified: from the fully broken state (focused, selection
+     * null, no DOM caret at all), typing appends correctly with this in place;
+     * with it switched off, the same keystrokes went to the front of the
+     * message. Returns nothing, so the event is not marked handled and slate's
+     * own handling proceeds untouched.
+     */
+    const handleDOMBeforeInput = useCallback(() => {
+      restoreCaretIfMissing(editor);
+    }, [editor]);
+
     const renderPlaceholder = useCallback(
       ({ attributes, children }: RenderPlaceholderProps) => (
         <span {...attributes} className={css.EditorPlaceholderContainer}>
@@ -166,6 +209,7 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
                 renderPlaceholder={renderPlaceholder}
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
+                onDOMBeforeInput={handleDOMBeforeInput}
                 onKeyDown={handleKeydown}
                 onKeyUp={onKeyUp}
                 onPaste={onPaste}

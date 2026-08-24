@@ -136,8 +136,21 @@ export type ReactionHandler = (keyOrMxc: string, shortcode: string) => void;
  * a bare `<div>` reads as an undeclared interactive element, which is a real
  * a11y complaint and not one worth silencing for a box that only exists to
  * position another one.
+ *
+ * **The containment test is not redundant.** React bubbles events through the
+ * React tree, not the DOM tree, and both the emoji board and the message menu
+ * are `PopOut`s rendered as children of this bar — folds portals their DOM to
+ * `document.body`, but their events still arrive here. So does everything those
+ * menus open in turn: the "View Source" viewer, Read Receipts, the edit-history
+ * and forward dialogs. Every mousedown inside any of them was being
+ * default-prevented by a handler meant for a toolbar 400px away, which is why
+ * the source-view popup's text could not be selected — the same cancelled
+ * default, doing the same thing it was asked to do, to the wrong element.
+ * `currentTarget.contains(target)` is false for exactly the portalled ones,
+ * since the portal's DOM is not inside the bar.
  */
 const preventSelectionAnchor: MouseEventHandler<HTMLDivElement> = (evt) => {
+  if (!evt.currentTarget.contains(evt.target as Node)) return;
   evt.preventDefault();
 };
 
@@ -884,9 +897,11 @@ export const Message = as<'div', MessageProps>(
     const senderId = mEvent.getSender() ?? '';
     const [readReceiptStyle] = useSetting(settingsAtom, 'readReceiptStyle');
     const [replyOnDoubleClick] = useSetting(settingsAtom, 'replyOnDoubleClick');
+    const [showHiddenEvents] = useSetting(settingsAtom, 'showHiddenEvents');
     const elementReceipts = useElementReadReceipts(
       room,
-      readReceiptStyle === 'element' && !hideReadReceipts
+      readReceiptStyle === 'element' && !hideReadReceipts,
+      showHiddenEvents
     );
     const receiptUserIds = elementReceipts.get(mEvent.getId() ?? '') ?? [];
 
