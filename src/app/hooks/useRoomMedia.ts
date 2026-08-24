@@ -380,6 +380,25 @@ type MediaCursor = {
   timeline: EventTimeline;
   seen: Set<string>;
   items: MediaItem[];
+  /**
+   * The key of every entry in `items`, so no add path can list one twice.
+   *
+   * Load-bearing, not an optimisation. Four separate paths append to `items` —
+   * the history walk, a live event, a late decryption, and a resolved post —
+   * and they run concurrently: `scanLoaded` marks an event seen, then *awaits*
+   * its decryption, and the `Decrypted` listener fires during that await and
+   * folds the very same attachment in before the walk gets back to it. The walk
+   * then appended it a second time, because it was the one path with no dedupe.
+   *
+   * Two entries with the same `key` is not a cosmetic duplicate: `key` is the
+   * React key of every tile in the grid and every page in the feed, so a
+   * collision makes React reuse and discard the wrong nodes — the feed page
+   * under the reader is thrown away mid-scan and comes back blank, and a video
+   * on it restarts its download from nothing every time. That is the black
+   * screen, and it happens only in encrypted rooms, only while the scan is
+   * still running, which is exactly when it was reported.
+   */
+  keys: Set<string>;
   scanned: number;
   exhausted: boolean;
   /** Post links found by the walk and not yet resolved. */
@@ -396,6 +415,33 @@ const MAX_PAGINATIONS_PER_LOAD = 6;
 const TARGET_NEW_ITEMS = 24;
 
 const sortNewestFirst = (items: MediaItem[]): MediaItem[] => [...items].sort((a, b) => b.ts - a.ts);
+
+/**
+ * The one way anything reaches `cursor.items`.
+ *
+ * Every caller used to do its own version of this and one of them — the
+ * history walk — did not do the dedupe at all; see `MediaCursor.keys` for what
+ * that cost. Centralising it means the invariant "one entry per key" is a
+ * property of the cursor rather than something four call sites have to
+ * remember.
+ *
+ * `atFront` only decides the order of entries with an *identical* timestamp,
+ * since the sort below is stable: a photo that has just been sent belongs above
+ * one already listed at the same millisecond, and history that has just become
+ * readable belongs below.
+ *
+ * @returns how many entries were actually new.
+ */
+const addToCursor = (cursor: MediaCursor, incoming: MediaItem[], atFront = false): number => {
+  if (incoming.length === 0) return 0;
+  const fresh = incoming.filter((item) => !cursor.keys.has(item.key));
+  if (fresh.length === 0) return 0;
+  fresh.forEach((item) => cursor.keys.add(item.key));
+  cursor.items = sortNewestFirst(
+    atFront ? [...fresh, ...cursor.items] : [...cursor.items, ...fresh],
+  );
+  return fresh.length;
+};
 
 /** Posts resolved at once. Enough to fill a screen, few enough to stay polite. */
 const EMBED_CONCURRENCY = 4;
@@ -558,6 +604,7 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
       timeline: room.getLiveTimeline(),
       seen: new Set<string>(),
       items: [],
+      keys: new Set<string>(),
       scanned: 0,
       exhausted: false,
       pendingEmbeds: [],
@@ -597,10 +644,9 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
 
       let added = 0;
       fresh.forEach((mEvent) => {
-        mediaItemsFromEvent(mEvent).forEach((item) => {
-          cursor.items.push(item);
-          added += 1;
-        });
+        // Through `addToCursor` rather than pushing: the `Decrypted` listener
+        // fires during the await above and has already folded some of these in.
+        added += addToCursor(cursor, mediaItemsFromEvent(mEvent));
         // Queued rather than resolved here: resolving is a network round trip
         // per post, and the walk must not wait on it. The grid shows the
         // attachments it already found and the posts fill in behind them.
@@ -613,15 +659,30 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
           });
         }
       });
-      if (added > 0) cursor.items = sortNewestFirst(cursor.items);
       return added;
     },
     [mx],
   );
 
+  /**
+   * The last list handed to React, so an unchanged one is not handed over again.
+   *
+   * `loadMore` publishes after the initial fold and after every page of history,
+   * and most of those rounds find nothing. Each one used to mint a fresh array,
+   * which is a new identity to every consumer: the feed re-derives its page
+   * list and re-runs the layout effect that owns its scroll offset, several
+   * times a second, for a list that did not change. `addToCursor` replaces
+   * `cursor.items` only when something was actually added, so identity is
+   * already the exact test.
+   */
+  const publishedRef = useRef<MediaItem[] | undefined>(undefined);
+
   const publish = useCallback((cursor: MediaCursor) => {
     if (!aliveRef.current) return;
-    setItems([...cursor.items]);
+    if (publishedRef.current !== cursor.items) {
+      publishedRef.current = cursor.items;
+      setItems(cursor.items);
+    }
     setScanned(cursor.scanned);
     setExhausted(cursor.exhausted);
   }, []);
@@ -657,10 +718,7 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
           const found = resolved.flat();
           if (found.length === 0) continue;
           if (!aliveRef.current) break;
-          const known = new Set(cursor.items.map((item) => item.key));
-          const fresh = found.filter((item) => !known.has(item.key));
-          if (fresh.length === 0) continue;
-          cursor.items = sortNewestFirst([...cursor.items, ...fresh]);
+          if (addToCursor(cursor, found) === 0) continue;
           publish(cursor);
         }
       } finally {
@@ -801,12 +859,7 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
         if (queued) resolveEmbeds(cursor);
       }
 
-      const arrived = mediaItemsFromEvent(mEvent);
-      if (arrived.length === 0) return;
-      const known = new Set(cursor.items.map((existing) => existing.key));
-      const fresh = arrived.filter((item) => !known.has(item.key));
-      if (fresh.length === 0) return;
-      cursor.items = sortNewestFirst([...fresh, ...cursor.items]);
+      if (addToCursor(cursor, mediaItemsFromEvent(mEvent), true) === 0) return;
       publish(cursor);
     };
 
@@ -828,6 +881,12 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
       const cursor = getCursor();
       const next = cursor.items.filter((item) => item.eventId !== targetId);
       if (next.length === cursor.items.length) return;
+      // The key set is what stops an entry being listed twice, so it has to
+      // forget the ones being taken out — otherwise a redaction is permanent
+      // even if the same attachment turns up again.
+      cursor.items.forEach((item) => {
+        if (item.eventId === targetId) cursor.keys.delete(item.key);
+      });
       cursor.items = next;
       publish(cursor);
     };
@@ -865,14 +924,9 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
         if (queued) resolveEmbeds(cursor);
       }
 
-      const arrived = mediaItemsFromEvent(mEvent);
-      if (arrived.length === 0) return;
-      const known = new Set(cursor.items.map((existing) => existing.key));
-      const fresh = arrived.filter((item) => !known.has(item.key));
-      if (fresh.length === 0) return;
-      // Newest-first rather than prepended: this event is history that has just
+      // Appended rather than prepended: this event is history that has just
       // become readable, not something that has just been sent.
-      cursor.items = sortNewestFirst([...cursor.items, ...fresh]);
+      if (addToCursor(cursor, mediaItemsFromEvent(mEvent)) === 0) return;
       publish(cursor);
     };
 

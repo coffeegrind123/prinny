@@ -36,6 +36,13 @@ export const Feed = style([
     overflowY: 'auto',
     scrollSnapType: 'y mandatory',
     overscrollBehavior: 'contain',
+    // The feed owns its own scroll offset: older media is inserted ABOVE the
+    // reader while the scan runs, and a layout effect re-places them on the
+    // page they were actually looking at. The browser's scroll anchoring tries
+    // to do the same job at the same moment, and two mechanisms correcting one
+    // scroller is how the offset ends up naming a page nobody is on. Same
+    // reason the timeline scroller turns it off — see RoomTimeline.css.ts.
+    overflowAnchor: 'none',
     // The pages are snap targets; without this the scrollbar is a second, worse
     // way to land between two of them.
     scrollbarWidth: 'none',

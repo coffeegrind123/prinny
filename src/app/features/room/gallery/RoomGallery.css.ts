@@ -150,3 +150,16 @@ export const GallerySentinel = style([
     padding: config.space.S500,
   },
 ]);
+
+/**
+ * The grid scroller.
+ *
+ * `overflow-anchor: none` for the same reason the timeline turns it off: this
+ * scroller has its own anchor (`useScrollContentAnchor`), because resolved
+ * posts are merged into the grid *by timestamp* and land above whatever the
+ * reader scrolled down to. Leaving the browser's anchoring on as well means two
+ * mechanisms correcting one scroll offset, and they do not agree.
+ */
+export const GalleryScroll = style({
+  overflowAnchor: 'none',
+});

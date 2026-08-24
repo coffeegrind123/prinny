@@ -428,7 +428,13 @@ export function RoomGallery() {
       </Box>
 
       <Box grow="Yes">
-        <Scroll ref={scrollRef} size="300" hideTrack visibility="Hover">
+        <Scroll
+          ref={scrollRef}
+          className={css.GalleryScroll}
+          size="300"
+          hideTrack
+          visibility="Hover"
+        >
           <Box className={css.GalleryContent} direction="Column" gap="400">
             {groups.map((group) => (
               <Box key={group.ts} direction="Column" gap="200">

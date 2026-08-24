@@ -158,6 +158,17 @@ function MediaFeedContent({
     isEmbed && !isHls ? (item.httpUrl ?? '') : '',
     isEmbed && !isHls && item.type === 'video',
   );
+  // The still for an embedded clip has the same problem the clip does, and for
+  // the same reason: `pbs.twimg.com` answers 403 to a request carrying our
+  // referrer, and `poster` is an attribute of `<video>` — which, unlike
+  // `<img>`, has no `referrerpolicy` to opt out with. So a Twitter clip had no
+  // poster at all and the stage stayed flat black for the whole time the video
+  // was being fetched, which for a proxied download is most of what the reader
+  // sees. Routed through the same blob path as the clip itself.
+  const embedPosterSrc = useResolvedMediaSrc(
+    isEmbed && item.type === 'video' ? (item.posterUrl ?? '') : '',
+    isEmbed && item.type === 'video',
+  );
   const { state, onSrcError } = attachment;
   let src: string | undefined;
   if (isHls) src = item.httpUrl;
@@ -660,7 +671,8 @@ function MediaFeedContent({
   if (blurred) stageActionLabel = 'Reveal spoiler';
   else if (isVideo) stageActionLabel = 'Play or pause, or click beside the video to close';
 
-  const posterSrc = thumbnail.src ?? thumbnail.fallbackSrc;
+  const posterSrc =
+    isEmbed && isVideo ? embedPosterSrc || undefined : (thumbnail.src ?? thumbnail.fallbackSrc);
   // A picture is its own best backdrop when no cheaper still was fetched — see
   // the note on `useMediaThumbnail` above. A video's is the poster or nothing;
   // pointing the backdrop at the video file would download it a second time.
@@ -1052,6 +1064,19 @@ export function MediaFeed({
   const [hour24Clock] = useSetting(settingsAtom, 'hour24Clock');
   const [muted, setMuted] = useState(true);
   const [lastScrolledIndex, setActiveIndex] = useState(0);
+  /**
+   * The page the scroll offset actually names, whatever the anchor believes.
+   *
+   * Everything else in here derives the current page from the attachment the
+   * reader is on, which is the right thing to key state to — but it is a
+   * belief, and a scroller has exactly one truth: its offset. When the two
+   * disagree, even for a frame, the page on screen is one that nothing mounted
+   * content into, and a page with no content is a black rectangle. That is the
+   * whole failure mode, so this exists to make it impossible rather than
+   * unlikely: whatever the offset points at is mounted, always, and the anchor
+   * below then pulls the offset back where it belongs.
+   */
+  const [visibleIndex, setVisibleIndex] = useState(0);
   const activeIdRef = useRef<string | undefined>(initialItemKey);
   const scrolledToInitial = useRef(false);
   const rafRef = useRef<number | undefined>(undefined);
@@ -1168,6 +1193,7 @@ export function MediaFeed({
     if (searchingForTarget) return;
     if (scrollToIndex(initialIndex, false)) {
       setActiveIndex(initialIndex);
+      setVisibleIndex(initialIndex);
       activeIdRef.current = feedItems[initialIndex]?.key;
       scrolledToInitial.current = true;
     }
@@ -1183,17 +1209,29 @@ export function MediaFeed({
   // guaranteed one visibly wrong frame per publish, and the scan publishes
   // several times a second while it is walking history.
   useLayoutEffect(() => {
-    if (!scrolledToInitial.current) return;
     const el = scrollRef.current;
+    if (!el || el.clientHeight === 0) return;
+
     const activeId = activeIdRef.current;
-    if (!el || !activeId || el.clientHeight === 0) return;
-    const index = feedItems.findIndex((item) => item.key === activeId);
-    if (index < 0) return;
-    const expected = (index + LEADING_PAGES) * el.clientHeight;
-    if (Math.abs(el.scrollTop - expected) > 4) {
-      el.scrollTop = expected;
-      setActiveIndex(index);
+    const index = activeId ? feedItems.findIndex((item) => item.key === activeId) : -1;
+    if (scrolledToInitial.current && index >= 0) {
+      const expected = (index + LEADING_PAGES) * el.clientHeight;
+      if (Math.abs(el.scrollTop - expected) > 4) {
+        el.scrollTop = expected;
+        setActiveIndex(index);
+      }
     }
+
+    // Read back rather than assumed: this runs after the correction above, so
+    // it sees the offset that will actually be painted — including the case
+    // where there was nothing to correct against because the attachment the
+    // reader was on is no longer in the list.
+    setVisibleIndex(
+      Math.max(
+        0,
+        Math.min(feedItems.length - 1, Math.round(el.scrollTop / el.clientHeight) - LEADING_PAGES),
+      ),
+    );
   }, [feedItems]);
 
   const handleScroll = useCallback(() => {
@@ -1207,6 +1245,7 @@ export function MediaFeed({
         Math.min(feedItems.length - 1, Math.round(el.scrollTop / el.clientHeight) - LEADING_PAGES),
       );
       setActiveIndex(index);
+      setVisibleIndex(index);
       activeIdRef.current = feedItems[index]?.key;
       // Once the user has moved, the feed is theirs: an attachment the feed was
       // opened on but has not been found yet must not arrive from an older page
@@ -1402,7 +1441,12 @@ export function MediaFeed({
 
             {feedItems.map((item, index) => (
               <Box key={item.key} className={css.FeedPage} shrink="No">
-                {Math.abs(index - activeIndex) <= WINDOW && (
+                {/* Around the anchored page, and around the page the scroll
+                    offset names. They are the same index whenever the two agree,
+                    which is nearly always; when they do not, this is what keeps
+                    the reader looking at an attachment instead of at black. */}
+                {(Math.abs(index - activeIndex) <= WINDOW ||
+                  Math.abs(index - visibleIndex) <= WINDOW) && (
                   <MediaFeedContent
                     room={room}
                     item={item}
