@@ -61,6 +61,22 @@ export const webUrlOrUndefined = (value: unknown): string | undefined =>
   isWebUrl(value) ? value : undefined;
 
 /**
+ * The host of a safe http(s) URL — `bsky.app` — or `undefined`.
+ *
+ * For labelling a link in the UI when nothing better is known about it. Goes
+ * through the same http(s) check as everything else here, so a value that is
+ * not a web URL cannot reach a label either.
+ */
+export const hostnameOrUndefined = (value: unknown): string | undefined => {
+  if (!isWebUrl(value)) return undefined;
+  try {
+    return new URL(value).hostname;
+  } catch {
+    return undefined;
+  }
+};
+
+/**
  * `window.open()` restricted to http(s), with `noopener,noreferrer` applied.
  *
  * Without `noopener` the opened document keeps a `window.opener` handle and can

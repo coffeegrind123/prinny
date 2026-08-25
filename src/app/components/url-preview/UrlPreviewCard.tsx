@@ -39,7 +39,7 @@ import { isYoutubeUrl, getYoutubeVideoId } from '../../utils/youtube';
 import { pipedEmbedUrl, usePipedInstance } from '../../utils/piped';
 import { useYoutubeMeta } from '../../hooks/useYoutubeMeta';
 import { fetchOgPreview } from '../../utils/tauri-og-preview';
-import { isWebUrl, webUrlOrUndefined } from '../../utils/safeUrl';
+import { hostnameOrUndefined, isWebUrl, webUrlOrUndefined } from '../../utils/safeUrl';
 import { GifImage, ProxiedImg, ProxiedVideo } from './GifMedia';
 import {
   isAlwaysAnimatedImageUrl,
@@ -1165,8 +1165,57 @@ export const UrlPreviewCard = as<
   // all rather than a working embed.
   const isEmbeddableYoutube = isYt && !!ytVideoId;
 
+  /**
+   * Which dedicated renderer owns this link, if any — regardless of whether
+   * its setting is on, because "it is switched off" is one of the answers.
+   */
+  const dedicated = (() => {
+    if (getBskyPostInfo(url))
+      return { what: 'Bluesky post', enabled: useBlueskyEmbeds, failed: bskyError };
+    if (getBskyProfileActor(url))
+      return { what: 'Bluesky profile', enabled: useBlueskyEmbeds, failed: bskyProfileError };
+    if (getTwitterId(url)) return { what: 'post on X', enabled: useVxTwitter, failed: vxError };
+    return undefined;
+  })();
+
+  /**
+   * A last-resort card for a link whose dedicated renderer produced nothing.
+   *
+   * X and Bluesky cards are built by this client, not from anything the
+   * homeserver scraped, so when the renderer comes back empty there is
+   * usually nothing else coming either — a homeserver with url previews
+   * disabled (Synapse's default) has no answer for these links.
+   *
+   * That combination used to render NOTHING AT ALL: no card, no link, no
+   * reason, while a YouTube link in the same message still drew one, because
+   * YouTube is exempted from the check below and these were not. A message
+   * that silently loses its card is indistinguishable from a broken client —
+   * it is precisely what "bsky posts don't embed any more" looks like from
+   * the outside, and it takes a source dive to tell the two apart.
+   *
+   * So say which it is. Whether the embed is switched off or its API failed
+   * is the one thing the reader cannot otherwise discover, and it is the
+   * difference between a setting to flip and a fault worth reporting.
+   *
+   * Deliberately NOT shown while the renderer is still working: with the
+   * setting on and no failure yet, the fetch is in flight and the spinner
+   * above owns the frame.
+   */
+  const dedicatedPending = !!dedicated && dedicated.enabled && !dedicated.failed;
+  const dedicatedFallback: IPreviewUrlResponse | undefined =
+    dedicated && !dedicatedPending && !effectivePreview && !fallbackPending
+      ? ({
+          'og:title': hostnameOrUndefined(url) ?? dedicated.what,
+          'og:description': dedicated.enabled
+            ? `This ${dedicated.what} could not be loaded.`
+            : `Embeds for this are turned off — see Settings, General.`,
+        } as unknown as IPreviewUrlResponse)
+      : undefined;
+
+  const shownPreview = effectivePreview ?? dedicatedFallback;
+
   if (
-    !effectivePreview &&
+    !shownPreview &&
     previewStatus.status !== AsyncStatus.Loading &&
     !fallbackPending &&
     !isDirectMediaLink &&
@@ -1612,11 +1661,11 @@ export const UrlPreviewCard = as<
 
   return (
     <UrlPreview {...props} ref={ref}>
-      {effectivePreview || isDirectMediaLink || isEmbeddableYoutube ? (
+      {shownPreview || isDirectMediaLink || isEmbeddableYoutube ? (
         // A direct media link renders from the URL alone, so an absent preview
         // is fine — without this it sat on the spinner forever waiting for
         // metadata a raw .mp4 will never provide.
-        renderContent((effectivePreview ?? {}) as IPreviewUrlResponse)
+        renderContent((shownPreview ?? {}) as IPreviewUrlResponse)
       ) : (
         <Box
           grow="Yes"
