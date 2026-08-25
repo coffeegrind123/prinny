@@ -1696,19 +1696,48 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
    * because from here they are all perfectly ordinary React elements. So an
    * every-card-returned-null holder still existed, and the parent's flex `gap`
    * still spaced it: an empty band under the message that looked like a preview
-   * stuck loading forever. Measuring is the only reliable test, and it costs one
-   * ResizeObserver per message that has links in it.
+   * stuck loading forever.
+   *
+   * The test is STRUCTURAL — did any card render an element — and deliberately
+   * not the row's height. Height cannot answer this question here, because the
+   * answer is used to set `display: none` on an ancestor, and an element inside
+   * a `display: none` subtree has no box at all: its `offsetHeight` is 0
+   * forever and a `ResizeObserver` on it stops being notified, since the box it
+   * watches never changes size again. So a height test that hid the holder once
+   * could never see the card that arrived afterwards — a one-way latch.
+   *
+   * Every card here is asynchronous. The Bluesky, X and Hacker News cards fetch
+   * their post before they can draw anything, and the ordinary card waits on
+   * the homeserver's preview, so on the first commit — the one this effect
+   * measures — all of them render null. That is what silently hid every one of
+   * those cards for good, while a YouTube link in the same message still drew
+   * one, because YouTube builds from the video id and renders on that first
+   * pass. It is exactly what "Bluesky posts don't embed" looks like from the
+   * outside.
+   *
+   * A card with nothing to show returns null, so counting the elements the row
+   * actually holds asks the same question — and the DOM answers it whether the
+   * holder is hidden or not. The holder's own chrome (the scroll anchor and the
+   * edge gradient/buttons) is marked `data-holder-chrome` so it never counts as
+   * a card.
    */
   const rowRef = useRef<HTMLDivElement>(null);
   const [empty, setEmpty] = useState(false);
   useEffect(() => {
     const el = rowRef.current;
     if (!el) return undefined;
-    const observer = new ResizeObserver(() => {
-      setEmpty(el.offsetHeight === 0);
-    });
-    observer.observe(el);
-    setEmpty(el.offsetHeight === 0);
+    const measure = () => {
+      const hasCard = Array.from(el.children).some(
+        (child) => (child as HTMLElement).dataset?.holderChrome === undefined
+      );
+      setEmpty(!hasCard);
+    };
+    // childList on the row itself: a card that resolves goes from `null` to an
+    // element, which is an insertion here — and mutations are still delivered
+    // for a subtree that is currently hidden, which is the whole point.
+    const observer = new MutationObserver(measure);
+    observer.observe(el, { childList: true });
+    measure();
     return () => observer.disconnect();
   }, []);
 
@@ -1801,8 +1830,12 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
 
             {!frontVisible && (
               <>
-                <div className={css.UrlPreviewHolderGradient({ position: 'Right' })} />
+                <div
+                  data-holder-chrome=""
+                  className={css.UrlPreviewHolderGradient({ position: 'Right' })}
+                />
                 <IconButton
+                  data-holder-chrome=""
                   className={css.UrlPreviewHolderBtn({ position: 'Right' })}
                   variant="Primary"
                   radii="Pill"
@@ -1814,7 +1847,7 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
                 </IconButton>
               </>
             )}
-            <div ref={frontAnchorRef} />
+            <div data-holder-chrome="" ref={frontAnchorRef} />
           </Box>
         </Box>
       </Scroll>
