@@ -273,6 +273,14 @@ type RoomTimelineProps = {
 
 const PAGINATION_LIMIT = 80;
 
+/**
+ * Within this many pixels of the bottom the timeline counts as following the
+ * live end, so content that settles afterwards is not allowed to push the
+ * newest message off-screen. Matches the intersection observer's `100px`
+ * rootMargin, which is what decides the same question for arriving events.
+ */
+const FOLLOW_LIVE_END_PX = 120;
+
 type Timeline = {
   linkedTimelines: EventTimeline[];
   range: ItemRange;
@@ -984,44 +992,87 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   // link preview arriving, a pane divider being dragged. Each of those grows
   // the content under a user who was pinned to the bottom, pushing the newest
   // message off-screen without them touching the scroll.
+  //
+  // "Was the reader pinned to the bottom *before* this resize?" is answered by
+  // measuring, not by reading `atBottomRef`. Two reasons, both of which showed
+  // up as a room opening scrolled up:
+  //
+  //  1. `atBottomRef` is written by the intersection observer below, and the
+  //     growth is what pushes the anchor out of view — so the growth itself
+  //     flips the flag to false, and nothing sets it back until the user
+  //     scrolls down. One late-loading image and the room stays parked above
+  //     the live end with a "Jump to Latest" chip.
+  //  2. This observer used to skip its first delivery as "the initial mounting
+  //     call". Anything that grew the content between `observe()` and that
+  //     first delivery — a cached image decoding, an embed card rendering in a
+  //     mount effect — arrived *in* the skipped callback and was swallowed.
+  //     Measured in Chromium against a copy of this setup: content grown in the
+  //     same tick as the observers were wired left the view 400px above the
+  //     bottom, permanently, with the intersection observer latching
+  //     `atBottom = false` right behind it.
+  //
+  // Growth above the viewport moves neither `scrollTop` nor `clientHeight`
+  // (`overflow-anchor: none` is on the scroller, so the engine does not correct
+  // it either), so the distance from the bottom *before* the resize is exactly
+  // the distance recomputed with the previously observed metrics. That reading
+  // needs no scroll events, no debounce and no flag: a reader who had scrolled
+  // up measures as scrolled up, and a jump to the unread marker or a focused
+  // message measures as what it is.
+  const followMetricsRef = useRef({ scrollHeight: 0, clientHeight: 0 });
+  const keepFollowingLiveEnd = useCallback(() => {
+    const scrollElement = getScrollElement();
+    if (!scrollElement) return;
+    const { scrollTop } = scrollElement;
+    const before = followMetricsRef.current;
+    const distanceBefore = before.scrollHeight - scrollTop - before.clientHeight;
+    const distanceNow = scrollElement.scrollHeight - scrollTop - scrollElement.clientHeight;
+    followMetricsRef.current = {
+      scrollHeight: scrollElement.scrollHeight,
+      clientHeight: scrollElement.clientHeight,
+    };
+    // A negative `distanceBefore` means `scrollTop` is past where the bottom
+    // used to be, which plain growth cannot do — only a programmatic restore
+    // can, and the paginator does exactly that when it swaps the rendered range
+    // and re-anchors the view. Reading that as "was at the bottom" would drag a
+    // reader who is 80 messages up down to the live end every time the range
+    // moved. `distanceNow` is the honest fallback: it covers a shrink, where
+    // content removed under a reader already at the bottom leaves
+    // `distanceBefore` looking like a scroll-up.
+    const following =
+      (distanceBefore >= 0 && distanceBefore <= FOLLOW_LIVE_END_PX) ||
+      distanceNow <= FOLLOW_LIVE_END_PX;
+    if (!following || !atLiveEndRef.current) return;
+    scrollToBottom(scrollElement);
+    followMetricsRef.current = {
+      scrollHeight: scrollElement.scrollHeight,
+      clientHeight: scrollElement.clientHeight,
+    };
+    // The view is at the live end by construction now, so record it rather than
+    // waiting for the intersection observer to say so next frame: an event
+    // arriving in between reads this ref synchronously to decide whether to
+    // follow, and a stale `false` there is what strands a room off the bottom.
+    atBottomRef.current = true;
+  }, [getScrollElement]);
+
   useResizeObserver(
-    useMemo(() => {
-      let mounted = false;
-      return () => {
-        if (!mounted) {
-          // Skip the initial mounting call.
-          mounted = true;
-          return;
-        }
-        const scrollElement = getScrollElement();
-        if (scrollElement && atBottomRef.current && atLiveEndRef.current) {
-          scrollToBottom(scrollElement);
-        }
-      };
-    }, [getScrollElement]),
+    keepFollowingLiveEnd,
     useCallback(() => getScrollElement()?.firstElementChild ?? null, [getScrollElement]),
   );
 
   // Stay at bottom when room editor resize
   useResizeObserver(
-    useMemo(() => {
-      let mounted = false;
-      return (entries) => {
-        if (!mounted) {
-          // skip initial mounting call
-          mounted = true;
-          return;
-        }
+    useCallback(
+      (entries) => {
         if (!roomInputRef.current) return;
         const editorBaseEntry = getResizeObserverEntry(roomInputRef.current, entries);
-        const scrollElement = getScrollElement();
-        if (!editorBaseEntry || !scrollElement) return;
-
-        if (atBottomRef.current) {
-          scrollToBottom(scrollElement);
-        }
-      };
-    }, [getScrollElement, roomInputRef]),
+        if (!editorBaseEntry) return;
+        // Same measurement as above: the composer growing shrinks the
+        // scroller's `clientHeight` without touching `scrollTop`, so the
+        // pre-resize distance is the one computed from the recorded metrics.
+        keepFollowingLiveEnd();
+      },
+      [roomInputRef, keepFollowingLiveEnd],
+    ),
     useCallback(() => roomInputRef.current, [roomInputRef]),
   );
 
@@ -1163,6 +1214,14 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     const scrollEl = scrollRef.current;
     if (scrollEl) {
       scrollToBottom(scrollEl);
+      // The baseline `keepFollowingLiveEnd` measures the first resize against.
+      // Recorded here, at the live end, so growth that lands before the resize
+      // observer's first delivery is still measured as "the reader was at the
+      // bottom" rather than being taken for a scroll-up.
+      followMetricsRef.current = {
+        scrollHeight: scrollEl.scrollHeight,
+        clientHeight: scrollEl.clientHeight,
+      };
     }
   }, []);
 

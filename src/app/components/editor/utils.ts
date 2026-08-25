@@ -234,6 +234,39 @@ export const restoreCaretIfMissing = (editor: Editor): boolean => {
 };
 
 /**
+ * Focus the editor's DOM node and point the browser's selection at
+ * `editor.selection`, skipping if it is already the active element.
+ *
+ * The same three steps `DOMEditor.focus` takes, minus its bail-outs. Slate's
+ * `IS_FOCUSED` is not set here on purpose: `Editable`'s own `onFocus` handler
+ * sets it from the focus event this raises, so the React tree learns about it
+ * through the same path as a click.
+ */
+const focusEditorDOM = (editor: Editor): void => {
+  const el = ReactEditor.toDOMNode(editor as ReactEditor, editor);
+  const root = el.getRootNode();
+  const activeElement =
+    root instanceof Document || root instanceof ShadowRoot ? root.activeElement : null;
+  if (activeElement === el) return;
+
+  const { selection } = editor;
+  if (selection) {
+    try {
+      const domRange = ReactEditor.toDOMRange(editor as ReactEditor, selection);
+      const domSelection = (root instanceof Document ? root : el.ownerDocument).getSelection();
+      domSelection?.removeAllRanges();
+      domSelection?.addRange(domRange);
+    } catch {
+      // The selection points at a node that is not rendered yet. Focusing
+      // without it still beats not focusing: the browser puts a caret in the
+      // contenteditable itself, and slate's own DOM sync corrects it on the
+      // next render.
+    }
+  }
+  el.focus({ preventScroll: true });
+};
+
+/**
  * Focus the slate editor without crashing when the recorded selection
  * no longer matches the DOM tree. ReactEditor.focus uses
  * `toDOMRange(editor.selection)` internally; if the selection points at
@@ -278,6 +311,27 @@ export const safeFocusEditor = (editor: Editor) => {
 
   try {
     ReactEditor.focus(editor as ReactEditor);
+    // `ReactEditor.focus` is not reliably synchronous, and the one call above
+    // is the case that makes it asynchronous. Reading slate-dom's `focus()`:
+    // when `editor.operations.length > 0` it defers itself by a 10ms timeout
+    // and returns, because "the DOM (selection) is unstable while changes are
+    // applied". `restoreCaretIfMissing` had just applied a `set_selection`
+    // operation, and slate does not clear `editor.operations` until the next
+    // microtask — so on the very first focus of a fresh composer, where the
+    // selection is always missing, the editor is left unfocused for 10ms.
+    //
+    // That is the "first letter is dropped after switching rooms" bug: the
+    // composer is remounted per room with no selection, the window keydown
+    // handler in RoomView calls this to hand the keystroke to it, slate defers,
+    // and the character that follows the keydown has nothing focused to land
+    // in. Every keystroke afterwards is fine, which is why exactly one
+    // character goes missing.
+    //
+    // Doing the DOM half here rather than waiting: the caret is already back in
+    // the model, and moving the DOM selection to match a selection that changed
+    // no content is safe — the text nodes it points at are the ones already on
+    // screen.
+    focusEditorDOM(editor);
     return;
   } catch {
     // fall through to deselect + DOM focus
