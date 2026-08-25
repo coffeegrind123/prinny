@@ -423,8 +423,19 @@ const postCache = new Map<string, Promise<SocialEmbedPost | undefined>>();
 
 const cacheKey = (provider: SocialEmbedProvider, id: string): string => `${provider}:${id}`;
 
-const resolveTwitter = async (url: string, id: string): Promise<SocialEmbedPost | undefined> => {
-  const data = await fetchVxTweet(id);
+/**
+ * A vxtwitter response as this module's post shape, or undefined when the
+ * tweet carries no media.
+ *
+ * Exported because `UrlPreviewCard` fetches the very same endpoint itself to
+ * draw the card, and a click on one of the pictures in that card has to name
+ * the entry the media scan produced for it. Building the post through this
+ * function rather than by hand at the call site is what makes the two agree:
+ * the order of `media` decides the gallery key of every picture in the post
+ * (`embedMediaItems`), so a card that normalised its own copy differently
+ * would open the feed on the wrong photo.
+ */
+export const vxTweetToPost = (url: string, id: string, data: any): SocialEmbedPost | undefined => {
   const media = vxTweetMedia(data);
   if (media.length === 0) return undefined;
   return {
@@ -438,12 +449,13 @@ const resolveTwitter = async (url: string, id: string): Promise<SocialEmbedPost 
   };
 };
 
-const resolveBluesky = async (
+/** A Bluesky `getPostThread` response as this module's post shape. See above. */
+export const bskyThreadToPost = (
   url: string,
   actor: string,
   rkey: string,
-): Promise<SocialEmbedPost | undefined> => {
-  const data = await fetchBskyPost(actor, rkey);
+  data: any,
+): SocialEmbedPost | undefined => {
   const media = bskyPostMedia(data);
   if (media.length === 0) return undefined;
   const author = data?.thread?.post?.author;
@@ -458,6 +470,16 @@ const resolveBluesky = async (
     media,
   };
 };
+
+const resolveTwitter = async (url: string, id: string): Promise<SocialEmbedPost | undefined> =>
+  vxTweetToPost(url, id, await fetchVxTweet(id));
+
+const resolveBluesky = async (
+  url: string,
+  actor: string,
+  rkey: string,
+): Promise<SocialEmbedPost | undefined> =>
+  bskyThreadToPost(url, actor, rkey, await fetchBskyPost(actor, rkey));
 
 /**
  * The pictures behind one link, or undefined when there are none to have.

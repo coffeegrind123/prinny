@@ -302,7 +302,13 @@ const TEXTUAL_MSGTYPES: ReadonlySet<string> = new Set([
   MsgType.Emote as string,
 ]);
 
-type EmbedCandidate = {
+/**
+ * One Twitter/Bluesky post link found in one message.
+ *
+ * Exported with `embedMediaItems` so the timeline's preview card can build the
+ * exact same gallery entries the scan builds for that message — see there.
+ */
+export type EmbedCandidate = {
   eventId: string;
   roomId: string;
   sender: string;
@@ -464,7 +470,7 @@ const EXTENSION_BY_MIME: Record<string, string> = {
  * messages, so a four-image tweet that collapsed to one tile would be hiding
  * three of them.
  */
-const embedItems = (
+export const embedMediaItems = (
   candidate: EmbedCandidate,
   post: { authorName?: string; authorHandle?: string; text?: string; media: EmbedMediaLike[] },
 ): MediaItem[] => {
@@ -511,7 +517,7 @@ const embedItems = (
   });
 };
 
-type EmbedMediaLike = {
+export type EmbedMediaLike = {
   url: string;
   type: MediaItemType;
   thumbnailUrl?: string;
@@ -712,7 +718,7 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
           const resolved = await Promise.all(
             batch.map(async (candidate) => {
               const post = await resolveSocialEmbed(candidate.url, options).catch(() => undefined);
-              return post ? embedItems(candidate, post) : [];
+              return post ? embedMediaItems(candidate, post) : [];
             }),
           );
           const found = resolved.flat();

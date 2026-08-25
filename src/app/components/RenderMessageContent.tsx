@@ -117,7 +117,7 @@ export function RenderMessageContent({
         {previewUrls.length > 0 && (
           <UrlPreviewHolder>
             {previewUrls.map((url) => (
-              <UrlPreviewCard key={url} url={url} ts={ts} />
+              <UrlPreviewCard key={url} url={url} ts={ts} roomId={roomId} eventId={eventId} />
             ))}
           </UrlPreviewHolder>
         )}

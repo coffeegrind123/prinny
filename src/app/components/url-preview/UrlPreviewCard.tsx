@@ -1,4 +1,5 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { useSetAtom } from 'jotai';
 import { IPreviewUrlResponse } from 'matrix-js-sdk';
 import {
   Box,
@@ -15,6 +16,7 @@ import {
   color,
   config,
   Button,
+  Chip,
   toRem,
 } from 'folds';
 import { FocusTrap } from 'focus-trap-react';
@@ -53,6 +55,7 @@ import {
 import { htmlToPlainText } from '../../utils/htmlText';
 import { useHlsPlayback } from './useHlsPlayback';
 import {
+  bskyThreadToPost,
   fetchBskyPost,
   fetchBskyProfile,
   fetchVxTweet,
@@ -60,7 +63,10 @@ import {
   getBskyProfileActor,
   getTwitterId,
   isVxGifMedia,
+  SocialEmbedPost,
+  vxTweetToPost,
 } from '../../utils/socialEmbed';
+import { mediaFeedRequestAtom } from '../../state/roomGallery';
 
 const linkStyles = { color: color.Secondary.Main, textDecoration: 'none' };
 
@@ -217,12 +223,15 @@ function HlsVideo({
   width,
   height,
   className,
+  renderOverlay,
 }: {
   src: string;
   poster?: string;
   width?: number;
   height?: number;
   className?: string;
+  /** Chrome drawn over the player — see `ProxiedVideo`'s own `renderOverlay`. */
+  renderOverlay?: () => ReactNode;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const errorMsg = useHlsPlayback(videoRef, src);
@@ -265,7 +274,7 @@ function HlsVideo({
     );
   }
 
-  return (
+  const video = (
     <video
       ref={videoRef}
       poster={safePoster}
@@ -284,12 +293,41 @@ function HlsVideo({
       onClick={(e) => e.stopPropagation()}
     />
   );
+
+  if (!renderOverlay) return video;
+  return (
+    <Box style={{ position: 'relative', width: '100%' }}>
+      {video}
+      <Box
+        style={{ position: 'absolute', left: 8, top: 8 }}
+        onClick={(evt) => evt.stopPropagation()}
+      >
+        {renderOverlay()}
+      </Box>
+    </Box>
+  );
 }
 
 export const UrlPreviewCard = as<
   'div',
-  { url: string; ts: number; renderViewer?: (props: RenderViewerProps) => ReactNode }
->(({ url, ts, renderViewer, ...props }, ref) => {
+  {
+    url: string;
+    ts: number;
+    renderViewer?: (props: RenderViewerProps) => ReactNode;
+    /**
+     * Where the message carrying this link lives.
+     *
+     * Both are needed to open a picture from the card in the room's media feed
+     * — the feed is a room's whole media history, so there has to be a room and
+     * an event for the picture to sit in. Without them (search results, pinned
+     * previews, the notification inbox) the card keeps the single-image viewer,
+     * which is the right fallback there for the same reason it is for an
+     * attachment in those places: there is no surrounding feed to swipe.
+     */
+    roomId?: string;
+    eventId?: string;
+  }
+>(({ url, ts, renderViewer, roomId, eventId, ...props }, ref) => {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const [useVxTwitter] = useSetting(settingsAtom, 'useVxTwitter');
@@ -431,6 +469,65 @@ export const UrlPreviewCard = as<
     setThumbnailRejected(false);
   }, [url]);
 
+  const [mediaFeedViewer] = useSetting(settingsAtom, 'mediaFeedViewer');
+  const setMediaFeedRequest = useSetAtom(mediaFeedRequestAtom);
+  /** Whether a picture in this card can be opened in the room's media feed. */
+  const feedAvailable = mediaFeedViewer && !!roomId && !!eventId;
+
+  /**
+   * Open one picture of this post in the room's media feed.
+   *
+   * The post is handed over whole rather than as a URL, because the feed's
+   * entries are keyed by the picture's *position* in the post and only
+   * `socialEmbed`'s normalisers know that order — this card draws images and
+   * videos in separate rows, so its own layout order is not it. Matching the
+   * clicked URL against the normalised list is what bridges the two.
+   *
+   * Returns false when there is nothing to open — no room context, the feed
+   * switched off, or a picture that is not part of the post at all (a link
+   * card's thumbnail, which the gallery deliberately does not collect). The
+   * callers fall back to the plain single-image viewer on false, so switching
+   * `mediaFeedViewer` off restores exactly the old behaviour.
+   */
+  const openPostMediaInFeed = useCallback(
+    (post: SocialEmbedPost | undefined, mediaUrl: string | undefined): boolean => {
+      if (!feedAvailable || !roomId || !eventId || !post || !mediaUrl) return false;
+      const index = post.media.findIndex((media) => media.url === mediaUrl);
+      if (index < 0) return false;
+      setMediaFeedRequest({ roomId, eventId, embed: { ts, post, index } });
+      return true;
+    },
+    [feedAvailable, roomId, eventId, ts, setMediaFeedRequest],
+  );
+
+  /**
+   * The "Feed" chip a post's video gets, or nothing when the feed cannot take
+   * it.
+   *
+   * A video is not opened by clicking it — the click belongs to the player —
+   * so it gets the same chip an uploaded video gets in the timeline rather
+   * than the click behaviour a picture gets.
+   */
+  const renderFeedChip = (
+    post: SocialEmbedPost | undefined,
+    mediaUrl: string | undefined,
+  ): (() => ReactNode) | undefined => {
+    if (!feedAvailable || !post || !mediaUrl) return undefined;
+    if (!post.media.some((media) => media.url === mediaUrl)) return undefined;
+    return () => (
+      <Chip
+        variant="Secondary"
+        radii="Pill"
+        size="400"
+        onClick={() => openPostMediaInFeed(post, mediaUrl)}
+        before={<Icon size="50" src={Icons.Category} />}
+        aria-label="Watch in the media feed"
+      >
+        <Text size="B300">Feed</Text>
+      </Chip>
+    );
+  };
+
   const isYt = isYoutubeUrl(url);
   const ytVideoId = isYt ? getYoutubeVideoId(url) : null;
 
@@ -537,6 +634,9 @@ export const UrlPreviewCard = as<
     // chrome. `isVxGifMedia` carries the reasoning for how the two are told
     // apart; the gallery scan needs the identical call.
     const isGifMedia = isVxGifMedia;
+    // The same post the media scan would build for this link, so a picture
+    // clicked here and the gallery entry for it are one and the same.
+    const twPost = vxTweetToPost(url, twId, vxData);
     return (
       <UrlPreview {...props} ref={ref}>
         <Box grow="Yes" direction="Column" style={{ position: 'relative', minWidth: 0 }}>
@@ -579,7 +679,9 @@ export const UrlPreviewCard = as<
                             src={m.url}
                             alt={m.altText || vxData.text || ''}
                             title={m.altText || vxData.text}
-                            onView={() => setViewerSrc(m.url)}
+                            onView={() => {
+                              if (!openPostMediaInFeed(twPost, m.url)) setViewerSrc(m.url);
+                            }}
                           />
                         </Box>
                       );
@@ -595,6 +697,7 @@ export const UrlPreviewCard = as<
                     width={m.size?.width}
                     height={m.size?.height}
                     className={urlPreviewCss.UrlPreviewVideo}
+                    renderOverlay={renderFeedChip(twPost, m.url)}
                   />
                 ))}
               </>
@@ -706,6 +809,9 @@ export const UrlPreviewCard = as<
 
     const displayName = author?.displayName || author?.handle || 'Bluesky';
     const handle = author?.handle ? `@${author.handle}` : '';
+    // As on the Twitter path: the post exactly as the media scan builds it,
+    // so a picture clicked here names the gallery entry for that picture.
+    const bskySocialPost = bskyThreadToPost(url, bskyPost.actor, bskyPost.rkey, bskyData);
 
     return (
       <UrlPreview {...props} ref={ref}>
@@ -744,7 +850,10 @@ export const UrlPreviewCard = as<
                       src={img.fullsize || img.thumb}
                       alt={img.alt || ''}
                       title={img.alt}
-                      onView={() => setViewerSrc(img.fullsize || img.thumb)}
+                      onView={() => {
+                        const src = img.fullsize || img.thumb;
+                        if (!openPostMediaInFeed(bskySocialPost, src)) setViewerSrc(src);
+                      }}
                     />
                   </Box>
                 );
@@ -758,6 +867,7 @@ export const UrlPreviewCard = as<
               width={videoView.aspectRatio?.width}
               height={videoView.aspectRatio?.height}
               className={urlPreviewCss.UrlPreviewVideo}
+              renderOverlay={renderFeedChip(bskySocialPost, videoView.playlist)}
             />
           )}
           {externalView && (
@@ -772,15 +882,17 @@ export const UrlPreviewCard = as<
               {(() => {
                 const tenorGif = parseTenorGif(externalView.uri);
                 if (tenorGif) {
+                  const tenorSrc = tenorGif.sources[tenorGif.sources.length - 1].src;
                   return (
                     <ProxiedVideo
-                      src={tenorGif.sources[tenorGif.sources.length - 1].src}
+                      src={tenorSrc}
                       sources={tenorGif.sources}
                       poster={externalView.thumb}
                       isGif
                       width={tenorGif.width}
                       height={tenorGif.height}
                       className={urlPreviewCss.UrlPreviewVideo}
+                      renderOverlay={renderFeedChip(bskySocialPost, tenorSrc)}
                     />
                   );
                 }
@@ -790,7 +902,10 @@ export const UrlPreviewCard = as<
                       src={externalView.uri}
                       alt={externalView.title || ''}
                       title={externalView.title}
-                      onView={() => setViewerSrc(externalView.uri)}
+                      onView={() => {
+                        if (!openPostMediaInFeed(bskySocialPost, externalView.uri))
+                          setViewerSrc(externalView.uri);
+                      }}
                     />
                   );
                 }

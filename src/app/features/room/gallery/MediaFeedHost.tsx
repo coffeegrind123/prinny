@@ -1,10 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Room } from 'matrix-js-sdk';
 import { useAtom, useAtomValue, useSetAtom, useStore } from 'jotai';
 import { MediaFeed } from './MediaFeed';
 import { useRoomMediaContext } from './RoomMediaProvider';
 import { mediaFeedRequestAtom, roomGalleryOpenAtom } from '../../../state/roomGallery';
-import { MediaItem } from '../../../hooks/useRoomMedia';
+import { embedMediaItems, MediaItem } from '../../../hooks/useRoomMedia';
 import { useRoomNavigate } from '../../../hooks/useRoomNavigate';
 import { useImagePackRooms } from '../../../hooks/useImagePackRooms';
 import { roomToParentsAtom } from '../../../state/room/roomToParents';
@@ -79,15 +79,68 @@ export function MediaFeedHost({ room }: { room: Room }) {
     setGalleryOpen(true);
   }, [setRequest, setGalleryOpen]);
 
+  /**
+   * The entries a preview card handed over, built the same way the scan builds
+   * them — `embedMediaItems` is the one definition of what a linked post
+   * contributes, so a seeded picture and the scanned one are the same `key`
+   * and cannot both appear.
+   *
+   * The sender comes off the event when it is still in the timeline set, which
+   * for a card the reader just clicked it always is; the empty fallback only
+   * costs the feed's "sent by" line on an event that has been evicted.
+   */
+  const seedItems = useMemo((): MediaItem[] => {
+    const seed = request?.embed;
+    if (!seed || request.roomId !== room.roomId) return [];
+    const mEvent = findRoomEventById(room, request.eventId);
+    return embedMediaItems(
+      {
+        eventId: request.eventId,
+        roomId: room.roomId,
+        sender: mEvent?.getSender() ?? '',
+        ts: seed.ts,
+        url: seed.post.url,
+        provider: seed.post.provider,
+      },
+      seed.post,
+    );
+  }, [request, room]);
+
+  /**
+   * The scan's list with anything seeded and not yet found folded in.
+   *
+   * Newest first, matching the order the scan publishes in — the feed reverses
+   * it once, and an entry inserted out of order would read as a picture from
+   * the wrong part of the conversation.
+   */
+  const items = useMemo(() => {
+    if (seedItems.length === 0) return media.items;
+    const known = new Set(media.items.map((item) => item.key));
+    const extra = seedItems.filter((item) => !known.has(item.key));
+    if (extra.length === 0) return media.items;
+    return [...media.items, ...extra].sort((a, b) => b.ts - a.ts);
+  }, [media.items, seedItems]);
+
+  /**
+   * The entry to open on. A seeded request names its picture by position in the
+   * post, which is only a key once the entries exist.
+   */
+  const initialItemKey = useMemo(() => {
+    if (request?.itemKey) return request.itemKey;
+    const index = request?.embed?.index;
+    if (index === undefined) return undefined;
+    return seedItems[index]?.key;
+  }, [request, seedItems]);
+
   if (!request || request.roomId !== room.roomId) return null;
 
   return (
     <MediaFeed
       room={room}
-      items={media.items}
+      items={items}
       imagePackRooms={imagePackRooms}
       initialEventId={request.eventId}
-      initialItemKey={request.itemKey}
+      initialItemKey={initialItemKey}
       loading={media.loading}
       hasMore={media.hasMore}
       loadMore={media.loadMore}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { Badge, Box, Icon, Icons, Spinner, Text, color, toRem } from 'folds';
 import { UrlPreviewImg } from './UrlPreview';
 import {
@@ -121,6 +121,14 @@ export type ProxiedVideoProps = {
   width?: number;
   height?: number;
   className?: string;
+  /**
+   * Chrome drawn over the video — the "Feed" chip a linked post's video gets,
+   * matching the one an uploaded video gets in the timeline.
+   *
+   * Rendered in a positioned wrapper the plain path does not otherwise need, so
+   * a caller that wants no overlay still gets the bare element.
+   */
+  renderOverlay?: () => ReactNode;
 };
 
 /**
@@ -148,6 +156,7 @@ export function ProxiedVideo({
   width,
   height,
   className,
+  renderOverlay,
 }: ProxiedVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
@@ -285,11 +294,32 @@ export function ProxiedVideo({
     </video>
   );
 
-  if (!isGif) return video;
+  if (!isGif) {
+    if (!renderOverlay) return video;
+    return (
+      <Box style={{ position: 'relative', width: '100%' }}>
+        {video}
+        <Box
+          style={{ position: 'absolute', left: 8, top: 8 }}
+          onClick={(evt) => evt.stopPropagation()}
+        >
+          {renderOverlay()}
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <Box style={{ position: 'relative', width: '100%' }}>
       {video}
+      {renderOverlay && (
+        <Box
+          style={{ position: 'absolute', left: 8, top: 8 }}
+          onClick={(evt) => evt.stopPropagation()}
+        >
+          {renderOverlay()}
+        </Box>
+      )}
       <Badge
         variant="Secondary"
         fill="Solid"
