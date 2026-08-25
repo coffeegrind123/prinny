@@ -1,66 +1,13 @@
 import { style } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
-import { DefaultReset, color, toRem } from 'folds';
 
 // Stack URL preview cards vertically (Discord-style) on every viewport.
-// The upstream layout was a horizontal scroller of fixed-width cards,
-// which we previously only overrode on mobile via @media (max-width: 640px).
-// Promoting `flexDirection: 'column'` to the base style makes the same
-// rule apply everywhere — multiple links in a message render as a
-// vertical list instead of a single row.
-export const UrlPreviewHolderInner = style({
-  flexDirection: 'column',
-  width: '100%',
-  alignItems: 'stretch',
-});
-
+// The upstream layout was a horizontal scroller of fixed-width cards, with
+// edge gradients and a pair of scroll buttons driven by an IntersectionObserver
+// on a zero-size anchor at each end. None of that survives a column: the
+// buttons had nowhere to scroll to and the left one ended up parked over the
+// first card, so `UrlPreviewHolder` drops the chrome along with the axis.
 export const UrlPreviewHolderRow = style({
   flexDirection: 'column',
   width: '100%',
   alignItems: 'stretch',
-});
-
-export const UrlPreviewHolderGradient = recipe({
-  base: [
-    DefaultReset,
-    {
-      position: 'absolute',
-      height: '100%',
-      width: toRem(10),
-      zIndex: 1,
-    },
-  ],
-  variants: {
-    position: {
-      Left: {
-        left: 0,
-        background: `linear-gradient(to right,${color.Surface.Container} , rgba(116,116,116,0))`,
-      },
-      Right: {
-        right: 0,
-        background: `linear-gradient(to left,${color.Surface.Container} , rgba(116,116,116,0))`,
-      },
-    },
-  },
-});
-export const UrlPreviewHolderBtn = recipe({
-  base: [
-    DefaultReset,
-    {
-      position: 'absolute',
-      zIndex: 1,
-    },
-  ],
-  variants: {
-    position: {
-      Left: {
-        left: 0,
-        transform: 'translateX(-25%)',
-      },
-      Right: {
-        right: 0,
-        transform: 'translateX(25%)',
-      },
-    },
-  },
 });

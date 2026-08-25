@@ -9,7 +9,6 @@ import {
   Overlay,
   OverlayBackdrop,
   OverlayCenter,
-  Scroll,
   Spinner,
   Text,
   as,
@@ -24,10 +23,6 @@ import { RenderViewerProps, ImageOverlay } from '../ImageOverlay';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { UrlPreview, UrlPreviewContent, UrlPreviewImg } from './UrlPreview';
-import {
-  getIntersectionObserverEntry,
-  useIntersectionObserver,
-} from '../../hooks/useIntersectionObserver';
 import * as css from './UrlPreviewCard.css';
 import * as urlPreviewCss from './UrlPreview.css';
 import { tryDecodeURIComponent } from '../../utils/dom';
@@ -1796,12 +1791,6 @@ export const UrlPreviewCard = as<
 });
 
 export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const backAnchorRef = useRef<HTMLDivElement>(null);
-  const frontAnchorRef = useRef<HTMLDivElement>(null);
-  const [backVisible, setBackVisible] = useState(true);
-  const [frontVisible, setFrontVisible] = useState(true);
-
   /**
    * Whether any card inside actually drew something.
    *
@@ -1832,21 +1821,15 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
    *
    * A card with nothing to show returns null, so counting the elements the row
    * actually holds asks the same question — and the DOM answers it whether the
-   * holder is hidden or not. The holder's own chrome (the scroll anchor and the
-   * edge gradient/buttons) is marked `data-holder-chrome` so it never counts as
-   * a card.
+   * holder is hidden or not. Nothing but the cards themselves lives in the row,
+   * so a child is a card.
    */
   const rowRef = useRef<HTMLDivElement>(null);
   const [empty, setEmpty] = useState(false);
   useEffect(() => {
     const el = rowRef.current;
     if (!el) return undefined;
-    const measure = () => {
-      const hasCard = Array.from(el.children).some(
-        (child) => (child as HTMLElement).dataset?.holderChrome === undefined
-      );
-      setEmpty(!hasCard);
-    };
+    const measure = () => setEmpty(el.children.length === 0);
     // childList on the row itself: a card that resolves goes from `null` to an
     // element, which is an insertion here — and mutations are still delivered
     // for a subtree that is currently hidden, which is the whole point.
@@ -1856,58 +1839,18 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
     return () => observer.disconnect();
   }, []);
 
-  const intersectionObserver = useIntersectionObserver(
-    useCallback((entries) => {
-      const backAnchor = backAnchorRef.current;
-      const frontAnchor = frontAnchorRef.current;
-      const backEntry = backAnchor && getIntersectionObserverEntry(backAnchor, entries);
-      const frontEntry = frontAnchor && getIntersectionObserverEntry(frontAnchor, entries);
-      if (backEntry) {
-        setBackVisible(backEntry.isIntersecting);
-      }
-      if (frontEntry) {
-        setFrontVisible(frontEntry.isIntersecting);
-      }
-    }, []),
-    useCallback(
-      () => ({
-        root: scrollRef.current,
-        rootMargin: '10px',
-      }),
-      [],
-    ),
-  );
-
-  useEffect(() => {
-    const backAnchor = backAnchorRef.current;
-    const frontAnchor = frontAnchorRef.current;
-    if (backAnchor) intersectionObserver?.observe(backAnchor);
-    if (frontAnchor) intersectionObserver?.unobserve(frontAnchor);
-    return () => {
-      if (backAnchor) intersectionObserver?.observe(backAnchor);
-      if (frontAnchor) intersectionObserver?.unobserve(frontAnchor);
-    };
-  }, [intersectionObserver]);
-
-  const handleScrollBack = () => {
-    const scroll = scrollRef.current;
-    if (!scroll) return;
-    const { offsetWidth, scrollLeft } = scroll;
-    scroll.scrollTo({
-      left: scrollLeft - offsetWidth / 1.3,
-      behavior: 'smooth',
-    });
-  };
-  const handleScrollFront = () => {
-    const scroll = scrollRef.current;
-    if (!scroll) return;
-    const { offsetWidth, scrollLeft } = scroll;
-    scroll.scrollTo({
-      left: scrollLeft + offsetWidth / 1.3,
-      behavior: 'smooth',
-    });
-  };
-
+  /*
+   * Cards stack vertically, so there is no carousel and no carousel chrome.
+   *
+   * Upstream lays the cards out as a horizontal strip of fixed-width cards and
+   * drives a pair of edge scroll buttons from an IntersectionObserver on a
+   * zero-size anchor at each end. `UrlPreviewCard.css.tsx` overrides that to a
+   * Discord-style column on every viewport — which leaves the anchors as
+   * full-width, zero-height blocks in a column that never scrolls sideways, and
+   * the observer answering a question about an axis that no longer overflows.
+   * The left button then sat over the first card permanently. The buttons are
+   * gone rather than fixed: a column has nothing to scroll to.
+   */
   return (
     <Box
       direction="Column"
@@ -1919,53 +1862,11 @@ export const UrlPreviewHolder = as<'div'>(({ children, ...props }, ref) => {
         // was showing as a gap under a message whose links produced no card.
         ...(empty ? { display: 'none' } : null),
         marginTop: config.space.S200,
-        position: 'relative',
       }}
     >
-      <Scroll ref={scrollRef} direction="Horizontal" size="0" visibility="Hover" hideTrack>
-        <Box shrink="No" alignItems="Center" className={css.UrlPreviewHolderInner}>
-          <div ref={backAnchorRef} />
-          {!backVisible && (
-            <>
-              <div className={css.UrlPreviewHolderGradient({ position: 'Left' })} />
-              <IconButton
-                className={css.UrlPreviewHolderBtn({ position: 'Left' })}
-                variant="Secondary"
-                radii="Pill"
-                size="300"
-                outlined
-                onClick={handleScrollBack}
-              >
-                <Icon size="300" src={Icons.ArrowLeft} />
-              </IconButton>
-            </>
-          )}
-          <Box alignItems="Inherit" gap="200" className={css.UrlPreviewHolderRow} ref={rowRef}>
-            {children}
-
-            {!frontVisible && (
-              <>
-                <div
-                  data-holder-chrome=""
-                  className={css.UrlPreviewHolderGradient({ position: 'Right' })}
-                />
-                <IconButton
-                  data-holder-chrome=""
-                  className={css.UrlPreviewHolderBtn({ position: 'Right' })}
-                  variant="Primary"
-                  radii="Pill"
-                  size="300"
-                  outlined
-                  onClick={handleScrollFront}
-                >
-                  <Icon size="300" src={Icons.ArrowRight} />
-                </IconButton>
-              </>
-            )}
-            <div data-holder-chrome="" ref={frontAnchorRef} />
-          </Box>
-        </Box>
-      </Scroll>
+      <Box direction="Column" gap="200" className={css.UrlPreviewHolderRow} ref={rowRef}>
+        {children}
+      </Box>
     </Box>
   );
 });
