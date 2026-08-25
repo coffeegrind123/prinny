@@ -11,31 +11,30 @@ import { mobileOrTablet } from '../../utils/user-agent';
 import { StoredMashup, rememberMashup, useStoredMashups } from '../../state/emojiMashups';
 import { useMashupPinning } from '../../hooks/useMashupImagePack';
 import {
-  MashupEmoji,
-  findMashupFace,
-  findMashupMouth,
-  mashupDataUri,
-  mashupFaces,
+  KitchenCombo,
+  KitchenEmoji,
+  findKitchenEmoji,
+  kitchenEmojis,
+  kitchenPartners,
   mashupLabel,
-  mashupMouths,
   mashupShortcode,
-} from '../../plugins/emoji-mashup';
+} from '../../plugins/emoji-kitchen';
 import { useMashupUpload } from './useMashupUpload';
 
 const RECENT_GROUP_ID = 'mashup_recent';
 const RESULT_GROUP_ID = 'mashup_results';
 
-/** 😀 if the parts are there, otherwise whatever the roster starts with. */
-const defaultFace = (): MashupEmoji | undefined =>
-  findMashupFace('1f600') ?? mashupFaces[0];
+/** 😀 if Google drew it, otherwise whatever the roster starts with. */
+const defaultSubject = (): KitchenEmoji | undefined =>
+  findKitchenEmoji('1f600') ?? kitchenEmojis[0];
 
-const matchesQuery = (emoji: MashupEmoji, query: string): boolean => {
+const matchesQuery = (subject: KitchenEmoji, query: string): boolean => {
   if (!query) return true;
   const needle = query.toLowerCase();
-  if (emoji.emoji.label.toLowerCase().includes(needle)) return true;
-  const shortcodes = Array.isArray(emoji.emoji.shortcodes)
-    ? emoji.emoji.shortcodes
-    : [emoji.emoji.shortcode];
+  if (subject.emoji.label.toLowerCase().includes(needle)) return true;
+  const shortcodes = Array.isArray(subject.emoji.shortcodes)
+    ? subject.emoji.shortcodes
+    : [subject.emoji.shortcode];
   return shortcodes.some((shortcode) => shortcode.toLowerCase().includes(needle));
 };
 
@@ -116,12 +115,15 @@ export type MashupPickerProps = {
 };
 
 /**
- * Builds a new emoji out of two, then hands back an `mxc://` for it.
+ * Picks a Google Emoji Kitchen pairing and hands back an `mxc://` for it.
  *
- * The layout follows what the tab is for: one strip of faces along the top to
- * choose the half that donates the head and eyes, and below it every mashup
- * that face makes, drawn for real. You pick from finished pictures rather than
- * from a second list of names.
+ * A strip of emoji along the top chooses one half; below it is every pairing
+ * Google actually drew for that emoji, shown as the finished artwork. Only real
+ * pairings are listed — Kitchen covers 147,000 of the 619×619 possibilities, so
+ * a grid of every combination would be mostly dead ends.
+ *
+ * The thumbnails come straight from `gstatic.com`. Nothing is uploaded until a
+ * pairing is picked.
  */
 export function MashupPicker({ previewAtom, onMashupSelect, requestClose }: MashupPickerProps) {
   const mx = useMatrixClient();
@@ -131,56 +133,58 @@ export function MashupPicker({ previewAtom, onMashupSelect, requestClose }: Mash
   const stored = useStoredMashups();
   const { isPinned, togglePin } = useMashupPinning();
 
-  const [faceCodepoint, setFaceCodepoint] = useState<string | undefined>(
-    () => stored[0]?.face ?? defaultFace()?.codepoint
+  const [subjectCodepoint, setSubjectCodepoint] = useState<string | undefined>(
+    () => stored[0]?.left ?? defaultSubject()?.codepoint,
   );
   const [query, setQuery] = useState('');
   const [busyShortcode, setBusyShortcode] = useState<string>();
   const [error, setError] = useState<string>();
 
-  const face = useMemo(
-    () => (faceCodepoint ? findMashupFace(faceCodepoint) : undefined) ?? defaultFace(),
-    [faceCodepoint]
+  const subject = useMemo(
+    () => (subjectCodepoint ? findKitchenEmoji(subjectCodepoint) : undefined) ?? defaultSubject(),
+    [subjectCodepoint],
   );
 
-  const faces = useMemo(() => {
-    const matching = mashupFaces.filter((item) => matchesQuery(item, query));
-    // The chosen face stays reachable even when the query excludes it —
-    // otherwise searching for a mouth silently changes what you are mashing.
-    if (face && !matching.some((item) => item.codepoint === face.codepoint)) {
-      return [face, ...matching];
+  const choices = useMemo(() => {
+    const matching = kitchenEmojis.filter((item) => matchesQuery(item, query));
+    // The chosen emoji stays reachable even when the query excludes it —
+    // otherwise searching silently changes what you are mashing.
+    if (subject && !matching.some((item) => item.index === subject.index)) {
+      return [subject, ...matching];
     }
     return matching;
-  }, [query, face]);
+  }, [query, subject]);
 
-  const mouths = useMemo(
-    () => mashupMouths.filter((item) => matchesQuery(item, query)),
-    [query]
-  );
+  const combos = useMemo(() => {
+    if (!subject) return [];
+    const all = kitchenPartners(subject);
+    if (!query) return all;
+    return all.filter((combo) => matchesQuery(combo.partner, query));
+  }, [subject, query]);
 
   const handleQueryChange: ChangeEventHandler<HTMLInputElement> = (evt) => {
     setQuery(evt.target.value.trim());
   };
 
   const handlePick = useCallback(
-    async (mouth: MashupEmoji) => {
-      if (!face || busyShortcode) return;
-      const shortcode = mashupShortcode(face, mouth);
+    async (combo: KitchenCombo) => {
+      if (!subject || busyShortcode) return;
+      const shortcode = mashupShortcode(subject, combo.partner);
       setBusyShortcode(shortcode);
       setError(undefined);
       try {
-        const { mxc } = await uploadMashup(face, mouth);
+        const { mxc } = await uploadMashup(subject, combo.partner, combo.url);
         onMashupSelect(mxc, shortcode);
         requestClose();
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : 'That mashup could not be uploaded. Try again.'
+          err instanceof Error ? err.message : 'That mashup could not be uploaded. Try again.',
         );
       } finally {
         setBusyShortcode(undefined);
       }
     },
-    [face, busyShortcode, uploadMashup, onMashupSelect, requestClose]
+    [subject, busyShortcode, uploadMashup, onMashupSelect, requestClose],
   );
 
   const handlePickStored = useCallback(
@@ -190,8 +194,8 @@ export function MashupPicker({ previewAtom, onMashupSelect, requestClose }: Mash
       // in hand.
       rememberMashup(mx, {
         shortcode: mashup.shortcode,
-        face: mashup.face,
-        mouth: mashup.mouth,
+        left: mashup.left,
+        right: mashup.right,
         mxc: mashup.mxc,
         body: mashup.body,
         info: mashup.info,
@@ -199,13 +203,15 @@ export function MashupPicker({ previewAtom, onMashupSelect, requestClose }: Mash
       onMashupSelect(mashup.mxc, mashup.shortcode);
       requestClose();
     },
-    [mx, onMashupSelect, requestClose]
+    [mx, onMashupSelect, requestClose],
   );
 
   const storedLabel = useCallback((mashup: StoredMashup): string => {
-    const storedFace = findMashupFace(mashup.face);
-    const storedMouth = findMashupMouth(mashup.mouth);
-    if (storedFace && storedMouth) return mashupLabel(storedFace, storedMouth);
+    const left = findKitchenEmoji(mashup.left);
+    const right = findKitchenEmoji(mashup.right);
+    // A mashup made by the previous engine has halves Kitchen does not know;
+    // its stored description is still exactly right.
+    if (left && right) return mashupLabel(left, right);
     return mashup.body;
   }, []);
 
@@ -223,8 +229,8 @@ export function MashupPicker({ previewAtom, onMashupSelect, requestClose }: Mash
         />
       </Box>
 
-      <Box className={css.MashupFaceStrip} shrink="No">
-        {faces.map((item) => (
+      <Box className={css.MashupChoiceStrip} shrink="No">
+        {choices.map((item) => (
           <Box
             key={item.codepoint}
             as="button"
@@ -232,13 +238,13 @@ export function MashupPicker({ previewAtom, onMashupSelect, requestClose }: Mash
             alignItems="Center"
             justifyContent="Center"
             className={classNames(
-              css.MashupFaceBtn,
-              item.codepoint === face?.codepoint && css.MashupFaceBtnActive
+              css.MashupChoiceBtn,
+              item.index === subject?.index && css.MashupChoiceBtnActive,
             )}
             title={item.emoji.label}
             aria-label={`Mash ${item.emoji.label}`}
-            aria-pressed={item.codepoint === face?.codepoint}
-            onClick={() => setFaceCodepoint(item.codepoint)}
+            aria-pressed={item.index === subject?.index}
+            onClick={() => setSubjectCodepoint(item.codepoint)}
           >
             {item.emoji.unicode}
           </Box>
@@ -266,9 +272,7 @@ export function MashupPicker({ previewAtom, onMashupSelect, requestClose }: Mash
                     label={storedLabel(mashup)}
                     busy={false}
                     onPick={() => handlePickStored(mashup)}
-                    onHover={() =>
-                      setPreview({ key: mashup.mxc, shortcode: mashup.shortcode })
-                    }
+                    onHover={() => setPreview({ key: mashup.mxc, shortcode: mashup.shortcode })}
                     pin={{
                       pinned: isPinned(mashup.shortcode),
                       onToggle: () => togglePin(mashup),
@@ -278,28 +282,26 @@ export function MashupPicker({ previewAtom, onMashupSelect, requestClose }: Mash
               </EmojiGroup>
             )}
 
-            {face && (
+            {subject && (
               <EmojiGroup
                 id={RESULT_GROUP_ID}
                 label={
-                  mouths.length > 0
-                    ? `${face.emoji.unicode} + …`
-                    : 'No emoji match that search'
+                  combos.length > 0
+                    ? `${subject.emoji.unicode} + … (${combos.length})`
+                    : 'No pairings match that search'
                 }
               >
-                {mouths.map((mouth) => {
-                  const uri = mashupDataUri(face.codepoint, mouth.codepoint);
-                  if (!uri) return null;
-                  const shortcode = mashupShortcode(face, mouth);
+                {combos.map((combo) => {
+                  const shortcode = mashupShortcode(subject, combo.partner);
                   return (
                     <MashupTile
-                      key={mouth.codepoint}
-                      src={uri}
+                      key={combo.partner.codepoint}
+                      src={combo.url}
                       shortcode={shortcode}
-                      label={mashupLabel(face, mouth)}
+                      label={mashupLabel(subject, combo.partner)}
                       busy={busyShortcode === shortcode}
-                      onPick={() => handlePick(mouth)}
-                      onHover={() => setPreview({ key: uri, shortcode })}
+                      onPick={() => handlePick(combo)}
+                      onHover={() => setPreview({ key: combo.url, shortcode })}
                     />
                   );
                 })}

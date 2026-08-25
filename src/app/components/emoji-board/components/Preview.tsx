@@ -10,6 +10,15 @@ export type PreviewData = {
   shortcode: string;
 };
 
+/**
+ * A preview key is either something to draw as text — a unicode emoji — or
+ * somewhere to fetch a picture from. Mashups add the third case: an
+ * `https://` thumbnail that exists at Google before it exists on the
+ * homeserver, and is only uploaded once picked.
+ */
+const isImageKey = (key: string): boolean =>
+  key.startsWith('mxc://') || key.startsWith('https://') || key.startsWith('http://');
+
 export const createPreviewDataAtom = (initial?: PreviewData) =>
   atom<PreviewData | undefined>(initial);
 
@@ -33,16 +42,11 @@ export function Preview({ previewAtom }: PreviewProps) {
           alignItems="Center"
           justifyContent="Center"
         >
-          {key.startsWith('mxc://') || key.startsWith('data:') ? (
+          {isImageKey(key) ? (
             <img
               className={css.PreviewImg}
-              // A mashup previews from a `data:` URI: it exists as markup
-              // before it exists on the homeserver, and is only uploaded once
-              // the user picks it.
               src={
-                key.startsWith('data:')
-                  ? key
-                  : mxcUrlToHttp(mx, key, useAuthentication) ?? key
+                key.startsWith('mxc://') ? (mxcUrlToHttp(mx, key, useAuthentication) ?? key) : key
               }
               alt={shortcode}
             />

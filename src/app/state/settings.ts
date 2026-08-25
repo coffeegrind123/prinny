@@ -198,10 +198,12 @@ export interface Settings {
   // an IP and a query to someone who is not the homeserver. Favourites and the
   // composer shortcut follow this setting rather than having their own.
   gifPicker: boolean;
-  // Fourth tab in the emoji board: builds a new emoji from two others by
-  // stacking cut-up Twemoji. On by default — unlike the GIF tab it reaches no
-  // third party, renders entirely in the client, and only touches the network
-  // to upload the result the user picked.
+  // Fourth tab in the emoji board: Google's Emoji Kitchen, 147,000 hand-drawn
+  // pairings of 619 emoji. Off by default for the same reason as the GIF tab —
+  // browsing it fetches thumbnails from gstatic.com, so which emoji you are
+  // looking at goes to Google along with your IP. The index of which pairings
+  // exist is bundled, so no search or lookup leaves the client; only the
+  // pictures do.
   emojiMashup: boolean;
   // Media does not autoplay; it plays while hovered instead. Also stops UI
   // animation, for motion sensitivity and for weak hardware.
@@ -334,7 +336,7 @@ const defaultSettings: Settings = {
   roomsPseudoSpace: false,
 
   gifPicker: false,
-  emojiMashup: true,
+  emojiMashup: false,
   lowAnimationMode: false,
   mediaAutoEmbedHosts: [],
 

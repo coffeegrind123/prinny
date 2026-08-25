@@ -337,10 +337,10 @@ export const MashupToolbar = style({
   padding: `${config.space.S200} ${config.space.S300} 0`,
 });
 
-// The face strip is one row that scrolls sideways rather than a wrapping grid.
-// 135 faces wrapped would eat most of a 440px board before a single result was
-// visible, and the results are the point of the tab.
-export const MashupFaceStrip = style({
+// The chooser is one row that scrolls sideways rather than a wrapping grid.
+// 619 emoji wrapped would bury the results entirely, and the results are the
+// point of the tab.
+export const MashupChoiceStrip = style({
   display: 'flex',
   alignItems: 'center',
   gap: config.space.S100,
@@ -353,7 +353,7 @@ export const MashupFaceStrip = style({
   },
 });
 
-export const MashupFaceBtn = style([
+export const MashupChoiceBtn = style([
   DefaultReset,
   FocusOutline,
   {
@@ -377,7 +377,7 @@ export const MashupFaceBtn = style([
   },
 ]);
 
-export const MashupFaceBtnActive = style({
+export const MashupChoiceBtnActive = style({
   backgroundColor: color.Primary.Container,
   borderColor: color.Primary.ContainerLine,
 });

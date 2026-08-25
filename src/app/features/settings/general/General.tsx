@@ -1497,7 +1497,7 @@ function ForkFeatures() {
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
           title="Emoji Mashup"
-          description="Add a Mashup tab to the emoji board, building new emoji from two others. Drawn in the app from bundled Twemoji parts; only the one you pick is uploaded."
+          description="Add a Mashup tab to the emoji board: Google's Emoji Kitchen, 147,000 hand-drawn combinations of 619 emoji. Thumbnails load from gstatic.com, which sees your IP and which emoji you browse."
           after={<Switch variant="Primary" value={emojiMashup} onChange={setEmojiMashup} />}
         />
       </SequenceCard>

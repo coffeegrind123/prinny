@@ -2,14 +2,7 @@ import { useCallback } from 'react';
 import { IImageInfo } from '../../../types/matrix/common';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { findStoredMashup, rememberMashup } from '../../state/emojiMashups';
-import {
-  MASHUP_MIME_TYPE,
-  MASHUP_PNG_SIZE,
-  MashupEmoji,
-  mashupBody,
-  mashupShortcode,
-  renderMashupPng,
-} from '../../plugins/emoji-mashup';
+import { KitchenEmoji, mashupBody, mashupShortcode } from '../../plugins/emoji-kitchen';
 
 export type MashupUpload = {
   shortcode: string;
@@ -18,15 +11,38 @@ export type MashupUpload = {
   info: IImageInfo;
 };
 
+const MIME_TYPE = 'image/png';
+
 /**
- * Turns a chosen pair into something Matrix can carry: an `mxc://` URI.
+ * Reads the real pixel dimensions rather than assuming them.
+ *
+ * Emoji Kitchen artwork is not all one size, and `info` is what other clients
+ * size the emote from — a guess here shows up as a wrongly scaled image
+ * somewhere else. Failing to decode is not worth failing the upload over, so
+ * the dimensions are simply omitted in that case.
+ */
+const measure = async (blob: Blob): Promise<{ w: number; h: number } | undefined> => {
+  try {
+    const bitmap = await createImageBitmap(blob);
+    const size = { w: bitmap.width, h: bitmap.height };
+    bitmap.close();
+    return size;
+  } catch {
+    return undefined;
+  }
+};
+
+/**
+ * Turns a chosen pairing into something Matrix can carry: an `mxc://` URI.
  *
  * A reaction key and an inline emoticon are both plain strings, so the picture
- * has to exist in the media repo before either can point at it. The upload is
- * deliberately **unencrypted**, even in an encrypted room — a reaction key has
- * nowhere to put the decryption info, and the same is already true of every
- * custom emoji from an image pack. Nothing private is disclosed by it: the
- * image is two public emoji stacked, generated locally.
+ * has to be on the homeserver before either can point at it — a `gstatic.com`
+ * URL is no use to anyone receiving the message, and would leave every reader
+ * fetching from Google to see a reaction. The upload is deliberately
+ * **unencrypted**, even in an encrypted room: a reaction key has nowhere to put
+ * the decryption info, and the same is already true of every custom emoji from
+ * an image pack. Nothing private is disclosed by it — it is a picture Google
+ * publishes at a public URL.
  *
  * Repeat uses cost nothing. The stored list is keyed by shortcode, so the
  * second time anyone reaches for 😍 + 😭 it resolves to the URI already
@@ -34,15 +50,16 @@ export type MashupUpload = {
  * mashup would split its reactions into two chips.
  */
 export const useMashupUpload = (): ((
-  face: MashupEmoji,
-  mouth: MashupEmoji
+  a: KitchenEmoji,
+  b: KitchenEmoji,
+  url: string,
 ) => Promise<MashupUpload>) => {
   const mx = useMatrixClient();
 
   return useCallback(
-    async (face: MashupEmoji, mouth: MashupEmoji): Promise<MashupUpload> => {
-      const shortcode = mashupShortcode(face, mouth);
-      const body = mashupBody(face, mouth);
+    async (a: KitchenEmoji, b: KitchenEmoji, url: string): Promise<MashupUpload> => {
+      const shortcode = mashupShortcode(a, b);
+      const body = mashupBody(a, b);
 
       const stored = findStoredMashup(mx, shortcode);
       if (stored) {
@@ -50,8 +67,8 @@ export const useMashupUpload = (): ((
         // not wait on the round trip to hand back a URI we already have.
         rememberMashup(mx, {
           shortcode: stored.shortcode,
-          face: stored.face,
-          mouth: stored.mouth,
+          left: stored.left,
+          right: stored.right,
           mxc: stored.mxc,
           body: stored.body,
           info: stored.info,
@@ -64,32 +81,32 @@ export const useMashupUpload = (): ((
         };
       }
 
-      const blob = await renderMashupPng(face.codepoint, mouth.codepoint);
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Emoji Kitchen returned ${response.status} for this combination.`);
+      }
+      const blob = await response.blob();
+
       const filename = `${shortcode}.png`;
+      const uploaded = await mx.uploadContent(new File([blob], filename, { type: MIME_TYPE }), {
+        name: filename,
+        type: MIME_TYPE,
+        includeFilename: true,
+      });
 
-      const response = await mx.uploadContent(
-        new File([blob], filename, { type: MASHUP_MIME_TYPE }),
-        {
-          name: filename,
-          type: MASHUP_MIME_TYPE,
-          includeFilename: true,
-        }
-      );
-
-      const mxc = response.content_uri;
-      if (!mxc) throw new Error('emoji-mashup: upload returned no content URI');
+      const mxc = uploaded.content_uri;
+      if (!mxc) throw new Error('emoji-kitchen: upload returned no content URI');
 
       const info: IImageInfo = {
-        w: MASHUP_PNG_SIZE,
-        h: MASHUP_PNG_SIZE,
-        mimetype: MASHUP_MIME_TYPE,
+        ...(await measure(blob)),
+        mimetype: MIME_TYPE,
         size: blob.size,
       };
 
       await rememberMashup(mx, {
         shortcode,
-        face: face.codepoint,
-        mouth: mouth.codepoint,
+        left: a.codepoint,
+        right: b.codepoint,
         mxc,
         body,
         info,
@@ -97,6 +114,6 @@ export const useMashupUpload = (): ((
 
       return { shortcode, mxc, body, info };
     },
-    [mx]
+    [mx],
   );
 };
