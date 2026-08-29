@@ -808,14 +808,23 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   // A message grows after it is rendered — a link becomes a preview card, an
   // edit or a reaction arrives — and when it is above the viewport, everything
   // below it slides. See `useScrollContentAnchor`: this pins the message the
-  // reader is looking at through those changes. Disabled while the view is
-  // following the live end, where a new message moving the view is the point.
+  // reader is looking at through those changes.
+  //
+  // Passed `true` rather than `!atBottom` deliberately. Following the live end
+  // is the one case where growth *should* move the view, but `atBottom` is set
+  // through a 1s debounce (it drives the jump-to-bottom button), so it reports
+  // "at the bottom" for up to a second after the reader has scrolled up — which
+  // is exactly the second in which the previews for the messages they just
+  // scrolled onto arrive. The hook measures the distance to the bottom itself,
+  // at the moment of each resize, against the same FOLLOW_LIVE_END_PX this
+  // component follows the end by; there is nothing for a flag to add.
   useScrollContentAnchor(
     getScrollElement,
     useCallback(() => (scrollRef.current?.firstElementChild as HTMLElement) ?? null, []),
     '[data-message-item]',
-    !atBottom,
+    true,
     timeline.range,
+    FOLLOW_LIVE_END_PX,
   );
 
   const loadEventTimeline = useEventTimelineLoader(
