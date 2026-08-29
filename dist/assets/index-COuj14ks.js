@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/core-CGI43Uw5.js","assets/rolldown-runtime-B0Z9INg1.js","assets/dist-js-CqTQd4xA.js","assets/dist-js-CjGx9Ddr.js","assets/katex-Ddr6Z9Sf.css","assets/ReactPrism-Cho5T7gq.js","assets/jsx-runtime-zC2iXiZO.js","assets/ReactPrism-CLcyLdmD.css","assets/pdf-D2w4WNvQ.js","assets/preload-helper-Czpn1I53.js","assets/MashupPicker-DaAZMCJU.js","assets/maplibre-gl-DSnsEFKn.css","assets/tray-Dsi4fmos.js","assets/dpi-Ca4D-31r.js","assets/image-DIrcgJS2.js","assets/menu-C3vc-pi6.js","assets/app-D70JF_GM.js","assets/event-DWBRSZIL.js","assets/dist-js-DhMMTR2k.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/core-CGI43Uw5.js","assets/rolldown-runtime-B0Z9INg1.js","assets/dist-js-CqTQd4xA.js","assets/dist-js-CjGx9Ddr.js","assets/katex-Ddr6Z9Sf.css","assets/ReactPrism-B69R7oLE.js","assets/jsx-runtime-zC2iXiZO.js","assets/ReactPrism-CLcyLdmD.css","assets/pdf-CPWzwyuV.js","assets/preload-helper-Czpn1I53.js","assets/MashupPicker-B1Mwg9PO.js","assets/maplibre-gl-DSnsEFKn.css","assets/tray-Dsi4fmos.js","assets/dpi-Ca4D-31r.js","assets/image-DIrcgJS2.js","assets/menu-C3vc-pi6.js","assets/app-D70JF_GM.js","assets/event-DWBRSZIL.js","assets/dist-js-DhMMTR2k.js"])))=>i.map(i=>d[i]);
 import { a as e, i as t, n, r, t as i } from "./rolldown-runtime-B0Z9INg1.js";
 import { n as a, t as o } from "./jsx-runtime-zC2iXiZO.js";
 import { t as s } from "./preload-helper-Czpn1I53.js";
@@ -23074,7 +23074,7 @@ Please change the parent <Route path="${e}"> to <Route path="${e === `/` ? `*` :
         }
         return e;
     }
-    var gne = `_15upz2y0`, _ne = `_15upz2y1`, vne = `_15upz2y2 _1mqalmd1 _1mqalmd0`, yne = `_15upz2y3`, bne = `_15upz2y4`, xne = `_15upz2y5`, Kg = `4.11.202`;
+    var gne = `_15upz2y0`, _ne = `_15upz2y1`, vne = `_15upz2y2 _1mqalmd1 _1mqalmd0`, yne = `_15upz2y3`, bne = `_15upz2y4`, xne = `_15upz2y5`, Kg = `4.11.203`;
     function Sne() {
         return (0, P.jsxs)(L, {
             className: xne,
@@ -81832,7 +81832,7 @@ https://www.w3ctech.com/topic/2226`));
             return;
         }
     };
-    Qme = (0, N.lazy)(()=>s(()=>import(`./ReactPrism-Cho5T7gq.js`).then(async (m)=>{
+    Qme = (0, N.lazy)(()=>s(()=>import(`./ReactPrism-B69R7oLE.js`).then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([5,1,6,7])));
@@ -83564,7 +83564,7 @@ https://www.w3ctech.com/topic/2226`));
             let { value: n } = this.target;
             return this.target.value = `${n.substring(0, e.start)}${t}${n.substring(e.end)}`, new WR(e.start, e.start + t.length, e.direction);
         }
-    }, Hhe = `_1v145rl0 _1mqalmd1 _1mqalmd0`, Uhe = `_1v145rl1 _1mqalmd1 _1mqalmd0`, Whe = `_1v145rl2 _1mqalmd1 _1mqalmd0`, Ghe = `_1v145rl3 _1mqalmd1 _1mqalmd0`, Khe = `_1v145rl4`, qhe = (0, N.lazy)(()=>s(()=>import(`./ReactPrism-Cho5T7gq.js`).then(async (m)=>{
+    }, Hhe = `_1v145rl0 _1mqalmd1 _1mqalmd0`, Uhe = `_1v145rl1 _1mqalmd1 _1mqalmd0`, Whe = `_1v145rl2 _1mqalmd1 _1mqalmd0`, Ghe = `_1v145rl3 _1mqalmd1 _1mqalmd0`, Khe = `_1v145rl4`, qhe = (0, N.lazy)(()=>s(()=>import(`./ReactPrism-B69R7oLE.js`).then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([5,1,6,7]))), GR = (0, N.forwardRef)(({ text: e, langName: t, size: n, className: r, ...i }, a)=>(0, P.jsx)(H, {
@@ -92916,7 +92916,7 @@ https://www.w3ctech.com/topic/2226`));
                             await m.__tla;
                             return m;
                         }), []),
-                    s(()=>import(`./tauri-hls-loader-o0lhQ5x6.js`).then(async (m)=>{
+                    s(()=>import(`./tauri-hls-loader-DpFD75rW.js`).then(async (m)=>{
                             await m.__tla;
                             return m;
                         }), [])
@@ -94367,7 +94367,7 @@ https://www.w3ctech.com/topic/2226`));
             })
         });
     }), aye = `ty6xms0 _1mqalmd1 _1mqalmd0`, oye = `ty6xms1 _1mqalmd1 _1mqalmd0`, jG = ()=>Vu(`/`), sye = ()=>Rg((0, N.useCallback)(async ()=>{
-            let e = await s(()=>import(`./pdf-D2w4WNvQ.js`).then(async (m)=>{
+            let e = await s(()=>import(`./pdf-CPWzwyuV.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }), __vite__mapDeps([8,9]));
@@ -99507,7 +99507,7 @@ https://www.w3ctech.com/topic/2226`));
             ]
         });
     }
-    var QSe = (0, N.lazy)(()=>s(()=>import(`./MashupPicker-DaAZMCJU.js`).then(async (m)=>{
+    var QSe = (0, N.lazy)(()=>s(()=>import(`./MashupPicker-B1Mwg9PO.js`).then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([10,1,6]))), dY = `recent_group`, $Se = `search_group`, eCe = (e, t)=>{
@@ -122184,6 +122184,18 @@ ${r.current.stack}
     }, dPe = (e, t)=>{
         (0, N.useEffect)(()=>{
             let n = (n, r)=>{
+                n?.roomId === e.roomId && r === e.getUnfilteredTimelineSet() && t();
+            };
+            return e.on(C.TimelineReset, n), ()=>{
+                e.removeListener(C.TimelineReset, n);
+            };
+        }, [
+            e,
+            t
+        ]);
+    }, fPe = (e, t)=>{
+        (0, N.useEffect)(()=>{
+            let n = (n, r)=>{
                 r?.roomId === e.roomId && t();
             };
             return e.on(C.LocalEchoUpdated, n), ()=>{
@@ -122218,7 +122230,7 @@ ${r.current.stack}
             scrollTo: t
         };
     };
-    function fPe({ room: e, eventId: t, roomInputRef: n, editor: r }) {
+    function pPe({ room: e, eventId: t, roomInputRef: n, editor: r }) {
         let i = q(), a = J4(), o = Hd(Z4), s = Hd(a3), c = Nj(), [l] = J(K, `hideReadReceipts`), [u] = J(K, `hideOthersReadReceipts`), [d] = J(K, `messageLayout`), [f] = J(K, `messageSpacing`), [p] = J(K, `legacyUsernameColor`), m = J0(), [h] = J(K, `hideMembershipEvents`), [g] = J(K, `hideNickAvatarEvents`), [_] = J(K, `mediaAutoLoad`), [v] = J(K, `urlPreview`), [y] = J(K, `renderMaths`), [b] = J(K, `renderBotKeyboards`), x = X4(y), [S] = J(K, `encUrlPreview`), C = e.hasEncryptionStateEvent() ? S : v, [w] = J(K, `showHiddenEvents`), [T] = J(K, `developerTools`), [E] = J(K, `scrollOnSend`), D = (0, N.useRef)(E);
         D.current = E;
         let [O] = J(K, `hour24Clock`), [k] = J(K, `dateFormatString`), ee = oN(), A = (0, N.useMemo)(()=>new Set(ee), [
@@ -122386,6 +122398,10 @@ ${r.current.stack}
             e,
             We
         ])), dPe(e, (0, N.useCallback)(()=>{
+            Ve(S3(e)), Oe.current && (Ae.current.count += 1, Ae.current.smooth = !1);
+        }, [
+            e
+        ])), fPe(e, (0, N.useCallback)(()=>{
             Ve((e)=>({
                     ...e
                 }));
@@ -122416,7 +122432,7 @@ ${r.current.stack}
             ot
         ]), (0, N.useCallback)(()=>n.current, [
             n
-        ])), (0, N.useEffect)(()=>()=>{
+        ])), Gv(ot, Ze), (0, N.useEffect)(()=>()=>{
                 cB(e.roomId);
             }, [
             e.roomId
@@ -123490,7 +123506,7 @@ ${r.current.stack}
             ]
         });
     }
-    var pPe = `_1px4w011 _1mqalmd1 _1mqalmd0`, mPe = `_1px4w012`, hPe = jo(({ className: e, room: t, ...n }, r)=>{
+    var mPe = `_1px4w011 _1mqalmd1 _1mqalmd0`, hPe = `_1px4w012`, gPe = jo(({ className: e, room: t, ...n }, r)=>{
         let i = Hd(ZD), a = q(), o = fB(t.roomId), s = o.filter((e)=>e.userId !== a.getUserId()).map((e)=>KC(t, e.userId) ?? uw(e.userId)).reverse();
         if (s.length === 0) return null;
         let c = ()=>{
@@ -123505,7 +123521,7 @@ ${r.current.stack}
                 position: `relative`
             },
             children: (0, P.jsxs)(L, {
-                className: (0, Xa.default)(pPe, e),
+                className: (0, Xa.default)(mPe, e),
                 alignItems: `Center`,
                 gap: `400`,
                 ...n,
@@ -123513,7 +123529,7 @@ ${r.current.stack}
                 children: [
                     (0, P.jsx)(mB, {}),
                     (0, P.jsxs)(H, {
-                        className: mPe,
+                        className: hPe,
                         size: `T300`,
                         truncate: !0,
                         children: [
@@ -123641,8 +123657,8 @@ ${r.current.stack}
                 ]
             })
         });
-    }), gPe = `mxcys80`;
-    function _Pe({ roomId: e, body: t, replacementRoomId: n }) {
+    }), _Pe = `mxcys80`;
+    function vPe({ roomId: e, body: t, replacementRoomId: n }) {
         let r = q(), { navigateRoom: i } = BV(), [a, o] = Rg((0, N.useCallback)(()=>{
             let t = r.getRoom(e), i = t ? hB(t) : [];
             return r.joinRoom(n, {
@@ -123656,7 +123672,7 @@ ${r.current.stack}
         return (0, P.jsxs)(q2, {
             alignItems: `Center`,
             gap: `600`,
-            className: gPe,
+            className: _Pe,
             children: [
                 (0, P.jsxs)(L, {
                     direction: `Column`,
@@ -123710,7 +123726,7 @@ ${r.current.stack}
             ]
         });
     }
-    var vPe = (e, t)=>{
+    var yPe = (e, t)=>{
         let n = (0, N.useRef)(0);
         return (0, N.useMemo)(()=>(n.current = 0, (r)=>{
                 if (r) {
@@ -123727,14 +123743,14 @@ ${r.current.stack}
             e,
             t
         ]);
-    }, yPe = (e)=>(0, N.useCallback)((t)=>{
+    }, bPe = (e)=>(0, N.useCallback)((t)=>{
             let n = mj(t.clipboardData);
             n && e(n);
         }, [
             e
         ]), T3 = null, E3 = (e)=>{
         T3 = e;
-    }, bPe = ()=>{
+    }, xPe = ()=>{
         (0, N.useEffect)(()=>{
             let e = (e)=>{
                 e.preventDefault();
@@ -123747,7 +123763,7 @@ ${r.current.stack}
                 document.removeEventListener(`dragover`, e), document.removeEventListener(`drop`, t);
             };
         }, []);
-    }, xPe = ()=>{
+    }, SPe = ()=>{
         (0, N.useEffect)(()=>{
             if (!Kr()) return;
             let e = null, t = !1;
@@ -123787,7 +123803,7 @@ ${r.current.stack}
                 t = !0, e && e();
             };
         }, []);
-    }, SPe = (e, t)=>{
+    }, CPe = (e, t)=>{
         let n = (0, N.useRef)(void 0), [r, i] = (0, N.useState)(!1);
         return (0, N.useEffect)(()=>{
             let r = e.current, a = (e)=>{
@@ -123815,15 +123831,15 @@ ${r.current.stack}
         }, [
             e
         ]), r;
-    }, CPe = `_1vnya280 _1mqalmd1 _1mqalmd0`, wPe = `_1vnya281 _1mqalmd1 _1mqalmd0`, TPe = `_1vnya282`, D3 = `_1vnya283`, EPe = `_1vnya284`, DPe = jo(({ header: e, children: t, ...n }, r)=>(0, P.jsx)(L, {
-            className: CPe,
+    }, wPe = `_1vnya280 _1mqalmd1 _1mqalmd0`, TPe = `_1vnya281 _1mqalmd1 _1mqalmd0`, EPe = `_1vnya282`, D3 = `_1vnya283`, DPe = `_1vnya284`, OPe = jo(({ header: e, children: t, ...n }, r)=>(0, P.jsx)(L, {
+            className: wPe,
             ...n,
             ref: r,
             children: (0, P.jsx)(L, {
-                className: wPe,
+                className: TPe,
                 justifyContent: `End`,
                 children: (0, P.jsxs)(L, {
-                    className: (0, Xa.default)(TPe),
+                    className: (0, Xa.default)(EPe),
                     direction: `Column`,
                     children: [
                         (0, P.jsx)(L, {
@@ -123840,7 +123856,7 @@ ${r.current.stack}
                 })
             })
         }));
-    function OPe({ open: e, onToggle: t, uploadFamilyObserverAtom: n, onCancel: r, onSend: i, imperativeHandlerRef: a }) {
+    function kPe({ open: e, onToggle: t, uploadFamilyObserverAtom: n, onCancel: r, onSend: i, imperativeHandlerRef: a }) {
         let o = (0, N.useRef)(!1), s = Vd(n), c = s.every((e)=>e.status === Zj.Success), l = s.some((e)=>e.status === Zj.Error), u = s.reduce((e, t)=>(e.total += t.file.size, t.status === Zj.Loading && (e.loaded += t.progress.loaded), t.status === Zj.Success && (e.loaded += t.file.size), e), {
             loaded: 0,
             total: 0
@@ -123942,8 +123958,8 @@ ${r.current.stack}
             ]
         });
     }
-    var kPe = jo(({ className: e, children: t, ...n }, r)=>(0, P.jsx)(L, {
-            className: (0, Xa.default)(EPe, e),
+    var APe = jo(({ className: e, children: t, ...n }, r)=>(0, P.jsx)(L, {
+            className: (0, Xa.default)(DPe, e),
             direction: `Column`,
             gap: `200`,
             ...n,
@@ -123964,7 +123980,7 @@ ${r.current.stack}
                     markedAsSpoiler: !1
                 }
             }));
-    }, APe = async (e, t, n, r)=>{
+    }, jPe = async (e, t, n, r)=>{
         let i = await Sj(t, ...n);
         if (!i) throw Error(`Can not create thumbnail!`);
         let a = r ? await _w(i) : void 0, o = a?.file ?? i;
@@ -124009,7 +124025,7 @@ ${r.current.stack}
             [oR]: o.markedAsSpoiler
         };
         if (c) {
-            let [t, n] = await iy(APe(e, c, xj(c.videoWidth, c.videoHeight), !!a));
+            let [t, n] = await iy(jPe(e, c, xj(c.videoWidth, c.videoHeight), !!a));
             n && n.thumbnail_info && (n.thumbnail_info[aR] = SH(c, 512, Fu(c.videoWidth, 512, c.videoHeight))), t && console.warn(t), l.info = {
                 ...gae(c, r),
                 ...n
@@ -124019,7 +124035,7 @@ ${r.current.stack}
             ...a,
             url: n
         } : l.url = n, l;
-    }, jPe = (e, t, n)=>{
+    }, MPe = (e, t, n)=>{
         let { file: r, encInfo: i } = e, a = {
             msgtype: zr.Audio,
             filename: r.name,
@@ -124036,7 +124052,7 @@ ${r.current.stack}
             ...i,
             url: t
         } : a.url = t, a;
-    }, MPe = (e, t, n, r)=>{
+    }, NPe = (e, t, n, r)=>{
         let { file: i, encInfo: a } = e, o = `Voice message.ogg`, s = i.type || `audio/ogg`, c = Math.round(n), l = r.map((e)=>Math.round(Math.min(1, Math.max(0, e)) * 1024)), u = {
             msgtype: zr.Audio,
             body: `Voice message`,
@@ -124070,7 +124086,7 @@ ${r.current.stack}
             mimetype: s,
             size: i.size
         }), u;
-    }, NPe = (e, t)=>{
+    }, PPe = (e, t)=>{
         let { file: n, encInfo: r } = e, i = {
             msgtype: zr.File,
             body: n.name,
@@ -124304,7 +124320,7 @@ ${r.current.stack}
                 }
             ]);
         }));
-    }))(), 1), PPe = `/assets/encoderWorker.min-DpsJ02BN.js`, M3 = 48e3, FPe = 1, IPe = 24e3, LPe = 2048, RPe = 50, zPe = class {
+    }))(), 1), FPe = `/assets/encoderWorker.min-DpsJ02BN.js`, M3 = 48e3, IPe = 1, LPe = 24e3, RPe = 2048, zPe = 50, BPe = class {
         constructor(){
             this.chunks = [], this.liveWaveform = Array(44).fill(0), this.amplitudes = [], this.startedAt = 0, this.state = `inactive`;
         }
@@ -124318,11 +124334,11 @@ ${r.current.stack}
                 this.context = new AudioContext({
                     sampleRate: M3
                 }), this.context.state === `suspended` && await this.context.resume(), this.source = this.context.createMediaStreamSource(this.mic.stream), this.analyser = this.context.createAnalyser(), this.analyser.fftSize = 2048, this.analyser.smoothingTimeConstant = .3, this.source.connect(this.analyser), this.recorder = new j3.default({
-                    encoderPath: PPe,
-                    encoderApplication: LPe,
-                    encoderBitRate: IPe,
+                    encoderPath: FPe,
+                    encoderApplication: RPe,
+                    encoderBitRate: LPe,
                     encoderSampleRate: M3,
-                    numberOfChannels: FPe,
+                    numberOfChannels: IPe,
                     streamPages: !0,
                     encoderFrameSize: 20,
                     encoderComplexity: 3,
@@ -124357,7 +124373,7 @@ ${r.current.stack}
                     ],
                     durationSeconds: r
                 }), r >= 900 && this.onMaxDuration?.();
-            }, RPe);
+            }, zPe);
         }
         stopTicking() {
             this.tickTimer !== void 0 && (window.clearInterval(this.tickTimer), this.tickTimer = void 0);
@@ -124399,7 +124415,7 @@ ${r.current.stack}
         releaseResources() {
             this.recorder?.close(), this.recorder = void 0, this.source?.disconnect(), this.source = void 0, this.analyser = void 0, this.context?.close().catch(()=>void 0), this.context = void 0, this.mic?.release(), this.mic = void 0;
         }
-    }, BPe = ()=>{
+    }, VPe = ()=>{
         try {
             return !!navigator.mediaDevices?.getUserMedia && j3.default.isRecordingSupported();
         } catch  {
@@ -124408,7 +124424,7 @@ ${r.current.stack}
     }, N3 = function(e) {
         return e.Idle = `idle`, e.Starting = `starting`, e.Recording = `recording`, e.Preview = `preview`, e.Sending = `sending`, e;
     }({}), P3 = ()=>Array(44).fill(0);
-    function VPe(e) {
+    function HPe(e) {
         let t = (0, N.useRef)(void 0), n = (0, N.useRef)(0), r = (0, N.useRef)(!1), [i, a] = (0, N.useState)(`idle`), [o, s] = (0, N.useState)(P3), [c, l] = (0, N.useState)(0), [u, d] = (0, N.useState)(), [f, p] = (0, N.useState)(), m = (0, N.useCallback)(()=>{
             n.current += 1, t.current?.cancel(), t.current = void 0, d(void 0), s(P3()), l(0), a(`idle`);
         }, []), h = (0, N.useCallback)(async ()=>{
@@ -124425,7 +124441,7 @@ ${r.current.stack}
             if (t.current || r.current) return;
             let e = n.current + 1;
             n.current = e, r.current = !0, p(void 0), d(void 0), s(P3()), l(0), a(`starting`);
-            let i = new zPe;
+            let i = new BPe;
             i.onUpdate = (e)=>{
                 s(e.waveform), l(e.durationSeconds);
             }, i.onMaxDuration = ()=>{
@@ -124466,7 +124482,7 @@ ${r.current.stack}
             clearError: (0, N.useCallback)(()=>p(void 0), [])
         };
     }
-    function HPe({ controls: e, onSend: t }) {
+    function UPe({ controls: e, onSend: t }) {
         let { status: n, waveform: r, durationSeconds: i, recording: a, endingSoon: o } = e, [s, c] = (0, N.useState)(!1), [l, u] = (0, N.useState)(0), d = (0, N.useRef)(null), f = (0, N.useMemo)(()=>a ? URL.createObjectURL(a.blob) : void 0, [
             a
         ]);
@@ -124611,7 +124627,7 @@ ${r.current.stack}
             ]
         });
     }
-    var UPe = (0, N.forwardRef)(({ permission: e, onAllow: t, onClose: n }, r)=>{
+    var WPe = (0, N.forwardRef)(({ permission: e, onAllow: t, onClose: n }, r)=>{
         let i = e.state === `denied`;
         return (0, P.jsxs)(ns, {
             variant: `Surface`,
@@ -124684,13 +124700,13 @@ ${r.current.stack}
                 })
             ]
         });
-    }), F3 = (e)=>e.replace(/&/g, `&amp;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/"/g, `&quot;`), WPe = (e, t, n)=>{
+    }), F3 = (e)=>e.replace(/&/g, `&amp;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/"/g, `&quot;`), GPe = (e, t, n)=>{
         let r = n / 100, i = t * Math.min(r, 1 - r) / 100, a = (t)=>{
             let n = (t + e / 30) % 12, a = r - i * Math.max(Math.min(n - 3, 9 - n, 1), -1);
             return Math.round(255 * a).toString(16).padStart(2, `0`);
         };
         return `#${a(0)}${a(8)}${a(4)}`;
-    }, GPe = (e)=>{
+    }, KPe = (e)=>{
         let t = Array.from(e), n = t.filter((e)=>e.trim() !== ``).length;
         if (n === 0) return F3(e);
         let r = 0;
@@ -124698,7 +124714,7 @@ ${r.current.stack}
             if (e.trim() === ``) return F3(e);
             let t = r / n * 360;
             r += 1;
-            let i = WPe(t, 100, 50);
+            let i = GPe(t, 100, 50);
             return `<font data-mx-color="${i}" color="${i}">${F3(e)}</font>`;
         }).join(``);
     }, I3 = class {
@@ -124800,7 +124816,7 @@ ${r.current.stack}
         }
         return n;
     }
-    function KPe(e) {
+    function qPe(e) {
         for(var t = 1; t < arguments.length; t++){
             var n = arguments[t] == null ? {} : arguments[t];
             t % 2 ? V3(Object(n), !0).forEach(function(t) {
@@ -124811,7 +124827,7 @@ ${r.current.stack}
         }
         return e;
     }
-    var qPe = class e extends B3 {
+    var JPe = class e extends B3 {
         constructor(e){
             super(e), A(this, `id`, void 0);
             var t = e.content.id;
@@ -124821,7 +124837,7 @@ ${r.current.stack}
         serialize() {
             return {
                 type: `org.matrix.sdk.poll.answer`,
-                content: KPe({
+                content: qPe({
                     id: this.id
                 }, this.serializeMMessageOnly())
             };
@@ -124835,7 +124851,7 @@ ${r.current.stack}
                 }
             });
         }
-    }, JPe = class e extends I3 {
+    }, YPe = class e extends I3 {
         constructor(e){
             super(e), A(this, `question`, void 0), A(this, `kind`, void 0), A(this, `rawKind`, void 0), A(this, `maxSelections`, void 0), A(this, `answers`, void 0);
             var t = rn.findIn(this.wireContent);
@@ -124844,7 +124860,7 @@ ${r.current.stack}
                 type: `org.matrix.sdk.poll.question`,
                 content: t.question
             }), this.rawKind = t.kind, this.kind = jt.matches(this.rawKind) ? jt : qe, this.maxSelections = Number.isFinite(t.max_selections) && t.max_selections > 0 ? t.max_selections : 1, !Array.isArray(t.answers)) throw new L3(`Poll answers must be an array`);
-            var n = t.answers.slice(0, 20).map((e)=>new qPe({
+            var n = t.answers.slice(0, 20).map((e)=>new JPe({
                     type: `org.matrix.sdk.poll.answer`,
                     content: e
                 }));
@@ -124883,7 +124899,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         kind: r instanceof IMe.NamespacedValue ? r.name : r,
                         max_selections: i,
                         answers: n.map((e)=>({
-                                id: YPe(),
+                                id: XPe(),
                                 [$t.name]: e
                             }))
                     }
@@ -124891,13 +124907,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             });
         }
     }, H3 = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`;
-    function YPe() {
+    function XPe() {
         return [
             ...Array(16)
         ].map(()=>H3.charAt(Math.floor(Math.random() * H3.length))).join(``);
     }
     var U3 = 2, W3 = 20;
-    function XPe({ room: e, requestClose: t }) {
+    function ZPe({ room: e, requestClose: t }) {
         let n = q(), r = Ig(), [i, a] = (0, N.useState)(``), [o, s] = (0, N.useState)([
             ``,
             ``
@@ -124905,7 +124921,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     ...e,
                     ``
                 ]), f = (e)=>s((t)=>t.length <= U3 ? t : t.filter((t, n)=>n !== e)), p = o.map((e)=>e.trim()).filter((e)=>e !== ``), m = i.trim() !== `` && p.length >= U3, [h, g] = Rg((0, N.useCallback)(async ()=>{
-            let t = JPe.from(i.trim(), p, c ? jt.name : qe.name).serialize();
+            let t = YPe.from(i.trim(), p, c ? jt.name : qe.name).serialize();
             await n.sendEvent(e.roomId, t.type, t.content);
         }, [
             n,
@@ -125116,7 +125132,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var ZPe = (e)=>{
+    var QPe = (e)=>{
         if (!e) return;
         let t = e.match(/^geo:(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/);
         if (!t) return;
@@ -125125,7 +125141,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             latitude: n,
             longitude: r
         };
-    }, QPe = (e)=>{
+    }, $Pe = (e)=>{
         let [, t] = (0, N.useState)(0), n = (0, N.useCallback)(()=>t((e)=>e + 1), []);
         return (0, N.useEffect)(()=>{
             let t = e.currentState;
@@ -125138,7 +125154,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             e,
             n
         ]), Array.from(e.currentState.beacons.values()).filter((e)=>e.isLive).map((e)=>{
-            let { beaconInfo: t } = e, n = (t?.timestamp ?? 0) + (t?.timeout ?? 0), r = ZPe(e.latestLocationState?.uri);
+            let { beaconInfo: t } = e, n = (t?.timestamp ?? 0) + (t?.timeout ?? 0), r = QPe(e.latestLocationState?.uri);
             return {
                 beacon: e,
                 ownerId: e.beaconInfoOwner,
@@ -125148,7 +125164,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 expiresAt: n
             };
         }).filter((e)=>e.expiresAt === 0 || e.expiresAt > Date.now()).sort((e, t)=>e.expiresAt - t.expiresAt);
-    }, $Pe = 3e4, eFe = [
+    }, eFe = 3e4, tFe = [
         {
             label: `15 minutes`,
             ms: 9e5
@@ -125161,14 +125177,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             label: `8 hours`,
             ms: 288e5
         }
-    ], tFe = Ed(void 0), G3 = {}, K3 = ()=>{
+    ], nFe = Ed(void 0), G3 = {}, K3 = ()=>{
         G3.watchId !== void 0 && (navigator.geolocation.clearWatch(G3.watchId), G3.watchId = void 0), G3.timerId !== void 0 && (window.clearInterval(G3.timerId), G3.timerId = void 0), G3.endTimerId !== void 0 && (window.clearTimeout(G3.endTimerId), G3.endTimerId = void 0), G3.beaconInfoId = void 0, G3.lastPosition = void 0;
     }, q3 = async (e, t)=>{
         K3();
         try {
             await e.sendStateEvent(t, An.name, dr(0, !1), e.getSafeUserId());
         } catch  {}
-    }, nFe = async (e, t, n, r, i)=>{
+    }, rFe = async (e, t, n, r, i)=>{
         if (!navigator.geolocation) throw Error(`This device cannot report a location.`);
         K3(), G3.beaconInfoId = (await e.sendStateEvent(t, An.name, dr(n, !0, r), e.getSafeUserId())).event_id, G3.watchId = navigator.geolocation.watchPosition((e)=>{
             G3.lastPosition = e;
@@ -125182,12 +125198,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             try {
                 await e.sendEvent(t, Ve.name, Jn(i, n.timestamp, r));
             } catch  {}
-        }, $Pe), G3.endTimerId = window.setTimeout(()=>{
+        }, eFe), G3.endTimerId = window.setTimeout(()=>{
             q3(e, t).finally(i);
         }, n);
     }, J3 = (e)=>{
-        let t = q(), [n, r] = Ud(tFe), i = (0, N.useCallback)(async (n, i)=>{
-            await nFe(t, e.roomId, n, i, ()=>r(void 0)), r({
+        let t = q(), [n, r] = Ud(nFe), i = (0, N.useCallback)(async (n, i)=>{
+            await rFe(t, e.roomId, n, i, ()=>r(void 0)), r({
                 roomId: e.roomId,
                 expiresAt: Date.now() + n
             });
@@ -125208,8 +125224,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             stop: a
         };
     };
-    function rFe({ room: e }) {
-        let t = q(), n = QPe(e), r = i3(), i = r3(), { sharing: a, stop: o } = J3(e), s = (0, N.useMemo)(()=>n.filter((e)=>e.latitude !== void 0 && e.longitude !== void 0).map((e)=>({
+    function iFe({ room: e }) {
+        let t = q(), n = $Pe(e), r = i3(), i = r3(), { sharing: a, stop: o } = J3(e), s = (0, N.useMemo)(()=>n.filter((e)=>e.latitude !== void 0 && e.longitude !== void 0).map((e)=>({
                     latitude: e.latitude,
                     longitude: e.longitude,
                     live: !0
@@ -125289,7 +125305,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var iFe = `m.self`, aFe = `m.pin`, oFe = (e)=>{
+    var aFe = `m.self`, oFe = `m.pin`, sFe = (e)=>{
         if (typeof GeolocationPositionError < `u` && e instanceof GeolocationPositionError) {
             if (e.code === e.PERMISSION_DENIED) return `Location access was denied. Allow it for Prinny in your system settings.`;
             if (e.code === e.POSITION_UNAVAILABLE) return `Your position could not be determined.`;
@@ -125297,7 +125313,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         }
         return `Could not get your location.`;
     };
-    function sFe({ room: e, threadRootId: t, requestClose: n }) {
+    function cFe({ room: e, threadRootId: t, requestClose: n }) {
         let r = q(), i = Ig(), a = r3(), [o, s] = (0, N.useState)(), [c, l] = (0, N.useState)(!0), u = J3(e), [d, f] = (0, N.useState)(), [p, m] = (0, N.useState)(!1), [h, g] = Rg((0, N.useCallback)(()=>new Promise((e, t)=>{
                 if (!navigator.geolocation) {
                     t(Error(`This device cannot report a location.`));
@@ -125325,7 +125341,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     description: o
                 },
                 "org.matrix.msc3488.asset": {
-                    type: i ? iFe : aFe
+                    type: i ? aFe : oFe
                 },
                 "org.matrix.msc3488.ts": Date.now(),
                 "org.matrix.msc1767.text": `${o}: ${a}`,
@@ -125463,7 +125479,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                             style: {
                                                 color: F.Critical.Main
                                             },
-                                            children: oFe(h.error)
+                                            children: sFe(h.error)
                                         }),
                                         _.status === W.Error && (0, P.jsx)(H, {
                                             size: `T200`,
@@ -125493,7 +125509,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                 (0, P.jsx)(L, {
                                                     gap: `100`,
                                                     wrap: `Wrap`,
-                                                    children: eFe.map((e)=>(0, P.jsx)(R, {
+                                                    children: tFe.map((e)=>(0, P.jsx)(R, {
                                                             size: `300`,
                                                             radii: `Pill`,
                                                             variant: `Secondary`,
@@ -125545,8 +125561,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var Y3 = `¯\\_(ツ)_/¯`, X3 = `(╯°□°)╯︵ ┻━┻`, Z3 = `┬─┬ノ( º_ºノ)`, Q3 = `(?:^|\\s)-(\\w+)\\b`, cFe = new RegExp(Q3), $3 = new RegExp(Q3, `g`), e6 = (e)=>{
-        let t = e.match(cFe);
+    var Y3 = `¯\\_(ツ)_/¯`, X3 = `(╯°□°)╯︵ ┻━┻`, Z3 = `┬─┬ノ( º_ºノ)`, Q3 = `(?:^|\\s)-(\\w+)\\b`, lFe = new RegExp(Q3), $3 = new RegExp(Q3, `g`), e6 = (e)=>{
+        let t = e.match(lFe);
         return t ? [
             e.slice(0, t.index),
             e.slice(t.index)
@@ -125578,7 +125594,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         return qu(e).forEach((e)=>{
             hae(e) && t.push(e);
         }), t;
-    }, i6 = (e, t)=>e.getMembers().filter((e)=>e.userId.endsWith(`:${t}`)), lFe = (e)=>{
+    }, i6 = (e, t)=>e.getMembers().filter((e)=>e.userId.endsWith(`:${t}`)), uFe = (e)=>{
         let t = e.match(/^(\d+(?:\.\d+)?)([dhms])$/);
         if (!t) return;
         let n = parseFloat(t[1]), r = t[2], i = Date.now(), a = 0;
@@ -125787,7 +125803,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     name: `delete`,
                     description: `Delete messages from users. Example: /delete userId1 servername -past 1d|2h|5m|30s [-t m.room.message] [-r spam]`,
                     exe: async (n)=>{
-                        let [r, i] = e6(n), a = n6(r), o = r6(r), s = t6(i), c = s.r, l = s.past ?? ``, u = s.t, d = u ? qu(u) : [], f = lFe(l);
+                        let [r, i] = e6(n), a = n6(r), o = r6(r), s = t6(i), c = s.r, l = s.past ?? ``, u = s.t, d = u ? qu(u) : [], f = uFe(l);
                         if (!f) return;
                         let p = (o?.flatMap((e)=>i6(t, e)))?.map((e)=>e.userId);
                         Array.isArray(p) && p.forEach((e)=>{
@@ -125987,7 +126003,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             n,
             r
         ]);
-    }, uFe = (e, t)=>{
+    }, dFe = (e, t)=>{
         let n = hJ(e);
         return (0, N.useMemo)(()=>{
             let r = new Set(t), i = new Map;
@@ -126015,19 +126031,19 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             e,
             t
         ]);
-    }, dFe = {
+    }, fFe = {
         matchOptions: {
             contain: !0
         }
     };
-    function fFe({ room: e, editor: t, query: n, requestClose: r }) {
+    function pFe({ room: e, editor: t, query: n, requestClose: r }) {
         let i = o6(q(), e), a = r3(), o = (0, N.useMemo)(()=>{
             let e = Object.keys(i);
             return a ? e : e.filter((e)=>e !== a6.Location);
         }, [
             i,
             a
-        ]), s = uFe(e, o), c = (0, N.useMemo)(()=>{
+        ]), s = dFe(e, o), c = (0, N.useMemo)(()=>{
             let e = o.map((e)=>({
                     name: e,
                     insertName: e,
@@ -126049,7 +126065,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             o,
             i,
             s
-        ]), [l, u, d] = PB(c, (0, N.useCallback)((e)=>e.name, []), dFe), f = l ? l.items : c;
+        ]), [l, u, d] = PB(c, (0, N.useCallback)((e)=>e.name, []), fFe), f = l ? l.items : c;
         (0, N.useEffect)(()=>{
             n.text ? u(n.text) : d();
         }, [
@@ -126136,19 +126152,19 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 }, `${e.botName ?? ``}/${e.insertName}`))
         });
     }
-    var pFe = 200, mFe = (e, t)=>{
+    var mFe = 200, hFe = (e, t)=>{
         if (!t) return !1;
         let n = e.getContent()[`m.mentions`];
         return Array.isArray(n?.user_ids) && n.user_ids.includes(t);
-    }, hFe = (e, t)=>{
-        let n = e.getLiveTimeline().getEvents(), r = Math.max(0, n.length - pFe);
+    }, gFe = (e, t)=>{
+        let n = e.getLiveTimeline().getEvents(), r = Math.max(0, n.length - mFe);
         for(let e = n.length - 1; e >= r; --e){
             let r = n[e];
             if (!r || r.isRedacted()) continue;
             let i = r.getSender();
             if (!i || i === t) continue;
             let a = RM(r.getContent()[EM.ReplyMarkup]);
-            if (!a || !rue(a) && !OM(a) && !kM(a) || a.selective && !mFe(r, t)) continue;
+            if (!a || !rue(a) && !OM(a) && !kM(a) || a.selective && !hFe(r, t)) continue;
             let o = r.getId();
             if (o) return OM(a) ? {
                 kind: `none`
@@ -126167,7 +126183,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         return {
             kind: `none`
         };
-    }, gFe = (e)=>{
+    }, _Fe = (e)=>{
         let t = q(), [n, r] = DP(), [i, a] = (0, N.useState)(null), [o, s] = (0, N.useState)(null);
         (0, N.useEffect)(()=>{
             let n = (t, n)=>{
@@ -126181,7 +126197,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             e.roomId,
             r
         ]);
-        let c = (0, N.useMemo)(()=>hFe(e, t.getUserId()), [
+        let c = (0, N.useMemo)(()=>gFe(e, t.getUserId()), [
             e,
             t,
             n
@@ -126212,8 +126228,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             p,
             f
         ]);
-    }, s6 = `_9pp3jz0`, _Fe = `_9pp3jz1`, c6 = `_9pp3jz2 _1mqalmd1 _1mqalmd0`;
-    function vFe({ room: e, keyboard: t, onPressKey: n }) {
+    }, s6 = `_9pp3jz0`, vFe = `_9pp3jz1`, c6 = `_9pp3jz2 _1mqalmd1 _1mqalmd0`;
+    function yFe({ room: e, keyboard: t, onPressKey: n }) {
         let { state: r, dismiss: i, noteUsed: a, collapsed: o, expand: s } = t;
         if (r.kind !== `keyboard`) return null;
         let c = KC(e, r.botUserId) ?? uw(r.botUserId) ?? r.botUserId;
@@ -126275,7 +126291,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     ]
                 }),
                 r.markup.keyboard.map((e, t)=>(0, P.jsx)(`div`, {
-                        className: _Fe,
+                        className: vFe,
                         children: e.map((e)=>(0, P.jsx)(`button`, {
                                 type: `button`,
                                 className: (0, Xa.default)(c6, l && `_9pp3jz3`),
@@ -126293,7 +126309,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    function yFe({ room: e, editor: t }) {
+    function bFe({ room: e, editor: t }) {
         let n = hJ(e), [r, i] = (0, N.useState)(null), a = (0, N.useMemo)(()=>{
             let e = !1, t = null;
             return n.forEach((n)=>{
@@ -126350,11 +126366,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         }) : null;
     }
-    function bFe({ onToggle: e }) {
+    function xFe({ onToggle: e }) {
         return V4(`toggle-emoji-picker`, e), null;
     }
     var l6 = (0, N.forwardRef)(({ editor: e, fileDropContainerRef: t, roomId: n, room: r, threadRootId: i, threadLatestEventId: a }, o)=>{
-        let s = q(), c = Nj(), [l] = J(K, `enterForNewline`), [u] = J(K, `keybinds`), d = u[`send-message`] ?? rz(`send-message`)?.defaultKeys ?? `mod+enter`, [f] = J(K, `isMarkdown`), [p] = J(K, `hideTypingStatus`), [m] = J(K, `galleryUploads`), [h] = J(K, `legacyUsernameColor`), g = J0(), _ = o6(s, r), v = (0, N.useMemo)(Nk, []), y = (0, N.useRef)(-1 / 0), b = (0, N.useRef)(null), x = Vd(bD), S = PP(), C = VR(r), w = i ? `${n}|thread:${i}` : n, [T, E] = Ud(dM(w)), [D, O] = Ud(pM(w)), k = D?.userId, ee = gFe(r), A = (0, N.useRef)(null);
+        let s = q(), c = Nj(), [l] = J(K, `enterForNewline`), [u] = J(K, `keybinds`), d = u[`send-message`] ?? rz(`send-message`)?.defaultKeys ?? `mod+enter`, [f] = J(K, `isMarkdown`), [p] = J(K, `hideTypingStatus`), [m] = J(K, `galleryUploads`), [h] = J(K, `legacyUsernameColor`), g = J0(), _ = o6(s, r), v = (0, N.useMemo)(Nk, []), y = (0, N.useRef)(-1 / 0), b = (0, N.useRef)(null), x = Vd(bD), S = PP(), C = VR(r), w = i ? `${n}|thread:${i}` : n, [T, E] = Ud(dM(w)), [D, O] = Ud(pM(w)), k = D?.userId, ee = _Fe(r), A = (0, N.useRef)(null);
         (0, N.useEffect)(()=>{
             let t = ee.state;
             if (t.kind !== `force_reply`) {
@@ -126377,13 +126393,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             O,
             e
         ]);
-        let te = XG(r, S), j = nK(), ne = nJ(r, C, S), M = iJ(VA().kind, j, te), re = k ? ne(k) : void 0, ie = re?.color ? M.get(re.color) : void 0, ae = h || g ? Gk(k ?? ``) : ie, [oe, se] = (0, N.useState)(!0), [ce, le] = Ud(cM(w)), ue = tM(lM, ce.map((e)=>e.file)), fe = (0, N.useRef)(void 0), pe = o3(n, x), me = y0(pe), [ge, _e] = J(K, `editorToolbar`), [ve, ye] = (0, N.useState)(), be = vPe(s, n), [xe] = J(K, `emojiShortcodeReplace`), Se = (0, N.useCallback)(()=>{
+        let te = XG(r, S), j = nK(), ne = nJ(r, C, S), M = iJ(VA().kind, j, te), re = k ? ne(k) : void 0, ie = re?.color ? M.get(re.color) : void 0, ae = h || g ? Gk(k ?? ``) : ie, [oe, se] = (0, N.useState)(!0), [ce, le] = Ud(cM(w)), ue = tM(lM, ce.map((e)=>e.file)), fe = (0, N.useRef)(void 0), pe = o3(n, x), me = y0(pe), [ge, _e] = J(K, `editorToolbar`), [ve, ye] = (0, N.useState)(), be = yPe(s, n), [xe] = J(K, `emojiShortcodeReplace`), Se = (0, N.useCallback)(()=>{
             xe && e.operations.some((e)=>e.type === `insert_text` && e.text.includes(`:`)) && K$(e, me);
         }, [
             e,
             me,
             xe
-        ]), Ce = VPe(n), we = DA(), [Te, Ee] = (0, N.useState)(!1), De = (0, N.useCallback)(()=>{
+        ]), Ce = HPe(n), we = DA(), [Te, Ee] = (0, N.useState)(!1), De = (0, N.useCallback)(()=>{
             if (Ce.status === N3.Recording) {
                 Ce.stop();
                 return;
@@ -126403,7 +126419,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         }, [
             we,
             Ce
-        ]), [ke, Ae] = (0, N.useState)(!1), [je, Me] = (0, N.useState)(!1), Ne = r3(), Pe = Ce.status !== N3.Idle, Fe = (0, N.useMemo)(()=>BPe(), []), Ie = (0, N.useCallback)(async (e)=>{
+        ]), [ke, Ae] = (0, N.useState)(!1), [je, Me] = (0, N.useState)(!1), Ne = r3(), Pe = Ce.status !== N3.Idle, Fe = (0, N.useMemo)(()=>VPe(), []), Ie = (0, N.useCallback)(async (e)=>{
             se(!0), le({
                 type: `PUT`,
                 item: await O3(r, e)
@@ -126418,7 +126434,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             Ie,
             i
         ]);
-        let Le = Pj(Ie, !0), Re = yPe(Ie);
+        let Le = Pj(Ie, !0), Re = bPe(Ie);
         V4(`upload-file`, ()=>{
             i || Le(`*/*`);
         }), V4(`focus-textarea`, ()=>{
@@ -126434,7 +126450,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             t && Ie(t);
         }, [
             Ie
-        ]), Be = SPe(t, Ie), [Ve, He] = (0, N.useState)(document.body.clientWidth < 500), Ue = v0();
+        ]), Be = CPe(t, Ie), [Ve, He] = (0, N.useState)(document.body.clientWidth < 500), Ue = v0();
         Kv((0, N.useCallback)(()=>t.current, [
             t
         ]), (0, N.useCallback)((e)=>He(e < 500), [])), (0, N.useEffect)(()=>{
@@ -126484,7 +126500,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             let t = e.map(async (e)=>{
                 let t = ce.find((t)=>t.file === e.file);
                 if (!t) throw Error(`Broken upload`);
-                return t.file.type.startsWith(`image`) ? k3(s, t, e.mxc) : t.file.type.startsWith(`video`) ? A3(s, t, e.mxc) : t.file.type.startsWith(`audio`) ? jPe(t, e.mxc) : NPe(t, e.mxc);
+                return t.file.type.startsWith(`image`) ? k3(s, t, e.mxc) : t.file.type.startsWith(`video`) ? A3(s, t, e.mxc) : t.file.type.startsWith(`audio`) ? MPe(t, e.mxc) : PPe(t, e.mxc);
             });
             Ke(e);
             let r = Au(await Promise.allSettled(t));
@@ -126544,7 +126560,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             onSuccess: e,
                             onError: t
                         });
-                    }), l = MPe({
+                    }), l = NPe({
                         file: o,
                         originalFile: i,
                         encInfo: a?.encInfo,
@@ -126578,7 +126594,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             else if (t === a6.Shrug) r = `${Y3} ${r}`, i = `${Y3} ${i}`;
             else if (t === a6.TableFlip) r = `${X3} ${r}`, i = `${X3} ${i}`;
             else if (t === a6.UnFlip) r = `${Z3} ${r}`, i = `${Z3} ${i}`;
-            else if (t === a6.Rainbow || t === a6.RainbowMe) t === a6.RainbowMe && (a = zr.Emote), i = GPe(r);
+            else if (t === a6.Rainbow || t === a6.RainbowMe) t === a6.RainbowMe && (a = zr.Emote), i = KPe(r);
             else if (t === a6.Plain) i = r;
             else if (t === a6.Html) i = r;
             else if (t === a6.Poll) {
@@ -126730,17 +126746,17 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         return (0, P.jsxs)(`div`, {
             ref: o,
             children: [
-                ke && (0, P.jsx)(XPe, {
+                ke && (0, P.jsx)(ZPe, {
                     room: r,
                     requestClose: ()=>Ae(!1)
                 }),
-                je && (0, P.jsx)(sFe, {
+                je && (0, P.jsx)(cFe, {
                     room: r,
                     threadRootId: i,
                     requestClose: ()=>Me(!1)
                 }),
-                ce.length > 0 && (0, P.jsx)(DPe, {
-                    header: (0, P.jsx)(OPe, {
+                ce.length > 0 && (0, P.jsx)(OPe, {
+                    header: (0, P.jsx)(kPe, {
                         open: oe,
                         onToggle: ()=>se(!oe),
                         uploadFamilyObserverAtom: ue,
@@ -126752,7 +126768,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         size: `300`,
                         hideTrack: !0,
                         visibility: `Hover`,
-                        children: (0, P.jsx)(kPe, {
+                        children: (0, P.jsx)(APe, {
                             children: Array.from(ce).reverse().map((e, t)=>(0, P.jsx)(_M, {
                                     isEncrypted: !!e.encInfo,
                                     fileItem: e,
@@ -126772,7 +126788,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 clickOutsideDeactivates: !0,
                                 escapeDeactivates: Uv
                             },
-                            children: (0, P.jsx)(UPe, {
+                            children: (0, P.jsx)(WPe, {
                                 permission: we,
                                 onAllow: Oe,
                                 onClose: ()=>Ee(!1)
@@ -126834,7 +126850,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     query: ve,
                     requestClose: et
                 }),
-                ve?.prefix === AX.Command && (0, P.jsx)(fFe, {
+                ve?.prefix === AX.Command && (0, P.jsx)(pFe, {
                     room: r,
                     editor: e,
                     query: ve,
@@ -126851,7 +126867,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     onDrop: ze,
                     top: (0, P.jsxs)(P.Fragment, {
                         children: [
-                            (0, P.jsx)(vFe, {
+                            (0, P.jsx)(yFe, {
                                 room: r,
                                 keyboard: ee,
                                 onPressKey: Ze
@@ -126886,7 +126902,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                     })
                                 ]
                             }),
-                            Pe && (0, P.jsx)(HPe, {
+                            Pe && (0, P.jsx)(UPe, {
                                 controls: Ce,
                                 onSend: Ye
                             }),
@@ -126969,7 +126985,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                     src: U.PlusCircle
                                 })
                             }),
-                            (0, P.jsx)(yFe, {
+                            (0, P.jsx)(bFe, {
                                 room: r,
                                 editor: e
                             })
@@ -127002,7 +127018,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 initial: void 0,
                                 children: (t, n)=>(0, P.jsxs)(P.Fragment, {
                                         children: [
-                                            (0, P.jsx)(bFe, {
+                                            (0, P.jsx)(xFe, {
                                                 onToggle: ()=>n((e)=>e === zJ.Emoji ? void 0 : zJ.Emoji)
                                             }),
                                             (0, P.jsxs)(Ms, {
@@ -127097,7 +127113,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 })
             ]
         });
-    }), xFe = `kq7ios0 _1mqalmd1 _1mqalmd0`, SFe = $E({
+    }), SFe = `kq7ios0 _1mqalmd1 _1mqalmd0`, CFe = $E({
         defaultClassName: `kq7ios1 _1mqalmd1 _1mqalmd0`,
         variantClassNames: {
             clickable: {
@@ -127106,7 +127122,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         },
         defaultVariants: {},
         compoundVariants: []
-    }), CFe = (e)=>{
+    }), wFe = (e)=>{
         let [t] = J(K, `hideMembershipEvents`), [n] = J(K, `hideNickAvatarEvents`), [r] = J(K, `showHiddenEvents`), [i, a] = (0, N.useState)();
         return (0, N.useEffect)(()=>{
             let i = ()=>{
@@ -127137,11 +127153,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
     };
     function u6() {
         return (0, P.jsx)(`div`, {
-            className: xFe
+            className: SFe
         });
     }
-    var wFe = jo(({ className: e, room: t, ...n }, r)=>{
-        let i = q(), [a] = J(K, `readReceiptStyle`), [o, s] = (0, N.useState)(!1), c = CFe(t), l = FJ(t, c?.getId()).filter((e)=>e !== i.getUserId()).map((e)=>KC(t, e) ?? uw(e) ?? e), u = c?.getId();
+    var TFe = jo(({ className: e, room: t, ...n }, r)=>{
+        let i = q(), [a] = J(K, `readReceiptStyle`), [o, s] = (0, N.useState)(!1), c = wFe(t), l = FJ(t, c?.getId()).filter((e)=>e !== i.getUserId()).map((e)=>KC(t, e) ?? uw(e) ?? e), u = c?.getId();
         return a === `element` ? (0, P.jsx)(u6, {}) : (0, P.jsxs)(P.Fragment, {
             children: [
                 u && (0, P.jsx)(ws, {
@@ -127176,7 +127192,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 (0, P.jsx)(L, {
                     as: l.length > 0 ? `button` : `div`,
                     onClick: l.length > 0 ? ()=>s(!0) : void 0,
-                    className: (0, Xa.default)(SFe({
+                    className: (0, Xa.default)(CFe({
                         clickable: l.length > 0
                     }), e),
                     alignItems: `Center`,
@@ -127313,8 +127329,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 })
             ]
         });
-    }), TFe = Ed({}), EFe = jo(({ room: e, ...t }, n)=>{
-        let r = b0(e), { navigateRoom: i } = BV(), [a, o] = Ud(TFe), [s, c] = (0, N.useState)(0), l = (0, N.useMemo)(()=>Array.from(r).reverse(), [
+    }), EFe = Ed({}), DFe = jo(({ room: e, ...t }, n)=>{
+        let r = b0(e), { navigateRoom: i } = BV(), [a, o] = Ud(EFe), [s, c] = (0, N.useState)(0), l = (0, N.useMemo)(()=>Array.from(r).reverse(), [
             r
         ]), u = l.length > 0 ? s % l.length : 0, d = l[u], f = yU(e, d ?? ``);
         if (l.length === 0 || !d || a[e.roomId] === l[0] || !f || f.isRedacted()) return null;
@@ -127497,7 +127513,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             loading: d.status === W.Loading,
             unavailable: u || d.status === W.Error
         };
-    }, DFe = `❤️`, OFe = (e, t)=>{
+    }, OFe = `❤️`, kFe = (e, t)=>{
         let n = q(), [, r] = DP();
         (0, N.useEffect)(()=>{
             let t = (e)=>{
@@ -127523,7 +127539,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             n,
             e,
             t
-        ]), s = (0, N.useCallback)(()=>o(DFe), [
+        ]), s = (0, N.useCallback)(()=>o(OFe), [
             o
         ]);
         return {
@@ -127532,11 +127548,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             toggle: s,
             react: o
         };
-    }, kFe = `_19f8w3w0 _1mqalmd1 _1mqalmd0`, AFe = `_19f8w3w1 _1mqalmd1 _1mqalmd0`, jFe = `_19f8w3w4 _1mqalmd1 _1mqalmd0`, MFe = `_19f8w3w5 _1mqalmd1 _1mqalmd0`, NFe = `_19f8w3w6 _1mqalmd1 _1mqalmd0`, PFe = `_19f8w3w7 _1mqalmd1 _1mqalmd0`, FFe = `_19f8w3wa _1mqalmd1 _1mqalmd0`, p6 = `_19f8w3wb _1mqalmd1 _1mqalmd0`, m6 = `_19f8w3wc _1mqalmd1 _1mqalmd0`, IFe = `_19f8w3wi _1mqalmd1 _1mqalmd0`, LFe = `_19f8w3wk`, RFe = `_19f8w3wl`, zFe = `_19f8w3wm`, h6 = 1, BFe = 3, g6 = 1, VFe = 20, HFe = 2e4, UFe = 2600, WFe = 200, _6 = (e, t)=>`${e} ${LFe}${t ? ` ${RFe}` : ``}`, GFe = .25, KFe = 2.5, v6 = 1, y6 = 8;
-    function qFe({ room: e, item: t, active: n, muted: r, hour24Clock: i, imagePackRooms: a, onJump: o, onReply: s, requestClose: c, onPopOutChange: l, chromeHidden: u, onChromePin: d }) {
+    }, AFe = `_19f8w3w0 _1mqalmd1 _1mqalmd0`, jFe = `_19f8w3w1 _1mqalmd1 _1mqalmd0`, MFe = `_19f8w3w4 _1mqalmd1 _1mqalmd0`, NFe = `_19f8w3w5 _1mqalmd1 _1mqalmd0`, PFe = `_19f8w3w6 _1mqalmd1 _1mqalmd0`, FFe = `_19f8w3w7 _1mqalmd1 _1mqalmd0`, IFe = `_19f8w3wa _1mqalmd1 _1mqalmd0`, p6 = `_19f8w3wb _1mqalmd1 _1mqalmd0`, m6 = `_19f8w3wc _1mqalmd1 _1mqalmd0`, LFe = `_19f8w3wi _1mqalmd1 _1mqalmd0`, RFe = `_19f8w3wk`, zFe = `_19f8w3wl`, BFe = `_19f8w3wm`, h6 = 1, VFe = 3, g6 = 1, HFe = 20, UFe = 2e4, WFe = 2600, GFe = 200, _6 = (e, t)=>`${e} ${RFe}${t ? ` ${zFe}` : ``}`, KFe = .25, qFe = 2.5, v6 = 1, y6 = 8;
+    function JFe({ room: e, item: t, active: n, muted: r, hour24Clock: i, imagePackRooms: a, onJump: o, onReply: s, requestClose: c, onPopOutChange: l, chromeHidden: u, onChromePin: d }) {
         let f = q(), p = Nj(), m = Zv() === qv.Mobile, h = t.source === `embed`, g = DH(t.mxcUrl ?? ``, t.mimeType, t.encInfo, t.filename, !h), _ = h && !!t.hls, v = BW(h && !_ ? t.httpUrl ?? `` : ``, h && !_ && t.type === `video`), y = BW(h && t.type === `video` ? t.posterUrl ?? `` : ``, h && t.type === `video`), { state: b, onSrcError: x } = g, S;
         S = _ ? t.httpUrl : h ? v ?? void 0 : g.src;
-        let C = f6(t, t.type === `video` || !t.encInfo), w = OFe(e, t.eventId), T = JH(t.filename, t.mxcUrl ?? ``, t.mimeType, t.encInfo, h ? t.httpUrl : void 0), E = (0, N.useRef)(null), D = YW(E, _ ? t.httpUrl : void 0, _), [O, k] = (0, N.useState)(!1), [ee, A] = (0, N.useState)(!0), [te, j] = (0, N.useState)(!1), [ne, M] = (0, N.useState)(!1), [re, ie] = (0, N.useState)(0), [ae, oe] = (0, N.useState)(!t.spoiler), [se, ce] = (0, N.useState)(!1), [le, ue] = (0, N.useState)(), { zoom: de, setZoom: fe } = QM(GFe, v6, y6), pe = de !== 1, [me, he] = (0, N.useState)({
+        let C = f6(t, t.type === `video` || !t.encInfo), w = kFe(e, t.eventId), T = JH(t.filename, t.mxcUrl ?? ``, t.mimeType, t.encInfo, h ? t.httpUrl : void 0), E = (0, N.useRef)(null), D = YW(E, _ ? t.httpUrl : void 0, _), [O, k] = (0, N.useState)(!1), [ee, A] = (0, N.useState)(!0), [te, j] = (0, N.useState)(!1), [ne, M] = (0, N.useState)(!1), [re, ie] = (0, N.useState)(0), [ae, oe] = (0, N.useState)(!t.spoiler), [se, ce] = (0, N.useState)(!1), [le, ue] = (0, N.useState)(), { zoom: de, setZoom: fe } = QM(KFe, v6, y6), pe = de !== 1, [me, he] = (0, N.useState)({
             translateX: 0,
             translateY: 0
         }), ge = (0, N.useRef)(null), _e = (0, N.useRef)(de);
@@ -127667,7 +127683,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     errorCode: e.error?.code,
                     src: t.source === `embed` ? t.httpUrl : t.mxcUrl
                 }), M(!0));
-            }, HFe);
+            }, UFe);
             return ()=>window.clearTimeout(e);
         }, [
             Ce,
@@ -127702,7 +127718,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             fe((e)=>{
                 if (e !== 1) return 1;
                 let t = xe > 0 ? 1 / xe : 1;
-                return t > 1.05 ? Math.min(y6, t) : KFe;
+                return t > 1.05 ? Math.min(y6, t) : qFe;
             });
         }, [
             fe,
@@ -127886,7 +127902,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 }),
                 (0, P.jsx)(`button`, {
                     type: `button`,
-                    className: IFe,
+                    className: LFe,
                     style: {
                         touchAction: pe ? `none` : void 0,
                         cursor: pe ? `grab` : void 0
@@ -127930,13 +127946,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     })
                 }),
                 (0, P.jsx)(L, {
-                    className: _6(jFe, u)
-                }),
-                (0, P.jsx)(L, {
                     className: _6(MFe, u)
                 }),
+                (0, P.jsx)(L, {
+                    className: _6(NFe, u)
+                }),
                 (0, P.jsxs)(L, {
-                    className: _6(PFe, u),
+                    className: _6(FFe, u),
                     direction: `Column`,
                     gap: `100`,
                     children: [
@@ -127994,7 +128010,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     ]
                 }),
                 (0, P.jsxs)(L, {
-                    className: _6(FFe, u),
+                    className: _6(IFe, u),
                     children: [
                         (0, P.jsx)(Ms, {
                             position: `Left`,
@@ -128145,7 +128161,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    function JFe({ room: e, items: t, imagePackRooms: n, initialEventId: r, initialItemKey: i, loading: a, hasMore: o, loadMore: s, requestClose: c, onOpenGallery: l, onJump: u, onReply: d }) {
+    function YFe({ room: e, items: t, imagePackRooms: n, initialEventId: r, initialItemKey: i, loading: a, hasMore: o, loadMore: s, requestClose: c, onOpenGallery: l, onJump: u, onReply: d }) {
         let f = (0, N.useRef)(null), [p] = J(K, `hour24Clock`), [m, h] = (0, N.useState)(!0), [g, _] = (0, N.useState)(0), [v, y] = (0, N.useState)(0), b = (0, N.useRef)(i), x = (0, N.useRef)(!1), S = (0, N.useRef)(void 0), C = (0, N.useRef)(new Set), w = (0, N.useCallback)((e, t)=>{
             t ? C.current.add(e) : C.current.delete(e);
         }, []), T = (0, N.useRef)(new Set), E = (0, N.useCallback)((e, t)=>{
@@ -128164,8 +128180,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     A.current = performance.now(), O(!1);
                     return;
                 }
-                O(performance.now() - A.current >= UFe);
-            }, WFe);
+                O(performance.now() - A.current >= WFe);
+            }, GFe);
             return ()=>window.clearInterval(e);
         }, [
             k
@@ -128187,7 +128203,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         ]), ie = !r || M.some((e)=>e.eventId === r), ae = (0, N.useRef)(0), [oe, se] = (0, N.useState)(!1), ce = !ie && !oe;
         (0, N.useEffect)(()=>{
             if (!ie && !x.current && !a) {
-                if (!o || ae.current >= VFe) {
+                if (!o || ae.current >= HFe) {
                     se(!0);
                     return;
                 }
@@ -128253,7 +128269,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         (0, N.useEffect)(()=>()=>{
                 S.current !== void 0 && cancelAnimationFrame(S.current);
             }, []), (0, N.useEffect)(()=>{
-            !o || a || (M.length === 0 || re <= BFe) && s();
+            !o || a || (M.length === 0 || re <= VFe) && s();
         }, [
             re,
             M.length,
@@ -128311,7 +128327,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         escapeDeactivates: Uv
                     },
                     children: (0, P.jsxs)(L, {
-                        className: `${kFe}${D ? ` ${zFe}` : ``}`,
+                        className: `${AFe}${D ? ` ${BFe}` : ``}`,
                         direction: `Column`,
                         ref: f,
                         onScroll: de,
@@ -128322,7 +128338,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         tabIndex: -1,
                         children: [
                             (0, P.jsxs)(L, {
-                                className: _6(NFe, D),
+                                className: _6(PFe, D),
                                 alignItems: `Center`,
                                 gap: `200`,
                                 children: [
@@ -128444,9 +128460,9 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 })
                             }),
                             M.map((t, r)=>(0, P.jsx)(L, {
-                                    className: AFe,
+                                    className: jFe,
                                     shrink: `No`,
-                                    children: (Math.abs(r - re) <= h6 || Math.abs(r - v) <= h6) && (0, P.jsx)(qFe, {
+                                    children: (Math.abs(r - re) <= h6 || Math.abs(r - v) <= h6) && (0, P.jsx)(JFe, {
                                         room: e,
                                         item: t,
                                         active: r === re,
@@ -128479,11 +128495,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         });
     }
     var b6 = (e)=>{
-        let t = XFe(e);
+        let t = ZFe(e);
         return t ? [
             t
-        ] : YFe(e);
-    }, YFe = (e)=>{
+        ] : XFe(e);
+    }, XFe = (e)=>{
         if (e.isRedacted() || e.getType() !== Ab.RoomMessage) return [];
         let t = e.getId(), n = e.getRoomId();
         if (!t || !n) return [];
@@ -128530,7 +128546,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 }
             ];
         });
-    }, XFe = (e)=>{
+    }, ZFe = (e)=>{
         if (e.isRedacted() || e.getType() !== Ab.RoomMessage) return;
         let t = e.getId(), n = e.getRoomId();
         if (!t || !n) return;
@@ -128570,7 +128586,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             spoiler: r[oR] === !0,
             spoilerReason: r[sR]
         };
-    }, ZFe = new Set([
+    }, QFe = new Set([
         zr.Text,
         zr.Notice,
         zr.Emote
@@ -128579,7 +128595,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         let t = e.getId(), n = e.getRoomId();
         if (!t || !n) return [];
         let r = e.getContent(), i = r.msgtype;
-        if (!((i === zr.Image || i === zr.Video) && r.filename && r.filename !== r.body) && (typeof i != `string` || !ZFe.has(i))) return [];
+        if (!((i === zr.Image || i === zr.Video) && r.filename && r.filename !== r.body) && (typeof i != `string` || !QFe.has(i))) return [];
         let a = typeof r.body == `string` ? WC(r.body) : ``;
         if (!a) return [];
         let o = typeof r.formatted_body == `string` ? r.formatted_body : void 0, s = e.getSender() ?? ``, c = e.getTs(), l = [], u = new Set;
@@ -128594,19 +128610,19 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 provider: r
             }));
         }), l;
-    }, QFe = 80, S6 = 6, $Fe = 24, eIe = (e)=>[
+    }, $Fe = 80, S6 = 6, eIe = 24, tIe = (e)=>[
             ...e
         ].sort((e, t)=>t.ts - e.ts), C6 = (e, t, n = !1)=>{
         if (t.length === 0) return 0;
         let r = t.filter((t)=>!e.keys.has(t.key));
-        return r.length === 0 ? 0 : (r.forEach((t)=>e.keys.add(t.key)), e.items = eIe(n ? [
+        return r.length === 0 ? 0 : (r.forEach((t)=>e.keys.add(t.key)), e.items = tIe(n ? [
             ...r,
             ...e.items
         ] : [
             ...e.items,
             ...r
         ]), r.length);
-    }, tIe = 4, nIe = {
+    }, nIe = 4, rIe = {
         "image/jpeg": `jpg`,
         "image/png": `png`,
         "image/gif": `gif`,
@@ -128622,7 +128638,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             authorHandle: t.authorHandle
         }, r = t.authorHandle ?? t.authorName ?? e.provider;
         return t.media.map((i, a)=>{
-            let o = _R(i.url) ?? i.mimeType ?? (i.type === `image` ? `image/jpeg` : `video/mp4`), s = nIe[o] ?? (i.type === `image` ? `jpg` : `mp4`), c = t.media.length > 1 ? `-${a + 1}` : ``;
+            let o = _R(i.url) ?? i.mimeType ?? (i.type === `image` ? `image/jpeg` : `video/mp4`), s = rIe[o] ?? (i.type === `image` ? `jpg` : `mp4`), c = t.media.length > 1 ? `-${a + 1}` : ``;
             return {
                 key: `${e.eventId}|${e.url}|${a}`,
                 eventId: e.eventId,
@@ -128645,7 +128661,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 spoiler: !1
             };
         });
-    }, rIe = (e, t)=>{
+    }, iIe = (e, t)=>{
         let n = q(), [r] = J(K, `useVxTwitter`), [i] = J(K, `useBlueskyEmbeds`), [a] = J(K, `urlPreview`), [o] = J(K, `encUrlPreview`), s = e.hasEncryptionStateEvent() ? o : a, c = (0, N.useMemo)(()=>({
                 twitter: s && r,
                 bluesky: s && i
@@ -128709,7 +128725,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             e.pendingEmbeds = [];
                             break;
                         }
-                        let n = e.pendingEmbeds.splice(0, tIe), r = (await Promise.all(n.map(async (e)=>{
+                        let n = e.pendingEmbeds.splice(0, nIe), r = (await Promise.all(n.map(async (e)=>{
                             let n = await Gve(e.url, t).catch(()=>void 0);
                             return n ? w6(e, n) : [];
                         }))).flat();
@@ -128731,7 +128747,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 let r = `target-reached`, i = await E(t);
                 O(t), ee(t);
                 let a = 0, o;
-                for(; p.current && i < $Fe && !t.exhausted && a < S6;){
+                for(; p.current && i < eIe && !t.exhausted && a < S6;){
                     if (!t.timeline.getPaginationToken(j.BACKWARDS)) {
                         t.exhausted = !0, r = `no-pagination-token`;
                         break;
@@ -128741,7 +128757,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     try {
                         e = await n.paginateEventTimeline(t.timeline, {
                             backwards: !0,
-                            limit: QFe
+                            limit: $Fe
                         });
                     } catch (t) {
                         console.warn(`[gallery] pagination threw`, t), o = t, e = !1;
@@ -128849,8 +128865,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             S
         ]);
     }, T6 = (0, N.createContext)(void 0);
-    function iIe({ room: e, enabled: t, children: n }) {
-        let r = rIe(e, t);
+    function aIe({ room: e, enabled: t, children: n }) {
+        let r = iIe(e, t);
         return (0, P.jsx)(T6.Provider, {
             value: r,
             children: n
@@ -128861,7 +128877,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         if (!e) throw Error(`Room media is not provided!`);
         return e;
     };
-    function aIe({ room: e }) {
+    function oIe({ room: e }) {
         let t = E6(), [n, r] = Ud(TG), i = Vd(wG), a = Hd(wG), { navigateRoom: o } = BV(), s = Vd(bD), c = o3(e.roomId, s), l = Pd(), u = (0, N.useCallback)(()=>r(void 0), [
             r
         ]), d = (0, N.useCallback)((e)=>{
@@ -128927,7 +128943,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             n,
             m
         ]);
-        return !n || n.roomId !== e.roomId ? null : (0, P.jsx)(JFe, {
+        return !n || n.roomId !== e.roomId ? null : (0, P.jsx)(YFe, {
             room: e,
             items: h,
             imagePackRooms: c,
@@ -128942,8 +128958,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             onReply: f
         });
     }
-    var oIe = `cpe8mi0 _1mqalmd1 _1mqalmd0`, sIe = `cpe8mi1 _1mqalmd1 _1mqalmd0`, cIe = `cpe8mi2 _1mqalmd1 _1mqalmd0`, lIe = `cpe8mi3 _1mqalmd1 _1mqalmd0`, uIe = `cpe8mi4 _1mqalmd1 _1mqalmd0`, dIe = `cpe8mib _1mqalmd1 _1mqalmd0`, fIe = `cpe8mic`, D6 = 3;
-    function pIe({ item: e, onOpen: t }) {
+    var sIe = `cpe8mi0 _1mqalmd1 _1mqalmd0`, cIe = `cpe8mi1 _1mqalmd1 _1mqalmd0`, lIe = `cpe8mi2 _1mqalmd1 _1mqalmd0`, uIe = `cpe8mi3 _1mqalmd1 _1mqalmd0`, dIe = `cpe8mi4 _1mqalmd1 _1mqalmd0`, fIe = `cpe8mib _1mqalmd1 _1mqalmd0`, pIe = `cpe8mic`, D6 = 3;
+    function mIe({ item: e, onOpen: t }) {
         let n = q(), r = Nj(), i = (0, N.useRef)(null), [a, o] = (0, N.useState)(!1);
         (0, N.useEffect)(()=>{
             let e = i.current;
@@ -128964,7 +128980,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         let u = c ? s.fallbackSrc : s.src, d = c && !s.fallbackSrc, f = (!s.src || d) && e.type === `video` && e.source === `attachment` && e.mxcUrl && !e.encInfo && a ? Ew(n, e.mxcUrl, r) ?? void 0 : void 0, p = e.type === `video` && typeof e.duration == `number` && e.duration > 0 ? Eu(e.duration) : void 0, m = `${e.type === `video` ? `Video` : `Photo`}: ${e.filename}`;
         return (0, P.jsxs)(`button`, {
             type: `button`,
-            className: uIe,
+            className: dIe,
             ref: i,
             "data-gallery-item": ``,
             onClick: ()=>t(e),
@@ -129078,7 +129094,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var mIe = (e)=>ON(e) ? `Today` : kN(e) ? `Yesterday` : MN(e), hIe = (e)=>{
+    var hIe = (e)=>ON(e) ? `Today` : kN(e) ? `Yesterday` : MN(e), gIe = (e)=>{
         let t = [];
         return e.forEach((e)=>{
             let n = t[t.length - 1];
@@ -129094,7 +129110,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             });
         }), t;
     };
-    function gIe() {
+    function _Ie() {
         let e = E6(), t = Hd(wG), n = Hd(TG), [r, i] = (0, N.useState)(`all`), a = (0, N.useRef)(null), o = (0, N.useRef)(null), { items: s, loading: c, hasMore: l, loadMore: u, scanned: d } = e, [f, p] = (0, N.useState)(!1);
         (0, N.useEffect)(()=>{
             let e = a.current;
@@ -129113,7 +129129,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         ]), h = (0, N.useMemo)(()=>r === `all` ? s : s.filter((e)=>e.type === r), [
             s,
             r
-        ]), g = (0, N.useMemo)(()=>hIe(h), [
+        ]), g = (0, N.useMemo)(()=>gIe(h), [
             h
         ]), _ = (0, N.useRef)(0), v = (0, N.useRef)(-1);
         (0, N.useEffect)(()=>{
@@ -129175,7 +129191,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             direction: `Column`,
             children: [
                 (0, P.jsxs)(L, {
-                    className: oIe,
+                    className: sIe,
                     shrink: `No`,
                     direction: `Column`,
                     gap: `200`,
@@ -129238,12 +129254,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     grow: `Yes`,
                     children: (0, P.jsx)(zs, {
                         ref: a,
-                        className: fIe,
+                        className: pIe,
                         size: `300`,
                         hideTrack: !0,
                         visibility: `Hover`,
                         children: (0, P.jsxs)(L, {
-                            className: sIe,
+                            className: cIe,
                             direction: `Column`,
                             gap: `400`,
                             children: [
@@ -129252,16 +129268,16 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                         gap: `200`,
                                         children: [
                                             (0, P.jsx)(L, {
-                                                className: cIe,
+                                                className: lIe,
                                                 children: (0, P.jsx)(H, {
                                                     size: `L400`,
                                                     priority: `300`,
-                                                    children: mIe(e.ts)
+                                                    children: hIe(e.ts)
                                                 })
                                             }),
                                             (0, P.jsx)(`div`, {
-                                                className: lIe,
-                                                children: e.items.map((e)=>(0, P.jsx)(pIe, {
+                                                className: uIe,
+                                                children: e.items.map((e)=>(0, P.jsx)(mIe, {
                                                         item: e,
                                                         onOpen: x
                                                     }, e.key))
@@ -129313,7 +129329,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                     })
                                 }),
                                 (0, P.jsxs)(L, {
-                                    className: dIe,
+                                    className: fIe,
                                     direction: `Column`,
                                     alignItems: `Center`,
                                     justifyContent: `Center`,
@@ -129351,16 +129367,16 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var _Ie = /^F\d+$/, vIe = (e)=>{
+    var vIe = /^F\d+$/, yIe = (e)=>{
         let { code: t } = e;
-        return !(e.metaKey || e.altKey || e.ctrlKey || _Ie.test(t) || t.startsWith(`OS`) || t.startsWith(`Meta`) || t.startsWith(`Shift`) || t.startsWith(`Alt`) || t.startsWith(`Control`) || t.startsWith(`Arrow`) || t.startsWith(`Page`) || t.startsWith(`End`) || t.startsWith(`Home`) || t === `Tab` || t === `Space` || t === `Enter` || t === `NumLock` || t === `ScrollLock`);
+        return !(e.metaKey || e.altKey || e.ctrlKey || vIe.test(t) || t.startsWith(`OS`) || t.startsWith(`Meta`) || t.startsWith(`Shift`) || t.startsWith(`Alt`) || t.startsWith(`Control`) || t.startsWith(`Arrow`) || t.startsWith(`Page`) || t.startsWith(`End`) || t.startsWith(`Home`) || t === `Tab` || t === `Space` || t === `Enter` || t === `NumLock` || t === `ScrollLock`);
     };
     function O6({ eventId: e }) {
         let t = (0, N.useRef)(null), n = (0, N.useRef)(null), [r] = J(K, `hideOthersReadReceipts`), i = Vd(wG), a = Vd(TG), o = G0(), { roomId: s } = o, c = s1(), l = q(), u = OP(o, G.RoomTombstone), d = PP(), f = zR(VR(o), d).event(he.RoomMessage, l.getSafeUserId());
         Y4(window, (0, N.useCallback)((e)=>{
             if (i || sj()) return;
             let t = document.getElementById(`portalContainer`);
-            t && t.children.length > 0 || (vIe(e) || Rv(`mod+v`, e)) && H$(c);
+            t && t.children.length > 0 || (yIe(e) || Rv(`mod+v`, e)) && H$(c);
         }, [
             c,
             i
@@ -129369,28 +129385,28 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         return (0, P.jsxs)(oA, {
             ref: n,
             children: [
-                (0, P.jsxs)(iIe, {
+                (0, P.jsxs)(aIe, {
                     room: o,
                     enabled: p,
                     children: [
                         (0, P.jsx)(L, {
                             grow: `Yes`,
                             direction: `Column`,
-                            children: i ? (0, P.jsx)(gIe, {}) : (0, P.jsxs)(P.Fragment, {
+                            children: i ? (0, P.jsx)(_Ie, {}) : (0, P.jsxs)(P.Fragment, {
                                 children: [
-                                    (0, P.jsx)(fPe, {
+                                    (0, P.jsx)(pPe, {
                                         room: o,
                                         eventId: e,
                                         roomInputRef: t,
                                         editor: c
                                     }, s),
-                                    (0, P.jsx)(hPe, {
+                                    (0, P.jsx)(gPe, {
                                         room: o
                                     })
                                 ]
                             })
                         }),
-                        (0, P.jsx)(aIe, {
+                        (0, P.jsx)(oIe, {
                             room: o
                         })
                     ]
@@ -129404,10 +129420,10 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 padding: `0 ${I.space.S400}`
                             },
                             children: [
-                                (0, P.jsx)(EFe, {
+                                (0, P.jsx)(DFe, {
                                     room: o
                                 }),
-                                u ? (0, P.jsx)(_Pe, {
+                                u ? (0, P.jsx)(vPe, {
                                     roomId: s,
                                     body: u.getContent().body,
                                     replacementRoomId: u.getContent().replacement_room
@@ -129435,7 +129451,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 })
                             ]
                         }),
-                        r ? (0, P.jsx)(u6, {}) : (0, P.jsx)(wFe, {
+                        r ? (0, P.jsx)(u6, {}) : (0, P.jsx)(TFe, {
                             room: o
                         })
                     ]
@@ -129443,7 +129459,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var yIe = `_18fjf6z0`, bIe = `_18fjf6z1`, xIe = `_18fjf6z2`, SIe = `_18fjf6z3`, CIe = `_18fjf6z4`, wIe = `_18fjf6z5`, TIe = `_18fjf6z8`, EIe = `_18fjf6z9`, DIe = `_18fjf6za`, k6 = `_18fjf6zb`, A6 = Ed(!1), j6 = Ed(0), M6 = {
+    var bIe = `_18fjf6z0`, xIe = `_18fjf6z1`, SIe = `_18fjf6z2`, CIe = `_18fjf6z3`, wIe = `_18fjf6z4`, TIe = `_18fjf6z5`, EIe = `_18fjf6z8`, DIe = `_18fjf6z9`, OIe = `_18fjf6za`, k6 = `_18fjf6zb`, A6 = Ed(!1), j6 = Ed(0), M6 = {
         filterJoined: (e)=>e.membership === kb.Join,
         filterInvited: (e)=>e.membership === kb.Invite,
         filterLeaved: (e)=>e.membership === kb.Leave && e.events.member?.getStateKey() === e.events.member?.getSender(),
@@ -129557,14 +129573,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var V6 = 20, H6 = 5e4, OIe = 100, kIe = 2, AIe = (e, t)=>({
+    var V6 = 20, H6 = 5e4, kIe = 100, AIe = 2, jIe = (e, t)=>({
             ...e.getEffectiveEvent(),
             room_id: t
-        }), jIe = (e, t)=>{
+        }), MIe = (e, t)=>{
         if (e.length === 0) return [];
         let n = e.map((n, r)=>({
                 rank: e.length - r,
-                event: AIe(n, t),
+                event: jIe(n, t),
                 context: {
                     events_before: [],
                     events_after: [],
@@ -129578,11 +129594,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 items: n
             }
         ];
-    }, MIe = (e, t, n)=>{
+    }, NIe = (e, t, n)=>{
         if (e.getType() !== he.RoomMessage || e.isRedacted()) return !1;
         let r = e.getContent(), i = typeof r.body == `string` ? r.body.toLowerCase() : ``;
         return i ? i.includes(t) ? !0 : n.length > 1 && n.every((e)=>i.includes(e)) : !1;
-    }, NIe = (e, t, n)=>{
+    }, PIe = (e, t, n)=>{
         let r = q(), i = (0, N.useRef)(null), a = (0, N.useRef)(n);
         return (0, N.useEffect)(()=>{
             a.current = n;
@@ -129617,12 +129633,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     !i || d.has(i) || (d.add(i), l.scanned += 1, t.push(r));
                 }
                 await Promise.all(t.map((e)=>e.isEncrypted() && e.getType() === he.RoomMessageEncrypted && !e.isDecryptionFailure() ? r.decryptEventIfNeeded(e).catch(()=>void 0) : void 0));
-                for(let e = 0; e < t.length; e += 1)MIe(t[e], s, c) && l.matches.push(t[e]);
+                for(let e = 0; e < t.length; e += 1)NIe(t[e], s, c) && l.matches.push(t[e]);
                 f();
             }, m = n && parseInt(n, 10) || 0, h = m + V6;
             await p();
             let g = 0;
-            for(; !o?.aborted && l.matches.length < h && !l.exhausted && l.scanned < H6 && g < kIe;){
+            for(; !o?.aborted && l.matches.length < h && !l.exhausted && l.scanned < H6 && g < AIe;){
                 if (!u.getPaginationToken(j.BACKWARDS)) {
                     l.exhausted = !0;
                     break;
@@ -129632,7 +129648,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 try {
                     e = await r.paginateEventTimeline(u, {
                         backwards: !0,
-                        limit: OIe
+                        limit: kIe
                     });
                 } catch  {
                     e = !1;
@@ -129647,7 +129663,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             let _ = l.matches.slice(m, m + V6), v = m + _.length, y = l.matches.length > v || !l.exhausted;
             return {
                 highlights: c,
-                groups: jIe(_, e.roomId),
+                groups: MIe(_, e.roomId),
                 nextToken: y ? String(v) : void 0
             };
         }, [
@@ -129655,8 +129671,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             e,
             t
         ]);
-    }, PIe = 20, FIe = 20;
-    function IIe({ room: e, term: t, onOpen: n, onSearchingChange: r }) {
+    }, FIe = 20, IIe = 20;
+    function LIe({ room: e, term: t, onOpen: n, onSearchingChange: r }) {
         let i = q(), a = Vd(vD), [o] = J(K, `mediaAutoLoad`), [s] = J(K, `urlPreview`), [c] = J(K, `legacyUsernameColor`), [l] = J(K, `hour24Clock`), [u] = J(K, `dateFormatString`), d = e.hasEncryptionStateEvent(), f = (0, N.useMemo)(()=>({
                 term: t,
                 order: Ie.Recent,
@@ -129672,7 +129688,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             exhausted: !1
         }), h = (0, N.useCallback)((e)=>{
             m(e);
-        }, []), g = WV(f), _ = NIe(e, t, h), v = d ? _ : g, { status: y, data: b, error: x, fetchNextPage: S, hasNextPage: C, isFetchingNextPage: w } = Fg({
+        }, []), g = WV(f), _ = PIe(e, t, h), v = d ? _ : g, { status: y, data: b, error: x, fetchNextPage: S, hasNextPage: C, isFetchingNextPage: w } = Fg({
             enabled: !!t,
             queryKey: [
                 `room-search`,
@@ -129696,9 +129712,9 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             matches: 0,
             exhausted: !1
         }));
-        let ee = D.current < PIe, A = (0, N.useMemo)(()=>T.reduce((e, t)=>e + t.items.length, 0), [
+        let ee = D.current < FIe, A = (0, N.useMemo)(()=>T.reduce((e, t)=>e + t.items.length, 0), [
             T
-        ]), te = A < FIe && C && ee;
+        ]), te = A < IIe && C && ee;
         (0, N.useEffect)(()=>{
             te && !w && y === `success` && (D.current += 1, S());
         }, [
@@ -129838,7 +129854,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         }) : null;
     }
-    function LIe({ mx: e, useAuthentication: t, room: n, member: r, onClick: i, pressed: a, typing: o }) {
+    function RIe({ mx: e, useAuthentication: t, room: n, member: r, onClick: i, pressed: a, typing: o }) {
         let s = KC(n, r.userId) ?? uw(r.userId) ?? r.userId, c = r.getMxcAvatarUrl(), l = c ? e.mxcUrlToHttp(c, 100, 100, `crop`, void 0, !1, t) : void 0, u = CM(r.userId), d = u?.status || void 0, f = wM(r.userId);
         return (0, P.jsx)(fs, {
             style: {
@@ -129907,12 +129923,12 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var RIe = {
+    var zIe = {
         limit: 1e3,
         matchOptions: {
             contain: !0
         }
-    }, zIe = 3, BIe = (e)=>uw(e) ?? e, VIe = (e, t)=>qC(e, t, BIe);
+    }, BIe = 3, VIe = (e)=>uw(e) ?? e, HIe = (e, t)=>qC(e, t, VIe);
     function U6({ room: e, members: t, overlay: n, onClose: r }) {
         let i = q(), a = Nj(), o = qD(K, `isPeopleDrawer`), s = (0, N.useCallback)(()=>{
             r ? r() : o(!1);
@@ -129924,7 +129940,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             te,
             j,
             ne
-        ]), [ie, ae, oe] = PB(re, VIe, RIe);
+        ]), [ie, ae, oe] = PB(re, HIe, zIe);
         !ie && f.current?.value && ae(f.current.value);
         let se = ie ? ie.items : re, ce = aJ(se, b), le = Rz({
             count: ce.length,
@@ -129933,7 +129949,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             overscan: 10
         }), ue = iE((0, N.useCallback)((e)=>{
             let t = e.target.value.trim();
-            t ? ae(t) : oe(), h(t.length >= zIe ? t : void 0);
+            t ? ae(t) : oe(), h(t.length >= BIe ? t : void 0);
         }, [
             ae,
             oe
@@ -129961,7 +129977,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             r && C(e.roomId, w?.roomId, r, n.getBoundingClientRect(), `Left`);
         };
         return (0, P.jsxs)(L, {
-            className: (0, Xa.default)(n ? bIe : yIe, eD({
+            className: (0, Xa.default)(n ? xIe : bIe, eD({
                 variant: `Background`
             })),
             shrink: `No`,
@@ -129970,7 +129986,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             direction: `Column`,
             children: [
                 (0, P.jsx)(is, {
-                    className: xIe,
+                    className: SIe,
                     variant: `Background`,
                     size: `600`,
                     children: (0, P.jsxs)(L, {
@@ -130012,7 +130028,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     })
                 }),
                 (0, P.jsx)(L, {
-                    className: SIe,
+                    className: CIe,
                     direction: `Column`,
                     shrink: `No`,
                     children: (0, P.jsx)(cs, {
@@ -130051,7 +130067,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     })
                 }),
                 (0, P.jsx)(L, {
-                    className: CIe,
+                    className: wIe,
                     grow: `Yes`,
                     children: (0, P.jsx)(zs, {
                         ref: d,
@@ -130060,13 +130076,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                         visibility: `Hover`,
                         hideTrack: !0,
                         children: (0, P.jsxs)(L, {
-                            className: wIe,
+                            className: TIe,
                             direction: `Column`,
                             gap: `200`,
                             children: [
                                 (0, P.jsx)(L, {
                                     ref: p,
-                                    className: TIe,
+                                    className: EIe,
                                     direction: `Column`,
                                     gap: `200`,
                                     children: (0, P.jsxs)(L, {
@@ -130176,7 +130192,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                     children: `No "${te.name}" Members`
                                 }),
                                 (0, P.jsx)(L, {
-                                    className: EIe,
+                                    className: DIe,
                                     direction: `Column`,
                                     gap: `100`,
                                     children: (0, P.jsx)(`div`, {
@@ -130193,7 +130209,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                 className: k6,
                                                 "data-index": t.index,
                                                 ref: le.measureElement,
-                                                children: (0, P.jsx)(LIe, {
+                                                children: (0, P.jsx)(RIe, {
                                                     mx: i,
                                                     useAuthentication: a,
                                                     room: e,
@@ -130208,7 +130224,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                 },
                                                 "data-index": t.index,
                                                 ref: le.measureElement,
-                                                className: (0, Xa.default)(DIe, k6),
+                                                className: (0, Xa.default)(OIe, k6),
                                                 size: `L400`,
                                                 children: n.name
                                             }, `${e.roomId}-${t.index}`);
@@ -130222,7 +130238,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 m && (0, P.jsx)(L, {
                                     className: `_18fjf6z8`,
                                     direction: `Column`,
-                                    children: (0, P.jsx)(IIe, {
+                                    children: (0, P.jsx)(LIe, {
                                         room: e,
                                         term: m,
                                         onOpen: de,
@@ -130236,13 +130252,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var HIe = `_10hybyx0`, W6 = `_10hybyx1`, UIe = `_10hybyx2`, WIe = `_10hybyx3`, GIe = `_10hybyx4`, KIe = `_10hybyx5`;
+    var UIe = `_10hybyx0`, W6 = `_10hybyx1`, WIe = `_10hybyx2`, GIe = `_10hybyx3`, KIe = `_10hybyx4`, qIe = `_10hybyx5`;
     function G6() {
         return (0, P.jsx)(us, {
             variant: `SurfaceVariant`,
             size: `300`,
             direction: `Vertical`,
-            className: UIe
+            className: WIe
         });
     }
     function K6({ enabled: e, onToggle: t }) {
@@ -130327,7 +130343,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 })
         });
     }
-    function qIe({ enabled: e, onToggle: t }) {
+    function JIe({ enabled: e, onToggle: t }) {
         return (0, P.jsx)(ic, {
             position: `Top`,
             delay: 500,
@@ -130380,7 +130396,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 })
         });
     }
-    function JIe({ canJoin: e }) {
+    function YIe({ canJoin: e }) {
         let t = G0(), n = tV(), r = aV(n), i = J0(), a = n && n.roomId !== t.roomId, o = iV(i), s = n?.roomId === t.roomId && !r, c = a || !e, { microphone: l, video: u, sound: d, toggleMicrophone: f, toggleVideo: p, toggleSound: m } = R_e(), h = (0, N.useCallback)(async ()=>f(), [
             f
         ]), g = (0, N.useCallback)(async ()=>p(), [
@@ -130455,13 +130471,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    function YIe({ member: e }) {
+    function XIe({ member: e }) {
         let t = q(), n = Nj(), r = G0(), i = yB(), { userId: a } = e;
         if (!a) return null;
         let o = KC(r, a) ?? uw(a) ?? a, s = JC(r, a), c = s ? Ew(t, s, n, 96, 96) ?? void 0 : void 0, l = e.callIntent === `audio`;
         return (0, P.jsx)(Y, {
             as: `button`,
-            className: WIe,
+            className: GIe,
             variant: `SurfaceVariant`,
             radii: `500`,
             onClick: (e)=>i(r.roomId, void 0, a, Aj(e.nativeEvent), `Right`),
@@ -130500,11 +130516,11 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         }, e.memberId);
     }
-    function XIe({ members: e, max: t = 4 }) {
+    function ZIe({ members: e, max: t = 4 }) {
         let [n, r] = (0, N.useState)(!1), i = n ? e : e.slice(0, 4), a = e.length - i.length;
         return (0, P.jsxs)(P.Fragment, {
             children: [
-                i.map((e)=>(0, P.jsx)(YIe, {
+                i.map((e)=>(0, P.jsx)(XIe, {
                         member: e
                     }, e.memberId)),
                 e.length > t && (0, P.jsxs)(Y, {
@@ -130537,7 +130553,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    function ZIe({ callEmbed: e }) {
+    function QIe({ callEmbed: e }) {
         let t = (0, N.useRef)(null), [n, r] = (0, N.useState)(document.body.clientWidth < 500);
         Gv((0, N.useCallback)(()=>{
             let e = t.current;
@@ -130570,7 +130586,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             y || v();
         }), (0, P.jsx)(L, {
             ref: t,
-            className: GIe,
+            className: KIe,
             justifyContent: `Center`,
             alignItems: `Center`,
             children: (0, P.jsxs)(Y, {
@@ -130614,7 +130630,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                         enabled: a,
                                         onToggle: g
                                     }),
-                                    (0, P.jsx)(qIe, {
+                                    (0, P.jsx)(JIe, {
                                         enabled: s,
                                         onToggle: ()=>e.control.toggleScreenshare()
                                     })
@@ -130741,7 +130757,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    function QIe() {
+    function $Ie() {
         return (0, P.jsx)(H, {
             style: {
                 margin: `auto`,
@@ -130752,7 +130768,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `Your homeserver does not support calling.`
         });
     }
-    function $Ie() {
+    function eLe() {
         return (0, P.jsx)(H, {
             style: {
                 margin: `auto`,
@@ -130763,8 +130779,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `Your browser does not support WebRTC, which is required for calling.`
         });
     }
-    function eLe({ hasParticipant: e, livekitSupported: t, rtcSupported: n }) {
-        return n === !1 ? (0, P.jsx)($Ie, {}) : t === !1 ? (0, P.jsx)(QIe, {}) : e ? null : (0, P.jsx)(H, {
+    function tLe({ hasParticipant: e, livekitSupported: t, rtcSupported: n }) {
+        return n === !1 ? (0, P.jsx)(eLe, {}) : t === !1 ? (0, P.jsx)($Ie, {}) : e ? null : (0, P.jsx)(H, {
             style: {
                 margin: `auto`
             },
@@ -130773,7 +130789,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `Voice chat’s empty — Be the first to hop in!`
         });
     }
-    function tLe() {
+    function nLe() {
         return (0, P.jsx)(H, {
             style: {
                 margin: `auto`
@@ -130783,7 +130799,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `You don't have permission to join!`
         });
     }
-    function nLe() {
+    function rLe() {
         return (0, P.jsx)(H, {
             style: {
                 margin: `auto`,
@@ -130794,13 +130810,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             children: `Already in another call — End the current call to join!`
         });
     }
-    function rLe() {
+    function iLe() {
         let e = q(), t = G0(), n = lV(), r = uV(), i = PP(), a = zR(VR(t), i).stateEvent(G.GroupCallMemberPrefix, e.getSafeUserId()), o = HB(BB(t)), s = o.length > 0, c = tV(), l = c && c.roomId !== t.roomId, u = a && n && r;
         return (0, P.jsx)(zs, {
             variant: `Surface`,
             hideTrack: !0,
             children: (0, P.jsx)(L, {
-                className: HIe,
+                className: UIe,
                 alignItems: `Center`,
                 justifyContent: `Center`,
                 children: (0, P.jsxs)(L, {
@@ -130838,22 +130854,22 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                 })
                             ]
                         }),
-                        (0, P.jsx)(XIe, {
+                        (0, P.jsx)(ZIe, {
                             members: o
                         }),
-                        (0, P.jsx)(JIe, {
+                        (0, P.jsx)(YIe, {
                             canJoin: u
                         }),
                         (0, P.jsxs)(L, {
-                            className: KIe,
+                            className: qIe,
                             alignItems: `Center`,
                             children: [
-                                !l && (a ? (0, P.jsx)(eLe, {
+                                !l && (a ? (0, P.jsx)(tLe, {
                                     hasParticipant: s,
                                     livekitSupported: n,
                                     rtcSupported: r
-                                }) : (0, P.jsx)(tLe, {})),
-                                l && (0, P.jsx)(nLe, {})
+                                }) : (0, P.jsx)(nLe, {})),
+                                l && (0, P.jsx)(rLe, {})
                             ]
                         })
                     ]
@@ -130861,7 +130877,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    function iLe({ joined: e, containerRef: t }) {
+    function aLe({ joined: e, containerRef: t }) {
         let n = tV();
         return (0, P.jsxs)(L, {
             grow: `Yes`,
@@ -130871,13 +130887,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                     grow: `Yes`,
                     ref: t
                 }),
-                n && e && (0, P.jsx)(ZIe, {
+                n && e && (0, P.jsx)(QIe, {
                     callEmbed: n
                 })
             ]
         });
     }
-    function aLe() {
+    function oLe() {
         let e = G0(), t = (0, N.useRef)(null);
         I_e(t);
         let n = tV(), r = aV(n), i = n?.roomId === e.roomId && r;
@@ -130890,16 +130906,16 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             },
             grow: `Yes`,
             children: [
-                !i && (0, P.jsx)(rLe, {}),
-                (0, P.jsx)(iLe, {
+                !i && (0, P.jsx)(iLe, {}),
+                (0, P.jsx)(aLe, {
                     joined: i,
                     containerRef: t
                 })
             ]
         });
     }
-    var oLe = `_13de4120`, sLe = `_13de4121`, cLe = `_13de4122`;
-    function lLe({ room: e, eventId: t, renderContent: n, onOpen: r, canPinEvent: i, getMemberPowerTag: a, accessibleTagColors: o, legacyUsernameColor: s, hour24Clock: c, dateFormatString: l }) {
+    var sLe = `_13de4120`, cLe = `_13de4121`, lLe = `_13de4122`;
+    function uLe({ room: e, eventId: t, renderContent: n, onOpen: r, canPinEvent: i, getMemberPowerTag: a, accessibleTagColors: o, legacyUsernameColor: s, hour24Clock: c, dateFormatString: l }) {
         let u = yU(e, t), d = Nj(), f = q(), [p, m] = Rg((0, N.useCallback)(()=>{
             let n = {
                 pinned: (TC(e, G.RoomPinnedEvents)?.getContent() ?? {
@@ -131040,7 +131056,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var uLe = (0, N.forwardRef)(({ room: e, requestClose: t }, n)=>{
+    var dLe = (0, N.forwardRef)(({ room: e, requestClose: t }, n)=>{
         let r = q(), i = r.getUserId(), a = PP(), o = VR(e), s = zR(o, a).stateEvent(G.RoomPinnedEvents, i), c = nK(), l = XG(e, a), u = nJ(e, o, a), d = iJ(VA().kind, c, l), f = b0(e), p = (0, N.useMemo)(()=>Array.from(f).reverse(), [
             f
         ]), m = Nj(), [h] = J(K, `mediaAutoLoad`), [g] = J(K, `urlPreview`), _ = J0(), [v] = J(K, `legacyUsernameColor`), [y] = J(K, `hour24Clock`), [b] = J(K, `dateFormatString`), { navigateRoom: x } = BV(), S = (0, N.useRef)(null), C = Rz({
@@ -131175,13 +131191,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         };
         return (0, P.jsx)(ms, {
             ref: n,
-            className: oLe,
+            className: sLe,
             children: (0, P.jsxs)(L, {
                 grow: `Yes`,
                 direction: `Column`,
                 children: [
                     (0, P.jsxs)(is, {
-                        className: sLe,
+                        className: cLe,
                         size: `500`,
                         children: [
                             (0, P.jsx)(L, {
@@ -131213,7 +131229,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             hideTrack: !0,
                             visibility: `Hover`,
                             children: (0, P.jsx)(L, {
-                                className: cLe,
+                                className: lLe,
                                 direction: `Column`,
                                 gap: `100`,
                                 children: p.length > 0 ? (0, P.jsx)(`div`, {
@@ -131236,7 +131252,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                 },
                                                 variant: `SurfaceVariant`,
                                                 direction: `Column`,
-                                                children: (0, P.jsx)(lLe, {
+                                                children: (0, P.jsx)(uLe, {
                                                     room: e,
                                                     eventId: n,
                                                     renderContent: O,
@@ -131298,14 +131314,14 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 ]
             })
         });
-    }), X6 = `_1j4fvkl0`, Z6 = `_1j4fvkl1`, dLe = `_1j4fvkl2`, fLe = `_1j4fvkl3`;
+    }), X6 = `_1j4fvkl0`, Z6 = `_1j4fvkl1`, fLe = `_1j4fvkl2`, pLe = `_1j4fvkl3`;
     function Q6({ title: e, children: t }) {
         return (0, P.jsxs)(L, {
             direction: `Column`,
             gap: `100`,
             children: [
                 (0, P.jsx)(H, {
-                    className: dLe,
+                    className: fLe,
                     size: `L400`,
                     children: e
                 }),
@@ -131318,7 +131334,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                             size: `300`,
                             hideTrack: !0,
                             children: (0, P.jsx)(L, {
-                                className: fLe,
+                                className: pLe,
                                 direction: `Column`,
                                 gap: `100`,
                                 children: t
@@ -131329,7 +131345,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    var pLe = (0, N.forwardRef)(({ min: e, max: t, value: n, onChange: r }, i)=>{
+    var mLe = (0, N.forwardRef)(({ min: e, max: t, value: n, onChange: r }, i)=>{
         let [a] = J(K, `hour24Clock`), o = (0, SE.default)(n).hour(), s = a ? o : pfe(o), c = (0, SE.default)(n).minute(), l = o >= 12, u = (n)=>{
             r(Math.min(Math.max(e, n), t));
         }, d = (e)=>{
@@ -131428,7 +131444,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 ]
             })
         });
-    }), mLe = (0, N.forwardRef)(({ min: e, max: t, value: n, onChange: r }, i)=>{
+    }), hLe = (0, N.forwardRef)(({ min: e, max: t, value: n, onChange: r }, i)=>{
         let a = (0, SE.default)(n).year(), o = (0, SE.default)(n).month() + 1, s = (0, SE.default)(n).date(), c = (n)=>{
             r(Math.min(Math.max(e, n), t));
         }, l = (e)=>{
@@ -131501,7 +131517,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     });
-    function hLe({ onCancel: e, onSubmit: t }) {
+    function gLe({ onCancel: e, onSubmit: t }) {
         let n = q(), r = G0(), i = Ig(), a = OP(r, G.RoomCreate), o = hfe(), s = gfe(), c = (0, N.useMemo)(()=>a?.getTs() ?? 0, [
             a
         ]), [l, u] = (0, N.useState)(()=>Date.now()), [d] = J(K, `hour24Clock`), [f, p] = (0, N.useState)(), [m, h] = (0, N.useState)(), g = (e)=>{
@@ -131610,7 +131626,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                                         isKeyBackward: (e)=>e.key === `ArrowUp` || e.key === `ArrowLeft`,
                                                                         escapeDeactivates: Uv
                                                                     },
-                                                                    children: (0, P.jsx)(pLe, {
+                                                                    children: (0, P.jsx)(mLe, {
                                                                         min: c,
                                                                         max: Date.now(),
                                                                         value: l,
@@ -131666,7 +131682,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                                         isKeyBackward: (e)=>e.key === `ArrowUp` || e.key === `ArrowLeft`,
                                                                         escapeDeactivates: Uv
                                                                     },
-                                                                    children: (0, P.jsx)(mLe, {
+                                                                    children: (0, P.jsx)(hLe, {
                                                                         min: c,
                                                                         max: Date.now(),
                                                                         value: l,
@@ -131759,7 +131775,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    function gLe({ room: e, requestClose: t }) {
+    function _Le({ room: e, requestClose: t }) {
         let { navigateRoom: n } = BV(), [r] = J(K, `hour24Clock`), i = (0, N.useMemo)(()=>Array.from(e.polls.values()).sort((e, t)=>t.rootEvent.getTs() - e.rootEvent.getTs()), [
             e
         ]), a = i.filter((e)=>!e.isEnded), o = i.filter((e)=>e.isEnded), s = (i)=>{
@@ -131899,17 +131915,17 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var _Le = new Set([
+    var vLe = new Set([
         zr.Image,
         zr.Video,
         zr.Audio,
         zr.File
-    ]), vLe = (e)=>e === zr.Image ? U.Photo : e === zr.Video || e === zr.Audio ? U.Play : U.File;
-    function yLe({ room: e, requestClose: t }) {
+    ]), yLe = (e)=>e === zr.Image ? U.Photo : e === zr.Video || e === zr.Audio ? U.Play : U.File;
+    function bLe({ room: e, requestClose: t }) {
         let { navigateRoom: n } = BV(), [r] = J(K, `hour24Clock`), i = (0, N.useMemo)(()=>e.getUnfilteredTimelineSet().getLiveTimeline().getEvents().filter((e)=>{
                 if (e.isRedacted() || e.getType() !== `m.room.message`) return !1;
                 let t = e.getContent();
-                return _Le.has(t.msgtype ?? ``) ? !MG(t) : !1;
+                return vLe.has(t.msgtype ?? ``) ? !MG(t) : !1;
             }).reverse(), [
             e
         ]);
@@ -131988,7 +132004,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                                             variant: `Surface`,
                                                             before: (0, P.jsx)(z, {
                                                                 size: `100`,
-                                                                src: vLe(a.msgtype)
+                                                                src: yLe(a.msgtype)
                                                             }),
                                                             onClick: ()=>{
                                                                 let r = i.getId();
@@ -132050,10 +132066,10 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             e,
             t
         ]), n;
-    }, bLe = [
+    }, xLe = [
         `m.widget`,
         `im.vector.modular.widgets`
-    ], xLe = (e)=>e.map((e)=>{
+    ], SLe = (e)=>e.map((e)=>{
             let t = e.getContent(), n = e.getStateKey(), r = t.url, i = t.type;
             if (!(!n || typeof r != `string` || typeof i != `string`)) return {
                 id: n,
@@ -132065,20 +132081,20 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 senderId: e.getSender() ?? void 0,
                 data: t.data ?? {}
             };
-        }).filter((e)=>e !== void 0), SLe = (e)=>{
+        }).filter((e)=>e !== void 0), CLe = (e)=>{
         let t = $6(e);
         return (0, N.useMemo)(()=>{
             let e = new Map;
-            return bLe.slice().reverse().forEach((n)=>{
+            return xLe.slice().reverse().forEach((n)=>{
                 let r = t.get(n);
-                r && xLe(Array.from(r.values())).forEach((t)=>e.set(t.id, t));
+                r && SLe(Array.from(r.values())).forEach((t)=>e.set(t.id, t));
             }), Array.from(e.values());
         }, [
             t
         ]);
-    }, CLe = new Set([
+    }, wLe = new Set([
         `https:`
-    ]), wLe = /^(localhost|127(?:\.\d+){3}|0\.0\.0\.0|\[?::1\]?|10(?:\.\d+){3}|192\.168(?:\.\d+){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d+){2}|.*\.local|.*\.localhost)$/i, e8 = (e)=>{
+    ]), TLe = /^(localhost|127(?:\.\d+){3}|0\.0\.0\.0|\[?::1\]?|10(?:\.\d+){3}|192\.168(?:\.\d+){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d+){2}|.*\.local|.*\.localhost)$/i, e8 = (e)=>{
         let t;
         try {
             t = new URL(e);
@@ -132089,7 +132105,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 message: `That is not a valid URL.`
             };
         }
-        return CLe.has(t.protocol) ? t.username || t.password ? {
+        return wLe.has(t.protocol) ? t.username || t.password ? {
             ok: !1,
             reason: `credentials`,
             message: `Widget URLs must not contain credentials.`
@@ -132097,7 +132113,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ok: !1,
             reason: `same-origin`,
             message: `This widget is served from the same address as the app itself, which would give it access to your account. Refusing to load it.`
-        } : wLe.test(t.hostname) ? {
+        } : TLe.test(t.hostname) ? {
             ok: !1,
             reason: `private-host`,
             message: `Widgets cannot be loaded from local or private addresses.`
@@ -132109,7 +132125,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             reason: `scheme`,
             message: `Widgets must be served over https.`
         };
-    }, TLe = (e, t)=>{
+    }, ELe = (e, t)=>{
         let n = {
             $matrix_widget_id: t.widgetId,
             $matrix_room_id: t.roomId,
@@ -132120,10 +132136,10 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             $matrix_base_url: t.baseUrl ?? ``
         };
         return Object.entries(n).reduce((e, [t, n])=>e.split(t).join(encodeURIComponent(n)), e);
-    }, t8 = `im.vector.setting.allowed_widgets`, n8 = (e)=>e.getAccountData(`im.vector.setting.allowed_widgets`)?.getContent() ?? {}, ELe = (e, t)=>{
+    }, t8 = `im.vector.setting.allowed_widgets`, n8 = (e)=>e.getAccountData(`im.vector.setting.allowed_widgets`)?.getContent() ?? {}, DLe = (e, t)=>{
         let n = n8(e).allowed?.[t] ?? {};
         return new Set(Object.entries(n).filter(([, e])=>e === !0).map(([e])=>e));
-    }, DLe = async (e, t, n)=>{
+    }, OLe = async (e, t, n)=>{
         let r = n8(e), i = {
             ...r.allowed ?? {}
         };
@@ -132134,7 +132150,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ...r,
             allowed: i
         });
-    }, OLe = async (e, t)=>{
+    }, kLe = async (e, t)=>{
         let n = n8(e), r = {
             ...n.allowed ?? {}
         };
@@ -132142,10 +132158,10 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ...n,
             allowed: r
         });
-    }, kLe = (e, t, n)=>{
+    }, ALe = (e, t, n)=>{
         let r = n8(e).allowed?.[t] ?? {};
         return Array.from(n).filter((e)=>!(e in r));
-    }, ALe = class extends UB {
+    }, jLe = class extends UB {
         constructor(e, t, n){
             super(e, t), this.granted = n;
         }
@@ -132157,7 +132173,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 state: Ny.OpenIDRequestState.Blocked
             });
         }
-    }, jLe = {
+    }, MLe = {
         [Ny.MatrixCapabilities.AlwaysOnScreen]: {
             text: `Stay visible on screen while you use other rooms`
         },
@@ -132197,7 +132213,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             text: `Read messages sent directly to your devices`,
             sensitive: !0
         }
-    }, MLe = (e)=>{
+    }, NLe = (e)=>{
         let t = e.direction === Ny.EventDirection.Send ? `Send` : `Read`, n = e.keyStr ? `${e.eventType} (${e.keyStr})` : e.eventType, r = e.eventType === `m.room.message` || e.eventType === `m.room.encrypted` || e.direction === Ny.EventDirection.Send;
         return e.eventType === `m.room.message` ? {
             text: t === `Send` ? `Send messages to this room as you` : `Read messages in this room`,
@@ -132206,8 +132222,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             text: `${t} "${n}" events in this room`,
             sensitive: r
         };
-    }, NLe = (e)=>{
-        let t = jLe[e];
+    }, PLe = (e)=>{
+        let t = MLe[e];
         if (t) return {
             capability: e,
             text: t.text,
@@ -132218,7 +132234,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             e
         ]);
         if (n.length > 0) {
-            let t = MLe(n[0]);
+            let t = NLe(n[0]);
             return {
                 capability: e,
                 text: t.text,
@@ -132232,9 +132248,9 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             unknown: !0,
             sensitive: !0
         };
-    }, PLe = (e)=>Array.from(e).map(NLe).sort((e, t)=>Number(t.sensitive) - Number(e.sensitive));
-    function FLe({ widget: e, requested: t, onDecide: n, onCancel: r }) {
-        let i = (0, N.useMemo)(()=>PLe(t), [
+    }, FLe = (e)=>Array.from(e).map(PLe).sort((e, t)=>Number(t.sensitive) - Number(e.sensitive));
+    function ILe({ widget: e, requested: t, onDecide: n, onCancel: r }) {
+        let i = (0, N.useMemo)(()=>FLe(t), [
             t
         ]), [a, o] = (0, N.useState)(()=>Object.fromEntries(t.map((e)=>[
                     e,
@@ -132355,10 +132371,10 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             ]
         });
     }
-    function ILe({ room: e, widget: t, onClose: n }) {
+    function LLe({ room: e, widget: t, onClose: n }) {
         let r = q(), i = (0, N.useRef)(null), a = (0, N.useRef)(void 0), o = (0, N.useMemo)(()=>e8(t.url), [
             t.url
-        ]), s = (0, N.useMemo)(()=>kLe(r, t.permissionKey, [
+        ]), s = (0, N.useMemo)(()=>ALe(r, t.permissionKey, [
                 `m.always_on_screen`,
                 `m.sticker`,
                 `org.matrix.msc2762.receive.state_event:m.room.member`,
@@ -132368,7 +132384,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             r,
             t.permissionKey
         ]), [c, l] = (0, N.useState)(s.length > 0), [u, d] = (0, N.useState)(!1), f = (0, N.useCallback)(async (e)=>{
-            await DLe(r, t.permissionKey, e), l(!1);
+            await OLe(r, t.permissionKey, e), l(!1);
         }, [
             r,
             t.permissionKey
@@ -132377,7 +132393,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             if (c || !o.ok) return;
             let n = i.current;
             if (!n) return;
-            let s = TLe(t.url, {
+            let s = ELe(t.url, {
                 widgetId: t.id,
                 roomId: e.roomId,
                 userId: r.getSafeUserId(),
@@ -132392,7 +132408,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                 url: t.url,
                 name: t.name,
                 data: t.data
-            }, f = ELe(r, t.permissionKey), p = new ALe(r, e.roomId, f), m = new Ny.ClientWidgetApi(new Ny.Widget(u), l, p);
+            }, f = DLe(r, t.permissionKey), p = new jLe(r, e.roomId, f), m = new Ny.ClientWidgetApi(new Ny.Widget(u), l, p);
             return a.current = m, d(!0), ()=>{
                 m.stop(), a.current = void 0, l.remove();
             };
@@ -132402,7 +132418,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             t,
             e.roomId,
             r
-        ]), o.ok ? c ? (0, P.jsx)(FLe, {
+        ]), o.ok ? c ? (0, P.jsx)(ILe, {
             widget: t,
             requested: s,
             onDecide: f,
@@ -132520,8 +132536,8 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         });
     }
     var r8 = `im.vector.modular.widgets`;
-    function LLe({ room: e, requestClose: t }) {
-        let n = q(), r = SLe(e), i = PP(), a = zR(VR(e), i).stateEvent(r8, n.getSafeUserId()), [o, s] = (0, N.useState)(), [c, l] = (0, N.useState)(``), [u, d] = (0, N.useState)(``), [f, p] = (0, N.useState)(), [m, h] = Rg((0, N.useCallback)(async (t, r)=>{
+    function RLe({ room: e, requestClose: t }) {
+        let n = q(), r = CLe(e), i = PP(), a = zR(VR(e), i).stateEvent(r8, n.getSafeUserId()), [o, s] = (0, N.useState)(), [c, l] = (0, N.useState)(``), [u, d] = (0, N.useState)(``), [f, p] = (0, N.useState)(), [m, h] = Rg((0, N.useCallback)(async (t, r)=>{
             let i = `prinny-${Date.now()}`;
             await n.sendStateEvent(e.roomId, r8, {
                 type: `customwidget`,
@@ -132533,7 +132549,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             n,
             e.roomId
         ])), [g, _] = Rg((0, N.useCallback)(async (t)=>{
-            await n.sendStateEvent(e.roomId, t.eventType, {}, t.id), await OLe(n, t.permissionKey);
+            await n.sendStateEvent(e.roomId, t.eventType, {}, t.id), await kLe(n, t.permissionKey);
         }, [
             n,
             e.roomId
@@ -132583,7 +132599,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
                                         })
                                     ]
                                 }),
-                                o ? (0, P.jsx)(ILe, {
+                                o ? (0, P.jsx)(LLe, {
                                     room: e,
                                     widget: o,
                                     onClose: ()=>s(void 0)
@@ -132765,7 +132781,7 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             })
         });
     }
-    var RLe = 100, i8 = (e)=>e.replace(/&/g, `&amp;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/"/g, `&quot;`), zLe = (e)=>{
+    var zLe = 100, i8 = (e)=>e.replace(/&/g, `&amp;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/"/g, `&quot;`), BLe = (e)=>{
         let t = e.getContent().msgtype;
         return t === zr.Image || t === zr.Video || t === zr.Audio || t === zr.File;
     }, a8 = (e, t)=>{
@@ -132787,13 +132803,13 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             default:
                 return r;
         }
-    }, BLe = async (e, t, n)=>{
+    }, VLe = async (e, t, n)=>{
         let r = [], i = null, a = e.getCrypto();
         for(; r.length < n.limit;){
             if (n.signal.aborted) throw Error(`aborted`);
             let o;
             try {
-                o = await e.createMessagesRequest(t.roomId, i, Math.min(RLe, n.limit - r.length), ct.Backward);
+                o = await e.createMessagesRequest(t.roomId, i, Math.min(zLe, n.limit - r.length), ct.Backward);
             } catch  {
                 break;
             }
@@ -132806,19 +132822,19 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
             i = o.end ?? null;
         }
         return r.filter((e)=>e.getType() === `m.room.message` || e.isEncrypted()).sort((e, t)=>e.getTs() - t.getTs()).slice(-n.limit);
-    }, VLe = (e, t)=>{
+    }, HLe = (e, t)=>{
         let n = t.map((t)=>{
             let n = t.getSender() ?? ``, r = KC(e, n) ?? uw(n) ?? n;
             return `[${new Date(t.getTs()).toISOString()}] ${r}: ${a8(e, t)}`;
         });
         return `${e.name}\n${`=`.repeat(e.name.length)}\n\n${n.join(`
 `)}\n`;
-    }, HLe = (e, t)=>JSON.stringify({
+    }, ULe = (e, t)=>JSON.stringify({
             room_id: e.roomId,
             room_name: e.name,
             exported_at: new Date().toISOString(),
             messages: t.map((e)=>e.getEffectiveEvent())
-        }, null, 2), ULe = (e, t, n)=>{
+        }, null, 2), WLe = (e, t, n)=>{
         let r = t.map((t)=>{
             let r = t.getSender() ?? ``, i = KC(e, r) ?? uw(r) ?? r, a = new Date(t.getTs()).toLocaleString(), o = t.getId() ?? ``, s = n.get(o), c = i8(a8(e, t));
             if (s) {
@@ -132852,24 +132868,24 @@ ${r}
 </body>
 </html>
 `;
-    }, WLe = async (e, t, n)=>{
+    }, GLe = async (e, t, n)=>{
         let r = t.getContent(), i = r.file?.url ?? r.url;
         if (typeof i != `string`) return;
         let a = Ew(e, i, n);
         if (!a) return;
         let o = r.info?.mimetype ?? `application/octet-stream`, [s, c] = await iy(r.file ? Ow(a, (e)=>vw(e, o, r.file)) : Dw(a));
         if (!s) return c;
-    }, GLe = async (e, t, n)=>{
-        let r = await BLe(e, t, n), i = new Map, a = [], o = 0;
+    }, KLe = async (e, t, n)=>{
+        let r = await VLe(e, t, n), i = new Map, a = [], o = 0;
         if (n.includeAttachments) {
-            let t = r.filter(zLe);
+            let t = r.filter(BLe);
             for(let s = 0; s < t.length; s += 1){
                 if (n.signal.aborted) throw Error(`aborted`);
                 let c = t[s], l = c.getId(), u = c.getContent();
                 if ((typeof u.info?.size == `number` ? u.info.size : 0) > n.maxAttachmentBytes) o += 1;
                 else if (l) {
                     n.onProgress(`Downloading attachments (${s + 1}/${t.length})`, r.length);
-                    let o = await WLe(e, c, n.useAuthentication);
+                    let o = await GLe(e, c, n.useAuthentication);
                     if (o) {
                         let e = FR(typeof u.body == `string` ? u.body : `attachment`), t = `media/${l.replace(/[^a-zA-Z0-9]/g, ``)}-${e}`;
                         i.set(l, t), a.push({
@@ -132883,7 +132899,7 @@ ${r}
         }
         n.onProgress(`Writing file`, r.length);
         let s = new Date().toISOString().slice(0, 10), c = `${FR(t.name || t.roomId).replace(/\s+/g, `-`) || `room`}-${s}`, l, u;
-        return n.format === `json` ? (l = HLe(t, r), u = `json`) : n.format === `txt` ? (l = VLe(t, r), u = `txt`) : (l = ULe(t, r, i), u = `html`), a.length === 0 ? {
+        return n.format === `json` ? (l = ULe(t, r), u = `json`) : n.format === `txt` ? (l = HLe(t, r), u = `txt`) : (l = WLe(t, r, i), u = `html`), a.length === 0 ? {
             blob: new Blob([
                 l
             ], {
@@ -132917,11 +132933,11 @@ ${r}
             hint: `Raw events, for tooling`
         }
     ], s8 = 25;
-    function KLe({ room: e, requestClose: t }) {
+    function qLe({ room: e, requestClose: t }) {
         let n = q(), r = Nj(), [i, a] = (0, N.useState)(`html`), [o, s] = (0, N.useState)(Nk() ? 500 : 2e3), [c, l] = (0, N.useState)(!1), [u, d] = (0, N.useState)(), [f, p] = (0, N.useState)(0), m = (0, N.useRef)(void 0), [h, g] = Rg((0, N.useCallback)(async ()=>{
             let t = new AbortController;
             m.current = t, p(0);
-            let a = await GLe(n, e, {
+            let a = await KLe(n, e, {
                 format: i,
                 limit: o,
                 includeAttachments: c,
@@ -133140,7 +133156,7 @@ ${r}
             })
         });
     }
-    var qLe = (0, N.forwardRef)(({ room: e, requestClose: t }, n)=>{
+    var JLe = (0, N.forwardRef)(({ room: e, requestClose: t }, n)=>{
         let r = q(), [i] = J(K, `hideReadReceipts`), a = iB(e.roomId, UD), o = PP(), s = zR(VR(e), o).action(`invite`, r.getSafeUserId()), c = PD(MD(), e.roomId), { navigateRoom: l } = BV(), [u, d] = (0, N.useState)(!1), f = Hd(wG), p = ()=>{
             f(!0), t();
         }, m = ()=>{
@@ -133312,7 +133328,7 @@ ${r}
                                                 children: `Widgets`
                                             })
                                         }),
-                                        n && (0, P.jsx)(LLe, {
+                                        n && (0, P.jsx)(RLe, {
                                             room: e,
                                             requestClose: ()=>{
                                                 r(!1), t();
@@ -133362,7 +133378,7 @@ ${r}
                                                 children: `Files`
                                             })
                                         }),
-                                        n && (0, P.jsx)(yLe, {
+                                        n && (0, P.jsx)(bLe, {
                                             room: e,
                                             requestClose: ()=>{
                                                 r(!1), t();
@@ -133394,7 +133410,7 @@ ${r}
                                                 children: `Export Chat`
                                             })
                                         }),
-                                        n && (0, P.jsx)(KLe, {
+                                        n && (0, P.jsx)(qLe, {
                                             room: e,
                                             requestClose: ()=>{
                                                 r(!1), t();
@@ -133426,7 +133442,7 @@ ${r}
                                                 children: `Polls`
                                             })
                                         }),
-                                        n && (0, P.jsx)(gLe, {
+                                        n && (0, P.jsx)(_Le, {
                                             room: e,
                                             requestClose: ()=>{
                                                 r(!1), t();
@@ -133458,7 +133474,7 @@ ${r}
                                                 children: `Jump to Time`
                                             })
                                         }),
-                                        n && (0, P.jsx)(hLe, {
+                                        n && (0, P.jsx)(gLe, {
                                             onSubmit: (n)=>{
                                                 r(!1), l(e.roomId, n), t();
                                             },
@@ -133516,7 +133532,7 @@ ${r}
             ]
         });
     });
-    function JLe({ livekitSupported: e, hasCallPermission: t }) {
+    function YLe({ livekitSupported: e, hasCallPermission: t }) {
         let n = G0(), r = J0(), i = tV(), a = iV(r), o = i && i.roomId === n.roomId, s = i && !o, c = !!(s || o || !e || !t), l = s ? `Already in another call — End the current call to join!` : e ? t ? null : `You do not have permission to start a call in this room.` : `Your homeserver does not advertise a LiveKit/MatrixRTC focus, so calls cannot be started.`, u = ()=>{
             c || a(n, {
                 microphone: !0,
@@ -133804,13 +133820,13 @@ ${r}
                                         isKeyBackward: (e)=>e.key === `ArrowUp`,
                                         escapeDeactivates: Uv
                                     },
-                                    children: (0, P.jsx)(uLe, {
+                                    children: (0, P.jsx)(dLe, {
                                         room: a,
                                         requestClose: ()=>m(void 0)
                                     })
                                 })
                             }),
-                            !a.isCallRoom() && u && (0, P.jsx)(JLe, {
+                            !a.isCallRoom() && u && (0, P.jsx)(YLe, {
                                 livekitSupported: l,
                                 hasCallPermission: c
                             }),
@@ -133869,7 +133885,7 @@ ${r}
                                         isKeyBackward: (e)=>e.key === `ArrowUp`,
                                         escapeDeactivates: Uv
                                     },
-                                    children: (0, P.jsx)(qLe, {
+                                    children: (0, P.jsx)(JLe, {
                                         room: a,
                                         requestClose: ()=>f(void 0)
                                     })
@@ -133881,7 +133897,7 @@ ${r}
             })
         });
     }
-    function YLe({ room: e }) {
+    function XLe({ room: e }) {
         let t = q(), n = Nj(), r = Y$(t, e.roomId), i = PP(), a = zR(VR(e), i), o = t.getSafeUserId(), s = a.action(`invite`, o), c = a.action(`kick`, o), [l, u] = (0, N.useState)([]), d = (0, N.useMemo)(()=>r.filter((e)=>e.membership === We.Knock && !l.includes(e.userId)), [
             r,
             l
@@ -133991,7 +134007,7 @@ ${r}
             ]
         });
     }
-    var XLe = (e, t)=>{
+    var ZLe = (e, t)=>{
         let n = q(), [r, i] = (0, N.useState)([]), [a, o] = (0, N.useState)(), [s, c] = (0, N.useState)(!0), [l, u] = (0, N.useState)(!1), [d, f] = (0, N.useState)(0), p = (0, N.useCallback)(async (r)=>{
             c(!0);
             try {
@@ -134122,7 +134138,7 @@ ${r}
         });
     }
     function u8({ room: e, rootId: t, onClose: n }) {
-        let r = q(), i = s1(), a = (0, N.useRef)(null), o = (0, N.useRef)(null), s = yU(e, t), { events: c, loading: l, canPaginate: u, paginate: d } = XLe(e, t), [f] = J(K, `hour24Clock`), [p] = J(K, `dateFormatString`), [m] = J(K, `mediaAutoLoad`), [h] = J(K, `urlPreview`), [g] = J(K, `renderMaths`), _ = X4(g), v = Nj(), y = UG(e.roomId), b = WG(), x = (0, N.useMemo)(()=>({
+        let r = q(), i = s1(), a = (0, N.useRef)(null), o = (0, N.useRef)(null), s = yU(e, t), { events: c, loading: l, canPaginate: u, paginate: d } = ZLe(e, t), [f] = J(K, `hour24Clock`), [p] = J(K, `dateFormatString`), [m] = J(K, `mediaAutoLoad`), [h] = J(K, `urlPreview`), [g] = J(K, `renderMaths`), _ = X4(g), v = Nj(), y = UG(e.roomId), b = WG(), x = (0, N.useMemo)(()=>({
                 ...JL,
                 render: ZL((t)=>XL(r, e.roomId, t, YL(y)))
             }), [
@@ -134317,7 +134333,7 @@ ${r}
             ]
         });
     }
-    function ZLe() {
+    function QLe() {
         let { eventId: e } = Xm(), t = Hd($B), n = Zv(), r = Qk(`callChatPane`), i = ()=>t(!1);
         return (0, P.jsxs)(oA, {
             style: n === qv.Desktop ? {
@@ -134462,7 +134478,7 @@ ${r}
                                     }),
                                     (0, P.jsx)(L, {
                                         grow: `Yes`,
-                                        children: (0, P.jsx)(aLe, {})
+                                        children: (0, P.jsx)(oLe, {})
                                     })
                                 ]
                             }),
@@ -134474,10 +134490,10 @@ ${r}
                                 },
                                 children: [
                                     (0, P.jsx)(c8, {}),
-                                    (0, P.jsx)(YLe, {
+                                    (0, P.jsx)(XLe, {
                                         room: t
                                     }),
-                                    (0, P.jsx)(rFe, {
+                                    (0, P.jsx)(iFe, {
                                         room: t
                                     }),
                                     (0, P.jsx)(L, {
@@ -134520,7 +134536,7 @@ ${r}
                                         side: `After`,
                                         label: `call chat`
                                     }),
-                                    (0, P.jsx)(ZLe, {})
+                                    (0, P.jsx)(QLe, {})
                                 ]
                             }),
                             !b && l === qv.Desktop && h && (0, P.jsxs)(P.Fragment, {
@@ -134579,7 +134595,7 @@ ${r}
                 e.forEach((e)=>t.add(e));
             }));
         }
-    }), QLe = `_1p73zhk0`, $Le = (0, N.forwardRef)(({ powerLevels: e, requestClose: t }, n)=>{
+    }), $Le = `_1p73zhk0`, eRe = (0, N.forwardRef)(({ powerLevels: e, requestClose: t }, n)=>{
         let r = q(), i = TB(), a = zR(VR(i), e).action(`invite`, r.getSafeUserId()), o = k2(), [s, c] = (0, N.useState)(!1);
         return (0, P.jsxs)(ms, {
             ref: n,
@@ -134694,12 +134710,12 @@ ${r}
             ]
         });
     });
-    function eRe({ showProfile: e, powerLevels: t }) {
+    function tRe({ showProfile: e, powerLevels: t }) {
         let n = q(), r = Nj(), i = TB(), a = qD(K, `isPeopleDrawer`), [o, s] = (0, N.useState)(), c = Zv(), l = LB(i), u = IB(i), d = u ? Ew(n, u, r, 96, 96, `crop`) ?? void 0 : void 0, f = (e)=>{
             s(e.currentTarget.getBoundingClientRect());
         };
         return (0, P.jsx)(sA, {
-            className: e ? void 0 : QLe,
+            className: e ? void 0 : $Le,
             balance: !0,
             children: (0, P.jsxs)(L, {
                 grow: `Yes`,
@@ -134823,7 +134839,7 @@ ${r}
                                         isKeyBackward: (e)=>e.key === `ArrowUp`,
                                         escapeDeactivates: Uv
                                     },
-                                    children: (0, P.jsx)($Le, {
+                                    children: (0, P.jsx)(eRe, {
                                         powerLevels: t,
                                         requestClose: ()=>s(void 0)
                                     })
@@ -134835,7 +134851,7 @@ ${r}
             })
         });
     }
-    function tRe() {
+    function nRe() {
         let e = q(), t = Nj(), n = TB(), r = LB(n), i = RB(n), a = IB(n), o = a ? Ew(e, a, t, 96, 96, `crop`) ?? void 0 : void 0;
         return (0, P.jsx)(dA, {
             icon: (0, P.jsx)(Bo, {
@@ -134889,8 +134905,8 @@ ${r}
             })
         });
     }
-    var nRe = `closedLobbyCategories`, rRe = (e)=>{
-        let t = dE(`${nRe}${e}`, (e)=>{
+    var rRe = `closedLobbyCategories`, iRe = (e)=>{
+        let t = dE(`${rRe}${e}`, (e)=>{
             let t = lE(e, []);
             return new Set(t);
         }, (e, t)=>{
@@ -134918,7 +134934,7 @@ ${r}
             };
         }
         e.bind = t;
-    })), iRe = i(((e)=>{
+    })), aRe = i(((e)=>{
         var t = e && e.__assign || function() {
             return t = Object.assign || function(e) {
                 for(var t, n = 1, r = arguments.length; n < r; n++)for(var i in t = arguments[n], t)Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
@@ -134962,14 +134978,14 @@ ${r}
                 return t.bind;
             }
         });
-        var n = iRe();
+        var n = aRe();
         Object.defineProperty(e, "bindAll", {
             enumerable: !0,
             get: function() {
                 return n.bindAll;
             }
         });
-    }))(), aRe = `data-pdnd-honey-pot`;
+    }))(), oRe = `data-pdnd-honey-pot`;
     function v8(e) {
         return e instanceof Element && e.hasAttribute(`data-pdnd-honey-pot`);
     }
@@ -134977,7 +134993,7 @@ ${r}
         var t = document.elementsFromPoint(e.x, e.y), n = Re(t, 2), r = n[0], i = n[1];
         return r ? v8(r) ? i ?? null : r : null;
     }
-    var oRe = 2147483647, sRe = {
+    var sRe = 2147483647, cRe = {
         inset: `unset`,
         border: `none`,
         padding: 0,
@@ -135025,32 +135041,32 @@ ${r}
         return e;
     }
     var w8 = 2, T8 = w8 / 2;
-    function cRe(e) {
+    function lRe(e) {
         return {
             x: Math.floor(e.x),
             y: Math.floor(e.y)
         };
     }
-    function lRe(e) {
+    function uRe(e) {
         return {
             x: e.x - T8,
             y: e.y - T8
         };
     }
-    function uRe(e) {
+    function dRe(e) {
         return {
             x: Math.max(e.x, 0),
             y: Math.max(e.y, 0)
         };
     }
-    function dRe(e) {
+    function fRe(e) {
         return {
             x: Math.min(e.x, window.innerWidth - w8),
             y: Math.min(e.y, window.innerHeight - w8)
         };
     }
     function E8(e) {
-        var t = e.client, n = dRe(uRe(lRe(cRe(t))));
+        var t = e.client, n = fRe(dRe(uRe(lRe(t))));
         return DOMRect.fromRect({
             x: n.x,
             y: n.y,
@@ -135067,20 +135083,20 @@ ${r}
             height: `${t.height}px`
         };
     }
-    function fRe(e) {
+    function pRe(e) {
         var t = e.client, n = e.clientRect;
         return t.x >= n.x && t.x <= n.x + n.width && t.y >= n.y && t.y <= n.y + n.height;
     }
-    function pRe(e) {
+    function mRe(e) {
         var t = e.initial, n = document.createElement(`div`);
-        n.setAttribute(aRe, `true`), x8() && n.setAttribute(`popover`, `manual`);
+        n.setAttribute(oRe, `true`), x8() && n.setAttribute(`popover`, `manual`);
         var r = E8({
             client: t
         });
         Object.assign(n.style, C8(C8({
             position: `fixed`
-        }, x8() ? sRe : {
-            zIndex: oRe
+        }, x8() ? cRe : {
+            zIndex: sRe
         }), {}, {
             backgroundColor: `transparent`,
             padding: 0,
@@ -135108,7 +135124,7 @@ ${r}
         });
         return function(e) {
             var t = e.current;
-            if (i(), fRe({
+            if (i(), pRe({
                 client: t,
                 clientRect: r
             })) {
@@ -135152,7 +135168,7 @@ ${r}
             });
         };
     }
-    function mRe() {
+    function hRe() {
         var e = null;
         function t() {
             return e = null, (0, _8.bind)(window, {
@@ -135174,7 +135190,7 @@ ${r}
                 var r = n.eventName, i = n.payload;
                 if (r === `onDragStart`) {
                     var a = i.location.initial.input;
-                    t = pRe({
+                    t = mRe({
                         initial: e ?? {
                             x: a.clientX,
                             y: a.clientY
@@ -135197,17 +135213,17 @@ ${r}
             getOnPostDispatch: n
         };
     }
-    function hRe(e) {
+    function gRe(e) {
         if (Array.isArray(e)) return p(e);
     }
-    function gRe() {
+    function _Re() {
         throw TypeError(`Invalid attempt to spread non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
     }
     function O8(e) {
-        return hRe(e) || qt(e) || Dn(e) || gRe();
+        return gRe(e) || qt(e) || Dn(e) || _Re();
     }
-    var _Re = b8(function() {
+    var vRe = b8(function() {
         return navigator.userAgent.includes(`Firefox`);
     }), k8 = b8(function() {
         var e = navigator.userAgent;
@@ -135216,7 +135232,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         isLeavingWindow: Symbol(`leaving`),
         isEnteringWindow: Symbol(`entering`)
     };
-    function vRe(e) {
+    function yRe(e) {
         var t = e.dragLeave;
         return k8() ? t.hasOwnProperty(A8.isLeavingWindow) : !1;
     }
@@ -135263,19 +135279,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             capture: !0
         });
     })();
-    function yRe(e) {
+    function bRe(e) {
         return `nodeName` in e;
     }
-    function bRe(e) {
-        return yRe(e) && e.ownerDocument !== document;
-    }
     function xRe(e) {
-        var t = e.dragLeave, n = t.type, r = t.relatedTarget;
-        return n === `dragleave` ? k8() ? vRe({
-            dragLeave: t
-        }) : r == null ? !0 : _Re() ? bRe(r) : r instanceof HTMLIFrameElement : !1;
+        return bRe(e) && e.ownerDocument !== document;
     }
     function SRe(e) {
+        var t = e.dragLeave, n = t.type, r = t.relatedTarget;
+        return n === `dragleave` ? k8() ? yRe({
+            dragLeave: t
+        }) : r == null ? !0 : vRe() ? xRe(r) : r instanceof HTMLIFrameElement : !1;
+    }
+    function CRe(e) {
         var t = e.onDragEnd;
         return [
             {
@@ -135342,7 +135358,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             flush: n
         };
     }();
-    function CRe(e) {
+    function wRe(e) {
         var t = e.source, n = e.initial, r = e.dispatchEvent, i = {
             dropTargets: []
         };
@@ -135427,19 +135443,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function F8() {
         return !P8.isActive;
     }
-    function wRe(e) {
+    function TRe(e) {
         return e.dataTransfer ? e.dataTransfer.setDragImage.bind(e.dataTransfer) : null;
     }
-    function TRe(e) {
+    function ERe(e) {
         var t = e.current, n = e.next;
         if (t.length !== n.length) return !0;
         for(var r = 0; r < t.length; r++)if (t[r].element !== n[r].element) return !0;
         return !1;
     }
-    function ERe(e) {
+    function DRe(e) {
         var t = e.event, n = e.dragType, r = e.getDropTargetsOver, i = e.dispatchEvent;
         if (!F8()) return;
-        var a = DRe({
+        var a = ORe({
             event: t,
             dragType: n,
             getDropTargetsOver: r
@@ -135452,13 +135468,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             event: t,
             current: a.dropTargets
         });
-        var s = CRe({
+        var s = wRe({
             source: n.payload,
             dispatchEvent: i,
             initial: a
         });
         function c(e) {
-            var t = TRe({
+            var t = ERe({
                 current: o.current.dropTargets,
                 next: e.dropTargets
             });
@@ -135512,7 +135528,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             {
                 type: `dragleave`,
                 listener: function(e) {
-                    xRe({
+                    SRe({
                         dragLeave: e
                     }) && (c({
                         input: o.current.input,
@@ -135548,20 +135564,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     }, u();
                 }
             }
-        ].concat(O8(SRe({
+        ].concat(O8(CRe({
             onDragEnd: u
         }))), {
             capture: !0
         });
         s.start({
-            nativeSetDragImage: wRe(t)
+            nativeSetDragImage: TRe(t)
         });
     }
     function I8(e) {
         var t = e.event, n = e.current[0]?.dropEffect;
         n != null && t.dataTransfer && (t.dataTransfer.dropEffect = n);
     }
-    function DRe(e) {
+    function ORe(e) {
         var t = e.event, n = e.dragType, r = e.getDropTargetsOver, i = j8(t);
         return n.startedFrom === `external` ? {
             input: i,
@@ -135578,9 +135594,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }
     var L8 = {
         canStart: F8,
-        start: ERe
+        start: DRe
     }, R8 = new Map;
-    function ORe(e) {
+    function kRe(e) {
         var t = e.typeKey, n = e.mount, r = R8.get(t);
         if (r) return r.usageCount++, r;
         var i = {
@@ -135590,8 +135606,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
         return R8.set(t, i), i;
     }
-    function kRe(e) {
-        var t = ORe(e);
+    function ARe(e) {
+        var t = kRe(e);
         return function() {
             t.usageCount--, !(t.usageCount > 0) && (t.unmount(), R8.delete(e.typeKey));
         };
@@ -135636,7 +135652,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function U8(e, t) {
         var n = typeof Symbol < `u` && e[Symbol.iterator] || e[`@@iterator`];
         if (!n) {
-            if (Array.isArray(e) || (n = ARe(e)) || t && e && typeof e.length == `number`) {
+            if (Array.isArray(e) || (n = jRe(e)) || t && e && typeof e.length == `number`) {
                 n && (e = n);
                 var r = 0, i = function() {};
                 return {
@@ -135679,7 +135695,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         };
     }
-    function ARe(e, t) {
+    function jRe(e, t) {
         if (e) {
             if (typeof e == `string`) return W8(e, t);
             var n = {}.toString.call(e).slice(8, -1);
@@ -135694,7 +135710,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function G8(e) {
         return e.slice(0).reverse();
     }
-    function jRe(e) {
+    function MRe(e) {
         var t = e.typeKey, n = e.defaultDropEffect, r = new WeakMap, i = `data-drop-target-for-${t}`, a = `[${i}]`;
         function o(e) {
             return r.set(e.element, e), function() {
@@ -135843,10 +135859,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             dispatchEvent: d
         };
     }
-    function MRe(e, t) {
+    function NRe(e, t) {
         var n = typeof Symbol < `u` && e[Symbol.iterator] || e[`@@iterator`];
         if (!n) {
-            if (Array.isArray(e) || (n = NRe(e)) || t && e && typeof e.length == `number`) {
+            if (Array.isArray(e) || (n = PRe(e)) || t && e && typeof e.length == `number`) {
                 n && (e = n);
                 var r = 0, i = function() {};
                 return {
@@ -135889,7 +135905,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         };
     }
-    function NRe(e, t) {
+    function PRe(e, t) {
         if (e) {
             if (typeof e == `string`) return K8(e, t);
             var n = {}.toString.call(e).slice(8, -1);
@@ -135911,7 +135927,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         return n;
     }
-    function PRe(e) {
+    function FRe(e) {
         for(var t = 1; t < arguments.length; t++){
             var n = arguments[t] == null ? {} : arguments[t];
             t % 2 ? q8(Object(n), !0).forEach(function(t) {
@@ -135922,13 +135938,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         return e;
     }
-    function FRe() {
+    function IRe() {
         var e = new Set, t = null;
         function n(e) {
             t && (!e.canMonitor || e.canMonitor(t.canMonitorArgs)) && t.active.add(e);
         }
         function r(r) {
-            var i = PRe({}, r);
+            var i = FRe({}, r);
             e.add(i), n(i);
             function a() {
                 e.delete(i), t && t.active.delete(i);
@@ -135945,7 +135961,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     },
                     active: new Set
                 };
-                var o = MRe(e), s;
+                var o = NRe(e), s;
                 try {
                     for(o.s(); !(s = o.n()).done;){
                         var c = s.value;
@@ -135973,8 +135989,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             monitorForConsumers: r
         };
     }
-    function IRe(e) {
-        var t = e.typeKey, n = e.mount, r = e.dispatchEventToSource, i = e.onPostDispatch, a = e.defaultDropEffect, o = FRe(), s = jRe({
+    function LRe(e) {
+        var t = e.typeKey, n = e.mount, r = e.dispatchEventToSource, i = e.onPostDispatch, a = e.defaultDropEffect, o = IRe(), s = MRe({
             typeKey: t,
             defaultDropEffect: a
         });
@@ -135997,7 +136013,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     start: l
                 });
             }
-            return kRe({
+            return ARe({
                 typeKey: t,
                 mount: e
             });
@@ -136008,15 +136024,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             monitor: o.monitorForConsumers
         };
     }
-    var LRe = b8(function() {
+    var RRe = b8(function() {
         return navigator.userAgent.toLocaleLowerCase().includes(`android`);
-    }), RRe = `pdnd:android-fallback`, zRe = `text/plain`, BRe = `application/vnd.pdnd`, J8 = new WeakMap;
-    function VRe(e) {
+    }), zRe = `pdnd:android-fallback`, BRe = `text/plain`, VRe = `application/vnd.pdnd`, J8 = new WeakMap;
+    function HRe(e) {
         return J8.set(e.element, e), function() {
             J8.delete(e.element);
         };
     }
-    var Y8 = mRe(), X8 = IRe({
+    var Y8 = hRe(), X8 = LRe({
         typeKey: `element`,
         defaultDropEffect: `move`,
         mount: function(e) {
@@ -136052,7 +136068,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     var u = Re(l[c], 2), d = u[0], f = u[1];
                                     t.dataTransfer.setData(d, f ?? ``);
                                 }
-                                LRe() && !t.dataTransfer.types.includes(`text/plain`) && !t.dataTransfer.types.includes(`text/uri-list`) && t.dataTransfer.setData(zRe, RRe), t.dataTransfer.setData(BRe, ``);
+                                RRe() && !t.dataTransfer.types.includes(`text/plain`) && !t.dataTransfer.types.includes(`text/uri-list`) && t.dataTransfer.setData(BRe, zRe), t.dataTransfer.setData(VRe, ``);
                                 var p = {
                                     type: `element`,
                                     payload: {
@@ -136079,14 +136095,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         onPostDispatch: Y8.getOnPostDispatch()
     }), Z8 = X8.dropTarget, Q8 = X8.monitor;
     function $8(e) {
-        return b8(z8(X8.registerUsage(), VRe(e), B8(e.element, {
+        return b8(z8(X8.registerUsage(), HRe(e), B8(e.element, {
             attribute: `draggable`,
             value: `true`
         })));
     }
     var e5 = new Map, t5 = new Set;
     function n5(e) {
-        HRe(e);
+        URe(e);
         var t = e5.get(e);
         if (t) return t;
         var n = {
@@ -136094,25 +136110,25 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
         return e5.set(e, n), n;
     }
-    function HRe(e) {
+    function URe(e) {
         t5.add(e);
     }
-    function URe(e) {
+    function WRe(e) {
         t5.clear(), e(), e5.forEach(function(e, t) {
             t5.has(t) || e5.delete(t);
         }), t5.clear();
     }
-    function WRe() {
+    function GRe() {
         e5.clear();
     }
     var r5 = new Map;
-    function GRe(e) {
+    function KRe(e) {
         var t = r5.get(e);
         if (t) return t;
-        var n = KRe(e);
+        var n = qRe(e);
         return r5.set(e, n), n;
     }
-    function KRe(e) {
+    function qRe(e) {
         var t = {
             type: `idle`
         }, n = [];
@@ -136122,7 +136138,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     x: a.location.current.input.clientX,
                     y: a.location.current.input.clientY
                 });
-                URe(function() {
+                WRe(function() {
                     n.forEach(function(e) {
                         return e({
                             underUsersPointer: o,
@@ -136134,7 +136150,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         }
         function i() {
-            t.type !== `idle` && (cancelAnimationFrame(t.frameId), WRe(), t = {
+            t.type !== `idle` && (cancelAnimationFrame(t.frameId), GRe(), t = {
                 type: `idle`
             });
         }
@@ -136170,8 +136186,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         };
     }
-    var i5 = `data-auto-scrollable`, qRe = `[${i5}="true"]`;
-    function JRe(e) {
+    var i5 = `data-auto-scrollable`, JRe = `[${i5}="true"]`;
+    function YRe(e) {
         return e.setAttribute(i5, `true`), function() {
             return e.removeAttribute(i5);
         };
@@ -136197,7 +136213,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         return e;
     }
-    var YRe = {
+    var XRe = {
         startHitboxAtPercentageRemainingOfElement: {
             top: .25,
             right: .25,
@@ -136212,16 +136228,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         },
         timeDampeningDurationMs: 400,
         maxMainAxisHitboxSize: 180
-    }, XRe = {
+    }, ZRe = {
         standard: 900,
         fast: 1500
     };
     function s5(e) {
-        return o5(o5({}, YRe), {}, {
-            maxPixelScrollPerSecond: XRe[e?.maxScrollSpeed ?? `standard`]
+        return o5(o5({}, XRe), {}, {
+            maxPixelScrollPerSecond: ZRe[e?.maxScrollSpeed ?? `standard`]
         });
     }
-    var ZRe = {
+    var QRe = {
         top: function(e) {
             return e.scrollTop > 0;
         },
@@ -136234,12 +136250,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         left: function(e) {
             return e.scrollLeft > 0;
         }
-    }, QRe = [
+    }, $Re = [
         `top`,
         `right`,
         `bottom`,
         `left`
-    ], $Re = {
+    ], eze = {
         top: `vertical`,
         right: `horizontal`,
         bottom: `vertical`,
@@ -136276,7 +136292,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return DOMRect.fromRect(A(A(A(A({}, o.point, c === `start` ? r[o.point] : r[o.point] + r[o.size] - l), s.point, r[s.point]), o.size, l), s.size, r[s.size]));
         };
     }
-    var eze = {
+    var tze = {
         top: f5({
             axis: `vertical`,
             edge: `top`
@@ -136301,11 +136317,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         var i = n - t;
         return (r - t) / i;
     }
-    function tze(e) {
+    function nze(e) {
         var t = e.timeSinceLastFrame, n = e.config, r = n.maxPixelScrollPerSecond / 1e3, i = Math.ceil(r * t), a = n.maxPixelScrollPerSecond / 60;
         return Math.min(i, a);
     }
-    function nze(e) {
+    function rze(e) {
         var t = e.client, n = e.axis, r = e.edge, i = e.hitbox, a = e.config, o = u5[n].mainAxis, s = d5[r], c = i[o.size] * a.maxScrollAtPercentageRemainingOfHitbox[r];
         return s === `end` ? p5({
             startOfRange: i[o.start],
@@ -136318,10 +136334,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     function m5(e) {
-        var t = e.client, n = e.timeSinceLastFrame, r = e.engagement, i = e.axis, a = e.hitbox, o = e.edge, s = e.isDistanceDampeningEnabled, c = e.config, l = tze({
+        var t = e.client, n = e.timeSinceLastFrame, r = e.engagement, i = e.axis, a = e.hitbox, o = e.edge, s = e.isDistanceDampeningEnabled, c = e.config, l = nze({
             timeSinceLastFrame: n,
             config: c
-        }), u = (s ? nze({
+        }), u = (s ? rze({
             client: t,
             edge: o,
             hitbox: a,
@@ -136334,29 +136350,29 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }), d = Math.max(l * u, 1);
         return d5[o] === `end` ? d : -1 * d;
     }
-    function rze(e, t) {
+    function ize(e, t) {
         return t === `all` || e === t;
     }
-    function ize(e) {
+    function aze(e) {
         var t = e.client, n = e.clientRect;
         return t.x >= n.x && t.x <= n.x + n.width && t.y >= n.y && t.y <= n.y + n.height;
     }
-    function aze(e) {
+    function oze(e) {
         return e.getBoundingClientRect();
     }
     function h5(e) {
-        var t = e.element, n = e.input, r = e.timeSinceLastFrame, i = e.engagement, a = e.config, o = e.allowedAxis, s = e.getRect, c = s === void 0 ? aze : s, l = {
+        var t = e.element, n = e.input, r = e.timeSinceLastFrame, i = e.engagement, a = e.config, o = e.allowedAxis, s = e.getRect, c = s === void 0 ? oze : s, l = {
             x: n.clientX,
             y: n.clientY
-        }, u = c(t), d = QRe.reduce(function(e, n) {
-            var r = eze[n]({
+        }, u = c(t), d = $Re.reduce(function(e, n) {
+            var r = tze[n]({
                 clientRect: u,
                 config: a
-            }), i = $Re[n];
-            return !rze(i, o) || !ize({
+            }), i = eze[n];
+            return !ize(i, o) || !aze({
                 client: l,
                 clientRect: r
-            }) || !ZRe[n](t) || e.set(n, {
+            }) || !QRe[n](t) || e.set(n, {
                 edge: n,
                 hitbox: r
             }), e;
@@ -136412,10 +136428,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }()
         };
     }
-    function oze(e, t) {
+    function sze(e, t) {
         var n = typeof Symbol < `u` && e[Symbol.iterator] || e[`@@iterator`];
         if (!n) {
-            if (Array.isArray(e) || (n = sze(e)) || t && e && typeof e.length == `number`) {
+            if (Array.isArray(e) || (n = cze(e)) || t && e && typeof e.length == `number`) {
                 n && (e = n);
                 var r = 0, i = function() {};
                 return {
@@ -136458,7 +136474,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         };
     }
-    function sze(e, t) {
+    function cze(e, t) {
         if (e) {
             if (typeof e == `string`) return g5(e, t);
             var n = {}.toString.call(e).slice(8, -1);
@@ -136479,7 +136495,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             left: !0
         } : o;
         if (!_5(s) || !t) return s;
-        var c = t.closest(qRe);
+        var c = t.closest(JRe);
         if (!c) return s;
         var l = i(c);
         if (!l) return s;
@@ -136512,12 +136528,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
         return s.top && m.top !== 0 && (h.top = m.top, s.top = !1), s.left && m.left !== 0 && (h.left = m.left, s.left = !1), (h.top !== 0 || h.left !== 0) && c.scrollBy(h), u();
     }
-    function cze(e) {
+    function lze(e) {
         var t = e.input, n = e.timeSinceLastFrame, r = e.available, i = e.source, a = e.entries, o = document.documentElement, s = {
             input: t,
             source: i,
             element: o
-        }, c = oze(a), l;
+        }, c = sze(a), l;
         try {
             for(c.s(); !(l = c.n()).done;){
                 var u = l.value;
@@ -136551,7 +136567,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             c.f();
         }
     }
-    function lze(e) {
+    function uze(e) {
         var t = e.input, n = e.findEntry, r = e.timeSinceLastFrame, i = e.source, a = e.getWindowScrollEntries, o = e.underUsersPointer, s = v5({
             target: o,
             timeSinceLastFrame: r,
@@ -136559,7 +136575,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             source: i,
             findEntry: n
         });
-        _5(s) && cze({
+        _5(s) && lze({
             input: t,
             source: i,
             entries: a(),
@@ -136577,7 +136593,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         return n;
     }
-    function uze(e) {
+    function dze(e) {
         for(var t = 1; t < arguments.length; t++){
             var n = arguments[t] == null ? {} : arguments[t];
             t % 2 ? y5(Object(n), !0).forEach(function(t) {
@@ -136588,15 +136604,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         return e;
     }
-    function dze(e) {
+    function fze(e) {
         var t = e.monitor, n = new Map, r = new Set;
         function i(e) {
-            return n.set(e.element, e), b8(z8(JRe(e.element), function() {
+            return n.set(e.element, e), b8(z8(YRe(e.element), function() {
                 return n.delete(e.element);
             }));
         }
         function a() {
-            var e = uze({}, arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {});
+            var e = dze({}, arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {});
             r.add(e);
             function t() {
                 r.delete(e);
@@ -136611,7 +136627,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         function c(e) {
             var t = e.latestArgs, n = e.underUsersPointer, r = e.timeSinceLastFrame;
-            lze({
+            uze({
                 input: t.location.current.input,
                 source: t.source,
                 findEntry: o,
@@ -136620,16 +136636,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 getWindowScrollEntries: s
             });
         }
-        return GRe(t).onFrame(c), {
+        return KRe(t).onFrame(c), {
             autoScroll: i,
             autoScrollWindow: a
         };
     }
-    var b5 = dze({
+    var b5 = fze({
         monitor: Q8
     }), x5 = b5.autoScroll;
     b5.autoScrollWindow;
-    var fze = `_10dxgc60 _1rwrsxz0 _1mqalmd1 _1mqalmd0 _1rwrsxz3`, pze = `_10dxgc63 _10dxgc62 _10dxgc61`, mze = `_10dxgc64 _10dxgc62 _10dxgc61`, S5 = (e, t, n, r)=>{
+    var pze = `_10dxgc60 _1rwrsxz0 _1mqalmd1 _1mqalmd0 _1rwrsxz3`, mze = `_10dxgc63 _10dxgc62 _10dxgc61`, hze = `_10dxgc64 _10dxgc62 _10dxgc61`, S5 = (e, t, n, r)=>{
         let [i, a] = (0, N.useState)(!1);
         return (0, N.useEffect)(()=>{
             let i = t.current, o = r?.current ?? void 0;
@@ -136650,10 +136666,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e,
             n
         ]), i;
-    }, hze = jo(({ className: e, ...t }, n)=>(0, P.jsx)(L, {
+    }, gze = jo(({ className: e, ...t }, n)=>(0, P.jsx)(L, {
             justifyContent: `Center`,
             alignItems: `Center`,
-            className: (0, Xa.default)(fze, e),
+            className: (0, Xa.default)(pze, e),
             ref: n,
             ...t,
             children: (0, P.jsx)(z, {
@@ -136686,13 +136702,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n,
             r
         ]), (0, P.jsx)(`div`, {
-            className: t ? mze : pze,
+            className: t ? hze : mze,
             "data-hover": a !== `idle`,
             "data-error": a === `not-allow`,
             ref: i
         });
     }
-    var gze = (e, t, n)=>{
+    var _ze = (e, t, n)=>{
         (0, N.useEffect)(()=>{
             let r = e.current;
             if (!r) throw Error(`Scroll element ref not configured`);
@@ -136710,7 +136726,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t,
             n
         ]);
-    }, w5 = (0, N.createContext)(null), _ze = w5.Provider, vze = ()=>{
+    }, w5 = (0, N.createContext)(null), vze = w5.Provider, yze = ()=>{
         let e = (0, N.useContext)(w5);
         if (!e) throw Error(`ClosedLobbyCategoriesAtom is not provided!`);
         return e;
@@ -136769,7 +136785,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }).filter((e)=>e !== null), O5 = (e, t)=>({
             ...DC(e, Ob.CinnySpaces)?.getContent() ?? {},
             sidebar: t
-        }), yze = $E({
+        }), bze = $E({
         defaultClassName: `_1321e2t0`,
         variantClassNames: {
             outlined: {
@@ -136778,14 +136794,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         },
         defaultVariants: {},
         compoundVariants: []
-    }), k5 = `_1321e2t2`, bze = `_1321e2t3`, A5 = `_1xrrjei0`, j5 = `_1xrrjei1 _1mqalmd1 _1mqalmd0`, M5 = Ed(void 0), xze = ()=>Vd(M5), Sze = ()=>{
+    }), k5 = `_1321e2t2`, xze = `_1321e2t3`, A5 = `_1xrrjei0`, j5 = `_1xrrjei1 _1mqalmd1 _1mqalmd0`, M5 = Ed(void 0), Sze = ()=>Vd(M5), Cze = ()=>{
         let e = Hd(M5);
         return (0, N.useCallback)(()=>{
             e(void 0);
         }, [
             e
         ]);
-    }, Cze = ()=>{
+    }, wze = ()=>{
         let e = Hd(M5);
         return (0, N.useCallback)((t, n)=>{
             e({
@@ -136795,14 +136811,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }, [
             e
         ]);
-    }, N5 = Ed(void 0), wze = ()=>Vd(N5), Tze = ()=>{
+    }, N5 = Ed(void 0), Tze = ()=>Vd(N5), Eze = ()=>{
         let e = Hd(N5);
         return (0, N.useCallback)(()=>{
             e(void 0);
         }, [
             e
         ]);
-    }, Eze = ()=>{
+    }, Dze = ()=>{
         let e = Hd(N5);
         return (0, N.useCallback)((t)=>{
             e({
@@ -136811,7 +136827,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }, [
             e
         ]);
-    }, Dze = {
+    }, Oze = {
         limit: 500,
         matchOptions: {
             contain: !0
@@ -136836,7 +136852,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             r
         ]), [g, _, v] = PB(h, (0, N.useCallback)((e)=>m(e)?.name ?? e, [
             m
-        ]), Dze), y = g?.query ? $L(g.query.split(` `)) : void 0, b = g ? g.items : h, x = Rz({
+        ]), Oze), y = g?.query ? $L(g.query.split(` `)) : void 0, b = g ? g.items : h, x = Rz({
             count: b.length,
             getScrollElement: ()=>d.current,
             estimateSize: ()=>32,
@@ -137156,7 +137172,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function Oze() {
+    function kze() {
         return (0, P.jsx)(L, {
             gap: `200`,
             alignItems: `Center`,
@@ -137164,7 +137180,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 grow: `Yes`,
                 gap: `200`,
                 alignItems: `Center`,
-                className: bze,
+                className: xze,
                 children: [
                     (0, P.jsx)(Bo, {
                         className: A5,
@@ -137183,7 +137199,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function kze({ roomId: e, suggested: t }) {
+    function Aze({ roomId: e, suggested: t }) {
         return (0, P.jsx)(es, {
             as: `span`,
             className: k5,
@@ -137234,7 +137250,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Aze({ roomId: e, via: t, name: n, avatarUrl: r, suggested: i }) {
+    function jze({ roomId: e, via: t, name: n, avatarUrl: r, suggested: i }) {
         let a = q(), [o, s] = Rg((0, N.useCallback)(()=>a.joinRoom(e, {
                 viaServers: t
             }), [
@@ -137303,7 +137319,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function jze({ roomId: e, name: t, avatarUrl: n, suggested: r, closed: i, categoryId: a, handleClose: o }) {
+    function Mze({ roomId: e, name: t, avatarUrl: n, suggested: r, closed: i, categoryId: a, handleClose: o }) {
         return (0, P.jsx)(es, {
             "data-category-id": a,
             onClick: o,
@@ -137351,7 +137367,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Mze({ closed: e, categoryId: t, handleClose: n }) {
+    function Nze({ closed: e, categoryId: t, handleClose: n }) {
         return (0, P.jsx)(es, {
             "data-category-id": t,
             onClick: n,
@@ -137373,8 +137389,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Nze({ item: e }) {
-        let [t, n] = (0, N.useState)(), r = Cze(), [i, a] = (0, N.useState)(!1), o = (e)=>{
+    function Pze({ item: e }) {
+        let [t, n] = (0, N.useState)(), r = wze(), [i, a] = (0, N.useState)(!1), o = (e)=>{
             n(e.currentTarget.getBoundingClientRect());
         }, s = (t)=>{
             r(e.roomId, t), n(void 0);
@@ -137457,8 +137473,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Pze({ item: e }) {
-        let [t, n] = (0, N.useState)(), r = Eze(), [i, a] = (0, N.useState)(!1);
+    function Fze({ item: e }) {
+        let [t, n] = (0, N.useState)(), r = Dze(), [i, a] = (0, N.useState)(!1);
         return (0, P.jsxs)(Ms, {
             anchor: t,
             position: `Bottom`,
@@ -137530,13 +137546,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var Fze = jo(({ className: e, summary: t, loading: n, joined: r, closed: i, categoryId: a, item: o, handleClose: s, options: c, before: l, after: u, canEditChild: d, canReorder: f, onDragging: p, getRoom: m, ...h }, g)=>{
+    var Ize = jo(({ className: e, summary: t, loading: n, joined: r, closed: i, categoryId: a, item: o, handleClose: s, options: c, before: l, after: u, canEditChild: d, canReorder: f, onDragging: p, getRoom: m, ...h }, g)=>{
         let _ = q(), v = Nj(), { roomId: y, content: b } = o, x = m(y), S = (0, N.useRef)(null);
         return S5(o, S, p), (0, P.jsxs)(L, {
             shrink: `No`,
             alignItems: `Center`,
             gap: `200`,
-            className: (0, Xa.default)(yze({
+            className: (0, Xa.default)(bze({
                 outlined: !r || i
             }), e),
             ...h,
@@ -137553,7 +137569,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             ref: f ? S : null,
                             children: x ? (0, P.jsx)(e2, {
                                 room: x,
-                                children: (e)=>o.parentId ? (0, P.jsx)(jze, {
+                                children: (e)=>o.parentId ? (0, P.jsx)(Mze, {
                                         roomId: y,
                                         name: e.name,
                                         avatarUrl: HC(_, x, 96, v),
@@ -137561,18 +137577,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         closed: i,
                                         categoryId: a,
                                         handleClose: s
-                                    }) : (0, P.jsx)(Mze, {
+                                    }) : (0, P.jsx)(Nze, {
                                         closed: i,
                                         categoryId: a,
                                         handleClose: s
                                     })
                             }) : (0, P.jsxs)(P.Fragment, {
                                 children: [
-                                    !t && (n ? (0, P.jsx)(Oze, {}) : (0, P.jsx)(kze, {
+                                    !t && (n ? (0, P.jsx)(kze, {}) : (0, P.jsx)(Aze, {
                                         roomId: o.roomId,
                                         suggested: o.content.suggested
                                     })),
-                                    t && (0, P.jsx)(Aze, {
+                                    t && (0, P.jsx)(jze, {
                                         roomId: y,
                                         via: o.content.via,
                                         name: t.name || t.canonical_alias || y,
@@ -137587,10 +137603,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             alignItems: `Inherit`,
                             gap: `200`,
                             children: [
-                                (0, P.jsx)(Nze, {
+                                (0, P.jsx)(Pze, {
                                     item: o
                                 }),
-                                o.parentId === void 0 && (0, P.jsx)(Pze, {
+                                o.parentId === void 0 && (0, P.jsx)(Fze, {
                                     item: o
                                 })
                             ]
@@ -137602,7 +137618,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     });
-    function Ize({ item: e, requestClose: t }) {
+    function Lze({ item: e, requestClose: t }) {
         let n = q(), { roomId: r, parentId: i, content: a } = e, [o, s] = Rg((0, N.useCallback)(()=>{
             let e = {
                 ...a,
@@ -137636,7 +137652,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Lze({ item: e, requestClose: t }) {
+    function Rze({ item: e, requestClose: t }) {
         let n = q(), { roomId: r, parentId: i } = e, [a, o] = Rg((0, N.useCallback)(()=>n.sendStateEvent(i, G.SpaceChild, {}, r), [
             n,
             i,
@@ -137667,7 +137683,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function Rze({ item: e, requestClose: t, disabled: n }) {
+    function zze({ item: e, requestClose: t, disabled: n }) {
         let r = q().getRoom(e.roomId), [i, a] = (0, N.useState)(!1);
         return (0, P.jsxs)(P.Fragment, {
             children: [
@@ -137697,7 +137713,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function zze({ item: e, requestClose: t, disabled: n }) {
+    function Bze({ item: e, requestClose: t, disabled: n }) {
         let r = SB(), i = k2(), a = EB();
         return (0, P.jsx)(fs, {
             onClick: ()=>{
@@ -137775,12 +137791,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 children: i ? `Unpin from Sidebar` : `Pin to Sidebar`
                                             })
                                         }),
-                                        (0, P.jsx)(Rze, {
+                                        (0, P.jsx)(zze, {
                                             item: e,
                                             requestClose: d,
                                             disabled: !l()
                                         }),
-                                        (0, P.jsx)(zze, {
+                                        (0, P.jsx)(Bze, {
                                             item: e,
                                             requestClose: d
                                         }),
@@ -137835,11 +137851,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         padding: I.space.S100
                                     },
                                     children: [
-                                        (0, P.jsx)(Ize, {
+                                        (0, P.jsx)(Lze, {
                                             item: e,
                                             requestClose: d
                                         }),
-                                        (0, P.jsx)(Lze, {
+                                        (0, P.jsx)(Rze, {
                                             item: e,
                                             requestClose: d
                                         })
@@ -137852,7 +137868,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var Bze = `_7ry8260`, Vze = `_7ry8262`;
+    var Vze = `_7ry8260`, Hze = `_7ry8262`;
     function L5({ roomId: e, via: t }) {
         let n = q(), [r, i] = Rg((0, N.useCallback)(()=>n.joinRoom(e, {
                 viaServers: t
@@ -137925,7 +137941,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function Hze() {
+    function Uze() {
         return (0, P.jsxs)(L, {
             grow: `Yes`,
             gap: `300`,
@@ -137994,7 +138010,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 (0, P.jsxs)(L, {
                     grow: `Yes`,
                     direction: `Column`,
-                    className: Vze,
+                    className: Hze,
                     children: [
                         (0, P.jsxs)(L, {
                             gap: `200`,
@@ -138159,12 +138175,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var Uze = jo(({ item: e, loading: t, error: n, summary: r, dm: i, onOpen: a, options: o, before: s, after: c, onDragging: l, canReorder: u, getRoom: d, ...f }, p)=>{
+    var Wze = jo(({ item: e, loading: t, error: n, summary: r, dm: i, onOpen: a, options: o, before: s, after: c, onDragging: l, canReorder: u, getRoom: d, ...f }, p)=>{
         let m = q(), h = Nj(), { roomId: g, content: _ } = e, v = d(g), y = (0, N.useRef)(null), b = (0, N.useRef)(null);
         S5(e, y, l, b);
         let x = v?.getMyMembership() === kb.Join;
         return (0, P.jsxs)(Y, {
-            className: Bze,
+            className: Vze,
             variant: `SurfaceVariant`,
             gap: `300`,
             alignItems: `Center`,
@@ -138176,7 +138192,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     ref: u ? y : null,
                     grow: `Yes`,
                     children: [
-                        u && (0, P.jsx)(hze, {
+                        u && (0, P.jsx)(gze, {
                             ref: b
                         }),
                         v ? (0, P.jsx)(e2, {
@@ -138221,7 +138237,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     via: _.via
                                 }) : (0, P.jsxs)(P.Fragment, {
                                     children: [
-                                        t && (0, P.jsx)(Hze, {}),
+                                        t && (0, P.jsx)(Uze, {}),
                                         !t && (0, P.jsx)(R5, {
                                             roomId: g,
                                             inaccessibleRoom: !0,
@@ -138252,7 +138268,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 c
             ]
         });
-    }), Wze = (0, N.forwardRef)(({ summary: e, spaceItem: t, roomItems: n, allJoinedRooms: r, mDirects: i, roomsPowerLevels: a, categoryId: o, closed: s, handleClose: c, draggingItem: l, onDragging: u, canDrop: d, disabledReorder: f, nextSpaceId: p, getRoom: m, pinned: h, togglePinToSidebar: g, onOpenRoom: _, onSpacesFound: y }, b)=>{
+    }), Gze = (0, N.forwardRef)(({ summary: e, spaceItem: t, roomItems: n, allJoinedRooms: r, mDirects: i, roomsPowerLevels: a, categoryId: o, closed: s, handleClose: c, draggingItem: l, onDragging: u, canDrop: d, disabledReorder: f, nextSpaceId: p, getRoom: m, pinned: h, togglePinToSidebar: g, onOpenRoom: _, onSpacesFound: y }, b)=>{
         let x = q(), { fetching: S, error: C, rooms: w } = Hje(t.roomId, !0), T = (0, N.useMemo)(()=>{
             let e = new Map;
             return w.forEach((t)=>{
@@ -138276,7 +138292,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             gap: `100`,
             ref: b,
             children: [
-                (0, P.jsx)(Fze, {
+                (0, P.jsx)(Ize, {
                     summary: w.get(t.roomId) ?? e,
                     loading: S,
                     item: t,
@@ -138312,7 +138328,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     gap: `100`,
                     children: ne.map((e, t)=>{
                         let n = w.get(e.roomId), o = a.get(e.roomId) ?? {}, s = t === ne.length ? p : ne[t + 1]?.roomId, c = l?.roomId === e.roomId && l.parentId === e.parentId;
-                        return (0, P.jsx)(Uze, {
+                        return (0, P.jsx)(Wze, {
                             item: e,
                             loading: S,
                             error: C,
@@ -138366,7 +138382,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
             ]
         });
-    }), Gze = (e, t, n)=>{
+    }), Kze = (e, t, n)=>{
         let r = q(), i = (0, N.useCallback)((i, a)=>{
             if (!(`space` in a.item)) return !1;
             let o = e.roomId, s = t.get(o) ?? {}, c = RR(HR(r, o), s);
@@ -138394,10 +138410,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             a
         ]);
     };
-    function Kze() {
+    function qze() {
         let e = Ym(), t = q(), n = Vd(vD), r = Vd(gD), i = (0, N.useMemo)(()=>new Set(r), [
             r
-        ]), a = TB(), o = jP(a), s = (0, N.useMemo)(()=>new A2(32, 126, 6), []), c = Y$(t, a.roomId), l = (0, N.useRef)(null), u = (0, N.useRef)(null), [d, f] = (0, N.useState)(), [p, m] = Ud(m8), [h] = J(K, `isPeopleDrawer`), g = Zv(), [_, v] = (0, N.useState)(!0), [y, b] = Ud(vze()), [x] = E5(Cz(t, gD, Vd(bD))), S = (0, N.useMemo)(()=>{
+        ]), a = TB(), o = jP(a), s = (0, N.useMemo)(()=>new A2(32, 126, 6), []), c = Y$(t, a.roomId), l = (0, N.useRef)(null), u = (0, N.useRef)(null), [d, f] = (0, N.useState)(), [p, m] = Ud(m8), [h] = J(K, `isPeopleDrawer`), g = Zv(), [_, v] = (0, N.useState)(!0), [y, b] = Ud(yze()), [x] = E5(Cz(t, gD, Vd(bD))), S = (0, N.useMemo)(()=>{
             let e = x.flatMap((e)=>typeof e == `string` ? e : e.content);
             return new Set(e);
         }, [
@@ -138423,7 +138439,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }).filter((e)=>!!e), [
             O,
             T
-        ])), te = Gze(a, A, T), [j, ne] = Rg((0, N.useCallback)(async (e, n)=>{
+        ])), te = Kze(a, A, T), [j, ne] = Rg((0, N.useCallback)(async (e, n)=>{
             if (!e.parentId) return;
             let r = O.map((e)=>e.space).filter((t)=>t.roomId !== e.roomId), i = r.findIndex((e)=>e.roomId === n.roomId) + 1;
             r.splice(i, 0, {
@@ -138497,7 +138513,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             O,
             s
         ])), ae = re.status === W.Loading || M;
-        gze(l, D, (0, N.useCallback)((e, t)=>{
+        _ze(l, D, (0, N.useCallback)((e, t)=>{
             te(e, t) && (`space` in e ? ne(e, t.item) : ie(e, t.item));
         }, [
             ie,
@@ -138538,7 +138554,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 children: [
                     (0, P.jsxs)(oA, {
                         children: [
-                            (0, P.jsx)(eRe, {
+                            (0, P.jsx)(tRe, {
                                 showProfile: !_,
                                 powerLevels: A.get(a.roomId) ?? {}
                             }),
@@ -138582,7 +138598,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                             style: {
                                                                 paddingTop: 0
                                                             },
-                                                            children: (0, P.jsx)(tRe, {})
+                                                            children: (0, P.jsx)(nRe, {})
                                                         }),
                                                         ee.map((e)=>{
                                                             let t = O[e.index];
@@ -138594,7 +138610,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                                     paddingTop: e.index === 0 ? 0 : I.space.S500
                                                                 },
                                                                 ref: k.measureElement,
-                                                                children: (0, P.jsx)(Wze, {
+                                                                children: (0, P.jsx)(Gze, {
                                                                     spaceItem: t.space,
                                                                     summary: C.get(t.space.roomId),
                                                                     roomItems: t.rooms,
@@ -138668,8 +138684,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var qze = /^##\s+(\d{2}\.\d{2}\.\d{4})\s*$/, Jze = /^-\s+`([a-f0-9]{7,8})`\s+(.+?)\s*$/;
-    function Yze(e) {
+    var Jze = /^##\s+(\d{2}\.\d{2}\.\d{4})\s*$/, Yze = /^-\s+`([a-f0-9]{7,8})`\s+(.+?)\s*$/;
+    function Xze(e) {
         let t = [], n = e.split(/(`[^`]+`)/);
         for (let e of n)e && (e.startsWith("`") && e.endsWith("`") && e.length >= 2 ? t.push({
             kind: `code`,
@@ -138680,11 +138696,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }));
         return t;
     }
-    function Xze(e) {
+    function Zze(e) {
         let t = [], n = null;
         for (let r of e.split(`
 `)){
-            let e = r.trimEnd(), i = e.match(qze);
+            let e = r.trimEnd(), i = e.match(Jze);
             if (i) {
                 n && n.bullets.length > 0 && t.push(n), n = {
                     rawDate: i[1],
@@ -138693,15 +138709,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 continue;
             }
             if (!n) continue;
-            let a = e.match(Jze);
+            let a = e.match(Yze);
             a && n.bullets.push({
                 sha: a[1],
-                parts: Yze(a[2])
+                parts: Xze(a[2])
             });
         }
         return n && n.bullets.length > 0 && t.push(n), t;
     }
-    var Zze = [
+    var Qze = [
         `Jan`,
         `Feb`,
         `Mar`,
@@ -138715,14 +138731,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         `Nov`,
         `Dec`
     ];
-    function Qze(e) {
+    function $ze(e) {
         let t = e.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
         if (!t) return e;
         let n = parseInt(t[1], 10), r = parseInt(t[2], 10) - 1, i = t[3];
-        return r < 0 || r > 11 ? e : `${n} ${Zze[r]} ${i}`;
+        return r < 0 || r > 11 ? e : `${n} ${Qze[r]} ${i}`;
     }
-    var $ze = '# Changelog\n\nUser-facing changes per commit. Most recent at the top.\n\n## 29.08.2026\n\n- `0531b84` Fixed **text typing in backwards**, for the case the last fix could not reach. When the composer loses its cursor, two things can be missing: the one the app keeps track of, and the one the browser draws. Only the first was being put back, and it is the second that decides where a letter goes — for ordinary letters the editor hands the typing to the browser to do, and the browser puts each one wherever *it* thinks the cursor is. With no cursor of its own it invents one at the very start of the message, before the key has even been pressed, and quietly hands it back looking perfectly healthy — so every check downstream is satisfied and every letter still goes to the front. The browser\'s cursor is now put back the instant it goes missing, rather than a keystroke too late. Typing after that also carries on **where you were**, instead of jumping to the end of the message. A cursor you have put somewhere yourself is never moved, including a selection outside the composer — highlighting a message to copy it is left alone.\n- `0531b84` Fixed **the composer vanishing** when a compose key, an IME or a phone keyboard\'s autocorrect started a word while the composer had lost its cursor — the editor took the whole message box down with it and left the error screen in its place. Fixed **keystrokes disappearing entirely** in the same state: with the cursor missing at the moment a key went down, what you typed could land nowhere at all.\n- `ca8ab69` Fixed **the conversation jumping up several messages onto a link preview while you read**. A preview card lands a few hundred milliseconds after the message it belongs to appears, and when it is above you it pushes everything down — your place is meant to be held through that, and in one case it was not: the case where you had scrolled up off the newest message and then stopped. The hold was armed by scrolling, and switched off for a second after you left the bottom — which is the very second the previews for the messages you have just scrolled onto arrive — so it disarmed itself and, with you sitting still, nothing armed it again. It is now always armed, and works out for itself whether you are following the newest message rather than being told a second late. Your place is also held now when the thing that grows is *inside* the message at the top of your screen — several previews stacked in one message, a picture that has just worked out its own size, an edit — which used to move you the full height of whatever appeared. Growth below where you are reading still moves nothing, and new messages still scroll in when you are at the bottom.\n- `2294dfe` Fixed **the React button in the full-screen picture viewer taking the whole viewer down**, leaving a blank screen you had to reload out of. Reacting to a photo while a video was playing in the feed was enough to trigger it: the button measured its own position a moment too late, by which point the browser had already forgotten where the click came from. It now measures the moment you press it.\n- `2294dfe` Fixed **X\'d-out link previews coming back**. Dismissing a preview only lasted until you left the room — switch to another chat and back and every one you had cleared was there again. A dismissal is now remembered on this device, including across restarts, and applies to that link in that message, so the same link posted again later still gets a preview of its own.\n- `2294dfe` Fixed **links inside code blocks getting preview cards**. A URL in a fenced code block, or in `backticks`, is being shown rather than linked, so it no longer gets a card — and it no longer gets fetched either, which for an example URL in a config line is the more useful half. A link that appears both in a code block and as a real link in the same message still gets its card.\n\n## 26.08.2026\n\n- `5bc5fd4` Fixed **the first letter of a message vanishing when you start typing in a room you have just switched to**. Typing "foobar" straight after clicking a different chat sent "oobar". Switching rooms builds a brand-new composer, and the code that hands your keystroke to it was asking the editor to take focus at the one moment the editor refuses — it puts itself off by 10ms whenever it has just moved the cursor, which it always has on the first keypress in a new room. Your first character had nothing focused to land in; every one after it was fine, which is why exactly one went missing. The composer is now focused there and then.\n- `5bc5fd4` Fixed **a room opening part-way up the conversation instead of at the newest message**, with a "Jump to Latest" chip on a room you had only just clicked into. A picture or a link preview that finished loading in the first instant after the room drew grew the conversation under you, and the check that is meant to push the view back down to the bottom both missed that first moment and was switched off by the very growth it was there to correct — so the room stayed parked above the newest message until you scrolled down by hand. It now works out where you were before anything moved, so a room opens at the bottom and stays there while pictures and previews settle, while a conversation you had deliberately scrolled up in still stays exactly where you left it, including across loading older messages.\n- `9466d80` Removed **the arrows and fading edges on link previews**. Previews have stacked one above another rather than side by side for a while, so the buttons had nothing left to scroll through and the left one sat on top of the first preview.\n\n## 25.08.2026\n\n- `c23838c` Fixed **a picture in a Twitter or Bluesky post opening in the old single-image viewer** instead of the full-screen feed every other picture in the room opens in. It now opens in the feed, so you can flick straight on through the rest of the conversation\'s photos from it, and react, reply, jump to the message or save it from the same buttons as anywhere else. Videos in one of those posts get the **Feed** button an uploaded video already has. It opens on the exact picture you clicked, including the third of four in the same post — the card hands over what it has already fetched rather than waiting for the gallery to read back to that message and fetch the post a second time, which is what would otherwise have landed you on some other photo. Everywhere there is no conversation to swipe through — search results, pinned messages, the notifications inbox — the plain viewer is still what you get, same as for an attachment in those places.\n- `e85f5bb` Changed **what the Mashup tab is made of**: it is now Google\'s Emoji Kitchen — 147,000 combinations of 619 emoji, drawn by hand at Google — in place of the previous version, which built faces out of cut-up Twemoji parts inside the app. You get proper artwork, and objects and animals and food rather than only faces: a cat and a birthday cake make something, where before only two faces could be combined. Pick an emoji along the top strip and the grid below fills with every combination that actually exists for it, so nothing you can click is a dead end. **The order you pick in no longer matters** — Google drew one picture per pair, so 😹 and 🎂 give the same thing either way round, and it now keeps one name for it instead of two.\n- `e85f5bb` Changed **the Mashup tab to being off by default**, and it now says why. The old version drew everything on your own machine and never spoke to anyone; this one loads the pictures from Google, so simply browsing the tab tells Google your IP address and which emoji you are looking at. That is the same trade the GIF tab is switched off for, so it gets the same answer. Turn it on in Settings › General › Media. The list of which combinations exist ships inside the app, so nothing you type or search is sent anywhere — only the pictures are fetched.\n- `810e077` Fixed **a Bluesky or X link showing nothing at all under the message** — no card, no link, not even an error — while a YouTube link in the same message still showed one. Bluesky and X cards are built by the app itself rather than by your server, and when the app could not build one and your server had no preview either, the whole card was quietly dropped. It now always shows a card, and tells you which of the two things happened: that the post could not be loaded, or that embeds for it are switched off in Settings. Nothing is claimed while it is still loading.\n- `1444f24` Fixed **link previews vanishing under a message** — most visibly Bluesky posts, which stopped embedding entirely. The strip that holds preview cards hides itself when none of the links in a message produced a card, and it decided that by measuring the strip\'s height the instant the message appeared — before any card had finished loading. A Bluesky, X or Hacker News card has to fetch the post first, and an ordinary preview has to wait for your server, so at that moment there was nothing to measure and the strip hid itself. Once hidden it could never see the card that arrived a moment later, so the post was fetched, built and then never shown. YouTube links were unaffected throughout, because those draw immediately — which is why this looked like "Bluesky stopped embedding" rather than "the preview strip is hidden". The strip now asks whether any card actually rendered, which it can still answer while hidden, and an empty one is still hidden so no blank band appears under a message.\n\n## 24.08.2026\n\n- `4966924` Added **making up your own emoji by mashing two together**. There is a new Mashup tab on the emoji board: pick a face along the top strip and the grid below fills with every emoji that face makes when it borrows someone else\'s mouth — heart eyes that are sobbing, a cat huffing steam, a skull in a surgical mask. You are picking from finished pictures, not from a second list of names, and there are 17,820 of them. Click one to react with it or to drop it in what you are writing; it works from the message reaction button, the picture gallery and the composer alike. The pictures are drawn on your own machine out of emoji parts that ship with the app, so nothing is sent anywhere and nothing is looked up — only the one you actually pick gets uploaded. It can be turned off in Settings › General › Media.\n- `4966924` Added **a mashup you have used becoming a normal emoji you can type**. Everything you make lands in a Mashups group on the emoji board and answers to a name, so `:mash_heart_eyes__sob:` completes as you type it like any other custom emoji. The most recent 64 are kept, and the same mashup is never uploaded twice — which matters for more than tidiness: **two people reacting with the same mashup now stack into one reaction instead of sitting side by side as two.** Matrix matches reactions by exact image, and two people making the same face separately produce two different uploads of it, so this had to be taught to recognise them as the same thing. There is a bookmark on each of your recent mashups that copies it into your personal emoji pack, where other Matrix apps can see it too.\n- `6ebf964` Added **right-clicking a picture in the viewer to save, copy or open it**, rather than the download button being the only way. Worth explaining why it needed doing at all: the browser\'s own right-click menu was never blocked here — its "Save image as…" simply cannot work, and fails without saying so. Pictures are fetched with your login attached, and a save started by the browser does not carry it; in an encrypted room the picture only exists inside the app and has no address the system understands. Even when something did come out, it was named after an internal id rather than the file. The menu you get now goes the same way the download button always has, so it saves the real file under its real name, and it can put the picture on your clipboard too.\n- `6ebf964` Fixed **right-clicking a zoomed-in picture dragging it around** instead of doing anything useful — panning was starting on any mouse button, not just the left one.\n- `6ebf964` Fixed **a picture that failed to download doing so in complete silence**. Nothing happened and nothing was said, which is hard to tell apart from the button being broken. It now tells you, and why.\n\n- `ee1e4e6` Improved **searching for messages so it tells you what it is doing**. Before, a search gave you almost nothing to go on — a small spinner tucked inside the box on the search page, three grey boxes in the people panel, and no sign at all when it was over, so a search that finished with nothing looked exactly like one that never started. There is now a moving bar while it works, a line underneath that says so in words, and that same line stays afterwards to say it has finished and what it found. The placeholder cards breathe while they are waiting and sit below the results rather than above them, so new ones arriving reads as more on the way.\n- `ee1e4e6` Added **a running count while a search reads back through an encrypted conversation**. That kind of search is done here on your machine rather than by the server, unlocking each message as it goes, and it can take a while — so it now says how far it has got and what it has found as it goes: "Searching this room… 3,412 read · 5 found · 2.4s". When it stops, it says how much it read and how long it took, including when it found nothing, so an empty result is an answer rather than a silence. The magnifying glass in the people panel\'s search box also becomes a spinner while that search runs, since the results themselves are often further down the panel than you can see.\n- `bbc8f50` Fixed **the new search status line being cut off in the people panel**, which is narrow enough that a single line lost the counts it exists to show. The words and the numbers now sit on separate lines.\n- `ee1e4e6` Improved **the search page**: it now names what it is searching ("Searching Home…", or how many rooms you picked), reports how long the search took beside the number of matches, says "Loading more results…" instead of showing a bare spinner when you scroll for more, and keeps the spinner in the search box lit while those later results are on their way. The timer counts only time actually spent searching, so asking for older messages ten minutes later does not turn a one-second search into a ten-minute one.\n- `972f7fe` Fixed **Bluesky videos still saying "could not load this video"** — this time the actual cause, and it is why the last few attempts at it changed nothing. The player has two ways to show one of these clips: its own, which works everywhere, and the one built into whatever browser engine the app is running on. It picked between them by asking the engine whether it could handle the format, and every Chrome-based engine — which is what the Windows app is — answers **"maybe"** to that question whether or not it actually can. So the app took the engine\'s word for it every single time, and its own working player was never even downloaded. When the engine then could not play the clip, all you got was a failure message and an empty console. It now uses its own player wherever that will work, keeps the engine\'s own for the one place it is genuinely better (iPhones and iPads), and if either one fails it quietly tries the other before telling you anything.\n- `972f7fe` Fixed **a link preview card sometimes just not appearing**, most visibly for Bluesky posts. A Bluesky card is built from two requests to Bluesky, and nothing else was allowed to step in — so one dropped connection, one moment offline, one hiccup at their end, and the message sat there with no card and nothing anywhere to say why. It now tries three times before giving up, backs off between tries, and knows the difference between "that went wrong" and "that post is gone" — a deleted post is not asked for again. If it does give up, the ordinary link preview is allowed to have a go instead of the card being suppressed for good, and the failure is written to the console with the reason. Cards and the media gallery also now share one request for the same post instead of fetching it separately, and a link posted five times is fetched once.\n- `972f7fe` Fixed **a picture from a linked post disappearing from the gallery for the rest of the session** after a single failed fetch — the failure was being remembered as "this post has no pictures in it" and never questioned again.\n- `1e6e776` Added **the controls fading away when you keep the mouse still**, the way a video player does. The bar along the top, the sender\'s name, the buttons down the right and the shading behind them all go, and the pointer goes with them, so a photo is just the photo. The progress bar along the bottom stays — it is the one thing still telling you something while you are only watching. Anything at all brings it back: moving the mouse, scrolling, clicking, a key. It also never disappears while there is something waiting on you — a paused video, a spoiler you have not opened, something still loading, or an open reaction picker — and on a touchscreen it does not do this at all, since a tap there already means play, pause or close.\n- `1e6e776` Fixed **Bluesky videos saying "could not load this video"**. Bluesky offers every clip at two qualities and leaves the player to pick, and the part of the player that decides was being fed timings that never updated — so it concluded, within a fraction of a second and then over and over, that the piece it was downloading would never arrive in time, and threw it away. Nothing ever errored and nothing ever played. Twitter clips were never affected because they do not go through that player at all.\n- `f94de0a` Fixed **the gallery going black a moment after you open a picture, while it is still reading back through the conversation**, and with it **Twitter and Bluesky clips that never finished loading**. Both were the same fault. In an encrypted room the gallery has to unlock older messages as it walks back, and every attachment it unlocked was being listed *twice* — once the moment it became readable, once again when the walk reached it. Two entries claiming to be the same picture is enough to make the page you are looking at get thrown away and rebuilt with nothing in it, which is the black screen; a video on that page restarted its download from nothing each time, which is why a Twitter or Bluesky clip could sit there forever. There is now one way in and it cannot list anything twice.\n- `f94de0a` Fixed **a Twitter clip showing nothing at all until it had finished downloading**. The still that should fill that gap is fetched by the video itself, and a video has no way to ask for it without saying where the request came from — which is the one thing Twitter\'s image host refuses. It is fetched the same way the clip is now, so there is a picture to look at while the rest arrives.\n- `f94de0a` Improved **how steady the gallery and the viewer are while they are still finding things**. Older media is slotted in above where you are, and both the app and the browser were correcting your scroll position for it at the same moment, disagreeing. Only one of them does now. The gallery also stops re-handing the grid a list that has not changed, which it was doing several times a second for the whole time it was reading.\n- `eb78f78` Fixed **videos showing a black screen in the gallery** — uploaded clips, Twitter and Bluesky alike. They were playing the whole time: behind each one the viewer paints a blurred, darkened copy of its own thumbnail so a tall clip is framed rather than floating in flat black, and that backdrop was being drawn *over* the video instead of behind it. A picture escaped it only by accident, because of the way zooming is done. Every layer of the viewer now says where it belongs, the video included. This is also why the last three attempts at this changed nothing — the video was never the thing that was broken.\n- `cde10bc` Fixed **opening a video from the gallery going black while the counter in the corner counted up**. The gallery keeps reading back through the conversation after you open something, and every batch of older media it finds is slotted in *above* where you are — which was moving the page out from under you for a frame each time. The picture you were on kept being thrown away and rebuilt, so a video restarted its download over and over and could never finish loading. Your place is now worked out at the moment the new media is added rather than a beat later.\n- `cde10bc` Changed **"Hide Read Receipts" so it only stops sending yours** — you keep seeing everyone else\'s. Not wanting people to watch whether you have read them yet is a different thing from wanting to be blind to them, and they were the same switch. Same for typing. There are now separate switches for hiding other people\'s read receipts and typing, both off, so nothing you were seeing before disappears.\n- `cde10bc` Changed **squishing the sidebar down to avatars so it only applies to Direct Messages**, where a row is a person\'s face and the avatar is the whole answer. On the room lists it left a column of anonymous circles under a squashed header with nothing usable in it, so those lists now stop at their normal minimum width instead. The squished DM column also says what it is again: the header becomes a small **DM** button that opens the same menu.\n- `c28f866` Fixed **videos not playing in the media viewer** — Bluesky and Twitter clips, and uploaded videos too. Two of the three shells this app runs in refuse to start a video on their own until you have touched something, and the viewer was asking them to at the moment the page opened, before there was anything to play. For a Bluesky video that was guaranteed to fail, because its player is still being fetched at that point. The press that was meant to rescue it made things worse: on an already-stopped video the first press meant "stop", so nothing happened, and only the second one started it. It now waits until there is a picture to show before asking, and one press plays.\n- `c28f866` Fixed **the black screen where a video should be**. The viewer treated a video as loaded the moment it knew its address rather than when it had a frame, so a clip that was still arriving showed nothing at all — no picture, no spinner — and a Bluesky clip did that from the moment it opened. There is a spinner now, and a video that never arrives says so instead of spinning forever: a picture that cannot be fetched, a Twitter or Bluesky clip its host refused, or a clip that quietly fails to decode all name themselves now.\n- `c28f866` Improved **opening pictures in an encrypted room** — each one was being downloaded and unlocked twice over, on three pages at a time, the second copy only to blur into the background behind it.\n- `c28f866` Fixed **broken tiles in the gallery**. A photo from a linked post whose host refused the request left a broken image with nothing to explain it; those tiles now fall back the way the others do. Videos also stopped filling the console with a "no thumbnail" complaint that could never have been anything else.\n- `b555afc` Fixed **text typing in backwards**, properly this time — the whole mechanism, not another guess at it. When the composer loses its cursor while still being the thing you are typing into, the editor wipes the blinking caret on every redraw and then answers its own wipe by throwing the cursor away again, so the state feeds itself. Typing into a box with no cursor puts each character at the *start*, in front of the one before it. Selecting some text used to be the only way out — that hands the cursor back — and that workaround is exactly what this now does for you, on every keystroke, before the character lands. It no longer matters what took the cursor away in the first place.\n- `b555afc` Fixed **not being able to select text in "View Source"**. Only "Copy All" worked. The hover toolbar over a message cancels presses on itself so that dragging across a message does not select from the wrong end — and because the menus it opens are its children as far as React is concerned, that cancellation was reaching inside every window they opened. Starting a selection is precisely what was being cancelled. Read Receipts, edit history and the forward dialog were silenced the same way.\n- `b555afc` Fixed **the read indicator disappearing from a message that has been edited**. Someone\'s read marker points at the newest thing they have seen, and an edit is a real event in the conversation that draws no message of its own — so after an edit the marker sat on something invisible and the avatar simply vanished. Read markers now show against the nearest message at or before them, which also fixes them disappearing onto a reaction or a deletion.\n- `b555afc` Fixed **the conversation scrolling itself hundreds of messages into the past when you open a photo**. Opening a picture starts the media scan, which reads back through the room\'s history — and the conversation behind it was not told that history had arrived, so it kept showing "the same place" while the place had moved. Closing the picture left you somewhere else entirely. In-room search moved the conversation the same way.\n- `b555afc` Fixed **clicking a photo opening a different one**. The viewer shows the room\'s whole media history, and when the picture you tapped was further back than the scan had read, it quietly showed you whatever was nearest instead — so you arrived at the wrong photo and had to walk to the one you asked for. It now goes and finds it, and says that it is looking rather than showing the wrong picture. Walking past the oldest picture it has found now fetches more instead of claiming that is everything.\n- `b555afc` Changed **the media viewer to run in conversation order** — oldest at the top, so moving down through it moves forward through the chat, the same direction the conversation runs. It was upside down: Up took you later and Down took you earlier. The grid is unchanged, newest first, which is the right way round for a grid.\n- `b555afc` Fixed **the gallery jumping while it fills in**. Photos from linked posts arrive over the network a moment after the grid appears and are slotted in by date, which pushes everything below them down — repeatedly, while you are scrolling. Your place is now held. This also corrects the same anchoring in the conversation, which had been choosing the wrong message to hold on to whenever the page was scrolled down.\n\n## 23.08.2026\n\n- `172dd7f` Added **embedded photos and videos to the gallery**. A Twitter or Bluesky link posted in the room is a picture as far as anyone reading is concerned, but the gallery only knew about files uploaded as attachments, so a room whose photos mostly arrive as links looked nearly empty. The gallery now pulls the media out of those posts as well — Twitter photos, Twitter GIFs and videos, Bluesky images and video, Bluesky\'s Tenor GIFs — and each one is its own tile, so a four-photo tweet is four tiles. Link previews being off, or the Twitter/Bluesky embeds being off, turns it off too: resolving one of these is a request to a host the sender chose, not one you did. Link-preview cards from your own homeserver are deliberately left out — those are site thumbnails, not the conversation\'s photos.\n- `172dd7f` Changed **the media feed into the viewer**. Zoom used to be a separate screen stacked on top of the feed; now the feed itself pans and zooms — double-click, pinch, ⌘/Ctrl+scroll, drag — and clicking beside the picture closes it, the way every other full-screen image behaves. Zoom is measured against the picture\'s own size, snaps to 1:1 when that is a real magnification, and stops smoothing past 100% so you see the actual pixels. The buttons beside it are now React (the full emoji picker, not just a heart), Reply, Jump, Save and Zoom, and Reply drops you back in the conversation with the message quoted.\n- `172dd7f` Removed **the message box from gallery view**, along with the pinned-message banner and the read-receipt row underneath it. Gallery is a wall of pictures; a composer sat under it doing nothing, and typing while it was open reached for an editor that was not there.\n- `172dd7f` Fixed **the black band behind the date in the gallery**, and the loud pill at the end of it. The date header was painted for a different kind of background than the page it sits on.\n- `172dd7f` Fixed **gallery tiles coming out blank**. The grid asks the homeserver for a thumbnail, which the conversation never does — it shows the file itself — so a picture that renders perfectly in chat could be a grey square in the gallery whenever the server declined to thumbnail it (remote media, an unusual format, thumbnailing switched off). It now falls back to the file itself, and a picture that genuinely cannot be shown says so instead of being a silent grey square.\n- `172dd7f` Fixed **the gallery giving up after one look back**. Each round reads a few hundred messages; if that stretch happened to contain no pictures, the grid was left exactly as it was — and the thing watching for "you have reached the end" only reports *changes*, so having already reached the end, it never fired again. The walk stopped there, in a room that might have plenty further back, looking for all the world like it had found everything. It now carries on while the end of the grid is still on screen, and asking for more by hand buys another run of it.\n- `172dd7f` Fixed **pictures missing from the gallery in encrypted rooms**. The scan reads each message once and asks it what it holds; in an encrypted room the keys for older messages often arrive a moment later, and anything not yet readable at the instant it was passed answered "nothing" and was never asked again — so the photo was absent from the gallery for the rest of the session while sitting perfectly visible in the conversation. Messages that become readable later are now folded in where they belong.\n- `172dd7f` Added **a collapsed chat list**. Dragging the divider far enough left snaps the column down to a rail of avatars — name, category headings and the panel title go, the unread badge moves onto the avatar corner, and hovering names the chat. Applies to Home, Rooms and spaces alike.\n- `172dd7f` Fixed **the conversation jumping under you while you read**. A message that grows *after* it appears — a link preview card arriving a moment later, a few hundred pixels tall, usually above what you are looking at — pushed everything down, and nothing put it back: the browser feature that would normally hold your place has never shipped in the Linux desktop shell\'s web engine. The view is now anchored to the message at the top of the screen and restored when anything above it changes size. Being at the live end of the conversation is unaffected — new messages still scroll in.\n- `172dd7f` Fixed **a room quietly losing the ability to load older messages**. One failed request for history left the "already loading" flag set forever, so every later attempt in that room was ignored for the rest of the session — scrolling up simply stopped working, with nothing to say why. It now clears the flag whether the request succeeded or not, and says so in the console when it failed.\n- `172dd7f` Fixed **the "new messages" line often not appearing at all**. Where the line goes was worked out from the messages actually drawn on screen, but the marker it follows can point at something that is never drawn on its own — a reaction, an edit, a thread reply — which is extremely common, and every one of those meant no line. It also re-anchors when you leave the window while caught up, instead of staying stuck where the room was when you opened it.\n- `172dd7f` Fixed **messages whose content is gone reading as "Unsupported message (no body)"**. They are shown as deleted, which is what they are — messages, stickers and polls alike. Deleted membership, name, topic and avatar changes show the same way instead of being parsed as though their content still existed.\n- `172dd7f` Fixed **Reply doing nothing on a poll**. Replying required the message to carry plain text, which a poll and other structured messages do not, so the button was live and had no effect.\n- `172dd7f` Fixed **the microphone being left open**. Cancelling a voice message — or switching room, or closing the composer — while the permission prompt was still up could not reach the recorder, because it was only handed over once recording had already started. The recorder then opened into a screen that had moved on and stayed open. Tapping record twice in quick succession no longer starts two of them either.\n- `172dd7f` Fixed **a numbered list stopping at ten**. `10.` was not recognised as a list item, so a list that reached ten broke in half at that point. Three-digit numbers no longer clip off the left edge either.\n- `172dd7f` Added **custom emoji to reply quotes**. The quoted line above a reply showed the emoji\'s name in colons where the picture should be.\n- `172dd7f` Fixed **an empty gap under messages containing links**. When none of the links produced a preview card the space held for those cards stayed behind, as a permanent empty band under the message.\n- `172dd7f` Fixed **mentions in encrypted rooms never reaching the inbox**. The list of what mentioned you is worked out by the homeserver, which cannot read an encrypted room — so in exactly the rooms most people are in here, being mentioned showed up nowhere. Encrypted rooms are now checked on this device, where the messages can actually be read.\n- `172dd7f` Added **support for multi-file galleries** (MSC4274) — a single message carrying several pictures, videos and files, sent by clients that support it, now renders as a grid rather than a line of fallback text, and its pictures appear individually in the room gallery and feed. Sending them is off by default in Settings → Messages, because clients that do not support it will see only the text fallback.\n\n## 22.08.2026\n\n- `c1993d7` Added **a media gallery for the whole conversation**. The photo button in the room header turns the chat into a wall of everything anyone has sent in it — photos and videos, newest first, grouped by day, with All/Photos/Videos filters that count what they hold. It reads further back through the conversation as you scroll, so it is not limited to what happens to be loaded, and it works the same in an encrypted room: the obvious way to build this asks the server for "messages containing a URL", which finds nothing at all in an encrypted room and would have quietly shown an empty gallery in exactly the rooms most people are in here.\n- `c1993d7` Added **a swipeable media feed**. Tapping a tile in the gallery — or a photo in the timeline, or the new Feed button on a video — opens it full screen, one attachment per flick, video playing the moment it arrives and rewinding when it leaves. Beside it: a heart (a real reaction, visible to the room), Save, a jump straight to that message in the conversation, and Zoom for stills. Muted by default with a mute button and **M** to toggle; arrow keys, **j**/**k**, space and page keys move through it, Escape leaves. It keeps reading older history as you approach the end, and only the attachment on screen and the one either side of it are ever loaded.\n- `c1993d7` Changed **what happens when you tap a photo**: it opens the feed at that photo instead of the single-image viewer, so the next attachment is one flick away rather than a trip back to the timeline. The old zoom-and-pan viewer is still there — it is the Zoom button in the feed — and **Settings → Messages → Open Media in Feed** turns the new behaviour off entirely.\n- `c1993d7` Split **"hide activity" into two switches**: one for read receipts, one for typing. They were a single toggle over two unrelated signals — "don\'t broadcast what I have read" and "don\'t broadcast that I am composing" — and wanting one without the other is the normal case. Anyone who had the old switch on gets both, so nobody starts broadcasting something they had chosen to hide.\n- `c1993d7` Changed **attachment cards** to a filename and one download that saves the file under the name its sender gave it. The card used to carry a banner — a pill with the file extension, the filename, a download icon — stacked on top of a player that already had its own controls. Audio and video are now played by the browser\'s own element over the shared media loader, which means a long file starts playing as it streams rather than after it has downloaded in full.\n- `c1993d7` Improved **YouTube link previews**: the title and channel now come from the host that serves the embed rather than from the homeserver\'s preview, which YouTube usually answers with a consent page or a 403 — leaving a player with no idea what was in it. The Piped instance list is down to two hosts that actually work from both the web app and the desktop shell; the bare-IP and http:// entries could never have loaded in a browser.\n- `c1993d7` Fixed **the microphone looking permanently blocked to people who had never been asked**. In the Android and desktop shells the permission is decided at the moment recording is attempted, so asking beforehand answers "denied" — and that sent the composer straight to the "blocked, go to system settings" dead end. Only an actual refusal counts as one now.\n- `c1993d7` Fixed **the member list\'s controls wrapping mid-phrase** in a narrow panel, putting "A to" on one line and "Z" underneath. The member count gives up the space instead.\n\n## 19.08.2026\n\n- `db6d27e` Fixed **the timestamp beside the avatar sitting too far left**. Hovering a timestamp shows the moment on the sender\'s clock, and room for that is held open on every message from them so nothing jumps when it appears — but the space being held was for the time *and the city* ("15:40 Helsinki"), which is far wider than a time, and under the avatar, where the timestamp is lined up against the message, that pushed it a city\'s width off to the left. The hover now shows the time on its own and names the place in the tooltip instead, so nothing is held open and the timestamp sits where it should. The date still appears when the message lands on a different day where they are.\n- `cc76c7b` Fixed **code blocks running off the side as one endless line**. A code block containing one long line — a log line, a JSON blob, a pasted paragraph — was rendered on a single line with a horizontal scrollbar under it, because that is what `<pre>` does. Long lines now wrap, keeping leading indentation and runs of spaces, and a single unbroken token (a base64 blob, a long URL) breaks rather than overflowing. Horizontal scrolling remains for what wrapping cannot fix.\n- `cc76c7b` Fixed **the "expand" control missing from tall code blocks**. Whether a block was tall enough to collapse was decided by counting newlines, which is wrong now that lines wrap: a 700-character line has no newlines at all and filled the screen with no way to collapse it, while fifteen short lines might not have reached the limit. It is now measured from what is actually on screen, re-measured when fonts finish loading or the window resizes, and the collapsed box is a fixed number of lines rather than pixels — so the larger text on mobile no longer halves how much you see.\n- `cc76c7b` Fixed **Copy quietly doing nothing while saying "Copied"**. Copying could fail — an unfocused window, a refused permission — and the button reported success anyway, so the next paste produced whatever was in the clipboard before, with nothing to point at the copy as the cause. It now reports "Copy failed" when it fails. The fallback path also **stripped every line break**, so a multi-line code block copied as one line; that is fixed too, along with a 99999-character cap that silently truncated long blocks.\n- `cc76c7b` Fixed **"Mark Unread" not bringing the indicator back in the chat list**. It moved your read marker back but never set the unread flag the list draws its badge from, and the badge is fed by notification counts, which do not grow again just because the marker moved backwards — so the message was marked and the list looked unchanged. It now flags the room as well, and a room you flag while you are still looking at it stays flagged until you leave, instead of being marked read again by the next scroll. "Mark as Unread" in the chat list is no longer greyed out for the chat you have open.\n- `cc76c7b` Added **a microphone permission prompt before the system one**, the first time you record a voice message, and a **Microphone access** row in Settings → Audio. Android asks "Allow Prinny to record audio?" with no context and only asks once — a no there is close to permanent — so it is worth saying what the microphone is for first, and worth having somewhere to fix it from if it was refused by accident.\n- `cc76c7b` Fixed **four layout faults, three of them only visible on a phone**: the clock shown while a message is sending sat a word\'s width away from the timestamp it belongs to; the hover timestamp under the avatar ran off the left edge of the screen; sender names were cut off with an ellipsis as soon as the header ran short of width, even with a whole empty line below them; and the sender\'s local time on hover broke across two lines, so the city read as a second timestamp.\n- `94494bd` Added **Discord-compatible webhooks** to `@prinny/bot`. Anything that already posts to a Discord webhook URL — a CI job, a monitor, a Grafana alert, a GitHub repository webhook, a Slack-shaped integration — works against a Matrix room by changing the host and nothing else. Embeds, buttons, polls, file uploads, threads and per-message sender names are all mapped across, and a webhook message is shown under the name it was posted with, tagged WEBHOOK.\n\n- `d31ce06` Fixed **Alt+Up/Down jumping to the wrong chat**. They moved through your chats in an order that had nothing to do with the one on screen — pinned chats were not first, the sort was not applied, and "Show unread only" was ignored — so pressing Alt+Down went to some other chat rather than the one below. They now follow the list exactly as it reads, in every sidebar: chats, rooms and inside a space, including collapsed sections and your own ordering. Where Home shows rooms above chats, Alt+Down off the last room carries on into the first chat. One consequence worth knowing: with "Show unread only" on, these keys now cycle only the unread chats, because that is what the list is showing.\n- `2bc1923` Fixed **the sender\'s local time on hover ignoring your date format**. Hovering a timestamp shows the same moment on the sender\'s clock, and adds the date when it lands on a different day where they are — that date was always written "19 Aug" instead of the format set in Settings → General. It now uses your date and 12/24-hour settings, the same as every other timestamp in the app.\n\n## 18.08.2026\n\n- `35eaff8` Fixed **swiping in from the left in Settings on Android doing nothing**, and the Back button with it. Android keeps the outer edge of the screen for its own back gesture, so that swipe never reached Prinny at all — what arrived was a plain "go back", and Settings is not somewhere you navigated to, so going back moved the screen *behind* it and left Settings sitting there. It now steps back the way the X does: out of a section to the list, and off the list to close. Pressing Back does the same.\n- `79bead6` Added **a proper error screen** for the kind of failure that takes the whole app down. Until now that landed on the router\'s own developer page — "Unexpected Application Error!", a minified stack, and a note addressed to whoever wrote the app — which is where yesterday\'s "Server versions are not provided!" crash left you: nothing to do about it, no way back, and nothing to say it was even Prinny. It now explains itself, keeps the technical detail behind a fold for when it is worth reporting, and offers **Reload**, plus **Reset app data and sign out** for a failure that comes back on every launch.\n- `79bead6` Added **a build check for the mistake behind that crash** — a part of the app asking for something that is only set up by the very thing asking. It passes type-checking and linting and shows itself only at runtime, as the entire client replaced by an error page on startup, which is exactly how it reached a release. The build now refuses it and names the component, the hook and the missing piece.\n\n## 17.08.2026\n\n- `0956b9d` Fixed **Prinny failing to start** with "Server versions are not provided!". Introduced the same day by the notification-avatar caching: it asked about your homeserver\'s capabilities from a place in the app that is set up *before* that information exists, and the error took the whole client down to a blank error page rather than being contained. It now runs from a point where the connection is already established.\n\n- `570934d` Fixed **the same new message being flagged twice** when unread chats are shown as avatars in the left rail. The chat\'s own avatar lit up and so did Home, a few pixels apart, for one message. Home now leaves it to the avatar, which is the more useful of the two because it tells you *who*.\n- `570934d` Fixed **the local-time hover flickering** when you held the pointer on a timestamp. The two versions of the text are different lengths, so swapping them resized the thing you were pointing at out from under the pointer, which ended the hover, which put it back — several times a second while you held perfectly still. The timestamp now reserves room for both, so nothing moves.\n- `570934d` Improved **what that hover actually says**. It was a bare time with no am/pm and nothing to say whose clock it was. It now follows your 12/24-hour setting like every other timestamp, and names the place — "07:40 AM Chicago" rather than "07:40".\n- `570934d` Fixed **double-click to reply doing nothing** when you double-clicked the message itself. It was deliberately ignoring the text, on the reasoning that double-clicking words means "select this word" — but the text is the part you aim at, so the feature only worked on the empty space beside a message and looked broken. It now works anywhere on the message; the word still gets selected as well, and the switch to turn it off is where it always was.\n\n- `0ed87bd` Fixed **the Windows taskbar button barely flashing** for a new message. It was asking Windows for the wrong kind of alert — one that blinks the button exactly four times and then goes quiet, so unless you happened to be looking at the taskbar in that second, nothing appeared to have happened at all. It now stays lit until you actually bring Prinny to the front, the way Discord does. Nothing flashes while you are already reading.\n\n- `6ab2314` Fixed **the Android back gesture closing Prinny** instead of going back. Swiping back or pressing Back quit the app from anywhere — including from a room you had just opened — so the only way back to your chat list was the on-screen controls. It now steps back through where you have been, and only leaves the app once there is nowhere left to go. One thing it still cannot dismiss is the Settings dialog, which isn\'t a place you navigated to; Back there moves the screen behind it instead.\n\n- `bfe1dcf` `e2a6624` Added **the sender\'s picture to Android notifications** that arrive while the app is closed. Those are posted by the app\'s Android half, which runs with no account and no connection of its own, so it had no way to fetch anyone\'s avatar and showed none. Pictures are now saved while the app is running and looked up by who sent the message, so nothing has to be downloaded — or signed in — at the moment a notification arrives. Someone messaging you for the very first time while the app is shut will still have no picture until the app next runs.\n- `bfe1dcf` `e2a6624` Fixed **your phone notifying you about messages you already read on another device**, and leaving them sitting in the notification shade afterwards. When you read a room somewhere else, your server sends a message saying "nothing unread here anymore" — Prinny was treating that as a new message and posting **New message** for it, so reading on the desktop actually *created* a notification on your phone. It now clears that room\'s notification instead.\n\n- `67c9298` Added **the sender\'s local time on a timestamp**. Hover the time on someone\'s message and it becomes the time it was on *their* clock when they sent it, for as long as you\'re pointing at it. It answers the thing a timestamp cannot in a room spread across the world — a reply at 03:40 their time means something different from a slow one. If the time difference lands the message on another day where they are, the date is shown too, because "08:30" under a message dated yesterday would just be wrong. Only works for people who have set their time zone in Settings → Account, and nothing changes on hover for anyone who hasn\'t. Your own time zone is set in the same place.\n- `2b09da0` Added **"Default Inbox Tab"** to Settings → General → Layout, and fixed the Inbox ignoring it. Opening the Inbox went wherever you had left it last time, remembered from before any of this existed — so it kept landing on Notifications no matter what the default was meant to be, and there were three separate ways in (the sidebar, the top bar, and the address itself) that each decided for themselves. They now all ask the same setting, and the setting decides rather than being overruled by where you happened to be last. It defaults to All.\n- `67c9298` Changed **the Inbox to open on All** rather than Notifications, now that All exists and contains both.\n- `fe18690` Added **an "All" filter to Invites, and made it the default**. Invites are sorted into Primary, Public and Spam by guesswork — do you share a room with the sender, does anything look like spam, has the sender been banned somewhere you are — and the page used to open on Primary only. An invite the guess put in either of the other two was not just further down, it was nowhere, unless you knew to go and look. The three groups are still shown separately, with Spam still behind its warning, so nothing arrives without the context that says what it is; empty groups are simply skipped.\n- `fe18690` Added **an "All" inbox** alongside Notifications and Invites, showing both on one page with invites at the top. Invites and Notifications were each half an inbox, so whichever you opened, the other half was somewhere you had to remember to check.\n- `fe18690` Fixed **invitations showing up as `m.room.member` event in your notifications**. That is the raw name of the thing an invite is made of, and it was being printed because nothing had been written to describe it — the notification that most needed to explain itself was the one explaining least. It now reads the same way an invite reads in a room\'s timeline, and it handles the neighbouring cases too, like someone accepting a request to join.\n- `fe18690` Added **`/status`** for setting your status message from the composer — the one that follows you everywhere and shows next to your name, the same box as Settings → Account → Status. Not to be confused with the room topic. `/status` on its own clears it, which is otherwise something you have to open Settings to do.\n- `44af202` `824cbd8` Fixed **ntfy users being quietly routed through a stranger\'s server**. Notifications are delivered to your phone by way of a "gateway", and the app works out which one to use by asking your push server whether it can act as one. That question was being asked in a way a browser is not allowed to hear the answer to — ntfy.sh replies correctly, but without the header a browser requires before it will let the app read the reply — so the answer was thrown away unread and Prinny fell back to the shared public gateway run by the UnifiedPush project. Notifications still arrived, which is why this went unnoticed, but it meant every message notification took a detour through a third party — carrying the sender and the message text for any room that is not encrypted. The question is now asked by the app itself rather than through the browser, so ntfy answers for its own gateway and your notifications go straight there.\n- `b624a17` Added **"Register pusher" to the Push Delivery panel**, which says what your homeserver actually replied instead of leaving you with a red mark and no reason. Registering with your server is the last step of setting up notifications and the easiest one to get stuck on, and until now a refusal was written to a log you cannot open from a phone — so a distributor handing over an address we will not use, a server turning the registration down, and the attempt never being made all looked exactly the same. The panel now also shows **which push gateway is in use**, because it is picked for you and is not always the obvious one: it is chosen by asking your push server whether it speaks Matrix, and ntfy.sh does not answer that question in a way the app is allowed to read, so ntfy users are quietly routed through the public UnifiedPush gateway instead. It works, but it puts a third party in the path of your notifications, and you should be able to see that rather than have to guess at it.\n- `98a0ae0` Removed **the "Check for Updates" button on Android**, where it never did anything. Android updates itself — Prinny checks on startup, downloads the new version and asks you to install it — so the button had nothing to do, and tapping it left it sitting there still saying "Check for Updates". It is still there on desktop, where it is the thing that applies an update. \n- `98a0ae0` Changed **the swipe-back in Settings to start from the left edge**, the way Android\'s own back gesture does. It used to trigger on a sideways drag begun anywhere on the screen, which is fine in a chat but wrong in Settings: the page is full of switches and sliders, so nudging one sideways could throw you off the page you were trying to adjust. Chats and the main screen keep the swipe-from-anywhere behaviour.\n- `949b169` Added **a status line under each chat in the sidebar**. A direct message now shows what the other person is up to beneath their name — what they are listening to or playing if they are broadcasting that, and otherwise the status message they set. The activity wins when there is one, because a chat list is read for what someone is doing *now*, while a status message often sits unchanged for weeks. The member list is deliberately unchanged: there the status still wins and the activity shows as the small icon in front of it. Rows do not get taller — the space was already being reserved.\n- `949b169` Changed **where the sender\'s `@name:server.com` sits when you hover a message**. It now goes hard against the right edge, tucked *under* the reply and reaction buttons instead of standing to their left, so it no longer takes a strip out of the line beside them. On phones it is gone entirely: it is there for a mouse pointer, and a touch screen has none, so it could only ever turn up as a stray box after a long-press.\n- `c6e0a64` `a026e6e` Added **a Push Delivery panel** to Settings → Notifications on Android, which says which part of push is broken instead of leaving you to guess. Background notifications here need a separate distributor app on your phone (ntfy, Sunup, NextPush — there is no Google push in this client) and a registration held by your homeserver, and every possible break in that chain used to look exactly the same from the outside: notifications simply did not arrive. The panel checks each step on its own — whether a distributor is installed, whether one is selected, whether it has actually answered, whether an address was issued, whether your homeserver is sending to *that* address, and whether Android is letting Prinny post at all — and tells you what to do about the one that failed. **Re-register** also doubles as the way to pick a distributor.\n- `a026e6e` Fixed **Prinny forgetting its push address every time it was closed**. The address lived only in memory, and a messaging app\'s process is shut down by Android constantly — so every launch found nothing, reported nothing, and went back to the distributor to be told the very address it had just discarded. It is now remembered properly. Re-registering also no longer throws away a working address before asking for a new one, which used to leave the app with nothing at all if that request was slow or failed.\n- `c6e0a64` Fixed **notifications stopping for good after your distributor changed its address**. Your homeserver was left holding the old one and kept sending there — to nobody — while a fresh registration piled up alongside it rather than replacing it, because the address is the very thing that identifies a registration. Retired ones are now cleared out. Only Prinny\'s own are touched; registrations belonging to your other apps and devices are left alone.\n\n## 16.08.2026\n\n- `c91e1d2` Fixed **Android notifications never arriving**, and it was not the part anyone had been looking at. Prinny asks the shell to do the Android-only work — register for push, keep the connection alive in the background, post the notification — and every one of those requests was being refused before it got anywhere, because the app never granted itself permission to make them. So no push was ever registered with your homeserver, meaning the server had nothing to send to, and the carefully-written code that turns a push into a notification had never once run. The same refusal silently disabled **notification avatars, the taskbar unread badge, drag-and-drop file sending, link previews, Discord rich presence and Twitter/X media** on desktop, each of which quietly fell back to doing nothing or doing less.\n- `9beda76` Fixed **Android notifications going nowhere even once they arrive**: tapping one did not open the room, a rotated push address was never re-registered, and an incoming push never nudged the app to sync. All three listened on the wrong channel — the shell delivers these to a per-plugin subscription, not the app-wide one they were waiting on.\n- `9beda76` Fixed **Prinny never asking for Android\'s notification permission**. It was only ever requested from Settings → Notifications → Enable, so unless you went looking for that switch, Android silently discarded every notification the app posted — while notifications from *downloads* kept working, because those are posted by Android itself and need no permission from us. It is now asked for on first run, once.\n- `c91e1d2` Fixed **the attachment button doing nothing on Android**. Adding mic and camera support for calls replaced a piece of the WebView the app does not own, and the file picker lived in the part that got replaced — so every attach button, and every avatar or sticker upload, opened no picker at all and reported no error. That piece is now wrapped rather than replaced, which also brings back JavaScript dialogs, the location prompt and WebView logging.\n- `c91e1d2` Fixed **two identical "Messages" entries** in Android\'s notification settings. Messages received in the background used a different channel from the rest, so silencing the one you could see left the other one ringing.\n- `9beda76` Improved **what Prinny says when Android push cannot be set up**. A device with no UnifiedPush distributor installed (ntfy, Sunup, NextPush) now says so, and says that background notifications will not arrive until one is — there is no Google-push path in this client, so that app is required. A distributor that refuses the registration is now reported too, instead of being dropped in silence.\n- `7190544` Changed **where the sender\'s address shows up** on a run of messages from one person. It is now drawn once, on the first message of the run — beside the name and the time, where the sender is actually identified — instead of on every message, which labelled the same person over and over. Hovering *any* message of the run brings it up, so pointing at the fifth message in a row still answers "who sent this?" without you having to find the top of the group.\n- `dbd3e7f` Fixed **push notifications arriving with a blank generic icon** instead of the Prinny one. The app asked the browser for an icon at a path that does not exist in the built app, and the browser quietly substituted its own rather than reporting anything. The icons listed for installing Prinny as an app were stale in the same way. Both now work whether you use prinny.app or host it yourself.\n- `25bf6a3` Added **sharing into Prinny from Android\'s share sheet**. Pick Prinny when sharing a link, some text or files from another app, choose the room, and it lands in the composer with everything attached. Nothing is sent automatically — you still see it and press send, and a share that arrives while Prinny is closed is kept and shown once it has started up.\n- `d4cf7e1` Added **proper Hacker News link previews**, built from HN\'s own data: the story title, who posted it, the score, the comment count, and a link straight to the discussion. HN publishes nothing for a preview to read, so cards for it used to come out with the site\'s navigation strip ("new | past | comments | ask | show…") as the description. Off by default with the other link integrations — Settings → General. Also fixed **thumbnails being requested over and over** after the server had already refused them once.\n- `b2d1039` Fixed **link previews of a URL nobody sent**. A link containing spaces was cut at the first one, so the preview was of a shortened address that leads nowhere — and an audio or video file linked that way never got its player, it fell back to a dead generic card. Links written as `<…>` or as text pointing somewhere else failed the same way. Previews now follow the actual link in the message.\n- `326cc50` Fixed **the sender\'s address drifting about** on a run of messages from one person. Hovering a message shows the full `@name:server.com` at its right; on the first message of the run it sat hard against the edge and on every message after it 152px short of it, so the label jumped sideways as you moved down the group. The one that looked right was the wrong one — it was tucked under the hover toolbar with the tops of its letters cut off. Both now sit in the same place, clear of the toolbar.\n- `abad72a` Added **marking a room unread** — right-click a room in the list, *Mark as Unread*. The unread dot comes back so you remember to return to it, and unlike a local flag it follows you to your other devices and to other Matrix apps, because it uses the standard way of recording that rather than a Prinny-only one. Flags set from another app show up here too, including the older key Element used for years. Reading the room clears it. The option is greyed out on the room you are currently looking at, because that room marks itself read again the moment you scroll it — better to grey it out than to let it quietly undo itself.\n- `abad72a` Fixed **your recently-used emoji not following you to other Matrix apps**. Prinny only ever wrote Element\'s private key for that list, so nothing else could see it; it now writes the standard one as well and reads whichever is there. The two store the list in genuinely different shapes, which is why this was not simply a rename. The Recent row is also now in *recent* order — it had been sorting by how often you had used an emoji, so a face you used once this morning sat behind one you used a lot last year.\n- `abad72a` Added **telling other apps when a picture you send is animated**. Without that flag the app at the other end cannot know a GIF, animated WebP or APNG moves until it has downloaded the whole thing, and asking a server for a small preview of one gets a single frozen frame back. Prinny now inspects the actual file rather than trusting the file extension, so a `.webp` that happens to be a still is not announced as a GIF — and where it genuinely cannot tell, it says nothing rather than guessing. Covers pictures, stickers, and images you add to a sticker set.\n- `abad72a` Added **a time zone on your profile** — Settings → Profile → *Time Zone*, with a *Detect* button and type-ahead over every zone your device knows. Other people then see the local time where you are on your profile card, ticking while it is open. Leave it empty to show nothing, which is how it starts.\n- `e2d971e` Changed **the Windows installer**. It now carries Prinny artwork — the mascot and wordmark down the side of the welcome page, a header on every page, and the app icon on the installer file itself — and the footer no longer advertises the toolkit that built it. The separate `.msi` download is gone. Nothing ever used it: updates have only ever gone through the `.exe`, it still wore upstream Prinny\'s blue-and-bird artwork, and its way of updating replaces the Start Menu shortcut, which quietly breaks a pinned taskbar icon and, because Windows ties notifications to that shortcut, stops desktop notifications arriving at all.\n\n## 15.08.2026\n\n- `67c01fe` Fixed **videos and GIFs playing in a clunky custom player**. A video had a **Watch** button you had to press before anything happened, then downloaded the whole file before it could start, and once going it looped forever with the length and file size stamped over the corner — sensible for a GIF, odd for an hour-long clip. Video now uses the player your browser provides, the same way voice messages already did, and only fetches what it needs to start. **GIFs are told apart from videos properly** for the first time: one sent from the GIF picker loops silently with no player bar, and a video gets ordinary controls and waits for you. If your device refuses to autoplay a GIF, controls appear so you can still start it.\n- `67c01fe` Fixed **notifications never arriving on Android**. The app was registering for push with your homeserver in a way the server has to refuse, so no notification was ever set up and nothing was ever sent — which looked like the app not supporting notifications at all. It now finds the right address for whichever push app you use (ntfy, Sunup and the rest), which is the step other clients do and this one skipped. If it still fails, it now says so clearly instead of leaving one hidden line in a log nobody can read.\n- `67c01fe` Fixed **the cursor landing before a `/command`** after picking it from the list, instead of after it. Mentions and emoji shortcuts had the same fault. This is also the likeliest cause of **text coming out backwards** as you typed: with the cursor stuck before what you just inserted, every letter goes in at the same spot and the word builds up in reverse.\n- `67c01fe` Fixed **read receipts sitting past the end of a message**. Replying to something longer than your reply pushed the little avatars out to where the quoted message ended, floating well past the message they belong to. They now sit at the end of the message itself, on its last line.\n- `67c01fe` Removed **the empty strip down the right of every message**. It was reserved for the buttons that appear when you hover, but it was also being reserved on phones, which never show those buttons — so the narrowest screens were giving up the most width for nothing, and it was why the **new messages** line stopped short of the edge. The buttons now sit over the end of the message when you hover it, and messages use the full width.\n- `67c01fe` Fixed **the hovered timestamp on grouped messages** sitting too high and too far from the message, and **the little clock on a message still sending** riding above the timestamp beside it.\n- `67c01fe` Fixed **emoji that your device has no picture for** being offered in the picker anyway, where they showed as an empty box — and then arrived as an empty box for whoever you sent them to. The newest handful (orca, distorted face, fingerprint, face with bags under eyes and a few more) are hidden until your system can actually draw them, and reappear on their own once it can.\n- `d6129bf` Fixed **the chat list showing up empty while the app was connecting**, and staying empty until you reloaded the page. The list draws only the rows that fit on screen, which means it has to find the panel it scrolls inside — and it was looking a fraction too early, before the browser had finished attaching it. Getting nothing back, it drew no rows at all. It never looked again, so the list stayed blank; anything that happened to redraw it afterwards fixed it, which is why it came right on a busy account and stuck on a quiet one that had just finished its first sync. Introduced a day ago, when the room and chat lists were merged into one shared list.\n- `d6129bf` Fixed **the same fault in message search**, where it has been hiding since long before this client was forked — results only appear once you type, and typing was enough to shake it loose.\n- `166d537` Fixed **selecting a message by dragging from the right of it**, which highlighted the message from its left edge instead of following your cursor. This is the third go at it and the first that was actually tested against the bug rather than reasoned about: the row of buttons that appears when you hover a message floats just above that message, which puts it over the blank right-hand end of the message *above* it — and pressing on a button cannot put a cursor in text, so the browser started the selection at the beginning of the message instead of where you pressed. Short messages failed every time, because a one-line message is shorter than that strip of buttons is tall and so its whole right-hand end sits underneath; longer messages only lost their first line. Pressing there no longer starts a selection in the wrong place, and every button in the strip still works. The two earlier attempts had moved the reserved space around on the theory that the buttons were covering text — they were not, they were catching the press — so this one costs no width.\n- `166d537` Added **someone\'s status next to their avatar**, as a thought bubble, when you open their profile. It was only ever visible in your own profile preview in Settings before.\n- `166d537` Added **About Me to the profile you see when you click someone**. Their biography was already there but unlabelled and easy to miss; it now looks the same as it does in Settings, because both are now drawn by the same code.\n- `166d537` Fixed **the profile preview in Settings not matching the profile everyone else sees**. It was a separate copy of the same card that had drifted out of step — different spacing under the banner, a different avatar treatment, and a plain colour where the real card shows a blurred version of your avatar. It is now the real card, so what you see while editing is what other people get.\n- `166d537` Fixed **opening someone\'s avatar showing it in a small boxed window**. Every other image in the app opens in the full-screen viewer with zoom and download; avatars were the one exception, wrapped in a dialog that shrank them. They now open like everything else.\n- `166d537` Added **the time of a message in the space where its avatar would be**, when you hover it. Messages grouped under one name have no timestamp of their own — the one at the top belongs to the first message of the group — so there was no way to tell when any of the others were sent without opening something.\n- `166d537` Removed **the GIF button from the message box**. GIFs are a tab on the same panel the sticker and emoji buttons already open, so the button was a third way to open one panel on one of its tabs. Nothing is lost: the tab is still there, still controlled by the same *GIF picker* setting in Settings → General.\n- `166d537` Changed **Piped**, which is what plays YouTube links without YouTube watching you: it is now **on by default** and set to `piped.gmach.online`. The instance list is down to that and `piped.private.coffee` — the rest were bare IP addresses and unencrypted addresses that a browser refuses to load anyway, so they only ever worked in the desktop app and mostly made the list look longer than it was.\n- `166d537` Fixed **long lists sometimes rendering in the wrong place** when a list did not start at the very top of the area it scrolls in. The measurement that corrects for this could never run at all — it looked for the scrolling container a moment before the browser had finished attaching it, treated that as nothing to do, and never looked again.\n\n> **Not yet tested by anyone:** everything above except the selection fix has been\n> built and checked but not actually clicked. The profile changes are the ones that\n> move things around on screen, so those are worth a look first.\n\n- `5fa7b32` Added **a Discord-shaped layout, in five separate switches** — Settings → General. **Unified sidebar** puts your rooms and your direct messages in one list under Home instead of two tabs. **Direct message buttons** puts your chats as avatar buttons on the left-hand rail, next to your spaces. **Top bar** runs a strip across the top of the window and moves the inbox into it. **Profile in top bar** moves your name, avatar and the settings button up there too. **Rooms space** makes Rooms its own entry on the rail, leaving Home to your chats. Every one of them is off to begin with, and turning any of them off puts things back exactly as they were. Links never break when you flip one: a chat you bookmarked, the room you had open when you closed the app, and a link somebody sent you all keep working whichever layout you are in. Pinned chats and *Show unread only* work the same in every one of these lists, because there is now only one list — the same one, shown in different places.\n- `5fa7b32` Added **dragging rooms into the order you want**. Grab a room in the list and drop it where it should go. Your order is yours alone — nobody else in the room sees it — and it follows you to your other devices, kept separately for each space. The old sort-order picker is gone: it was a choice between three orders nobody wanted, and this replaces it.\n- `5fa7b32` Added **a GIF picker**, off by default — Settings → General → *GIF picker*. It adds a GIF tab to the emoji board and a button by the attach icon, with categories and a search box. **Favourite a GIF** from the picker or straight from a GIF somebody sent, and your favourites follow you to your other devices.\n- `5fa7b32` Added **pronouns, a profile banner and a biography** to profiles, yours and everyone else\'s. Settings → Profile edits all three and shows you a live preview of the card other people see. The banner has its own crop tool. These need a homeserver that supports extended profiles; on one that does not, nothing appears and nothing breaks — which is itself a fix, because an unsupported homeserver used to blank out the name and avatar as well.\n- `5fa7b32` Added **rich presence** — what someone is listening to or playing, on their profile card, off by default (Settings → General → *Show rich presence*). Album art and links in it always ask before opening and show you the real address, since whoever published it wrote the label. On the desktop app there is also **publishing your own** (Settings → Account), which listens for Spotify, games and anything else that talks to Discord and shares it as your status. See the note at the bottom of this entry — the desktop half has never been run yet.\n- `5fa7b32` Added **a status line under people\'s names** in the member list, so their status message shows next to who they are rather than only on their profile.\n- `5fa7b32` Changed **clicking someone\'s name in a message** — it opens their profile instead of dropping a @mention into whatever you were typing. Their profile card is also tidier: the homeserver sits inline rather than on its own line, the actions are condensed, and you can start a direct message from the card and type the first one straight into it.\n- `5fa7b32` Added **double-clicking a message to reply to it**. Double-clicking to select a word still selects a word, and double-clicking a link or a button still does what it always did.\n- `5fa7b32` Added **copying several messages as a clean transcript**. Select a run of messages and copy: you get names and text, not the surrounding furniture.\n- `5fa7b32` Added **auto-replacing emoji shortcodes** as you type — `:sob:` becomes 😭 — off by default (Settings → General). It works in the message box and when editing a message.\n- `5fa7b32` Added **low animation mode**, off by default. GIFs and videos hold still until you hover them, and the typing dots stop bouncing. For anyone who finds a busy room exhausting, or is paying for the battery.\n- `5fa7b32` Added **auto-embedding media links from hosts you trust**. A bare link to a video file plays inline instead of sitting there as a link, but only for hosts on a list you write yourself (Settings → General) and only for actual video files. The match is exact, so putting `example.com` on the list does not also trust `example.com.somebody-else.net`.\n- `5fa7b32` Added **auto-joining every room in a space**, off by default — globally in Settings, or for one space in that space\'s settings, subspaces included. Joining the space then gets you everything in it instead of a list to work through by hand.\n- `5fa7b32` Added **an "only verified sessions" switch** for encryption (Settings → Sessions). With it on, your messages are not sent to devices you have not verified.\n- `5fa7b32` Added **a notification menu on a space** — set every room in it to the same notification setting in one go, rather than one room at a time.\n- `5fa7b32` Added **reset notifications to defaults**, a single action in Settings → Notifications for when the per-room settings have got away from you. Nothing else was removed; the granular controls are all still there.\n- `5fa7b32` Added **downloading an emoji or sticker set as a zip**, and renamed **packs** to **sets** throughout, which is what everything else calls them.\n- `5fa7b32` Added **leaving every room in a space when you leave the space** — a checkbox on the leave dialog, unticked to begin with, so leaving a space still only leaves the space unless you say otherwise.\n- `5fa7b32` Changed **search results** to group by room, with the messages either side of each hit and the sender\'s name and avatar, so a result reads like a conversation rather than a line of text. Several things about search were also simply wrong: the number of results was the number on this page rather than the total, loading more could drop or duplicate hits, results in encrypted rooms were mislabelled, and a failure printed the raw error at you instead of saying what went wrong.\n- `5fa7b32` Changed **the jump-to-room menu (Ctrl/Cmd-K)** so it no longer offers you the room you are already in.\n- `5fa7b32` Changed **the call banner**: it shows how long the call has been running, who is in it under the room\'s entry in the list, and a badge on the space so you can see there is a call in a space you are not looking at.\n- `5fa7b32` Changed **the image crop tool**, which previously had an Apply button that did nothing at all — it is a working crop tool now, used for avatars and the new profile banners.\n- `5fa7b32` Fixed **images in the timeline being cropped**. A picture that was not the shape of the space it was given had its edges cut off rather than being fitted into it.\n- `5fa7b32` Fixed **not being able to scrub through a voice message or a video**. Dragging the progress bar restarted from the beginning or did nothing, because the request for "just this part of the file" was being thrown away and the whole file sent instead — every time, for every seek.\n- `5fa7b32` Fixed **replies being silently dropped when you attach a picture or a file**. Replying and then attaching sent the attachment as an ordinary message with no reply on it, and nothing said so. Stickers had the same fault.\n- `5fa7b32` Fixed **a message that failed to send looking exactly like one that sent**. Messages now dim while they are on their way, and one that did not make it says so with **Retry** and **Remove** next to it.\n- `5fa7b32` Fixed **the timeline scrolling away from the bottom on its own** while images and embeds finished loading. It was deciding whether to follow new messages based on where the scroll had been a second earlier.\n- `5fa7b32` Fixed **clicking a notification in the browser dumping you in the inbox** instead of the message it was about. The desktop app already went to the right place; only the browser did not.\n- `5fa7b32` Fixed **the keyboard closing after every message on a phone**, so a run of short replies no longer means reopening it each time.\n- `5fa7b32` Fixed **notifications not saying where they came from**. The room and space are in the title now, and each room\'s notifications replace each other instead of stacking up.\n- `5fa7b32` Added **telling you when your browser refuses the app storage it needs** — a private window with storage blocked, or a disk that is full — instead of failing in ways that look like unrelated bugs.\n- `5fa7b32` Added **checking what software your homeserver runs** at startup (Synapse, Conduit, and so on), used to avoid asking a server for things it does not have. If the check fails it is treated as unknown and nothing changes.\n- `5fa7b32` Changed **the icons** throughout the app to a single consistent set.\n- `5fa7b32` Fixed **long lists rendering blank in the wrong place** when a list did not start at the very top of what it scrolls in. Nothing in the app hit this before; the new unified sidebar, which stacks two lists in one scroll, would have.\n\n> **Not yet tested by anyone:** the five layout switches above have been built and\n> checked but never actually clicked in a browser, and **publishing** your rich\n> presence to the desktop app has never been run at all — the piece that talks to\n> Discord compiles but has not yet spoken to it. Both are expected to need a round\n> of fixing. Everything else in this entry has been through the usual checks.\n\n## 14.08.2026\n\n- `d883df6` Fixed **images and avatars failing to load with a "Missing access token" error**, sometimes for a whole session, sometimes coming back only after switching to another chat and back. Images are fetched by a small helper the app installs in your browser, because a picture cannot carry your login with it the way an ordinary request can — and that helper was not always being told who you are. Three separate ways it could be left in the dark are fixed: it was never told on the very first load after it was installed or updated; it was never told again once it took over; and if it asked and the answer was slow, it gave up and then kept waiting on that same dead question for every image afterwards, so the whole session stayed broken. Reloading with **Ctrl+Shift+R** was its own version of this — that kind of reload deliberately bypasses the helper, and it had no way to take over again, so every image failed until an ordinary reload. It now asks to take over. Downloads that *can* carry your login — files, voice messages, images in encrypted rooms — now do so themselves, so they no longer depend on the helper at all.\n- `d883df6` Fixed **not being able to reach the buttons that appear when you hover a message**. Moving towards them meant leaving the message, and they vanished before the pointer arrived. Yesterday\'s fix for dragging a selection from the right of a message moved that row of buttons *outside* the message to get it off the message above — but the buttons are only drawn while the message under your pointer is the one they belong to, so putting them outside meant crossing a dead gap to reach them. The space they sit in is now part of the message itself: they are still clear of the message above, so selections still start where you press, and the highlight when you hover now extends all the way under the buttons.\n- `d883df6` Added **pinning a chat to the top of the list**. Right-click a direct message or a room in Home and choose **Pin to Top**. Pinned chats sort above everything else and stay visible even with *Show unread only* switched on, which is the point — a filter that hid the chats you deliberately pinned would defeat it. Pins are stored the same way **Element** stores Favourites, so a chat pinned here is already a favourite there and vice versa, with nothing to set up on either side. Rooms inside a space are not pinnable: that list follows the space\'s own order, so a pin would have nowhere to go.\n- `d883df6` Fixed **the arrow next to CHATS and the *Show unread only* menu option doing the same thing to each other\'s confusion**. The arrow never collapsed anything — it filtered the list down to unread chats, exactly like the menu option, but with a separate on/off state of its own, so the menu could say unread-only was off while the list showed only unread chats. Direct Messages and Home have only ever had one section each, so the arrow is gone from both and the menu option is now the only filter. Home did not have that option before and now does. Spaces keep their arrows, since they have real sections to collapse.\n- `d883df6` Added **the right-click menu to search results**. Right-clicking a message you found in search gave the browser\'s own menu instead of Prinny\'s. You now get Open in Room, Forward, Edit History, Copy Link, Pin, Delete, Report and — with developer tools on — View Source. Reply, react and edit are not there: they need the message open in its conversation, which is what **Open in Room** is for.\n\n## 13.08.2026\n\n- `2f11ee8` Fixed **selecting a short message by dragging from the right of it**. Starting the drag in the empty space to the right of a one-line message grabbed the text from the far left instead of from where you pressed. The row of buttons that appears when you hover a message is pinned 30px above itself, so it was floating over the message *above* — and a one-line message is shorter than that strip of buttons, so the whole right-hand end of it was covered. Pressing there pressed a button rather than the text, and with nothing to anchor to the selection jumped to the start of the line. Messages now leave room for that button row instead of letting it sit on top of the message above, so the whole width of a message is grabbable again. Long messages were never affected — they are tall enough that the strip only covers a corner. Phones and tablets are unchanged: they never show the buttons, so they keep the full width.\n- `2f11ee8` Changed **how a @name looks**. Mentions were drawn as a boxed pill with a border, which was a lot of furniture in the middle of a sentence — most noticeably in the message box while you were still typing. A mention is now just text in that person\'s own colour, the same one their name has in the conversation. Mentions of **you** still stand out, in the same green as before but without the box, so you can still tell at a glance when a message is aimed at you.\n\n- `8c6b26a` Fixed **registration failing on homeservers that use hCaptcha**, if you self-host with the Docker image. The security policy the container serves never allowed hCaptcha\'s script, so the captcha box stayed blank and sign-up could not be completed — with nothing but a blocked-resource line in the console to say why. The policy shipped to self-hosters via `webapp-release` already allowed it; only the Docker one lagged behind. Nothing to change on your side beyond pulling a new image.\n- `8c6b26a` Removed **a pile of dead build machinery** from both repositories — the Netlify deploy (unconfigured here, and never once run), a contributor-agreement bot pointing at upstream\'s paperwork, issue and discussion templates for issue trackers that are switched off, a second dependency-update bot that was never installed, and two checks that went red on every automated dependency update while gating nothing. A permanently red build hides a genuinely broken one, so this is worth more than the tidiness. The checks that do work — the pull-request build, the type check and the Docker image check — are kept, and the Docker one is repaired so it still fires when the base image is updated.\n\n- `6ac7769` Fixed **X/Twitter links making a pointless request that always failed**. Posts from x.com are drawn by the client itself, but the homeserver was still asked to fetch a preview for the same link — an answer that got thrown away unread, and one X never gives out anyway: it serves a placeholder ("Post / X", a stock image, no text) to anything that is not a browser, and refuses many servers outright, which is where the `502 Got error 403` in the console came from. Nothing was broken at your homeserver\'s end. The request is now made only if the client-side fetch fails, which is the case where the ordinary preview card is what you see.\n- `6ac7769` Fixed **a pile of console errors on every start**. Failed link previews logged an "Uncaught (in promise)" stack trace for a failure already handled; a homeserver without OIDC logged "Configured OIDC OP does not support required functions" as an error even though that is the normal answer; a busy account tripped "MaxListenersExceededWarning: 51 RoomState.events listeners" because every room-related hook registered its own listener (now one shared listener, so the count no longer grows with your room list — and the client stops walking a fifty-entry list on every state change); and the web app logged five blocked mixed-content requests probing YouTube (Piped) instances it could never have loaded over https.\n- `46b469d` Fixed **not being able to type or send in a thread**. With a thread open in the side panel, one of the two message boxes stopped working: clicking it put the cursor there, but nothing you typed appeared and Enter and the send button did nothing. Both boxes were being built from the same shared blank document, and the editor library tracks its position by that document, so whichever box drew last took ownership and the other one could no longer work out where the cursor was. Each box now gets its own. Room and thread composers work at the same time, and drafts still stay separate.\n- `46b469d` Fixed **code blocks that start on the same line as the ```**. Typing ``` and pasting several lines after it — the usual way to paste code — produced literal backticks instead of a code block, because the fence had to be alone on its line and the closing ``` had to be on a line of its own. All four Discord forms now work: ` ```code``` `, ` ```lang ` then the code, code starting right after the opening ```, and the closing ``` at the end of the last line. A language is still picked up when the fence is followed by a single word (` ```js `), and anything else on that line is treated as code.\n- `d971afd` Added **`piped.gmach.online`** to the instance list — a real domain with a valid certificate (verified working), so the web app has a second instance that actually loads, not just a bare IP.\n- `d08c6cc` Added **a Piped instance picker with automatic failover**. Instead of one hardcoded instance, YouTube embeds now choose from a list — Settings → General → *Piped instance* lets you pick one or leave it on **Auto**, which probes the list and uses the first that responds. (On the web app, `http://` instances are blocked as mixed content and only work in the desktop app; Auto skips unreachable ones for you.)\n- `90eef8a` Fixed **code formatting to match Discord**. A single-line ` ```code``` ` now renders as a code block instead of showing literal backticks, and inline code accepts double backticks (` ``a`b`` `) so you can put a backtick inside. The rest of the formatting — **bold**, *italic*, `__underline__`, `~~strike~~`, `||spoiler||` — was already Discord-compatible.\n- `30112a4` Fixed **`-` bullet lists turning into numbered lists**. A list written with `-` (or `+`) was sent as an ordered `<ol>` — numbered even in the raw Matrix source. All of `-`, `*` and `+` are now bullet lists, matching every other Matrix/Markdown client.\n- `30112a4` Fixed **the thread panel\'s avatar filling its whole column**. The sender avatar now sits in a fixed-size box like it does in the main timeline.\n- `61e9b8a` Fixed **images and voice messages that failed to load** ("Mismatched SHA-256 digest" in the console). When the app\'s access token was refreshed, the service worker kept sending the old one for media, so every image/voice note silently failed until a reload. The worker now notices the rejection, refreshes its token and retries, and media download failures report the real error instead of a misleading digest mismatch.\n- `61e9b8a` Fixed **a member list flooding the console** with a repeated "event not found" 404 and an EventEmitter memory-leak warning in rooms with many people. Presence now uses a single shared subscription instead of one per member, and the pinned-message banner no longer requests an empty event id.\n- `61e9b8a` Fixed **stray React Router and fullscreen warnings** on load — the landing route now shows a loading splash while it redirects, and video embeds no longer double up the fullscreen permission.\n- `2d0d32d` Added **an update button in Settings → About**, next to Source Code. It tells you what it is doing — checking, downloading, or that you are up to date — and when an update is waiting it installs it, rather than sending you looking for the banner.\n- `2d0d32d` Fixed **the update banner telling you to "tap" on a desktop**. It now says tap or click to match the device you are actually using. The banner text is also centred properly instead of sitting off to one side.\n- `842520e` Changed **where the web client\'s source lives**: the repository is now `coffeegrind123/prinny` instead of `coffeegrind123/cinny`, matching the name of the app. If you self-host by cloning the `webapp-release` branch, your existing copy keeps updating — GitHub forwards the old address — but the address to use from now on is `https://github.com/coffeegrind123/prinny.git`.\n- `260e107` Fixed **the in-app updater reporting that no update was available for your platform**, on every desktop install. The published update file listed no platforms at all, so each client failed with "None of the fallback platforms were found". The builds themselves were fine — signed and uploaded correctly — but the step that writes that file runs seconds after they finish, and GitHub had not started serving the freshly uploaded signatures yet, so it recorded every platform as missing and reported success. It now retries those downloads, and refuses to publish an update file that would disable updating rather than quietly shipping one.\n- `40b72fa` Added **buttons under bot messages**. A bot can now put real buttons on what it sends — press one and it acts, with a spinner on the button until it answers back and a note if it never does. Buttons can also open a link, copy something to your clipboard, or fill the composer for you. A link button always asks first and shows the site it genuinely goes to, because the wording on a button is written by whoever sent it and the address is not. Destructive buttons look destructive. If you would rather not have buttons at all, Settings → General → Show Bot Buttons turns them off and you get the plain numbered list instead — which is also what people on other Matrix clients see, so a conversation with a bot works the same for everyone in the room.\n- `40b72fa` Added **a bot\'s commands to the `/` menu**. Bots can publish what they understand, so typing `/` lists their commands and descriptions alongside the client\'s own, with the bot\'s name beside each one. A new button by the attach icon opens the same list, and it only appears in rooms where a bot has actually published something. Where two bots offer the same command, picking one addresses it properly so they do not both answer.\n- `40b72fa` Added **quick-reply buttons above the composer**. A bot can offer a set of ready answers; pressing one sends it as an ordinary message. They stay put across a reload and follow you to your other devices, and a bot can clear them or ask you for one specific thing with the composer already pointed at its question.\n- `40b72fa` Added **a BOT tag** next to the name of any account that has published bot commands in a room, in both the conversation and the member list.\n- `40b72fa` Fixed **commands meant for a bot being silently swallowed**. Typing any `/command` this client did not itself recognise cleared the composer and sent nothing at all, with no error — so bot commands simply never arrived. They are now sent as written.\n- `0ec210e` Added **links that open a chat with a bot**, the equivalent of a `t.me` link. Following one opens a direct message and sends its opening command, after asking you first and showing exactly which account and exactly what will be sent.\n\n## 12.08.2026\n\n- `1b99127` Fixed **GIFs and videos in Twitter/X posts not playing at all**. They loaded as an empty box or a dead frame while ordinary GIF links played fine. Twitter\'s video servers refuse any request that says which page it came from, and the setting meant to strip that does nothing on a video — it only exists for pictures, which is exactly why pictures were unaffected. The file is now fetched separately, without that header, and handed to the player. This also means a Twitter clip that previously failed inside the desktop app now has a second way to load rather than showing an error.\n- `1b99127` Fixed **voice messages sitting in a grey box** with a "Voice message" label above them and a download button beside the player. All three were repeating what the player already gives you — it has its own background, and its menu already offers Download. Just the player now.\n- `1b99127` Fixed **long lists in dialogs not scrolling**. The Files dialog, poll history, widgets, edit history, forwarding, export and add-to-space all cut their list off at the bottom edge with no scrollbar and no way to reach the rest.\n- `1b99127` Fixed **the Add Email Address box in Settings still being narrower** than the identity-server one beside it.\n- `805df93` Added **draggable dividers between the columns**. The room list on the left and the member list, thread panel and call chat on the right can all be resized by dragging the line beside them. Double-click a divider to put it back. Widths are remembered, scale with your zoom setting, and are capped so two wide columns cannot squeeze the conversation out. Keyboard: focus a divider and use the arrow keys, Shift+arrow to move faster, Home/End for the extremes, Enter to reset.\n- `3f54ed7` Fixed **selecting text that starts on a link**. Dragging from a link towards the left selected nothing and the highlight jumped somewhere else entirely, because the browser was starting to drag the link rather than select the text. Links in messages are no longer draggable; they are still clickable and copyable.\n- `3f54ed7` Fixed **input boxes in Settings being narrower than the rest and a darker colour**, most visibly the add-email-address field beside the display-name one. The same fault affected the identity-server field, the account-deletion confirmation, the poll answer fields and the server-browser search.\n- `3f54ed7` Fixed **voice messages**, which now play in the audio player your system provides instead of a custom one. The old player could not draw a progress bar for the format voice notes are actually sent in — its own seek bar had nothing to measure against — and it decoded every clip in the background just to draw a waveform, whether or not you ever pressed play.\n- `3f54ed7` Fixed **dialogs being taller than their contents**, such as the widgets dialog, which drew a full-height panel with a large empty band under a short list.\n- `3f54ed7` Moved **creating a poll and sharing your location** out of the composer to the `/poll` and `/location` commands, freeing the buttons beside the attach icon. `/location` only appears when your homeserver actually provides a map server — before, it opened a picker with nothing to aim at.\n- `4a4c58c` Fixed **GIFs not playing when you link one**. A linked GIF showed a single frozen frame, because the preview picture came from the server\'s thumbnailer and a thumbnail of an animation is one still image. GIFs now play, whether the link is the GIF file itself, a Tenor or Giphy page, or a post that contains one.\n- `4a4c58c` Fixed **GIFs in Twitter/X posts** showing a play button that had to be pressed, instead of looping on their own.\n- `4a4c58c` Fixed **GIFs in Bluesky posts** showing only a still thumbnail. Bluesky attaches a GIF as a link rather than as media, so there was nothing to play. They now loop, and use a version around fifty times smaller than the one Bluesky points at — fetched from Tenor directly, so reading a GIF no longer tells Bluesky\'s servers you looked at it.\n- `4a4c58c` Fixed **a GIF that could not be started at all** on Linux and Android. Both refuse to start video on their own, and a looping GIF has no play button by design, so it sat there as a dead picture. If playback is refused, controls now appear. Click a playing GIF to pause it.\n- `4a4c58c` Fixed **image links producing no preview** when the server could not fetch one, and **`og:image`-based video and audio players** that were permanently broken on pages advertising media they do not actually serve — those now show a picture and a link instead of a dead player.\n- `93001c0` Fixed **the Android build failing to release**. `matrix:` links tapped in another app also never reached the client on Android; the app registered itself as the handler but nothing was reading the link.\n- `b3946e0` Added **voice messages**. Press the microphone in the composer, review what you recorded, then send it. They arrive with a waveform and a duration in Element and other clients, and voice notes from those clients now show as a proper player here instead of an anonymous file. Recording stops and releases the microphone when you cancel, switch rooms or close the app.\n- `b3946e0` Added **a thread panel**. Threads could be started before but never read — replies landed loose in the conversation and there was nowhere to open. A message that started a thread now shows how many replies it has and opens them in a panel beside the room, or full screen on a phone. Replies still appear in the main conversation as well, so nothing has disappeared.\n- `b3946e0` Added **polls**. Create one from the composer, vote, and end it when you are done. Polls sent from other clients used to show as "unsupported content" and now work properly. A poll set to hide its results shows nothing at all until it ends, not even to you.\n- `b3946e0` Added **forwarding a message** to one or more rooms, from the message menu.\n- `b3946e0` Added **edit history** on messages that have been edited, fetched from the server so it works for edits made before you opened the app.\n- `b3946e0` Added **a pinned-message banner** above the composer, so a pin is visible without opening the room menu. Dismissing it hides only that pin; pinning something new brings it back.\n- `b3946e0` Added **approving people who ask to join**. Setting a room to "ask to join" used to be a trap: requests arrived with nothing to show them, so people waited on a room that looked like it had ignored them.\n- `b3946e0` Added **exporting a conversation** as HTML, plain text or JSON, with attachments bundled alongside it. Also added **a file list** for the room, so you can find that PDF without scrolling for it.\n- `b3946e0` Added **sharing a location**, either where you are or a pin you drop, and **live location sharing** for 15 minutes, an hour or eight hours. While you are sharing, a banner stays on screen that cannot be dismissed — only stopped. Maps are off until you turn them on, because drawing one tells whoever serves the map tiles where you are looking.\n- `b3946e0` Added **widgets**. Room widgets can be opened, added and removed, and each one asks before it is allowed to read or send anything, item by item. Widgets never get the microphone, the camera or your Matrix identity, and one served from the same address as the app itself is refused outright.\n- `b3946e0` Added **changing your password, adding and removing email addresses, and closing your account** in Settings. Changing a password previously meant logging out and using the reset flow, which needed access to the email on the account.\n- `b3946e0` Added **privacy settings**: block all incoming invites, choose when media previews load, and hide avatars in invitations from strangers.\n- `b3946e0` Added **thirteen more slash commands**, including `/nick`, `/topic`, `/roomname`, `/myavatar`, `/whois`, `/query`, `/plain`, `/html` and `/rainbow`.\n- `b3946e0` Added **chat effects** — `/confetti`, `/fireworks`, `/snowfall`, `/rainfall` and `/hearts`, which also fire when someone sends the matching emoji. Skipped entirely if your system asks for reduced motion.\n- `b3946e0` Added **LaTeX rendering** for maths in messages, off by default.\n- `b3946e0` Added **microphone settings** — choose an input device and turn echo cancellation, noise suppression and gain control on or off. Used by voice messages and calls alike.\n- `b3946e0` Fixed **audio attachments being sent without a duration**, which made them show as unknown-length in every other client.\n- `f96ddb0` Fixed **the microphone never working on Linux**. The window\'s browser engine ships with capture switched off and silently refuses any request nothing is listening for, so recording and call audio could not have worked on that build. Screen sharing from a call is covered too.\n- `f96ddb0` Fixed **the app being killed on macOS the first time it touched the microphone or camera**, instead of asking for permission.\n- `f96ddb0` Added **opening `matrix:` links**, both inside the app and from other programs, on all four platforms. They previously did nothing at all when clicked.\n- `f96ddb0` Added **starting at login**, launching minimized to the tray. Related: a window closed to the tray no longer comes back invisible the next time you start the app by hand.\n- `f96ddb0` Added **hiding the window from screenshots and screen recordings**, in Settings. Works on Windows and macOS; most Linux desktops ignore it.\n- `f96ddb0` Added **spell checking on Linux**, which the window\'s browser engine leaves off by default, using the languages from your own system settings.\n\n## 11.08.2026\n\n- `451148f` Fixed **the icon bar on the left not moving with the swipe on mobile**. It stayed put while the conversation list slid, then appeared or disappeared abruptly at the end, shifting everything sideways. It now slides away together with the list, and the chat opens at the full width of the screen without jumping.\n- `bcb92f0` Improved **message search filling in as it goes**. It used to sit blank while it worked, then stop at the first match it found — so a single recent hit looked like the whole answer and older messages only turned up if you scrolled. Results now arrive a few at a time and keep coming until there is a proper list of them.\n- `bcb92f0` Improved **the settings menu on phones**, spacing the entries out and making each one a larger touch target so neighbouring rows are harder to hit by accident.\n- `bcb92f0` Added **link previews in encrypted rooms by default**. Note this asks your homeserver to fetch the link, which it cannot otherwise see inside an encrypted message — the setting turns it back off.\n- `bcb92f0` Improved **where the Telegram sticker import setting lives**, moving it from General to Emojis & Stickers, next to the packs it applies to.\n- `7679ea5` Improved **swiping toward a chat on mobile**, which now uncovers the conversation as you swipe, the same way swiping out of a chat reveals the list behind it. Previously there was nothing on the other side and the chat only appeared once the swipe finished. Rooms revealed this way are not marked as read — only opening one does that.\n- `7679ea5` Improved **search being the same everywhere**. The search button used to lead to two different screens depending on the window size, and the one on phones could only search messages. There is now a single search, and it finds both people and messages on every device.\n- `7679ea5` Fixed **the settings menu sitting against the top of the screen on mobile**, leaving a large gap below. The list is now centred vertically; the logout button stays where it was.\n- `fe3fdd7` Fixed **swiping back toward a chat looking broken on mobile**. The conversation list went transparent mid-swipe, leaving just the room names floating over nothing. It now slides as one solid page, matching the swipe in the other direction.\n- `fe3fdd7` Improved **the people sidebar search box**, which now spans the full width of the sidebar instead of being squeezed next to the close button. The sidebar also gained a "People" heading.\n- `fe3fdd7` Fixed **the search screen being too wide on small phones**, where it could be pushed past the edge of the screen and scroll sideways.\n- `fe3fdd7` Improved **settings layout**, centring each settings page in the available space rather than letting it hug the left edge — matching how the rest of the app already lays out its pages.\n- `c6a0111` Added **importing Telegram sticker packs**. Open any image pack you can edit, choose "Import from Telegram", and paste a `t.me/addstickers/...` link — its stickers are downloaded and added to the pack. Animated and video stickers are skipped and counted, since packs can only show still images. This needs a Telegram bot token, set once in Settings → General: Telegram publishes sticker packs nowhere else, so there is no way to import without one. Creating a bot with @BotFather takes a moment and is free, and the token is kept on your device only — never sent to your homeserver.\n- `15bd574` Fixed **the attach button doing nothing on Android**. Tapping `+` in the composer, or using the upload shortcut, opened no file picker and gave no error. The file type it asked for was written in a form Android rejects, so the system found nothing able to handle the request and silently gave up. Other pickers in the app — profile picture, sticker pack image — were unaffected and kept working, which is why this looked like an attachments-only problem.\n- `985f7b9` Improved **third-party code once more**, replacing six small packages with equivalent code kept in this project — number formatting, keyboard shortcut matching, file downloads, image placeholders and error handling. The two with any real logic were checked against the packages they replace over tens of thousands of generated cases with no behaviour difference, including on macOS, where the shortcut key differs.\n- `19bad2e` Improved **third-party code in the client further**, removing two packages that nothing used and twelve more from the desktop shell that were never imported by anything. Together with the earlier commit-hook removal today, the web client now resolves 801 packages instead of 950.\n- `db9bb8d` Fixed **the web app at prinny.app/app failing to load with "Failed to load"**, usually right as you signed in. A tab left open while a new version was published kept asking for pieces of the old version that no longer exist on the server; the sign-in step is what requested one first, so the app appeared to break specifically at login. Such a tab now notices and refreshes itself onto the current version instead of dying. If it happens again before this update reaches you, a hard refresh clears it.\n- `db9bb8d` Fixed **the web app not being installable to your home screen or desktop**. Its app manifest was requested from the wrong address on prinny.app/app and always came back missing, so browsers saw no installable app.\n- `5989652` Improved **the amount of third-party code that goes into a build**, down from 950 packages to 803. A commit-hook stack inherited from upstream — husky, lint-staged and commitizen — was fully commented out and could not run, so removing it costs nothing and takes 147 packages out of the supply chain. Leftover upstream project files (code of conduct, contributing guide, sample reverse-proxy configs for a different project\'s name) and a version-stamping script that had been superseded were removed at the same time.\n- `b3341b9` Fixed **ending up with several copies of Prinny running on Windows**, and the pinned taskbar shortcut appearing to do nothing. Closing to the tray hides the window, so the app looked shut down and each new launch started another client. Launching again now restores and focuses the one already running — from the shortcut, the taskbar pin or the Start menu — and a pinned Prinny shares one taskbar button with the running window instead of showing two.\n- `3a1e9bb` Improved **what happens on a server that will not let apps complete sign-up**. Some servers require a step they keep to their own website. Instead of a blank error page, the app now says so plainly and links that server\'s actual sign-up page, so you can create the account there and come straight back to sign in.\n- `258978b` Added **support for servers that use hCaptcha**. Some homeservers run hCaptcha while still presenting it as the standard captcha step, and the app was drawing Google\'s box with an hCaptcha key — which can never be solved, so registration on those servers was impossible. The right captcha is now shown for each.\n- `258978b` Fixed **being turned away from servers with an unfamiliar sign-up step**. Anything the app does not handle itself — a phone-number check, a captcha provider it does not recognise, something a server invented — now opens the server\'s own sign-up page in a second window; finish there and you are brought straight back. Previously this said "this application does not support registration on this homeserver" and stopped.\n- `94a3982` Added **a directory of public Matrix servers**, replacing the matrixrooms.info room feed. Around 1,150 servers, merged and deduplicated every day from three independent lists (asra.gr, joinmatrix.org, privacydev.net). Explore now offers "Browse public servers" — pick any server and read its own public room directory, instead of one third party\'s view of which rooms are worth seeing.\n- `94a3982` Improved **choosing a homeserver when signing in or registering**. The field now completes as you type, the way a browser address bar does: type `tchn` and it fills in `tchncs.de` with the rest selected, so carrying on typing simply overwrites it. The magnifier beside the field opens the full directory, searchable by name, software, country or hosting provider, and filterable by open registration, captcha, email requirement and Tor friendliness.\n- `94a3982` Fixed **the server list being unreadable in a browser**. None of the three upstream lists allow cross-origin requests, so the web version could not have fetched them at all. The merge now happens once a day on prinny.app and every version — desktop, Android and web — reads the same prepared file. Self-hosters can point `publicServersUrl` at their own copy.\n- `8bf8ba9` Fixed **the release pipeline silently skipping a build**. Two pushes close together left one release half-built and the second push produced no build at all — the second run cancelled the first *after* it had already created the release and uploaded three platforms, then declined to build anything itself because that release now existed. Builds queue instead of cancelling, the version number now accounts for a release that has been drafted but not yet tagged, and a build can be re-run by hand without inventing a commit.\n- `86d4a10` Fixed **nothing watching the app\'s dependencies for security patches**. The configuration said one bot handled them; that bot was never installed, and the approval step it waited on could not exist because the repository has issues turned off. So no patch was ever proposed, which is how 22 known-vulnerable packages piled up. Dependency alerts and automatic security updates are now switched on for both repositories, with a bot that needs no extra setup.\n- `86d4a10` Improved **download size**: the bundled video-call widget was shipping 18 MB of debug source maps that no user ever loads. Total download drops from 63 MB to 45 MB.\n- `86d4a10` Fixed **desktop shell shipping five unused system integrations**. Clipboard, file-system, shell-command, HTTP and dialog plugins were compiled into every build but granted no permission and called by nothing — dead code that also pinned an XML parser with two denial-of-service advisories. Removed. Copying text is unaffected; it uses the browser API.\n- `86d4a10` Fixed **known-vulnerable Rust libraries in the desktop shell**, including two certificate-validation bugs in the TLS stack (`rustls-webpki` — name constraints wrongly accepted for URI and wildcard certificates) and a remote memory-exhaustion bug in the QUIC networking layer.\n- `a4600e5` Fixed **an image attachment being able to open attacker-written content inside the app**. A sender chooses the `mimetype` on a picture they send, and the image and sticker renderers passed that value straight through when building the local media object — so a picture could declare itself as HTML, and the image viewer\'s "open in browser" button would then open it as a page running with the app\'s own permissions. Images and stickers are now restricted to real picture formats, and that button refuses anything that is not an ordinary web link.\n- `a4600e5` Fixed **push notifications trusting everything the push server sent**. The service worker displayed whatever text arrived and handed the room identifier it was given straight to the app\'s navigation. Notification text is now length-limited and stripped of control characters, and the room and event identifiers must look like real Matrix identifiers before anything is shown or opened. This matters more now that pushes carry real message content.\n- `a4600e5` Fixed **a code block in a message being able to freeze the client**. Syntax highlighting ran on the main thread with no size limit, and the sender picks the language from 287 options. Measured across every grammar we ship, the cost grows with the square of the length: `javascript` on a plain run of letters takes **4.1 s at 32 000 characters and 40 s at 100 000**, and `scss` reaches **8.6 s and 84 s**. Code blocks over 4 096 characters now render in full but without colours (worst case ~130 ms). This also fixes an honest large paste hanging the app.\n- `a4600e5` Fixed **an emoji shortcode being able to break out of the HTML it is written into** when a message is edited and re-sent. Every neighbouring field was escaped; this one was not.\n- `a4600e5` Fixed **all 22 known-vulnerable dependencies, 10 of them high severity — now zero**. The important one is the PDF renderer (`pdfjs-dist` 5.7.284 → 6.2.108), where a malicious PDF could run JavaScript in the app, in a client that renders PDFs strangers send you. Also the router (open redirect and XSS), the user-agent parser (a hang on a crafted string), and `lodash` — the only vulnerable package that actually reached the shipped app. The PDF upgrade is a major version: it needed code changes, and the new renderer fetches WebAssembly decoders at runtime that were not previously bundled, without which **scanned documents would have rendered blank with no error** — those are now shipped. Verified in a real browser that PDFs still render and the app still starts.\n- `a4600e5` **Self-hosters: the Docker image now listens on port 8080, not 80**, because it no longer runs as root. Change the container side of your port mapping (`-p 80:80` → `-p 80:8080`) and any Compose or Kubernetes manifest that names port 80. README updated.\n- `c0b94a6` **Android: reinstall required once.** Release APKs are now signed with a new key, because the previous signing key had been committed to the public repository and anyone could sign an APK your phone would accept as a Prinny update. Android refuses an update signed by a different key, so this build will not install over your current one — **uninstall Prinny and install this APK fresh**. In-app updates work normally again afterwards. Sorry for the one-time hassle; there is no way to rotate a leaked signing key without it.\n- `c0b94a6` Fixed **Android notifications only arriving while the app was open**. The push receiver decided who should show a notification by checking whether the app\'s plugin object existed — but that flag is set on first launch and never cleared, so every push was handed to the WebView, and Android suspends WebView JavaScript the moment the app leaves the screen. Nothing rendered. The receiver now checks whether the app is genuinely on screen (`MainActivity.isAppInForeground`) and posts the notification from native code when it is not, so notifications arrive with the app closed. Notifications also show the real sender and message with `BigTextStyle`, get **one notification per room** instead of all rooms overwriting a single entry, and tapping one opens the right room. Encrypted rooms show "New message" — the server cannot read them, which is the encryption working.\n- `c0b94a6` Fixed the **Android in-app updater installing an APK without checking it**. `UpdateChecker` parsed the published `sha256` and then never used it, and staged the download in shared public storage under a predictable name where another app could replace it. It now verifies the SHA-256 before prompting (deleting the file on mismatch), stages in app-private storage, requires an `https` GitHub host, and registers its download receiver as `RECEIVER_NOT_EXPORTED`.\n- `c0b94a6` Fixed **embedded web content being able to turn on your microphone and camera**. The Android WebView permission handler granted capture based only on whether the app held the OS permission, never checking which origin asked — so any third-party iframe (a link preview, an embed) could obtain mic and camera silently once you had made one call. Capture is now restricted to the app\'s own origin, and page scripts can no longer flip the microphone foreground-service type on their own.\n- `c0b94a6` Fixed **a single message being able to freeze the client**. The jumbo-emoji check used a nested-quantifier regex whose cost doubled every ~2.5 characters: a message of ~70 colons locked the render thread for minutes, and the event persisted so reopening the room re-froze it. Measured 55 colons: **3.7 s → 0.14 ms**, and flat at 1000. The URL matcher\'s variable-length lookbehind was quadratic on long messages (**853 ms → 0.8 ms** on 40 000 characters), and an empty search term could spin the highlighter forever — a double space in the room switcher was enough. `utils/regex.ts`, `utils/findAndReplace.ts`, `plugins/react-custom-html-parser.tsx`.\n- `c0b94a6` Fixed **links and embeds handing arbitrary URL schemes to the operating system**. On desktop, a link opening a new window is passed to the OS URL opener, so a homeserver-supplied or message-supplied `file:`, UNC or app-protocol URL invoked a local handler. All such URLs are now validated as `http(s)` at the point of use (new `utils/safeUrl.ts`), `ftp:` and `magnet:` are no longer accepted in message links, and the native side enforces its own scheme allowlist.\n- `c0b94a6` Fixed **login credentials being sendable to the wrong server**. The homeserver allowlist was checked against the name you typed while the login request went to the `base_url` that server\'s own `.well-known` returned, which was never re-checked; and an `http://` prefix in a `/login/:server` link survived into the credential request. Discovery now forces `https`, the route parameter must be a bare hostname, and the allowlist is re-applied to the discovered URL.\n- `c0b94a6` Added a **"Hide message content"** notification setting (Settings → Notifications) so system notifications can show only the sender. Decrypted message text otherwise goes into the OS notification store, where other software on the device may read it.\n- `c0b94a6` Added a **Bluesky post embeds** toggle and made every third-party embed state plainly that enabling it sends the link and your IP address to that service. Bluesky previews previously fetched from `public.api.bsky.app` with no setting at all. Link previews for **encrypted** rooms are now off by default — asking the server to preview a URL from a message it cannot read hands it that URL.\n- `c0b94a6` Improved **rendering safety for hostile room state and media**: power-level tag icons can no longer be an arbitrary URL that beacons every viewer\'s IP on each render, attachment dimensions are clamped, download filenames are sanitised, blob MIME types can no longer be declared as active content, and megolm key-file import bounds its key-derivation work.\n- `c0b94a6` Improved **desktop native hardening**: the app now refuses to start if another process already holds its frontend port (that port grants native permissions, so whoever answers on it inherits them), the SSRF guards cover 0.0.0.0/8 and IPv4-in-IPv6 encodings, redirects are re-validated per hop, downloads are size-capped, and drag-drop file access is consumed once instead of lasting the whole session. The permission grant to the page dropped filesystem, HTTP, dialog, clipboard, shell and global-shortcut access, none of which the client uses.\n- `c0b94a6` Improved **self-hosting and build security**: every shipped nginx/Caddy/Netlify config now sets a Content-Security-Policy and related headers (verified in a real browser, including WebAssembly crypto and the bundled call widget), production source maps are no longer published, the Docker image runs unprivileged (**publish `-p 80:8080` now**), the web root no longer exposes `.git`, and CI pins its actions, drops install scripts, and stops packaging its own credentials into the source archive.\n\n## 10.08.2026\n\n- `22f0979` Updated **sanitize-html to 2.17.6** — a security release for the HTML sanitizer every incoming message body passes through. Upstream cinny `90837f7`.\n- `3ef594f8` Upgraded the **in-app call stack to element-call 0.20.1** (from 0.19.3) and **matrix-js-sdk to 41.7.0**. Fixes the **call settings and reaction buttons doing nothing** — element-call moved its settings button to a new `data-testid` and our control layer was still walking `previousElementSibling` off the leave button, so it was clicking the wrong nodes. **Screenshare and spotlight buttons now update their state**, the **mic/video buttons disable while a toggle is in flight** (instead of letting you desync them with fast clicks), and **incoming-call popups no longer appear for voice rooms**. `plugins/call/CallControl.ts`, `CallEmbedProvider.tsx`, `call-status/CallControl.tsx`, `call/CallControls.tsx`, `call/Controls.tsx`, `call/PrescreenControls.tsx`. Upstream cinny `e379714`.\n- `aba72c2` Fixed **"Manage devices" opening a dead page** on homeservers that have moved to the stable spec — account management now uses the stable MSC2965 action names instead of the unstable `org.matrix.msc2965.*` ones. `useAccountManagement.ts`. Upstream cinny `a9245c8`.\n- `03ad4e7` Fixed **long space names and descriptions overflowing the lobby header** instead of truncating. `LobbyHero.css.tsx`, `page/style.css.ts`. Upstream cinny `762e99a`.\n- `69fc00c` Updated **folds to 2.7.1** (the UI component library). Upstream cinny `730a748`.\n\n## 07.06.2026\n\n- `c9ca749` Unified **people + message search into the members drawer** — the search box moved into the drawer header and the **"N Members"** title moved down beside the Filter/Sort chips. One box now drives both: matching members filter the list instantly, and a new **Messages** section below shows matching messages (with a "Search older messages" button to page deeper). The standalone search icon and search panel are gone on desktop; mobile/tablet keep the search overlay since there\'s no drawer there. New `RoomMessageResults.tsx` renders the inline results for encrypted (local scan) and unencrypted (server) rooms alike. `MembersDrawer.tsx`, `Room.tsx`, `RoomViewHeader.tsx`.\n- `c9ca749` Made **encrypted-room search much faster** — back-paginated events are now decrypted **in parallel** instead of one-at-a-time (the per-event serial decrypt was the bottleneck), and each page back-paginates a bounded number of rounds before returning, so as-you-type search stays responsive and deeper history loads on demand. `useClientRoomSearch.ts`.\n- `ba1c6b1` Fixed **encrypted-room search returning no results** — the client-side scan (`useClientRoomSearch.ts`) walked the *entire* room history (up to 50k events / hundreds of back-pagination round-trips) before returning even one match, so for any encrypted room with real history the search just sat on loading skeletons and never showed anything. It now streams: it scans the already-synced history and back-paginates only far enough to fill the requested page, returning matches immediately and resuming pagination on demand as you scroll. Dense terms appear almost instantly; "no results" is only shown once history is genuinely exhausted (still bounded at 50k events).\n\n## 06.06.2026\n\n- `36a04bf` Made **all link-preview embeds 2x larger** — the card max-width went 216→432px and the image/video height caps doubled (300→600, 320→640), so YouTube, Twitter/X, Bluesky and generic embeds all render bigger (everything inside is width:100% of the card, so it scales proportionally). `UrlPreview.css.tsx`.\n- `36a04bf` Fixed **multi-image Twitter/X embeds stacking vertically** — they now render in a 2-column grid (side by side), matching the Bluesky layout. `UrlPreviewCard.tsx`.\n- `36a04bf` Repurposed the embed **"Show all" button for long descriptions** — removed the old og: metadata dump that lived behind it; now a description over 100 words shows the first 100 with a Show all / Show less toggle, and shorter ones show in full. `UrlPreviewCard.tsx`.\n- `36a04bf` Replaced the custom **audio-attachment player with native HTML `<audio controls>`** — encrypted/authenticated media is fetched to a blob first, plain media streams directly. `AudioContent.tsx`, `RenderMessageContent.tsx`.\n- `36a04bf` Fixed a **softlock when swiping right in Settings on mobile** — the swipe slid the container fully off-screen (via `commitOffset`) expecting a route change to unmount it, but Settings navigates subpage→menu in place, so it stayed stuck off-screen. Settings now snaps back instead. `Settings.tsx`.\n- `36a04bf` Fixed **swiping back into the last conversation on mobile** — `MobileSwipeOpen` remounts on every in/out transition (so its `useState` last-room reset to nothing) and its fallback link selector matched no real path. The last-opened room is now remembered across remounts and the fallback targets the top room in the list. `MobileSwipeOpen.tsx`.\n- `36a04bf` Fixed the **Inbox page layout on mobile** — Notifications/Invites rendered in normal flow, so the absolute nav backdrop painted over them. They\'re now wrapped in `MobileSwipeBack` (an opaque z-index:1 layer, like rooms), which fixes the stacking and adds the swipe-back gesture. `Router.tsx`.\n- `36a04bf` Made the **mobile UI 15% larger** — bumped the root font-size to 115% under 640px; folds sizes everything in rem, so fonts/spacing/icons/controls scale together. `index.css`.\n- `36a04bf` Made the **Settings menu items full-width and centered on mobile**. `Settings.tsx`, `settings/styles.css.ts`.\n- `36a04bf` Colored the **mobile safe-area insets** (notch / home-indicator bars) with the themed grey surface instead of black. `SafeArea.css.ts`, `index.css`.\n- `5eb6249` Added **message search in end-to-end encrypted rooms** — the room search button is no longer hidden in encrypted rooms, and a new client-side search (`useClientRoomSearch.ts`) runs there instead of the server. Since the homeserver only holds ciphertext, it back-paginates and decrypts the local timeline (bounded at 50k events), matches message bodies (phrase, falling back to all-words), and returns the same paginated/virtualized result shape as the server path so `RoomSearch` uses either interchangeably. Encrypted rooms show a notice that search runs locally over history synced to this device. Non-encrypted rooms still use server-side `mx.search`.\n- `5eb6249` Fixed reacting to a message scrolling the timeline to the most recent message — a reaction is an `m.reaction` live event "sent by you", so the Scroll-to-Bottom-on-Send path (and the at-bottom auto-scroll) yanked the viewport to the live edge. `RoomTimeline.tsx` now gates both scroll paths on `isLiveDisplayEvent` (skips reactions, edits and redactions, mirroring the render filter); the range still advances so reactions render in place without moving the view.\n- `5eb6249` Moved the **cancel-reply (✕) button to the right** of the reply preview, nearer the send controls, so dismissing a reply needs less mouse travel. An invisible spacer keeps the message you\'re replying to aligned with the text input below (`RoomInput.tsx`).\n- `5eb6249` Improved the **desktop update toast** — clicking it (or its "Open" action) now downloads and installs the update directly, the same as the banner\'s Update button. The toast is tagged `kind: \'update\'` and routed by a dedicated listener so it no longer falls through the message-click → room-navigation path (`useUpdateCheck.ts`, `desktop-notifications.ts`).\n- `5eb6249` Improved the connecting screen — it now shows **Connecting to `<homeserver>`…** instead of a bare "Connecting…", so you can see which server is being reached (`SyncStatus.tsx`).\n- `5eb6249` Fixed **presence dots not appearing** until a live presence event arrived — `useUserPresence` now syncs immediately from whatever the store already holds (the peer\'s `User` object is often created lazily after first render), handles an empty user id, and avoids a stale `undefined` that hid the badge.\n\n## 30.05.2026\n\n- `605d9de` Added **client-side link-preview fallback** (Settings → General, desktop/mobile app only, **default off**) — when your homeserver\'s `preview_url` can\'t generate a link card (commonly a `504` because the target site blocks Synapse\'s non-browser User-Agent), the app now fetches the page itself with a real Chrome UA and parses its OG/Twitter meta tags locally. New Rust `fetch_og_preview` IPC command fetches server-side (bypassing CORS) but keeps every SSRF guard from the media proxy — scheme check, post-DNS private/loopback/link-local/CGNAT/cloud-metadata rejection, DNS pinning against rebinding, per-hop redirect re-vetting (auto-redirects disabled), and a 512 KiB response cap — and, unlike `fetch_remote_bytes`, accepts any *public* host since a generic preview can point anywhere. `UrlPreviewCard.tsx` falls back to it only after the homeserver preview errors, and renders a direct `https` `og:image` straight through (homeserver previews use `mxc://`). Skipped for Twitter/X, Bluesky, YouTube and direct-audio URLs, which already render without the homeserver.\n- `8e99e44` Hardened the desktop media proxy against SSRF — the Rust `fetch_remote_bytes` IPC command (used for Twitter/X and Bluesky video/images) now requires `http`/`https`, restricts the host to a `twimg.com`/`bsky.app` allowlist, resolves DNS and **rejects any private/loopback/link-local/CGNAT/cloud-metadata (`169.254.169.254`) address**, pins the vetted IP on the request to defeat DNS-rebinding, and only follows redirects that stay on the allowlist. Previously it fetched any URL server-side, bypassing CORS.\n- `8e99e44` Fixed the notification-icon cacher leaking the Matrix access token — `cache_notification_icon` now forwards the `Authorization` header **only** when the avatar URL is under the logged-in homeserver\'s `/_matrix/` media endpoint (origin + path validated against `mx.baseUrl`); every other URL is fetched with no credentials and SSRF-guarded.\n- `8e99e44` Hardened `read_dropped_file` — it now reads **only** paths the user actually drag-dropped onto the window (captured from the native drag-drop event), so an injected script can no longer read arbitrary files such as `/etc/passwd`.\n- `8e99e44` Removed the unused `shell:allow-execute` / `shell:allow-open` desktop capabilities (arbitrary process spawn from the webview — nothing in the app used them), tightened the CSP `script-src` to drop remote `http:`/`https:` origins (keeps `unsafe-eval` for the crypto WASM), and scoped the Android `FileProvider` from the whole external-storage/cache roots down to just `Download/` (the only dir the updater APK uses).\n- `8e99e44` Added a non-blocking `security-audit` CI job (npm production-dependency audit gated at critical; `high` + `cargo audit` advisory) and applied `npm audit fix` for the `@octokit/*` ReDoS advisories in the release tooling.\n- `66a3bab` Fixed the Android in-app updater never installing — every release was CI-signed with a **freshly generated random keystore**, so Android rejected each update with "App not installed" (`INSTALL_FAILED_UPDATE_INCOMPATIBLE`: signatures don\'t match the installed app). The APK downloaded but could never install over the previous build, even after granting "install unknown apps." CI now signs every release with a **stable committed key** (`prinny-ci.keystore`), with an optional `ANDROID_KEYSTORE_BASE64` secret override. Existing users need ONE manual reinstall to land on the stable key; after that, in-app updates work.\n- `d9aca00` Added **in-conversation message search** — a search button in the room header (right side, by the call icons) now opens a right-side results panel instead of navigating away. Server-side `mx.search` scoped to the current room, paginated and virtualized (`@tanstack/react-query` infinite query + `@tanstack/react-virtual`) for long histories; click a result to jump to that message in the timeline. Works on web, desktop (side panel), and mobile/tablet (full-screen overlay that closes on result tap). Unavailable in end-to-end encrypted rooms (server can\'t index encrypted messages) — shows a notice.\n- `d9aca00` Added **presence/status bubbles inside the chat and the room header** — message avatars now show the sender\'s online/idle/offline dot (matching the members panel and DM list), and DM headers show the other user\'s presence next to their name.\n- `d9aca00` Made **URL-preview embeds/videos ~50% smaller** (Discord-like) — the preview card max width dropped 432→216px and video height is capped at 320px, so portrait clips render around 180×320 instead of filling the message column. `UrlPreview.css.tsx` + loading-placeholder caps in `UrlPreviewCard.tsx`.\n- `f29c063` Added a **Scroll to Bottom on Send** setting (Settings → General → Editor, on by default) — when you send a message while scrolled up in a room, the timeline now jumps back to the live edge so your own message scrolls into view. Implemented in `useLiveEventArrive` (`RoomTimeline.tsx`): a live event whose sender is the current user resets the timeline via `getInitialTimeline` and triggers `scrollToBottom`, reusing the `handleJumpToLatest` path. Gated on the sender being us, so other people\'s messages never yank the viewport.\n- `38f0d1c` Fixed `:3` (and other single-char emoticons like `:p`, `:D`, `:o`) triggering the emoji autocomplete and auto-replacing on Enter — the `EMOTICON_QUERY_RE` shortcode trigger in `getAutocompleteQuery` matched any run of word characters after `:`, including a single one. Tightened to `[a-zA-Z0-9_+-]{2,}` so the picker only opens once there are at least two characters after the `:` (Discord parity); `:12` → `:1234:` still completes.\n- `32c880f` Fixed emoji/mention autocomplete arrow-key selection — pressing Up/Down moved the highlight (via the focus-trap) but Enter/Tab always inserted the *top* item and the caret jumped to the start of the composer. A window-level capture handler in `EmoticonAutocomplete`, `UserMentionAutocomplete`, `RoomMentionAutocomplete` and `CommandAutocomplete` was hardcoded to commit index 0. Each menu item now carries a `data-autocomplete-index`, and Enter/Tab click the focused item (reusing the mouse-click path, so the selected emoji/mention inserts and the cursor stays put); falls back to the first result when focus is still in the editor.\n- `32c880f` Fixed typing `:)` (and other punctuation smileys) auto-inserting an unrelated emoji on Enter — the emoji shortcode trigger matched any non-space text after `:`. `getAutocompleteQuery` now only treats `:` as an emoji query when the following text matches `[a-zA-Z0-9_+-]` (real shortcodes like `+1`, `e-mail`), so `:)`, `:(`, etc. send as literal text.\n- `32c880f` Improved Element-style read receipts for users without an avatar — the bare grey initial (which read like a stray newline glyph) is now centred inside a circle tinted with the user\'s `colorMXID` placeholder colour, matching how `UserAvatar` renders avatar fallbacks.\n- `32c880f` Fixed Alt+Up / Alt+Down not moving between DMs — outside a space the handler fell through to "all non-space rooms", so in the Direct Messages list it jumped to arbitrary non-DM rooms. It now matches the open sidebar: space → that space\'s rooms, Direct → DMs only, Home → orphan rooms.\n- `32c880f` Added `Ctrl+?` (Ctrl+Shift+/) as a second shortcut to toggle the keyboard-shortcuts panel, alongside the existing rebindable `Ctrl+/` (Discord parity; `Cmd+Shift+/` on macOS).\n- `c32d959` Fixed calls dropping — backported upstream\'s call-drop fix (#2954). Membership counting in `useCall`, `useCallEmbed` and `CallEmbedProvider` was using the experimental slot-based `MatrixRTCSession.sessionMembershipsForSlot()` API (carried over from an earlier backport), which could miss active participants and tear the call down. Reverted to the stable synchronous `rtcSession.memberships`, restoring reliable "call ongoing" detection and incoming-call dismissal.\n\n## 19.05.2026\n\n- `5694870` Fixed Android updater re-downloading every launch and never installing — `UpdateChecker.kt` now (1) checks for an existing APK on disk and a previously-enqueued DownloadManager job before queueing a fresh download, so a downloaded-but-uninstalled APK is reused instead of re-pulled; (2) registers a `BroadcastReceiver` for `ACTION_DOWNLOAD_COMPLETE` and fires the install intent itself with a FileProvider `content://` URI — DownloadManager\'s built-in tap-the-notification handler still generates a `file://` URI that crashes Android 7+ with `FileUriExposedException`, which was the silent failure when the user tried to install; (3) cleans up stale APKs once the new version is the installed one; (4) targets `Context.RECEIVER_EXPORTED` on Android 14+ so the dynamic receiver actually fires; (5) auto-prompts install at most once per cold start when the APK is already downloaded, so a dismissed dialog isn\'t re-shown on every relaunch.\n- `aa75417` Fixed update banner overflow on mobile — the size-300 action Button (32px tall) was poking out below a banner that auto-sized to the text height (~36px) and the Box didn\'t always stretch to the parent column, so the banner ended where the text ended and the button sat half-outside. Added explicit `width: 100%`, `min-height: 48px`, and `flex-shrink: 0` to the shared container style; the inner text Box got `min-width: 0` + `truncate` so long messages ellipsis instead of pushing the button out horizontally.\n- `fff19fa` Fixed mobile swipe gestures and modal layout — `useSwipeGesture` now refuses to engage when there is no navigation target (empty Home no longer follows the finger to nowhere); `MobileSwipeOpen` resolves the target as selected → last → first-rendered room link, so swiping in the DM tab opens the most-recent conversation; commit animates the foreground fully off-screen instead of snapping back, and `MobileFriendlyPageNav` now renders the page-nav as an absolute backdrop behind the room view on mobile sub-routes so swipe-back reveals the actual nav underneath. `Settings` modal supports left→right swipe as "X" (subpage → menu list → close) and on mobile no longer collapses to a tiny top-left island — `Modal500` explicitly flexes the content column and `interactive-widget=resizes-content` + new `useKeyboardInset` hook keep the chat input above the on-screen keyboard without leaving a gap of safe-area padding hovering over the keyboard.\n- `380ca1a` Fixed Element-style read receipts duplicating across many old messages — `useElementReadReceipts` was memoizing once per Message instance and never invalidating, so as receipts moved forward older mounted Messages kept showing the indicator at their original position. Now subscribes to `RoomEvent.Receipt` and `RoomEvent.Timeline` and rebuilds the receipt map consistently across every Message.\n- `380ca1a` Made message hover effect more subtle — `selected` background (when the right-click menu / emoji board / reaction picker is anchored on a message) was using `Surface.ContainerActive`, the same intensity the theme reserves for pressed states. Demoted to `Surface.ContainerHover` and added a faint hover tint at the same tone so plain hover and right-click feel continuous.\n- `f3e6d88` Improved multi-link embeds — multiple URL preview cards in one message now stack vertically (Discord-style) on every viewport. Previously the desktop layout was a horizontal scroller; the column layout was mobile-only.\n- `f3e6d88` Improved embed image rendering — tiny favicon-style images (`og:image:width` ≤ 96 AND `og:image:height` ≤ 96) are no longer rendered as the embed\'s main image. The text-only card (title / description / siteName) still shows. Article hero shots / post media render as before.\n\n## 18.05.2026\n\n- `9c481ba` Improved mobile layout — nav pane (Home / Direct / Search / Inbox indices) now stretches to the full viewport on mobile via inline `width: 100%` override on `PageNav` so the changelog-side empty-state doesn\'t leave whitespace.\n- `9c481ba` Improved mobile settings modal — fills viewport (`100vw` × `100dvh`), square corners, safe-area-inset padding so notch/home-bar don\'t obscure controls. Keybinds tab hidden on mobile (physical-keyboard only).\n- `9c481ba` Fixed `body { height: 100% }` keyboard breakage — switched to `100dvh` with `100%` fallback so the on-screen keyboard pushes the layout up instead of leaving inputs hidden behind it.\n- `9c481ba` Fixed gallery tap-out reopening viewer — overlay\'s `onDeactivate` now plants a transparent full-screen blocker for 350ms that swallows the next pointerdown/click, preventing the tap from bubbling through to the underlying message image.\n- `9c481ba` Mobile image viewer: tap-to-zoom replaced with pinch-to-zoom — two-finger gesture tracks distance ratio from initial pinch and scales accordingly (bounds 0.1×–5× matching the +/- buttons). Single-tap zoom kept on desktop where double-firing isn\'t an issue.\n- `47f158f` Followed up on draft-release fix — passed `draft: true` to all softprops/action-gh-release uploads (was defaulting to false and flipping the release to published on the first upload, defeating the whole point of staging as a draft); dropped the versioned `prinny-webapp-vX.Y.Z.zip` variant since the release tag already versions it and every other platform asset is single-named.\n- `ec98378` Fixed release-pipeline window where `/latest/download/*.apk` 404\'d during Android cross-compile — releases now stay drafts until every platform build (windows + linux + macos + android + webapp-zip + archive) has uploaded its artifacts, then publish atomically. Old versioned releases are deleted after publish, not before, so the previous tag stays "latest" until the new one is fully assembled.\n- `2b24087` Added README download link for the web client zip — `prinny-webapp.zip` is now uploaded with a stable filename alongside the versioned one so `releases/latest/download/prinny-webapp.zip` resolves.\n- `d047dd6` Added platform notification for update banner — `useUpdateCheck` fires `sendDesktopNotification` the first time each new version becomes available; deduped per-version so a dismissed banner doesn\'t re-notify on repeat polls. Android Tauri skipped (UpdateChecker.kt\'s own DownloadManager notification covers it).\n- `09cc5ee` Added web client dist zip to GitHub releases — new `webapp-zip` job in prinny-client\'s `build.yml` attaches `prinny-webapp-vX.Y.Z.zip` (rebrand + `npm run build` output) to every release for self-hosters who\'d rather download than `git pull`.\n- `6932b32` Replaced welcome splash with bundled changelog viewer — empty-state screen now reads `cinny/CHANGELOG.md` baked in at build time (Vite `?raw` import) and renders the latest dated bullets, links each SHA to the cinny commit page.\n- `0a803b4` Added Web Push for background notifications — service worker `push`/`notificationclick` handlers, Matrix HTTP pusher with VAPID public key from `config.json`. Falls back to foreground `window.Notification` when no gateway configured. Also flipped `usePiped` default to `false` so YouTube links resolve through youtube.com unless opted in.\n- `5abc142` Fixed Slate "Cannot resolve a DOM node" crash on message edit with emoji — new `safeFocusEditor` wrapper falls back to deselect + DOM focus when the selection is stale after autocomplete close.\n- `2afe5a1` Fixed Ctrl+/ keybinds modal silently closing itself — two window listeners cancelled each other in one tick; removed the duplicate so the toggle actually fires.\n- `2afe5a1` Fixed soundcloak embeds spamming 502s — skip homeserver `preview_url` for direct-audio URLs since it rejects `audio/mpeg`.\n- `2afe5a1` Fixed fullscreen button greyed out on YouTube iframe — `allow="fullscreen"` was overridden by the rest of the permissions policy.\n- `2afe5a1` Improved composer layout — attachment button moves to left of editor, send to the right (Discord-style).\n- `2afe5a1` Improved mobile gallery — title bar relocates to the bottom on mobile, both rows span full viewport width.\n- `2afe5a1` Improved mobile swipe gestures — follows the finger via transform with a 180ms ease-out settle on release; right-edge forward-swipe now returns to the last-visited DM.\n- `2afe5a1` Fixed double notifications on web — `sendDesktopNotification` was firing alongside an explicit `new Notification` with click handler.\n- `1180ddb` Added auto-bump-cinny workflow — reactive `repository_dispatch` from cinny\'s publish-webapp keeps prinny-client\'s submodule pointer current within ~30s of every cinny push.\n- `0a803b4` Added Web self-host download row to README — `git clone -b webapp-release https://github.com/coffeegrind123/cinny.git /usr/share/webapps/prinny` for self-hosters.\n- `4461ea0` Fixed Android updater re-downloading APK on every launch — `tauri.properties` was missing so `versionName` defaulted to `"1.0"`; `bump-version.mjs` now writes it explicitly with both versionName + versionCode.\n\n## 17.05.2026\n\n- `15a60e9` Added webapp-release publish workflow — built dist auto-publishes to the `webapp-release` branch of `coffeegrind123/cinny` on every push to `desktop-notifications`. Self-hosters install with `git clone` + `git pull`, no `npm` at deploy time.\n- `8a50134` Fixed standalone webapp build — version imports in `AuthFooter.tsx` and `WelcomePage.tsx` were going 5 directories up (which only resolves when cinny is nested under prinny-client). Switched to 4-up so both build contexts work.\n\n[End of changelog. Earlier history lives in git log.]\n', eBe = `https://github.com/coffeegrind123/prinny-client/releases`, tBe = `https://github.com/coffeegrind123/prinny/commit/`;
-    function nBe({ children: e }) {
+    var eBe = '# Changelog\n\nUser-facing changes per commit. Most recent at the top.\n\n## 29.08.2026\n\n- `f4f1cff` Fixed **a chat freezing on old messages and never showing new ones again**, most often on the phone and most often after the app had been in the background for a while. When you have been away long enough that a lot has happened, your server stops sending the messages one by one and sends a marker meaning "there is a gap here" instead. The app is supposed to notice that and start the conversation again from where it now stands; nothing was listening for it, so the chat carried on pointing at a copy of itself that had been set aside and would never receive another message. Everything new arrived somewhere the screen was not looking. What you saw was the conversation exactly as you left it, a few grey loading rows creeping in underneath, and no amount of waiting fixing it — only tapping "Jump to Latest", or leaving the chat and coming back. It reads as a phone problem because a computer left running keeps its connection open and rarely misses enough to produce a gap, while Android stops the app\'s clock every single time it leaves the screen. The chat now picks itself back up the moment the gap arrives, and puts you back at the newest message if that is where you were.\n- `f4f1cff` Fixed **new messages stopping while the on-screen keyboard is up** — and staying stopped after you put it away. Raising the keyboard shortens the whole app, which pushes the newest message below the edge of the screen without you having scrolled anywhere. The chat read that as "they have scrolled up to read something", and while it thinks that, it deliberately stops adding new messages so the page does not jump under you. Nothing put you back at the bottom when the keyboard took the space, and nothing caught the conversation up when it gave the space back, so one tap on the message box could quietly cost you every message that arrived afterwards. The chat now stays where it was — at the newest message if you were there, exactly where you were reading if you were not.\n- `5a4dfb6` Fixed **clicking a desktop notification showing a card about the chat, with a button to open it, instead of just opening it**. This was supposed to have been fixed already, and the reason it was not is that the click was being answered by a copy of the app\'s navigation made a fraction of a second too early — before the app had finished working out which of your chats are direct messages. To that copy every DM looks like an ordinary room that belongs nowhere, and asking for a room that belongs nowhere gets you the preview card rather than the conversation. Worse, that early copy was never replaced: each attempt to replace it left the old one still listening, and with two of them answering the same click there was no saying which one won — which is why it did this some of the time rather than every time. There is now exactly one, and it always asks the app as it stands right now.\n- `0531b84` Fixed **text typing in backwards**, for the case the last fix could not reach. When the composer loses its cursor, two things can be missing: the one the app keeps track of, and the one the browser draws. Only the first was being put back, and it is the second that decides where a letter goes — for ordinary letters the editor hands the typing to the browser to do, and the browser puts each one wherever *it* thinks the cursor is. With no cursor of its own it invents one at the very start of the message, before the key has even been pressed, and quietly hands it back looking perfectly healthy — so every check downstream is satisfied and every letter still goes to the front. The browser\'s cursor is now put back the instant it goes missing, rather than a keystroke too late. Typing after that also carries on **where you were**, instead of jumping to the end of the message. A cursor you have put somewhere yourself is never moved, including a selection outside the composer — highlighting a message to copy it is left alone.\n- `0531b84` Fixed **the composer vanishing** when a compose key, an IME or a phone keyboard\'s autocorrect started a word while the composer had lost its cursor — the editor took the whole message box down with it and left the error screen in its place. Fixed **keystrokes disappearing entirely** in the same state: with the cursor missing at the moment a key went down, what you typed could land nowhere at all.\n- `ca8ab69` Fixed **the conversation jumping up several messages onto a link preview while you read**. A preview card lands a few hundred milliseconds after the message it belongs to appears, and when it is above you it pushes everything down — your place is meant to be held through that, and in one case it was not: the case where you had scrolled up off the newest message and then stopped. The hold was armed by scrolling, and switched off for a second after you left the bottom — which is the very second the previews for the messages you have just scrolled onto arrive — so it disarmed itself and, with you sitting still, nothing armed it again. It is now always armed, and works out for itself whether you are following the newest message rather than being told a second late. Your place is also held now when the thing that grows is *inside* the message at the top of your screen — several previews stacked in one message, a picture that has just worked out its own size, an edit — which used to move you the full height of whatever appeared. Growth below where you are reading still moves nothing, and new messages still scroll in when you are at the bottom.\n- `2294dfe` Fixed **the React button in the full-screen picture viewer taking the whole viewer down**, leaving a blank screen you had to reload out of. Reacting to a photo while a video was playing in the feed was enough to trigger it: the button measured its own position a moment too late, by which point the browser had already forgotten where the click came from. It now measures the moment you press it.\n- `2294dfe` Fixed **X\'d-out link previews coming back**. Dismissing a preview only lasted until you left the room — switch to another chat and back and every one you had cleared was there again. A dismissal is now remembered on this device, including across restarts, and applies to that link in that message, so the same link posted again later still gets a preview of its own.\n- `2294dfe` Fixed **links inside code blocks getting preview cards**. A URL in a fenced code block, or in `backticks`, is being shown rather than linked, so it no longer gets a card — and it no longer gets fetched either, which for an example URL in a config line is the more useful half. A link that appears both in a code block and as a real link in the same message still gets its card.\n\n## 26.08.2026\n\n- `5bc5fd4` Fixed **the first letter of a message vanishing when you start typing in a room you have just switched to**. Typing "foobar" straight after clicking a different chat sent "oobar". Switching rooms builds a brand-new composer, and the code that hands your keystroke to it was asking the editor to take focus at the one moment the editor refuses — it puts itself off by 10ms whenever it has just moved the cursor, which it always has on the first keypress in a new room. Your first character had nothing focused to land in; every one after it was fine, which is why exactly one went missing. The composer is now focused there and then.\n- `5bc5fd4` Fixed **a room opening part-way up the conversation instead of at the newest message**, with a "Jump to Latest" chip on a room you had only just clicked into. A picture or a link preview that finished loading in the first instant after the room drew grew the conversation under you, and the check that is meant to push the view back down to the bottom both missed that first moment and was switched off by the very growth it was there to correct — so the room stayed parked above the newest message until you scrolled down by hand. It now works out where you were before anything moved, so a room opens at the bottom and stays there while pictures and previews settle, while a conversation you had deliberately scrolled up in still stays exactly where you left it, including across loading older messages.\n- `9466d80` Removed **the arrows and fading edges on link previews**. Previews have stacked one above another rather than side by side for a while, so the buttons had nothing left to scroll through and the left one sat on top of the first preview.\n\n## 25.08.2026\n\n- `c23838c` Fixed **a picture in a Twitter or Bluesky post opening in the old single-image viewer** instead of the full-screen feed every other picture in the room opens in. It now opens in the feed, so you can flick straight on through the rest of the conversation\'s photos from it, and react, reply, jump to the message or save it from the same buttons as anywhere else. Videos in one of those posts get the **Feed** button an uploaded video already has. It opens on the exact picture you clicked, including the third of four in the same post — the card hands over what it has already fetched rather than waiting for the gallery to read back to that message and fetch the post a second time, which is what would otherwise have landed you on some other photo. Everywhere there is no conversation to swipe through — search results, pinned messages, the notifications inbox — the plain viewer is still what you get, same as for an attachment in those places.\n- `e85f5bb` Changed **what the Mashup tab is made of**: it is now Google\'s Emoji Kitchen — 147,000 combinations of 619 emoji, drawn by hand at Google — in place of the previous version, which built faces out of cut-up Twemoji parts inside the app. You get proper artwork, and objects and animals and food rather than only faces: a cat and a birthday cake make something, where before only two faces could be combined. Pick an emoji along the top strip and the grid below fills with every combination that actually exists for it, so nothing you can click is a dead end. **The order you pick in no longer matters** — Google drew one picture per pair, so 😹 and 🎂 give the same thing either way round, and it now keeps one name for it instead of two.\n- `e85f5bb` Changed **the Mashup tab to being off by default**, and it now says why. The old version drew everything on your own machine and never spoke to anyone; this one loads the pictures from Google, so simply browsing the tab tells Google your IP address and which emoji you are looking at. That is the same trade the GIF tab is switched off for, so it gets the same answer. Turn it on in Settings › General › Media. The list of which combinations exist ships inside the app, so nothing you type or search is sent anywhere — only the pictures are fetched.\n- `810e077` Fixed **a Bluesky or X link showing nothing at all under the message** — no card, no link, not even an error — while a YouTube link in the same message still showed one. Bluesky and X cards are built by the app itself rather than by your server, and when the app could not build one and your server had no preview either, the whole card was quietly dropped. It now always shows a card, and tells you which of the two things happened: that the post could not be loaded, or that embeds for it are switched off in Settings. Nothing is claimed while it is still loading.\n- `1444f24` Fixed **link previews vanishing under a message** — most visibly Bluesky posts, which stopped embedding entirely. The strip that holds preview cards hides itself when none of the links in a message produced a card, and it decided that by measuring the strip\'s height the instant the message appeared — before any card had finished loading. A Bluesky, X or Hacker News card has to fetch the post first, and an ordinary preview has to wait for your server, so at that moment there was nothing to measure and the strip hid itself. Once hidden it could never see the card that arrived a moment later, so the post was fetched, built and then never shown. YouTube links were unaffected throughout, because those draw immediately — which is why this looked like "Bluesky stopped embedding" rather than "the preview strip is hidden". The strip now asks whether any card actually rendered, which it can still answer while hidden, and an empty one is still hidden so no blank band appears under a message.\n\n## 24.08.2026\n\n- `4966924` Added **making up your own emoji by mashing two together**. There is a new Mashup tab on the emoji board: pick a face along the top strip and the grid below fills with every emoji that face makes when it borrows someone else\'s mouth — heart eyes that are sobbing, a cat huffing steam, a skull in a surgical mask. You are picking from finished pictures, not from a second list of names, and there are 17,820 of them. Click one to react with it or to drop it in what you are writing; it works from the message reaction button, the picture gallery and the composer alike. The pictures are drawn on your own machine out of emoji parts that ship with the app, so nothing is sent anywhere and nothing is looked up — only the one you actually pick gets uploaded. It can be turned off in Settings › General › Media.\n- `4966924` Added **a mashup you have used becoming a normal emoji you can type**. Everything you make lands in a Mashups group on the emoji board and answers to a name, so `:mash_heart_eyes__sob:` completes as you type it like any other custom emoji. The most recent 64 are kept, and the same mashup is never uploaded twice — which matters for more than tidiness: **two people reacting with the same mashup now stack into one reaction instead of sitting side by side as two.** Matrix matches reactions by exact image, and two people making the same face separately produce two different uploads of it, so this had to be taught to recognise them as the same thing. There is a bookmark on each of your recent mashups that copies it into your personal emoji pack, where other Matrix apps can see it too.\n- `6ebf964` Added **right-clicking a picture in the viewer to save, copy or open it**, rather than the download button being the only way. Worth explaining why it needed doing at all: the browser\'s own right-click menu was never blocked here — its "Save image as…" simply cannot work, and fails without saying so. Pictures are fetched with your login attached, and a save started by the browser does not carry it; in an encrypted room the picture only exists inside the app and has no address the system understands. Even when something did come out, it was named after an internal id rather than the file. The menu you get now goes the same way the download button always has, so it saves the real file under its real name, and it can put the picture on your clipboard too.\n- `6ebf964` Fixed **right-clicking a zoomed-in picture dragging it around** instead of doing anything useful — panning was starting on any mouse button, not just the left one.\n- `6ebf964` Fixed **a picture that failed to download doing so in complete silence**. Nothing happened and nothing was said, which is hard to tell apart from the button being broken. It now tells you, and why.\n\n- `ee1e4e6` Improved **searching for messages so it tells you what it is doing**. Before, a search gave you almost nothing to go on — a small spinner tucked inside the box on the search page, three grey boxes in the people panel, and no sign at all when it was over, so a search that finished with nothing looked exactly like one that never started. There is now a moving bar while it works, a line underneath that says so in words, and that same line stays afterwards to say it has finished and what it found. The placeholder cards breathe while they are waiting and sit below the results rather than above them, so new ones arriving reads as more on the way.\n- `ee1e4e6` Added **a running count while a search reads back through an encrypted conversation**. That kind of search is done here on your machine rather than by the server, unlocking each message as it goes, and it can take a while — so it now says how far it has got and what it has found as it goes: "Searching this room… 3,412 read · 5 found · 2.4s". When it stops, it says how much it read and how long it took, including when it found nothing, so an empty result is an answer rather than a silence. The magnifying glass in the people panel\'s search box also becomes a spinner while that search runs, since the results themselves are often further down the panel than you can see.\n- `bbc8f50` Fixed **the new search status line being cut off in the people panel**, which is narrow enough that a single line lost the counts it exists to show. The words and the numbers now sit on separate lines.\n- `ee1e4e6` Improved **the search page**: it now names what it is searching ("Searching Home…", or how many rooms you picked), reports how long the search took beside the number of matches, says "Loading more results…" instead of showing a bare spinner when you scroll for more, and keeps the spinner in the search box lit while those later results are on their way. The timer counts only time actually spent searching, so asking for older messages ten minutes later does not turn a one-second search into a ten-minute one.\n- `972f7fe` Fixed **Bluesky videos still saying "could not load this video"** — this time the actual cause, and it is why the last few attempts at it changed nothing. The player has two ways to show one of these clips: its own, which works everywhere, and the one built into whatever browser engine the app is running on. It picked between them by asking the engine whether it could handle the format, and every Chrome-based engine — which is what the Windows app is — answers **"maybe"** to that question whether or not it actually can. So the app took the engine\'s word for it every single time, and its own working player was never even downloaded. When the engine then could not play the clip, all you got was a failure message and an empty console. It now uses its own player wherever that will work, keeps the engine\'s own for the one place it is genuinely better (iPhones and iPads), and if either one fails it quietly tries the other before telling you anything.\n- `972f7fe` Fixed **a link preview card sometimes just not appearing**, most visibly for Bluesky posts. A Bluesky card is built from two requests to Bluesky, and nothing else was allowed to step in — so one dropped connection, one moment offline, one hiccup at their end, and the message sat there with no card and nothing anywhere to say why. It now tries three times before giving up, backs off between tries, and knows the difference between "that went wrong" and "that post is gone" — a deleted post is not asked for again. If it does give up, the ordinary link preview is allowed to have a go instead of the card being suppressed for good, and the failure is written to the console with the reason. Cards and the media gallery also now share one request for the same post instead of fetching it separately, and a link posted five times is fetched once.\n- `972f7fe` Fixed **a picture from a linked post disappearing from the gallery for the rest of the session** after a single failed fetch — the failure was being remembered as "this post has no pictures in it" and never questioned again.\n- `1e6e776` Added **the controls fading away when you keep the mouse still**, the way a video player does. The bar along the top, the sender\'s name, the buttons down the right and the shading behind them all go, and the pointer goes with them, so a photo is just the photo. The progress bar along the bottom stays — it is the one thing still telling you something while you are only watching. Anything at all brings it back: moving the mouse, scrolling, clicking, a key. It also never disappears while there is something waiting on you — a paused video, a spoiler you have not opened, something still loading, or an open reaction picker — and on a touchscreen it does not do this at all, since a tap there already means play, pause or close.\n- `1e6e776` Fixed **Bluesky videos saying "could not load this video"**. Bluesky offers every clip at two qualities and leaves the player to pick, and the part of the player that decides was being fed timings that never updated — so it concluded, within a fraction of a second and then over and over, that the piece it was downloading would never arrive in time, and threw it away. Nothing ever errored and nothing ever played. Twitter clips were never affected because they do not go through that player at all.\n- `f94de0a` Fixed **the gallery going black a moment after you open a picture, while it is still reading back through the conversation**, and with it **Twitter and Bluesky clips that never finished loading**. Both were the same fault. In an encrypted room the gallery has to unlock older messages as it walks back, and every attachment it unlocked was being listed *twice* — once the moment it became readable, once again when the walk reached it. Two entries claiming to be the same picture is enough to make the page you are looking at get thrown away and rebuilt with nothing in it, which is the black screen; a video on that page restarted its download from nothing each time, which is why a Twitter or Bluesky clip could sit there forever. There is now one way in and it cannot list anything twice.\n- `f94de0a` Fixed **a Twitter clip showing nothing at all until it had finished downloading**. The still that should fill that gap is fetched by the video itself, and a video has no way to ask for it without saying where the request came from — which is the one thing Twitter\'s image host refuses. It is fetched the same way the clip is now, so there is a picture to look at while the rest arrives.\n- `f94de0a` Improved **how steady the gallery and the viewer are while they are still finding things**. Older media is slotted in above where you are, and both the app and the browser were correcting your scroll position for it at the same moment, disagreeing. Only one of them does now. The gallery also stops re-handing the grid a list that has not changed, which it was doing several times a second for the whole time it was reading.\n- `eb78f78` Fixed **videos showing a black screen in the gallery** — uploaded clips, Twitter and Bluesky alike. They were playing the whole time: behind each one the viewer paints a blurred, darkened copy of its own thumbnail so a tall clip is framed rather than floating in flat black, and that backdrop was being drawn *over* the video instead of behind it. A picture escaped it only by accident, because of the way zooming is done. Every layer of the viewer now says where it belongs, the video included. This is also why the last three attempts at this changed nothing — the video was never the thing that was broken.\n- `cde10bc` Fixed **opening a video from the gallery going black while the counter in the corner counted up**. The gallery keeps reading back through the conversation after you open something, and every batch of older media it finds is slotted in *above* where you are — which was moving the page out from under you for a frame each time. The picture you were on kept being thrown away and rebuilt, so a video restarted its download over and over and could never finish loading. Your place is now worked out at the moment the new media is added rather than a beat later.\n- `cde10bc` Changed **"Hide Read Receipts" so it only stops sending yours** — you keep seeing everyone else\'s. Not wanting people to watch whether you have read them yet is a different thing from wanting to be blind to them, and they were the same switch. Same for typing. There are now separate switches for hiding other people\'s read receipts and typing, both off, so nothing you were seeing before disappears.\n- `cde10bc` Changed **squishing the sidebar down to avatars so it only applies to Direct Messages**, where a row is a person\'s face and the avatar is the whole answer. On the room lists it left a column of anonymous circles under a squashed header with nothing usable in it, so those lists now stop at their normal minimum width instead. The squished DM column also says what it is again: the header becomes a small **DM** button that opens the same menu.\n- `c28f866` Fixed **videos not playing in the media viewer** — Bluesky and Twitter clips, and uploaded videos too. Two of the three shells this app runs in refuse to start a video on their own until you have touched something, and the viewer was asking them to at the moment the page opened, before there was anything to play. For a Bluesky video that was guaranteed to fail, because its player is still being fetched at that point. The press that was meant to rescue it made things worse: on an already-stopped video the first press meant "stop", so nothing happened, and only the second one started it. It now waits until there is a picture to show before asking, and one press plays.\n- `c28f866` Fixed **the black screen where a video should be**. The viewer treated a video as loaded the moment it knew its address rather than when it had a frame, so a clip that was still arriving showed nothing at all — no picture, no spinner — and a Bluesky clip did that from the moment it opened. There is a spinner now, and a video that never arrives says so instead of spinning forever: a picture that cannot be fetched, a Twitter or Bluesky clip its host refused, or a clip that quietly fails to decode all name themselves now.\n- `c28f866` Improved **opening pictures in an encrypted room** — each one was being downloaded and unlocked twice over, on three pages at a time, the second copy only to blur into the background behind it.\n- `c28f866` Fixed **broken tiles in the gallery**. A photo from a linked post whose host refused the request left a broken image with nothing to explain it; those tiles now fall back the way the others do. Videos also stopped filling the console with a "no thumbnail" complaint that could never have been anything else.\n- `b555afc` Fixed **text typing in backwards**, properly this time — the whole mechanism, not another guess at it. When the composer loses its cursor while still being the thing you are typing into, the editor wipes the blinking caret on every redraw and then answers its own wipe by throwing the cursor away again, so the state feeds itself. Typing into a box with no cursor puts each character at the *start*, in front of the one before it. Selecting some text used to be the only way out — that hands the cursor back — and that workaround is exactly what this now does for you, on every keystroke, before the character lands. It no longer matters what took the cursor away in the first place.\n- `b555afc` Fixed **not being able to select text in "View Source"**. Only "Copy All" worked. The hover toolbar over a message cancels presses on itself so that dragging across a message does not select from the wrong end — and because the menus it opens are its children as far as React is concerned, that cancellation was reaching inside every window they opened. Starting a selection is precisely what was being cancelled. Read Receipts, edit history and the forward dialog were silenced the same way.\n- `b555afc` Fixed **the read indicator disappearing from a message that has been edited**. Someone\'s read marker points at the newest thing they have seen, and an edit is a real event in the conversation that draws no message of its own — so after an edit the marker sat on something invisible and the avatar simply vanished. Read markers now show against the nearest message at or before them, which also fixes them disappearing onto a reaction or a deletion.\n- `b555afc` Fixed **the conversation scrolling itself hundreds of messages into the past when you open a photo**. Opening a picture starts the media scan, which reads back through the room\'s history — and the conversation behind it was not told that history had arrived, so it kept showing "the same place" while the place had moved. Closing the picture left you somewhere else entirely. In-room search moved the conversation the same way.\n- `b555afc` Fixed **clicking a photo opening a different one**. The viewer shows the room\'s whole media history, and when the picture you tapped was further back than the scan had read, it quietly showed you whatever was nearest instead — so you arrived at the wrong photo and had to walk to the one you asked for. It now goes and finds it, and says that it is looking rather than showing the wrong picture. Walking past the oldest picture it has found now fetches more instead of claiming that is everything.\n- `b555afc` Changed **the media viewer to run in conversation order** — oldest at the top, so moving down through it moves forward through the chat, the same direction the conversation runs. It was upside down: Up took you later and Down took you earlier. The grid is unchanged, newest first, which is the right way round for a grid.\n- `b555afc` Fixed **the gallery jumping while it fills in**. Photos from linked posts arrive over the network a moment after the grid appears and are slotted in by date, which pushes everything below them down — repeatedly, while you are scrolling. Your place is now held. This also corrects the same anchoring in the conversation, which had been choosing the wrong message to hold on to whenever the page was scrolled down.\n\n## 23.08.2026\n\n- `172dd7f` Added **embedded photos and videos to the gallery**. A Twitter or Bluesky link posted in the room is a picture as far as anyone reading is concerned, but the gallery only knew about files uploaded as attachments, so a room whose photos mostly arrive as links looked nearly empty. The gallery now pulls the media out of those posts as well — Twitter photos, Twitter GIFs and videos, Bluesky images and video, Bluesky\'s Tenor GIFs — and each one is its own tile, so a four-photo tweet is four tiles. Link previews being off, or the Twitter/Bluesky embeds being off, turns it off too: resolving one of these is a request to a host the sender chose, not one you did. Link-preview cards from your own homeserver are deliberately left out — those are site thumbnails, not the conversation\'s photos.\n- `172dd7f` Changed **the media feed into the viewer**. Zoom used to be a separate screen stacked on top of the feed; now the feed itself pans and zooms — double-click, pinch, ⌘/Ctrl+scroll, drag — and clicking beside the picture closes it, the way every other full-screen image behaves. Zoom is measured against the picture\'s own size, snaps to 1:1 when that is a real magnification, and stops smoothing past 100% so you see the actual pixels. The buttons beside it are now React (the full emoji picker, not just a heart), Reply, Jump, Save and Zoom, and Reply drops you back in the conversation with the message quoted.\n- `172dd7f` Removed **the message box from gallery view**, along with the pinned-message banner and the read-receipt row underneath it. Gallery is a wall of pictures; a composer sat under it doing nothing, and typing while it was open reached for an editor that was not there.\n- `172dd7f` Fixed **the black band behind the date in the gallery**, and the loud pill at the end of it. The date header was painted for a different kind of background than the page it sits on.\n- `172dd7f` Fixed **gallery tiles coming out blank**. The grid asks the homeserver for a thumbnail, which the conversation never does — it shows the file itself — so a picture that renders perfectly in chat could be a grey square in the gallery whenever the server declined to thumbnail it (remote media, an unusual format, thumbnailing switched off). It now falls back to the file itself, and a picture that genuinely cannot be shown says so instead of being a silent grey square.\n- `172dd7f` Fixed **the gallery giving up after one look back**. Each round reads a few hundred messages; if that stretch happened to contain no pictures, the grid was left exactly as it was — and the thing watching for "you have reached the end" only reports *changes*, so having already reached the end, it never fired again. The walk stopped there, in a room that might have plenty further back, looking for all the world like it had found everything. It now carries on while the end of the grid is still on screen, and asking for more by hand buys another run of it.\n- `172dd7f` Fixed **pictures missing from the gallery in encrypted rooms**. The scan reads each message once and asks it what it holds; in an encrypted room the keys for older messages often arrive a moment later, and anything not yet readable at the instant it was passed answered "nothing" and was never asked again — so the photo was absent from the gallery for the rest of the session while sitting perfectly visible in the conversation. Messages that become readable later are now folded in where they belong.\n- `172dd7f` Added **a collapsed chat list**. Dragging the divider far enough left snaps the column down to a rail of avatars — name, category headings and the panel title go, the unread badge moves onto the avatar corner, and hovering names the chat. Applies to Home, Rooms and spaces alike.\n- `172dd7f` Fixed **the conversation jumping under you while you read**. A message that grows *after* it appears — a link preview card arriving a moment later, a few hundred pixels tall, usually above what you are looking at — pushed everything down, and nothing put it back: the browser feature that would normally hold your place has never shipped in the Linux desktop shell\'s web engine. The view is now anchored to the message at the top of the screen and restored when anything above it changes size. Being at the live end of the conversation is unaffected — new messages still scroll in.\n- `172dd7f` Fixed **a room quietly losing the ability to load older messages**. One failed request for history left the "already loading" flag set forever, so every later attempt in that room was ignored for the rest of the session — scrolling up simply stopped working, with nothing to say why. It now clears the flag whether the request succeeded or not, and says so in the console when it failed.\n- `172dd7f` Fixed **the "new messages" line often not appearing at all**. Where the line goes was worked out from the messages actually drawn on screen, but the marker it follows can point at something that is never drawn on its own — a reaction, an edit, a thread reply — which is extremely common, and every one of those meant no line. It also re-anchors when you leave the window while caught up, instead of staying stuck where the room was when you opened it.\n- `172dd7f` Fixed **messages whose content is gone reading as "Unsupported message (no body)"**. They are shown as deleted, which is what they are — messages, stickers and polls alike. Deleted membership, name, topic and avatar changes show the same way instead of being parsed as though their content still existed.\n- `172dd7f` Fixed **Reply doing nothing on a poll**. Replying required the message to carry plain text, which a poll and other structured messages do not, so the button was live and had no effect.\n- `172dd7f` Fixed **the microphone being left open**. Cancelling a voice message — or switching room, or closing the composer — while the permission prompt was still up could not reach the recorder, because it was only handed over once recording had already started. The recorder then opened into a screen that had moved on and stayed open. Tapping record twice in quick succession no longer starts two of them either.\n- `172dd7f` Fixed **a numbered list stopping at ten**. `10.` was not recognised as a list item, so a list that reached ten broke in half at that point. Three-digit numbers no longer clip off the left edge either.\n- `172dd7f` Added **custom emoji to reply quotes**. The quoted line above a reply showed the emoji\'s name in colons where the picture should be.\n- `172dd7f` Fixed **an empty gap under messages containing links**. When none of the links produced a preview card the space held for those cards stayed behind, as a permanent empty band under the message.\n- `172dd7f` Fixed **mentions in encrypted rooms never reaching the inbox**. The list of what mentioned you is worked out by the homeserver, which cannot read an encrypted room — so in exactly the rooms most people are in here, being mentioned showed up nowhere. Encrypted rooms are now checked on this device, where the messages can actually be read.\n- `172dd7f` Added **support for multi-file galleries** (MSC4274) — a single message carrying several pictures, videos and files, sent by clients that support it, now renders as a grid rather than a line of fallback text, and its pictures appear individually in the room gallery and feed. Sending them is off by default in Settings → Messages, because clients that do not support it will see only the text fallback.\n\n## 22.08.2026\n\n- `c1993d7` Added **a media gallery for the whole conversation**. The photo button in the room header turns the chat into a wall of everything anyone has sent in it — photos and videos, newest first, grouped by day, with All/Photos/Videos filters that count what they hold. It reads further back through the conversation as you scroll, so it is not limited to what happens to be loaded, and it works the same in an encrypted room: the obvious way to build this asks the server for "messages containing a URL", which finds nothing at all in an encrypted room and would have quietly shown an empty gallery in exactly the rooms most people are in here.\n- `c1993d7` Added **a swipeable media feed**. Tapping a tile in the gallery — or a photo in the timeline, or the new Feed button on a video — opens it full screen, one attachment per flick, video playing the moment it arrives and rewinding when it leaves. Beside it: a heart (a real reaction, visible to the room), Save, a jump straight to that message in the conversation, and Zoom for stills. Muted by default with a mute button and **M** to toggle; arrow keys, **j**/**k**, space and page keys move through it, Escape leaves. It keeps reading older history as you approach the end, and only the attachment on screen and the one either side of it are ever loaded.\n- `c1993d7` Changed **what happens when you tap a photo**: it opens the feed at that photo instead of the single-image viewer, so the next attachment is one flick away rather than a trip back to the timeline. The old zoom-and-pan viewer is still there — it is the Zoom button in the feed — and **Settings → Messages → Open Media in Feed** turns the new behaviour off entirely.\n- `c1993d7` Split **"hide activity" into two switches**: one for read receipts, one for typing. They were a single toggle over two unrelated signals — "don\'t broadcast what I have read" and "don\'t broadcast that I am composing" — and wanting one without the other is the normal case. Anyone who had the old switch on gets both, so nobody starts broadcasting something they had chosen to hide.\n- `c1993d7` Changed **attachment cards** to a filename and one download that saves the file under the name its sender gave it. The card used to carry a banner — a pill with the file extension, the filename, a download icon — stacked on top of a player that already had its own controls. Audio and video are now played by the browser\'s own element over the shared media loader, which means a long file starts playing as it streams rather than after it has downloaded in full.\n- `c1993d7` Improved **YouTube link previews**: the title and channel now come from the host that serves the embed rather than from the homeserver\'s preview, which YouTube usually answers with a consent page or a 403 — leaving a player with no idea what was in it. The Piped instance list is down to two hosts that actually work from both the web app and the desktop shell; the bare-IP and http:// entries could never have loaded in a browser.\n- `c1993d7` Fixed **the microphone looking permanently blocked to people who had never been asked**. In the Android and desktop shells the permission is decided at the moment recording is attempted, so asking beforehand answers "denied" — and that sent the composer straight to the "blocked, go to system settings" dead end. Only an actual refusal counts as one now.\n- `c1993d7` Fixed **the member list\'s controls wrapping mid-phrase** in a narrow panel, putting "A to" on one line and "Z" underneath. The member count gives up the space instead.\n\n## 19.08.2026\n\n- `db6d27e` Fixed **the timestamp beside the avatar sitting too far left**. Hovering a timestamp shows the moment on the sender\'s clock, and room for that is held open on every message from them so nothing jumps when it appears — but the space being held was for the time *and the city* ("15:40 Helsinki"), which is far wider than a time, and under the avatar, where the timestamp is lined up against the message, that pushed it a city\'s width off to the left. The hover now shows the time on its own and names the place in the tooltip instead, so nothing is held open and the timestamp sits where it should. The date still appears when the message lands on a different day where they are.\n- `cc76c7b` Fixed **code blocks running off the side as one endless line**. A code block containing one long line — a log line, a JSON blob, a pasted paragraph — was rendered on a single line with a horizontal scrollbar under it, because that is what `<pre>` does. Long lines now wrap, keeping leading indentation and runs of spaces, and a single unbroken token (a base64 blob, a long URL) breaks rather than overflowing. Horizontal scrolling remains for what wrapping cannot fix.\n- `cc76c7b` Fixed **the "expand" control missing from tall code blocks**. Whether a block was tall enough to collapse was decided by counting newlines, which is wrong now that lines wrap: a 700-character line has no newlines at all and filled the screen with no way to collapse it, while fifteen short lines might not have reached the limit. It is now measured from what is actually on screen, re-measured when fonts finish loading or the window resizes, and the collapsed box is a fixed number of lines rather than pixels — so the larger text on mobile no longer halves how much you see.\n- `cc76c7b` Fixed **Copy quietly doing nothing while saying "Copied"**. Copying could fail — an unfocused window, a refused permission — and the button reported success anyway, so the next paste produced whatever was in the clipboard before, with nothing to point at the copy as the cause. It now reports "Copy failed" when it fails. The fallback path also **stripped every line break**, so a multi-line code block copied as one line; that is fixed too, along with a 99999-character cap that silently truncated long blocks.\n- `cc76c7b` Fixed **"Mark Unread" not bringing the indicator back in the chat list**. It moved your read marker back but never set the unread flag the list draws its badge from, and the badge is fed by notification counts, which do not grow again just because the marker moved backwards — so the message was marked and the list looked unchanged. It now flags the room as well, and a room you flag while you are still looking at it stays flagged until you leave, instead of being marked read again by the next scroll. "Mark as Unread" in the chat list is no longer greyed out for the chat you have open.\n- `cc76c7b` Added **a microphone permission prompt before the system one**, the first time you record a voice message, and a **Microphone access** row in Settings → Audio. Android asks "Allow Prinny to record audio?" with no context and only asks once — a no there is close to permanent — so it is worth saying what the microphone is for first, and worth having somewhere to fix it from if it was refused by accident.\n- `cc76c7b` Fixed **four layout faults, three of them only visible on a phone**: the clock shown while a message is sending sat a word\'s width away from the timestamp it belongs to; the hover timestamp under the avatar ran off the left edge of the screen; sender names were cut off with an ellipsis as soon as the header ran short of width, even with a whole empty line below them; and the sender\'s local time on hover broke across two lines, so the city read as a second timestamp.\n- `94494bd` Added **Discord-compatible webhooks** to `@prinny/bot`. Anything that already posts to a Discord webhook URL — a CI job, a monitor, a Grafana alert, a GitHub repository webhook, a Slack-shaped integration — works against a Matrix room by changing the host and nothing else. Embeds, buttons, polls, file uploads, threads and per-message sender names are all mapped across, and a webhook message is shown under the name it was posted with, tagged WEBHOOK.\n\n- `d31ce06` Fixed **Alt+Up/Down jumping to the wrong chat**. They moved through your chats in an order that had nothing to do with the one on screen — pinned chats were not first, the sort was not applied, and "Show unread only" was ignored — so pressing Alt+Down went to some other chat rather than the one below. They now follow the list exactly as it reads, in every sidebar: chats, rooms and inside a space, including collapsed sections and your own ordering. Where Home shows rooms above chats, Alt+Down off the last room carries on into the first chat. One consequence worth knowing: with "Show unread only" on, these keys now cycle only the unread chats, because that is what the list is showing.\n- `2bc1923` Fixed **the sender\'s local time on hover ignoring your date format**. Hovering a timestamp shows the same moment on the sender\'s clock, and adds the date when it lands on a different day where they are — that date was always written "19 Aug" instead of the format set in Settings → General. It now uses your date and 12/24-hour settings, the same as every other timestamp in the app.\n\n## 18.08.2026\n\n- `35eaff8` Fixed **swiping in from the left in Settings on Android doing nothing**, and the Back button with it. Android keeps the outer edge of the screen for its own back gesture, so that swipe never reached Prinny at all — what arrived was a plain "go back", and Settings is not somewhere you navigated to, so going back moved the screen *behind* it and left Settings sitting there. It now steps back the way the X does: out of a section to the list, and off the list to close. Pressing Back does the same.\n- `79bead6` Added **a proper error screen** for the kind of failure that takes the whole app down. Until now that landed on the router\'s own developer page — "Unexpected Application Error!", a minified stack, and a note addressed to whoever wrote the app — which is where yesterday\'s "Server versions are not provided!" crash left you: nothing to do about it, no way back, and nothing to say it was even Prinny. It now explains itself, keeps the technical detail behind a fold for when it is worth reporting, and offers **Reload**, plus **Reset app data and sign out** for a failure that comes back on every launch.\n- `79bead6` Added **a build check for the mistake behind that crash** — a part of the app asking for something that is only set up by the very thing asking. It passes type-checking and linting and shows itself only at runtime, as the entire client replaced by an error page on startup, which is exactly how it reached a release. The build now refuses it and names the component, the hook and the missing piece.\n\n## 17.08.2026\n\n- `0956b9d` Fixed **Prinny failing to start** with "Server versions are not provided!". Introduced the same day by the notification-avatar caching: it asked about your homeserver\'s capabilities from a place in the app that is set up *before* that information exists, and the error took the whole client down to a blank error page rather than being contained. It now runs from a point where the connection is already established.\n\n- `570934d` Fixed **the same new message being flagged twice** when unread chats are shown as avatars in the left rail. The chat\'s own avatar lit up and so did Home, a few pixels apart, for one message. Home now leaves it to the avatar, which is the more useful of the two because it tells you *who*.\n- `570934d` Fixed **the local-time hover flickering** when you held the pointer on a timestamp. The two versions of the text are different lengths, so swapping them resized the thing you were pointing at out from under the pointer, which ended the hover, which put it back — several times a second while you held perfectly still. The timestamp now reserves room for both, so nothing moves.\n- `570934d` Improved **what that hover actually says**. It was a bare time with no am/pm and nothing to say whose clock it was. It now follows your 12/24-hour setting like every other timestamp, and names the place — "07:40 AM Chicago" rather than "07:40".\n- `570934d` Fixed **double-click to reply doing nothing** when you double-clicked the message itself. It was deliberately ignoring the text, on the reasoning that double-clicking words means "select this word" — but the text is the part you aim at, so the feature only worked on the empty space beside a message and looked broken. It now works anywhere on the message; the word still gets selected as well, and the switch to turn it off is where it always was.\n\n- `0ed87bd` Fixed **the Windows taskbar button barely flashing** for a new message. It was asking Windows for the wrong kind of alert — one that blinks the button exactly four times and then goes quiet, so unless you happened to be looking at the taskbar in that second, nothing appeared to have happened at all. It now stays lit until you actually bring Prinny to the front, the way Discord does. Nothing flashes while you are already reading.\n\n- `6ab2314` Fixed **the Android back gesture closing Prinny** instead of going back. Swiping back or pressing Back quit the app from anywhere — including from a room you had just opened — so the only way back to your chat list was the on-screen controls. It now steps back through where you have been, and only leaves the app once there is nowhere left to go. One thing it still cannot dismiss is the Settings dialog, which isn\'t a place you navigated to; Back there moves the screen behind it instead.\n\n- `bfe1dcf` `e2a6624` Added **the sender\'s picture to Android notifications** that arrive while the app is closed. Those are posted by the app\'s Android half, which runs with no account and no connection of its own, so it had no way to fetch anyone\'s avatar and showed none. Pictures are now saved while the app is running and looked up by who sent the message, so nothing has to be downloaded — or signed in — at the moment a notification arrives. Someone messaging you for the very first time while the app is shut will still have no picture until the app next runs.\n- `bfe1dcf` `e2a6624` Fixed **your phone notifying you about messages you already read on another device**, and leaving them sitting in the notification shade afterwards. When you read a room somewhere else, your server sends a message saying "nothing unread here anymore" — Prinny was treating that as a new message and posting **New message** for it, so reading on the desktop actually *created* a notification on your phone. It now clears that room\'s notification instead.\n\n- `67c9298` Added **the sender\'s local time on a timestamp**. Hover the time on someone\'s message and it becomes the time it was on *their* clock when they sent it, for as long as you\'re pointing at it. It answers the thing a timestamp cannot in a room spread across the world — a reply at 03:40 their time means something different from a slow one. If the time difference lands the message on another day where they are, the date is shown too, because "08:30" under a message dated yesterday would just be wrong. Only works for people who have set their time zone in Settings → Account, and nothing changes on hover for anyone who hasn\'t. Your own time zone is set in the same place.\n- `2b09da0` Added **"Default Inbox Tab"** to Settings → General → Layout, and fixed the Inbox ignoring it. Opening the Inbox went wherever you had left it last time, remembered from before any of this existed — so it kept landing on Notifications no matter what the default was meant to be, and there were three separate ways in (the sidebar, the top bar, and the address itself) that each decided for themselves. They now all ask the same setting, and the setting decides rather than being overruled by where you happened to be last. It defaults to All.\n- `67c9298` Changed **the Inbox to open on All** rather than Notifications, now that All exists and contains both.\n- `fe18690` Added **an "All" filter to Invites, and made it the default**. Invites are sorted into Primary, Public and Spam by guesswork — do you share a room with the sender, does anything look like spam, has the sender been banned somewhere you are — and the page used to open on Primary only. An invite the guess put in either of the other two was not just further down, it was nowhere, unless you knew to go and look. The three groups are still shown separately, with Spam still behind its warning, so nothing arrives without the context that says what it is; empty groups are simply skipped.\n- `fe18690` Added **an "All" inbox** alongside Notifications and Invites, showing both on one page with invites at the top. Invites and Notifications were each half an inbox, so whichever you opened, the other half was somewhere you had to remember to check.\n- `fe18690` Fixed **invitations showing up as `m.room.member` event in your notifications**. That is the raw name of the thing an invite is made of, and it was being printed because nothing had been written to describe it — the notification that most needed to explain itself was the one explaining least. It now reads the same way an invite reads in a room\'s timeline, and it handles the neighbouring cases too, like someone accepting a request to join.\n- `fe18690` Added **`/status`** for setting your status message from the composer — the one that follows you everywhere and shows next to your name, the same box as Settings → Account → Status. Not to be confused with the room topic. `/status` on its own clears it, which is otherwise something you have to open Settings to do.\n- `44af202` `824cbd8` Fixed **ntfy users being quietly routed through a stranger\'s server**. Notifications are delivered to your phone by way of a "gateway", and the app works out which one to use by asking your push server whether it can act as one. That question was being asked in a way a browser is not allowed to hear the answer to — ntfy.sh replies correctly, but without the header a browser requires before it will let the app read the reply — so the answer was thrown away unread and Prinny fell back to the shared public gateway run by the UnifiedPush project. Notifications still arrived, which is why this went unnoticed, but it meant every message notification took a detour through a third party — carrying the sender and the message text for any room that is not encrypted. The question is now asked by the app itself rather than through the browser, so ntfy answers for its own gateway and your notifications go straight there.\n- `b624a17` Added **"Register pusher" to the Push Delivery panel**, which says what your homeserver actually replied instead of leaving you with a red mark and no reason. Registering with your server is the last step of setting up notifications and the easiest one to get stuck on, and until now a refusal was written to a log you cannot open from a phone — so a distributor handing over an address we will not use, a server turning the registration down, and the attempt never being made all looked exactly the same. The panel now also shows **which push gateway is in use**, because it is picked for you and is not always the obvious one: it is chosen by asking your push server whether it speaks Matrix, and ntfy.sh does not answer that question in a way the app is allowed to read, so ntfy users are quietly routed through the public UnifiedPush gateway instead. It works, but it puts a third party in the path of your notifications, and you should be able to see that rather than have to guess at it.\n- `98a0ae0` Removed **the "Check for Updates" button on Android**, where it never did anything. Android updates itself — Prinny checks on startup, downloads the new version and asks you to install it — so the button had nothing to do, and tapping it left it sitting there still saying "Check for Updates". It is still there on desktop, where it is the thing that applies an update. \n- `98a0ae0` Changed **the swipe-back in Settings to start from the left edge**, the way Android\'s own back gesture does. It used to trigger on a sideways drag begun anywhere on the screen, which is fine in a chat but wrong in Settings: the page is full of switches and sliders, so nudging one sideways could throw you off the page you were trying to adjust. Chats and the main screen keep the swipe-from-anywhere behaviour.\n- `949b169` Added **a status line under each chat in the sidebar**. A direct message now shows what the other person is up to beneath their name — what they are listening to or playing if they are broadcasting that, and otherwise the status message they set. The activity wins when there is one, because a chat list is read for what someone is doing *now*, while a status message often sits unchanged for weeks. The member list is deliberately unchanged: there the status still wins and the activity shows as the small icon in front of it. Rows do not get taller — the space was already being reserved.\n- `949b169` Changed **where the sender\'s `@name:server.com` sits when you hover a message**. It now goes hard against the right edge, tucked *under* the reply and reaction buttons instead of standing to their left, so it no longer takes a strip out of the line beside them. On phones it is gone entirely: it is there for a mouse pointer, and a touch screen has none, so it could only ever turn up as a stray box after a long-press.\n- `c6e0a64` `a026e6e` Added **a Push Delivery panel** to Settings → Notifications on Android, which says which part of push is broken instead of leaving you to guess. Background notifications here need a separate distributor app on your phone (ntfy, Sunup, NextPush — there is no Google push in this client) and a registration held by your homeserver, and every possible break in that chain used to look exactly the same from the outside: notifications simply did not arrive. The panel checks each step on its own — whether a distributor is installed, whether one is selected, whether it has actually answered, whether an address was issued, whether your homeserver is sending to *that* address, and whether Android is letting Prinny post at all — and tells you what to do about the one that failed. **Re-register** also doubles as the way to pick a distributor.\n- `a026e6e` Fixed **Prinny forgetting its push address every time it was closed**. The address lived only in memory, and a messaging app\'s process is shut down by Android constantly — so every launch found nothing, reported nothing, and went back to the distributor to be told the very address it had just discarded. It is now remembered properly. Re-registering also no longer throws away a working address before asking for a new one, which used to leave the app with nothing at all if that request was slow or failed.\n- `c6e0a64` Fixed **notifications stopping for good after your distributor changed its address**. Your homeserver was left holding the old one and kept sending there — to nobody — while a fresh registration piled up alongside it rather than replacing it, because the address is the very thing that identifies a registration. Retired ones are now cleared out. Only Prinny\'s own are touched; registrations belonging to your other apps and devices are left alone.\n\n## 16.08.2026\n\n- `c91e1d2` Fixed **Android notifications never arriving**, and it was not the part anyone had been looking at. Prinny asks the shell to do the Android-only work — register for push, keep the connection alive in the background, post the notification — and every one of those requests was being refused before it got anywhere, because the app never granted itself permission to make them. So no push was ever registered with your homeserver, meaning the server had nothing to send to, and the carefully-written code that turns a push into a notification had never once run. The same refusal silently disabled **notification avatars, the taskbar unread badge, drag-and-drop file sending, link previews, Discord rich presence and Twitter/X media** on desktop, each of which quietly fell back to doing nothing or doing less.\n- `9beda76` Fixed **Android notifications going nowhere even once they arrive**: tapping one did not open the room, a rotated push address was never re-registered, and an incoming push never nudged the app to sync. All three listened on the wrong channel — the shell delivers these to a per-plugin subscription, not the app-wide one they were waiting on.\n- `9beda76` Fixed **Prinny never asking for Android\'s notification permission**. It was only ever requested from Settings → Notifications → Enable, so unless you went looking for that switch, Android silently discarded every notification the app posted — while notifications from *downloads* kept working, because those are posted by Android itself and need no permission from us. It is now asked for on first run, once.\n- `c91e1d2` Fixed **the attachment button doing nothing on Android**. Adding mic and camera support for calls replaced a piece of the WebView the app does not own, and the file picker lived in the part that got replaced — so every attach button, and every avatar or sticker upload, opened no picker at all and reported no error. That piece is now wrapped rather than replaced, which also brings back JavaScript dialogs, the location prompt and WebView logging.\n- `c91e1d2` Fixed **two identical "Messages" entries** in Android\'s notification settings. Messages received in the background used a different channel from the rest, so silencing the one you could see left the other one ringing.\n- `9beda76` Improved **what Prinny says when Android push cannot be set up**. A device with no UnifiedPush distributor installed (ntfy, Sunup, NextPush) now says so, and says that background notifications will not arrive until one is — there is no Google-push path in this client, so that app is required. A distributor that refuses the registration is now reported too, instead of being dropped in silence.\n- `7190544` Changed **where the sender\'s address shows up** on a run of messages from one person. It is now drawn once, on the first message of the run — beside the name and the time, where the sender is actually identified — instead of on every message, which labelled the same person over and over. Hovering *any* message of the run brings it up, so pointing at the fifth message in a row still answers "who sent this?" without you having to find the top of the group.\n- `dbd3e7f` Fixed **push notifications arriving with a blank generic icon** instead of the Prinny one. The app asked the browser for an icon at a path that does not exist in the built app, and the browser quietly substituted its own rather than reporting anything. The icons listed for installing Prinny as an app were stale in the same way. Both now work whether you use prinny.app or host it yourself.\n- `25bf6a3` Added **sharing into Prinny from Android\'s share sheet**. Pick Prinny when sharing a link, some text or files from another app, choose the room, and it lands in the composer with everything attached. Nothing is sent automatically — you still see it and press send, and a share that arrives while Prinny is closed is kept and shown once it has started up.\n- `d4cf7e1` Added **proper Hacker News link previews**, built from HN\'s own data: the story title, who posted it, the score, the comment count, and a link straight to the discussion. HN publishes nothing for a preview to read, so cards for it used to come out with the site\'s navigation strip ("new | past | comments | ask | show…") as the description. Off by default with the other link integrations — Settings → General. Also fixed **thumbnails being requested over and over** after the server had already refused them once.\n- `b2d1039` Fixed **link previews of a URL nobody sent**. A link containing spaces was cut at the first one, so the preview was of a shortened address that leads nowhere — and an audio or video file linked that way never got its player, it fell back to a dead generic card. Links written as `<…>` or as text pointing somewhere else failed the same way. Previews now follow the actual link in the message.\n- `326cc50` Fixed **the sender\'s address drifting about** on a run of messages from one person. Hovering a message shows the full `@name:server.com` at its right; on the first message of the run it sat hard against the edge and on every message after it 152px short of it, so the label jumped sideways as you moved down the group. The one that looked right was the wrong one — it was tucked under the hover toolbar with the tops of its letters cut off. Both now sit in the same place, clear of the toolbar.\n- `abad72a` Added **marking a room unread** — right-click a room in the list, *Mark as Unread*. The unread dot comes back so you remember to return to it, and unlike a local flag it follows you to your other devices and to other Matrix apps, because it uses the standard way of recording that rather than a Prinny-only one. Flags set from another app show up here too, including the older key Element used for years. Reading the room clears it. The option is greyed out on the room you are currently looking at, because that room marks itself read again the moment you scroll it — better to grey it out than to let it quietly undo itself.\n- `abad72a` Fixed **your recently-used emoji not following you to other Matrix apps**. Prinny only ever wrote Element\'s private key for that list, so nothing else could see it; it now writes the standard one as well and reads whichever is there. The two store the list in genuinely different shapes, which is why this was not simply a rename. The Recent row is also now in *recent* order — it had been sorting by how often you had used an emoji, so a face you used once this morning sat behind one you used a lot last year.\n- `abad72a` Added **telling other apps when a picture you send is animated**. Without that flag the app at the other end cannot know a GIF, animated WebP or APNG moves until it has downloaded the whole thing, and asking a server for a small preview of one gets a single frozen frame back. Prinny now inspects the actual file rather than trusting the file extension, so a `.webp` that happens to be a still is not announced as a GIF — and where it genuinely cannot tell, it says nothing rather than guessing. Covers pictures, stickers, and images you add to a sticker set.\n- `abad72a` Added **a time zone on your profile** — Settings → Profile → *Time Zone*, with a *Detect* button and type-ahead over every zone your device knows. Other people then see the local time where you are on your profile card, ticking while it is open. Leave it empty to show nothing, which is how it starts.\n- `e2d971e` Changed **the Windows installer**. It now carries Prinny artwork — the mascot and wordmark down the side of the welcome page, a header on every page, and the app icon on the installer file itself — and the footer no longer advertises the toolkit that built it. The separate `.msi` download is gone. Nothing ever used it: updates have only ever gone through the `.exe`, it still wore upstream Prinny\'s blue-and-bird artwork, and its way of updating replaces the Start Menu shortcut, which quietly breaks a pinned taskbar icon and, because Windows ties notifications to that shortcut, stops desktop notifications arriving at all.\n\n## 15.08.2026\n\n- `67c01fe` Fixed **videos and GIFs playing in a clunky custom player**. A video had a **Watch** button you had to press before anything happened, then downloaded the whole file before it could start, and once going it looped forever with the length and file size stamped over the corner — sensible for a GIF, odd for an hour-long clip. Video now uses the player your browser provides, the same way voice messages already did, and only fetches what it needs to start. **GIFs are told apart from videos properly** for the first time: one sent from the GIF picker loops silently with no player bar, and a video gets ordinary controls and waits for you. If your device refuses to autoplay a GIF, controls appear so you can still start it.\n- `67c01fe` Fixed **notifications never arriving on Android**. The app was registering for push with your homeserver in a way the server has to refuse, so no notification was ever set up and nothing was ever sent — which looked like the app not supporting notifications at all. It now finds the right address for whichever push app you use (ntfy, Sunup and the rest), which is the step other clients do and this one skipped. If it still fails, it now says so clearly instead of leaving one hidden line in a log nobody can read.\n- `67c01fe` Fixed **the cursor landing before a `/command`** after picking it from the list, instead of after it. Mentions and emoji shortcuts had the same fault. This is also the likeliest cause of **text coming out backwards** as you typed: with the cursor stuck before what you just inserted, every letter goes in at the same spot and the word builds up in reverse.\n- `67c01fe` Fixed **read receipts sitting past the end of a message**. Replying to something longer than your reply pushed the little avatars out to where the quoted message ended, floating well past the message they belong to. They now sit at the end of the message itself, on its last line.\n- `67c01fe` Removed **the empty strip down the right of every message**. It was reserved for the buttons that appear when you hover, but it was also being reserved on phones, which never show those buttons — so the narrowest screens were giving up the most width for nothing, and it was why the **new messages** line stopped short of the edge. The buttons now sit over the end of the message when you hover it, and messages use the full width.\n- `67c01fe` Fixed **the hovered timestamp on grouped messages** sitting too high and too far from the message, and **the little clock on a message still sending** riding above the timestamp beside it.\n- `67c01fe` Fixed **emoji that your device has no picture for** being offered in the picker anyway, where they showed as an empty box — and then arrived as an empty box for whoever you sent them to. The newest handful (orca, distorted face, fingerprint, face with bags under eyes and a few more) are hidden until your system can actually draw them, and reappear on their own once it can.\n- `d6129bf` Fixed **the chat list showing up empty while the app was connecting**, and staying empty until you reloaded the page. The list draws only the rows that fit on screen, which means it has to find the panel it scrolls inside — and it was looking a fraction too early, before the browser had finished attaching it. Getting nothing back, it drew no rows at all. It never looked again, so the list stayed blank; anything that happened to redraw it afterwards fixed it, which is why it came right on a busy account and stuck on a quiet one that had just finished its first sync. Introduced a day ago, when the room and chat lists were merged into one shared list.\n- `d6129bf` Fixed **the same fault in message search**, where it has been hiding since long before this client was forked — results only appear once you type, and typing was enough to shake it loose.\n- `166d537` Fixed **selecting a message by dragging from the right of it**, which highlighted the message from its left edge instead of following your cursor. This is the third go at it and the first that was actually tested against the bug rather than reasoned about: the row of buttons that appears when you hover a message floats just above that message, which puts it over the blank right-hand end of the message *above* it — and pressing on a button cannot put a cursor in text, so the browser started the selection at the beginning of the message instead of where you pressed. Short messages failed every time, because a one-line message is shorter than that strip of buttons is tall and so its whole right-hand end sits underneath; longer messages only lost their first line. Pressing there no longer starts a selection in the wrong place, and every button in the strip still works. The two earlier attempts had moved the reserved space around on the theory that the buttons were covering text — they were not, they were catching the press — so this one costs no width.\n- `166d537` Added **someone\'s status next to their avatar**, as a thought bubble, when you open their profile. It was only ever visible in your own profile preview in Settings before.\n- `166d537` Added **About Me to the profile you see when you click someone**. Their biography was already there but unlabelled and easy to miss; it now looks the same as it does in Settings, because both are now drawn by the same code.\n- `166d537` Fixed **the profile preview in Settings not matching the profile everyone else sees**. It was a separate copy of the same card that had drifted out of step — different spacing under the banner, a different avatar treatment, and a plain colour where the real card shows a blurred version of your avatar. It is now the real card, so what you see while editing is what other people get.\n- `166d537` Fixed **opening someone\'s avatar showing it in a small boxed window**. Every other image in the app opens in the full-screen viewer with zoom and download; avatars were the one exception, wrapped in a dialog that shrank them. They now open like everything else.\n- `166d537` Added **the time of a message in the space where its avatar would be**, when you hover it. Messages grouped under one name have no timestamp of their own — the one at the top belongs to the first message of the group — so there was no way to tell when any of the others were sent without opening something.\n- `166d537` Removed **the GIF button from the message box**. GIFs are a tab on the same panel the sticker and emoji buttons already open, so the button was a third way to open one panel on one of its tabs. Nothing is lost: the tab is still there, still controlled by the same *GIF picker* setting in Settings → General.\n- `166d537` Changed **Piped**, which is what plays YouTube links without YouTube watching you: it is now **on by default** and set to `piped.gmach.online`. The instance list is down to that and `piped.private.coffee` — the rest were bare IP addresses and unencrypted addresses that a browser refuses to load anyway, so they only ever worked in the desktop app and mostly made the list look longer than it was.\n- `166d537` Fixed **long lists sometimes rendering in the wrong place** when a list did not start at the very top of the area it scrolls in. The measurement that corrects for this could never run at all — it looked for the scrolling container a moment before the browser had finished attaching it, treated that as nothing to do, and never looked again.\n\n> **Not yet tested by anyone:** everything above except the selection fix has been\n> built and checked but not actually clicked. The profile changes are the ones that\n> move things around on screen, so those are worth a look first.\n\n- `5fa7b32` Added **a Discord-shaped layout, in five separate switches** — Settings → General. **Unified sidebar** puts your rooms and your direct messages in one list under Home instead of two tabs. **Direct message buttons** puts your chats as avatar buttons on the left-hand rail, next to your spaces. **Top bar** runs a strip across the top of the window and moves the inbox into it. **Profile in top bar** moves your name, avatar and the settings button up there too. **Rooms space** makes Rooms its own entry on the rail, leaving Home to your chats. Every one of them is off to begin with, and turning any of them off puts things back exactly as they were. Links never break when you flip one: a chat you bookmarked, the room you had open when you closed the app, and a link somebody sent you all keep working whichever layout you are in. Pinned chats and *Show unread only* work the same in every one of these lists, because there is now only one list — the same one, shown in different places.\n- `5fa7b32` Added **dragging rooms into the order you want**. Grab a room in the list and drop it where it should go. Your order is yours alone — nobody else in the room sees it — and it follows you to your other devices, kept separately for each space. The old sort-order picker is gone: it was a choice between three orders nobody wanted, and this replaces it.\n- `5fa7b32` Added **a GIF picker**, off by default — Settings → General → *GIF picker*. It adds a GIF tab to the emoji board and a button by the attach icon, with categories and a search box. **Favourite a GIF** from the picker or straight from a GIF somebody sent, and your favourites follow you to your other devices.\n- `5fa7b32` Added **pronouns, a profile banner and a biography** to profiles, yours and everyone else\'s. Settings → Profile edits all three and shows you a live preview of the card other people see. The banner has its own crop tool. These need a homeserver that supports extended profiles; on one that does not, nothing appears and nothing breaks — which is itself a fix, because an unsupported homeserver used to blank out the name and avatar as well.\n- `5fa7b32` Added **rich presence** — what someone is listening to or playing, on their profile card, off by default (Settings → General → *Show rich presence*). Album art and links in it always ask before opening and show you the real address, since whoever published it wrote the label. On the desktop app there is also **publishing your own** (Settings → Account), which listens for Spotify, games and anything else that talks to Discord and shares it as your status. See the note at the bottom of this entry — the desktop half has never been run yet.\n- `5fa7b32` Added **a status line under people\'s names** in the member list, so their status message shows next to who they are rather than only on their profile.\n- `5fa7b32` Changed **clicking someone\'s name in a message** — it opens their profile instead of dropping a @mention into whatever you were typing. Their profile card is also tidier: the homeserver sits inline rather than on its own line, the actions are condensed, and you can start a direct message from the card and type the first one straight into it.\n- `5fa7b32` Added **double-clicking a message to reply to it**. Double-clicking to select a word still selects a word, and double-clicking a link or a button still does what it always did.\n- `5fa7b32` Added **copying several messages as a clean transcript**. Select a run of messages and copy: you get names and text, not the surrounding furniture.\n- `5fa7b32` Added **auto-replacing emoji shortcodes** as you type — `:sob:` becomes 😭 — off by default (Settings → General). It works in the message box and when editing a message.\n- `5fa7b32` Added **low animation mode**, off by default. GIFs and videos hold still until you hover them, and the typing dots stop bouncing. For anyone who finds a busy room exhausting, or is paying for the battery.\n- `5fa7b32` Added **auto-embedding media links from hosts you trust**. A bare link to a video file plays inline instead of sitting there as a link, but only for hosts on a list you write yourself (Settings → General) and only for actual video files. The match is exact, so putting `example.com` on the list does not also trust `example.com.somebody-else.net`.\n- `5fa7b32` Added **auto-joining every room in a space**, off by default — globally in Settings, or for one space in that space\'s settings, subspaces included. Joining the space then gets you everything in it instead of a list to work through by hand.\n- `5fa7b32` Added **an "only verified sessions" switch** for encryption (Settings → Sessions). With it on, your messages are not sent to devices you have not verified.\n- `5fa7b32` Added **a notification menu on a space** — set every room in it to the same notification setting in one go, rather than one room at a time.\n- `5fa7b32` Added **reset notifications to defaults**, a single action in Settings → Notifications for when the per-room settings have got away from you. Nothing else was removed; the granular controls are all still there.\n- `5fa7b32` Added **downloading an emoji or sticker set as a zip**, and renamed **packs** to **sets** throughout, which is what everything else calls them.\n- `5fa7b32` Added **leaving every room in a space when you leave the space** — a checkbox on the leave dialog, unticked to begin with, so leaving a space still only leaves the space unless you say otherwise.\n- `5fa7b32` Changed **search results** to group by room, with the messages either side of each hit and the sender\'s name and avatar, so a result reads like a conversation rather than a line of text. Several things about search were also simply wrong: the number of results was the number on this page rather than the total, loading more could drop or duplicate hits, results in encrypted rooms were mislabelled, and a failure printed the raw error at you instead of saying what went wrong.\n- `5fa7b32` Changed **the jump-to-room menu (Ctrl/Cmd-K)** so it no longer offers you the room you are already in.\n- `5fa7b32` Changed **the call banner**: it shows how long the call has been running, who is in it under the room\'s entry in the list, and a badge on the space so you can see there is a call in a space you are not looking at.\n- `5fa7b32` Changed **the image crop tool**, which previously had an Apply button that did nothing at all — it is a working crop tool now, used for avatars and the new profile banners.\n- `5fa7b32` Fixed **images in the timeline being cropped**. A picture that was not the shape of the space it was given had its edges cut off rather than being fitted into it.\n- `5fa7b32` Fixed **not being able to scrub through a voice message or a video**. Dragging the progress bar restarted from the beginning or did nothing, because the request for "just this part of the file" was being thrown away and the whole file sent instead — every time, for every seek.\n- `5fa7b32` Fixed **replies being silently dropped when you attach a picture or a file**. Replying and then attaching sent the attachment as an ordinary message with no reply on it, and nothing said so. Stickers had the same fault.\n- `5fa7b32` Fixed **a message that failed to send looking exactly like one that sent**. Messages now dim while they are on their way, and one that did not make it says so with **Retry** and **Remove** next to it.\n- `5fa7b32` Fixed **the timeline scrolling away from the bottom on its own** while images and embeds finished loading. It was deciding whether to follow new messages based on where the scroll had been a second earlier.\n- `5fa7b32` Fixed **clicking a notification in the browser dumping you in the inbox** instead of the message it was about. The desktop app already went to the right place; only the browser did not.\n- `5fa7b32` Fixed **the keyboard closing after every message on a phone**, so a run of short replies no longer means reopening it each time.\n- `5fa7b32` Fixed **notifications not saying where they came from**. The room and space are in the title now, and each room\'s notifications replace each other instead of stacking up.\n- `5fa7b32` Added **telling you when your browser refuses the app storage it needs** — a private window with storage blocked, or a disk that is full — instead of failing in ways that look like unrelated bugs.\n- `5fa7b32` Added **checking what software your homeserver runs** at startup (Synapse, Conduit, and so on), used to avoid asking a server for things it does not have. If the check fails it is treated as unknown and nothing changes.\n- `5fa7b32` Changed **the icons** throughout the app to a single consistent set.\n- `5fa7b32` Fixed **long lists rendering blank in the wrong place** when a list did not start at the very top of what it scrolls in. Nothing in the app hit this before; the new unified sidebar, which stacks two lists in one scroll, would have.\n\n> **Not yet tested by anyone:** the five layout switches above have been built and\n> checked but never actually clicked in a browser, and **publishing** your rich\n> presence to the desktop app has never been run at all — the piece that talks to\n> Discord compiles but has not yet spoken to it. Both are expected to need a round\n> of fixing. Everything else in this entry has been through the usual checks.\n\n## 14.08.2026\n\n- `d883df6` Fixed **images and avatars failing to load with a "Missing access token" error**, sometimes for a whole session, sometimes coming back only after switching to another chat and back. Images are fetched by a small helper the app installs in your browser, because a picture cannot carry your login with it the way an ordinary request can — and that helper was not always being told who you are. Three separate ways it could be left in the dark are fixed: it was never told on the very first load after it was installed or updated; it was never told again once it took over; and if it asked and the answer was slow, it gave up and then kept waiting on that same dead question for every image afterwards, so the whole session stayed broken. Reloading with **Ctrl+Shift+R** was its own version of this — that kind of reload deliberately bypasses the helper, and it had no way to take over again, so every image failed until an ordinary reload. It now asks to take over. Downloads that *can* carry your login — files, voice messages, images in encrypted rooms — now do so themselves, so they no longer depend on the helper at all.\n- `d883df6` Fixed **not being able to reach the buttons that appear when you hover a message**. Moving towards them meant leaving the message, and they vanished before the pointer arrived. Yesterday\'s fix for dragging a selection from the right of a message moved that row of buttons *outside* the message to get it off the message above — but the buttons are only drawn while the message under your pointer is the one they belong to, so putting them outside meant crossing a dead gap to reach them. The space they sit in is now part of the message itself: they are still clear of the message above, so selections still start where you press, and the highlight when you hover now extends all the way under the buttons.\n- `d883df6` Added **pinning a chat to the top of the list**. Right-click a direct message or a room in Home and choose **Pin to Top**. Pinned chats sort above everything else and stay visible even with *Show unread only* switched on, which is the point — a filter that hid the chats you deliberately pinned would defeat it. Pins are stored the same way **Element** stores Favourites, so a chat pinned here is already a favourite there and vice versa, with nothing to set up on either side. Rooms inside a space are not pinnable: that list follows the space\'s own order, so a pin would have nowhere to go.\n- `d883df6` Fixed **the arrow next to CHATS and the *Show unread only* menu option doing the same thing to each other\'s confusion**. The arrow never collapsed anything — it filtered the list down to unread chats, exactly like the menu option, but with a separate on/off state of its own, so the menu could say unread-only was off while the list showed only unread chats. Direct Messages and Home have only ever had one section each, so the arrow is gone from both and the menu option is now the only filter. Home did not have that option before and now does. Spaces keep their arrows, since they have real sections to collapse.\n- `d883df6` Added **the right-click menu to search results**. Right-clicking a message you found in search gave the browser\'s own menu instead of Prinny\'s. You now get Open in Room, Forward, Edit History, Copy Link, Pin, Delete, Report and — with developer tools on — View Source. Reply, react and edit are not there: they need the message open in its conversation, which is what **Open in Room** is for.\n\n## 13.08.2026\n\n- `2f11ee8` Fixed **selecting a short message by dragging from the right of it**. Starting the drag in the empty space to the right of a one-line message grabbed the text from the far left instead of from where you pressed. The row of buttons that appears when you hover a message is pinned 30px above itself, so it was floating over the message *above* — and a one-line message is shorter than that strip of buttons, so the whole right-hand end of it was covered. Pressing there pressed a button rather than the text, and with nothing to anchor to the selection jumped to the start of the line. Messages now leave room for that button row instead of letting it sit on top of the message above, so the whole width of a message is grabbable again. Long messages were never affected — they are tall enough that the strip only covers a corner. Phones and tablets are unchanged: they never show the buttons, so they keep the full width.\n- `2f11ee8` Changed **how a @name looks**. Mentions were drawn as a boxed pill with a border, which was a lot of furniture in the middle of a sentence — most noticeably in the message box while you were still typing. A mention is now just text in that person\'s own colour, the same one their name has in the conversation. Mentions of **you** still stand out, in the same green as before but without the box, so you can still tell at a glance when a message is aimed at you.\n\n- `8c6b26a` Fixed **registration failing on homeservers that use hCaptcha**, if you self-host with the Docker image. The security policy the container serves never allowed hCaptcha\'s script, so the captcha box stayed blank and sign-up could not be completed — with nothing but a blocked-resource line in the console to say why. The policy shipped to self-hosters via `webapp-release` already allowed it; only the Docker one lagged behind. Nothing to change on your side beyond pulling a new image.\n- `8c6b26a` Removed **a pile of dead build machinery** from both repositories — the Netlify deploy (unconfigured here, and never once run), a contributor-agreement bot pointing at upstream\'s paperwork, issue and discussion templates for issue trackers that are switched off, a second dependency-update bot that was never installed, and two checks that went red on every automated dependency update while gating nothing. A permanently red build hides a genuinely broken one, so this is worth more than the tidiness. The checks that do work — the pull-request build, the type check and the Docker image check — are kept, and the Docker one is repaired so it still fires when the base image is updated.\n\n- `6ac7769` Fixed **X/Twitter links making a pointless request that always failed**. Posts from x.com are drawn by the client itself, but the homeserver was still asked to fetch a preview for the same link — an answer that got thrown away unread, and one X never gives out anyway: it serves a placeholder ("Post / X", a stock image, no text) to anything that is not a browser, and refuses many servers outright, which is where the `502 Got error 403` in the console came from. Nothing was broken at your homeserver\'s end. The request is now made only if the client-side fetch fails, which is the case where the ordinary preview card is what you see.\n- `6ac7769` Fixed **a pile of console errors on every start**. Failed link previews logged an "Uncaught (in promise)" stack trace for a failure already handled; a homeserver without OIDC logged "Configured OIDC OP does not support required functions" as an error even though that is the normal answer; a busy account tripped "MaxListenersExceededWarning: 51 RoomState.events listeners" because every room-related hook registered its own listener (now one shared listener, so the count no longer grows with your room list — and the client stops walking a fifty-entry list on every state change); and the web app logged five blocked mixed-content requests probing YouTube (Piped) instances it could never have loaded over https.\n- `46b469d` Fixed **not being able to type or send in a thread**. With a thread open in the side panel, one of the two message boxes stopped working: clicking it put the cursor there, but nothing you typed appeared and Enter and the send button did nothing. Both boxes were being built from the same shared blank document, and the editor library tracks its position by that document, so whichever box drew last took ownership and the other one could no longer work out where the cursor was. Each box now gets its own. Room and thread composers work at the same time, and drafts still stay separate.\n- `46b469d` Fixed **code blocks that start on the same line as the ```**. Typing ``` and pasting several lines after it — the usual way to paste code — produced literal backticks instead of a code block, because the fence had to be alone on its line and the closing ``` had to be on a line of its own. All four Discord forms now work: ` ```code``` `, ` ```lang ` then the code, code starting right after the opening ```, and the closing ``` at the end of the last line. A language is still picked up when the fence is followed by a single word (` ```js `), and anything else on that line is treated as code.\n- `d971afd` Added **`piped.gmach.online`** to the instance list — a real domain with a valid certificate (verified working), so the web app has a second instance that actually loads, not just a bare IP.\n- `d08c6cc` Added **a Piped instance picker with automatic failover**. Instead of one hardcoded instance, YouTube embeds now choose from a list — Settings → General → *Piped instance* lets you pick one or leave it on **Auto**, which probes the list and uses the first that responds. (On the web app, `http://` instances are blocked as mixed content and only work in the desktop app; Auto skips unreachable ones for you.)\n- `90eef8a` Fixed **code formatting to match Discord**. A single-line ` ```code``` ` now renders as a code block instead of showing literal backticks, and inline code accepts double backticks (` ``a`b`` `) so you can put a backtick inside. The rest of the formatting — **bold**, *italic*, `__underline__`, `~~strike~~`, `||spoiler||` — was already Discord-compatible.\n- `30112a4` Fixed **`-` bullet lists turning into numbered lists**. A list written with `-` (or `+`) was sent as an ordered `<ol>` — numbered even in the raw Matrix source. All of `-`, `*` and `+` are now bullet lists, matching every other Matrix/Markdown client.\n- `30112a4` Fixed **the thread panel\'s avatar filling its whole column**. The sender avatar now sits in a fixed-size box like it does in the main timeline.\n- `61e9b8a` Fixed **images and voice messages that failed to load** ("Mismatched SHA-256 digest" in the console). When the app\'s access token was refreshed, the service worker kept sending the old one for media, so every image/voice note silently failed until a reload. The worker now notices the rejection, refreshes its token and retries, and media download failures report the real error instead of a misleading digest mismatch.\n- `61e9b8a` Fixed **a member list flooding the console** with a repeated "event not found" 404 and an EventEmitter memory-leak warning in rooms with many people. Presence now uses a single shared subscription instead of one per member, and the pinned-message banner no longer requests an empty event id.\n- `61e9b8a` Fixed **stray React Router and fullscreen warnings** on load — the landing route now shows a loading splash while it redirects, and video embeds no longer double up the fullscreen permission.\n- `2d0d32d` Added **an update button in Settings → About**, next to Source Code. It tells you what it is doing — checking, downloading, or that you are up to date — and when an update is waiting it installs it, rather than sending you looking for the banner.\n- `2d0d32d` Fixed **the update banner telling you to "tap" on a desktop**. It now says tap or click to match the device you are actually using. The banner text is also centred properly instead of sitting off to one side.\n- `842520e` Changed **where the web client\'s source lives**: the repository is now `coffeegrind123/prinny` instead of `coffeegrind123/cinny`, matching the name of the app. If you self-host by cloning the `webapp-release` branch, your existing copy keeps updating — GitHub forwards the old address — but the address to use from now on is `https://github.com/coffeegrind123/prinny.git`.\n- `260e107` Fixed **the in-app updater reporting that no update was available for your platform**, on every desktop install. The published update file listed no platforms at all, so each client failed with "None of the fallback platforms were found". The builds themselves were fine — signed and uploaded correctly — but the step that writes that file runs seconds after they finish, and GitHub had not started serving the freshly uploaded signatures yet, so it recorded every platform as missing and reported success. It now retries those downloads, and refuses to publish an update file that would disable updating rather than quietly shipping one.\n- `40b72fa` Added **buttons under bot messages**. A bot can now put real buttons on what it sends — press one and it acts, with a spinner on the button until it answers back and a note if it never does. Buttons can also open a link, copy something to your clipboard, or fill the composer for you. A link button always asks first and shows the site it genuinely goes to, because the wording on a button is written by whoever sent it and the address is not. Destructive buttons look destructive. If you would rather not have buttons at all, Settings → General → Show Bot Buttons turns them off and you get the plain numbered list instead — which is also what people on other Matrix clients see, so a conversation with a bot works the same for everyone in the room.\n- `40b72fa` Added **a bot\'s commands to the `/` menu**. Bots can publish what they understand, so typing `/` lists their commands and descriptions alongside the client\'s own, with the bot\'s name beside each one. A new button by the attach icon opens the same list, and it only appears in rooms where a bot has actually published something. Where two bots offer the same command, picking one addresses it properly so they do not both answer.\n- `40b72fa` Added **quick-reply buttons above the composer**. A bot can offer a set of ready answers; pressing one sends it as an ordinary message. They stay put across a reload and follow you to your other devices, and a bot can clear them or ask you for one specific thing with the composer already pointed at its question.\n- `40b72fa` Added **a BOT tag** next to the name of any account that has published bot commands in a room, in both the conversation and the member list.\n- `40b72fa` Fixed **commands meant for a bot being silently swallowed**. Typing any `/command` this client did not itself recognise cleared the composer and sent nothing at all, with no error — so bot commands simply never arrived. They are now sent as written.\n- `0ec210e` Added **links that open a chat with a bot**, the equivalent of a `t.me` link. Following one opens a direct message and sends its opening command, after asking you first and showing exactly which account and exactly what will be sent.\n\n## 12.08.2026\n\n- `1b99127` Fixed **GIFs and videos in Twitter/X posts not playing at all**. They loaded as an empty box or a dead frame while ordinary GIF links played fine. Twitter\'s video servers refuse any request that says which page it came from, and the setting meant to strip that does nothing on a video — it only exists for pictures, which is exactly why pictures were unaffected. The file is now fetched separately, without that header, and handed to the player. This also means a Twitter clip that previously failed inside the desktop app now has a second way to load rather than showing an error.\n- `1b99127` Fixed **voice messages sitting in a grey box** with a "Voice message" label above them and a download button beside the player. All three were repeating what the player already gives you — it has its own background, and its menu already offers Download. Just the player now.\n- `1b99127` Fixed **long lists in dialogs not scrolling**. The Files dialog, poll history, widgets, edit history, forwarding, export and add-to-space all cut their list off at the bottom edge with no scrollbar and no way to reach the rest.\n- `1b99127` Fixed **the Add Email Address box in Settings still being narrower** than the identity-server one beside it.\n- `805df93` Added **draggable dividers between the columns**. The room list on the left and the member list, thread panel and call chat on the right can all be resized by dragging the line beside them. Double-click a divider to put it back. Widths are remembered, scale with your zoom setting, and are capped so two wide columns cannot squeeze the conversation out. Keyboard: focus a divider and use the arrow keys, Shift+arrow to move faster, Home/End for the extremes, Enter to reset.\n- `3f54ed7` Fixed **selecting text that starts on a link**. Dragging from a link towards the left selected nothing and the highlight jumped somewhere else entirely, because the browser was starting to drag the link rather than select the text. Links in messages are no longer draggable; they are still clickable and copyable.\n- `3f54ed7` Fixed **input boxes in Settings being narrower than the rest and a darker colour**, most visibly the add-email-address field beside the display-name one. The same fault affected the identity-server field, the account-deletion confirmation, the poll answer fields and the server-browser search.\n- `3f54ed7` Fixed **voice messages**, which now play in the audio player your system provides instead of a custom one. The old player could not draw a progress bar for the format voice notes are actually sent in — its own seek bar had nothing to measure against — and it decoded every clip in the background just to draw a waveform, whether or not you ever pressed play.\n- `3f54ed7` Fixed **dialogs being taller than their contents**, such as the widgets dialog, which drew a full-height panel with a large empty band under a short list.\n- `3f54ed7` Moved **creating a poll and sharing your location** out of the composer to the `/poll` and `/location` commands, freeing the buttons beside the attach icon. `/location` only appears when your homeserver actually provides a map server — before, it opened a picker with nothing to aim at.\n- `4a4c58c` Fixed **GIFs not playing when you link one**. A linked GIF showed a single frozen frame, because the preview picture came from the server\'s thumbnailer and a thumbnail of an animation is one still image. GIFs now play, whether the link is the GIF file itself, a Tenor or Giphy page, or a post that contains one.\n- `4a4c58c` Fixed **GIFs in Twitter/X posts** showing a play button that had to be pressed, instead of looping on their own.\n- `4a4c58c` Fixed **GIFs in Bluesky posts** showing only a still thumbnail. Bluesky attaches a GIF as a link rather than as media, so there was nothing to play. They now loop, and use a version around fifty times smaller than the one Bluesky points at — fetched from Tenor directly, so reading a GIF no longer tells Bluesky\'s servers you looked at it.\n- `4a4c58c` Fixed **a GIF that could not be started at all** on Linux and Android. Both refuse to start video on their own, and a looping GIF has no play button by design, so it sat there as a dead picture. If playback is refused, controls now appear. Click a playing GIF to pause it.\n- `4a4c58c` Fixed **image links producing no preview** when the server could not fetch one, and **`og:image`-based video and audio players** that were permanently broken on pages advertising media they do not actually serve — those now show a picture and a link instead of a dead player.\n- `93001c0` Fixed **the Android build failing to release**. `matrix:` links tapped in another app also never reached the client on Android; the app registered itself as the handler but nothing was reading the link.\n- `b3946e0` Added **voice messages**. Press the microphone in the composer, review what you recorded, then send it. They arrive with a waveform and a duration in Element and other clients, and voice notes from those clients now show as a proper player here instead of an anonymous file. Recording stops and releases the microphone when you cancel, switch rooms or close the app.\n- `b3946e0` Added **a thread panel**. Threads could be started before but never read — replies landed loose in the conversation and there was nowhere to open. A message that started a thread now shows how many replies it has and opens them in a panel beside the room, or full screen on a phone. Replies still appear in the main conversation as well, so nothing has disappeared.\n- `b3946e0` Added **polls**. Create one from the composer, vote, and end it when you are done. Polls sent from other clients used to show as "unsupported content" and now work properly. A poll set to hide its results shows nothing at all until it ends, not even to you.\n- `b3946e0` Added **forwarding a message** to one or more rooms, from the message menu.\n- `b3946e0` Added **edit history** on messages that have been edited, fetched from the server so it works for edits made before you opened the app.\n- `b3946e0` Added **a pinned-message banner** above the composer, so a pin is visible without opening the room menu. Dismissing it hides only that pin; pinning something new brings it back.\n- `b3946e0` Added **approving people who ask to join**. Setting a room to "ask to join" used to be a trap: requests arrived with nothing to show them, so people waited on a room that looked like it had ignored them.\n- `b3946e0` Added **exporting a conversation** as HTML, plain text or JSON, with attachments bundled alongside it. Also added **a file list** for the room, so you can find that PDF without scrolling for it.\n- `b3946e0` Added **sharing a location**, either where you are or a pin you drop, and **live location sharing** for 15 minutes, an hour or eight hours. While you are sharing, a banner stays on screen that cannot be dismissed — only stopped. Maps are off until you turn them on, because drawing one tells whoever serves the map tiles where you are looking.\n- `b3946e0` Added **widgets**. Room widgets can be opened, added and removed, and each one asks before it is allowed to read or send anything, item by item. Widgets never get the microphone, the camera or your Matrix identity, and one served from the same address as the app itself is refused outright.\n- `b3946e0` Added **changing your password, adding and removing email addresses, and closing your account** in Settings. Changing a password previously meant logging out and using the reset flow, which needed access to the email on the account.\n- `b3946e0` Added **privacy settings**: block all incoming invites, choose when media previews load, and hide avatars in invitations from strangers.\n- `b3946e0` Added **thirteen more slash commands**, including `/nick`, `/topic`, `/roomname`, `/myavatar`, `/whois`, `/query`, `/plain`, `/html` and `/rainbow`.\n- `b3946e0` Added **chat effects** — `/confetti`, `/fireworks`, `/snowfall`, `/rainfall` and `/hearts`, which also fire when someone sends the matching emoji. Skipped entirely if your system asks for reduced motion.\n- `b3946e0` Added **LaTeX rendering** for maths in messages, off by default.\n- `b3946e0` Added **microphone settings** — choose an input device and turn echo cancellation, noise suppression and gain control on or off. Used by voice messages and calls alike.\n- `b3946e0` Fixed **audio attachments being sent without a duration**, which made them show as unknown-length in every other client.\n- `f96ddb0` Fixed **the microphone never working on Linux**. The window\'s browser engine ships with capture switched off and silently refuses any request nothing is listening for, so recording and call audio could not have worked on that build. Screen sharing from a call is covered too.\n- `f96ddb0` Fixed **the app being killed on macOS the first time it touched the microphone or camera**, instead of asking for permission.\n- `f96ddb0` Added **opening `matrix:` links**, both inside the app and from other programs, on all four platforms. They previously did nothing at all when clicked.\n- `f96ddb0` Added **starting at login**, launching minimized to the tray. Related: a window closed to the tray no longer comes back invisible the next time you start the app by hand.\n- `f96ddb0` Added **hiding the window from screenshots and screen recordings**, in Settings. Works on Windows and macOS; most Linux desktops ignore it.\n- `f96ddb0` Added **spell checking on Linux**, which the window\'s browser engine leaves off by default, using the languages from your own system settings.\n\n## 11.08.2026\n\n- `451148f` Fixed **the icon bar on the left not moving with the swipe on mobile**. It stayed put while the conversation list slid, then appeared or disappeared abruptly at the end, shifting everything sideways. It now slides away together with the list, and the chat opens at the full width of the screen without jumping.\n- `bcb92f0` Improved **message search filling in as it goes**. It used to sit blank while it worked, then stop at the first match it found — so a single recent hit looked like the whole answer and older messages only turned up if you scrolled. Results now arrive a few at a time and keep coming until there is a proper list of them.\n- `bcb92f0` Improved **the settings menu on phones**, spacing the entries out and making each one a larger touch target so neighbouring rows are harder to hit by accident.\n- `bcb92f0` Added **link previews in encrypted rooms by default**. Note this asks your homeserver to fetch the link, which it cannot otherwise see inside an encrypted message — the setting turns it back off.\n- `bcb92f0` Improved **where the Telegram sticker import setting lives**, moving it from General to Emojis & Stickers, next to the packs it applies to.\n- `7679ea5` Improved **swiping toward a chat on mobile**, which now uncovers the conversation as you swipe, the same way swiping out of a chat reveals the list behind it. Previously there was nothing on the other side and the chat only appeared once the swipe finished. Rooms revealed this way are not marked as read — only opening one does that.\n- `7679ea5` Improved **search being the same everywhere**. The search button used to lead to two different screens depending on the window size, and the one on phones could only search messages. There is now a single search, and it finds both people and messages on every device.\n- `7679ea5` Fixed **the settings menu sitting against the top of the screen on mobile**, leaving a large gap below. The list is now centred vertically; the logout button stays where it was.\n- `fe3fdd7` Fixed **swiping back toward a chat looking broken on mobile**. The conversation list went transparent mid-swipe, leaving just the room names floating over nothing. It now slides as one solid page, matching the swipe in the other direction.\n- `fe3fdd7` Improved **the people sidebar search box**, which now spans the full width of the sidebar instead of being squeezed next to the close button. The sidebar also gained a "People" heading.\n- `fe3fdd7` Fixed **the search screen being too wide on small phones**, where it could be pushed past the edge of the screen and scroll sideways.\n- `fe3fdd7` Improved **settings layout**, centring each settings page in the available space rather than letting it hug the left edge — matching how the rest of the app already lays out its pages.\n- `c6a0111` Added **importing Telegram sticker packs**. Open any image pack you can edit, choose "Import from Telegram", and paste a `t.me/addstickers/...` link — its stickers are downloaded and added to the pack. Animated and video stickers are skipped and counted, since packs can only show still images. This needs a Telegram bot token, set once in Settings → General: Telegram publishes sticker packs nowhere else, so there is no way to import without one. Creating a bot with @BotFather takes a moment and is free, and the token is kept on your device only — never sent to your homeserver.\n- `15bd574` Fixed **the attach button doing nothing on Android**. Tapping `+` in the composer, or using the upload shortcut, opened no file picker and gave no error. The file type it asked for was written in a form Android rejects, so the system found nothing able to handle the request and silently gave up. Other pickers in the app — profile picture, sticker pack image — were unaffected and kept working, which is why this looked like an attachments-only problem.\n- `985f7b9` Improved **third-party code once more**, replacing six small packages with equivalent code kept in this project — number formatting, keyboard shortcut matching, file downloads, image placeholders and error handling. The two with any real logic were checked against the packages they replace over tens of thousands of generated cases with no behaviour difference, including on macOS, where the shortcut key differs.\n- `19bad2e` Improved **third-party code in the client further**, removing two packages that nothing used and twelve more from the desktop shell that were never imported by anything. Together with the earlier commit-hook removal today, the web client now resolves 801 packages instead of 950.\n- `db9bb8d` Fixed **the web app at prinny.app/app failing to load with "Failed to load"**, usually right as you signed in. A tab left open while a new version was published kept asking for pieces of the old version that no longer exist on the server; the sign-in step is what requested one first, so the app appeared to break specifically at login. Such a tab now notices and refreshes itself onto the current version instead of dying. If it happens again before this update reaches you, a hard refresh clears it.\n- `db9bb8d` Fixed **the web app not being installable to your home screen or desktop**. Its app manifest was requested from the wrong address on prinny.app/app and always came back missing, so browsers saw no installable app.\n- `5989652` Improved **the amount of third-party code that goes into a build**, down from 950 packages to 803. A commit-hook stack inherited from upstream — husky, lint-staged and commitizen — was fully commented out and could not run, so removing it costs nothing and takes 147 packages out of the supply chain. Leftover upstream project files (code of conduct, contributing guide, sample reverse-proxy configs for a different project\'s name) and a version-stamping script that had been superseded were removed at the same time.\n- `b3341b9` Fixed **ending up with several copies of Prinny running on Windows**, and the pinned taskbar shortcut appearing to do nothing. Closing to the tray hides the window, so the app looked shut down and each new launch started another client. Launching again now restores and focuses the one already running — from the shortcut, the taskbar pin or the Start menu — and a pinned Prinny shares one taskbar button with the running window instead of showing two.\n- `3a1e9bb` Improved **what happens on a server that will not let apps complete sign-up**. Some servers require a step they keep to their own website. Instead of a blank error page, the app now says so plainly and links that server\'s actual sign-up page, so you can create the account there and come straight back to sign in.\n- `258978b` Added **support for servers that use hCaptcha**. Some homeservers run hCaptcha while still presenting it as the standard captcha step, and the app was drawing Google\'s box with an hCaptcha key — which can never be solved, so registration on those servers was impossible. The right captcha is now shown for each.\n- `258978b` Fixed **being turned away from servers with an unfamiliar sign-up step**. Anything the app does not handle itself — a phone-number check, a captcha provider it does not recognise, something a server invented — now opens the server\'s own sign-up page in a second window; finish there and you are brought straight back. Previously this said "this application does not support registration on this homeserver" and stopped.\n- `94a3982` Added **a directory of public Matrix servers**, replacing the matrixrooms.info room feed. Around 1,150 servers, merged and deduplicated every day from three independent lists (asra.gr, joinmatrix.org, privacydev.net). Explore now offers "Browse public servers" — pick any server and read its own public room directory, instead of one third party\'s view of which rooms are worth seeing.\n- `94a3982` Improved **choosing a homeserver when signing in or registering**. The field now completes as you type, the way a browser address bar does: type `tchn` and it fills in `tchncs.de` with the rest selected, so carrying on typing simply overwrites it. The magnifier beside the field opens the full directory, searchable by name, software, country or hosting provider, and filterable by open registration, captcha, email requirement and Tor friendliness.\n- `94a3982` Fixed **the server list being unreadable in a browser**. None of the three upstream lists allow cross-origin requests, so the web version could not have fetched them at all. The merge now happens once a day on prinny.app and every version — desktop, Android and web — reads the same prepared file. Self-hosters can point `publicServersUrl` at their own copy.\n- `8bf8ba9` Fixed **the release pipeline silently skipping a build**. Two pushes close together left one release half-built and the second push produced no build at all — the second run cancelled the first *after* it had already created the release and uploaded three platforms, then declined to build anything itself because that release now existed. Builds queue instead of cancelling, the version number now accounts for a release that has been drafted but not yet tagged, and a build can be re-run by hand without inventing a commit.\n- `86d4a10` Fixed **nothing watching the app\'s dependencies for security patches**. The configuration said one bot handled them; that bot was never installed, and the approval step it waited on could not exist because the repository has issues turned off. So no patch was ever proposed, which is how 22 known-vulnerable packages piled up. Dependency alerts and automatic security updates are now switched on for both repositories, with a bot that needs no extra setup.\n- `86d4a10` Improved **download size**: the bundled video-call widget was shipping 18 MB of debug source maps that no user ever loads. Total download drops from 63 MB to 45 MB.\n- `86d4a10` Fixed **desktop shell shipping five unused system integrations**. Clipboard, file-system, shell-command, HTTP and dialog plugins were compiled into every build but granted no permission and called by nothing — dead code that also pinned an XML parser with two denial-of-service advisories. Removed. Copying text is unaffected; it uses the browser API.\n- `86d4a10` Fixed **known-vulnerable Rust libraries in the desktop shell**, including two certificate-validation bugs in the TLS stack (`rustls-webpki` — name constraints wrongly accepted for URI and wildcard certificates) and a remote memory-exhaustion bug in the QUIC networking layer.\n- `a4600e5` Fixed **an image attachment being able to open attacker-written content inside the app**. A sender chooses the `mimetype` on a picture they send, and the image and sticker renderers passed that value straight through when building the local media object — so a picture could declare itself as HTML, and the image viewer\'s "open in browser" button would then open it as a page running with the app\'s own permissions. Images and stickers are now restricted to real picture formats, and that button refuses anything that is not an ordinary web link.\n- `a4600e5` Fixed **push notifications trusting everything the push server sent**. The service worker displayed whatever text arrived and handed the room identifier it was given straight to the app\'s navigation. Notification text is now length-limited and stripped of control characters, and the room and event identifiers must look like real Matrix identifiers before anything is shown or opened. This matters more now that pushes carry real message content.\n- `a4600e5` Fixed **a code block in a message being able to freeze the client**. Syntax highlighting ran on the main thread with no size limit, and the sender picks the language from 287 options. Measured across every grammar we ship, the cost grows with the square of the length: `javascript` on a plain run of letters takes **4.1 s at 32 000 characters and 40 s at 100 000**, and `scss` reaches **8.6 s and 84 s**. Code blocks over 4 096 characters now render in full but without colours (worst case ~130 ms). This also fixes an honest large paste hanging the app.\n- `a4600e5` Fixed **an emoji shortcode being able to break out of the HTML it is written into** when a message is edited and re-sent. Every neighbouring field was escaped; this one was not.\n- `a4600e5` Fixed **all 22 known-vulnerable dependencies, 10 of them high severity — now zero**. The important one is the PDF renderer (`pdfjs-dist` 5.7.284 → 6.2.108), where a malicious PDF could run JavaScript in the app, in a client that renders PDFs strangers send you. Also the router (open redirect and XSS), the user-agent parser (a hang on a crafted string), and `lodash` — the only vulnerable package that actually reached the shipped app. The PDF upgrade is a major version: it needed code changes, and the new renderer fetches WebAssembly decoders at runtime that were not previously bundled, without which **scanned documents would have rendered blank with no error** — those are now shipped. Verified in a real browser that PDFs still render and the app still starts.\n- `a4600e5` **Self-hosters: the Docker image now listens on port 8080, not 80**, because it no longer runs as root. Change the container side of your port mapping (`-p 80:80` → `-p 80:8080`) and any Compose or Kubernetes manifest that names port 80. README updated.\n- `c0b94a6` **Android: reinstall required once.** Release APKs are now signed with a new key, because the previous signing key had been committed to the public repository and anyone could sign an APK your phone would accept as a Prinny update. Android refuses an update signed by a different key, so this build will not install over your current one — **uninstall Prinny and install this APK fresh**. In-app updates work normally again afterwards. Sorry for the one-time hassle; there is no way to rotate a leaked signing key without it.\n- `c0b94a6` Fixed **Android notifications only arriving while the app was open**. The push receiver decided who should show a notification by checking whether the app\'s plugin object existed — but that flag is set on first launch and never cleared, so every push was handed to the WebView, and Android suspends WebView JavaScript the moment the app leaves the screen. Nothing rendered. The receiver now checks whether the app is genuinely on screen (`MainActivity.isAppInForeground`) and posts the notification from native code when it is not, so notifications arrive with the app closed. Notifications also show the real sender and message with `BigTextStyle`, get **one notification per room** instead of all rooms overwriting a single entry, and tapping one opens the right room. Encrypted rooms show "New message" — the server cannot read them, which is the encryption working.\n- `c0b94a6` Fixed the **Android in-app updater installing an APK without checking it**. `UpdateChecker` parsed the published `sha256` and then never used it, and staged the download in shared public storage under a predictable name where another app could replace it. It now verifies the SHA-256 before prompting (deleting the file on mismatch), stages in app-private storage, requires an `https` GitHub host, and registers its download receiver as `RECEIVER_NOT_EXPORTED`.\n- `c0b94a6` Fixed **embedded web content being able to turn on your microphone and camera**. The Android WebView permission handler granted capture based only on whether the app held the OS permission, never checking which origin asked — so any third-party iframe (a link preview, an embed) could obtain mic and camera silently once you had made one call. Capture is now restricted to the app\'s own origin, and page scripts can no longer flip the microphone foreground-service type on their own.\n- `c0b94a6` Fixed **a single message being able to freeze the client**. The jumbo-emoji check used a nested-quantifier regex whose cost doubled every ~2.5 characters: a message of ~70 colons locked the render thread for minutes, and the event persisted so reopening the room re-froze it. Measured 55 colons: **3.7 s → 0.14 ms**, and flat at 1000. The URL matcher\'s variable-length lookbehind was quadratic on long messages (**853 ms → 0.8 ms** on 40 000 characters), and an empty search term could spin the highlighter forever — a double space in the room switcher was enough. `utils/regex.ts`, `utils/findAndReplace.ts`, `plugins/react-custom-html-parser.tsx`.\n- `c0b94a6` Fixed **links and embeds handing arbitrary URL schemes to the operating system**. On desktop, a link opening a new window is passed to the OS URL opener, so a homeserver-supplied or message-supplied `file:`, UNC or app-protocol URL invoked a local handler. All such URLs are now validated as `http(s)` at the point of use (new `utils/safeUrl.ts`), `ftp:` and `magnet:` are no longer accepted in message links, and the native side enforces its own scheme allowlist.\n- `c0b94a6` Fixed **login credentials being sendable to the wrong server**. The homeserver allowlist was checked against the name you typed while the login request went to the `base_url` that server\'s own `.well-known` returned, which was never re-checked; and an `http://` prefix in a `/login/:server` link survived into the credential request. Discovery now forces `https`, the route parameter must be a bare hostname, and the allowlist is re-applied to the discovered URL.\n- `c0b94a6` Added a **"Hide message content"** notification setting (Settings → Notifications) so system notifications can show only the sender. Decrypted message text otherwise goes into the OS notification store, where other software on the device may read it.\n- `c0b94a6` Added a **Bluesky post embeds** toggle and made every third-party embed state plainly that enabling it sends the link and your IP address to that service. Bluesky previews previously fetched from `public.api.bsky.app` with no setting at all. Link previews for **encrypted** rooms are now off by default — asking the server to preview a URL from a message it cannot read hands it that URL.\n- `c0b94a6` Improved **rendering safety for hostile room state and media**: power-level tag icons can no longer be an arbitrary URL that beacons every viewer\'s IP on each render, attachment dimensions are clamped, download filenames are sanitised, blob MIME types can no longer be declared as active content, and megolm key-file import bounds its key-derivation work.\n- `c0b94a6` Improved **desktop native hardening**: the app now refuses to start if another process already holds its frontend port (that port grants native permissions, so whoever answers on it inherits them), the SSRF guards cover 0.0.0.0/8 and IPv4-in-IPv6 encodings, redirects are re-validated per hop, downloads are size-capped, and drag-drop file access is consumed once instead of lasting the whole session. The permission grant to the page dropped filesystem, HTTP, dialog, clipboard, shell and global-shortcut access, none of which the client uses.\n- `c0b94a6` Improved **self-hosting and build security**: every shipped nginx/Caddy/Netlify config now sets a Content-Security-Policy and related headers (verified in a real browser, including WebAssembly crypto and the bundled call widget), production source maps are no longer published, the Docker image runs unprivileged (**publish `-p 80:8080` now**), the web root no longer exposes `.git`, and CI pins its actions, drops install scripts, and stops packaging its own credentials into the source archive.\n\n## 10.08.2026\n\n- `22f0979` Updated **sanitize-html to 2.17.6** — a security release for the HTML sanitizer every incoming message body passes through. Upstream cinny `90837f7`.\n- `3ef594f8` Upgraded the **in-app call stack to element-call 0.20.1** (from 0.19.3) and **matrix-js-sdk to 41.7.0**. Fixes the **call settings and reaction buttons doing nothing** — element-call moved its settings button to a new `data-testid` and our control layer was still walking `previousElementSibling` off the leave button, so it was clicking the wrong nodes. **Screenshare and spotlight buttons now update their state**, the **mic/video buttons disable while a toggle is in flight** (instead of letting you desync them with fast clicks), and **incoming-call popups no longer appear for voice rooms**. `plugins/call/CallControl.ts`, `CallEmbedProvider.tsx`, `call-status/CallControl.tsx`, `call/CallControls.tsx`, `call/Controls.tsx`, `call/PrescreenControls.tsx`. Upstream cinny `e379714`.\n- `aba72c2` Fixed **"Manage devices" opening a dead page** on homeservers that have moved to the stable spec — account management now uses the stable MSC2965 action names instead of the unstable `org.matrix.msc2965.*` ones. `useAccountManagement.ts`. Upstream cinny `a9245c8`.\n- `03ad4e7` Fixed **long space names and descriptions overflowing the lobby header** instead of truncating. `LobbyHero.css.tsx`, `page/style.css.ts`. Upstream cinny `762e99a`.\n- `69fc00c` Updated **folds to 2.7.1** (the UI component library). Upstream cinny `730a748`.\n\n## 07.06.2026\n\n- `c9ca749` Unified **people + message search into the members drawer** — the search box moved into the drawer header and the **"N Members"** title moved down beside the Filter/Sort chips. One box now drives both: matching members filter the list instantly, and a new **Messages** section below shows matching messages (with a "Search older messages" button to page deeper). The standalone search icon and search panel are gone on desktop; mobile/tablet keep the search overlay since there\'s no drawer there. New `RoomMessageResults.tsx` renders the inline results for encrypted (local scan) and unencrypted (server) rooms alike. `MembersDrawer.tsx`, `Room.tsx`, `RoomViewHeader.tsx`.\n- `c9ca749` Made **encrypted-room search much faster** — back-paginated events are now decrypted **in parallel** instead of one-at-a-time (the per-event serial decrypt was the bottleneck), and each page back-paginates a bounded number of rounds before returning, so as-you-type search stays responsive and deeper history loads on demand. `useClientRoomSearch.ts`.\n- `ba1c6b1` Fixed **encrypted-room search returning no results** — the client-side scan (`useClientRoomSearch.ts`) walked the *entire* room history (up to 50k events / hundreds of back-pagination round-trips) before returning even one match, so for any encrypted room with real history the search just sat on loading skeletons and never showed anything. It now streams: it scans the already-synced history and back-paginates only far enough to fill the requested page, returning matches immediately and resuming pagination on demand as you scroll. Dense terms appear almost instantly; "no results" is only shown once history is genuinely exhausted (still bounded at 50k events).\n\n## 06.06.2026\n\n- `36a04bf` Made **all link-preview embeds 2x larger** — the card max-width went 216→432px and the image/video height caps doubled (300→600, 320→640), so YouTube, Twitter/X, Bluesky and generic embeds all render bigger (everything inside is width:100% of the card, so it scales proportionally). `UrlPreview.css.tsx`.\n- `36a04bf` Fixed **multi-image Twitter/X embeds stacking vertically** — they now render in a 2-column grid (side by side), matching the Bluesky layout. `UrlPreviewCard.tsx`.\n- `36a04bf` Repurposed the embed **"Show all" button for long descriptions** — removed the old og: metadata dump that lived behind it; now a description over 100 words shows the first 100 with a Show all / Show less toggle, and shorter ones show in full. `UrlPreviewCard.tsx`.\n- `36a04bf` Replaced the custom **audio-attachment player with native HTML `<audio controls>`** — encrypted/authenticated media is fetched to a blob first, plain media streams directly. `AudioContent.tsx`, `RenderMessageContent.tsx`.\n- `36a04bf` Fixed a **softlock when swiping right in Settings on mobile** — the swipe slid the container fully off-screen (via `commitOffset`) expecting a route change to unmount it, but Settings navigates subpage→menu in place, so it stayed stuck off-screen. Settings now snaps back instead. `Settings.tsx`.\n- `36a04bf` Fixed **swiping back into the last conversation on mobile** — `MobileSwipeOpen` remounts on every in/out transition (so its `useState` last-room reset to nothing) and its fallback link selector matched no real path. The last-opened room is now remembered across remounts and the fallback targets the top room in the list. `MobileSwipeOpen.tsx`.\n- `36a04bf` Fixed the **Inbox page layout on mobile** — Notifications/Invites rendered in normal flow, so the absolute nav backdrop painted over them. They\'re now wrapped in `MobileSwipeBack` (an opaque z-index:1 layer, like rooms), which fixes the stacking and adds the swipe-back gesture. `Router.tsx`.\n- `36a04bf` Made the **mobile UI 15% larger** — bumped the root font-size to 115% under 640px; folds sizes everything in rem, so fonts/spacing/icons/controls scale together. `index.css`.\n- `36a04bf` Made the **Settings menu items full-width and centered on mobile**. `Settings.tsx`, `settings/styles.css.ts`.\n- `36a04bf` Colored the **mobile safe-area insets** (notch / home-indicator bars) with the themed grey surface instead of black. `SafeArea.css.ts`, `index.css`.\n- `5eb6249` Added **message search in end-to-end encrypted rooms** — the room search button is no longer hidden in encrypted rooms, and a new client-side search (`useClientRoomSearch.ts`) runs there instead of the server. Since the homeserver only holds ciphertext, it back-paginates and decrypts the local timeline (bounded at 50k events), matches message bodies (phrase, falling back to all-words), and returns the same paginated/virtualized result shape as the server path so `RoomSearch` uses either interchangeably. Encrypted rooms show a notice that search runs locally over history synced to this device. Non-encrypted rooms still use server-side `mx.search`.\n- `5eb6249` Fixed reacting to a message scrolling the timeline to the most recent message — a reaction is an `m.reaction` live event "sent by you", so the Scroll-to-Bottom-on-Send path (and the at-bottom auto-scroll) yanked the viewport to the live edge. `RoomTimeline.tsx` now gates both scroll paths on `isLiveDisplayEvent` (skips reactions, edits and redactions, mirroring the render filter); the range still advances so reactions render in place without moving the view.\n- `5eb6249` Moved the **cancel-reply (✕) button to the right** of the reply preview, nearer the send controls, so dismissing a reply needs less mouse travel. An invisible spacer keeps the message you\'re replying to aligned with the text input below (`RoomInput.tsx`).\n- `5eb6249` Improved the **desktop update toast** — clicking it (or its "Open" action) now downloads and installs the update directly, the same as the banner\'s Update button. The toast is tagged `kind: \'update\'` and routed by a dedicated listener so it no longer falls through the message-click → room-navigation path (`useUpdateCheck.ts`, `desktop-notifications.ts`).\n- `5eb6249` Improved the connecting screen — it now shows **Connecting to `<homeserver>`…** instead of a bare "Connecting…", so you can see which server is being reached (`SyncStatus.tsx`).\n- `5eb6249` Fixed **presence dots not appearing** until a live presence event arrived — `useUserPresence` now syncs immediately from whatever the store already holds (the peer\'s `User` object is often created lazily after first render), handles an empty user id, and avoids a stale `undefined` that hid the badge.\n\n## 30.05.2026\n\n- `605d9de` Added **client-side link-preview fallback** (Settings → General, desktop/mobile app only, **default off**) — when your homeserver\'s `preview_url` can\'t generate a link card (commonly a `504` because the target site blocks Synapse\'s non-browser User-Agent), the app now fetches the page itself with a real Chrome UA and parses its OG/Twitter meta tags locally. New Rust `fetch_og_preview` IPC command fetches server-side (bypassing CORS) but keeps every SSRF guard from the media proxy — scheme check, post-DNS private/loopback/link-local/CGNAT/cloud-metadata rejection, DNS pinning against rebinding, per-hop redirect re-vetting (auto-redirects disabled), and a 512 KiB response cap — and, unlike `fetch_remote_bytes`, accepts any *public* host since a generic preview can point anywhere. `UrlPreviewCard.tsx` falls back to it only after the homeserver preview errors, and renders a direct `https` `og:image` straight through (homeserver previews use `mxc://`). Skipped for Twitter/X, Bluesky, YouTube and direct-audio URLs, which already render without the homeserver.\n- `8e99e44` Hardened the desktop media proxy against SSRF — the Rust `fetch_remote_bytes` IPC command (used for Twitter/X and Bluesky video/images) now requires `http`/`https`, restricts the host to a `twimg.com`/`bsky.app` allowlist, resolves DNS and **rejects any private/loopback/link-local/CGNAT/cloud-metadata (`169.254.169.254`) address**, pins the vetted IP on the request to defeat DNS-rebinding, and only follows redirects that stay on the allowlist. Previously it fetched any URL server-side, bypassing CORS.\n- `8e99e44` Fixed the notification-icon cacher leaking the Matrix access token — `cache_notification_icon` now forwards the `Authorization` header **only** when the avatar URL is under the logged-in homeserver\'s `/_matrix/` media endpoint (origin + path validated against `mx.baseUrl`); every other URL is fetched with no credentials and SSRF-guarded.\n- `8e99e44` Hardened `read_dropped_file` — it now reads **only** paths the user actually drag-dropped onto the window (captured from the native drag-drop event), so an injected script can no longer read arbitrary files such as `/etc/passwd`.\n- `8e99e44` Removed the unused `shell:allow-execute` / `shell:allow-open` desktop capabilities (arbitrary process spawn from the webview — nothing in the app used them), tightened the CSP `script-src` to drop remote `http:`/`https:` origins (keeps `unsafe-eval` for the crypto WASM), and scoped the Android `FileProvider` from the whole external-storage/cache roots down to just `Download/` (the only dir the updater APK uses).\n- `8e99e44` Added a non-blocking `security-audit` CI job (npm production-dependency audit gated at critical; `high` + `cargo audit` advisory) and applied `npm audit fix` for the `@octokit/*` ReDoS advisories in the release tooling.\n- `66a3bab` Fixed the Android in-app updater never installing — every release was CI-signed with a **freshly generated random keystore**, so Android rejected each update with "App not installed" (`INSTALL_FAILED_UPDATE_INCOMPATIBLE`: signatures don\'t match the installed app). The APK downloaded but could never install over the previous build, even after granting "install unknown apps." CI now signs every release with a **stable committed key** (`prinny-ci.keystore`), with an optional `ANDROID_KEYSTORE_BASE64` secret override. Existing users need ONE manual reinstall to land on the stable key; after that, in-app updates work.\n- `d9aca00` Added **in-conversation message search** — a search button in the room header (right side, by the call icons) now opens a right-side results panel instead of navigating away. Server-side `mx.search` scoped to the current room, paginated and virtualized (`@tanstack/react-query` infinite query + `@tanstack/react-virtual`) for long histories; click a result to jump to that message in the timeline. Works on web, desktop (side panel), and mobile/tablet (full-screen overlay that closes on result tap). Unavailable in end-to-end encrypted rooms (server can\'t index encrypted messages) — shows a notice.\n- `d9aca00` Added **presence/status bubbles inside the chat and the room header** — message avatars now show the sender\'s online/idle/offline dot (matching the members panel and DM list), and DM headers show the other user\'s presence next to their name.\n- `d9aca00` Made **URL-preview embeds/videos ~50% smaller** (Discord-like) — the preview card max width dropped 432→216px and video height is capped at 320px, so portrait clips render around 180×320 instead of filling the message column. `UrlPreview.css.tsx` + loading-placeholder caps in `UrlPreviewCard.tsx`.\n- `f29c063` Added a **Scroll to Bottom on Send** setting (Settings → General → Editor, on by default) — when you send a message while scrolled up in a room, the timeline now jumps back to the live edge so your own message scrolls into view. Implemented in `useLiveEventArrive` (`RoomTimeline.tsx`): a live event whose sender is the current user resets the timeline via `getInitialTimeline` and triggers `scrollToBottom`, reusing the `handleJumpToLatest` path. Gated on the sender being us, so other people\'s messages never yank the viewport.\n- `38f0d1c` Fixed `:3` (and other single-char emoticons like `:p`, `:D`, `:o`) triggering the emoji autocomplete and auto-replacing on Enter — the `EMOTICON_QUERY_RE` shortcode trigger in `getAutocompleteQuery` matched any run of word characters after `:`, including a single one. Tightened to `[a-zA-Z0-9_+-]{2,}` so the picker only opens once there are at least two characters after the `:` (Discord parity); `:12` → `:1234:` still completes.\n- `32c880f` Fixed emoji/mention autocomplete arrow-key selection — pressing Up/Down moved the highlight (via the focus-trap) but Enter/Tab always inserted the *top* item and the caret jumped to the start of the composer. A window-level capture handler in `EmoticonAutocomplete`, `UserMentionAutocomplete`, `RoomMentionAutocomplete` and `CommandAutocomplete` was hardcoded to commit index 0. Each menu item now carries a `data-autocomplete-index`, and Enter/Tab click the focused item (reusing the mouse-click path, so the selected emoji/mention inserts and the cursor stays put); falls back to the first result when focus is still in the editor.\n- `32c880f` Fixed typing `:)` (and other punctuation smileys) auto-inserting an unrelated emoji on Enter — the emoji shortcode trigger matched any non-space text after `:`. `getAutocompleteQuery` now only treats `:` as an emoji query when the following text matches `[a-zA-Z0-9_+-]` (real shortcodes like `+1`, `e-mail`), so `:)`, `:(`, etc. send as literal text.\n- `32c880f` Improved Element-style read receipts for users without an avatar — the bare grey initial (which read like a stray newline glyph) is now centred inside a circle tinted with the user\'s `colorMXID` placeholder colour, matching how `UserAvatar` renders avatar fallbacks.\n- `32c880f` Fixed Alt+Up / Alt+Down not moving between DMs — outside a space the handler fell through to "all non-space rooms", so in the Direct Messages list it jumped to arbitrary non-DM rooms. It now matches the open sidebar: space → that space\'s rooms, Direct → DMs only, Home → orphan rooms.\n- `32c880f` Added `Ctrl+?` (Ctrl+Shift+/) as a second shortcut to toggle the keyboard-shortcuts panel, alongside the existing rebindable `Ctrl+/` (Discord parity; `Cmd+Shift+/` on macOS).\n- `c32d959` Fixed calls dropping — backported upstream\'s call-drop fix (#2954). Membership counting in `useCall`, `useCallEmbed` and `CallEmbedProvider` was using the experimental slot-based `MatrixRTCSession.sessionMembershipsForSlot()` API (carried over from an earlier backport), which could miss active participants and tear the call down. Reverted to the stable synchronous `rtcSession.memberships`, restoring reliable "call ongoing" detection and incoming-call dismissal.\n\n## 19.05.2026\n\n- `5694870` Fixed Android updater re-downloading every launch and never installing — `UpdateChecker.kt` now (1) checks for an existing APK on disk and a previously-enqueued DownloadManager job before queueing a fresh download, so a downloaded-but-uninstalled APK is reused instead of re-pulled; (2) registers a `BroadcastReceiver` for `ACTION_DOWNLOAD_COMPLETE` and fires the install intent itself with a FileProvider `content://` URI — DownloadManager\'s built-in tap-the-notification handler still generates a `file://` URI that crashes Android 7+ with `FileUriExposedException`, which was the silent failure when the user tried to install; (3) cleans up stale APKs once the new version is the installed one; (4) targets `Context.RECEIVER_EXPORTED` on Android 14+ so the dynamic receiver actually fires; (5) auto-prompts install at most once per cold start when the APK is already downloaded, so a dismissed dialog isn\'t re-shown on every relaunch.\n- `aa75417` Fixed update banner overflow on mobile — the size-300 action Button (32px tall) was poking out below a banner that auto-sized to the text height (~36px) and the Box didn\'t always stretch to the parent column, so the banner ended where the text ended and the button sat half-outside. Added explicit `width: 100%`, `min-height: 48px`, and `flex-shrink: 0` to the shared container style; the inner text Box got `min-width: 0` + `truncate` so long messages ellipsis instead of pushing the button out horizontally.\n- `fff19fa` Fixed mobile swipe gestures and modal layout — `useSwipeGesture` now refuses to engage when there is no navigation target (empty Home no longer follows the finger to nowhere); `MobileSwipeOpen` resolves the target as selected → last → first-rendered room link, so swiping in the DM tab opens the most-recent conversation; commit animates the foreground fully off-screen instead of snapping back, and `MobileFriendlyPageNav` now renders the page-nav as an absolute backdrop behind the room view on mobile sub-routes so swipe-back reveals the actual nav underneath. `Settings` modal supports left→right swipe as "X" (subpage → menu list → close) and on mobile no longer collapses to a tiny top-left island — `Modal500` explicitly flexes the content column and `interactive-widget=resizes-content` + new `useKeyboardInset` hook keep the chat input above the on-screen keyboard without leaving a gap of safe-area padding hovering over the keyboard.\n- `380ca1a` Fixed Element-style read receipts duplicating across many old messages — `useElementReadReceipts` was memoizing once per Message instance and never invalidating, so as receipts moved forward older mounted Messages kept showing the indicator at their original position. Now subscribes to `RoomEvent.Receipt` and `RoomEvent.Timeline` and rebuilds the receipt map consistently across every Message.\n- `380ca1a` Made message hover effect more subtle — `selected` background (when the right-click menu / emoji board / reaction picker is anchored on a message) was using `Surface.ContainerActive`, the same intensity the theme reserves for pressed states. Demoted to `Surface.ContainerHover` and added a faint hover tint at the same tone so plain hover and right-click feel continuous.\n- `f3e6d88` Improved multi-link embeds — multiple URL preview cards in one message now stack vertically (Discord-style) on every viewport. Previously the desktop layout was a horizontal scroller; the column layout was mobile-only.\n- `f3e6d88` Improved embed image rendering — tiny favicon-style images (`og:image:width` ≤ 96 AND `og:image:height` ≤ 96) are no longer rendered as the embed\'s main image. The text-only card (title / description / siteName) still shows. Article hero shots / post media render as before.\n\n## 18.05.2026\n\n- `9c481ba` Improved mobile layout — nav pane (Home / Direct / Search / Inbox indices) now stretches to the full viewport on mobile via inline `width: 100%` override on `PageNav` so the changelog-side empty-state doesn\'t leave whitespace.\n- `9c481ba` Improved mobile settings modal — fills viewport (`100vw` × `100dvh`), square corners, safe-area-inset padding so notch/home-bar don\'t obscure controls. Keybinds tab hidden on mobile (physical-keyboard only).\n- `9c481ba` Fixed `body { height: 100% }` keyboard breakage — switched to `100dvh` with `100%` fallback so the on-screen keyboard pushes the layout up instead of leaving inputs hidden behind it.\n- `9c481ba` Fixed gallery tap-out reopening viewer — overlay\'s `onDeactivate` now plants a transparent full-screen blocker for 350ms that swallows the next pointerdown/click, preventing the tap from bubbling through to the underlying message image.\n- `9c481ba` Mobile image viewer: tap-to-zoom replaced with pinch-to-zoom — two-finger gesture tracks distance ratio from initial pinch and scales accordingly (bounds 0.1×–5× matching the +/- buttons). Single-tap zoom kept on desktop where double-firing isn\'t an issue.\n- `47f158f` Followed up on draft-release fix — passed `draft: true` to all softprops/action-gh-release uploads (was defaulting to false and flipping the release to published on the first upload, defeating the whole point of staging as a draft); dropped the versioned `prinny-webapp-vX.Y.Z.zip` variant since the release tag already versions it and every other platform asset is single-named.\n- `ec98378` Fixed release-pipeline window where `/latest/download/*.apk` 404\'d during Android cross-compile — releases now stay drafts until every platform build (windows + linux + macos + android + webapp-zip + archive) has uploaded its artifacts, then publish atomically. Old versioned releases are deleted after publish, not before, so the previous tag stays "latest" until the new one is fully assembled.\n- `2b24087` Added README download link for the web client zip — `prinny-webapp.zip` is now uploaded with a stable filename alongside the versioned one so `releases/latest/download/prinny-webapp.zip` resolves.\n- `d047dd6` Added platform notification for update banner — `useUpdateCheck` fires `sendDesktopNotification` the first time each new version becomes available; deduped per-version so a dismissed banner doesn\'t re-notify on repeat polls. Android Tauri skipped (UpdateChecker.kt\'s own DownloadManager notification covers it).\n- `09cc5ee` Added web client dist zip to GitHub releases — new `webapp-zip` job in prinny-client\'s `build.yml` attaches `prinny-webapp-vX.Y.Z.zip` (rebrand + `npm run build` output) to every release for self-hosters who\'d rather download than `git pull`.\n- `6932b32` Replaced welcome splash with bundled changelog viewer — empty-state screen now reads `cinny/CHANGELOG.md` baked in at build time (Vite `?raw` import) and renders the latest dated bullets, links each SHA to the cinny commit page.\n- `0a803b4` Added Web Push for background notifications — service worker `push`/`notificationclick` handlers, Matrix HTTP pusher with VAPID public key from `config.json`. Falls back to foreground `window.Notification` when no gateway configured. Also flipped `usePiped` default to `false` so YouTube links resolve through youtube.com unless opted in.\n- `5abc142` Fixed Slate "Cannot resolve a DOM node" crash on message edit with emoji — new `safeFocusEditor` wrapper falls back to deselect + DOM focus when the selection is stale after autocomplete close.\n- `2afe5a1` Fixed Ctrl+/ keybinds modal silently closing itself — two window listeners cancelled each other in one tick; removed the duplicate so the toggle actually fires.\n- `2afe5a1` Fixed soundcloak embeds spamming 502s — skip homeserver `preview_url` for direct-audio URLs since it rejects `audio/mpeg`.\n- `2afe5a1` Fixed fullscreen button greyed out on YouTube iframe — `allow="fullscreen"` was overridden by the rest of the permissions policy.\n- `2afe5a1` Improved composer layout — attachment button moves to left of editor, send to the right (Discord-style).\n- `2afe5a1` Improved mobile gallery — title bar relocates to the bottom on mobile, both rows span full viewport width.\n- `2afe5a1` Improved mobile swipe gestures — follows the finger via transform with a 180ms ease-out settle on release; right-edge forward-swipe now returns to the last-visited DM.\n- `2afe5a1` Fixed double notifications on web — `sendDesktopNotification` was firing alongside an explicit `new Notification` with click handler.\n- `1180ddb` Added auto-bump-cinny workflow — reactive `repository_dispatch` from cinny\'s publish-webapp keeps prinny-client\'s submodule pointer current within ~30s of every cinny push.\n- `0a803b4` Added Web self-host download row to README — `git clone -b webapp-release https://github.com/coffeegrind123/cinny.git /usr/share/webapps/prinny` for self-hosters.\n- `4461ea0` Fixed Android updater re-downloading APK on every launch — `tauri.properties` was missing so `versionName` defaulted to `"1.0"`; `bump-version.mjs` now writes it explicitly with both versionName + versionCode.\n\n## 17.05.2026\n\n- `15a60e9` Added webapp-release publish workflow — built dist auto-publishes to the `webapp-release` branch of `coffeegrind123/cinny` on every push to `desktop-notifications`. Self-hosters install with `git clone` + `git pull`, no `npm` at deploy time.\n- `8a50134` Fixed standalone webapp build — version imports in `AuthFooter.tsx` and `WelcomePage.tsx` were going 5 directories up (which only resolves when cinny is nested under prinny-client). Switched to 4-up so both build contexts work.\n\n[End of changelog. Earlier history lives in git log.]\n', tBe = `https://github.com/coffeegrind123/prinny-client/releases`, nBe = `https://github.com/coffeegrind123/prinny/commit/`;
+    function rBe({ children: e }) {
         return (0, P.jsx)(`span`, {
             style: {
                 fontFamily: `ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace`,
@@ -138735,8 +138751,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             children: e
         });
     }
-    function rBe({ bullet: e }) {
-        let t = `${tBe}${e.sha}`;
+    function iBe({ bullet: e }) {
+        let t = `${nBe}${e.sha}`;
         return (0, P.jsxs)(L, {
             gap: `200`,
             alignItems: `Start`,
@@ -138771,7 +138787,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         flex: 1,
                         minWidth: 0
                     },
-                    children: e.parts.map((e, t)=>e.kind === `code` ? (0, P.jsx)(nBe, {
+                    children: e.parts.map((e, t)=>e.kind === `code` ? (0, P.jsx)(rBe, {
                             children: e.value
                         }, t) : (0, P.jsx)(N.Fragment, {
                             children: e.value
@@ -138780,8 +138796,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function iBe() {
-        let e = (0, N.useMemo)(()=>Xze($ze), []);
+    function aBe() {
+        let e = (0, N.useMemo)(()=>Zze(eBe), []);
         return (0, P.jsx)(oA, {
             children: (0, P.jsx)(zs, {
                 size: `300`,
@@ -138812,7 +138828,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                         `Prinny Client`,
                                         ` `,
                                         (0, P.jsxs)(`a`, {
-                                            href: eBe,
+                                            href: tBe,
                                             target: `_blank`,
                                             rel: `noreferrer noopener`,
                                             style: {
@@ -138851,13 +138867,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                 style: {
                                                     color: F.Secondary.Main
                                                 },
-                                                children: Qze(e.rawDate)
+                                                children: $ze(e.rawDate)
                                             })
                                         }),
                                         (0, P.jsx)(L, {
                                             direction: `Column`,
                                             gap: `200`,
-                                            children: e.bullets.map((e, t)=>(0, P.jsx)(rBe, {
+                                            children: e.bullets.map((e, t)=>(0, P.jsx)(iBe, {
                                                     bullet: e
                                                 }, `${e.sha}-${t}`))
                                         })
@@ -138906,9 +138922,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     function B5() {
-        return (0, P.jsx)(iBe, {});
+        return (0, P.jsx)(aBe, {});
     }
-    var aBe = `_1ho1fyw0 _1mqalmd1 _1mqalmd0`, oBe = `_1ho1fyw1 _1mqalmd1 _1mqalmd0`, sBe = $E({
+    var oBe = `_1ho1fyw0 _1mqalmd1 _1mqalmd0`, sBe = `_1ho1fyw1 _1mqalmd1 _1mqalmd0`, cBe = $E({
         defaultClassName: `_1ho1fyw4 _1mqalmd1 _1mqalmd0 _1bugis91 _1ho1fyw3`,
         variantClassNames: {
             active: {
@@ -138917,7 +138933,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         },
         defaultVariants: {},
         compoundVariants: []
-    }), cBe = $E({
+    }), lBe = $E({
         defaultClassName: `_1ho1fyw6 _1mqalmd1 _1mqalmd0`,
         variantClassNames: {
             hasCount: {
@@ -138929,7 +138945,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             hasCount: !1
         },
         compoundVariants: []
-    }), lBe = $E({
+    }), uBe = $E({
         defaultClassName: `_1ho1fyw9`,
         variantClassNames: {
             size: {
@@ -138945,7 +138961,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             size: `400`
         },
         compoundVariants: []
-    }), uBe = $E({
+    }), dBe = $E({
         defaultClassName: `_1ho1fywe _1rwrsxz0 _1mqalmd1 _1mqalmd0 _1rwrsxz1 _1bugis90 _1ho1fyw3`,
         variantClassNames: {
             state: {
@@ -138957,7 +138973,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             state: `Close`
         },
         compoundVariants: []
-    }), dBe = $E({
+    }), fBe = $E({
         defaultClassName: `_1ho1fywh`,
         variantClassNames: {
             position: {
@@ -138967,18 +138983,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         },
         defaultVariants: {},
         compoundVariants: []
-    }), fBe = jo(({ as: e = `div`, className: t, ...n }, r)=>(0, P.jsx)(e, {
-            className: (0, Xa.default)(aBe, t),
+    }), pBe = jo(({ as: e = `div`, className: t, ...n }, r)=>(0, P.jsx)(e, {
+            className: (0, Xa.default)(oBe, t),
             ...n,
             ref: r
         })), V5 = jo(({ as: e = `div`, className: t, active: n, ...r }, i)=>(0, P.jsx)(e, {
-            className: (0, Xa.default)(sBe({
+            className: (0, Xa.default)(cBe({
                 active: n
             }), t),
             ...r,
             ref: i
         })), H5 = jo(({ as: e = `div`, className: t, hasCount: n, ...r }, i)=>(0, P.jsx)(e, {
-            className: (0, Xa.default)(cBe({
+            className: (0, Xa.default)(lBe({
                 hasCount: n
             }), t),
             ...r,
@@ -139001,7 +139017,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }) : t(()=>void 0);
     }
     var W5 = jo(({ className: e, size: t, outlined: n, radii: r, ...i }, a)=>(0, P.jsx)(Bo, {
-            className: (0, Xa.default)(lBe({
+            className: (0, Xa.default)(uBe({
                 size: t,
                 outlined: n
             }), e),
@@ -139009,19 +139025,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ...i,
             ref: a
         })), G5 = jo(({ as: e = `div`, className: t, state: n, ...r }, i)=>(0, P.jsx)(e, {
-            className: (0, Xa.default)(uBe({
+            className: (0, Xa.default)(dBe({
                 state: n
             }), t),
             ...r,
             ref: i
         })), K5 = jo(({ as: e = `div`, className: t, position: n, ...r }, i)=>(0, P.jsx)(e, {
-            className: (0, Xa.default)(dBe({
+            className: (0, Xa.default)(fBe({
                 position: n
             }), t),
             ...r,
             ref: i
         }));
-    function pBe({ scrollable: e, sticky: t }) {
+    function mBe({ scrollable: e, sticky: t }) {
         return (0, P.jsxs)(P.Fragment, {
             children: [
                 (0, P.jsx)(L, {
@@ -139038,7 +139054,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     var q5 = jo(({ as: e = `div`, className: t, ...n }, r)=>(0, P.jsx)(e, {
-            className: (0, Xa.default)(oBe, t),
+            className: (0, Xa.default)(sBe, t),
             ...n,
             ref: r
         }));
@@ -139053,7 +139069,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             size: `300`
         });
     }
-    var mBe = (0, N.forwardRef)(({ rooms: e, requestClose: t }, n)=>{
+    var hBe = (0, N.forwardRef)(({ rooms: e, requestClose: t }, n)=>{
         let [r] = J(K, `hideReadReceipts`), i = rB(e, UD), a = q();
         return (0, P.jsx)(ms, {
             ref: n,
@@ -139091,7 +139107,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     });
-    function hBe() {
+    function gBe() {
         let e = Ym(), t = Zv(), n = Vd(kz()), r = lz(), i = Ez(), a = Dz(), o = r.directsInHome && !r.dmRailButtons, s = (0, N.useMemo)(()=>{
             let e = [];
             return r.roomsInHome && e.push(...i), o && e.push(...a), e;
@@ -139152,7 +139168,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             isKeyBackward: (e)=>e.key === `ArrowUp`,
                             escapeDeactivates: Uv
                         },
-                        children: (0, P.jsx)(mBe, {
+                        children: (0, P.jsx)(hBe, {
                             rooms: s,
                             requestClose: ()=>p(void 0)
                         })
@@ -139161,7 +139177,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var gBe = (0, N.forwardRef)(({ requestClose: e }, t)=>{
+    var _Be = (0, N.forwardRef)(({ requestClose: e }, t)=>{
         let n = Dz(), [r] = J(K, `hideReadReceipts`), i = rB(n, UD), a = q();
         return (0, P.jsx)(ms, {
             ref: t,
@@ -139199,7 +139215,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     });
-    function _Be() {
+    function vBe() {
         let e = Ym(), t = q(), n = Zv(), r = Vd(kz()), i = Tz(t, gD, Vd(vD)), a = lz(), o = rB((0, N.useMemo)(()=>a.dmRailButtons ? [] : i, [
             a.dmRailButtons,
             i
@@ -139255,7 +139271,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             isKeyBackward: (e)=>e.key === `ArrowUp`,
                             escapeDeactivates: Uv
                         },
-                        children: (0, P.jsx)(gBe, {
+                        children: (0, P.jsx)(_Be, {
                             requestClose: ()=>c(void 0)
                         })
                     })
@@ -139266,10 +139282,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function Y5({ roomId: e, children: t }) {
         return t(iB(e, UD));
     }
-    function vBe({ rooms: e, children: t }) {
+    function yBe({ rooms: e, children: t }) {
         return t(rB(e, UD));
     }
-    var yBe = (0, N.forwardRef)(({ room: e, requestClose: t }, n)=>{
+    var bBe = (0, N.forwardRef)(({ room: e, requestClose: t }, n)=>{
         let [r] = J(K, `hideReadReceipts`), i = q();
         return (0, P.jsx)(ms, {
             ref: n,
@@ -139306,7 +139322,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     });
-    function bBe({ room: e, selected: t, onClick: n }) {
+    function xBe({ room: e, selected: t, onClick: n }) {
         let r = q(), i = Nj(), [a, o] = (0, N.useState)(), s = (e)=>{
             e.preventDefault();
             let t = e.currentTarget.getBoundingClientRect();
@@ -139359,7 +139375,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     isKeyBackward: (e)=>e.key === `ArrowUp`,
                                     escapeDeactivates: Uv
                                 },
-                                children: (0, P.jsx)(yBe, {
+                                children: (0, P.jsx)(bBe, {
                                     room: e,
                                     requestClose: ()=>o(void 0)
                                 })
@@ -139369,7 +139385,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function xBe() {
+    function SBe() {
         let e = q(), t = Ym(), n = Dz(), r = zz(), i = Vd(UD), a = (0, N.useMemo)(()=>Array.from(n).filter((e)=>i.has(e) || e === r).sort(CV(e)), [
             e,
             n,
@@ -139385,7 +139401,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 (0, P.jsx)(q5, {
                     children: a.map((t)=>{
                         let n = e.getRoom(t);
-                        return n ? (0, P.jsx)(bBe, {
+                        return n ? (0, P.jsx)(xBe, {
                             room: n,
                             selected: r === t,
                             onClick: o
@@ -139395,7 +139411,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var SBe = (0, N.forwardRef)(({ requestClose: e }, t)=>{
+    var CBe = (0, N.forwardRef)(({ requestClose: e }, t)=>{
         let n = Ez(), [r] = J(K, `hideReadReceipts`), i = rB(n, UD), a = q();
         return (0, P.jsx)(ms, {
             ref: t,
@@ -139433,7 +139449,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     });
-    function CBe() {
+    function wBe() {
         let e = Ym(), t = Zv(), n = Vd(kz()), r = rB(Ez(), UD), i = $ge(), [a, o] = (0, N.useState)(), s = ()=>{
             let r = n.get(`rooms`);
             if (r && t !== qv.Mobile) {
@@ -139486,7 +139502,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             isKeyBackward: (e)=>e.key === `ArrowUp`,
                             escapeDeactivates: Uv
                         },
-                        children: (0, P.jsx)(SBe, {
+                        children: (0, P.jsx)(CBe, {
                             requestClose: ()=>o(void 0)
                         })
                     })
@@ -139500,7 +139516,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             return Object.is(e[n], t[n]);
         });
     }
-    function wBe() {
+    function TBe() {
         var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : X5, t = null;
         return function(n) {
             return t && e(t.value, n) || (t = {
@@ -139508,7 +139524,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }), t.value;
         };
     }
-    var TBe = [
+    var EBe = [
         `block`
     ];
     function Z5(e, t) {
@@ -139533,7 +139549,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return e;
     }
     var $5 = Symbol(`tree-item-instruction`);
-    function EBe(e) {
+    function DBe(e) {
         return {
             x: (e.right + e.left) / 2,
             y: (e.bottom + e.top) / 2
@@ -139543,7 +139559,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         var t = e.client, n = e.borderBox, r = n.height / 4;
         return t.y <= n.top + r ? `reorder-above` : t.y >= n.bottom - r ? `reorder-below` : `make-child`;
     }
-    function DBe(e) {
+    function OBe(e) {
         var t = e.element, n = e.input, r = e.currentLevel, i = e.indentPerLevel, a = e.mode, o = {
             x: n.clientX,
             y: n.clientY
@@ -139556,7 +139572,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             indentPerLevel: i,
             currentLevel: r
         };
-        var c = EBe(s);
+        var c = DBe(s);
         if (a === `expanded`) {
             var l = e7({
                 borderBox: s,
@@ -139595,29 +139611,29 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function t7(e, t) {
         return e.type === t.type ? e.type === `instruction-blocked` && t.type === `instruction-blocked` ? t7(e.desired, t.desired) : X5(e, t) : !1;
     }
-    var OBe = wBe(t7);
-    function kBe(e) {
+    var kBe = TBe(t7);
+    function ABe(e) {
         var t = e.desired, n = e.block;
         return n != null && n.includes(t.type) && t.type !== `instruction-blocked` ? {
             type: `instruction-blocked`,
             desired: t
         } : t;
     }
-    function ABe(e, t) {
-        var n = t.block, r = OBe(kBe({
-            desired: DBe(kn(t, TBe)),
+    function jBe(e, t) {
+        var n = t.block, r = kBe(ABe({
+            desired: OBe(kn(t, EBe)),
             block: n
         }));
         return Q5(Q5({}, e), {}, A({}, $5, r));
     }
-    function jBe(e) {
+    function MBe(e) {
         return e[$5] ?? null;
     }
-    var n7 = (0, N.createContext)(null), MBe = n7.Provider, NBe = ()=>{
+    var n7 = (0, N.createContext)(null), NBe = n7.Provider, PBe = ()=>{
         let e = (0, N.useContext)(n7);
         if (!e) throw Error(`OpenedSidebarFolderAtom is not provided!`);
         return e;
-    }, PBe = (0, N.forwardRef)(({ room: e, requestClose: t, onUnpin: n }, r)=>{
+    }, FBe = (0, N.forwardRef)(({ room: e, requestClose: t, onUnpin: n }, r)=>{
         let i = q(), [a] = J(K, `hideReadReceipts`), o = Vd(bD), s = jP(e), c = zR(VR(e), s).action(`invite`, i.getSafeUserId()), l = k2(), [u, d] = (0, N.useState)(!1), f = xz(gD, e.roomId, bz(i, o)), p = MD(), m = rB(f, UD);
         return (0, P.jsxs)(ms, {
             ref: r,
@@ -139823,7 +139839,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         `reparent`
                     ];
                     typeof e == `object` && e.spaceId && i.push(`make-child`);
-                    let a = jBe(ABe({}, {
+                    let a = MBe(jBe({}, {
                         input: t,
                         element: n,
                         currentLevel: 0,
@@ -139864,7 +139880,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n
         ]), r;
     }
-    var FBe = (e, t, n)=>{
+    var IBe = (e, t, n)=>{
         (0, N.useEffect)(()=>{
             let r = e.current;
             if (!r) throw Error(`Scroll element ref not configured`);
@@ -139977,7 +139993,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     isKeyBackward: (e)=>e.key === `ArrowUp`,
                                     escapeDeactivates: Uv
                                 },
-                                children: (0, P.jsx)(PBe, {
+                                children: (0, P.jsx)(FBe, {
                                     room: e,
                                     requestClose: ()=>g(void 0),
                                     onUnpin: s
@@ -139988,7 +140004,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function IBe({ folder: e, onClose: t, children: n }) {
+    function LBe({ folder: e, onClose: t, children: n }) {
         let r = (0, N.useRef)(null), i = (0, N.useRef)(null), a = (0, N.useMemo)(()=>({
                 folder: e,
                 open: !0
@@ -140026,7 +140042,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function LBe({ folder: e, selected: t, onOpen: n, onDragging: r, disabled: i }) {
+    function RBe({ folder: e, selected: t, onOpen: n, onDragging: r, disabled: i }) {
         let a = q(), o = Nj(), s = (0, N.useRef)(null), c = (0, N.useMemo)(()=>({
                 folder: e
             }), [
@@ -140034,7 +140050,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ]);
         r7(c, s, r);
         let l = i7(c, s)?.type, u = e.name ?? e.content.map((e)=>a.getRoom(e)?.name ?? ``).join(`, `) ?? `Unnamed`;
-        return (0, P.jsx)(vBe, {
+        return (0, P.jsx)(yBe, {
             rooms: e.content,
             children: (r)=>(0, P.jsxs)(V5, {
                     active: t,
@@ -140082,9 +140098,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function RBe({ scrollRef: e }) {
-        let t = Ym(), n = q(), r = Zv(), i = Cz(n, gD, Vd(bD)), [a, o] = E5(i), s = Vd(kz()), [c, l] = Ud(NBe()), [u, d] = (0, N.useState)(), f = tV(), p = aV(f) ? f?.roomId : void 0;
-        FBe(e, d, (0, N.useCallback)((e, t, r)=>{
+    function zBe({ scrollRef: e }) {
+        let t = Ym(), n = q(), r = Zv(), i = Cz(n, gD, Vd(bD)), [a, o] = E5(i), s = Vd(kz()), [c, l] = Ud(PBe()), [u, d] = (0, N.useState)(), f = tV(), p = aV(f) ? f?.roomId : void 0;
+        IBe(e, d, (0, N.useCallback)((e, t, r)=>{
             let s = [], c = (e, t)=>typeof e == `string` && typeof t == `string` ? e === t : typeof e == `object` && typeof t == `object` && e.id === t.folder.id, u = (e)=>typeof e == `string` ? [
                     e
                 ] : e.spaceId ? [
@@ -140205,7 +140221,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 (0, P.jsx)(J5, {}),
                 (0, P.jsx)(q5, {
                     children: a.map((e)=>{
-                        if (typeof e == `object`) return c.has(e.id) ? (0, P.jsx)(IBe, {
+                        if (typeof e == `object`) return c.has(e.id) ? (0, P.jsx)(LBe, {
                             folder: e,
                             onClose: g,
                             children: e.content.map((t)=>{
@@ -140221,7 +140237,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     onUnpin: i.includes(r.roomId) ? void 0 : _
                                 }, r.roomId) : null;
                             })
-                        }, e.id) : (0, P.jsx)(LBe, {
+                        }, e.id) : (0, P.jsx)(RBe, {
                             folder: e,
                             selected: !!m && e.content.includes(m),
                             onOpen: g,
@@ -140243,7 +140259,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function zBe() {
+    function s7() {
         let e = Zv(), t = Ym(), n = Fk(), r = Ik(), i = Vd(mD).length, a = ()=>{
             if (e === qv.Mobile) {
                 t(gT());
@@ -140544,10 +140560,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function s7() {
+    function c7() {
         let e = (0, N.useRef)(null), t = lz();
-        return (0, P.jsx)(fBe, {
-            children: (0, P.jsx)(pBe, {
+        return (0, P.jsx)(pBe, {
+            children: (0, P.jsx)(mBe, {
                 scrollable: (0, P.jsxs)(zs, {
                     ref: e,
                     variant: `Background`,
@@ -140555,13 +140571,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     children: [
                         (0, P.jsxs)(q5, {
                             children: [
-                                (0, P.jsx)(hBe, {}),
-                                t.roomsPseudoSpace && (0, P.jsx)(CBe, {}),
-                                t.directTab && (0, P.jsx)(_Be, {})
+                                (0, P.jsx)(gBe, {}),
+                                t.roomsPseudoSpace && (0, P.jsx)(wBe, {}),
+                                t.directTab && (0, P.jsx)(vBe, {})
                             ]
                         }),
-                        t.dmRailButtons && (0, P.jsx)(xBe, {}),
-                        (0, P.jsx)(RBe, {
+                        t.dmRailButtons && (0, P.jsx)(SBe, {}),
+                        (0, P.jsx)(zBe, {
                             scrollRef: e
                         }),
                         (0, P.jsx)(J5, {}),
@@ -140580,7 +140596,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: [
                                 (0, P.jsx)(WBe, {}),
                                 (0, P.jsx)(UBe, {}),
-                                !t.topBar && (0, P.jsx)(zBe, {}),
+                                !t.topBar && (0, P.jsx)(s7, {}),
                                 !t.topBarProfile && (0, P.jsx)(VBe, {})
                             ]
                         })
@@ -140601,7 +140617,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
         return t === qv.Mobile ? n || r ? e : null : e;
     }
-    function c7({ path: e, children: t }) {
+    function l7({ path: e, children: t }) {
         let n = Zv(), r = Km({
             path: e,
             caseSensitive: !0,
@@ -140619,11 +140635,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             children: t
         });
     }
-    var l7, JBe = (e)=>{
-        l7 = e;
-    }, u7 = ()=>l7;
-    function d7() {
-        let e = q(), t = u7(), n = t ? e.getRoom(t) : void 0;
+    var u7, JBe = (e)=>{
+        u7 = e;
+    }, d7 = ()=>u7;
+    function f7() {
+        let e = q(), t = d7(), n = t ? e.getRoom(t) : void 0;
         return n ? (0, P.jsx)(`div`, {
             "aria-hidden": !0,
             style: {
@@ -140643,7 +140659,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         }) : null;
     }
-    function f7({ children: e }) {
+    function p7({ children: e }) {
         let t = Zv(), n = Ym(), r = q(), i = (0, N.useRef)(null), a = zz(), o = Vd(vD);
         (0, N.useEffect)(()=>{
             a && JBe(a);
@@ -140651,7 +140667,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             a
         ]);
         let s = (0, N.useCallback)(()=>{
-            let e = a ?? u7();
+            let e = a ?? d7();
             if (e && r.getRoom(e)) {
                 let t = hw(r, e);
                 return Array.from(o.values()).some((t)=>t.includes(e)) ? sT(t) : eT(t);
@@ -140716,7 +140732,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 flexShrink: 0,
                                 display: `flex`
                             },
-                            children: (0, P.jsx)(s7, {})
+                            children: (0, P.jsx)(c7, {})
                         }),
                         (0, P.jsx)(`div`, {
                             "data-mobile-swipe-open": l ? `true` : void 0,
@@ -140762,7 +140778,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function eVe({ children: e }) {
         let t = q().getUserId(), n = (0, N.useMemo)(()=>Fje(t), [
             t
-        ]), r = (0, N.useMemo)(()=>rRe(t), [
+        ]), r = (0, N.useMemo)(()=>iRe(t), [
             t
         ]), i = (0, N.useMemo)(()=>Boe(t), [
             t
@@ -140773,11 +140789,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ]);
         return (0, P.jsx)(Kje, {
             value: n,
-            children: (0, P.jsx)(_ze, {
+            children: (0, P.jsx)(vze, {
                 value: r,
                 children: (0, P.jsx)(Rge, {
                     value: i,
-                    children: (0, P.jsx)(MBe, {
+                    children: (0, P.jsx)(NBe, {
                         value: a,
                         children: (0, P.jsx)(L_e, {
                             value: o,
@@ -140788,27 +140804,27 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var tVe = `/assets/prinny-unread-BZ1rSVi0.svg`, nVe = `/assets/prinny-highlight-CO1bFsCX.svg`, rVe = `/assets/notification-EtLMRd0T.ogg`, iVe = `/assets/invite-DROg5x7-.ogg`, p7 = 64, aVe = `#1245A8`, oVe = `#9D0F0F`, m7 = new Map, sVe = (e)=>new Promise((t, n)=>{
+    var tVe = `/assets/prinny-unread-BZ1rSVi0.svg`, nVe = `/assets/prinny-highlight-CO1bFsCX.svg`, rVe = `/assets/notification-EtLMRd0T.ogg`, iVe = `/assets/invite-DROg5x7-.ogg`, m7 = 64, aVe = `#1245A8`, oVe = `#9D0F0F`, h7 = new Map, sVe = (e)=>new Promise((t, n)=>{
             let r = new Image;
             r.onload = ()=>t(r), r.onerror = ()=>n(Error(`favicon base image failed to load: ${e}`)), r.src = e;
-        }), h7 = async (e, t, n)=>{
+        }), cVe = async (e, t, n)=>{
         if (t <= 0) return;
-        let r = `${e}|${t}|${n}`, i = m7.get(r);
+        let r = `${e}|${t}|${n}`, i = h7.get(r);
         if (i) return i;
         try {
             let i = await sVe(e), a = document.createElement(`canvas`);
-            a.width = p7, a.height = p7;
+            a.width = m7, a.height = m7;
             let o = a.getContext(`2d`);
             if (!o) return;
-            o.drawImage(i, 0, 0, p7, p7);
-            let s = t > 99 ? `99+` : String(t), c = s.length > 2, l = c ? 22 : 19, u = p7 - l - 2, d = p7 - l - 2;
+            o.drawImage(i, 0, 0, m7, m7);
+            let s = t > 99 ? `99+` : String(t), c = s.length > 2, l = c ? 22 : 19, u = m7 - l - 2, d = m7 - l - 2;
             o.beginPath(), o.arc(u, d, l + 4, 0, Math.PI * 2), o.fillStyle = `#FFFFFF`, o.fill(), o.beginPath(), o.arc(u, d, l, 0, Math.PI * 2), o.fillStyle = n ? oVe : aVe, o.fill(), o.fillStyle = `#FFFFFF`, o.font = `bold ${c ? 20 : 26}px system-ui, sans-serif`, o.textAlign = `center`, o.textBaseline = `middle`, o.fillText(s, u, d + 1);
             let f = a.toDataURL(`image/png`);
-            return m7.set(r, f), f;
+            return h7.set(r, f), f;
         } catch  {
             return;
         }
-    }, cVe = (e, t)=>{
+    }, lVe = (e, t)=>{
         let n = (0, N.useRef)(t);
         return (0, N.useEffect)(()=>{
             n.current = e;
@@ -140816,7 +140832,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), n.current;
     };
-    function lVe() {
+    function uVe() {
         let [e] = J(K, `minimizeToTray`), t = (0, N.useRef)(e);
         t.current = e;
         let n = (0, N.useRef)(!1);
@@ -140892,7 +140908,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })());
         }, []);
     }
-    var uVe = ()=>{
+    var dVe = ()=>{
         let [e] = J(K, `contentProtection`);
         (0, N.useEffect)(()=>{
             Kr() && ai(`set_content_protection`, {
@@ -140902,7 +140918,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]);
     };
-    function dVe() {
+    function fVe() {
         let e = (0, N.useRef)(typeof document > `u` || document.hasFocus());
         return (0, N.useEffect)(()=>{
             let t = ()=>{
@@ -140933,7 +140949,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             };
         }, []), e;
     }
-    var fVe = ()=>{
+    var pVe = ()=>{
         let e = q(), [t] = J(K, `autoJoinSpaceRooms`), n = Sz(e, gD), r = Vd(m8), [i] = E5(Cz(e, gD, Vd(bD))), a = (0, N.useRef)(new Set), [o, s] = DP();
         wD(e, (0, N.useCallback)((e)=>{
             let t = e.getType();
@@ -141013,7 +141029,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         } catch  {
             return;
         }
-    }, pVe = (e)=>{
+    }, mVe = (e)=>{
         let t = e.details, n = e.state;
         if (e.type === 2 && t && n) {
             let r = g7(e.timestamps?.start), i = g7(e.timestamps?.end), a = r && i && i > r ? {
@@ -141044,13 +141060,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             },
             coverUrl: _7(e.assets?.large_image)
         };
-    }, v7 = (e)=>e.type === wE, mVe = (e, t)=>v7(e) ? {
+    }, v7 = (e)=>e.type === wE, hVe = (e, t)=>v7(e) ? {
             ...e,
             cover_art: t
         } : {
             ...e,
             image: t
-        }, hVe = (e, t)=>e === null || t === null ? e === t : JSON.stringify(e) === JSON.stringify(t), y7 = 5e3, gVe = `rich-presence-activity`, _Ve = ()=>{
+        }, gVe = (e, t)=>e === null || t === null ? e === t : JSON.stringify(e) === JSON.stringify(t), y7 = 5e3, _Ve = `rich-presence-activity`, vVe = ()=>{
         let e = q(), [t] = J(K, `publishRichPresence`), n = Hd(sN);
         (0, N.useEffect)(()=>{
             if (!t) {
@@ -141058,7 +141074,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 return;
             }
             let r = !1, i = !1, a = null, o = null, c = 0, l = !1, u, d = new Map, f = new Set, p, m = async ()=>{
-                if (!(r || l) && !hVe(a, o)) {
+                if (!(r || l) && !gVe(a, o)) {
                     l = !0;
                     try {
                         a ? await e.setExtendedProfileProperty(CE, a) : await e.deleteExtendedProfileProperty(CE), o = a, c = Date.now();
@@ -141066,7 +141082,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     l = !1;
                 }
             }, h = (e, t)=>{
-                r || !t || p !== e || !a || (v7(a) ? a.cover_art : a.image) || (a = mVe(a, t), m());
+                r || !t || p !== e || !a || (v7(a) ? a.cover_art : a.image) || (a = hVe(a, t), m());
             }, g = (t)=>{
                 if (d.has(t)) {
                     h(t, d.get(t) ?? null);
@@ -141082,7 +141098,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 if (!r) {
                     if (!e) a = null, p = void 0;
                     else {
-                        let { payload: t, coverUrl: n } = pVe(e);
+                        let { payload: t, coverUrl: n } = mVe(e);
                         a = t, p = n, n && g(n);
                     }
                     Date.now() - c >= y7 && m();
@@ -141121,7 +141137,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     return;
                 }
                 if (i = !0, r) return;
-                let o = await t(gVe, (e)=>_(e.payload));
+                let o = await t(_Ve, (e)=>_(e.payload));
                 if (r) {
                     o();
                     return;
@@ -141155,23 +141171,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n
         ]);
     };
-    function vVe() {
-        return _Ve(), null;
+    function yVe() {
+        return vVe(), null;
     }
-    var yVe = 50, bVe = (e)=>`user:${e}`, xVe = (e)=>`room:${e}`;
-    function SVe(e) {
+    var bVe = 50, xVe = (e)=>`user:${e}`, SVe = (e)=>`room:${e}`;
+    function CVe(e) {
         let t = Vd(vD), n = Vd(gD), r = Nj();
         (0, N.useEffect)(()=>{
             if (!e) return;
             let i = !1;
             return (async ()=>{
                 if (!await ci() || i) return;
-                let a = e.getAccessToken(), o = r && a ? `Bearer ${a}` : void 0, s = n.map((t)=>e.getRoom(t)).filter((e)=>!!e).sort((e, t)=>t.getLastActiveTimestamp() - e.getLastActiveTimestamp()).slice(0, yVe);
+                let a = e.getAccessToken(), o = r && a ? `Bearer ${a}` : void 0, s = n.map((t)=>e.getRoom(t)).filter((e)=>!!e).sort((e, t)=>t.getLastActiveTimestamp() - e.getLastActiveTimestamp()).slice(0, bVe);
                 for (let n of s){
                     if (i) return;
                     let a = t.has(n.roomId), s = a ? UC(e, n, 96, r) : HC(e, n, 96, r);
                     if (!s) continue;
-                    let c = a ? ww(n, e.getSafeUserId()) : void 0, l = c ? bVe(c) : xVe(n.roomId);
+                    let c = a ? ww(n, e.getSafeUserId()) : void 0, l = c ? xVe(c) : SVe(n.roomId);
                     await ri(s, o, e.baseUrl, l).catch(()=>void 0);
                 }
             })().catch(()=>{}), ()=>{
@@ -141782,14 +141798,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         async onThemeChanged(e) {
             return this.listen(_i.WINDOW_THEME_CHANGED, e);
         }
-    }, CVe;
+    }, wVe;
     (function(e) {
         e.Disabled = `disabled`, e.Throttle = `throttle`, e.Suspend = `suspend`;
-    })(CVe ||= {});
-    var wVe;
+    })(wVe ||= {});
+    var TVe;
     (function(e) {
         e.Default = `default`, e.FluentOverlay = `fluentOverlay`;
-    })(wVe ||= {});
+    })(TVe ||= {});
     var O7;
     (function(e) {
         e.AppearanceBased = `appearanceBased`, e.Light = `light`, e.Dark = `dark`, e.MediumLight = `mediumLight`, e.UltraDark = `ultraDark`, e.Titlebar = `titlebar`, e.Selection = `selection`, e.Menu = `menu`, e.Popover = `popover`, e.Sidebar = `sidebar`, e.HeaderView = `headerView`, e.Sheet = `sheet`, e.WindowBackground = `windowBackground`, e.HudWindow = `hudWindow`, e.FullScreenUI = `fullScreenUI`, e.Tooltip = `tooltip`, e.ContentBackground = `contentBackground`, e.UnderWindowBackground = `underWindowBackground`, e.UnderPageBackground = `underPageBackground`, e.Mica = `mica`, e.Blur = `blur`, e.Acrylic = `acrylic`, e.Tabbed = `tabbed`, e.TabbedDark = `tabbedDark`, e.TabbedLight = `tabbedLight`;
@@ -141798,13 +141814,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     (function(e) {
         e.FollowsWindowActiveState = `followsWindowActiveState`, e.Active = `active`, e.Inactive = `inactive`;
     })(k7 ||= {});
-    var TVe = {
+    var EVe = {
         roomid: `!`,
         r: `#`,
         u: `@`,
         user: `@`,
         room: `#`
-    }, A7 = (e)=>/^[!#@][^\s:]+:[^\s:/]+(?::\d+)?$/.test(e) && e.length <= 255, j7 = (e)=>e.startsWith(`$`) && e.length > 1 && e.length <= 255 && !/\s/.test(e), EVe = (e)=>{
+    }, A7 = (e)=>/^[!#@][^\s:]+:[^\s:/]+(?::\d+)?$/.test(e) && e.length <= 255, j7 = (e)=>e.startsWith(`$`) && e.length > 1 && e.length <= 255 && !/\s/.test(e), DVe = (e)=>{
         let t;
         try {
             t = new URL(e);
@@ -141814,7 +141830,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         if (t.protocol !== `matrix:`) return;
         let n = t.pathname.replace(/^\/+/, ``).split(`/`).filter((e)=>e !== ``);
         if (n.length < 2) return;
-        let [r, i, ...a] = n, o = TVe[r.toLowerCase()];
+        let [r, i, ...a] = n, o = EVe[r.toLowerCase()];
         if (!o) return;
         let s = decodeURIComponent(i), c = s.startsWith(o) ? s : `${o}${s}`;
         if (!A7(c)) return;
@@ -141837,7 +141853,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             roomIdOrAlias: c,
             viaServers: l
         };
-    }, DVe = (e)=>{
+    }, OVe = (e)=>{
         let t;
         try {
             t = new URL(e);
@@ -141868,13 +141884,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             roomIdOrAlias: s,
             viaServers: c
         };
-    }, OVe = (e)=>{
+    }, kVe = (e)=>{
         let t = e.trim();
-        return t.toLowerCase().startsWith(`matrix:`) ? EVe(t) : DVe(t);
-    }, kVe = ()=>{
+        return t.toLowerCase().startsWith(`matrix:`) ? DVe(t) : OVe(t);
+    }, AVe = ()=>{
         let e = q(), t = Ym(), { navigateRoom: n, navigateSpace: r } = BV();
         return (0, N.useCallback)((i)=>{
-            let a = OVe(i);
+            let a = kVe(i);
             if (!a) return !1;
             if (a.kind === `user`) {
                 let t = e.getRooms().find((e)=>e.getMyMembership() === `join` && e.getJoinedMemberCount() === 2 && e.getMember(a.userId));
@@ -141893,8 +141909,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             r
         ]);
     };
-    function AVe() {
-        let e = kVe();
+    function jVe() {
+        let e = AVe();
         return (0, N.useEffect)(()=>{
             let t = (t)=>{
                 if (t.button !== 0 || t.metaKey || t.ctrlKey || t.shiftKey || t.altKey) return;
@@ -141931,7 +141947,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), null;
     }
-    var jVe = /^@[^\s:]+:[^\s/]+$/, MVe = (e)=>{
+    var MVe = /^@[^\s:]+:[^\s/]+$/, NVe = (e)=>{
         let t;
         try {
             t = new URL(e);
@@ -141952,7 +141968,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         } catch  {
             return null;
         }
-        if (!jVe.test(r)) return null;
+        if (!MVe.test(r)) return null;
         let i = t.searchParams.get(`start`);
         return i === null ? {
             userId: r
@@ -141960,11 +141976,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             userId: r,
             payload: i
         } : null;
-    }, M7 = (e)=>e ? `/start ${e}` : `/start`, NVe = {
+    }, M7 = (e)=>e ? `/start ${e}` : `/start`, PVe = {
         padding: `0 ${I.space.S200} 0 ${I.space.S400}`,
         borderBottomWidth: I.borderWidth.B300
     };
-    function PVe() {
+    function FVe() {
         let e = q(), { navigateRoom: t } = BV(), [n, r] = (0, N.useState)(null), [i, a] = Rg((0, N.useCallback)(async (n)=>{
             let r = Cw(e, n.userId)?.roomId;
             return r || (r = (await e.createRoom({
@@ -141985,7 +142001,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e,
             t
         ])), o = (0, N.useCallback)((e)=>{
-            let t = MVe(e);
+            let t = NVe(e);
             return t ? (r(t), !0) : !1;
         }, []);
         (0, N.useEffect)(()=>{
@@ -142043,7 +142059,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         variant: `Surface`,
                         children: [
                             (0, P.jsxs)(is, {
-                                style: NVe,
+                                style: PVe,
                                 variant: `Surface`,
                                 size: `500`,
                                 children: [
@@ -142146,14 +142162,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var FVe = (e)=>{
+    var IVe = (e)=>{
         if (typeof e != `object` || !e) return !1;
         let t = e;
         return typeof t.text != `string` || typeof t.subject != `string` || !Array.isArray(t.files) ? !1 : t.files.every((e)=>typeof e == `object` && !!e && typeof e.token == `string`);
     }, N7 = (e)=>{
         let { text: t, subject: n } = e;
         return n ? t ? t.includes(n) ? t : `${n}\n${t}` : n : t;
-    }, IVe = async (e)=>{
+    }, LVe = async (e)=>{
         let { invoke: t } = await s(async ()=>{
             let { invoke: e } = await import(`./core-CGI43Uw5.js`).then(async (m)=>{
                 await m.__tla;
@@ -142171,7 +142187,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ], n.name, {
             type: n.mime
         });
-    }, LVe = async (e)=>{
+    }, RVe = async (e)=>{
         if (!Kr()) return ()=>{};
         try {
             let { addPluginListener: t, invoke: n } = await s(async ()=>{
@@ -142184,7 +142200,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     invoke: t
                 };
             }, __vite__mapDeps([0,1])), r = await t(`share-target`, `share-received`, (t)=>{
-                if (!FVe(t)) {
+                if (!IVe(t)) {
                     console.error(`[share] Ignoring share payload of unexpected shape:`, t);
                     return;
                 }
@@ -142199,7 +142215,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         } catch (e) {
             return console.error(`[share] Failed to register share-received listener:`, e), ()=>{};
         }
-    }, RVe = {
+    }, zVe = {
         limit: 1e3,
         matchOptions: {
             contain: !0
@@ -142207,7 +142223,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         normalizeOptions: {
             ignoreWhitespace: !1
         }
-    }, zVe = (e)=>e.split(`
+    }, BVe = (e)=>e.split(`
 `).map((e)=>({
                 type: T$.Paragraph,
                 children: [
@@ -142216,7 +142232,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     }
                 ]
             }));
-    function BVe({ payload: e, requestClose: t }) {
+    function VVe({ payload: e, requestClose: t }) {
         let n = q(), r = Pd(), i = Nj(), { navigateRoom: a } = BV(), o = (0, N.useRef)(null), s = Vd(vD), c = wz(n, gD, s), l = Tz(n, gD, s), u = kB(OB()), [d, f] = (0, N.useState)(), p = (0, N.useMemo)(()=>[
                 ...l,
                 ...c
@@ -142226,7 +142242,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n
         ]), [m, h, g] = PB(p, (0, N.useCallback)((e)=>u(e)?.name ?? e, [
             u
-        ]), RVe), _ = m ? m.items : p, v = Rz({
+        ]), zVe), _ = m ? m.items : p, v = Rz({
             count: _.length,
             getScrollElement: ()=>o.current,
             estimateSize: ()=>40,
@@ -142245,10 +142261,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             let n = u(t);
             if (!n) throw Error(`That room is no longer available.`);
             let i = N7(e);
-            i && r.set(dM(t), zVe(i));
+            i && r.set(dM(t), BVe(i));
             let a = [];
             for (let t of e.files)try {
-                a.push(await IVe(t.token));
+                a.push(await LVe(t.token));
             } catch (e) {
                 console.error(`[share] Could not read a shared file:`, e);
             }
@@ -142509,32 +142525,32 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function VVe() {
+    function HVe() {
         let [e, t] = (0, N.useState)(null);
         return (0, N.useEffect)(()=>{
             let e, n = !1;
-            return LVe((e)=>t(e)).then((t)=>{
+            return RVe((e)=>t(e)).then((t)=>{
                 n ? t() : e = t;
             }), ()=>{
                 n = !0, e?.();
             };
-        }, []), e ? (0, P.jsx)(BVe, {
+        }, []), e ? (0, P.jsx)(VVe, {
             payload: e,
             requestClose: ()=>t(null)
         }) : null;
     }
-    function HVe() {
+    function UVe() {
         let [e] = J(K, `twitterEmoji`);
         return e ? document.documentElement.style.setProperty(`--font-emoji`, `Twemoji`) : document.documentElement.style.setProperty(`--font-emoji`, `Twemoji_DISABLED`), null;
     }
-    function UVe() {
+    function WVe() {
         let [e] = J(K, `pageZoom`);
         return e === 100 ? document.documentElement.style.removeProperty(`font-size`) : document.documentElement.style.setProperty(`font-size`, `calc(1em * ${e / 100})`), null;
     }
-    function WVe() {
-        return lVe(), uVe(), null;
-    }
     function GVe() {
+        return uVe(), dVe(), null;
+    }
+    function KVe() {
         let e = Vd(UD);
         return (0, N.useEffect)(()=>{
             let t = 0, n = !1;
@@ -142546,7 +142562,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
             Dj(n ? nVe : tVe);
             let r = !0;
-            return h7(v_, t, n).then((e)=>{
+            return cVe(v_, t, n).then((e)=>{
                 r && e && Dj(e);
             }), ()=>{
                 r = !1;
@@ -142555,7 +142571,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), null;
     }
-    function KVe() {
+    function qVe() {
         let e = Vd(UD);
         return (0, N.useEffect)(()=>{
             if (!Kr()) return;
@@ -142579,9 +142595,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), null;
     }
-    function qVe() {
-        let e = (0, N.useRef)(null), t = Vd(mD), n = cVe(t.length, 0), r = q();
-        SVe(r);
+    function JVe() {
+        let e = (0, N.useRef)(null), t = Vd(mD), n = lVe(t.length, 0), r = q();
+        CVe(r);
         let i = Ym(), [a] = J(K, `showNotifications`), [o] = J(K, `isNotificationSounds`), s = (0, N.useCallback)((e)=>{
             if (Kr() && Jr(`Invitation`, {
                 icon: v_,
@@ -142623,8 +142639,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function JVe() {
-        let e = (0, N.useRef)(null), t = (0, N.useRef)(new Map), n = q(), r = Nj(), [i] = J(K, `showNotifications`), [a] = J(K, `isNotificationSounds`), [o] = J(K, `notificationContentMode`), { navigateRoom: s } = BV(), c = dVe(), l = Lk(), u = zz(), d = Vd(vD), f = Vd(bD), p = (0, N.useCallback)(({ title: e, roomAvatar: t, notificationBody: i, roomId: a, eventId: c })=>{
+    function YVe() {
+        let e = (0, N.useRef)(null), t = (0, N.useRef)(new Map), n = q(), r = Nj(), [i] = J(K, `showNotifications`), [a] = J(K, `isNotificationSounds`), [o] = J(K, `notificationContentMode`), { navigateRoom: s } = BV(), c = fVe(), l = Lk(), u = zz(), d = Vd(vD), f = Vd(bD), p = (0, N.useCallback)(({ title: e, roomAvatar: t, notificationBody: i, roomId: a, eventId: c })=>{
             let l = n.getAccessToken(), u = r && l ? `Bearer ${l}` : void 0;
             if (Kr() && Jr(e, {
                 icon: t,
@@ -142654,7 +142670,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ]), m = (0, N.useCallback)(()=>{
             e.current?.play();
         }, []);
-        return (0, N.useEffect)(()=>{
+        (0, N.useEffect)(()=>{
             let e = (e, a)=>{
                 if (!i || !Xr()) return;
                 let o = e.getSender(), s = e.getId();
@@ -142707,18 +142723,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             f
         ]), (0, N.useEffect)(()=>{
             ti(), Qr();
-        }, []), (0, N.useEffect)(()=>{
-            let e;
+        }, []);
+        let h = (0, N.useRef)(s);
+        return h.current = s, (0, N.useEffect)(()=>{
+            let e, t = !1;
             return $r(({ roomId: e, eventId: t })=>{
-                e && s(e, t), w7().setFocus().catch(()=>{}), w7().show().catch(()=>{}), w7().unminimize().catch(()=>{});
-            }).then((t)=>{
-                e = t;
+                e && h.current(e, t), w7().setFocus().catch(()=>{}), w7().show().catch(()=>{}), w7().unminimize().catch(()=>{});
+            }).then((n)=>{
+                t ? n() : e = n;
             }), ()=>{
-                e?.();
+                t = !0, e?.();
             };
-        }, [
-            s
-        ]), (0, N.useEffect)(()=>{
+        }, []), (0, N.useEffect)(()=>{
             let e = (e)=>{
                 let t = e.detail;
                 t?.roomId && s(t.roomId, t.eventId);
@@ -142737,30 +142753,30 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function YVe() {
-        return fVe(), null;
+    function XVe() {
+        return pVe(), null;
     }
-    function XVe({ children: e }) {
+    function ZVe({ children: e }) {
         return (0, P.jsxs)(P.Fragment, {
             children: [
-                (0, P.jsx)(HVe, {}),
                 (0, P.jsx)(UVe, {}),
-                (0, P.jsx)(GVe, {}),
-                (0, P.jsx)(KVe, {}),
                 (0, P.jsx)(WVe, {}),
+                (0, P.jsx)(KVe, {}),
                 (0, P.jsx)(qVe, {}),
+                (0, P.jsx)(GVe, {}),
                 (0, P.jsx)(JVe, {}),
-                (0, P.jsx)(ONe, {}),
-                (0, P.jsx)(AVe, {}),
-                (0, P.jsx)(PVe, {}),
-                (0, P.jsx)(VVe, {}),
                 (0, P.jsx)(YVe, {}),
-                (0, P.jsx)(vVe, {}),
+                (0, P.jsx)(ONe, {}),
+                (0, P.jsx)(jVe, {}),
+                (0, P.jsx)(FVe, {}),
+                (0, P.jsx)(HVe, {}),
+                (0, P.jsx)(XVe, {}),
+                (0, P.jsx)(yVe, {}),
                 e
             ]
         });
     }
-    function ZVe() {
+    function QVe() {
         let e = zA();
         return (0, N.useEffect)(()=>{
             document.body.className = ``, document.body.classList.add($a, eo), e === MA.Dark && document.body.classList.add(...FA.classNames), e === MA.Light && document.body.classList.add(...NA.classNames);
@@ -142768,7 +142784,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e
         ]), null;
     }
-    function QVe({ children: e }) {
+    function $Ve({ children: e }) {
         let t = hle(), [n] = J(K, `monochromeMode`), [r] = J(K, `lowAnimationMode`);
         return (0, N.useEffect)(()=>{
             document.body.className = ``, document.body.classList.add($a, eo), document.body.classList.add(...t.classNames), r && document.body.classList.add(`low-animation-mode`), n ? document.body.style.filter = `grayscale(1)` : document.body.style.filter = ``;
@@ -142794,7 +142810,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 t
             ])
         ];
-    }, $Ve = (e)=>{
+    }, eHe = (e)=>{
         let t = q();
         return (0, N.useCallback)(async (n)=>{
             let r = TC(e, G.RoomCanonicalAlias)?.getContent(), i = [];
@@ -142810,7 +142826,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t,
             e
         ]);
-    }, eHe = (e)=>{
+    }, tHe = (e)=>{
         let t = q();
         return {
             publishAliases: (0, N.useCallback)(async (n)=>{
@@ -142842,7 +142858,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 e
             ])
         };
-    }, tHe = (e)=>{
+    }, nHe = (e)=>{
         let t = q(), n = Ig(), [r, i] = Rg((0, N.useCallback)(async ()=>(await t.getLocalAliases(e)).aliases, [
             t,
             e
@@ -142871,7 +142887,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
     };
     function I7({ permissions: e }) {
-        let t = q(), n = G0(), r = e.stateEvent(G.RoomCanonicalAlias, t.getSafeUserId()), [i, a] = F7(n), [o, s] = Rg($Ve(n)), c = o.status === W.Loading;
+        let t = q(), n = G0(), r = e.stateEvent(G.RoomCanonicalAlias, t.getSafeUserId()), [i, a] = F7(n), [o, s] = Rg(eHe(n)), c = o.status === W.Loading;
         return (0, P.jsxs)(Y, {
             className: P7,
             variant: `SurfaceVariant`,
@@ -142980,7 +142996,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function nHe({ addLocalAlias: e }) {
+    function rHe({ addLocalAlias: e }) {
         let t = lw(q().getSafeUserId()), n = Ig(), [r, i] = Rg(e), a = r.status === W.Loading;
         return (0, P.jsxs)(L, {
             as: `form`,
@@ -143057,8 +143073,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function rHe({ localAliases: e, removeLocalAlias: t, canEditCanonical: n }) {
-        let r = G0(), i = Ig(), [, a] = F7(r), { publishAliases: o, unpublishAliases: s } = eHe(r), [c, l] = (0, N.useState)([]), u = c.find((e)=>a.includes(e)), d = (e)=>{
+    function iHe({ localAliases: e, removeLocalAlias: t, canEditCanonical: n }) {
+        let r = G0(), i = Ig(), [, a] = F7(r), { publishAliases: o, unpublishAliases: s } = tHe(r), [c, l] = (0, N.useState)([]), u = c.find((e)=>a.includes(e)), d = (e)=>{
             l((t)=>{
                 if (t.includes(e)) return t.filter((t)=>t !== e);
                 let n = [
@@ -143200,7 +143216,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     function L7({ permissions: e }) {
-        let t = q(), n = G0(), r = e.stateEvent(G.RoomCanonicalAlias, t.getSafeUserId()), [i, a] = (0, N.useState)(!1), { localAliasesState: o, addLocalAlias: s, removeLocalAlias: c } = tHe(n.roomId);
+        let t = q(), n = G0(), r = e.stateEvent(G.RoomCanonicalAlias, t.getSafeUserId()), [i, a] = (0, N.useState)(!1), { localAliasesState: o, addLocalAlias: s, removeLocalAlias: c } = nHe(n.roomId);
         return (0, P.jsxs)(Y, {
             className: P7,
             variant: `SurfaceVariant`,
@@ -143257,7 +143273,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 size: `L400`,
                                 children: `No Addresses`
                             })
-                        }) : (0, P.jsx)(rHe, {
+                        }) : (0, P.jsx)(iHe, {
                             localAliases: o.data,
                             removeLocalAlias: c,
                             canEditCanonical: r
@@ -143274,14 +143290,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         })
                     ]
                 }),
-                i && (0, P.jsx)(nHe, {
+                i && (0, P.jsx)(rHe, {
                     addLocalAlias: s
                 })
             ]
         });
     }
     var R7 = `m.megolm.v1.aes-sha2`;
-    function iHe({ permissions: e }) {
+    function aHe({ permissions: e }) {
         let t = q(), n = G0(), r = e.stateEvent(G.RoomEncryption, t.getSafeUserId()), i = OP(n, G.RoomEncryption)?.getContent()?.algorithm === R7, [a, o] = Rg((0, N.useCallback)(async ()=>{
             await t.sendStateEvent(n.roomId, G.RoomEncryption, {
                 algorithm: R7
@@ -143404,19 +143420,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var aHe = ()=>(0, N.useMemo)(()=>({
+    var oHe = ()=>(0, N.useMemo)(()=>({
                 [ie.Invited]: `After Invite`,
                 [ie.Joined]: `After Join`,
                 [ie.Shared]: `All Messages`,
                 [ie.WorldReadable]: `All Messages (Guests)`
-            }), []), oHe = ()=>(0, N.useMemo)(()=>[
+            }), []), sHe = ()=>(0, N.useMemo)(()=>[
                 ie.Shared,
                 ie.Invited,
                 ie.Joined,
                 ie.WorldReadable
             ], []);
-    function sHe({ permissions: e }) {
-        let t = q(), n = G0(), r = e.stateEvent(G.RoomHistoryVisibility, t.getSafeUserId()), i = OP(n, G.RoomHistoryVisibility)?.getContent().history_visibility ?? ie.Shared, a = oHe(), o = aHe(), [s, c] = (0, N.useState)(), l = (e)=>{
+    function cHe({ permissions: e }) {
+        let t = q(), n = G0(), r = e.stateEvent(G.RoomHistoryVisibility, t.getSafeUserId()), i = OP(n, G.RoomHistoryVisibility)?.getContent().history_visibility ?? ie.Shared, a = sHe(), o = oHe(), [s, c] = (0, N.useState)(), l = (e)=>{
             c(e.currentTarget.getBoundingClientRect());
         }, [u, d] = Rg((0, N.useCallback)(async (e)=>{
             let r = {
@@ -143500,7 +143516,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var cHe = (e)=>(0, N.useMemo)(()=>({
+    var lHe = (e)=>(0, N.useMemo)(()=>({
                 [ge.Invite]: VC(U, e, ge.Invite),
                 [ge.Knock]: VC(U, e, ge.Knock),
                 knock_restricted: VC(U, e, ge.Restricted),
@@ -143509,7 +143525,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 [ge.Private]: VC(U, e, ge.Private)
             }), [
             e
-        ]), lHe = ()=>(0, N.useMemo)(()=>({
+        ]), uHe = ()=>(0, N.useMemo)(()=>({
                 [ge.Invite]: `Invite Only`,
                 [ge.Knock]: `Knock & Invite`,
                 knock_restricted: `Space Members or Knock`,
@@ -143517,7 +143533,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 [ge.Public]: `Public`,
                 [ge.Private]: `Invite Only`
             }), []);
-    function uHe({ icons: e, labels: t, rules: n, value: r, onChange: i, disabled: a, changing: o }) {
+    function dHe({ icons: e, labels: t, rules: n, value: r, onChange: i, disabled: a, changing: o }) {
         let [s, c] = (0, N.useState)(), l = (e)=>{
             c(e.currentTarget.getBoundingClientRect());
         }, u = (0, N.useCallback)((e)=>{
@@ -143605,7 +143621,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             i,
             a,
             s
-        ]), p = cHe(n.getType()), m = lHe(), [h, g] = Rg((0, N.useCallback)(async (e)=>{
+        ]), p = lHe(n.getType()), m = uHe(), [h, g] = Rg((0, N.useCallback)(async (e)=>{
             let r = [];
             if (e === ge.Restricted || e === `knock_restricted`) {
                 let e = o.get(n.roomId), t = EC(n, G.SpaceParent).map((e)=>e.getStateKey()).filter((e)=>typeof e == `string`).filter((t)=>e?.has(t));
@@ -143639,7 +143655,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             children: (0, P.jsx)(X, {
                 title: n.isSpaceRoom() ? `Space Access` : `Room Access`,
                 description: n.isSpaceRoom() ? `Change how people can join the space.` : `Change how people can join the room.`,
-                after: (0, P.jsx)(uHe, {
+                after: (0, P.jsx)(dHe, {
                     icons: p,
                     labels: m,
                     rules: f,
@@ -143658,7 +143674,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function dHe({ canEditAvatar: e, canEditName: t, canEditTopic: n, avatar: r, name: i, topic: a, onClose: o }) {
+    function fHe({ canEditAvatar: e, canEditName: t, canEditTopic: n, avatar: r, name: i, topic: a, onClose: o }) {
         let s = G0(), c = q(), l = Ig(), u = Nj(), d = zB(s), [f, p] = (0, N.useState)(r), m = f ? Ew(c, f, u) ?? void 0 : void 0, [h, g] = (0, N.useState)(), _ = Fj(h) ? f === r : !1, v = (0, N.useMemo)(()=>{
             if (h) return Qj(h);
         }, [
@@ -143873,7 +143889,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     variant: `SurfaceVariant`,
                     direction: `Column`,
                     gap: `400`,
-                    children: p ? (0, P.jsx)(dHe, {
+                    children: p ? (0, P.jsx)(fHe, {
                         canEditAvatar: c,
                         canEditName: l,
                         canEditTopic: u,
@@ -143952,7 +143968,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var fHe = (e)=>{
+    var pHe = (e)=>{
         let t = q(), [n, r] = Rg((0, N.useCallback)(async ()=>(await t.getRoomDirectoryVisibility(e)).visibility === Br.Public, [
             t,
             e
@@ -143973,7 +143989,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
     };
     function V7({ permissions: e }) {
-        let t = q(), n = G0(), r = e.stateEvent(G.RoomCanonicalAlias, t.getSafeUserId()), i = OP(n, G.RoomJoinRules)?.getContent()?.join_rule ?? ge.Invite, { visibilityState: a, setVisibility: o } = fHe(n.roomId), [s, c] = Rg(o), l = a.status === W.Loading || s.status === W.Loading, u = i === ge.Public || i === ge.Knock || i === `knock_restricted`;
+        let t = q(), n = G0(), r = e.stateEvent(G.RoomCanonicalAlias, t.getSafeUserId()), i = OP(n, G.RoomJoinRules)?.getContent()?.join_rule ?? ge.Invite, { visibilityState: a, setVisibility: o } = pHe(n.roomId), [s, c] = Rg(o), l = a.status === W.Loading || s.status === W.Loading, u = i === ge.Public || i === ge.Knock || i === `knock_restricted`;
         return (0, P.jsx)(Y, {
             className: P7,
             variant: `SurfaceVariant`,
@@ -144015,7 +144031,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function pHe({ requestClose: e }) {
+    function mHe({ requestClose: e }) {
         let t = q(), n = G0(), r = Ig(), i = VR(n), a = KE()[`m.room_versions`], [o, s] = (0, N.useState)(a?.default ?? `1`);
         (0, N.useEffect)(()=>{
             s(a?.default ?? `1`);
@@ -144206,13 +144222,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         })
                     ]
                 }),
-                children: m && (0, P.jsx)(pHe, {
+                children: m && (0, P.jsx)(mHe, {
                     requestClose: ()=>h(!1)
                 })
             })
         });
     }
-    function mHe({ requestClose: e }) {
+    function hHe({ requestClose: e }) {
         let t = G0(), n = jP(t), r = zR(VR(t), n);
         return (0, P.jsxs)(oA, {
             children: [
@@ -144269,10 +144285,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             (0, P.jsx)(z7, {
                                                 permissions: r
                                             }),
-                                            (0, P.jsx)(sHe, {
+                                            (0, P.jsx)(cHe, {
                                                 permissions: r
                                             }),
-                                            (0, P.jsx)(iHe, {
+                                            (0, P.jsx)(aHe, {
                                                 permissions: r
                                             }),
                                             (0, P.jsx)(V7, {
@@ -144318,10 +144334,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var hHe = `_1cx2qle0 _1mqalmd1 _1mqalmd0 _1bugis90 _1bugis91`, gHe = (e, t)=>KC(e, t.userId) ?? uw(t.userId) ?? t.userId, _He = jo(({ as: e = `button`, mx: t, room: n, member: r, useAuthentication: i, after: a, ...o }, s)=>{
-        let c = gHe(n, r), l = uw(r.userId), u = r.getMxcAvatarUrl(), d = u ? t.mxcUrlToHttp(u, 100, 100, `crop`, void 0, !1, i) : void 0;
+    var gHe = `_1cx2qle0 _1mqalmd1 _1mqalmd0 _1bugis90 _1bugis91`, _He = (e, t)=>KC(e, t.userId) ?? uw(t.userId) ?? t.userId, vHe = jo(({ as: e = `button`, mx: t, room: n, member: r, useAuthentication: i, after: a, ...o }, s)=>{
+        let c = _He(n, r), l = uw(r.userId), u = r.getMxcAvatarUrl(), d = u ? t.mxcUrlToHttp(u, 100, 100, `crop`, void 0, !1, i) : void 0;
         return (0, P.jsxs)(e, {
-            className: hHe,
+            className: gHe,
             ...o,
             ref: s,
             children: [
@@ -144369,7 +144385,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 a
             ]
         });
-    }), vHe = jo(({ as: e = `div`, fill: t, server: n, ...r }, i)=>(0, P.jsx)(Wo, {
+    }), yHe = jo(({ as: e = `div`, fill: t, server: n, ...r }, i)=>(0, P.jsx)(Wo, {
             as: e,
             variant: `Secondary`,
             fill: t,
@@ -144382,7 +144398,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 truncate: !0,
                 children: n
             })
-        })), yHe = {
+        })), bHe = {
         limit: 1e3,
         matchOptions: {
             contain: !0
@@ -144390,14 +144406,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         normalizeOptions: {
             ignoreWhitespace: !1
         }
-    }, bHe = (e)=>uw(e) ?? e, xHe = (e, t)=>qC(e, t, bHe);
+    }, xHe = (e)=>uw(e) ?? e, SHe = (e, t)=>qC(e, t, xHe);
     function U7({ requestClose: e }) {
         let t = q(), n = Nj(), r = G0(), i = Y$(t, r.roomId), a = i.length < r.getJoinedMemberCount(), o = yB(), s = _B(), c = EB(), l = jP(r), u = VR(r), d = nJ(r, u, l), f = LP(l), [p, m] = (0, N.useState)(0), [h, g] = J(K, `memberSortFilterIndex`), _ = P6(p, N6()), v = L6(h, I6()), y = R6(u, f), b = (0, N.useRef)(null), x = (0, N.useRef)(null), S = (0, N.useRef)(null), C = (0, N.useMemo)(()=>Array.from(i).filter(_.filterFn).sort(v.sortFn).sort(y), [
             i,
             _,
             v,
             y
-        ]), [w, T, E] = PB(C, xHe, yHe);
+        ]), [w, T, E] = PB(C, SHe, bHe);
         !w && x.current?.value && T(x.current.value);
         let D = aJ(w?.items ?? C, d), O = Rz({
             count: D.length,
@@ -144614,7 +144630,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                         style: {
                                                             paddingTop: I.space.S200
                                                         },
-                                                        children: (0, P.jsx)(_He, {
+                                                        children: (0, P.jsx)(vHe, {
                                                             "data-user-id": i.userId,
                                                             onClick: A,
                                                             "aria-pressed": s?.userId === i.userId,
@@ -144626,7 +144642,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                                 as: `span`,
                                                                 shrink: `No`,
                                                                 alignSelf: `End`,
-                                                                children: (0, P.jsx)(vHe, {
+                                                                children: (0, P.jsx)(yHe, {
                                                                     server: a,
                                                                     fill: `None`
                                                                 })
@@ -144659,7 +144675,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     var W7 = `_1lne79o0`;
-    function SHe({ packs: e, roomId: t }) {
+    function CHe({ packs: e, roomId: t }) {
         let n = q(), r = Ig(), [i, a] = Rg((0, N.useCallback)(async (e, r)=>{
             let i = {
                 pack: {
@@ -144744,7 +144760,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function CHe({ onViewPack: e }) {
+    function wHe({ onViewPack: e }) {
         let t = q(), n = Nj(), r = G0(), i = Ig(), a = jP(r), o = zR(VR(r), a).stateEvent(G.PoniesRoomEmotes, t.getSafeUserId()), s = Mpe(r), c = (0, N.useMemo)(()=>s.filter((e)=>!e.deleted), [
             s
         ]), [l, u] = (0, N.useState)([]), d = l.length > 0, [f, p] = Rg((0, N.useCallback)(async ()=>{
@@ -144774,7 +144790,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             size: `L400`,
                             children: `Sets`
                         }),
-                        o && (0, P.jsx)(SHe, {
+                        o && (0, P.jsx)(CHe, {
                             roomId: r.roomId,
                             packs: c
                         }),
@@ -145011,7 +145027,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: (0, P.jsx)(L, {
                                 direction: `Column`,
                                 gap: `700`,
-                                children: (0, P.jsx)(CHe, {
+                                children: (0, P.jsx)(wHe, {
                                     onViewPack: n
                                 })
                             })
@@ -145021,7 +145037,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var wHe = ()=>(0, N.useMemo)(()=>[
+    var THe = ()=>(0, N.useMemo)(()=>[
                 {
                     name: `Messages`,
                     items: [
@@ -145446,7 +145462,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function THe({ powerLevels: e, power: t, permissionGroups: n, children: r }) {
+    function EHe({ powerLevels: e, power: t, permissionGroups: n, children: r }) {
         let [i, a] = (0, N.useState)();
         return (0, P.jsx)(Ms, {
             anchor: i,
@@ -145589,7 +145605,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 wrap: `Wrap`,
                                 children: KG(o).map((n)=>{
                                     let a = o[n], s = a.icon && rJ(r, i, a.icon);
-                                    return (0, P.jsx)(THe, {
+                                    return (0, P.jsx)(EHe, {
                                         powerLevels: e,
                                         power: n,
                                         permissionGroups: t,
@@ -145744,8 +145760,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return t === void 0 && (t = 0), n === void 0 && (n = 10 ** t), Math.round(n * e) / n;
     };
     360 / (2 * Math.PI);
-    var EHe = function(e) {
-        return jHe(s9(e));
+    var DHe = function(e) {
+        return MHe(s9(e));
     }, s9 = function(e) {
         return e[0] === `#` && (e = e.substring(1)), e.length < 6 ? {
             r: parseInt(e[0] + e[0], 16),
@@ -145758,9 +145774,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             b: parseInt(e.substring(4, 6), 16),
             a: e.length === 8 ? o9(parseInt(e.substring(6, 8), 16) / 255, 2) : 1
         };
-    }, DHe = function(e) {
-        return AHe(kHe(e));
     }, OHe = function(e) {
+        return jHe(AHe(e));
+    }, kHe = function(e) {
         var t = e.s, n = e.v, r = e.a, i = (200 - t) * n / 100;
         return {
             h: o9(e.h),
@@ -145769,9 +145785,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             a: o9(r, 2)
         };
     }, c9 = function(e) {
-        var t = OHe(e);
+        var t = kHe(e);
         return `hsl(` + t.h + `, ` + t.s + `%, ` + t.l + `%)`;
-    }, kHe = function(e) {
+    }, AHe = function(e) {
         var t = e.h, n = e.s, r = e.v, i = e.a;
         t = t / 360 * 6, n /= 100, r /= 100;
         var a = Math.floor(t), o = r * (1 - n), s = r * (1 - (t - a) * n), c = r * (1 - (1 - t + a) * n), l = a % 6;
@@ -145805,10 +145821,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }, l9 = function(e) {
         var t = e.toString(16);
         return t.length < 2 ? `0` + t : t;
-    }, AHe = function(e) {
+    }, jHe = function(e) {
         var t = e.r, n = e.g, r = e.b, i = e.a, a = i < 1 ? l9(o9(255 * i)) : ``;
         return `#` + l9(t) + l9(n) + l9(r) + a;
-    }, jHe = function(e) {
+    }, MHe = function(e) {
         var t = e.r, n = e.g, r = e.b, i = e.a, a = Math.max(t, n, r), o = a - Math.min(t, n, r), s = o ? a === t ? (n - r) / o : a === n ? 2 + (r - t) / o : 4 + (t - n) / o : 0;
         return {
             h: o9(60 * (s < 0 ? s + 6 : s)),
@@ -145816,7 +145832,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             v: o9(a / 255 * 100),
             a: i
         };
-    }, MHe = N.memo(function(e) {
+    }, NHe = N.memo(function(e) {
         var t = e.hue, n = e.onChange, r = e.onChangeEnd, i = i9([
             `react-colorful__hue`,
             e.className
@@ -145849,7 +145865,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 a: 1
             })
         })));
-    }), NHe = N.memo(function(e) {
+    }), PHe = N.memo(function(e) {
         var t = e.hsva, n = e.onChange, r = e.onChangeEnd, i = {
             backgroundColor: c9({
                 h: t.h,
@@ -145887,10 +145903,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         if (e === t) return !0;
         for(var n in e)if (e[n] !== t[n]) return !1;
         return !0;
-    }, PHe = function(e, t) {
+    }, FHe = function(e, t) {
         return e.toLowerCase() === t.toLowerCase() || u9(s9(e), s9(t));
     };
-    function FHe(e, t, n, r) {
+    function IHe(e, t, n, r) {
         var i = Z7(n), a = Z7(r), o = (0, N.useState)(function() {
             return e.toHsva(t);
         }), s = o[0], c = o[1], l = (0, N.useRef)({
@@ -145932,19 +145948,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ])
         ];
     }
-    var IHe, LHe = typeof window < `u` ? N.useLayoutEffect : N.useEffect, RHe = function() {
-        return IHe || (typeof __webpack_nonce__ < `u` ? __webpack_nonce__ : void 0);
-    }, d9 = new Map, zHe = function(e) {
-        LHe(function() {
+    var LHe, RHe = typeof window < `u` ? N.useLayoutEffect : N.useEffect, zHe = function() {
+        return LHe || (typeof __webpack_nonce__ < `u` ? __webpack_nonce__ : void 0);
+    }, d9 = new Map, BHe = function(e) {
+        RHe(function() {
             var t = e.current ? e.current.ownerDocument : document;
             if (t !== void 0 && !d9.has(t)) {
                 var n = t.createElement(`style`);
                 n.innerHTML = `.react-colorful{position:relative;display:flex;flex-direction:column;width:200px;height:200px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default}.react-colorful__saturation{position:relative;flex-grow:1;border-color:transparent;border-bottom:12px solid #000;border-radius:8px 8px 0 0;background-image:linear-gradient(0deg,#000,transparent),linear-gradient(90deg,#fff,hsla(0,0%,100%,0))}.react-colorful__alpha-gradient,.react-colorful__pointer-fill{content:"";position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;border-radius:inherit}.react-colorful__alpha-gradient,.react-colorful__saturation{box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}.react-colorful__alpha,.react-colorful__hue{position:relative;height:24px}.react-colorful__hue{background:linear-gradient(90deg,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red)}.react-colorful__last-control{border-radius:0 0 8px 8px}.react-colorful__interactive{position:absolute;left:0;top:0;right:0;bottom:0;border-radius:inherit;outline:none;touch-action:none}.react-colorful__pointer{position:absolute;z-index:1;box-sizing:border-box;width:28px;height:28px;transform:translate(-50%,-50%);background-color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,.2)}.react-colorful__interactive:focus .react-colorful__pointer{transform:translate(-50%,-50%) scale(1.1)}.react-colorful__alpha,.react-colorful__alpha-pointer{background-color:#fff;background-image:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><path d="M8 0h8v8H8zM0 8h8v8H0z"/></svg>')}.react-colorful__saturation-pointer{z-index:3}.react-colorful__hue-pointer{z-index:2}`, d9.set(t, n);
-                var r = RHe();
+                var r = zHe();
                 r && n.setAttribute(`nonce`, r), t.head.appendChild(n);
             }
         }, []);
-    }, BHe = function(e) {
+    }, VHe = function(e) {
         var t = e.className, n = e.colorModel, r = e.color, i = r === void 0 ? n.defaultColor : r, a = e.onChange, o = e.onChangeEnd, s = X7(e, [
             `className`,
             `colorModel`,
@@ -145952,42 +145968,42 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             `onChange`,
             `onChangeEnd`
         ]), c = (0, N.useRef)(null);
-        zHe(c);
-        var l = FHe(n, i, a, o), u = l[0], d = l[1], f = l[2], p = i9([
+        BHe(c);
+        var l = IHe(n, i, a, o), u = l[0], d = l[1], f = l[2], p = i9([
             `react-colorful`,
             t
         ]);
         return N.createElement(`div`, Y7({}, s, {
             ref: c,
             className: p
-        }), N.createElement(NHe, {
+        }), N.createElement(PHe, {
             hsva: u,
             onChange: d,
             onChangeEnd: f
-        }), N.createElement(MHe, {
+        }), N.createElement(NHe, {
             hue: u.h,
             onChange: d,
             onChangeEnd: f,
             className: `react-colorful__last-control`
         }));
-    }, VHe = {
+    }, HHe = {
         defaultColor: `000`,
-        toHsva: EHe,
+        toHsva: DHe,
         fromHsva: function(e) {
-            return DHe({
+            return OHe({
                 h: e.h,
                 s: e.s,
                 v: e.v,
                 a: 1
             });
         },
-        equal: PHe
-    }, HHe = function(e) {
-        return N.createElement(BHe, Y7({}, e, {
-            colorModel: VHe
+        equal: FHe
+    }, UHe = function(e) {
+        return N.createElement(VHe, Y7({}, e, {
+            colorModel: HHe
         }));
     };
-    function UHe({ picker: e, onRemove: t, children: n }) {
+    function WHe({ picker: e, onRemove: t, children: n }) {
         let [r, i] = (0, N.useState)();
         return (0, P.jsx)(Ms, {
             anchor: r,
@@ -146077,8 +146093,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     }),
                                     (0, P.jsx)(L, {
                                         gap: `200`,
-                                        children: (0, P.jsx)(UHe, {
-                                            picker: (0, P.jsx)(HHe, {
+                                        children: (0, P.jsx)(WHe, {
+                                            picker: (0, P.jsx)(UHe, {
                                                 color: m,
                                                 onChange: h
                                             }),
@@ -146619,8 +146635,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function WHe({ requestClose: e }) {
-        let t = q(), n = G0(), r = jP(n), i = zR(VR(n), r), a = i.stateEvent(G.PowerLevelTags, t.getSafeUserId()), o = i.stateEvent(G.RoomPowerLevels, t.getSafeUserId()), s = wHe(), [c, l] = (0, N.useState)(!1);
+    function GHe({ requestClose: e }) {
+        let t = q(), n = G0(), r = jP(n), i = zR(VR(n), r), a = i.stateEvent(G.PowerLevelTags, t.getSafeUserId()), o = i.stateEvent(G.RoomPowerLevels, t.getSafeUserId()), s = THe(), [c, l] = (0, N.useState)(!1);
         return a && c ? (0, P.jsx)(p9, {
             powerLevels: r,
             requestClose: ()=>l(!1)
@@ -146686,7 +146702,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         });
     }
     var m9 = 2;
-    function GHe({ type: e, stateKey: t, content: n, requestClose: r }) {
+    function KHe({ type: e, stateKey: t, content: n, requestClose: r }) {
         let i = q(), a = G0(), o = Ig(), s = (0, N.useMemo)(()=>JSON.stringify(n, void 0, m9), [
             n
         ]), c = (0, N.useRef)(null), [l, u] = (0, N.useState)(), { handleKeyDown: d, operations: f, getTarget: p } = JR(c, m9), [m, h] = Rg((0, N.useCallback)((n)=>i.sendStateEvent(a.roomId, e, n, t), [
@@ -146835,7 +146851,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function KHe({ content: e, eventJSONStr: t, onEditContent: n }) {
+    function qHe({ content: e, eventJSONStr: t, onEditContent: n }) {
         return (0, P.jsx)(L, {
             direction: `Column`,
             style: {
@@ -146895,7 +146911,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function qHe({ type: e, stateKey: t, requestClose: n }) {
+    function JHe({ type: e, stateKey: t, requestClose: n }) {
         let r = q(), i = G0(), a = OP(i, e, t), [o, s] = (0, N.useState)(), c = jP(i), l = zR(VR(i), c).stateEvent(e, r.getSafeUserId()), u = (0, N.useMemo)(()=>a ? JSON.stringify(a.event, null, m9) : ``, [
             a
         ]), d = (0, N.useCallback)(()=>{
@@ -146945,12 +146961,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 (0, P.jsx)(L, {
                     grow: `Yes`,
                     direction: `Column`,
-                    children: o ? (0, P.jsx)(GHe, {
+                    children: o ? (0, P.jsx)(KHe, {
                         type: e,
                         stateKey: t,
                         content: o,
                         requestClose: d
-                    }) : (0, P.jsx)(KHe, {
+                    }) : (0, P.jsx)(qHe, {
                         content: a?.getContent() ?? {},
                         onEditContent: l ? s : void 0,
                         eventJSONStr: u
@@ -146959,9 +146975,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var JHe = 2;
-    function YHe({ type: e, stateKey: t, requestClose: n }) {
-        let r = q(), i = G0(), a = Ig(), o = typeof t == `string`, s = (0, N.useRef)(null), [c, l] = (0, N.useState)(), { handleKeyDown: u, operations: d, getTarget: f } = JR(s, JHe), [p, m] = Rg((0, N.useCallback)((e, t, n)=>typeof t == `string` ? r.sendStateEvent(i.roomId, e, n, t) : r.sendEvent(i.roomId, e, n), [
+    var YHe = 2;
+    function XHe({ type: e, stateKey: t, requestClose: n }) {
+        let r = q(), i = G0(), a = Ig(), o = typeof t == `string`, s = (0, N.useRef)(null), [c, l] = (0, N.useState)(), { handleKeyDown: u, operations: d, getTarget: f } = JR(s, YHe), [p, m] = Rg((0, N.useCallback)((e, t, n)=>typeof t == `string` ? r.sendStateEvent(i.roomId, e, n, t) : r.sendEvent(i.roomId, e, n), [
             r,
             i
         ])), h = p.status === W.Loading;
@@ -147161,7 +147177,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var XHe = (e)=>{
+    var ZHe = (e)=>{
         let t = (0, N.useCallback)(()=>{
             let t = new Map;
             return Array.from(e.accountData.entries()).forEach(([e, n])=>{
@@ -147184,7 +147200,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ]), n;
     };
     function h9({ requestClose: e }) {
-        let [t, n] = J(K, `developerTools`), r = q(), i = G0(), a = $6(i), o = XHe(i), [s, c] = (0, N.useState)(!1), [l, u] = (0, N.useState)(), [d, f] = (0, N.useState)(), [p, m] = (0, N.useState)(), [h, g] = (0, N.useState)(!1), [_, v] = (0, N.useState)(), y = (0, N.useCallback)(()=>{
+        let [t, n] = J(K, `developerTools`), r = q(), i = G0(), a = $6(i), o = ZHe(i), [s, c] = (0, N.useState)(!1), [l, u] = (0, N.useState)(), [d, f] = (0, N.useState)(), [p, m] = (0, N.useState)(), [h, g] = (0, N.useState)(!1), [_, v] = (0, N.useState)(), y = (0, N.useCallback)(()=>{
             f(void 0), m(void 0), v(void 0);
         }, []), b = (0, N.useCallback)(async (e, t)=>{
             await r.setRoomAccountData(i.roomId, e, t);
@@ -147192,10 +147208,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             r,
             i.roomId
         ]);
-        return _ === void 0 ? p ? (0, P.jsx)(YHe, {
+        return _ === void 0 ? p ? (0, P.jsx)(XHe, {
             ...p,
             requestClose: y
-        }) : d ? (0, P.jsx)(qHe, {
+        }) : d ? (0, P.jsx)(JHe, {
             ...d,
             requestClose: y
         }) : (0, P.jsxs)(oA, {
@@ -147586,7 +147602,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             requestClose: y
         });
     }
-    var ZHe = ()=>(0, N.useMemo)(()=>[
+    var QHe = ()=>(0, N.useMemo)(()=>[
                 {
                     page: bB.GeneralPage,
                     name: `General`,
@@ -147613,8 +147629,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     icon: U.Terminal
                 }
             ], []);
-    function QHe({ initialPage: e, requestClose: t }) {
-        let n = G0(), r = q(), i = Nj(), a = IB(n, Vd(vD).has(n.roomId)), o = LB(n), s = zB(n), c = a ? Ew(r, a, i, 96, 96, `crop`) ?? void 0 : void 0, l = Zv(), [u, d] = (0, N.useState)(()=>e || (l === qv.Mobile ? void 0 : bB.GeneralPage)), f = ZHe(), p = ()=>{
+    function $He({ initialPage: e, requestClose: t }) {
+        let n = G0(), r = q(), i = Nj(), a = IB(n, Vd(vD).has(n.roomId)), o = LB(n), s = zB(n), c = a ? Ew(r, a, i, 96, 96, `crop`) ?? void 0 : void 0, l = Zv(), [u, d] = (0, N.useState)(()=>e || (l === qv.Mobile ? void 0 : bB.GeneralPage)), f = QHe(), p = ()=>{
             if (l === qv.Mobile) {
                 d(void 0);
                 return;
@@ -147699,13 +147715,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 ]
             }),
             children: [
-                u === bB.GeneralPage && (0, P.jsx)(mHe, {
+                u === bB.GeneralPage && (0, P.jsx)(hHe, {
                     requestClose: p
                 }),
                 u === bB.MembersPage && (0, P.jsx)(U7, {
                     requestClose: p
                 }),
-                u === bB.PermissionsPage && (0, P.jsx)(WHe, {
+                u === bB.PermissionsPage && (0, P.jsx)(GHe, {
                     requestClose: p
                 }),
                 u === bB.EmojisStickersPage && (0, P.jsx)(G7, {
@@ -147717,7 +147733,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function $He({ state: e }) {
+    function eUe({ state: e }) {
         let { roomId: t, spaceId: n, page: r } = e, i = v_e(), a = kB(OB()), o = a(t), s = n ? a(n) : void 0;
         return o ? (0, P.jsx)(Qv, {
             requestClose: i,
@@ -147725,7 +147741,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 value: s ?? null,
                 children: (0, P.jsx)(W0, {
                     value: o,
-                    children: (0, P.jsx)(QHe, {
+                    children: (0, P.jsx)($He, {
                         initialPage: r,
                         requestClose: i
                     })
@@ -147733,20 +147749,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         }) : null;
     }
-    function eUe() {
+    function tUe() {
         let e = __e();
-        return e ? (0, P.jsx)($He, {
+        return e ? (0, P.jsx)(eUe, {
             state: e
         }) : null;
     }
-    function tUe({ children: e }) {
+    function nUe({ children: e }) {
         let t = tce();
         return (0, P.jsx)(ece, {
             value: t,
             children: e
         });
     }
-    function nUe({ permissions: e }) {
+    function rUe({ permissions: e }) {
         let t = q(), n = G0(), r = e.stateEvent(G.SpaceAutoJoin, t.getSafeUserId()), i = OP(n, G.SpaceAutoJoin)?.getContent().auto_join === !0, [a, o] = Rg((0, N.useCallback)(async (e)=>{
             let r = {
                 auto_join: e
@@ -147788,7 +147804,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function rUe({ requestClose: e }) {
+    function iUe({ requestClose: e }) {
         let t = G0(), n = jP(t), r = zR(VR(t), n);
         return (0, P.jsxs)(oA, {
             children: [
@@ -147848,7 +147864,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             (0, P.jsx)(V7, {
                                                 permissions: r
                                             }),
-                                            (0, P.jsx)(nUe, {
+                                            (0, P.jsx)(rUe, {
                                                 permissions: r
                                             })
                                         ]
@@ -147891,7 +147907,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var iUe = ()=>(0, N.useMemo)(()=>[
+    var aUe = ()=>(0, N.useMemo)(()=>[
                 {
                     name: `Manage`,
                     items: [
@@ -148026,8 +148042,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     ]
                 }
             ], []);
-    function aUe({ requestClose: e }) {
-        let t = q(), n = G0(), r = jP(n), i = zR(VR(n), r), a = i.stateEvent(G.PowerLevelTags, t.getSafeUserId()), o = i.stateEvent(G.RoomPowerLevels, t.getSafeUserId()), s = iUe(), [c, l] = (0, N.useState)(!1);
+    function oUe({ requestClose: e }) {
+        let t = q(), n = G0(), r = jP(n), i = zR(VR(n), r), a = i.stateEvent(G.PowerLevelTags, t.getSafeUserId()), o = i.stateEvent(G.RoomPowerLevels, t.getSafeUserId()), s = aUe(), [c, l] = (0, N.useState)(!1);
         return a && c ? (0, P.jsx)(p9, {
             powerLevels: r,
             requestClose: ()=>l(!1)
@@ -148092,7 +148108,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var oUe = ()=>(0, N.useMemo)(()=>[
+    var sUe = ()=>(0, N.useMemo)(()=>[
                 {
                     page: D2.GeneralPage,
                     name: `General`,
@@ -148119,8 +148135,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     icon: U.Terminal
                 }
             ], []);
-    function sUe({ initialPage: e, requestClose: t }) {
-        let n = G0(), r = q(), i = Nj(), a = IB(n, Vd(vD).has(n.roomId)), o = LB(n), s = zB(n), c = a ? Ew(r, a, i, 96, 96, `crop`) ?? void 0 : void 0, l = Zv(), [u, d] = (0, N.useState)(()=>e || (l === qv.Mobile ? void 0 : D2.GeneralPage)), f = oUe(), p = ()=>{
+    function cUe({ initialPage: e, requestClose: t }) {
+        let n = G0(), r = q(), i = Nj(), a = IB(n, Vd(vD).has(n.roomId)), o = LB(n), s = zB(n), c = a ? Ew(r, a, i, 96, 96, `crop`) ?? void 0 : void 0, l = Zv(), [u, d] = (0, N.useState)(()=>e || (l === qv.Mobile ? void 0 : D2.GeneralPage)), f = sUe(), p = ()=>{
             if (l === qv.Mobile) {
                 d(void 0);
                 return;
@@ -148205,13 +148221,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 ]
             }),
             children: [
-                u === D2.GeneralPage && (0, P.jsx)(rUe, {
+                u === D2.GeneralPage && (0, P.jsx)(iUe, {
                     requestClose: p
                 }),
                 u === D2.MembersPage && (0, P.jsx)(U7, {
                     requestClose: p
                 }),
-                u === D2.PermissionsPage && (0, P.jsx)(aUe, {
+                u === D2.PermissionsPage && (0, P.jsx)(oUe, {
                     requestClose: p
                 }),
                 u === D2.EmojisStickersPage && (0, P.jsx)(G7, {
@@ -148223,7 +148239,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function cUe({ state: e }) {
+    function lUe({ state: e }) {
         let { roomId: t, spaceId: n, page: r } = e, i = Zje(), a = kB(OB()), o = a(t), s = n && n !== t ? a(n) : void 0;
         return o ? (0, P.jsx)(Qv, {
             requestClose: i,
@@ -148231,7 +148247,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 value: s ?? null,
                 children: (0, P.jsx)(W0, {
                     value: o,
-                    children: (0, P.jsx)(sUe, {
+                    children: (0, P.jsx)(cUe, {
                         initialPage: r,
                         requestClose: i
                     })
@@ -148239,13 +148255,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         }) : null;
     }
-    function lUe() {
+    function uUe() {
         let e = Xje();
-        return e ? (0, P.jsx)(cUe, {
+        return e ? (0, P.jsx)(lUe, {
             state: e
         }) : null;
     }
-    var uUe = (e)=>{
+    var dUe = (e)=>{
         let [t, n] = (0, N.useState)(()=>e ? zE(e) : void 0);
         return (0, N.useEffect)(()=>{
             n(e ? zE(e) : void 0);
@@ -148264,7 +148280,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }, _9 = ()=>{
         let { unstable_features: e, versions: t } = dy();
         return !!(t.includes(`v1.19`) || e?.[`uk.half-shot.msc2666.query_mutual_rooms.stable`]);
-    }, dUe = async (e, t)=>{
+    }, fUe = async (e, t)=>{
         let n = new Set, r;
         do {
             let i = await e.http.authedRequest(Se.Get, `/mutual_rooms`, {
@@ -148276,8 +148292,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             i.joined.forEach((e)=>n.add(e)), r = i.next_batch;
         }while (typeof r == `string`);
         return Array.from(n);
-    }, fUe = (e)=>{
-        let t = q(), n = g9(), r = _9(), [i] = zg((0, N.useCallback)(()=>r ? dUe(t, e) : n ? t._unstable_getSharedRooms(e) : Promise.resolve([]), [
+    }, pUe = (e)=>{
+        let t = q(), n = g9(), r = _9(), [i] = zg((0, N.useCallback)(()=>r ? fUe(t, e) : n ? t._unstable_getSharedRooms(e) : Promise.resolve([]), [
             t,
             e,
             n,
@@ -148285,8 +148301,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         ]));
         return i;
     };
-    function pUe({ userId: e }) {
-        let t = q(), n = _9(), r = g9(), i = fUe(e), { navigateRoom: a, navigateSpace: o } = BV(), s = vB(), c = Dz(), l = Nj(), u = kB(OB()), [d, f] = (0, N.useState)(), p = (e)=>{
+    function mUe({ userId: e }) {
+        let t = q(), n = _9(), r = g9(), i = pUe(e), { navigateRoom: a, navigateSpace: o } = BV(), s = vB(), c = Dz(), l = Nj(), u = kB(OB()), [d, f] = (0, N.useState)(), p = (e)=>{
             f(e.currentTarget.getBoundingClientRect());
         }, m = ()=>f(void 0), h = (0, N.useMemo)(()=>{
             let e = {
@@ -148450,7 +148466,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function mUe() {
+    function hUe() {
         return (0, P.jsx)(ZR, {
             style: {
                 padding: I.space.S200
@@ -148481,7 +148497,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function hUe({ userId: e, membership: t, canInvite: n, canKick: r, canBan: i, canUnban: a }) {
+    function gUe({ userId: e, membership: t, canInvite: n, canKick: r, canBan: i, canUnban: a }) {
         let o = q(), s = G0(), [c, l] = (0, N.useState)(), [u, d] = (0, N.useState)(``), f = (e)=>{
             l(e.currentTarget.getBoundingClientRect());
         }, p = ()=>l(void 0), m = oN(), h = m.includes(e), [g, _] = Rg((0, N.useCallback)(async ()=>{
@@ -148640,7 +148656,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 t
             ])
         });
-    function gUe({ power: e, onCancel: t, onChange: n }) {
+    function _Ue({ power: e, onCancel: t, onChange: n }) {
         return (0, P.jsx)(ws, {
             open: !0,
             backdrop: (0, P.jsx)(Ts, {}),
@@ -148716,7 +148732,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function _Ue({ power: e, onCancel: t, onChange: n }) {
+    function vUe({ power: e, onCancel: t, onChange: n }) {
         return (0, P.jsx)(ws, {
             open: !0,
             backdrop: (0, P.jsx)(Ts, {}),
@@ -148792,7 +148808,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function vUe({ userId: e }) {
+    function yUe({ userId: e }) {
         let t = q(), n = G0(), r = EB(), i = Nj(), a = SB(), o = k2(), s = jP(n), c = VR(n), l = zR(c, s), u = LP(s), { hasMorePower: d } = v9(c, s), f = XG(n, s), p = nJ(n, c, s), m = t.getSafeUserId(), h = l.stateEvent(G.RoomPowerLevels, m) && (m === e || d(m, e)), g = p(e), _ = g.icon && rJ(t, i, g.icon), [v, y] = (0, N.useState)(), b = (e)=>{
             y(e.currentTarget.getBoundingClientRect());
         }, x = ()=>y(void 0), [S, C] = Rg((0, N.useCallback)(async (r)=>{
@@ -148940,14 +148956,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         })
                     })
                 }),
-                typeof E == `number` ? (0, P.jsx)(gUe, {
+                typeof E == `number` ? (0, P.jsx)(_Ue, {
                     power: E,
                     onCancel: ()=>D(void 0),
                     onChange: (e)=>{
                         D(void 0), C(e);
                     }
                 }) : null,
-                typeof O == `number` ? (0, P.jsx)(_Ue, {
+                typeof O == `number` ? (0, P.jsx)(vUe, {
                     power: O,
                     onCancel: ()=>k(void 0),
                     onChange: (e)=>{
@@ -148957,7 +148973,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function yUe({ reason: e, kickedBy: t, ts: n }) {
+    function bUe({ reason: e, kickedBy: t, ts: n }) {
         let [r] = J(K, `hour24Clock`), [i] = J(K, `dateFormatString`), a = n ? AN(n, r) : void 0, o = n ? jN(n, i) : void 0;
         return (0, P.jsx)(ZR, {
             style: {
@@ -149019,7 +149035,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function bUe({ reason: e, bannedBy: t, ts: n }) {
+    function xUe({ reason: e, bannedBy: t, ts: n }) {
         let [r] = J(K, `hour24Clock`), [i] = J(K, `dateFormatString`), a = n ? AN(n, r) : void 0, o = n ? jN(n, i) : void 0;
         return (0, P.jsx)(ZR, {
             style: {
@@ -149081,7 +149097,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function xUe({ reason: e, invitedBy: t, ts: n }) {
+    function SUe({ reason: e, invitedBy: t, ts: n }) {
         let [r] = J(K, `hour24Clock`), [i] = J(K, `dateFormatString`), a = n ? AN(n, r) : void 0, o = n ? jN(n, i) : void 0;
         return (0, P.jsx)(ZR, {
             style: {
@@ -149143,7 +149159,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var SUe = (e, t)=>{
+    var CUe = (e, t)=>{
         let n = e.getMember(t), [r, i] = (0, N.useState)(()=>n?.membership ?? kb.Leave);
         return (0, N.useEffect)(()=>{
             let r = (n, r)=>{
@@ -149158,7 +149174,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t
         ]), r;
     };
-    function CUe() {
+    function wUe() {
         let e = q(), t = Nj(), n = G0(), r = EB(), i = SB(), a = k2(), [o, s] = (0, N.useState)(), c = nK(), l = c.icon && rJ(e, t, c.icon), u = (e)=>{
             s(e.currentTarget.getBoundingClientRect());
         }, d = ()=>s(void 0);
@@ -149221,7 +149237,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function wUe({ userId: e }) {
+    function TUe({ userId: e }) {
         let t = q(), n = Ym(), r = vB(), [i, a] = (0, N.useState)(``), o = uw(e) ?? e, [s, c] = Rg((0, N.useCallback)(async (n)=>{
             let r = Cw(t, e)?.roomId;
             if (!r) {
@@ -149307,8 +149323,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function TUe({ userId: e }) {
-        let t = q(), n = Nj(), r = oN().includes(e), i = G0(), a = jP(i), o = VR(i), s = zR(o, a), { hasMorePower: c } = v9(o, a), l = t.getSafeUserId(), u = o.has(e), d = s.action(`kick`, l) && c(l, e), f = s.action(`ban`, l) && c(l, e), p = s.action(`ban`, l), m = s.action(`invite`, l), h = i.getMember(e), g = SUe(i, e), _ = KC(i, e), v = JC(i, e), y = (v && Ew(t, v, n)) ?? void 0, b = CM(e), x = wM(e), S = Mj(e), C = PE(S.extended).map((e)=>e.summary).join(`, `), w = FE(S.extended), T = IE(S.extended), E = uUe(LE(S.extended)), D = w ? Ew(t, w, n) ?? void 0 : void 0;
+    function EUe({ userId: e }) {
+        let t = q(), n = Nj(), r = oN().includes(e), i = G0(), a = jP(i), o = VR(i), s = zR(o, a), { hasMorePower: c } = v9(o, a), l = t.getSafeUserId(), u = o.has(e), d = s.action(`kick`, l) && c(l, e), f = s.action(`ban`, l) && c(l, e), p = s.action(`ban`, l), m = s.action(`invite`, l), h = i.getMember(e), g = CUe(i, e), _ = KC(i, e), v = JC(i, e), y = (v && Ew(t, v, n)) ?? void 0, b = CM(e), x = wM(e), S = Mj(e), C = PE(S.extended).map((e)=>e.summary).join(`, `), w = FE(S.extended), T = IE(S.extended), E = dUe(LE(S.extended)), D = w ? Ew(t, w, n) ?? void 0 : void 0;
         return (0, P.jsxs)(L, {
             direction: `Column`,
             children: [
@@ -149346,13 +149362,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                     gap: `200`,
                                     wrap: `Wrap`,
                                     children: [
-                                        u ? (0, P.jsx)(CUe, {}) : (0, P.jsx)(vUe, {
+                                        u ? (0, P.jsx)(wUe, {}) : (0, P.jsx)(yUe, {
                                             userId: e
                                         }),
-                                        e !== l && (0, P.jsx)(pUe, {
+                                        e !== l && (0, P.jsx)(mUe, {
                                             userId: e
                                         }),
-                                        e !== l && (0, P.jsx)(hUe, {
+                                        e !== l && (0, P.jsx)(gUe, {
                                             userId: e,
                                             membership: g,
                                             canInvite: m,
@@ -149383,23 +149399,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         x && (0, P.jsx)(HM, {
                             presence: x
                         }),
-                        r && (0, P.jsx)(mUe, {}),
-                        h && g === kb.Ban && (0, P.jsx)(bUe, {
+                        r && (0, P.jsx)(hUe, {}),
+                        h && g === kb.Ban && (0, P.jsx)(xUe, {
                             reason: h.events.member?.getContent().reason,
                             bannedBy: h.events.member?.getSender(),
                             ts: h.events.member?.getTs()
                         }),
-                        h && g === kb.Leave && h.events.member && h.events.member.getSender() !== e && (0, P.jsx)(yUe, {
+                        h && g === kb.Leave && h.events.member && h.events.member.getSender() !== e && (0, P.jsx)(bUe, {
                             reason: h.events.member?.getContent().reason,
                             kickedBy: h.events.member?.getSender(),
                             ts: h.events.member?.getTs()
                         }),
-                        h && g === kb.Invite && (0, P.jsx)(xUe, {
+                        h && g === kb.Invite && (0, P.jsx)(SUe, {
                             reason: h.events.member?.getContent().reason,
                             invitedBy: h.events.member?.getSender(),
                             ts: h.events.member?.getTs()
                         }),
-                        e !== l && !r && (0, P.jsx)(wUe, {
+                        e !== l && !r && (0, P.jsx)(TUe, {
                             userId: e
                         })
                     ]
@@ -149407,7 +149423,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function EUe({ state: e }) {
+    function DUe({ state: e }) {
         let { roomId: t, spaceId: n, userId: r, cords: i, position: a } = e, o = kB(OB()), s = o(t), c = n ? o(n) : void 0, l = vB();
         return s ? (0, P.jsx)(Ms, {
             anchor: i,
@@ -149428,7 +149444,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         value: c ?? null,
                         children: (0, P.jsx)(W0, {
                             value: s,
-                            children: (0, P.jsx)(TUe, {
+                            children: (0, P.jsx)(EUe, {
                                 userId: r
                             })
                         })
@@ -149437,13 +149453,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         }) : null;
     }
-    function DUe() {
+    function OUe() {
         let e = _B();
-        return e ? (0, P.jsx)(EUe, {
+        return e ? (0, P.jsx)(DUe, {
             state: e
         }) : null;
     }
-    function OUe({ value: e, onSelect: t, disabled: n, getIcon: r }) {
+    function kUe({ value: e, onSelect: t, disabled: n, getIcon: r }) {
         return (0, P.jsxs)(L, {
             shrink: `No`,
             direction: `Column`,
@@ -149538,7 +149554,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     var y9 = (e, t)=>{
         let n = t === r2.VoiceRoom, r = ge.Public;
         return e === i2.Restricted && (r = ge.Restricted), e === i2.Private && (r = ge.Knock), VC(U, n ? Mb.Call : void 0, r);
-    }, kUe = (e)=>e === r2.VoiceRoom ? U.VolumeHigh : U.Hash;
+    }, AUe = (e)=>e === r2.VoiceRoom ? U.VolumeHigh : U.Hash;
     function b9({ defaultAccess: e, defaultType: t, space: n, onCreate: r }) {
         let i = q(), a = Ig(), o = KE()[`m.room_versions`], [s, c] = (0, N.useState)(o?.default ?? `1`);
         (0, N.useEffect)(()=>{
@@ -149588,11 +149604,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             size: `L400`,
                             children: `Type`
                         }),
-                        (0, P.jsx)(OUe, {
+                        (0, P.jsx)(kUe, {
                             value: u,
                             onSelect: d,
                             disabled: ne,
-                            getIcon: kUe
+                            getIcon: AUe
                         })
                     ]
                 }),
@@ -149819,8 +149835,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function AUe({ state: e }) {
-        let { spaceId: t, type: n } = e, r = Sze(), i = kB(OB()), a = t ? i(t) : void 0;
+    function jUe({ state: e }) {
+        let { spaceId: t, type: n } = e, r = Cze(), i = kB(OB()), a = t ? i(t) : void 0;
         return (0, P.jsx)(wB, {
             value: a ?? null,
             children: (0, P.jsx)(ws, {
@@ -149892,9 +149908,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function jUe() {
-        let e = xze();
-        return e ? (0, P.jsx)(AUe, {
+    function MUe() {
+        let e = Sze();
+        return e ? (0, P.jsx)(jUe, {
             state: e
         }) : null;
     }
@@ -150192,8 +150208,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function MUe({ state: e }) {
-        let { spaceId: t } = e, n = Tze(), r = kB(OB()), i = t ? r(t) : void 0;
+    function NUe({ state: e }) {
+        let { spaceId: t } = e, n = Eze(), r = kB(OB()), i = t ? r(t) : void 0;
         return (0, P.jsx)(wB, {
             value: i ?? null,
             children: (0, P.jsx)(ws, {
@@ -150265,13 +150281,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function NUe() {
-        let e = wze();
-        return e ? (0, P.jsx)(MUe, {
+    function PUe() {
+        let e = Tze();
+        return e ? (0, P.jsx)(NUe, {
             state: e
         }) : null;
     }
-    function PUe() {
+    function FUe() {
         let { navigateSpace: e } = BV();
         return (0, P.jsx)(oA, {
             children: (0, P.jsx)(L, {
@@ -150306,7 +150322,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    var FUe = (e, t)=>{
+    var IUe = (e, t)=>{
         let [n, r] = (0, N.useState)(t);
         return {
             index: n,
@@ -150332,11 +150348,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 t
             ])
         };
-    }, IUe = (e)=>{
+    }, LUe = (e)=>{
         if (e === `#`) return `#`;
         if (e === `*`) return `*`;
         if (e === `@`) return `@`;
-    }, LUe = (e, t, n, r, i)=>{
+    }, RUe = (e, t, n, r, i)=>{
         let a = q();
         return (0, N.useMemo)(()=>{
             let o = (e)=>e !== i;
@@ -150355,7 +150371,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }, w9 = (e, t, n)=>{
         let r = t(e);
         return r && ww(r, n);
-    }, RUe = (e, t, n, r, i)=>(0, N.useMemo)(()=>{
+    }, zUe = (e, t, n, r, i)=>(0, N.useMemo)(()=>{
             let a = (e)=>e !== i;
             return e === void 0 ? [
                 ...t,
@@ -150368,7 +150384,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             n,
             e,
             i
-        ]), zUe = {
+        ]), BUe = {
         matchOptions: {
             contain: !0
         },
@@ -150376,8 +150392,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ignoreWhitespace: !1
         }
     };
-    function BUe({ requestClose: e }) {
-        let t = q(), n = Nj(), r = (0, N.useRef)(null), i = (0, N.useRef)(null), { navigateRoom: a, navigateSpace: o } = BV(), s = Vd(UD), c = zz(), [l, u] = (0, N.useState)(), d = kB(OB()), f = Vd(bD), p = Cz(t, gD, f), m = Vd(vD), h = wz(t, gD, m), g = Sz(t, gD), _ = Tz(t, gD, m), v = LUe(l, h, _, g, c), [y, b, x] = PB(RUe(l, h, _, g, c), (0, N.useCallback)((e)=>{
+    function VUe({ requestClose: e }) {
+        let t = q(), n = Nj(), r = (0, N.useRef)(null), i = (0, N.useRef)(null), { navigateRoom: a, navigateSpace: o } = BV(), s = Vd(UD), c = zz(), [l, u] = (0, N.useState)(), d = kB(OB()), f = Vd(bD), p = Cz(t, gD, f), m = Vd(vD), h = wz(t, gD, m), g = Sz(t, gD), _ = Tz(t, gD, m), v = RUe(l, h, _, g, c), [y, b, x] = PB(zUe(l, h, _, g, c), (0, N.useCallback)((e)=>{
             let n = d(e)?.name ?? e;
             if (m.has(e)) {
                 let r = w9(e, d, t.getSafeUserId()), i = r && uw(r);
@@ -150391,11 +150407,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             d,
             m,
             t
-        ]), zUe), S = y ? y.items : v, C = FUe(S.length, 0), w = y?.query ? $L(y.query.split(` `)) : void 0, T = (t, n)=>{
+        ]), BUe), S = y ? y.items : v, C = IUe(S.length, 0), w = y?.query ? $L(y.query.split(` `)) : void 0, T = (t, n)=>{
             n ? o(t) : a(t), e();
         }, E = (e)=>{
             C.reset();
-            let t = e.currentTarget.value.trim(), n = t.match(/^[#@*]/)?.[0], r = typeof n == `string` && IUe(n);
+            let t = e.currentTarget.value.trim(), n = t.match(/^[#@*]/)?.[0], r = typeof n == `string` && LUe(n);
             if (r ? (t = t.slice(1), u(r)) : u(void 0), t === ``) {
                 x();
                 return;
@@ -150639,7 +150655,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function VUe() {
+    function HUe() {
         let [e, t] = Ud(H4);
         return Y4(window, (0, N.useCallback)((n)=>{
             if (Rv(`mod+k`, n)) {
@@ -150654,7 +150670,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }, [
             e,
             t
-        ])), e && (0, P.jsx)(BUe, {
+        ])), e && (0, P.jsx)(VUe, {
             requestClose: ()=>t(!1)
         });
     }
@@ -150691,7 +150707,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 }, t))
         });
     }
-    function HUe({ requestClose: e }) {
+    function UUe({ requestClose: e }) {
         let [t] = J(K, `keybinds`), n = Mk() ? kA.Command : `Ctrl`, r = (0, N.useRef)(null), i = new Map;
         for (let e of T9)i.set(e, []);
         for (let e of tz){
@@ -150820,28 +150836,28 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function UUe() {
+    function WUe() {
         let [e, t] = Ud(iz), n = (0, N.useCallback)(()=>t(!1), [
             t
         ]);
-        return e ? (0, P.jsx)(HUe, {
+        return e ? (0, P.jsx)(UUe, {
             requestClose: n
         }) : null;
     }
-    var WUe = `q1kz0e0`, GUe = `q1kz0e1`, KUe = `q1kz0e2`, qUe = `q1kz0e3`, JUe = `q1kz0e4`;
-    function YUe(e) {
+    var GUe = `q1kz0e0`, KUe = `q1kz0e1`, qUe = `q1kz0e2`, JUe = `q1kz0e3`, YUe = `q1kz0e4`;
+    function XUe(e) {
         let t = Math.max(0, Math.floor(e / 1e3)), n = Math.floor(t / 3600), r = Math.floor(t % 3600 / 60), i = t % 60;
         return n > 0 ? `${n}:${String(r).padStart(2, `0`)}:${String(i).padStart(2, `0`)}` : `${r}:${String(i).padStart(2, `0`)}`;
     }
-    function XUe(e) {
+    function ZUe(e) {
         let [t, n] = (0, N.useState)(Date.now());
         return (0, N.useEffect)(()=>{
             let e = setInterval(()=>n(Date.now()), 1e3);
             return ()=>clearInterval(e);
-        }, []), e.length === 0 ? `0:00` : YUe(t - Math.min(...e.map((e)=>e.createdTs())));
+        }, []), e.length === 0 ? `0:00` : XUe(t - Math.min(...e.map((e)=>e.createdTs())));
     }
-    function ZUe({ room: e, members: t }) {
-        let n = q(), r = Nj(), i = yB(), a = XUe(t), [o, s] = (0, N.useState)();
+    function QUe({ room: e, members: t }) {
+        let n = q(), r = Nj(), i = yB(), a = ZUe(t), [o, s] = (0, N.useState)();
         return (0, P.jsx)(Ms, {
             anchor: o,
             position: `Top`,
@@ -150914,7 +150930,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 variant: `Surface`,
                 fill: `Soft`,
                 before: (0, P.jsx)(`span`, {
-                    className: WUe,
+                    className: GUe,
                     children: (0, P.jsx)(z, {
                         size: `200`,
                         src: U.VolumeHigh,
@@ -150930,7 +150946,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     s(e.currentTarget.getBoundingClientRect());
                 },
                 children: (0, P.jsx)(H, {
-                    className: GUe,
+                    className: KUe,
                     as: `span`,
                     size: `L400`,
                     children: a
@@ -150980,10 +150996,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             variant: `Background`,
             size: `300`,
             direction: `Vertical`,
-            className: qUe
+            className: JUe
         });
     }
-    function QUe({ enabled: e, onToggle: t, disabled: n }) {
+    function $Ue({ enabled: e, onToggle: t, disabled: n }) {
         let [r, i] = Rg(t), a = r.status === W.Loading;
         return (0, P.jsx)(ic, {
             position: `Top`,
@@ -151010,7 +151026,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function $Ue({ enabled: e, onToggle: t, disabled: n }) {
+    function eWe({ enabled: e, onToggle: t, disabled: n }) {
         return (0, P.jsx)(ic, {
             position: `Top`,
             tooltip: (0, P.jsx)(nc, {
@@ -151036,7 +151052,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function eWe({ enabled: e, onToggle: t, disabled: n }) {
+    function tWe({ enabled: e, onToggle: t, disabled: n }) {
         let [r, i] = Rg(t), a = r.status === W.Loading;
         return (0, P.jsx)(ic, {
             position: `Top`,
@@ -151063,7 +151079,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function tWe({ enabled: e, onToggle: t, disabled: n }) {
+    function nWe({ enabled: e, onToggle: t, disabled: n }) {
         return (0, P.jsx)(ic, {
             position: `Top`,
             tooltip: (0, P.jsx)(nc, {
@@ -151089,7 +151105,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 })
         });
     }
-    function nWe({ callEmbed: e, compact: t, callJoined: n }) {
+    function rWe({ callEmbed: e, compact: t, callJoined: n }) {
         let { microphone: r, video: i, sound: a, screenshare: o } = XB(e.control), s = Hd(QB), c = (0, N.useCallback)(()=>e.control.toggleMicrophone(), [
             e
         ]), l = (0, N.useCallback)(()=>e.control.toggleVideo(), [
@@ -151106,23 +151122,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     alignItems: `Inherit`,
                     gap: `200`,
                     children: [
-                        (0, P.jsx)(QUe, {
+                        (0, P.jsx)($Ue, {
                             enabled: r,
                             onToggle: c,
                             disabled: !n
                         }),
-                        (0, P.jsx)($Ue, {
+                        (0, P.jsx)(eWe, {
                             enabled: a,
                             onToggle: ()=>e.control.toggleSound(),
                             disabled: !n
                         }),
                         !t && (0, P.jsx)(O9, {}),
-                        (0, P.jsx)(eWe, {
+                        (0, P.jsx)(tWe, {
                             enabled: i,
                             onToggle: l,
                             disabled: !n
                         }),
-                        !t && (0, P.jsx)(tWe, {
+                        !t && (0, P.jsx)(nWe, {
                             enabled: o,
                             onToggle: ()=>e.control.toggleScreenshare(),
                             disabled: !n
@@ -151161,7 +151177,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var rWe = $E({
+    var iWe = $E({
         defaultClassName: `_1uu0zpn0`,
         variantClassNames: {
             size: {
@@ -151186,16 +151202,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             variant: `Surface`
         },
         compoundVariants: []
-    }), iWe = jo(({ size: e, variant: t, className: n, ...r }, i)=>(0, P.jsx)(Bo, {
+    }), aWe = jo(({ size: e, variant: t, className: n, ...r }, i)=>(0, P.jsx)(Bo, {
             size: e,
-            className: (0, Xa.default)(rWe({
+            className: (0, Xa.default)(iWe({
                 size: e,
                 variant: t
             }), n),
             ...r,
             ref: i
         }));
-    function aWe({ room: e, members: t, speakers: n, max: r = 6 }) {
+    function oWe({ room: e, members: t, speakers: n, max: r = 6 }) {
         let i = q(), a = Nj(), o = yB(), s = t.slice(0, r), c = r && t.length > r ? t.length - r : 0;
         return (0, P.jsxs)(L, {
             alignItems: `Center`,
@@ -151204,8 +151220,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     let { userId: r } = t;
                     if (!r) return null;
                     let s = KC(e, r) ?? uw(r) ?? r, c = JC(e, r), l = c ? Ew(i, c, a, 96, 96) ?? void 0 : void 0;
-                    return (0, P.jsx)(iWe, {
-                        className: n.has(t.sender) ? JUe : void 0,
+                    return (0, P.jsx)(aWe, {
+                        className: n.has(t.sender) ? YUe : void 0,
                         title: s,
                         as: `button`,
                         variant: `Background`,
@@ -151237,7 +151253,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    var oWe = (e, t, n)=>{
+    var sWe = (e, t, n)=>{
         let r = (0, N.useMemo)(()=>new MutationObserver(e), [
             e
         ]);
@@ -151253,14 +151269,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             t,
             n
         ]), r;
-    }, sWe = (e)=>{
+    }, cWe = (e)=>{
         let [t, n] = (0, N.useState)(new Set), r = HB(BB(e.room)), i = aV(e), a = (0, N.useMemo)(()=>{
             if (r && i) return e.document?.querySelectorAll(`[data-video-fit]`);
         }, [
             e,
             r,
             i
-        ]), o = oWe((0, N.useCallback)((t)=>{
+        ]), o = sWe((0, N.useCallback)((t)=>{
             let r = new Set;
             t.forEach((t)=>{
                 if (t.type !== `attributes`) return;
@@ -151287,7 +151303,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             o
         ]), t;
     };
-    function cWe({ room: e, speakers: t }) {
+    function lWe({ room: e, speakers: t }) {
         let n = Array.from(t).map((t)=>KC(e, t) ?? uw(t) ?? t);
         return (0, P.jsxs)(L, {
             alignItems: `Center`,
@@ -151416,10 +151432,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function lWe({ callEmbed: e }) {
-        let { room: t } = e, n = HB(BB(t)), r = Yv(), i = aV(e), a = sWe(e), o = r === qv.Mobile, s = i && n.length > 0;
+    function uWe({ callEmbed: e }) {
+        let { room: t } = e, n = HB(BB(t)), r = Yv(), i = aV(e), a = cWe(e), o = r === qv.Mobile, s = i && n.length > 0;
         return (0, P.jsxs)(L, {
-            className: (0, Xa.default)(KUe, eD({
+            className: (0, Xa.default)(qUe, eD({
                 variant: `Background`
             })),
             shrink: `No`,
@@ -151434,7 +151450,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     children: [
                         s ? (0, P.jsx)(L, {
                             shrink: `No`,
-                            children: (0, P.jsx)(ZUe, {
+                            children: (0, P.jsx)(QUe, {
                                 room: t,
                                 members: n
                             })
@@ -151457,7 +151473,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                             (0, P.jsx)(`span`, {
                                                 "data-spacing-node": !0
                                             }),
-                                            (0, P.jsx)(cWe, {
+                                            (0, P.jsx)(lWe, {
                                                 room: t,
                                                 speakers: a
                                             })
@@ -151468,7 +151484,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         }),
                         s && (0, P.jsx)(L, {
                             shrink: `No`,
-                            children: (0, P.jsx)(aWe, {
+                            children: (0, P.jsx)(oWe, {
                                 room: t,
                                 members: n,
                                 speakers: a
@@ -151488,7 +151504,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 room: t
                             })
                         }),
-                        (0, P.jsx)(nWe, {
+                        (0, P.jsx)(rWe, {
                             callJoined: i,
                             compact: o,
                             callEmbed: e
@@ -151498,14 +151514,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function uWe() {
+    function dWe() {
         let e = tV(), t = zz(), n = Zv();
-        return !e || n === qv.Mobile && e.roomId === t ? null : (0, P.jsx)(lWe, {
+        return !e || n === qv.Mobile && e.roomId === t ? null : (0, P.jsx)(uWe, {
             callEmbed: e
         });
     }
-    var dWe = `/assets/call-H6UnaODb.ogg`, fWe = `_9rmubx4`;
-    function pWe({ dm: e, info: t, onIgnore: n, onAnswer: r, onReject: i }) {
+    var fWe = `/assets/call-H6UnaODb.ogg`, pWe = `_9rmubx4`;
+    function mWe({ dm: e, info: t, onIgnore: n, onAnswer: r, onReject: i }) {
         let a = q(), o = Nj(), s = lV(), c = uV(), l = s && c, { room: u } = t, d = (0, N.useRef)(null), f = LB(u), p = IB(u, e), m = p ? Ew(a, p, o, 96, 96, `crop`) ?? void 0 : void 0;
         VB(BB(u), (0, N.useCallback)((e)=>{
             e.length === 0 && n();
@@ -151558,7 +151574,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                                     shrink: `No`,
                                                     children: (0, P.jsx)(Bo, {
                                                         size: `500`,
-                                                        className: fWe,
+                                                        className: pWe,
                                                         children: (0, P.jsx)(eB, {
                                                             roomId: u.roomId,
                                                             src: m,
@@ -151670,14 +151686,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         display: `none`
                     },
                     children: (0, P.jsx)(`source`, {
-                        src: dWe,
+                        src: fWe,
                         type: `audio/ogg`
                     })
                 })
             ]
         });
     }
-    function mWe({ callEmbed: e, joined: t }) {
+    function hWe({ callEmbed: e, joined: t }) {
         let n = q(), r = Vd(vD), { navigateRoom: i } = BV(), [a, o] = (0, N.useState)(), s = a ? r.has(a.room.roomId) : !1, c = iV(s), l = (0, N.useCallback)(async (e, t, r, i, a)=>{
             if (e.getRelation()?.rel_type !== de.Reference || t?.isCallRoom() || (e.isEncrypted() && (e.shouldAttemptDecryption() && await e.attemptDecryption(n.getCrypto()), await e.getDecryptionPromise()), !t || e.getType() !== he.RTCNotification || e.getSender() === n.getSafeUserId() || !a.liveEvent)) return;
             let s = e.getSender(), c = e.getContent(), l = c.sender_ts - e.getTs() > 2e4 ? e.getTs() : c.sender_ts, u = Math.min(c.lifetime, 12e4), d = c.notification_type, f = (e.getRelation()?.rel_type === de.Reference ? e.getRelation() : void 0)?.event_id, p = c[`m.mentions`]?.room || c[`m.mentions`]?.user_ids?.includes(n.getSafeUserId());
@@ -151724,7 +151740,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             c,
             i
         ]);
-        return a && e?.roomId === a.room.roomId ? null : !t && a ? (0, P.jsx)(pWe, {
+        return a && e?.roomId === a.room.roomId ? null : !t && a ? (0, P.jsx)(mWe, {
             dm: s,
             info: a,
             onIgnore: u,
@@ -151732,7 +151748,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             onReject: d
         }) : null;
     }
-    function hWe({ embed: e }) {
+    function gWe({ embed: e }) {
         let t = Hd(QB);
         return P_e(e), F_e(e), N_e(e, (0, N.useCallback)(()=>{
             t(void 0);
@@ -151742,7 +151758,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 oD(!1);
             }), []), null;
     }
-    function gWe({ children: e }) {
+    function _We({ children: e }) {
         let t = Vd(QB), n = (0, N.useRef)(null), r = aV(t);
         (0, N.useEffect)(()=>{
             if (t) return QR(!0), ()=>{
@@ -151755,13 +151771,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return (0, P.jsxs)(A_e, {
             value: t,
             children: [
-                t && (0, P.jsx)(hWe, {
+                t && (0, P.jsx)(gWe, {
                     embed: t
                 }),
                 (0, P.jsxs)(j_e, {
                     value: n,
                     children: [
-                        (0, P.jsx)(mWe, {
+                        (0, P.jsx)(hWe, {
                             callEmbed: t,
                             joined: r
                         }),
@@ -151783,7 +151799,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             ]
         });
     }
-    function _We() {
+    function vWe() {
         let e = ah();
         console.error(`Route error:`, e);
         let t;
@@ -151885,17 +151901,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function vWe() {
+    function yWe() {
         let e = Fk();
         return (0, P.jsx)(Gee, {
             to: e,
             replace: !0
         });
     }
-    var yWe = (e, t)=>{
+    var bWe = (e, t)=>{
         let { hashRouter: n } = e, r = t === qv.Mobile, i = qee((0, P.jsxs)(hh, {
             HydrateFallback: k9,
-            errorElement: (0, P.jsx)(_We, {}),
+            errorElement: (0, P.jsx)(vWe, {}),
             children: [
                 (0, P.jsx)(hh, {
                     index: !0,
@@ -151911,7 +151927,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     element: (0, P.jsxs)(P.Fragment, {
                         children: [
                             (0, P.jsx)(zre, {}),
-                            (0, P.jsx)(ZVe, {})
+                            (0, P.jsx)(QVe, {})
                         ]
                     }),
                     children: [
@@ -151937,31 +151953,31 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         }
                         return null;
                     },
-                    element: (0, P.jsx)(QVe, {
+                    element: (0, P.jsx)($Ve, {
                         children: (0, P.jsx)(qse, {
                             children: (0, P.jsx)(eVe, {
-                                children: (0, P.jsx)(tUe, {
+                                children: (0, P.jsx)(nUe, {
                                     children: (0, P.jsx)(pce, {
-                                        children: (0, P.jsxs)(XVe, {
+                                        children: (0, P.jsxs)(ZVe, {
                                             children: [
-                                                (0, P.jsxs)(gWe, {
+                                                (0, P.jsxs)(_We, {
                                                     children: [
                                                         (0, P.jsx)(Dge, {
                                                             nav: (0, P.jsx)(qBe, {
-                                                                children: (0, P.jsx)(s7, {})
+                                                                children: (0, P.jsx)(c7, {})
                                                             }),
                                                             children: (0, P.jsx)(mh, {})
                                                         }),
-                                                        (0, P.jsx)(uWe, {})
+                                                        (0, P.jsx)(dWe, {})
                                                     ]
                                                 }),
-                                                (0, P.jsx)(VUe, {}),
-                                                (0, P.jsx)(UUe, {}),
-                                                (0, P.jsx)(DUe, {}),
-                                                (0, P.jsx)(jUe, {}),
-                                                (0, P.jsx)(NUe, {}),
-                                                (0, P.jsx)(eUe, {}),
-                                                (0, P.jsx)(lUe, {}),
+                                                (0, P.jsx)(HUe, {}),
+                                                (0, P.jsx)(WUe, {}),
+                                                (0, P.jsx)(OUe, {}),
+                                                (0, P.jsx)(MUe, {}),
+                                                (0, P.jsx)(PUe, {}),
+                                                (0, P.jsx)(tUe, {}),
+                                                (0, P.jsx)(uUe, {}),
                                                 (0, P.jsx)(Wfe, {}),
                                                 (0, P.jsx)(hpe, {})
                                             ]
@@ -151976,9 +151992,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             path: t_,
                             element: (0, P.jsx)(nA, {
                                 resizableNav: !0,
-                                nav: (0, P.jsx)(c7, {
+                                nav: (0, P.jsx)(l7, {
                                     path: t_,
-                                    children: (0, P.jsx)(f7, {
+                                    children: (0, P.jsx)(p7, {
                                         children: (0, P.jsx)(RV, {})
                                     })
                                 }),
@@ -151987,7 +152003,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: [
                                 (0, P.jsx)(hh, {
                                     index: !0,
-                                    element: r ? (0, P.jsx)(d7, {}) : (0, P.jsx)(B5, {})
+                                    element: r ? (0, P.jsx)(f7, {}) : (0, P.jsx)(B5, {})
                                 }),
                                 (0, P.jsx)(hh, {
                                     path: Xg,
@@ -152015,9 +152031,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             path: n_,
                             element: (0, P.jsx)(nA, {
                                 resizableNav: !0,
-                                nav: (0, P.jsx)(c7, {
+                                nav: (0, P.jsx)(l7, {
                                     path: n_,
-                                    children: (0, P.jsx)(f7, {
+                                    children: (0, P.jsx)(p7, {
                                         children: (0, P.jsx)(Aje, {})
                                     })
                                 }),
@@ -152026,7 +152042,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: [
                                 (0, P.jsx)(hh, {
                                     index: !0,
-                                    element: r ? (0, P.jsx)(d7, {}) : (0, P.jsx)(B5, {})
+                                    element: r ? (0, P.jsx)(f7, {}) : (0, P.jsx)(B5, {})
                                 }),
                                 (0, P.jsx)(hh, {
                                     path: Xg,
@@ -152055,9 +152071,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             element: (0, P.jsx)(nA, {
                                 resizableNav: !0,
                                 collapsibleNav: !0,
-                                nav: (0, P.jsx)(c7, {
+                                nav: (0, P.jsx)(l7, {
                                     path: r_,
-                                    children: (0, P.jsx)(f7, {
+                                    children: (0, P.jsx)(p7, {
                                         children: (0, P.jsx)(hje, {})
                                     })
                                 }),
@@ -152066,7 +152082,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: [
                                 (0, P.jsx)(hh, {
                                     index: !0,
-                                    element: r ? (0, P.jsx)(d7, {}) : (0, P.jsx)(B5, {})
+                                    element: r ? (0, P.jsx)(f7, {}) : (0, P.jsx)(B5, {})
                                 }),
                                 (0, P.jsx)(hh, {
                                     path: Xg,
@@ -152085,9 +152101,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             element: (0, P.jsx)(Nje, {
                                 children: (0, P.jsx)(nA, {
                                     resizableNav: !0,
-                                    nav: (0, P.jsx)(c7, {
+                                    nav: (0, P.jsx)(l7, {
                                         path: i_,
-                                        children: (0, P.jsx)(f7, {
+                                        children: (0, P.jsx)(p7, {
                                             children: (0, P.jsx)(nMe, {})
                                         })
                                     }),
@@ -152105,7 +152121,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 }),
                                 (0, P.jsx)(hh, {
                                     path: Qg,
-                                    element: (0, P.jsx)(Kze, {})
+                                    element: (0, P.jsx)(qze, {})
                                 }),
                                 (0, P.jsx)(hh, {
                                     path: $g,
@@ -152123,7 +152139,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             path: l_,
                             element: (0, P.jsx)(nA, {
                                 resizableNav: !0,
-                                nav: (0, P.jsx)(c7, {
+                                nav: (0, P.jsx)(l7, {
                                     path: l_,
                                     children: (0, P.jsx)(lMe, {})
                                 }),
@@ -152147,13 +152163,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         }),
                         (0, P.jsx)(hh, {
                             path: u_,
-                            element: (0, P.jsx)(PUe, {})
+                            element: (0, P.jsx)(FUe, {})
                         }),
                         (0, P.jsxs)(hh, {
                             path: m_,
                             element: (0, P.jsx)(nA, {
                                 resizableNav: !0,
-                                nav: (0, P.jsx)(c7, {
+                                nav: (0, P.jsx)(l7, {
                                     path: m_,
                                     children: (0, P.jsx)(vMe, {})
                                 }),
@@ -152162,7 +152178,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                             children: [
                                 r ? null : (0, P.jsx)(hh, {
                                     index: !0,
-                                    element: (0, P.jsx)(vWe, {})
+                                    element: (0, P.jsx)(yWe, {})
                                 }),
                                 (0, P.jsx)(hh, {
                                     path: p_,
@@ -152200,7 +152216,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             basename: `/`
         });
     };
-    function bWe() {
+    function xWe() {
         (0, N.useEffect)(()=>{
             let e = window.visualViewport;
             if (!e) return;
@@ -152212,10 +152228,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             };
         }, []);
     }
-    var xWe = new Kte;
-    function SWe() {
+    var SWe = new Kte;
+    function CWe() {
         let e = Yv();
-        AAe(), bPe(), xPe(), bWe();
+        AAe(), xPe(), SPe(), xWe();
         let t = document.getElementById(`portalContainer`) ?? void 0;
         return (0, P.jsx)(ec, {
             value: t,
@@ -152236,11 +152252,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                                 children: (t)=>(0, P.jsx)(cne, {
                                         value: t,
                                         children: (0, P.jsxs)(Jte, {
-                                            client: xWe,
+                                            client: SWe,
                                             children: [
                                                 (0, P.jsx)(Fd, {
                                                     children: (0, P.jsx)(Hh, {
-                                                        router: yWe(t, e)
+                                                        router: bWe(t, e)
                                                     })
                                                 }),
                                                 (0, P.jsx)(ane, {
@@ -152256,7 +152272,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             })
         });
     }
-    function CWe() {
+    function wWe() {
         let e = (e)=>{
             let t = e.target.closest(`a[href^="blob:"]`);
             if (!t) return;
@@ -152268,13 +152284,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
         return document.addEventListener(`click`, e, !0), ()=>document.removeEventListener(`click`, e, !0);
     }
-    var { slice: wWe, forEach: TWe } = [];
-    function EWe(e) {
-        return TWe.call(wWe.call(arguments, 1), (t)=>{
+    var { slice: TWe, forEach: EWe } = [];
+    function DWe(e) {
+        return EWe.call(TWe.call(arguments, 1), (t)=>{
             if (t) for(let n in t)e[n] === void 0 && (e[n] = t[n]);
         }), e;
     }
-    function DWe(e) {
+    function OWe(e) {
         return typeof e == `string` && [
             /<\s*script.*?>/i,
             /<\s*\/\s*script\s*>/i,
@@ -152291,7 +152307,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             /innerHTML/i
         ].some((t)=>t.test(e));
     }
-    var A9 = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/, OWe = function(e, t) {
+    var A9 = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/, kWe = function(e, t) {
         let n = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {
             path: `/`
         }, r = `${e}=${encodeURIComponent(t)}`;
@@ -152335,7 +152351,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 path: `/`,
                 sameSite: `strict`
             };
-            n && (i.expires = new Date, i.expires.setTime(i.expires.getTime() + n * 60 * 1e3)), r && (i.domain = r), document.cookie = OWe(e, t, i);
+            n && (i.expires = new Date, i.expires.setTime(i.expires.getTime() + n * 60 * 1e3)), r && (i.domain = r), document.cookie = kWe(e, t, i);
         },
         read (e) {
             let t = `${e}=`, n = document.cookie.split(`;`);
@@ -152349,7 +152365,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         remove (e, t) {
             this.create(e, ``, -1, t);
         }
-    }, kWe = {
+    }, AWe = {
         name: `cookie`,
         lookup (e) {
             let { lookupCookie: t } = e;
@@ -152359,7 +152375,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             let { lookupCookie: n, cookieMinutes: r, cookieDomain: i, cookieOptions: a } = t;
             n && typeof document < `u` && j9.create(n, e, r, i, a);
         }
-    }, AWe = {
+    }, jWe = {
         name: `querystring`,
         lookup (e) {
             let { lookupQuerystring: t } = e, n;
@@ -152374,7 +152390,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
             return n;
         }
-    }, jWe = {
+    }, MWe = {
         name: `hash`,
         lookup (e) {
             let { lookupHash: t, lookupFromHashIndex: n } = e, r;
@@ -152408,7 +152424,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             M9 = !1;
         }
         return M9;
-    }, MWe = {
+    }, NWe = {
         name: `localStorage`,
         lookup (e) {
             let { lookupLocalStorage: t } = e;
@@ -152428,7 +152444,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             P9 = !1;
         }
         return P9;
-    }, NWe = {
+    }, PWe = {
         name: `sessionStorage`,
         lookup (e) {
             let { lookupSessionStorage: t } = e;
@@ -152438,7 +152454,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             let { lookupSessionStorage: n } = t;
             n && F9() && window.sessionStorage.setItem(n, e);
         }
-    }, PWe = {
+    }, FWe = {
         name: `navigator`,
         lookup (e) {
             let t = [];
@@ -152449,13 +152465,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
             return t.length > 0 ? t : void 0;
         }
-    }, FWe = {
+    }, IWe = {
         name: `htmlTag`,
         lookup (e) {
             let { htmlTag: t } = e, n, r = t || (typeof document < `u` ? document.documentElement : null);
             return r && typeof r.getAttribute == `function` && (n = r.getAttribute(`lang`)), n;
         }
-    }, IWe = {
+    }, LWe = {
         name: `path`,
         lookup (e) {
             let { lookupFromPathIndex: t } = e;
@@ -152463,7 +152479,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             let n = window.location.pathname.match(/\/([a-zA-Z-]*)/g);
             if (Array.isArray(n)) return n[typeof t == `number` ? t : 0]?.replace(`/`, ``);
         }
-    }, LWe = {
+    }, RWe = {
         name: `subdomain`,
         lookup (e) {
             let { lookupFromSubdomainIndex: t } = e, n = typeof t == `number` ? t + 1 : 1, r = typeof window < `u` && window.location?.hostname?.match(/^(\w{2,5})\.(([a-z0-9-]{1,63}\.[a-z]{2,6})|localhost)/i);
@@ -152482,7 +152498,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         `htmlTag`
     ];
     I9 || L9.splice(1, 1);
-    var RWe = ()=>({
+    var zWe = ()=>({
             order: L9,
             lookupQuerystring: `lng`,
             lookupCookie: `i18next`,
@@ -152504,7 +152520,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             let e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
                 languageUtils: {}
             }, t = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, n = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
-            this.services = e, this.options = EWe(t, this.options || {}, RWe()), typeof this.options.convertDetectedLanguage == `string` && this.options.convertDetectedLanguage.indexOf(`15897`) > -1 && (this.options.convertDetectedLanguage = (e)=>e.replace(`-`, `_`)), this.options.lookupFromUrlIndex && (this.options.lookupFromPathIndex = this.options.lookupFromUrlIndex), this.i18nOptions = n, this.addDetector(kWe), this.addDetector(AWe), this.addDetector(MWe), this.addDetector(NWe), this.addDetector(PWe), this.addDetector(FWe), this.addDetector(IWe), this.addDetector(LWe), this.addDetector(jWe);
+            this.services = e, this.options = DWe(t, this.options || {}, zWe()), typeof this.options.convertDetectedLanguage == `string` && this.options.convertDetectedLanguage.indexOf(`15897`) > -1 && (this.options.convertDetectedLanguage = (e)=>e.replace(`-`, `_`)), this.options.lookupFromUrlIndex && (this.options.lookupFromPathIndex = this.options.lookupFromUrlIndex), this.i18nOptions = n, this.addDetector(AWe), this.addDetector(jWe), this.addDetector(NWe), this.addDetector(PWe), this.addDetector(FWe), this.addDetector(IWe), this.addDetector(LWe), this.addDetector(RWe), this.addDetector(MWe);
         }
         addDetector(e) {
             return this.detectors[e.name] = e, this;
@@ -152518,7 +152534,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                         n
                     ]), n && (t = t.concat(n));
                 }
-            }), t = t.filter((e)=>e != null && !DWe(e)).map((e)=>this.options.convertDetectedLanguage(e)), this.services && this.services.languageUtils && this.services.languageUtils.getBestMatchFromCodes ? t : t.length > 0 ? t[0] : null;
+            }), t = t.filter((e)=>e != null && !OWe(e)).map((e)=>this.options.convertDetectedLanguage(e)), this.services && this.services.languageUtils && this.services.languageUtils.getBestMatchFromCodes ? t : t.length > 0 ? t[0] : null;
         }
         cacheUserLanguage(e) {
             let t = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : this.options.caches;
@@ -152541,17 +152557,17 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function H9(e) {
         return !(!V9(e) || e.indexOf(`/`) > -1);
     }
-    function zWe(e) {
+    function BWe(e) {
         return V9(e);
     }
-    var BWe = {
+    var VWe = {
         lng: H9,
-        ns: zWe
+        ns: BWe
     };
     function U9(e) {
         return typeof e == `string` ? e.replace(/[\r\n\x00-\x1F\x7F]/g, ` `) : e;
     }
-    function VWe(e) {
+    function HWe(e) {
         if (typeof e != `string` || e.length === 0) return e;
         try {
             let t = new URL(e);
@@ -152563,20 +152579,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     function W9() {
         return typeof XMLHttpRequest == `function` || typeof XMLHttpRequest == `object`;
     }
-    function HWe(e) {
+    function UWe(e) {
         return !!e && typeof e.then == `function`;
     }
-    function UWe(e) {
-        return HWe(e) ? e : Promise.resolve(e);
+    function WWe(e) {
+        return UWe(e) ? e : Promise.resolve(e);
     }
-    var WWe = /\{\{(.+?)\}\}/g;
+    var GWe = /\{\{(.+?)\}\}/g;
     function G9(e, t) {
-        let n = !1, r = e.replace(WWe, (e, r)=>{
+        let n = !1, r = e.replace(GWe, (e, r)=>{
             let i = r.trim();
             if (B9.indexOf(i) > -1) return e;
             let a = t[i];
             if (a == null) return e;
-            let o = BWe[i] || H9, s = String(a).split(`+`);
+            let o = VWe[i] || H9, s = String(a).split(`+`);
             for (let t of s)if (!o(t)) return n = !0, e;
             return s.join(`+`);
         });
@@ -152584,7 +152600,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }
     var K9 = typeof globalThis < `u` ? globalThis : typeof global < `u` ? global : typeof window < `u` ? window : void 0, q9;
     typeof fetch == `function` ? q9 = fetch : K9 && typeof K9.fetch == `function` && (q9 = K9.fetch);
-    var J9 = W9() && K9 ? K9.XMLHttpRequest : void 0, GWe = typeof ActiveXObject == `function` && K9 ? K9.ActiveXObject : void 0, Y9 = [
+    var J9 = W9() && K9 ? K9.XMLHttpRequest : void 0, KWe = typeof ActiveXObject == `function` && K9 ? K9.ActiveXObject : void 0, Y9 = [
         `__proto__`,
         `constructor`,
         `prototype`
@@ -152616,7 +152632,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }
         }
         typeof fetch == `function` ? fetch(e, t).then(i).catch(n) : q9(e, t).then(i).catch(n);
-    }, KWe = (e, t, n, r)=>{
+    }, qWe = (e, t, n, r)=>{
         e.queryStringParams && (t = X9(t, e.queryStringParams));
         let i = {
             ...typeof e.customHeaders == `function` ? e.customHeaders() : e.customHeaders
@@ -152640,10 +152656,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 r(e);
             }
         }
-    }, qWe = (e, t, n, r)=>{
+    }, JWe = (e, t, n, r)=>{
         n && typeof n == `object` && (n = X9(``, n).slice(1)), e.queryStringParams && (t = X9(t, e.queryStringParams));
         try {
-            let i = J9 ? new J9 : new GWe(`MSXML2.XMLHTTP.3.0`);
+            let i = J9 ? new J9 : new KWe(`MSXML2.XMLHTTP.3.0`);
             i.open(n ? `POST` : `GET`, t, 1), e.crossDomain || i.setRequestHeader(`X-Requested-With`, `XMLHttpRequest`), i.withCredentials = !!e.withCredentials, n && i.setRequestHeader(`Content-Type`, `application/x-www-form-urlencoded`), i.overrideMimeType && i.overrideMimeType(`application/json`);
             let a = e.customHeaders;
             if (a = typeof a == `function` ? a() : a, a) for (let e of Object.keys(a))Y9.indexOf(e) > -1 || i.setRequestHeader(e, a[e]);
@@ -152656,11 +152672,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         } catch (e) {
             console && console.log(e);
         }
-    }, JWe = (e, t, n, r)=>{
-        if (typeof n == `function` && (r = n, n = void 0), r ||= (()=>{}), q9 && t.indexOf(`file:`) !== 0) return KWe(e, t, n, r);
-        if (W9() || typeof ActiveXObject == `function`) return qWe(e, t, n, r);
+    }, YWe = (e, t, n, r)=>{
+        if (typeof n == `function` && (r = n, n = void 0), r ||= (()=>{}), q9 && t.indexOf(`file:`) !== 0) return qWe(e, t, n, r);
+        if (W9() || typeof ActiveXObject == `function`) return JWe(e, t, n, r);
         r(Error(`No fetch and no xhr implementation found!`));
-    }, YWe = ()=>({
+    }, XWe = ()=>({
             loadPath: `/locales/{{lng}}/{{ns}}.json`,
             addPath: `/locales/add/{{lng}}/{{ns}}`,
             parse: (e)=>JSON.parse(e),
@@ -152669,7 +152685,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                     [t]: n || ``
                 }),
             parseLoadPayload: (e, t)=>void 0,
-            request: JWe,
+            request: YWe,
             reloadInterval: typeof window < `u` ? !1 : 36e5,
             customHeaders: {},
             queryStringParams: {},
@@ -152687,7 +152703,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         init(e, t = {}, n = {}) {
             if (this.services = e, this.options = {
-                ...YWe(),
+                ...XWe(),
                 ...this.options || {},
                 ...t
             }, this.allOptions = n, this.services && this.options.reloadInterval) {
@@ -152707,7 +152723,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
         _readAny(e, t, n, r, i) {
             let a = this.options.loadPath;
-            typeof this.options.loadPath == `function` && (a = this.options.loadPath(e, n)), a = UWe(a), a.then((a)=>{
+            typeof this.options.loadPath == `function` && (a = this.options.loadPath(e, n)), a = WWe(a), a.then((a)=>{
                 if (!a) return i(null, {});
                 let o = G9(a, {
                     lng: e.join(`+`),
@@ -152725,7 +152741,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                 n
             ] : n, a = typeof r == `string` ? [
                 r
-            ] : r, o = this.options.parseLoadPayload(i, a), s = U9(VWe(e));
+            ] : r, o = this.options.parseLoadPayload(i, a), s = U9(HWe(e));
             this.options.request(this.options, e, o, (e, i)=>{
                 if (i && (i.status >= 500 && i.status < 600 || !i.status)) return t(`failed loading ` + s + `; status code: ` + i.status, !0);
                 if (i && i.status >= 400 && i.status < 500) return t(`failed loading ` + s + `; status code: ` + i.status, !1);
@@ -152799,13 +152815,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             loadPath: `${Vu(`/`)}/public/locales/{{lng}}.json`
         }
     }), qa(), document.body.classList.add($a, eo);
-    var $9 = `cinny:chunk-reload-at`, XWe = 3e4;
+    var $9 = `cinny:chunk-reload-at`, ZWe = 3e4;
     if (window.addEventListener(`vite:preloadError`, (e)=>{
         let t = 0;
         try {
             t = Number(sessionStorage.getItem($9) ?? 0);
         } catch  {}
-        if (!(Date.now() - t < XWe)) {
+        if (!(Date.now() - t < ZWe)) {
             try {
                 sessionStorage.setItem($9, String(Date.now()));
             } catch  {
@@ -152840,7 +152856,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             console.error(`Root container element not found!`);
             return;
         }
-        (0, Ci.createRoot)(e).render((0, P.jsx)(SWe, {}));
-    })(), CWe();
+        (0, Ci.createRoot)(e).render((0, P.jsx)(CWe, {}));
+    })(), wWe();
 });
 export { cs as A, q as C, U as D, Hd as E, V as M, H as N, L as O, Ya as P, Nk as S, aC as T, Ape as _, ySe as a, xP as b, fSe as c, _Se as d, CSe as f, LL as g, Yme as h, mSe as i, zs as j, z as k, xSe as l, WH as m, hSe as n, vSe as o, pSe as p, gSe as r, bSe as s, XJ as t, SSe as u, Cpe as v, Ew as w, Nj as x, wpe as y, __tla };
