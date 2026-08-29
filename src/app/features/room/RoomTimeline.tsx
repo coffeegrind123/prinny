@@ -525,6 +525,54 @@ const useLiveTimelineRefresh = (room: Room, onRefresh: () => void) => {
 };
 
 /**
+ * The server dropped a gap in this room's history, so the SDK threw away the
+ * live timeline and started a new one. Everything this component holds now
+ * points at a detached object and has to be re-seeded.
+ *
+ * **The bug this exists for: the room stops showing new messages.** A `/sync`
+ * whose room timeline is `limited` — more events happened than the sync filter
+ * will return, so the server sends a `prev_batch` gap instead of the events —
+ * makes the SDK call `room.resetLiveTimeline()`, which replaces the live
+ * `EventTimeline` with a brand new one (sync.ts, `if (limited)`). This
+ * component's `timeline.linkedTimelines` still holds the OLD one, so
+ * `liveTimelineLinked` goes false and every index in `range` addresses a
+ * timeline nothing is being appended to any more. New messages land in the new
+ * live timeline and are never rendered: the conversation sits there showing the
+ * messages it had when the gap opened, growing a tail of loading placeholders,
+ * and only a "Jump to Latest" (or leaving and re-entering the room) recovers
+ * it. Nothing listened for the event that says this happened.
+ *
+ * **Why it reads as a mobile bug.** A limited timeline needs the client to have
+ * missed more messages than the filter's limit, which a desktop client holding
+ * an open `/sync` almost never does. Android suspends the WebView's JavaScript
+ * whenever the activity is not resumed, so every trip through the background is
+ * a disconnection, and coming back to a busy room is exactly the case the
+ * server answers with a gap.
+ *
+ * Filtered to the timeline set this component actually renders: `Room`
+ * re-emits `TimelineReset` from thread timeline sets and from filtered ones as
+ * well as from the unfiltered set (room.js re-emits at four call sites), and a
+ * thread's reset says nothing about the main timeline.
+ */
+const useLiveTimelineReset = (room: Room, onReset: () => void) => {
+  useEffect(() => {
+    const handleTimelineReset: RoomEventHandlerMap[RoomEvent.TimelineReset] = (
+      r,
+      timelineSet,
+    ) => {
+      if (r?.roomId !== room.roomId) return;
+      if (timelineSet !== room.getUnfilteredTimelineSet()) return;
+      onReset();
+    };
+
+    room.on(RoomEvent.TimelineReset, handleTimelineReset);
+    return () => {
+      room.removeListener(RoomEvent.TimelineReset, handleTimelineReset);
+    };
+  }, [room, onReset]);
+};
+
+/**
  * Fires when a local echo changes send status (SENDING -> SENT, or -> NOT_SENT).
  * The event object is mutated in place, so nothing else in the render path
  * notices; without this the failed-send bar would only appear on the next
@@ -988,6 +1036,31 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     }, [room, liveTimelineLinked]),
   );
 
+  // See `useLiveTimelineReset`. Re-seed from the timeline that is now live,
+  // unconditionally: unlike a refresh there is no "still fine" case to preserve
+  // — the object this component was rendering has been detached from the room
+  // and will never receive another event, so leaving it in place is choosing a
+  // view that has stopped updating.
+  //
+  // A reader who was AT the live end is put back on it, which is the whole
+  // point. A reader who had scrolled up loses their place, and that is not
+  // avoidable here: the events they were reading are no longer in the live
+  // chain, so there is no index in the new timeline that means "where they
+  // were". They can still page back to them, and `liveTimelineLinked` was
+  // already false for anyone parked on a permalink in an older timeline — that
+  // case never reaches here, because the reset is for the timeline set they are
+  // not looking at.
+  useLiveTimelineReset(
+    room,
+    useCallback(() => {
+      setTimeline(getInitialTimeline(room));
+      if (atBottomRef.current) {
+        scrollToBottomRef.current.count += 1;
+        scrollToBottomRef.current.smooth = false;
+      }
+    }, [room]),
+  );
+
   useLocalEchoUpdated(
     room,
     useCallback(() => {
@@ -1084,6 +1157,30 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     ),
     useCallback(() => roomInputRef.current, [roomInputRef]),
   );
+
+  // Stay at the bottom when the SCROLLER itself changes height.
+  //
+  // The two observers above cover the content growing and the composer growing.
+  // Neither sees the viewport shrinking under the timeline, which is the common
+  // case on a phone: the on-screen keyboard. The page is laid out in `100dvh`
+  // with `interactive-widget=resizes-content` (see `useKeyboardInset`), so
+  // raising the keyboard shortens the whole layout — the scroller loses a few
+  // hundred pixels of `clientHeight` while its content keeps exactly the height
+  // it had, so nothing the content observer watches changes and nothing put the
+  // reader back on the live end. `scrollTop` is untouched, so the newest
+  // messages are now below the fold, the bottom anchor stops intersecting, and
+  // `atBottomRef` latches false — after which arriving events stop advancing
+  // the rendered range at all (see `useLiveEventArrive`) and the conversation
+  // quietly stops updating. Closing the keyboard does not undo it, because
+  // nothing re-advances a range that fell behind.
+  //
+  // `keepFollowingLiveEnd` answers "was the reader at the bottom BEFORE this?"
+  // from the metrics it recorded last time, so a shrink is judged against the
+  // pre-shrink `clientHeight` and a reader who had genuinely scrolled up is
+  // left alone. Firing twice in a frame (the composer growing resizes both it
+  // and the scroller) is harmless: the second call measures against what the
+  // first just recorded and reaches the same verdict.
+  useResizeObserver(keepFollowingLiveEnd, getScrollElement);
 
   /**
    * Leaving the room ends the "I marked this unread while sitting in it"
