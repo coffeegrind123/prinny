@@ -1,4 +1,4 @@
-import { BasePoint, BaseRange, Editor, Element, Point, Range, Text, Transforms } from 'slate';
+import { BasePoint, BaseRange, Editor, Element, Node, Point, Range, Text, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { BlockType, MarkType } from './types';
 import {
@@ -208,6 +208,35 @@ export const moveCursor = (editor: Editor, withSpace?: boolean) => {
 };
 
 /**
+ * The last caret each editor is known to have had.
+ *
+ * Restoring to the end of the document is right when the reader was typing at
+ * the end, which is most of the time — and wrong the rest of it. Measured in
+ * Chromium: caret put in the middle of "hello", the selection cleared, "XY"
+ * typed — without this the result is "helloXY", the reader's words carrying on
+ * somewhere they were not looking. A remembered caret puts them back where they
+ * were.
+ *
+ * A WeakMap rather than component state: `restoreCaretIfMissing` is reached
+ * from `safeFocusEditor` in a dozen places with no component to hold it, and
+ * the entry should die with the editor.
+ */
+const LAST_SELECTION = new WeakMap<Editor, BaseRange>();
+
+/** Record the editor's caret, if it has one, as the place to come back to. */
+export const rememberSelection = (editor: Editor): void => {
+  if (editor.selection) LAST_SELECTION.set(editor, editor.selection);
+};
+
+/** Whether a remembered range still points at text that exists. */
+const rangeStillValid = (editor: Editor, range: BaseRange): boolean =>
+  [range.anchor, range.focus].every((point) => {
+    if (!Editor.hasPath(editor, point.path)) return false;
+    const node = Node.get(editor, point.path);
+    return Text.isText(node) && point.offset <= node.text.length;
+  });
+
+/**
  * Put a caret back when the editor has lost its selection.
  *
  * `editor.selection` is the whole of what Slate edits against: with none,
@@ -224,11 +253,91 @@ export const moveCursor = (editor: Editor, withSpace?: boolean) => {
  */
 export const restoreCaretIfMissing = (editor: Editor): boolean => {
   if (editor.selection) return false;
+
+  const remembered = LAST_SELECTION.get(editor);
+  if (remembered) {
+    try {
+      if (rangeStillValid(editor, remembered)) {
+        Transforms.select(editor, remembered);
+        return true;
+      }
+    } catch {
+      // Fall through to the end of the document.
+    }
+  }
+
   try {
     Transforms.select(editor, Editor.end(editor, []));
     return true;
   } catch {
     // Empty or detached tree — there is no valid point to select.
+    return false;
+  }
+};
+
+/**
+ * Put a caret back in the BROWSER when the editor is focused and has none.
+ *
+ * This is the other half of the "text comes out backwards" bug, and the half
+ * the model-level repair above cannot reach: there, `editor.selection` is
+ * perfectly fine and only the DOM caret is gone, so that guard returns
+ * immediately and the message still builds up in reverse.
+ *
+ * Why a missing DOM caret reverses text, from slate-react's own
+ * `onDOMBeforeInput`: for a plain single character (`/[a-z ]/i`) typed at a
+ * collapsed selection, slate takes a **native insertion** fast path — it does
+ * not `preventDefault`, and lets the browser perform the edit. The browser
+ * performs it at the *DOM* selection, which slate never consulted. With no DOM
+ * caret the browser puts the character at the START of the contenteditable.
+ * Measured in Chromium against this editor: composer holding "hi ", the DOM
+ * selection cleared once with the model left alone, then "abcdef" typed — the
+ * result is "ahi bcdef". Anything that clears the caret repeatedly — the
+ * null-selection state slate's own DOM sync sustains, one wipe per render —
+ * does that to every character, and the message reads backwards.
+ *
+ * Only a *missing* caret is repaired. A real selection is left where it is,
+ * including outside the editor: someone highlighting a message to copy it while
+ * the composer still holds focus must not have it snatched back.
+ *
+ * Returns whether a caret was put back.
+ */
+export const restoreDomCaretIfMissing = (editor: Editor): boolean => {
+  let el: HTMLElement;
+  try {
+    el = ReactEditor.toDOMNode(editor as ReactEditor, editor);
+  } catch {
+    // Not mounted, or detached mid-unmount.
+    return false;
+  }
+
+  const root = el.getRootNode();
+  const documentOrShadow = root instanceof Document || root instanceof ShadowRoot ? root : null;
+  // Only ever repairs the editor the reader is actually typing into.
+  if (documentOrShadow?.activeElement !== el) return false;
+
+  // `getSelection` on a ShadowRoot is the shadow-DOM-aware form and is not in
+  // every engine's lib types; the owning document's is the fallback either way.
+  const shadowGetSelection = (documentOrShadow as { getSelection?: () => Selection | null })
+    .getSelection;
+  const domSelection = shadowGetSelection
+    ? shadowGetSelection.call(documentOrShadow)
+    : el.ownerDocument.getSelection();
+  if (!domSelection) return false;
+  if (domSelection.rangeCount > 0) return false;
+
+  // The model has to have a caret before one can be projected into the DOM.
+  restoreCaretIfMissing(editor);
+  const { selection } = editor;
+  if (!selection) return false;
+
+  try {
+    const domRange = ReactEditor.toDOMRange(editor as ReactEditor, selection);
+    domSelection.removeAllRanges();
+    domSelection.addRange(domRange);
+    return true;
+  } catch {
+    // The selection points at something that is not rendered — nothing to
+    // project, and slate's own DOM sync will correct it on the next render.
     return false;
   }
 };

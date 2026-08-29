@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 import {
   ClipboardEventHandler,
+  CompositionEventHandler,
   DragEventHandler,
   KeyboardEventHandler,
   ReactNode,
   forwardRef,
   useCallback,
+  useEffect,
   useState,
 } from 'react';
 import { Box, Scroll, Text } from 'folds';
@@ -24,7 +26,7 @@ import { RenderElement, RenderLeaf } from './Elements';
 import { CustomElement } from './slate';
 import * as css from './Editor.css';
 import { toggleKeyboardShortcut } from './keyboard';
-import { restoreCaretIfMissing } from './utils';
+import { rememberSelection, restoreCaretIfMissing, restoreDomCaretIfMissing } from './utils';
 
 /**
  * A fresh empty document, built per editor — never a shared constant.
@@ -123,12 +125,82 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
 
     const handleKeydown: KeyboardEventHandler = useCallback(
       (evt) => {
+        // Before anything else, and before the browser gets to the `beforeinput`
+        // this keystroke is about to raise. That is the deadline: slate hands
+        // plain characters to the browser to insert natively, the browser
+        // inserts at the DOM caret, and a missing one puts the character at the
+        // front of the message. See `restoreDomCaretIfMissing` — restoring it
+        // any later than keydown is restoring it after the character has
+        // already landed in the wrong place.
+        restoreDomCaretIfMissing(editor);
         onKeyDown?.(evt);
         const shortcutToggled = toggleKeyboardShortcut(editor, evt);
         if (shortcutToggled) evt.preventDefault();
       },
       [editor, onKeyDown]
     );
+
+    /**
+     * A composition — an IME, a compose key, a phone keyboard's autocorrect —
+     * starting while the caret is missing takes slate's DOM sync down with it,
+     * and the composer with it. Its effect answers a composition by calling
+     * `domSelection.collapseToEnd()`, which THROWS when there are no ranges:
+     * "Failed to execute 'collapseToEnd' on 'Selection': there is no
+     * selection". Thrown from a layout effect, so React unmounts the tree and
+     * the composer is replaced by the error boundary — reproduced in Chromium
+     * by clearing the selection and starting a composition. A caret put back
+     * here, before slate sees the event, is one there is something to collapse.
+     */
+    const handleCompositionStart: CompositionEventHandler = useCallback(() => {
+      restoreDomCaretIfMissing(editor);
+    }, [editor]);
+
+    /**
+     * Remember where the caret is, so a repair can put it back there rather
+     * than at the end of the message.
+     *
+     * Hung off `onChange` rather than slate's `onSelectionChange`, which only
+     * fires for explicit `set_selection` operations — and typing is not one.
+     * Slate moves the caret along with an `insert_text` op implicitly, so a
+     * memory fed by `onSelectionChange` stops at wherever you last clicked and
+     * never advances. Restoring to that stale point is worse than restoring to
+     * the end of the message: measured in Chromium, it put every character of
+     * "abcdef" back at the click position and produced "abcdefhi ".
+     */
+    const handleChange: EditorChangeHandler = useCallback(
+      (value) => {
+        rememberSelection(editor);
+        onChange?.(value);
+      },
+      [editor, onChange]
+    );
+
+    /**
+     * Put the DOM caret back the moment it goes missing, rather than waiting
+     * for the next keystroke.
+     *
+     * By keystroke time it is already too late, and the trace says why: with
+     * the composer focused and no DOM selection, the browser invents one
+     * *before it dispatches keydown* — at offset 0, the front of the message.
+     * Every guard downstream of that then sees a perfectly good caret sitting
+     * in the wrong place, so nothing repairs it, slate adopts it over its own
+     * (correct) selection, and the character lands at the front. Traced in
+     * Chromium with the model caret at offset 3: `keydown ranges=1 offset=0
+     * model=3`, then `beforeinput targetRanges=1 trOffset=0`, and "a" typed
+     * into "hi " came out as "ahi ".
+     *
+     * `selectionchange` fires the instant the caret is cleared, which is before
+     * the browser has any keystroke to invent one for. Only a *missing* caret
+     * is repaired — see `restoreDomCaretIfMissing` — so this never argues with
+     * the reader about where their cursor is.
+     */
+    useEffect(() => {
+      const handleDomSelectionChange = () => {
+        restoreDomCaretIfMissing(editor);
+      };
+      document.addEventListener('selectionchange', handleDomSelectionChange);
+      return () => document.removeEventListener('selectionchange', handleDomSelectionChange);
+    }, [editor]);
 
     /**
      * Last line of defence for the composer's caret. This is the "text comes out
@@ -170,6 +242,11 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
      */
     const handleDOMBeforeInput = useCallback(() => {
       restoreCaretIfMissing(editor);
+      // The keydown handler above is the one that beats the browser to a native
+      // insertion; this covers input that arrives without a keydown at all —
+      // dictation, a pen, an autocorrect replacement — where this is the first
+      // moment anything can be put back.
+      restoreDomCaretIfMissing(editor);
     }, [editor]);
 
     const renderPlaceholder = useCallback(
@@ -186,7 +263,7 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
 
     return (
       <div className={css.Editor} ref={ref}>
-        <Slate editor={editor} initialValue={initialValue} onChange={onChange}>
+        <Slate editor={editor} initialValue={initialValue} onChange={handleChange}>
           {top}
           <Box alignItems="Start">
             {before && (
@@ -210,6 +287,7 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
                 onDOMBeforeInput={handleDOMBeforeInput}
+                onCompositionStart={handleCompositionStart}
                 onKeyDown={handleKeydown}
                 onKeyUp={onKeyUp}
                 onPaste={onPaste}
