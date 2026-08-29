@@ -949,11 +949,17 @@ function MediaFeedContent({
           <button
             type="button"
             className={css.FeedRailButton}
-            onClick={(evt) =>
-              setEmojiAnchor((anchor) =>
-                anchor ? undefined : evt.currentTarget.getBoundingClientRect(),
-              )
-            }
+            onClick={(evt) => {
+              // Measure the button *before* the setter, never inside the
+              // updater. A functional update is not guaranteed to run during
+              // the click — React defers it to the next render whenever the
+              // component already has work queued (a playing video ticking
+              // `progress`, a scroll), and by then it has reset the synthetic
+              // event's `currentTarget` to null, so the rect read throws and
+              // takes the whole feed down.
+              const rect = evt.currentTarget.getBoundingClientRect();
+              setEmojiAnchor((anchor) => (anchor ? undefined : rect));
+            }}
             aria-pressed={reaction.reacted}
             aria-expanded={!!emojiAnchor}
             aria-label="React to this message"

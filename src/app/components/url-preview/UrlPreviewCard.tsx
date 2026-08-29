@@ -31,6 +31,7 @@ import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { ImageViewer } from '../image-viewer';
 import { stopPropagation, onEnterOrSpace } from '../../utils/keyboard';
 import { useSetting } from '../../state/hooks/settings';
+import { useUrlPreviewDismissed } from '../../state/hooks/dismissedUrlPreviews';
 import { settingsAtom } from '../../state/settings';
 import { isYoutubeUrl, getYoutubeVideoId } from '../../utils/youtube';
 import { pipedEmbedUrl, usePipedInstance } from '../../utils/piped';
@@ -453,7 +454,10 @@ export const UrlPreviewCard = as<
 
   const [viewerSrc, setViewerSrc] = useState<string>();
   const [expanded, setExpanded] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  // Persisted per (event, url) rather than held in component state: switching
+  // rooms unmounts the whole timeline, so a local flag put every dismissed card
+  // back the moment you returned.
+  const [dismissed, dismiss] = useUrlPreviewDismissed(url, eventId);
   // Set once the homeserver has refused to thumbnail this card's og:image, so
   // the image sources below switch to the original for the rest of this card's
   // life. Without the latch the failing <img> re-requests the same rejected
@@ -641,7 +645,7 @@ export const UrlPreviewCard = as<
             variant="SurfaceVariant"
             onClick={(e) => {
               e.stopPropagation();
-              setDismissed(true);
+              dismiss();
             }}
             aria-label="Dismiss embed"
             style={{ position: 'absolute', top: 4, right: 4, zIndex: 1 }}
@@ -817,7 +821,7 @@ export const UrlPreviewCard = as<
             variant="SurfaceVariant"
             onClick={(e) => {
               e.stopPropagation();
-              setDismissed(true);
+              dismiss();
             }}
             aria-label="Dismiss embed"
             style={{ position: 'absolute', top: 4, right: 4, zIndex: 1 }}
@@ -1486,7 +1490,7 @@ export const UrlPreviewCard = as<
           variant="SurfaceVariant"
           onClick={(e) => {
             e.stopPropagation();
-            setDismissed(true);
+            dismiss();
           }}
           aria-label="Dismiss embed"
           style={{ position: 'absolute', top: 4, right: 4, zIndex: 1 }}
