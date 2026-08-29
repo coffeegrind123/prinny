@@ -2,6 +2,12 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 29.08.2026
+
+- `2294dfe` Fixed **the React button in the full-screen picture viewer taking the whole viewer down**, leaving a blank screen you had to reload out of. Reacting to a photo while a video was playing in the feed was enough to trigger it: the button measured its own position a moment too late, by which point the browser had already forgotten where the click came from. It now measures the moment you press it.
+- `2294dfe` Fixed **X'd-out link previews coming back**. Dismissing a preview only lasted until you left the room — switch to another chat and back and every one you had cleared was there again. A dismissal is now remembered on this device, including across restarts, and applies to that link in that message, so the same link posted again later still gets a preview of its own.
+- `2294dfe` Fixed **links inside code blocks getting preview cards**. A URL in a fenced code block, or in `backticks`, is being shown rather than linked, so it no longer gets a card — and it no longer gets fetched either, which for an example URL in a config line is the more useful half. A link that appears both in a code block and as a real link in the same message still gets its card.
+
 ## 26.08.2026
 
 - `5bc5fd4` Fixed **the first letter of a message vanishing when you start typing in a room you have just switched to**. Typing "foobar" straight after clicking a different chat sent "oobar". Switching rooms builds a brand-new composer, and the code that hands your keystroke to it was asking the editor to take focus at the one moment the editor refuses — it puts itself off by 10ms whenever it has just moved the cursor, which it always has on the first keypress in a new room. Your first character had nothing focused to land in; every one after it was fine, which is why exactly one went missing. The composer is now focused there and then.
