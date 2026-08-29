@@ -490,9 +490,41 @@ function MessageNotifications() {
     ensureAndroidNotificationPermission();
   }, []);
 
+  // Read through a ref rather than captured, and see the effect below for why
+  // that is load-bearing rather than tidiness.
+  const navigateRoomRef = useRef(navigateRoom);
+  navigateRoomRef.current = navigateRoom;
+
   // Handle notification clicks: bring window to foreground and navigate to room
+  //
+  // Registered ONCE, on mount, with the navigation reached through a ref —
+  // the same shape `useUpdateCheck` uses for its install action, and for the
+  // same reason.
+  //
+  // Keying this on `navigateRoom` was the bug behind "clicking the toast opens
+  // a card with a View button instead of the chat". `navigateRoom` changes
+  // identity whenever `mDirects`, `roomToParents` or the selected space
+  // changes, and the first two of those are still EMPTY when this effect first
+  // runs: `useBindAtoms` lives in `ClientBindAtoms`, which is this component's
+  // parent, and React runs child effects before parent effects. So the first
+  // listener is registered with a `navigateRoom` that believes there are no
+  // DMs and no spaces — and that one sends every DM to `/home/<roomId>`, which
+  // `HomeRouteRoomProvider` rejects (a DM is not an orphan room) and renders
+  // `JoinBeforeNavigate` for: the room-preview card, one click short of the
+  // conversation. Exactly what switching this path to `navigateRoom` was meant
+  // to fix, arriving through a stale copy of the fix.
+  //
+  // Re-registering did not replace that listener either. `onNotificationAction`
+  // resolves over IPC, so the cleanup for a dependency change that lands in the
+  // same tick runs while `unlisten` is still undefined, and the stale listener
+  // stays subscribed for the life of the session. Tauri then delivers an event
+  // to every subscriber with no ordering guarantee between them (the Rust side
+  // iterates a HashMap of handlers), so with both alive it was a coin toss
+  // which `navigateRoom` got the last word — which is why this misbehaved
+  // intermittently rather than always.
   useEffect(() => {
     let unlisten: (() => void) | undefined;
+    let disposed = false;
     onNotificationAction(({ roomId, eventId }) => {
       if (roomId) {
         // navigateRoom, not a hardcoded Home path. A room that lives in a
@@ -500,7 +532,7 @@ function MessageNotifications() {
         // the room-preview card instead of the timeline — clicking the toast
         // put you one click short of the conversation every time. This picks
         // the space/direct/home route the rest of the app uses.
-        navigateRoom(roomId, eventId);
+        navigateRoomRef.current(roomId, eventId);
       }
       getCurrentWindow()
         .setFocus()
@@ -512,12 +544,17 @@ function MessageNotifications() {
         .unminimize()
         .catch(() => {});
     }).then((fn) => {
-      unlisten = fn;
+      // Unsubscribing a registration that only resolved after unmount: without
+      // this the listener outlives the component, which is the leak that kept
+      // the stale closures above alive.
+      if (disposed) fn();
+      else unlisten = fn;
     });
     return () => {
+      disposed = true;
       unlisten?.();
     };
-  }, [navigateRoom]);
+  }, []);
 
   // Web push notification clicks: the SW posts a message picked up in
   // src/index.tsx and re-broadcast as a window CustomEvent.
