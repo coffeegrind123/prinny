@@ -748,72 +748,93 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
       // only way to tell "this room really has two photos in it" apart from
       // "the walk gave up early" from outside the client.
       let stoppedBecause = 'target-reached';
-      let added = await scanLoaded(cursor);
-      publish(cursor);
-      // Deliberately not awaited: the walk below carries on while posts
-      // resolve, and each batch publishes itself.
-      resolveEmbeds(cursor);
-
+      let added = 0;
       let paginations = 0;
-      let paginationError: unknown;
-      while (
-        aliveRef.current &&
-        added < TARGET_NEW_ITEMS &&
-        !cursor.exhausted &&
-        paginations < MAX_PAGINATIONS_PER_LOAD
-      ) {
-        const token = cursor.timeline.getPaginationToken(EventTimeline.BACKWARDS);
-        if (!token) {
-          cursor.exhausted = true;
-          stoppedBecause = 'no-pagination-token';
-          break;
-        }
-        paginations += 1;
-        let ok = false;
-        try {
-          ok = await mx.paginateEventTimeline(cursor.timeline, {
-            backwards: true,
-            limit: PAGINATION_LIMIT,
-          });
-        } catch (err) {
-          // A homeserver that will not serve older history leaves us with what
-          // we have, which is still a usable gallery.
-          console.warn('[gallery] pagination threw', err);
-          paginationError = err;
-          ok = false;
-        }
-        if (!ok) {
-          cursor.exhausted = true;
-          stoppedBecause = paginationError ? 'pagination-threw' : 'pagination-end';
-          break;
-        }
-        added += await scanLoaded(cursor);
-        publish(cursor);
-      }
 
-      publish(cursor);
-      resolveEmbeds(cursor);
-      if (paginations >= MAX_PAGINATIONS_PER_LOAD && !cursor.exhausted) {
-        stoppedBecause = 'pagination-budget';
+      // Everything below is inside a `try`, because a throw anywhere in the
+      // walk used to escape this IIFE as an unhandled rejection and take the
+      // gallery down with it for the rest of the session — not just for this
+      // room. `runningRef` stayed latched true, so every later `loadMore` (the
+      // sentinel's, the filter's, the "Load older media" chip's, the next
+      // room's first scan) returned at its first line; `loading` stayed true;
+      // and the one line that says why the walk stopped never ran. One
+      // unexpected event anywhere in a room's history was enough to do that,
+      // and from the outside it looked exactly like a gallery that had decided
+      // the conversation has no pictures in it.
+      try {
+        added = await scanLoaded(cursor);
+        publish(cursor);
+        // Deliberately not awaited: the walk below carries on while posts
+        // resolve, and each batch publishes itself.
+        resolveEmbeds(cursor);
+
+        let paginationError: unknown;
+        while (
+          aliveRef.current &&
+          added < TARGET_NEW_ITEMS &&
+          !cursor.exhausted &&
+          paginations < MAX_PAGINATIONS_PER_LOAD
+        ) {
+          const token = cursor.timeline.getPaginationToken(EventTimeline.BACKWARDS);
+          if (!token) {
+            cursor.exhausted = true;
+            stoppedBecause = 'no-pagination-token';
+            break;
+          }
+          paginations += 1;
+          let ok = false;
+          try {
+            ok = await mx.paginateEventTimeline(cursor.timeline, {
+              backwards: true,
+              limit: PAGINATION_LIMIT,
+            });
+          } catch (err) {
+            // A homeserver that will not serve older history leaves us with what
+            // we have, which is still a usable gallery.
+            console.warn('[gallery] pagination threw', err);
+            paginationError = err;
+            ok = false;
+          }
+          if (!ok) {
+            cursor.exhausted = true;
+            stoppedBecause = paginationError ? 'pagination-threw' : 'pagination-end';
+            break;
+          }
+          added += await scanLoaded(cursor);
+          publish(cursor);
+        }
+      } catch (err) {
+        // Not `exhausted`: the walk failed, it did not finish. Leaving
+        // `hasMore` true is what keeps "Look further back" on screen, so the
+        // grid offers a retry instead of claiming the conversation has no
+        // pictures in it.
+        stoppedBecause = 'scan-threw';
+        console.error('[gallery] scan threw', err);
+      } finally {
+        publish(cursor);
+        resolveEmbeds(cursor);
+        if (paginations >= MAX_PAGINATIONS_PER_LOAD && !cursor.exhausted) {
+          stoppedBecause = 'pagination-budget';
+        }
+        // One line per `loadMore`, deliberately kept in production builds. The
+        // failure this exists for — "the gallery says that is everything and it
+        // plainly is not" — is invisible from the UI: an early stop and a genuinely
+        // short room look identical, and the difference is which of these numbers
+        // is small.
+        console.info('[gallery] scan', {
+          roomId: cursor.roomId,
+          stopped: stoppedBecause,
+          eventsScanned: cursor.scanned,
+          itemsFound: cursor.items.length,
+          newThisRound: added,
+          paginations,
+          exhausted: cursor.exhausted,
+          encrypted: room.hasEncryptionStateEvent(),
+          pendingEmbeds: cursor.pendingEmbeds.length,
+        });
+        runningRef.current = false;
+        if (aliveRef.current) setLoading(false);
       }
-      // One line per `loadMore`, deliberately kept in production builds. The
-      // failure this exists for — "the gallery says that is everything and it
-      // plainly is not" — is invisible from the UI: an early stop and a genuinely
-      // short room look identical, and the difference is which of these numbers
-      // is small.
-      console.info('[gallery] scan', {
-        roomId: cursor.roomId,
-        stopped: stoppedBecause,
-        eventsScanned: cursor.scanned,
-        itemsFound: cursor.items.length,
-        newThisRound: added,
-        paginations,
-        exhausted: cursor.exhausted,
-        encrypted: room.hasEncryptionStateEvent(),
-        pendingEmbeds: cursor.pendingEmbeds.length,
-      });
-      runningRef.current = false;
-      if (aliveRef.current) setLoading(false);
     })();
   }, [getCursor, mx, publish, scanLoaded, resolveEmbeds, room]);
 

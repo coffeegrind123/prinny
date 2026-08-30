@@ -6,14 +6,32 @@
  * an escaped attribute value) can be *read* without ever being injected.
  */
 
-const NAMED_ENTITIES: Record<string, string> = {
-  amp: '&',
-  lt: '<',
-  gt: '>',
-  quot: '"',
-  apos: "'",
-  nbsp: ' ',
-};
+const NAMED_ENTITIES = new Map<string, string>([
+  ['amp', '&'],
+  ['lt', '<'],
+  ['gt', '>'],
+  ['quot', '"'],
+  ['apos', "'"],
+  ['nbsp', ' '],
+]);
+
+/** The highest code point there is. Anything above it is not a character. */
+const MAX_CODE_POINT = 0x10ffff;
+
+/**
+ * A numeric reference is whatever the sender typed, and it is allowed to be
+ * nonsense: `&#x110000;` and `&#99999999;` both parse to a perfectly finite
+ * number that names no character, and `String.fromCodePoint` answers those with
+ * a **RangeError** rather than a replacement character.
+ *
+ * That throw is why this is a function. It escaped through `extractPreviewUrls`
+ * into the gallery's history walk, where one such message anywhere in a room
+ * ended the scan — and, before the walk learned to catch, the gallery with it.
+ * An entity that names nothing is left as the text it came in as, which is also
+ * what the surrounding code does with an entity it does not recognise.
+ */
+const codePointToText = (code: number, raw: string): string =>
+  Number.isInteger(code) && code > 0 && code <= MAX_CODE_POINT ? String.fromCodePoint(code) : raw;
 
 /**
  * Decode the entity forms that actually occur in the wild — the five XML named
@@ -24,15 +42,15 @@ const NAMED_ENTITIES: Record<string, string> = {
 export const decodeHtmlEntities = (value: string): string =>
   value.replace(/&(#x[0-9a-f]+|#[0-9]+|[a-z]+);/gi, (match, name: string) => {
     const key = name.toLowerCase();
-    if (key in NAMED_ENTITIES) return NAMED_ENTITIES[key];
-    if (key.startsWith('#x')) {
-      const code = parseInt(key.slice(2), 16);
-      return Number.isFinite(code) && code > 0 ? String.fromCodePoint(code) : match;
-    }
-    if (key.startsWith('#')) {
-      const code = parseInt(key.slice(1), 10);
-      return Number.isFinite(code) && code > 0 ? String.fromCodePoint(code) : match;
-    }
+    // A Map, not an object literal: `key in {…}` is true for everything on
+    // `Object.prototype`, so `&constructor;` decoded to the source text of
+    // `function Object()` and `&toString;` to a function of its own — arbitrary
+    // text injected into whatever was being read, from six characters anyone
+    // can type into a message.
+    const named = NAMED_ENTITIES.get(key);
+    if (named !== undefined) return named;
+    if (key.startsWith('#x')) return codePointToText(parseInt(key.slice(2), 16), match);
+    if (key.startsWith('#')) return codePointToText(parseInt(key.slice(1), 10), match);
     return match;
   });
 
