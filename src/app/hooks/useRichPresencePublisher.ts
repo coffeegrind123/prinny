@@ -19,6 +19,25 @@ import { isTauriDesktop } from '../utils/platform';
 // SET_ACTIVITY on every progress tick; coalesce to avoid hammering the HS.
 const MIN_WRITE_INTERVAL = 5000;
 
+/** Longest a failing write waits before being tried again. */
+const MAX_WRITE_BACKOFF = 5 * 60 * 1000;
+
+/**
+ * A rejection that will never come good: the homeserver does not implement
+ * MSC4133 extended profiles, so this property cannot be written at all.
+ *
+ * Worth telling apart from a transient failure, because only a success advances
+ * `lastWritten` — an endpoint that is simply absent therefore leaves the
+ * unchanged-payload guard permanently unsatisfied, and the write was retried on
+ * every interval tick for as long as anything was playing. Toggling the setting
+ * re-runs the effect and tries again, which is the escape hatch if a homeserver
+ * gains support without the client restarting.
+ */
+const isUnsupportedProfileWrite = (err: unknown): boolean => {
+  const { httpStatus, errcode } = (err ?? {}) as { httpStatus?: number; errcode?: string };
+  return httpStatus === 404 || httpStatus === 405 || errcode === 'M_UNRECOGNIZED';
+};
+
 /** Event the Rust bridge emits whenever the current activity changes. */
 const ACTIVITY_EVENT = 'rich-presence-activity';
 
@@ -55,6 +74,11 @@ export const useRichPresencePublisher = () => {
     let lastWriteAt = 0;
     let inFlight = false;
     let unlisten: (() => void) | undefined;
+    let boundPath: string | undefined;
+    // Write-failure state: see isUnsupportedProfileWrite.
+    let writeFailures = 0;
+    let retryWritesAt = 0;
+    let writesUnsupported = false;
 
     // Cover-art resolution: turn an external image URL into an MXC via the
     // homeserver's preview_url endpoint. Deduped by URL so a repeated cover
@@ -64,7 +88,8 @@ export const useRichPresencePublisher = () => {
     let currentCoverUrl: string | undefined;
 
     const tick = async () => {
-      if (stopped || inFlight) return;
+      if (stopped || inFlight || writesUnsupported) return;
+      if (Date.now() < retryWritesAt) return;
       if (sameActivityPayload(pending, lastWritten)) return;
       inFlight = true;
       try {
@@ -75,8 +100,31 @@ export const useRichPresencePublisher = () => {
         }
         lastWritten = pending;
         lastWriteAt = Date.now();
-      } catch {
-        // Server may not support MSC4133 extended profiles; stay silent.
+        writeFailures = 0;
+        retryWritesAt = 0;
+      } catch (err) {
+        if (isUnsupportedProfileWrite(err)) {
+          // Said out loud rather than swallowed. The bridge is still listening
+          // and still capturing activity, so "nothing is being published" is
+          // otherwise indistinguishable from "nothing is playing" — the exact
+          // silence this used to sit in while retrying every five seconds.
+          writesUnsupported = true;
+          if (!stopped) {
+            setStatus({
+              state: 'error',
+              error: boundPath
+                ? `listening on ${boundPath}, but this homeserver does not support MSC4133 extended profiles, so activity cannot be published`
+                : 'this homeserver does not support MSC4133 extended profiles, so activity cannot be published',
+            });
+          }
+        } else {
+          // Transient — a flaky link, a rate limit, a server restart. Backed
+          // off so a persistent one does not become a five-second heartbeat of
+          // failing requests for as long as a track is playing.
+          writeFailures += 1;
+          retryWritesAt =
+            Date.now() + Math.min(MIN_WRITE_INTERVAL * 2 ** writeFailures, MAX_WRITE_BACKOFF);
+        }
       }
       inFlight = false;
     };
@@ -155,6 +203,7 @@ export const useRichPresencePublisher = () => {
         return;
       }
       started = true;
+      boundPath = bound.path;
       if (stopped) return;
 
       const unlistenFn = await listen<DiscordRichPresenceActivity | null>(
@@ -166,7 +215,11 @@ export const useRichPresencePublisher = () => {
         return;
       }
       unlisten = unlistenFn;
-      setStatus({ state: 'running', path: bound.path, index: bound.index });
+      // Unless a write has already reported that this homeserver cannot take
+      // one — a listener registered above can have fired before this line.
+      if (!writesUnsupported) {
+        setStatus({ state: 'running', path: bound.path, index: bound.index });
+      }
     };
     init().catch((err) => {
       if (!stopped) setStatus({ state: 'error', error: String(err) });

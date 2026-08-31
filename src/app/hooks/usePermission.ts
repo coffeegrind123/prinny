@@ -34,6 +34,11 @@ const readCachedGranted = (): boolean => {
 
 const writeCachedGranted = (granted: boolean) => {
   try {
+    // Only when it actually changes. Every caller here is a re-check rather
+    // than an event, so the overwhelming majority of these calls write the
+    // value that is already there — and a localStorage write is synchronous and
+    // disk-backed, which is not what a periodic no-op should cost.
+    if (granted === (localStorage.getItem(NOTIF_PERM_CACHE_KEY) === '1')) return;
     if (granted) {
       localStorage.setItem(NOTIF_PERM_CACHE_KEY, '1');
     } else {
@@ -84,6 +89,25 @@ export const getNotificationState = (): PermissionState => {
   return 'denied';
 };
 
+/**
+ * The platform has no "permission changed" event, so the answer has to be
+ * re-asked for. These are the two reasons to ask.
+ *
+ * The warm-up covers the one thing that resolves in milliseconds: on a cold
+ * start `plugin-notification` may not have loaded yet, and the check throws
+ * until it has. It stops at the first answer.
+ *
+ * After that the value only changes when the user leaves for the OS settings
+ * and comes back, which is what the focus and visibility listeners catch — the
+ * slow interval is the backstop for a window that never loses focus. This used
+ * to be a flat 500 ms poll for as long as the panel was mounted: two Tauri IPC
+ * round trips and two localStorage writes every second, indefinitely, to watch
+ * a value that changes about once a year.
+ */
+const WARMUP_INTERVAL_MS = 500;
+const WARMUP_ATTEMPTS = 10;
+const RECHECK_INTERVAL_MS = 30000;
+
 export function usePermissionState(name: PermissionName, initialValue: PermissionState = 'prompt') {
   const [permissionState, setPermissionState] = useState<PermissionState>(initialValue);
 
@@ -105,40 +129,44 @@ export function usePermissionState(name: PermissionName, initialValue: Permissio
         // Silence error since FF doesn't support microphone permission
       });
 
-    // For Tauri: check immediately then poll via isPermissionGranted()
-    const checkTauriPermission = async () => {
-      if (name === 'notifications' && isTauriRuntime()) {
-        try {
-          // Flip the JS-side permission cache before checking — without
-          // this, isPermissionGranted() short-circuits on the wrong value
-          // baked in by the plugin's init-iife (Windows defaults to
-          // 'denied' even though the Rust permission_state is hardcoded
-          // to Granted). primeDesktopNotificationPermission() is
-          // idempotent and a no-op on Android.
-          await primeDesktopNotificationPermission();
-          // Goes straight to the plugin command rather than the npm helper,
-          // and records the result as the authoritative value for the
-          // notification dispatch gate. The localStorage write is only the
-          // render hint for the next cold start.
-          const granted = await refreshNotificationPermission();
-          writeCachedGranted(granted);
-          setPermissionState((prev) => {
-            const mapped: PermissionState = granted ? 'granted' : 'prompt';
-            return prev !== mapped ? mapped : prev;
-          });
-        } catch {
-          // plugin-notification not loaded yet
-        }
+    let cancelled = false;
+
+    /** Resolves false when the platform could not answer, so it is worth retrying. */
+    const checkTauriPermission = async (): Promise<boolean> => {
+      if (name !== 'notifications' || !isTauriRuntime()) return true;
+      try {
+        // Flip the JS-side permission cache before checking — without
+        // this, isPermissionGranted() short-circuits on the wrong value
+        // baked in by the plugin's init-iife (Windows defaults to
+        // 'denied' even though the Rust permission_state is hardcoded
+        // to Granted). primeDesktopNotificationPermission() is
+        // idempotent and a no-op on Android.
+        await primeDesktopNotificationPermission();
+        // Goes straight to the plugin command rather than the npm helper,
+        // and records the result as the authoritative value for the
+        // notification dispatch gate. The localStorage write is only the
+        // render hint for the next cold start.
+        const granted = await refreshNotificationPermission();
+        if (cancelled) return true;
+        writeCachedGranted(granted);
+        setPermissionState((prev) => {
+          const mapped: PermissionState = granted ? 'granted' : 'prompt';
+          return prev !== mapped ? mapped : prev;
+        });
+        return true;
+      } catch {
+        // plugin-notification not loaded yet
+        return false;
       }
     };
 
-    // Check immediately on mount
-    checkTauriPermission();
-
-    const interval = setInterval(async () => {
+    const recheck = () => {
+      if (cancelled) return;
       if (name === 'notifications' && isTauriRuntime()) {
-        await checkTauriPermission();
-      } else if (name === 'notifications' && 'Notification' in window) {
+        void checkTauriPermission();
+        return;
+      }
+      if (name === 'notifications' && 'Notification' in window) {
         const current = window.Notification.permission as PermissionState;
         if (current === 'granted') {
           setLiveNotificationPermission(true);
@@ -149,11 +177,36 @@ export function usePermissionState(name: PermissionName, initialValue: Permissio
         }
         setPermissionState((prev) => (prev !== current ? current : prev));
       }
-    }, 500);
+    };
+
+    // Check immediately on mount, retrying briefly while the plugin loads.
+    let warmupTimer: number | undefined;
+    let warmupAttempts = 0;
+    const warmup = () => {
+      if (cancelled) return;
+      warmupAttempts += 1;
+      void checkTauriPermission().then((answered) => {
+        if (cancelled || answered || warmupAttempts >= WARMUP_ATTEMPTS) return;
+        warmupTimer = window.setTimeout(warmup, WARMUP_INTERVAL_MS);
+      });
+    };
+    if (name === 'notifications' && isTauriRuntime()) warmup();
+    else recheck();
+
+    const interval = window.setInterval(recheck, RECHECK_INTERVAL_MS);
+    // Coming back to the window is the moment a trip to the OS settings ends,
+    // and it is what makes the slow interval acceptable: the answer is fresh
+    // when it is looked at, not merely within thirty seconds of being right.
+    window.addEventListener('focus', recheck);
+    document.addEventListener('visibilitychange', recheck);
 
     return () => {
+      cancelled = true;
       permissionStatus?.removeEventListener('change', handlePermissionChange);
-      clearInterval(interval);
+      window.clearInterval(interval);
+      if (warmupTimer !== undefined) window.clearTimeout(warmupTimer);
+      window.removeEventListener('focus', recheck);
+      document.removeEventListener('visibilitychange', recheck);
     };
   }, [name]);
 

@@ -65,6 +65,21 @@ const WINDOW = 1;
  */
 const LOAD_MORE_DISTANCE = 3;
 /**
+ * How many rounds of history the feed walks on its own before handing the
+ * decision back to the reader.
+ *
+ * Only fruitless rounds count — a round that gathered something resets the
+ * budget, because the reader is being shown progress and the walk is paying for
+ * itself. Bounded for the same reason the grid's sentinel is (see
+ * `AUTO_DIG_ROUNDS` in RoomGallery): one round is up to six `/messages` pages,
+ * every event in them is decrypted, and the condition that arms this — an empty
+ * list, or the reader sitting near the oldest attachment — does not change when
+ * a round finds nothing. Uncapped, that is a walk to the first event of a
+ * years-old room, at full speed, behind the reader's back. "Load older media"
+ * takes over after this, and asking by hand earns another run of rounds.
+ */
+const AUTO_LOAD_ROUNDS = 3;
+/**
  * One page always sits above the oldest attachment, carrying whatever the walk
  * back through history has to say — a spinner, "load older", or that this is the
  * beginning. Always present rather than conditional, so the index-to-offset
@@ -1376,12 +1391,36 @@ export function MediaFeed({
 
   // Fetch more history before the reader reaches the old end of what we have, so
   // a fast scroll does not run into a wall. That end is the TOP now.
+  //
+  // Capped, because `loading` is a dependency and that is what closes the loop:
+  // a round that finds nothing leaves `hasMore` true, the list the same length
+  // and the reader at the same index, so the only thing that changed by the end
+  // of it is `loading` going false again — which re-runs this effect and starts
+  // another round immediately. `useRoomMedia` stops a round at six pages
+  // WITHOUT marking the cursor exhausted, so nothing further up ends it either.
+  // A room whose media is far back, or which has none at all, was therefore
+  // walked to its first event on open: hundreds of `/messages` round trips and
+  // every event in them decrypted, on the main thread. Fruitless rounds are
+  // counted and anything gathered resets the count — see AUTO_LOAD_ROUNDS.
+  const autoLoadRoundsRef = useRef(0);
+  const autoLoadCountRef = useRef(-1);
   useEffect(() => {
     if (!hasMore || loading) return;
-    if (feedItems.length === 0 || activeIndex <= LOAD_MORE_DISTANCE) {
-      loadMore();
+    if (feedItems.length !== autoLoadCountRef.current) {
+      autoLoadCountRef.current = feedItems.length;
+      autoLoadRoundsRef.current = 0;
     }
+    if (feedItems.length !== 0 && activeIndex > LOAD_MORE_DISTANCE) return;
+    if (autoLoadRoundsRef.current >= AUTO_LOAD_ROUNDS) return;
+    autoLoadRoundsRef.current += 1;
+    loadMore();
   }, [activeIndex, feedItems.length, hasMore, loading, loadMore]);
+
+  /** Asking for more by hand earns another run of automatic rounds. */
+  const digMore = useCallback(() => {
+    autoLoadRoundsRef.current = 0;
+    loadMore();
+  }, [loadMore]);
 
   const move = useCallback(
     (delta: number) => {
@@ -1392,12 +1431,12 @@ export function MediaFeed({
         // up to the oldest attachment the scan happens to have gathered looked
         // like the beginning of the room's media — reported as "it thinks that's
         // the last one, even though there are more".
-        if (delta < 0 && next === 0 && hasMore && !loading) loadMore();
+        if (delta < 0 && next === 0 && hasMore && !loading) digMore();
         return;
       }
       scrollToIndex(next, true);
     },
-    [activeIndex, feedItems.length, hasMore, loading, loadMore, scrollToIndex],
+    [activeIndex, feedItems.length, hasMore, loading, digMore, scrollToIndex],
   );
 
   useKeyDown(
@@ -1552,7 +1591,7 @@ export function MediaFeed({
                 ) : (
                   <>
                     {hasMore ? (
-                      <Chip variant="Secondary" radii="Pill" outlined onClick={loadMore}>
+                      <Chip variant="Secondary" radii="Pill" outlined onClick={digMore}>
                         <Text size="B300">Load older media</Text>
                       </Chip>
                     ) : (

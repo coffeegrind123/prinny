@@ -191,24 +191,42 @@ export const useScrollContentAnchor = (
     const viewportTop = scrollEl.getBoundingClientRect().top;
     const items = contentEl.querySelectorAll<HTMLElement>(itemSelector);
 
-    for (let i = 0; i < items.length; i += 1) {
-      const item = items[i];
-      // The topmost item whose bottom edge is still below the top of the
-      // viewport: the first thing the reader can actually see, and therefore
-      // the thing that must not move.
-      if (item.getBoundingClientRect().bottom > viewportTop) {
-        const el = deepestAnchorIn(item, viewportTop);
-        return {
-          item,
-          itemTop: contentTop(item, scrollTop, viewportTop),
-          el,
-          elTop: contentTop(el, scrollTop, viewportTop),
-          scrollTop,
-        };
+    // The topmost item whose bottom edge is still below the top of the
+    // viewport: the first thing the reader can actually see, and therefore the
+    // thing that must not move.
+    //
+    // Found by bisection rather than by walking down from the first item. A
+    // vertical list's bottom edges are non-decreasing in document order, so
+    // "is this item's bottom below the top edge?" is false for a prefix and
+    // true for everything after it — the shape a binary search answers. The
+    // walk read a rect for every item ABOVE the reader, and this runs once per
+    // scroll frame and again in every ResizeObserver callback: a reader near
+    // the live end of a long range was paying hundreds of rect reads a frame
+    // for an answer that takes about eight.
+    let low = 0;
+    let high = items.length - 1;
+    let found = -1;
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      if (items[mid].getBoundingClientRect().bottom > viewportTop) {
+        found = mid;
+        high = mid - 1;
+      } else {
+        low = mid + 1;
       }
     }
 
-    return undefined;
+    if (found === -1) return undefined;
+
+    const item = items[found];
+    const el = deepestAnchorIn(item, viewportTop);
+    return {
+      item,
+      itemTop: contentTop(item, scrollTop, viewportTop),
+      el,
+      elTop: contentTop(el, scrollTop, viewportTop),
+      scrollTop,
+    };
   }, [getScrollElement, getContentElement, itemSelector]);
 
   const captureRef = useRef(capture);

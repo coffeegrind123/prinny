@@ -131,6 +131,14 @@ export const roomIdToTypingMembersAtom = atom<
   },
 );
 
+/**
+ * How often the raw-typing log may walk every room to report which of them have
+ * a typing user loaded. See `handleRawEvent` — the walk is O(rooms) per typing
+ * user and typing EDUs never stop arriving.
+ */
+const MEMBERSHIP_WALK_INTERVAL = 30000;
+let lastMembershipWalk = 0;
+
 export const useBindRoomIdToTypingMembersAtom = (
   mx: MatrixClient,
   typingMembersAtom: typeof roomIdToTypingMembersAtom,
@@ -197,13 +205,32 @@ export const useBindRoomIdToTypingMembersAtom = (
     const handleRawEvent: ClientEventHandlerMap[ClientEvent.Event] = (event) => {
       if (event.getType() !== EventType.Typing) return;
       const { user_ids: userIds } = event.getContent<{ user_ids?: string[] }>();
+
+      // The half that answers "did the EDU arrive?" is one small object and is
+      // logged every time. The half that answers "was the member loaded?" walks
+      // every joined room per typing user, and this handler runs on every raw
+      // event off /sync — an account with a few hundred rooms and anyone typing
+      // in any of them was paying that walk continuously, for a line nobody was
+      // reading. It is sampled instead: often enough that a few seconds of
+      // typing while someone debugs a missing indicator produces one, rare
+      // enough to cost nothing the rest of the time. `membersWalked: false` says
+      // the field was skipped rather than empty — an absent walk and a member
+      // loaded nowhere must not look the same.
+      const now = Date.now();
+      const walkMembers = now - lastMembershipWalk >= MEMBERSHIP_WALK_INTERVAL;
+      if (!walkMembers) {
+        console.info('[typing:raw]', { userIds, membersWalked: false });
+        return;
+      }
+      lastMembershipWalk = now;
+      // Hoisted: `getRooms()` builds a fresh array of every room each call, and
+      // it was being called once per typing user rather than once per event.
+      const rooms = mx.getRooms();
       console.info('[typing:raw]', {
         userIds,
+        membersWalked: true,
         loadedMembers: (userIds ?? []).map((userId) =>
-          mx
-            .getRooms()
-            .filter((room) => room.getMember(userId))
-            .map((room) => room.roomId),
+          rooms.filter((room) => room.getMember(userId)).map((room) => room.roomId),
         ),
       });
     };
