@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 31.08.2026
+
+- `84952b6` Added **a second set of buttons on the message toolbar, held behind Shift**. Hold Shift while the pointer is on a message and the everyday buttons — react, thread, edit, and the one with the three dots — give way to the things that otherwise take a trip through that menu: **Copy Message Link**, **Mark Unread**, **Pin Message** (or **Unpin Message**, when it is already pinned) and **Reply**, with **Copy Message ID** in front of them for anyone who has developer tools switched on. Each button says what it does when you rest on it, and the two copy buttons answer "Copied!". Let go of Shift and the toolbar is as it was. It stays as it was, too, while that message's emoji picker or menu is open — Shift there is a capital letter and nothing more.
+
 ## 30.08.2026
 
 - `fcba075` Fixed **the picture gallery saying "No photos or videos have been sent in this conversation"** about a conversation full of them — and then doing the same in every other chat until the app was restarted. The gallery reads back through a conversation looking for pictures, and that walk had nothing to catch a failure: one message it could not make sense of ended the whole walk mid-step, and the flag that says "a walk is already running" was never put back, so every later attempt — scrolling to the bottom of the grid, switching between All and Photos and Videos, the "Load older media" button, and the first walk in the next chat you opened — stopped at its first line without doing anything. Nothing was shown, nothing was written to the console, and what you got was the gallery's way of saying it had read the whole conversation and found nothing. The walk now always finishes and says what stopped it, and a walk that failed no longer claims to have reached the beginning of the conversation: the grid offers **Look further back** instead.
