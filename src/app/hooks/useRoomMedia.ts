@@ -768,7 +768,6 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
         // resolve, and each batch publishes itself.
         resolveEmbeds(cursor);
 
-        let paginationError: unknown;
         while (
           aliveRef.current &&
           added < TARGET_NEW_ITEMS &&
@@ -783,21 +782,35 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
           }
           paginations += 1;
           let ok = false;
+          let paginationError: unknown;
           try {
             ok = await mx.paginateEventTimeline(cursor.timeline, {
               backwards: true,
               limit: PAGINATION_LIMIT,
             });
           } catch (err) {
-            // A homeserver that will not serve older history leaves us with what
-            // we have, which is still a usable gallery.
             console.warn('[gallery] pagination threw', err);
             paginationError = err;
             ok = false;
           }
+          if (paginationError !== undefined) {
+            // NOT `exhausted`: the request FAILED, it did not report the end of
+            // the room. The same distinction the scan-threw handler below makes,
+            // and for the same reason — `exhausted` is what turns the grid's
+            // "Nothing here yet in the part of the conversation that has been
+            // read", with **Look further back** under it, into the flat "No
+            // photos or videos have been sent in this conversation" with no way
+            // to retry. A rate limit, a dropped connection or a server that
+            // hiccupped for one request therefore became a permanent, confident
+            // denial that the conversation has any pictures in it — and it only
+            // took one failed `/messages` on the very first walk.
+            stoppedBecause = 'pagination-threw';
+            break;
+          }
           if (!ok) {
+            // A clean `false` IS the end of the room: nothing left to ask for.
             cursor.exhausted = true;
-            stoppedBecause = paginationError ? 'pagination-threw' : 'pagination-end';
+            stoppedBecause = 'pagination-end';
             break;
           }
           added += await scanLoaded(cursor);
@@ -813,7 +826,16 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
       } finally {
         publish(cursor);
         resolveEmbeds(cursor);
-        if (paginations >= MAX_PAGINATIONS_PER_LOAD && !cursor.exhausted) {
+        // Only when the budget is genuinely why it stopped. A walk whose last
+        // allowed round threw has spent the budget too, and mislabelling that
+        // as 'pagination-budget' would point the next person reading this log
+        // at a walk that ran out of rounds rather than at a homeserver that
+        // refused — which is the whole job of this line.
+        if (
+          stoppedBecause === 'target-reached' &&
+          paginations >= MAX_PAGINATIONS_PER_LOAD &&
+          !cursor.exhausted
+        ) {
           stoppedBecause = 'pagination-budget';
         }
         // One line per `loadMore`, deliberately kept in production builds. The
