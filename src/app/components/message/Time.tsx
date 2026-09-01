@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 import { Text, as } from 'folds';
 import { timeDayMonYear, timeHourMinute, today, yesterday } from '../../utils/time';
 
@@ -15,6 +15,16 @@ export type TimeProps = {
    * the single place a `<time>` is dressed, and only the text differs.
    */
   overrideText?: string;
+  /**
+   * Rendered inside the `<time>` immediately after the text, with no gap — a
+   * mark ON the timestamp rather than a thing beside it.
+   *
+   * Exists for `SenderTime`'s day-shift marker, which qualifies the time it
+   * follows ("03:40, but that is tomorrow for them") and so has to travel with
+   * it: same element, same `user-select: none`, same slot measurement. A
+   * sibling of `Time` would be none of those.
+   */
+  overrideSuffix?: ReactNode;
 };
 
 /**
@@ -30,7 +40,7 @@ export type TimeProps = {
  * @returns {React.ReactElement} A <Text as="time"> element with the formatted date/time.
  */
 export const Time = as<'span', TimeProps & ComponentProps<typeof Text>>(
-  ({ compact, hour24Clock, dateFormatString, ts, overrideText, ...props }, ref) => {
+  ({ compact, hour24Clock, dateFormatString, ts, overrideText, overrideSuffix, ...props }, ref) => {
     const formattedTime = timeHourMinute(ts, hour24Clock);
 
     let time = '';
@@ -58,6 +68,7 @@ export const Time = as<'span', TimeProps & ComponentProps<typeof Text>>(
         ref={ref}
       >
         {time}
+        {overrideSuffix}
       </Text>
     );
   }

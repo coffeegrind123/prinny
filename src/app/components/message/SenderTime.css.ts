@@ -82,3 +82,27 @@ export const SenderTimeSizer = style([
     userSelect: 'none',
   },
 ]);
+
+/**
+ * The `+1` / `−1` after a sender-local time whose day differs from ours.
+ *
+ * Sized and positioned as a superscript because that is what it is: a mark on
+ * the timestamp, not a second value beside it. Small enough that the whole
+ * string still fits the narrowest slot it can appear in — the avatar-gutter
+ * timestamp, which has 58px (the row's left padding, the 36px avatar column and
+ * half the layout gap) and spends 47px of it on a 12-hour `hh:mm A`.
+ *
+ * Raised with `position: relative` rather than `vertical-align: super`. A
+ * superscript-aligned box is still in the line box and raising it grows that
+ * box, which would push the group header's baseline down on exactly the
+ * messages that carry a marker; a relative offset moves the glyphs and nothing
+ * else. `line-height: 0` keeps the smaller font from having any say in the line
+ * box either.
+ */
+export const SenderTimeDayShift = style({
+  fontSize: '0.7em',
+  lineHeight: 0,
+  position: 'relative',
+  top: '-0.35em',
+  marginInlineStart: '0.15em',
+});

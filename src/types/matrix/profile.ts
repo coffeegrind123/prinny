@@ -126,21 +126,14 @@ export const formatTimeInTimezone = (tz: string, at: Date = new Date()): string 
 };
 
 /**
- * A specific instant, as the clock read in `tz`. Undefined if the zone is unusable.
+ * A specific instant, as the clock read in `tz`, in parts. Undefined if the zone
+ * is unusable.
  *
- * The date is included **only when the instant falls on a different calendar day
- * there than it does here**, and that condition is the whole point of the
- * function rather than a detail. A message sent at 23:30 in London is 08:30 the
- * NEXT DAY in Tokyo; rendering that as a bare "08:30" beside a message dated
- * yesterday is not a time-zone conversion, it is a wrong timestamp — and the
- * cases where the reader most wants to know the sender's local time (someone
- * messaging in the middle of their night) are exactly the cases where the day
- * has rolled over.
+ * Returned as parts rather than as one finished string because the two places
+ * that show it have very different amounts of room, and the difference between
+ * them is the DATE — see `dayShift`. `SenderTime` joins them accordingly.
  *
- * Not included when the day matches, because then it is noise: the surrounding
- * timeline already establishes the date.
- *
- * The zone's CITY is deliberately not part of the string. It used to be
+ * The zone's CITY is deliberately not part of any of them. It used to be
  * appended ("15:40 Helsinki") on the argument that a bare time is not visibly
  * anyone else's, but it cost more than it explained: the slot in `SenderTime`
  * is sized to hold this string, so every message from a sender with a
@@ -150,12 +143,35 @@ export const formatTimeInTimezone = (tz: string, at: Date = new Date()): string 
  * still named in full in the element's `title`, which is where someone asking
  * "where are they?" rather than "what time is it for them?" can read it.
  */
-export const formatInstantInTimezone = (
+export type LocalInstant = {
+  /** The clock time there, in the caller's 12/24-hour format. */
+  time: string;
+  /** The calendar date there, in the caller's date format. */
+  date: string;
+  /**
+   * The calendar day there, relative to the same instant's day here: `1` when
+   * it has already rolled over into the next day for them, `-1` when it is
+   * still the previous one there, `0` when both agree.
+   *
+   * This is the part a caller must not drop. A message sent at 23:30 in London
+   * is 08:30 the NEXT DAY in Tokyo; rendering that as a bare "08:30" beside a
+   * message dated yesterday is not a time-zone conversion, it is a wrong
+   * timestamp — and the cases where the reader most wants the sender's local
+   * time (someone messaging in the middle of their night) are exactly the cases
+   * where the day has rolled over.
+   *
+   * Never more than one day either way: UTC offsets span -12..+14, so two
+   * clocks reading the same instant are at most a day apart.
+   */
+  dayShift: -1 | 0 | 1;
+};
+
+export const instantInTimezone = (
   tz: string,
   at: Date,
   hour24Clock: boolean,
-  dateFormatString: string
-): string | undefined => {
+  dateFormatString: string,
+): LocalInstant | undefined => {
   try {
     // Formatted through dayjs with the caller's settings rather than a fixed
     // locale, so a timestamp reads the same whichever clock it is on: the same
@@ -163,13 +179,20 @@ export const formatInstantInTimezone = (
     // date pattern chosen in Settings -> General rather than a hardcoded
     // "19 Aug". `.tz()` throws on an unusable zone, which the catch answers.
     const there = dayjs(at).tz(tz);
-    const time = there.format(hour24Clock ? 'HH:mm' : 'hh:mm A');
 
     // ISO-ordered on both sides, so the days are comparable as strings.
-    const sameDay = there.format('YYYY-MM-DD') === dayjs(at).format('YYYY-MM-DD');
-    if (sameDay) return time;
+    const dayThere = there.format('YYYY-MM-DD');
+    const dayHere = dayjs(at).format('YYYY-MM-DD');
 
-    return `${there.format(dateFormatString)} ${time}`;
+    let dayShift: LocalInstant['dayShift'] = 0;
+    if (dayThere > dayHere) dayShift = 1;
+    else if (dayThere < dayHere) dayShift = -1;
+
+    return {
+      time: there.format(hour24Clock ? 'HH:mm' : 'hh:mm A'),
+      date: there.format(dateFormatString),
+      dayShift,
+    };
   } catch {
     return undefined;
   }
