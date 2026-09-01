@@ -1322,10 +1322,16 @@ export const Message = as<'div', MessageProps>(
     const senderMxIdJSX = messageLayout === MessageLayout.Modern &&
       !collapse &&
       (hover || groupHovered) && (
-        // `rowHover` is this row's own hover, NOT the group's: it picks the
-        // background the label paints over itself, and the row is only tinted
-        // when the pointer is actually on it.
-        <div className={css.MessageSenderMxId({ rowHover: hover })}>
+        // `ground` is decided by THIS row, not by the group's hover: it picks
+        // the background the label paints over itself, and only the row the
+        // pointer is actually on is tinted. A row that replies to you keeps
+        // `MessageReplyHighlight`'s amber while it is unhovered, and the label
+        // has to carry that too or it reads as a grey box on a golden row.
+        <div
+          className={css.MessageSenderMxId({
+            ground: hover ? 'hover' : repliedToMe ? 'reply' : 'plain',
+          })}
+        >
           {/*
             `truncate` lives on the Text, not the wrapper: the wrapper is a
             flex container now (it centres this line in the band under the

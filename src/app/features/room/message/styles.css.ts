@@ -14,8 +14,20 @@ export const MessageSending = style({
   opacity: config.opacity.Disabled,
 });
 
+/**
+ * The amber a row is washed with when it replies to you.
+ *
+ * Named because two things paint it: the row itself, and the sender-mxid label
+ * that sits on top of the row with an opaque ground of its own and has to
+ * arrive at the same colour (see `MessageSenderMxId`). It is translucent, so
+ * "the same colour" means compositing the same tint over the same surface —
+ * not a second, hand-matched constant that drifts the first time the theme
+ * moves.
+ */
+const REPLY_HIGHLIGHT_TINT = 'hsla(39, 100%, 46%, 0.08)';
+
 export const MessageReplyHighlight = style({
-  background: 'hsla(39, 100%, 46%, 0.08)',
+  background: REPLY_HIGHLIGHT_TINT,
   borderLeft: '2px solid hsl(39, 100%, 46%)',
 });
 
@@ -223,17 +235,30 @@ export const MessageInlineReceipts = style({
  * it must not end up in a dragged selection.
  *
  * It needs an opaque ground because it overlays the end of the message text on
- * a long line, and WHICH ground depends on where the pointer is: the row is
- * tinted `Surface.ContainerHover` when the pointer is on it, and left at the
- * page's own `Surface.Container` when the pointer is on a collapsed message
- * further down the group. `rowHover` picks between them. Getting this wrong is
- * not subtle — a hover-tinted label on an untinted row reads as a grey box
- * floating in the message.
+ * a long line, and WHICH ground depends on the row it is drawn on — `ground`
+ * names the three a row can actually paint. Getting this wrong is not subtle:
+ * the label is a solid rectangle, so any mismatch reads as a grey box floating
+ * in the message.
  *
- * A recipe rather than two classes with one overriding the other: both would be
- * single-class selectors, so the winner would be decided by the order
- * vanilla-extract happened to emit them in, which is not something to hang a
- * visible background on.
+ * - `hover` — the pointer is on THIS row, which `MessageHover` tints
+ *   `Surface.ContainerHover`.
+ * - `plain` — the pointer is elsewhere in the group (hovering a collapsed
+ *   message three rows down still shows the label up here), so the row paints
+ *   nothing and the page's own `Surface.Container` is what is behind it.
+ * - `reply` — as `plain`, but the row replies to you and so carries
+ *   `MessageReplyHighlight`'s amber over that surface. The label composites the
+ *   same tint over the same colour rather than naming a third one.
+ *
+ * `reply` has no hovered counterpart on purpose. `MessageHover` is
+ * `.class:hover` and `MessageReplyHighlight` is a bare `.class`, so on a row
+ * the pointer is actually on, the hover background out-specifies the tint and
+ * the amber is not painted at all — `hover` is the whole truth there. If that
+ * ever changes, this needs a fourth ground, not a tweak.
+ *
+ * A recipe rather than separate classes with one overriding the other: those
+ * would all be single-class selectors, so the winner would be decided by the
+ * order vanilla-extract happened to emit them in, which is not something to
+ * hang a visible background on.
  */
 export const MessageSenderMxId = recipe({
   base: {
@@ -294,21 +319,29 @@ export const MessageSenderMxId = recipe({
     },
   },
   variants: {
-    rowHover: {
-      true: {
+    ground: {
+      hover: {
         backgroundColor: color.Surface.ContainerHover,
       },
-      false: {
-        // The page itself is `ContainerColor({ variant: 'Surface' })` (see
-        // `components/page/Page.tsx`) and a message row paints no background of
-        // its own, so this is what is actually behind the label when the row is
-        // not hovered.
+      // The page itself is `ContainerColor({ variant: 'Surface' })` (see
+      // `components/page/Page.tsx`) and a message row paints no background of
+      // its own, so this is what is actually behind the label when the row is
+      // not hovered.
+      plain: {
         backgroundColor: color.Surface.Container,
+      },
+      reply: {
+        backgroundColor: color.Surface.Container,
+        // The tint as a background *image* over that colour, which is exactly
+        // how the row arrives at its own amber: a translucent layer on the
+        // surface behind it. Painting a pre-mixed opaque colour instead would
+        // mean re-deriving it by hand for every theme.
+        backgroundImage: `linear-gradient(${REPLY_HIGHLIGHT_TINT}, ${REPLY_HIGHLIGHT_TINT})`,
       },
     },
   },
   defaultVariants: {
-    rowHover: true,
+    ground: 'hover',
   },
 });
 
