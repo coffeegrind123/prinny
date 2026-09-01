@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/core-CGI43Uw5.js","assets/rolldown-runtime-B0Z9INg1.js","assets/dist-js-CqTQd4xA.js","assets/dist-js-CjGx9Ddr.js","assets/katex-Ddr6Z9Sf.css","assets/ReactPrism-BBK01JtB.js","assets/jsx-runtime-zC2iXiZO.js","assets/ReactPrism-CLcyLdmD.css","assets/pdf-CL5IC5AP.js","assets/preload-helper-Czpn1I53.js","assets/MashupPicker-68Kpb1EJ.js","assets/maplibre-gl-DSnsEFKn.css","assets/tray-Dsi4fmos.js","assets/dpi-Ca4D-31r.js","assets/image-DIrcgJS2.js","assets/menu-C3vc-pi6.js","assets/app-D70JF_GM.js","assets/event-DWBRSZIL.js","assets/dist-js-DhMMTR2k.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/core-CGI43Uw5.js","assets/rolldown-runtime-B0Z9INg1.js","assets/dist-js-CqTQd4xA.js","assets/dist-js-CjGx9Ddr.js","assets/katex-Ddr6Z9Sf.css","assets/ReactPrism-DW2e0b5y.js","assets/jsx-runtime-zC2iXiZO.js","assets/ReactPrism-CLcyLdmD.css","assets/pdf-Cvxuf7Bv.js","assets/preload-helper-Czpn1I53.js","assets/MashupPicker-BozQ3NYL.js","assets/maplibre-gl-DSnsEFKn.css","assets/tray-Dsi4fmos.js","assets/dpi-Ca4D-31r.js","assets/image-DIrcgJS2.js","assets/menu-C3vc-pi6.js","assets/app-D70JF_GM.js","assets/event-DWBRSZIL.js","assets/dist-js-DhMMTR2k.js"])))=>i.map(i=>d[i]);
 import { a as e, i as t, n, r, t as i } from "./rolldown-runtime-B0Z9INg1.js";
 import { n as a, t as o } from "./jsx-runtime-zC2iXiZO.js";
 import { t as s } from "./preload-helper-Czpn1I53.js";
@@ -23074,7 +23074,7 @@ Please change the parent <Route path="${e}"> to <Route path="${e === `/` ? `*` :
         }
         return e;
     }
-    var _ne = `_15upz2y0`, vne = `_15upz2y1`, yne = `_15upz2y2 _1mqalmd1 _1mqalmd0`, bne = `_15upz2y3`, xne = `_15upz2y4`, Sne = `_15upz2y5`, Gg = `4.11.208`;
+    var _ne = `_15upz2y0`, vne = `_15upz2y1`, yne = `_15upz2y2 _1mqalmd1 _1mqalmd0`, bne = `_15upz2y3`, xne = `_15upz2y4`, Sne = `_15upz2y5`, Gg = `4.11.209`;
     function Cne() {
         return (0, P.jsxs)(L, {
             className: Sne,
@@ -81859,7 +81859,7 @@ https://www.w3ctech.com/topic/2226`));
             return;
         }
     };
-    ohe = (0, N.lazy)(()=>s(()=>import(`./ReactPrism-BBK01JtB.js`).then(async (m)=>{
+    ohe = (0, N.lazy)(()=>s(()=>import(`./ReactPrism-DW2e0b5y.js`).then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([5,1,6,7])));
@@ -83591,7 +83591,7 @@ https://www.w3ctech.com/topic/2226`));
             let { value: n } = this.target;
             return this.target.value = `${n.substring(0, e.start)}${t}${n.substring(e.end)}`, new VR(e.start, e.start + t.length, e.direction);
         }
-    }, Xhe = `_1v145rl0 _1mqalmd1 _1mqalmd0`, Zhe = `_1v145rl1 _1mqalmd1 _1mqalmd0`, Qhe = `_1v145rl2 _1mqalmd1 _1mqalmd0`, $he = `_1v145rl3 _1mqalmd1 _1mqalmd0`, ege = `_1v145rl4`, tge = (0, N.lazy)(()=>s(()=>import(`./ReactPrism-BBK01JtB.js`).then(async (m)=>{
+    }, Xhe = `_1v145rl0 _1mqalmd1 _1mqalmd0`, Zhe = `_1v145rl1 _1mqalmd1 _1mqalmd0`, Qhe = `_1v145rl2 _1mqalmd1 _1mqalmd0`, $he = `_1v145rl3 _1mqalmd1 _1mqalmd0`, ege = `_1v145rl4`, tge = (0, N.lazy)(()=>s(()=>import(`./ReactPrism-DW2e0b5y.js`).then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([5,1,6,7]))), HR = (0, N.forwardRef)(({ text: e, langName: t, size: n, className: r, ...i }, a)=>(0, P.jsx)(H, {
@@ -92960,7 +92960,7 @@ https://www.w3ctech.com/topic/2226`));
                             await m.__tla;
                             return m;
                         }), []),
-                    s(()=>import(`./tauri-hls-loader-BkglqE1K.js`).then(async (m)=>{
+                    s(()=>import(`./tauri-hls-loader-BZn6MP-M.js`).then(async (m)=>{
                             await m.__tla;
                             return m;
                         }), [])
@@ -94411,7 +94411,7 @@ https://www.w3ctech.com/topic/2226`));
             })
         });
     }), yye = `ty6xms0 _1mqalmd1 _1mqalmd0`, bye = `ty6xms1 _1mqalmd1 _1mqalmd0`, wG = ()=>Vu(`/`), xye = ()=>Lg((0, N.useCallback)(async ()=>{
-            let e = await s(()=>import(`./pdf-CL5IC5AP.js`).then(async (m)=>{
+            let e = await s(()=>import(`./pdf-Cvxuf7Bv.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }), __vite__mapDeps([8,9]));
@@ -99580,7 +99580,7 @@ https://www.w3ctech.com/topic/2226`));
             ]
         });
     }
-    var vCe = (0, N.lazy)(()=>s(()=>import(`./MashupPicker-68Kpb1EJ.js`).then(async (m)=>{
+    var vCe = (0, N.lazy)(()=>s(()=>import(`./MashupPicker-BozQ3NYL.js`).then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([10,1,6]))), uY = `recent_group`, yCe = `search_group`, bCe = (e, t)=>{
@@ -128354,9 +128354,15 @@ ${this.answers.map((e, t)=>`${t + 1}. ${e.text}`).join(`
         }, [
             k
         ]);
-        let M = (0, N.useMemo)(()=>[
-                ...t
-            ].reverse(), [
+        let M = (0, N.useMemo)(()=>{
+            let e = [];
+            return t.forEach((t)=>{
+                let n = e[e.length - 1];
+                n && n[0].eventId === t.eventId ? n.push(t) : e.push([
+                    t
+                ]);
+            }), e.reverse().flat();
+        }, [
             t
         ]), re = (0, N.useMemo)(()=>{
             let e = b.current;
