@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 01.09.2026
+
+- `7ff3d77` Fixed **the time on a grouped message running off the side of the screen when the person who sent it is a day away**. Resting on one of the messages under someone's name shows the time it was sent, in the space where their picture would be, and resting on that time shows what the clock read where they are. When their date is not your date — a message sent late in the evening here that had already become tomorrow there — that swap wrote the whole date out in front of the time, into a space about a fifth as wide as it needed. The rest went leftwards, off the message and, on a phone, off the screen entirely. It now shows the time with a small **+1** or **−1** after it, the way an arrival time does on a flight that lands the next day, and the full date is named if you rest on it a moment longer. The first message under a name has room for the date written out and still shows it.
+
 ## 31.08.2026
 
 - `84952b6` Added **a second set of buttons on the message toolbar, held behind Shift**. Hold Shift while the pointer is on a message and the everyday buttons — react, thread, edit, and the one with the three dots — give way to the things that otherwise take a trip through that menu: **Copy Message Link**, **Mark Unread**, **Pin Message** (or **Unpin Message**, when it is already pinned) and **Reply**, with **Copy Message ID** in front of them for anyone who has developer tools switched on. Each button says what it does when you rest on it, and the two copy buttons answer "Copied!". Let go of Shift and the toolbar is as it was. It stays as it was, too, while that message's emoji picker or menu is open — Shift there is a capital letter and nothing more.
