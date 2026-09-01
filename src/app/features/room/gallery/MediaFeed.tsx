@@ -1222,8 +1222,26 @@ export function MediaFeed({
    * The room's media in conversation order — oldest first — which is the order
    * this feed is read in. `items` arrives newest-first from the scan, the order
    * the gallery grid wants.
+   *
+   * Reversed by *post*, not by entry. One event can carry several pictures — an
+   * MSC4274 gallery, or a linked post with four images — and those entries share
+   * a timestamp, so a blanket `reverse()` turned the post's own pictures back to
+   * front too. Tapping the first picture of a four-image preview then dropped
+   * the reader on the last of the four, where Down left the post at once and Up
+   * walked the other three: "up goes to the next one, down goes to the previous
+   * one", even though the posts themselves were the right way round. Entries of
+   * one event are contiguous here (same ts, stable sort), so grouping on
+   * `eventId` while walking is enough to keep each post intact.
    */
-  const feedItems = useMemo(() => [...items].reverse(), [items]);
+  const feedItems = useMemo(() => {
+    const posts: MediaItem[][] = [];
+    items.forEach((item) => {
+      const last = posts[posts.length - 1];
+      if (last && last[0].eventId === item.eventId) last.push(item);
+      else posts.push([item]);
+    });
+    return posts.reverse().flat();
+  }, [items]);
 
   /**
    * Which page is actually on screen, resolved against the list as it is now.
