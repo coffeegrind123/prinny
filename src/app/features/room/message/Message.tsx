@@ -552,16 +552,25 @@ export const MessagePinItem = as<
   );
 });
 
-export const MessageDeleteItem = as<
-  'button',
-  {
-    room: Room;
-    mEvent: MatrixEvent;
-    onClose?: () => void;
-  }
->(({ room, mEvent, onClose, ...props }, ref) => {
+/**
+ * The delete confirmation, on its own.
+ *
+ * Split out of `MessageDeleteItem` because the Shift toolbar reaches the same
+ * action from an icon button rather than a menu row, and a confirmation dialog
+ * cannot be owned by a toolbar that unmounts the instant the pointer leaves the
+ * message. Same shape as `ForwardPrompt`: whoever wants it mounts it, and is
+ * told when it is finished with.
+ */
+export function MessageDeletePrompt({
+  room,
+  mEvent,
+  requestClose,
+}: {
+  room: Room;
+  mEvent: MatrixEvent;
+  requestClose: () => void;
+}) {
   const mx = useMatrixClient();
-  const [open, setOpen] = useState(false);
 
   const [deleteState, deleteMessage] = useAsyncCallback(
     useCallback(
@@ -586,6 +595,89 @@ export const MessageDeleteItem = as<
     deleteMessage(eventId, reason);
   };
 
+  return (
+    <Overlay open backdrop={<OverlayBackdrop />}>
+      <OverlayCenter>
+        <FocusTrap
+          focusTrapOptions={{
+            initialFocus: false,
+            onDeactivate: requestClose,
+            clickOutsideDeactivates: true,
+            escapeDeactivates: stopPropagation,
+          }}
+        >
+          <Dialog variant="Surface">
+            <Header
+              style={{
+                padding: `0 ${config.space.S200} 0 ${config.space.S400}`,
+                borderBottomWidth: config.borderWidth.B300,
+              }}
+              variant="Surface"
+              size="500"
+            >
+              <Box grow="Yes">
+                <Text size="H4">Delete Message</Text>
+              </Box>
+              <IconButton size="300" onClick={requestClose} radii="300">
+                <Icon src={Icons.Cross} />
+              </IconButton>
+            </Header>
+            <Box
+              as="form"
+              onSubmit={handleSubmit}
+              style={{ padding: config.space.S400 }}
+              direction="Column"
+              gap="400"
+            >
+              <Text priority="400">
+                This action is irreversible! Are you sure that you want to delete this message?
+              </Text>
+              <Box direction="Column" gap="100">
+                <Text size="L400">
+                  Reason{' '}
+                  <Text as="span" size="T200">
+                    (optional)
+                  </Text>
+                </Text>
+                <Input name="reasonInput" variant="Background" />
+                {deleteState.status === AsyncStatus.Error && (
+                  <Text style={{ color: color.Critical.Main }} size="T300">
+                    Failed to delete message! Please try again.
+                  </Text>
+                )}
+              </Box>
+              <Button
+                type="submit"
+                variant="Critical"
+                before={
+                  deleteState.status === AsyncStatus.Loading ? (
+                    <Spinner fill="Solid" variant="Critical" size="200" />
+                  ) : undefined
+                }
+                aria-disabled={deleteState.status === AsyncStatus.Loading}
+              >
+                <Text size="B400">
+                  {deleteState.status === AsyncStatus.Loading ? 'Deleting...' : 'Delete'}
+                </Text>
+              </Button>
+            </Box>
+          </Dialog>
+        </FocusTrap>
+      </OverlayCenter>
+    </Overlay>
+  );
+}
+
+export const MessageDeleteItem = as<
+  'button',
+  {
+    room: Room;
+    mEvent: MatrixEvent;
+    onClose?: () => void;
+  }
+>(({ room, mEvent, onClose, ...props }, ref) => {
+  const [open, setOpen] = useState(false);
+
   const handleClose = () => {
     setOpen(false);
     onClose?.();
@@ -593,75 +685,7 @@ export const MessageDeleteItem = as<
 
   return (
     <>
-      <Overlay open={open} backdrop={<OverlayBackdrop />}>
-        <OverlayCenter>
-          <FocusTrap
-            focusTrapOptions={{
-              initialFocus: false,
-              onDeactivate: handleClose,
-              clickOutsideDeactivates: true,
-              escapeDeactivates: stopPropagation,
-            }}
-          >
-            <Dialog variant="Surface">
-              <Header
-                style={{
-                  padding: `0 ${config.space.S200} 0 ${config.space.S400}`,
-                  borderBottomWidth: config.borderWidth.B300,
-                }}
-                variant="Surface"
-                size="500"
-              >
-                <Box grow="Yes">
-                  <Text size="H4">Delete Message</Text>
-                </Box>
-                <IconButton size="300" onClick={handleClose} radii="300">
-                  <Icon src={Icons.Cross} />
-                </IconButton>
-              </Header>
-              <Box
-                as="form"
-                onSubmit={handleSubmit}
-                style={{ padding: config.space.S400 }}
-                direction="Column"
-                gap="400"
-              >
-                <Text priority="400">
-                  This action is irreversible! Are you sure that you want to delete this message?
-                </Text>
-                <Box direction="Column" gap="100">
-                  <Text size="L400">
-                    Reason{' '}
-                    <Text as="span" size="T200">
-                      (optional)
-                    </Text>
-                  </Text>
-                  <Input name="reasonInput" variant="Background" />
-                  {deleteState.status === AsyncStatus.Error && (
-                    <Text style={{ color: color.Critical.Main }} size="T300">
-                      Failed to delete message! Please try again.
-                    </Text>
-                  )}
-                </Box>
-                <Button
-                  type="submit"
-                  variant="Critical"
-                  before={
-                    deleteState.status === AsyncStatus.Loading ? (
-                      <Spinner fill="Solid" variant="Critical" size="200" />
-                    ) : undefined
-                  }
-                  aria-disabled={deleteState.status === AsyncStatus.Loading}
-                >
-                  <Text size="B400">
-                    {deleteState.status === AsyncStatus.Loading ? 'Deleting...' : 'Delete'}
-                  </Text>
-                </Button>
-              </Box>
-            </Dialog>
-          </FocusTrap>
-        </OverlayCenter>
-      </Overlay>
+      {open && <MessageDeletePrompt room={room} mEvent={mEvent} requestClose={handleClose} />}
       <Button
         variant="Critical"
         fill="None"
@@ -821,6 +845,8 @@ type MessageShiftOptionButtonProps = {
   doneLabel?: string;
   icon: IconSrc;
   pressed?: boolean;
+  /** Paints the button in the destructive palette. Delete, and nothing else. */
+  critical?: boolean;
   eventId?: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
@@ -829,6 +855,7 @@ function MessageShiftOptionButton({
   doneLabel,
   icon,
   pressed,
+  critical,
   eventId,
   onClick,
 }: MessageShiftOptionButtonProps) {
@@ -860,7 +887,7 @@ function MessageShiftOptionButton({
             if (doneLabel) setDone(true);
           }}
           data-event-id={eventId}
-          variant="SurfaceVariant"
+          variant={critical ? 'Critical' : 'SurfaceVariant'}
           size="300"
           radii="300"
           aria-label={label}
@@ -876,16 +903,26 @@ function MessageShiftOptionButton({
 /**
  * The hover toolbar as it looks while Shift is held — Discord's gesture.
  *
- * The everyday buttons (react, reply in thread, edit, menu) give way to the
- * things that otherwise cost a trip through the "..." menu: copy id, copy link,
- * mark unread, pin, reply. Every one of them is a one-shot action with no UI of
- * its own, which is what makes them worth a modifier — the toolbar can fire
- * them directly instead of opening a menu to be clicked a second time.
+ * The whole bar is replaced, not just its emoji end: copy id, copy link, mark
+ * unread, pin, reply, add reaction, edit, forward, delete, in that order. Held
+ * Shift is a request for the FULL set of things that can be done to a message
+ * without opening the "..." menu and clicking a second time, so the four that
+ * the everyday bar already offers are repeated here rather than dropped — a bar
+ * that removed them would make Shift a trade instead of an addition.
+ *
+ * Every button is conditional on the action being possible at all. Edit and
+ * delete answer to the same checks the menu uses (`canEditEvent`, the room's
+ * redaction power), so a message you may not touch simply shows a shorter bar.
  *
  * Copy Message ID rides on the developer-tools setting, the same gate Discord
  * puts it behind: an event id is meaningless to anyone not looking at the
  * protocol, and it is the one button here whose result is not visible in the
  * client.
+ *
+ * Add reaction, forward and delete each open something that outlives the bar —
+ * a popover, a modal, a confirmation. None of them is owned here: the toolbar
+ * unmounts the moment the pointer leaves the row, so it asks `Message` to open
+ * them and `Message` holds them.
  *
  * Mounted only while Shift is actually down, so `useRoomPinnedEvents` — a state
  * event subscription — is live on one message at a time rather than on every
@@ -895,15 +932,28 @@ function MessageShiftOptionButton({
 export function MessageShiftOptions({
   room,
   mEvent,
+  canDelete,
   canPinEvent,
+  canSendReaction,
   showDeveloperTools,
   onReplyClick,
+  onAddReaction,
+  onEdit,
+  onForward,
+  onDelete,
 }: {
   room: Room;
   mEvent: MatrixEvent;
+  canDelete?: boolean;
   canPinEvent?: boolean;
+  canSendReaction?: boolean;
   showDeveloperTools?: boolean;
   onReplyClick: MouseEventHandler<HTMLButtonElement>;
+  onAddReaction: MouseEventHandler<HTMLButtonElement>;
+  /** Absent when the timeline has nowhere to put an editor. */
+  onEdit?: (eventId: string) => void;
+  onForward: () => void;
+  onDelete: () => void;
 }) {
   const mx = useMatrixClient();
   const pinnedEvents = useRoomPinnedEvents(room);
@@ -969,6 +1019,37 @@ export function MessageShiftOptions({
         eventId={eventId}
         onClick={onReplyClick}
       />
+      {canSendReaction && (
+        <MessageShiftOptionButton
+          label="Add Reaction"
+          icon={Icons.SmilePlus}
+          onClick={onAddReaction}
+        />
+      )}
+      {onEdit && canEditEvent(mx, mEvent) && (
+        <MessageShiftOptionButton
+          label="Edit Message"
+          icon={Icons.Pencil}
+          onClick={() => onEdit(eventId)}
+        />
+      )}
+      <MessageShiftOptionButton
+        label="Forward Message"
+        icon={Icons.ArrowRight}
+        onClick={onForward}
+      />
+      {canDelete && !mEvent.isRedacted() && (
+        // The one destructive button in a dense row of icons, and it carries
+        // the same red the menu's Delete does. It opens the same confirmation,
+        // so the colour is a warning rather than the only thing standing
+        // between a slipped press and a redaction.
+        <MessageShiftOptionButton
+          label="Delete Message"
+          icon={Icons.Delete}
+          critical
+          onClick={onDelete}
+        />
+      )}
     </>
   );
 }
@@ -1110,6 +1191,10 @@ export const Message = as<'div', MessageProps>(
     );
 
     const [forwardOpen, setForwardOpen] = useState(false);
+    // Owned here rather than by the Shift toolbar that opens it: that toolbar
+    // unmounts as soon as the pointer leaves the row, and a confirmation dialog
+    // that vanishes when you move towards it is worse than none.
+    const [deleteOpen, setDeleteOpen] = useState(false);
 
     /**
      * Holding Shift swaps the hover toolbar for the power actions, the way
@@ -1542,6 +1627,13 @@ export const Message = as<'div', MessageProps>(
         {forwardOpen && (
           <ForwardPrompt mEvent={mEvent} requestClose={() => setForwardOpen(false)} />
         )}
+        {deleteOpen && (
+          <MessageDeletePrompt
+            room={room}
+            mEvent={mEvent}
+            requestClose={() => setDeleteOpen(false)}
+          />
+        )}
         <Overlay open={readReceiptOpen} backdrop={<OverlayBackdrop />}>
           <OverlayCenter>
             <FocusTrap
@@ -1666,9 +1758,20 @@ export const Message = as<'div', MessageProps>(
                   <MessageShiftOptions
                     room={room}
                     mEvent={mEvent}
+                    canDelete={canDelete}
                     canPinEvent={canPinEvent}
+                    canSendReaction={canSendReaction}
                     showDeveloperTools={showDeveloperTools}
                     onReplyClick={onReplyClick}
+                    // Setting the anchor drops `showShiftOptions`, so the board
+                    // opens against the everyday toolbar that takes this bar's
+                    // place. Same anchor rect either way — `handleOpenEmojiBoard`
+                    // measures the bar, not the button — so it lands where the
+                    // button the user pressed was standing.
+                    onAddReaction={handleOpenEmojiBoard}
+                    onEdit={onEditId}
+                    onForward={() => setForwardOpen(true)}
+                    onDelete={() => setDeleteOpen(true)}
                   />
                 ) : (
                   <>
