@@ -5,6 +5,7 @@ User-facing changes per commit. Most recent at the top.
 ## 02.09.2026
 
 - `c7ef96d` Fixed **the keyboard shortcuts being written out for the wrong computer on a Mac**. Every place the app names a key — the **⌘K** hint in search, the shortcuts sheet, the row in settings, and the keys printed beside actions throughout — asks one question first: is this a Mac. That question had been answering no on every Mac since the library it was asked through renamed its own answer, so Mac users were shown **Ctrl**, **Alt** and **Meta** where the keys on the keyboard in front of them read **⌘** and **⌥**. It now answers correctly, and asks the browser directly where the browser will say. Along the way the library itself is gone: it was 1.7 MB of device database kept for two yes-or-no questions, so the download is that much smaller, and the two answers are now short enough to read.
+- `01f84af` Improved **the size of the app**, which now carries its own copy of the small piece of borrowed code that decides which style names go on each thing on screen — about twenty lines, where the borrowed version was forty-four kilobytes. Nothing looks or behaves differently; it was checked against the original on fifty thousand different inputs first, and gives the same answer to every one of them.
 
 ## 01.09.2026
 
