@@ -119,6 +119,14 @@ export default defineConfig({
         find: /^folds$/,
         replacement: fileURLToPath(new URL('./src/folds/index.ts', import.meta.url)),
       },
+      // Bare `classnames` resolves to our own implementation. It is the ~20
+      // lines of the package this app uses, kept behind the package's name so
+      // that all 65 call sites read the same as upstream's and none of them
+      // become a merge conflict on the next sync.
+      {
+        find: /^classnames$/,
+        replacement: fileURLToPath(new URL('./src/app/utils/classNames.ts', import.meta.url)),
+      },
     ],
   },
   server: {

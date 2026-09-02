@@ -20,7 +20,8 @@
     // folds' enum and be `undefined` at runtime.
     "baseUrl": ".",
     "paths": {
-      "folds": ["./src/folds/index.ts"]
+      "folds": ["./src/folds/index.ts"],
+      "classnames": ["./src/app/utils/classNames.ts"]
     }
   },
   "exclude": ["node_modules", "dist"],
