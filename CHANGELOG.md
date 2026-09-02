@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 02.09.2026
+
+- `c7ef96d` Fixed **the keyboard shortcuts being written out for the wrong computer on a Mac**. Every place the app names a key — the **⌘K** hint in search, the shortcuts sheet, the row in settings, and the keys printed beside actions throughout — asks one question first: is this a Mac. That question had been answering no on every Mac since the library it was asked through renamed its own answer, so Mac users were shown **Ctrl**, **Alt** and **Meta** where the keys on the keyboard in front of them read **⌘** and **⌥**. It now answers correctly, and asks the browser directly where the browser will say. Along the way the library itself is gone: it was 1.7 MB of device database kept for two yes-or-no questions, so the download is that much smaller, and the two answers are now short enough to read.
+
 ## 01.09.2026
 
 - `b24227a` Improved **the second set of buttons the message toolbar shows while you hold Shift**, which was a trade rather than an addition: it offered **Copy Message Link**, **Mark Unread**, **Pin Message** and **Reply** (with **Copy Message ID** in front for anyone running developer tools), but reaching **Add Reaction**, **Edit Message**, **Forward Message** or **Delete Message** meant letting go of Shift and going back through the menu with three dots. The bar now carries all of them at once, in that order, so everything that can be done to a message is one press away while Shift is down. A button appears only when the action is actually available — no **Edit Message** on someone else's message, no **Delete Message** without the power to remove it — and **Delete Message** is red, and still asks before it does anything.
