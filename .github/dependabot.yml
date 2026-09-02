@@ -28,25 +28,25 @@ updates:
     directory: /
     schedule:
       interval: weekly
-      day: "tuesday"
-      time: "01:00"
-      timezone: "Europe/Helsinki"
+      day: 'tuesday'
+      time: '01:00'
+      timezone: 'Europe/Helsinki'
     open-pull-requests-limit: 10
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
-      day: "tuesday"
-      time: "01:00"
-      timezone: "Europe/Helsinki"
+      day: 'tuesday'
+      time: '01:00'
+      timezone: 'Europe/Helsinki'
     open-pull-requests-limit: 5
 
   - package-ecosystem: docker
     directory: /
     schedule:
       interval: weekly
-      day: "tuesday"
-      time: "01:00"
-      timezone: "Europe/Helsinki"
+      day: 'tuesday'
+      time: '01:00'
+      timezone: 'Europe/Helsinki'
     open-pull-requests-limit: 5

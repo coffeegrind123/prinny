@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useMemo } from 'react';
-import { Capabilities, validateAuthMetadata, ValidatedAuthMetadata } from 'matrix-js-sdk';
+import { Capabilities, isValidAuthMetadata, ValidatedAuthMetadata } from 'matrix-js-sdk';
 import { AsyncStatus, useAsyncCallbackValue } from '../hooks/useAsyncCallback';
 import { useMatrixClient } from '../hooks/useMatrixClient';
 import { MediaConfig } from '../hooks/useMediaConfig';
@@ -26,7 +26,7 @@ export function ServerConfigsLoader({ children }: ServerConfigsLoaderProps) {
   const mx = useMatrixClient();
   const fallbackConfigs = useMemo<ServerConfigs>(
     () => ({ serverSoftware: UNKNOWN_SERVER_SOFTWARE }),
-    []
+    [],
   );
 
   const [configsState] = useAsyncCallbackValue<ServerConfigs, unknown>(
@@ -45,21 +45,28 @@ export function ServerConfigsLoader({ children }: ServerConfigsLoaderProps) {
       let validatedAuthMetadata: ValidatedAuthMetadata | undefined;
 
       // A homeserver without MSC2965 simply 404s both discovery endpoints, so
-      // `getAuthMetadata()` rejects, `authMetadata` is undefined, and
-      // `validateAuthMetadata` throws "Configured OIDC OP does not support
-      // required functions". That is the expected answer for most homeservers,
-      // not a fault, and logging it as an error on every load made a normal
-      // startup look broken. Only a server that DID return a document worth
-      // validating gets past here.
+      // `getAuthMetadata()` rejects and `authMetadata` is undefined. That is the
+      // expected answer for most homeservers, not a fault, and logging it as an
+      // error on every load made a normal startup look broken. Only a server
+      // that DID return a document worth validating gets past here.
       try {
         // Nothing to validate, and nothing to report: the server said no.
         // `serverSoftware` still travels — it is probed independently of OIDC,
         // and most homeservers take this branch.
         if (authMetadata === undefined) return { capabilities, mediaConfig, serverSoftware };
 
-        validatedAuthMetadata = validateAuthMetadata(authMetadata);
+        // matrix-js-sdk 42 replaced the throwing `validateAuthMetadata` with
+        // `isValidAuthMetadata`, a type guard. An unusable document is now a
+        // `false` return rather than an exception, so the "server answered but
+        // the document does not validate" case is handled here rather than by
+        // the catch below.
+        if (!isValidAuthMetadata(authMetadata)) {
+          console.warn('Ignoring unusable auth metadata: failed validation');
+          return { capabilities, mediaConfig, serverSoftware };
+        }
+        validatedAuthMetadata = authMetadata;
 
-        // `validateAuthMetadata` checks the OIDC document's shape, not the
+        // `isValidAuthMetadata` checks the OIDC document's shape, not the
         // scheme of the URLs inside it. `account_management_uri` and `issuer`
         // are chosen by the homeserver and are later handed to `window.open()`
         // by the device-management and cross-signing screens; in the Tauri shell
@@ -90,7 +97,7 @@ export function ServerConfigsLoader({ children }: ServerConfigsLoaderProps) {
         authMetadata: validatedAuthMetadata,
         serverSoftware,
       };
-    }, [mx])
+    }, [mx]),
   );
 
   const configs: ServerConfigs =

@@ -71,7 +71,7 @@ export function UserRoomProfile({ userId }: UserRoomProfileProps) {
   const biography = getProfileBiography(profile.extended);
   const localTime = useLocalTime(getProfileTimezone(profile.extended));
   const bannerUrl = bannerMxc
-    ? mxcUrlToHttp(mx, bannerMxc, useAuthentication) ?? undefined
+    ? (mxcUrlToHttp(mx, bannerMxc, useAuthentication) ?? undefined)
     : undefined;
 
   return (

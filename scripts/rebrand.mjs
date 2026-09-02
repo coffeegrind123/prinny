@@ -20,14 +20,26 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 
 const TEXT_EXTS = new Set([
-  '.ts', '.tsx', '.js', '.jsx', '.mjs',
-  '.html', '.css', '.svg', '.xml',
-  '.json', '.json5', '.webmanifest',
-  '.md', '.txt',
+  '.ts',
+  '.tsx',
+  '.js',
+  '.jsx',
+  '.mjs',
+  '.html',
+  '.css',
+  '.svg',
+  '.xml',
+  '.json',
+  '.json5',
+  '.webmanifest',
+  '.md',
+  '.txt',
 ]);
 
 const SKIP_DIRS = new Set([
-  'node_modules', 'dist', 'build',
+  'node_modules',
+  'dist',
+  'build',
   'scripts', // don't self-rename
 ]);
 

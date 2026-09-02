@@ -43,8 +43,8 @@ export function CreateChat({ defaultUserId }: CreateChatProps) {
 
         return result.room_id;
       },
-      [mx]
-    )
+      [mx],
+    ),
   );
   const loading = createState.status === AsyncStatus.Loading;
   const error = createState.status === AsyncStatus.Error ? createState.error : undefined;
@@ -126,7 +126,7 @@ export function CreateChat({ defaultUserId }: CreateChatProps) {
             <b>
               {error instanceof MatrixError && error.name === ErrorCode.M_LIMIT_EXCEEDED
                 ? `Server rate-limited your request for ${millisecondsToMinutes(
-                    (error.data.retry_after_ms as number | undefined) ?? 0
+                    (error.data.retry_after_ms as number | undefined) ?? 0,
                   )} minutes!`
                 : error.message}
             </b>

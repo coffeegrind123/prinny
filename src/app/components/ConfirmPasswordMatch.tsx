@@ -7,7 +7,7 @@ type ConfirmPasswordMatchProps = {
     match: boolean,
     doMatch: () => void,
     passRef: RefObject<HTMLInputElement | null>,
-    confPassRef: RefObject<HTMLInputElement | null>
+    confPassRef: RefObject<HTMLInputElement | null>,
   ) => ReactNode;
 };
 export function ConfirmPasswordMatch({ initialValue, children }: ConfirmPasswordMatchProps) {
@@ -28,7 +28,7 @@ export function ConfirmPasswordMatch({ initialValue, children }: ConfirmPassword
     {
       wait: 500,
       immediate: false,
-    }
+    },
   );
 
   return children(match, doMatch, passRef, confPassRef);

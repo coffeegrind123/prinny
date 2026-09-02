@@ -49,5 +49,5 @@ export const BlurhashCanvas = memo(
     }, [hash, width, height, punch]);
 
     return <canvas ref={canvasRef} width={width} height={height} {...props} />;
-  }
+  },
 );

@@ -29,7 +29,7 @@ function UnverifiedIndicator() {
   const verificationStatus = useDeviceVerificationStatus(
     crypto,
     mx.getSafeUserId(),
-    currentDevice?.device_id
+    currentDevice?.device_id,
   );
   const unverified = verificationStatus === VerificationStatus.Unverified;
 
@@ -37,7 +37,7 @@ function UnverifiedIndicator() {
   const unverifiedDeviceCount = useUnverifiedDeviceCount(
     crypto,
     mx.getSafeUserId(),
-    otherDevicesId
+    otherDevicesId,
   );
 
   const [settings, setSettings] = useState(false);

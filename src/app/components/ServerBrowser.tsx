@@ -86,8 +86,8 @@ function compareVersion(a: string, b: string): number {
   const pa = a.split('.').map(Number);
   const pb = b.split('.').map(Number);
   for (let i = 0; i < Math.max(pa.length, pb.length); i += 1) {
-    const x = Number.isNaN(pa[i]) ? -1 : pa[i] ?? -1;
-    const y = Number.isNaN(pb[i]) ? -1 : pb[i] ?? -1;
+    const x = Number.isNaN(pa[i]) ? -1 : (pa[i] ?? -1);
+    const y = Number.isNaN(pb[i]) ? -1 : (pb[i] ?? -1);
     if (x !== y) return x - y;
   }
   return 0;
@@ -381,7 +381,12 @@ export function ServerBrowser({
               )}
 
               {!isLoading && !error && results.length === 0 && (
-                <Text size="T200" priority="300" align="Center" style={{ padding: config.space.S700 }}>
+                <Text
+                  size="T200"
+                  priority="300"
+                  align="Center"
+                  style={{ padding: config.space.S700 }}
+                >
                   No servers match those filters.
                 </Text>
               )}

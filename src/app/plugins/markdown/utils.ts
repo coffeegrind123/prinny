@@ -35,7 +35,7 @@ export const escapeMarkdownInlineSequences = (text: string): string => {
       const [, g1] = match;
       return `\\${g1}`;
     },
-    (t) => t
+    (t) => t,
   );
 
   return parts.join('');
@@ -52,7 +52,7 @@ export const escapeMarkdownInlineSequences = (text: string): string => {
  */
 export const unescapeMarkdownBlockSequences = (
   text: string,
-  processPart: (text: string) => string
+  processPart: (text: string) => string,
 ): string => {
   const match = text.match(ESC_BLOCK_SEQ);
 
@@ -72,7 +72,7 @@ export const unescapeMarkdownBlockSequences = (
  */
 export const escapeMarkdownBlockSequences = (
   text: string,
-  processPart: (text: string) => string
+  processPart: (text: string) => string,
 ): string => {
   const match = text.match(UN_ESC_BLOCK_SEQ);
 

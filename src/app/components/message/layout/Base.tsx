@@ -7,12 +7,12 @@ export const MessageBase = as<'div', css.MessageBaseVariants>(
     <div
       className={classNames(
         css.MessageBase({ highlight, selected, collapse, autoCollapse, space }),
-        className
+        className,
       )}
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 export const AvatarBase = as<'span'>(({ className, ...props }, ref) => (
@@ -37,5 +37,5 @@ export const MessageTextBody = as<'div', css.MessageTextBodyVariants & { notice?
       {...props}
       ref={ref}
     />
-  )
+  ),
 );

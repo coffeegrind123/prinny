@@ -561,8 +561,7 @@ function MessageNotifications() {
   useEffect(() => {
     const handler = (ev: Event) => {
       const detail = (ev as CustomEvent).detail as
-        | { roomId?: string; eventId?: string }
-        | undefined;
+        { roomId?: string; eventId?: string } | undefined;
       if (!detail?.roomId) return;
       navigateRoom(detail.roomId, detail.eventId);
     };

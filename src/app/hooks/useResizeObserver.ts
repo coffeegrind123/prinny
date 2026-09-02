@@ -4,12 +4,12 @@ export type OnResizeCallback = (entries: ResizeObserverEntry[]) => void;
 
 export const getResizeObserverEntry = (
   target: Element,
-  entries: ResizeObserverEntry[]
+  entries: ResizeObserverEntry[],
 ): ResizeObserverEntry | undefined => entries.find((entry) => entry.target === target);
 
 export const useResizeObserver = (
   onResizeCallback: OnResizeCallback,
-  observeElement?: Element | null | (() => Element | null)
+  observeElement?: Element | null | (() => Element | null),
 ): ResizeObserver => {
   const resizeObserver = useMemo(() => new ResizeObserver(onResizeCallback), [onResizeCallback]);
 

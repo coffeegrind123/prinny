@@ -72,7 +72,7 @@ export function SenderTime({
         timezone,
         new Date(timeProps.ts),
         timeProps.hour24Clock,
-        timeProps.dateFormatString
+        timeProps.dateFormatString,
       )
     : undefined;
 

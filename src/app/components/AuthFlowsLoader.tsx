@@ -45,7 +45,7 @@ export function AuthFlowsLoader({ fallback, error, children }: AuthFlowsLoaderPr
       };
 
       return authFlows;
-    }, [mx])
+    }, [mx]),
   );
 
   useEffect(() => {

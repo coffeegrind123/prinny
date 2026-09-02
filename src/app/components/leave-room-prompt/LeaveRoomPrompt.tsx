@@ -32,7 +32,7 @@ export function LeaveRoomPrompt({ roomId, onDone, onCancel }: LeaveRoomPromptPro
   const [leaveState, leaveRoom] = useAsyncCallback<undefined, MatrixError, []>(
     useCallback(async () => {
       mx.leave(roomId);
-    }, [mx, roomId])
+    }, [mx, roomId]),
   );
 
   const handleLeave = () => {

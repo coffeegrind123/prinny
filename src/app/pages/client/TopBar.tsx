@@ -1,10 +1,19 @@
-import { Box, Header, Icon, IconButton, Icons, Text, Tooltip, TooltipProvider, config, toRem } from 'folds';
+import {
+  Box,
+  Header,
+  Icon,
+  IconButton,
+  Icons,
+  Text,
+  Tooltip,
+  TooltipProvider,
+  config,
+  toRem,
+} from 'folds';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
 import { allInvitesAtom } from '../../state/room-list/inviteList';
-import {
-  getInboxPath,
-} from '../pathUtils';
+import { getInboxPath } from '../pathUtils';
 import { useDefaultInboxPath, useInboxSelected } from '../../hooks/router/useInbox';
 import { UnreadBadge } from '../../components/unread-badge';
 import { ScreenSize, useScreenSizeContext } from '../../hooks/useScreenSize';

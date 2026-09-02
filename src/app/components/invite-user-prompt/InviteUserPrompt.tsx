@@ -69,12 +69,12 @@ export function InviteUserPrompt({ room, requestClose }: InviteUserProps) {
         const membership = room.getMember(userId)?.membership;
         return membership !== Membership.Join;
       }),
-    [directUsers, room]
+    [directUsers, room],
   );
   const [result, search, resetSearch] = useAsyncSearch(
     filteredUsers,
     getUserIdString,
-    SEARCH_OPTIONS
+    SEARCH_OPTIONS,
   );
   const queryHighlighRegex = result?.query
     ? makeHighlightRegex(result.query.split(' '))
@@ -85,8 +85,8 @@ export function InviteUserPrompt({ room, requestClose }: InviteUserProps) {
       async (userId, reason) => {
         await mx.invite(room.roomId, userId, reason);
       },
-      [mx, room]
-    )
+      [mx, room],
+    ),
   );
 
   const inviting = inviteState.status === AsyncStatus.Loading;

@@ -290,7 +290,7 @@ const CONTENT_FREE_TITLE = 'New message';
 export function redactNotificationContent(
   title: string,
   body: string | undefined,
-  mode: NotificationContentMode = DEFAULT_NOTIFICATION_CONTENT_MODE
+  mode: NotificationContentMode = DEFAULT_NOTIFICATION_CONTENT_MODE,
 ): { title: string; body: string } {
   if (mode === 'hidden') return { title: CONTENT_FREE_TITLE, body: '' };
   if (mode === 'sender-only') return { title, body: CONTENT_FREE_BODY };
@@ -339,7 +339,7 @@ export async function resolveTauriIconPath(
   url: string,
   authHeader?: string,
   homeserver?: string,
-  key?: string
+  key?: string,
 ): Promise<string | undefined> {
   // The in-memory map is keyed by URL, and a keyed call writes a DIFFERENT
   // file for the same URL, so it must not be answered from the URL's entry.
@@ -405,12 +405,12 @@ export async function sendDesktopNotification(
      * plaintext never reaches the OS notification store when it is not `full`.
      */
     contentMode?: NotificationContentMode;
-  }
+  },
 ): Promise<void> {
   const { title: outTitle, body: outBody } = redactNotificationContent(
     title,
     options?.body,
-    options?.contentMode
+    options?.contentMode,
   );
   const srcIcon = options?.icon;
   const isHttpIcon =
@@ -426,7 +426,7 @@ export async function sendDesktopNotification(
       resolvedPath = await resolveTauriIconPath(
         srcIcon,
         options?.iconAuthHeader,
-        options?.iconHomeserver
+        options?.iconHomeserver,
       );
     } else if (srcIcon && !srcIcon.startsWith('data:')) {
       // Already a file path / bundled asset.
@@ -518,7 +518,7 @@ export async function sendDesktopNotification(
  * and emit toasts ourselves via tauri-winrt-notification).
  */
 export async function onNotificationAction(
-  callback: (extra: NotificationExtra) => void
+  callback: (extra: NotificationExtra) => void,
 ): Promise<() => void> {
   if (!isTauri()) return () => {};
 
@@ -546,15 +546,12 @@ export async function onNotificationAction(
 
   try {
     const { listen } = await import('@tauri-apps/api/event');
-    const unlisten = await listen<NotificationExtra>(
-      'notification://activated',
-      (event) => {
-        const payload = event.payload;
-        if (payload?.roomId || payload?.kind) {
-          callback(payload);
-        }
+    const unlisten = await listen<NotificationExtra>('notification://activated', (event) => {
+      const payload = event.payload;
+      if (payload?.roomId || payload?.kind) {
+        callback(payload);
       }
-    );
+    });
     unlisteners.push(unlisten);
   } catch (err) {
     console.error('[notif] Failed to register notification://activated listener:', err);
@@ -579,7 +576,7 @@ export async function onNotificationAction(
         if (payload?.roomId) {
           callback(payload);
         }
-      }
+      },
     );
     unlisteners.push(() => {
       listener.unregister();

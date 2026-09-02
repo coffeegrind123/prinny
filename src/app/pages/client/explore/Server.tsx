@@ -55,7 +55,7 @@ const useServerSearchParams = (searchParams: URLSearchParams): ExploreServerPath
       type: searchParams.get('type') ?? undefined,
       instance: searchParams.get('instance') ?? undefined,
     }),
-    [searchParams]
+    [searchParams],
   );
 
 type RoomTypeFilter = {
@@ -78,7 +78,7 @@ const useRoomTypeFilters = (): RoomTypeFilter[] =>
         value: 'null',
       },
     ],
-    []
+    [],
   );
 
 const FALLBACK_ROOMS_LIMIT = 24;
@@ -390,7 +390,7 @@ export function PublicRooms() {
           room_types: roomType !== undefined ? [roomType] : undefined,
         },
         third_party_instance_id: serverSearchParams.instance,
-      }
+      },
     );
   }, [mx, server, serverSearchParams]);
 

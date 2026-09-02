@@ -53,7 +53,7 @@ export function LeaveSpacePrompt({ roomId, onDone, onCancel }: LeaveSpacePromptP
         }
       }
       await mx.leave(roomId);
-    }, [mx, roomId, leaveRooms])
+    }, [mx, roomId, leaveRooms]),
   );
 
   const handleLeave = () => {

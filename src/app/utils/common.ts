@@ -52,7 +52,7 @@ export const fulfilledPromiseSettledResult = <T>(prs: PromiseSettledResult<T>[])
   }, []);
 
 export const promiseFulfilledResult = <T>(
-  settledResult: PromiseSettledResult<T>
+  settledResult: PromiseSettledResult<T>,
 ): T | undefined => {
   if (settledResult.status === 'fulfilled') return settledResult.value;
   return undefined;
@@ -113,7 +113,7 @@ export const fitWithin = (
   w: number | undefined,
   h: number | undefined,
   maxW: number,
-  maxH: number
+  maxH: number,
 ): [number, number] => {
   if (!w || !h || !Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) {
     return [maxW, maxH];
@@ -166,7 +166,7 @@ export const randomStr = (len = 12): string => {
 
 export const suffixRename = (name: string, validator: (newName: string) => boolean): string => {
   let suffix = 1;
-  let newName = name;
+  let newName: string;
   do {
     newName = name + suffix;
     suffix += 1;

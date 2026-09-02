@@ -53,7 +53,7 @@ const useSpaceSettingsMenuItems = (): SpaceSettingsMenuItem[] =>
         icon: Icons.Terminal,
       },
     ],
-    []
+    [],
   );
 
 type SpaceSettingsProps = {
@@ -71,7 +71,7 @@ export function SpaceSettings({ initialPage, requestClose }: SpaceSettingsProps)
   const joinRuleContent = useRoomJoinRule(room);
 
   const avatarUrl = roomAvatar
-    ? mxcUrlToHttp(mx, roomAvatar, useAuthentication, 96, 96, 'crop') ?? undefined
+    ? (mxcUrlToHttp(mx, roomAvatar, useAuthentication, 96, 96, 'crop') ?? undefined)
     : undefined;
 
   const screenSize = useScreenSizeContext();

@@ -34,5 +34,5 @@ export const useDateFormatItems = (): DateFormatItem[] =>
         name: 'Custom',
       },
     ],
-    []
+    [],
   );

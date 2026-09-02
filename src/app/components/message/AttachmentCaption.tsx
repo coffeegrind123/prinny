@@ -61,7 +61,7 @@ export function AttachmentDownloadCaption({
     filename,
     url,
     mimeType,
-    encInfo
+    encInfo,
   );
 
   return (

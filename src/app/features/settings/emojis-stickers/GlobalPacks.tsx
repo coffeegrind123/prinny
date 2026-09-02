@@ -95,7 +95,7 @@ function GlobalPackSelector({
   const removeSelected = (adds: PackAddress[]) => {
     setSelected((addresses) => {
       const newAddresses = addresses.filter(
-        (addr) => !adds.find((address) => packAddressEqual(addr, address))
+        (addr) => !adds.find((address) => packAddressEqual(addr, address)),
       );
       return newAddresses;
     });
@@ -141,7 +141,7 @@ function GlobalPackSelector({
                 .map((pack) => pack.address)
                 .filter((addr) => addr !== undefined);
               const allSelected = roomPackAddresses.every((addr) =>
-                selected.find((address) => packAddressEqual(addr, address))
+                selected.find((address) => packAddressEqual(addr, address)),
               );
 
               return (
@@ -269,9 +269,9 @@ export function GlobalPacks({ onViewPack }: GlobalPacksProps) {
   const nonGlobalPacks = useMemo(
     () =>
       roomsImagePack.filter(
-        (pack) => !globalPacks.find((p) => packAddressEqual(pack.address, p.address))
+        (pack) => !globalPacks.find((p) => packAddressEqual(pack.address, p.address)),
       ),
-    [roomsImagePack, globalPacks]
+    [roomsImagePack, globalPacks],
   );
 
   const [selectedPacks, setSelectedPacks] = useState<PackAddress[]>([]);
@@ -280,9 +280,9 @@ export function GlobalPacks({ onViewPack }: GlobalPacksProps) {
   const unselectedGlobalPacks = useMemo(
     () =>
       nonGlobalPacks.filter(
-        (pack) => !selectedPacks.find((addr) => packAddressEqual(pack.address, addr))
+        (pack) => !selectedPacks.find((addr) => packAddressEqual(pack.address, addr)),
       ),
-    [selectedPacks, nonGlobalPacks]
+    [selectedPacks, nonGlobalPacks],
   );
 
   const handleRemove = (address: PackAddress) => {
@@ -321,7 +321,7 @@ export function GlobalPacks({ onViewPack }: GlobalPacksProps) {
       });
 
       await mx.setAccountData(AccountDataEvent.PoniesEmoteRooms, updatedContent);
-    }, [mx, selectedPacks, removedPacks])
+    }, [mx, selectedPacks, removedPacks]),
   );
 
   const resetChanges = useCallback(() => {

@@ -34,7 +34,7 @@ import { isWebUrl } from './safeUrl';
 async function listenToPlugin<T>(
   plugin: string,
   event: string,
-  handler: (payload: T) => void
+  handler: (payload: T) => void,
 ): Promise<UnlistenFn> {
   const listener = await addPluginListener<T>(plugin, event, handler);
   return () => {
@@ -189,4 +189,3 @@ export async function setForegroundMicrophoneActive(active: boolean): Promise<vo
     // Plugin is Android-only; ignore on desktop and other platforms.
   }
 }
-

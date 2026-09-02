@@ -14,7 +14,7 @@ export class CallControlState {
     video: boolean,
     sound: boolean,
     screenshare = false,
-    spotlight = false
+    spotlight = false,
   ) {
     this.microphone = microphone;
     this.video = video;

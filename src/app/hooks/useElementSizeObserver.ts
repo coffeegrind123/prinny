@@ -3,7 +3,7 @@ import { getResizeObserverEntry, useResizeObserver } from './useResizeObserver';
 
 export const useElementSizeObserver = <T extends Element>(
   element: () => T | null,
-  onResize: (width: number, height: number, element: T) => void
+  onResize: (width: number, height: number, element: T) => void,
 ) => {
   useResizeObserver(
     useCallback(
@@ -16,8 +16,8 @@ export const useElementSizeObserver = <T extends Element>(
           onResize(clientWidth, clientHeight, target);
         }
       },
-      [element, onResize]
+      [element, onResize],
     ),
-    element
+    element,
   );
 };

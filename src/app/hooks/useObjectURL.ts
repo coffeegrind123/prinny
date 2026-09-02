@@ -10,7 +10,7 @@ export const useObjectURL = (object?: Blob): string | undefined => {
     () => () => {
       if (url) URL.revokeObjectURL(url);
     },
-    [url]
+    [url],
   );
 
   return url;

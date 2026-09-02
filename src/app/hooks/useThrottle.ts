@@ -9,7 +9,7 @@ export type ThrottleCallback<T extends unknown[]> = (...args: T) => void;
 
 export function useThrottle<T extends unknown[]>(
   callback: ThrottleCallback<T>,
-  options?: ThrottleOptions
+  options?: ThrottleOptions,
 ): ThrottleCallback<T> {
   const timeoutIdRef = useRef<number | undefined>(undefined);
   const argsRef = useRef<T | undefined>(undefined);
@@ -34,7 +34,7 @@ export function useThrottle<T extends unknown[]>(
         timeoutIdRef.current = undefined;
       }, wait);
     },
-    [callback, wait, immediate]
+    [callback, wait, immediate],
   );
 
   return debounceCallback;

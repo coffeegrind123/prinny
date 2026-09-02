@@ -62,7 +62,7 @@ function requestSession(client: Client): Promise<SessionInfo | undefined> {
 
 async function requestSessionWithTimeout(
   clientId: string,
-  timeoutMs = 3000
+  timeoutMs = 3000,
 ): Promise<SessionInfo | undefined> {
   const client = await self.clients.get(clientId);
   if (!client) return undefined;
@@ -103,7 +103,7 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
     (async () => {
       await self.clients.claim();
       await cleanupDeadClients();
-    })()
+    })(),
   );
 });
 
@@ -236,8 +236,7 @@ const asText = (value: unknown): string | undefined => {
 // is whichever one this worker was actually registered under — no build-time
 // value to keep in sync. PNG rather than the brand SVG because SVG notification
 // icons are not reliably rendered outside Firefox.
-const notificationAsset = (path: string): string =>
-  new URL(path, self.registration.scope).href;
+const notificationAsset = (path: string): string => new URL(path, self.registration.scope).href;
 
 self.addEventListener('push', (event: PushEvent) => {
   event.waitUntil(handlePush(event));
@@ -258,7 +257,8 @@ async function handlePush(event: PushEvent) {
     typeof rawNotif === 'object' && rawNotif !== null ? rawNotif : {};
   const roomName = asText(notif.room_name);
   const sender = asText(notif.sender_display_name) ?? asText(notif.sender);
-  const title = roomName ?? asText(notif.room_alias) ?? sender ?? asText(payload.title) ?? 'New message';
+  const title =
+    roomName ?? asText(notif.room_alias) ?? sender ?? asText(payload.title) ?? 'New message';
   const body =
     asText(notif.content?.body) ??
     asText(payload.body) ??
@@ -311,7 +311,7 @@ self.addEventListener('notificationclick', (event: NotificationEvent) => {
         ? `${self.registration.scope}#/notification-target?roomId=${encodeURIComponent(roomId)}`
         : self.registration.scope;
       await self.clients.openWindow(url);
-    })()
+    })(),
   );
 });
 
@@ -364,11 +364,7 @@ async function handleMediaRequest(request: Request, clientId: string): Promise<R
     const staleToken = session.accessToken;
     invalidateSession(clientId);
     const fresh = await requestSessionWithTimeout(clientId);
-    if (
-      fresh &&
-      fresh.accessToken !== staleToken &&
-      validMediaRequest(url, fresh.baseUrl)
-    ) {
+    if (fresh && fresh.accessToken !== staleToken && validMediaRequest(url, fresh.baseUrl)) {
       return fetch(url, fetchConfig(fresh.accessToken, request));
     }
   }

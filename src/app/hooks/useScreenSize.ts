@@ -21,7 +21,7 @@ export const useScreenSize = (): ScreenSize => {
 
   useElementSizeObserver(
     useCallback(() => document.body, []),
-    useCallback((width) => setSize(getScreenSize(width)), [])
+    useCallback((width) => setSize(getScreenSize(width)), []),
   );
 
   return size;

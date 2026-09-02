@@ -157,7 +157,7 @@ export function BackupRestoreTile({ crypto }: BackupRestoreTileProps) {
           setRestoreProgress(progress);
         },
       });
-    }, [crypto, setRestoreProgress])
+    }, [crypto, setRestoreProgress]),
   );
 
   const handleRestore = () => {

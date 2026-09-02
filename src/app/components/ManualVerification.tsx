@@ -126,7 +126,7 @@ export function ManualVerificationTile({
   const [method, setMethod] = useState(
     hasPassphrase
       ? ManualVerificationMethod.RecoveryPassphrase
-      : ManualVerificationMethod.RecoveryKey
+      : ManualVerificationMethod.RecoveryKey,
   );
 
   const verifyAndRestoreBackup = useCallback(
@@ -143,11 +143,11 @@ export function ManualVerificationTile({
 
       await crypto.loadSessionBackupPrivateKeyFromSecretStorage();
     },
-    [mx, secretStorageKeyId]
+    [mx, secretStorageKeyId],
   );
 
   const [verifyState, handleDecodedRecoveryKey] = useAsyncCallback<void, Error, [Uint8Array]>(
-    verifyAndRestoreBackup
+    verifyAndRestoreBackup,
   );
   const verifying = verifyState.status === AsyncStatus.Loading;
 

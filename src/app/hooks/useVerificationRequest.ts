@@ -13,7 +13,7 @@ import {
 import { useMatrixClient } from './useMatrixClient';
 
 export const useVerificationRequestReceived = (
-  onRequest: CryptoEventHandlerMap[CryptoEvent.VerificationRequestReceived]
+  onRequest: CryptoEventHandlerMap[CryptoEvent.VerificationRequestReceived],
 ) => {
   const mx = useMatrixClient();
 
@@ -27,7 +27,7 @@ export const useVerificationRequestReceived = (
 
 export const useVerificationRequestChange = (
   request: VerificationRequest,
-  onChange: VerificationRequestEventHandlerMap[VerificationRequestEvent.Change]
+  onChange: VerificationRequestEventHandlerMap[VerificationRequestEvent.Change],
 ) => {
   useEffect(() => {
     request.on(VerificationRequestEvent.Change, onChange);
@@ -44,7 +44,7 @@ export const useVerificationRequestPhase = (request: VerificationRequest): Verif
     request,
     useCallback(() => {
       setPhase(request.phase);
-    }, [request])
+    }, [request]),
   );
 
   return phase;
@@ -52,7 +52,7 @@ export const useVerificationRequestPhase = (request: VerificationRequest): Verif
 
 export const useVerifierCancel = (
   verifier: Verifier,
-  onCallback: VerifierEventHandlerMap[VerifierEvent.Cancel]
+  onCallback: VerifierEventHandlerMap[VerifierEvent.Cancel],
 ) => {
   useEffect(() => {
     verifier.on(VerifierEvent.Cancel, onCallback);
@@ -64,7 +64,7 @@ export const useVerifierCancel = (
 
 export const useVerifierShowSas = (
   verifier: Verifier,
-  onCallback: VerifierEventHandlerMap[VerifierEvent.ShowSas]
+  onCallback: VerifierEventHandlerMap[VerifierEvent.ShowSas],
 ) => {
   useEffect(() => {
     verifier.on(VerifierEvent.ShowSas, onCallback);
@@ -76,7 +76,7 @@ export const useVerifierShowSas = (
 
 export const useVerifierShowReciprocateQr = (
   verifier: Verifier,
-  onCallback: VerifierEventHandlerMap[VerifierEvent.ShowReciprocateQr]
+  onCallback: VerifierEventHandlerMap[VerifierEvent.ShowReciprocateQr],
 ) => {
   useEffect(() => {
     verifier.on(VerifierEvent.ShowReciprocateQr, onCallback);

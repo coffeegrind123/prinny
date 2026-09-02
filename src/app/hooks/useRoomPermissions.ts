@@ -15,7 +15,7 @@ export type RoomPermissionsAPI = {
 
 export const getRoomPermissionsAPI = (
   creators: Set<string>,
-  powerLevels: IPowerLevels
+  powerLevels: IPowerLevels,
 ): RoomPermissionsAPI => {
   const api: RoomPermissionsAPI = {
     event: (type, userId) => {
@@ -49,11 +49,11 @@ export const getRoomPermissionsAPI = (
 
 export const useRoomPermissions = (
   creators: Set<string>,
-  powerLevels: IPowerLevels
+  powerLevels: IPowerLevels,
 ): RoomPermissionsAPI => {
   const api: RoomPermissionsAPI = useMemo(
     () => getRoomPermissionsAPI(creators, powerLevels),
-    [creators, powerLevels]
+    [creators, powerLevels],
   );
 
   return api;

@@ -1,8 +1,5 @@
 import { useCallback, useSyncExternalStore } from 'react';
-import {
-  isHoveredMessageGroup,
-  subscribeHoveredMessageGroup,
-} from '../state/hoveredMessageGroup';
+import { isHoveredMessageGroup, subscribeHoveredMessageGroup } from '../state/hoveredMessageGroup';
 
 const noopSubscribe = () => () => undefined;
 
@@ -17,12 +14,12 @@ export function useHoveredMessageGroup(groupHeadId: string | undefined): boolean
   const subscribe = useCallback(
     (onStoreChange: () => void) =>
       groupHeadId ? subscribeHoveredMessageGroup(groupHeadId, onStoreChange) : noopSubscribe(),
-    [groupHeadId]
+    [groupHeadId],
   );
 
   const getSnapshot = useCallback(
     () => (groupHeadId ? isHoveredMessageGroup(groupHeadId) : false),
-    [groupHeadId]
+    [groupHeadId],
   );
 
   return useSyncExternalStore(subscribe, getSnapshot, () => false);

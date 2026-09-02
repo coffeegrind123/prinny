@@ -71,10 +71,7 @@ export function parseChangelog(md: string): ChangelogEntry[] {
   return entries;
 }
 
-const MONTHS = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /** "18.05.2026" → "18 May 2026". Falls back to the raw string on malformed input. */
 export function formatDate(rawDate: string): string {

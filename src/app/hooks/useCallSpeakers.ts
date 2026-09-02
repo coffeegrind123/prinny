@@ -39,8 +39,8 @@ export const useCallSpeakers = (callEmbed: CallEmbed): Set<string> => {
 
         setSpeakers(s);
       },
-      [callEmbed]
-    )
+      [callEmbed],
+    ),
   );
 
   useEffect(() => {

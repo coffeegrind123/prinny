@@ -206,9 +206,8 @@ export const useRichPresencePublisher = () => {
       boundPath = bound.path;
       if (stopped) return;
 
-      const unlistenFn = await listen<DiscordRichPresenceActivity | null>(
-        ACTIVITY_EVENT,
-        (event) => handleActivity(event.payload)
+      const unlistenFn = await listen<DiscordRichPresenceActivity | null>(ACTIVITY_EVENT, (event) =>
+        handleActivity(event.payload),
       );
       if (stopped) {
         unlistenFn();

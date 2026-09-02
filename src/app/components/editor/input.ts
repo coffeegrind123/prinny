@@ -77,7 +77,7 @@ const getInlineNodeMarkType = (node: Element): MarkType | undefined => {
 const getInlineMarkElement = (
   markType: MarkType,
   node: Element,
-  getChild: (child: ChildNode) => InlineElement[]
+  getChild: (child: ChildNode) => InlineElement[],
 ): InlineElement[] => {
   const children = node.children.flatMap(getChild);
   const mdSequence = node.attribs['data-md'];
@@ -115,7 +115,7 @@ const getInlineNonMarkElement = (node: Element): MentionElement | EmoticonElemen
           getText(node) || roomMention.roomIdOrAlias,
           false,
           undefined,
-          roomMention.viaServers
+          roomMention.viaServers,
         );
       }
       const eventMention = parseMatrixToRoomEvent(href);
@@ -125,7 +125,7 @@ const getInlineNonMarkElement = (node: Element): MentionElement | EmoticonElemen
           getText(node) || eventMention.roomIdOrAlias,
           false,
           eventMention.eventId,
-          eventMention.viaServers
+          eventMention.viaServers,
         );
       }
     }
@@ -167,7 +167,7 @@ const getInlineElement = (node: ChildNode, processText: ProcessTextCallback): In
 
 const parseBlockquoteNode = (
   node: Element,
-  processText: ProcessTextCallback
+  processText: ProcessTextCallback,
 ): BlockQuoteElement[] | ParagraphElement[] => {
   const quoteLines: Array<InlineElement[]> = [];
   let lineHolder: InlineElement[] = [];
@@ -259,7 +259,7 @@ const parseCodeBlockNode = (node: Element): CodeBlockElement[] | ParagraphElemen
 const parseListMarkdown = (
   node: Element,
   processText: ProcessTextCallback,
-  depth = 0
+  depth = 0,
 ): ParagraphElement[] => {
   const md = isTag(node) && node.name === 'ul' ? '*' : '-';
   const prefix = node.attribs['data-md'] ?? md;
@@ -269,7 +269,7 @@ const parseListMarkdown = (
   const digit = digitOrChar ? parseInt(digitOrChar, 10) : undefined;
 
   const lines: ParagraphElement[] = [];
-  let lineNo = digit === undefined || Number.isNaN(digit) ? digitOrChar ?? 1 : digit;
+  let lineNo = digit === undefined || Number.isNaN(digit) ? (digitOrChar ?? 1) : digit;
   const pushLine = (line: InlineElement[]) => {
     lines.push({
       type: BlockType.Paragraph,
@@ -353,7 +353,7 @@ const parseListLines = (children: ChildNode[], processText: ProcessTextCallback)
 };
 const parseListNode = (
   node: Element,
-  processText: ProcessTextCallback
+  processText: ProcessTextCallback,
 ): OrderedListElement[] | UnorderedListElement[] | ParagraphElement[] => {
   if (node.attribs['data-md'] !== undefined) {
     return parseListMarkdown(node, processText);
@@ -385,7 +385,7 @@ const parseListNode = (
 };
 const parseHeadingNode = (
   node: Element,
-  processText: ProcessTextCallback
+  processText: ProcessTextCallback,
 ): HeadingElement | ParagraphElement => {
   const children = getInlineElement(node, processText);
 
@@ -411,7 +411,7 @@ const parseHeadingNode = (
 export const domToEditorInput = (
   domNodes: ChildNode[],
   processText: ProcessTextCallback,
-  processLineStartText: ProcessTextCallback
+  processLineStartText: ProcessTextCallback,
 ): Descendant[] => {
   const children: Descendant[] = [];
 

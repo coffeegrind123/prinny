@@ -20,5 +20,5 @@ export const TypingIndicator = as<'div', TypingIndicatorProps>(
       <span className={css.TypingDot({ size, index: '1', animated: !disableAnimation })} />
       <span className={css.TypingDot({ size, index: '2', animated: !disableAnimation })} />
     </Box>
-  )
+  ),
 );

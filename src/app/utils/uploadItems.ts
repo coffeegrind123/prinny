@@ -26,7 +26,7 @@ export const filesToUploadItems = async (room: Room, files: File[]): Promise<TUp
 
   if (room.hasEncryptionStateEvent()) {
     const encryptedFiles = fulfilledPromiseSettledResult(
-      await Promise.allSettled(safeFiles.map((f) => encryptFile(f)))
+      await Promise.allSettled(safeFiles.map((f) => encryptFile(f))),
     );
     return encryptedFiles.map((ef) => ({
       ...ef,

@@ -32,7 +32,7 @@ const getDefaultIsUserMention = (userId: string): PushRuleData =>
         key: 'content.m\\.mentions.user_ids',
         value: userId,
       },
-    ]
+    ],
   );
 
 const DefaultContainsDisplayName = makePushRuleData(
@@ -43,7 +43,7 @@ const DefaultContainsDisplayName = makePushRuleData(
     {
       kind: ConditionKind.ContainsDisplayName,
     },
-  ]
+  ],
 );
 
 const getDefaultContainsUsername = (username: string) =>
@@ -52,7 +52,7 @@ const getDefaultContainsUsername = (username: string) =>
     RuleId.ContainsUserName,
     getNotificationModeActions(NotificationMode.NotifyLoud, { highlight: true }),
     undefined,
-    username
+    username,
   );
 
 const DefaultIsRoomMention = makePushRuleData(
@@ -69,7 +69,7 @@ const DefaultIsRoomMention = makePushRuleData(
       kind: ConditionKind.SenderNotificationPermission,
       key: 'room',
     },
-  ]
+  ],
 );
 
 const DefaultAtRoomNotification = makePushRuleData(
@@ -86,7 +86,7 @@ const DefaultAtRoomNotification = makePushRuleData(
       kind: ConditionKind.SenderNotificationPermission,
       key: 'room',
     },
-  ]
+  ],
 );
 
 type PushRulesProps = {
@@ -105,7 +105,7 @@ function MentionModeSwitcher({ ruleId, pushRules, defaultPushRuleData }: PushRul
       const actions = getModeActions(mode);
       await mx.setPushRuleActions('global', kind, ruleId, actions);
     },
-    [mx, getModeActions, kind, ruleId]
+    [mx, getModeActions, kind, ruleId],
   );
 
   return <NotificationModeSwitcher pushRule={pushRule} onChange={handleChange} />;
@@ -118,7 +118,7 @@ export function SpecialMessagesNotifications() {
   const pushRulesEvt = useAccountData(AccountDataEvent.PushRules);
   const pushRules = useMemo(
     () => pushRulesEvt?.getContent<IPushRules>() ?? { global: {} },
-    [pushRulesEvt]
+    [pushRulesEvt],
   );
 
   return (

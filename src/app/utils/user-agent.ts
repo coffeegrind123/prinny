@@ -56,6 +56,6 @@ export const mobileOrTablet = (): boolean => {
   if (isIOSUA(ua)) return true;
   if (/Android/i.test(ua)) return true;
   return /Mobile|Tablet|Silk|Kindle|PlayBook|BlackBerry|Opera Mini|IEMobile|webOS|Windows Phone/i.test(
-    ua
+    ua,
   );
 };

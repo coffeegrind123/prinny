@@ -166,9 +166,7 @@ export function RoomMessageResults({
   // on screen. The server path has no such figure and falls back to the pages.
   const foundSoFar = encrypted ? Math.max(scanProgress.matches, resultCount) : resultCount;
   const busyDetail = [
-    encrypted && scanProgress.scanned > 0
-      ? `${formatCount(scanProgress.scanned)} read`
-      : undefined,
+    encrypted && scanProgress.scanned > 0 ? `${formatCount(scanProgress.scanned)} read` : undefined,
     foundSoFar > 0 ? `${formatCount(foundSoFar)} found` : undefined,
     formatSearchDuration(elapsed),
   ]

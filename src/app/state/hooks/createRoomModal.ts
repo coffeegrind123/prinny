@@ -28,7 +28,7 @@ export const useOpenCreateRoomModal = (): OpenCallback => {
     (spaceId, type) => {
       setSettings({ spaceId, type });
     },
-    [setSettings]
+    [setSettings],
   );
 
   return open;

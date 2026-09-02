@@ -11,7 +11,7 @@ import { getStateEvent } from '../utils/room';
 export const usePublishedAliases = (room: Room): [string | undefined, string[]] => {
   const aliasContent = useStateEvent(
     room,
-    StateEvent.RoomCanonicalAlias
+    StateEvent.RoomCanonicalAlias,
   )?.getContent<RoomCanonicalAliasEventContent>();
 
   const canonicalAlias = aliasContent?.alias;
@@ -38,7 +38,7 @@ export const useSetMainAlias = (room: Room): ((alias: string | undefined) => Pro
     async (alias: string | undefined) => {
       const content = getStateEvent(
         room,
-        StateEvent.RoomCanonicalAlias
+        StateEvent.RoomCanonicalAlias,
       )?.getContent<RoomCanonicalAliasEventContent>();
 
       const altAliases: string[] = [];
@@ -58,14 +58,14 @@ export const useSetMainAlias = (room: Room): ((alias: string | undefined) => Pro
 
       await mx.sendStateEvent(room.roomId, StateEvent.RoomCanonicalAlias as any, newContent);
     },
-    [mx, room]
+    [mx, room],
   );
 
   return mainAlias;
 };
 
 export const usePublishUnpublishAliases = (
-  room: Room
+  room: Room,
 ): {
   publishAliases: (aliases: string[]) => Promise<void>;
   unpublishAliases: (aliases: string[]) => Promise<void>;
@@ -75,7 +75,7 @@ export const usePublishUnpublishAliases = (
     async (aliases: string[]) => {
       const content = getStateEvent(
         room,
-        StateEvent.RoomCanonicalAlias
+        StateEvent.RoomCanonicalAlias,
       )?.getContent<RoomCanonicalAliasEventContent>();
       const altAliases = content?.alt_aliases ?? [];
 
@@ -92,14 +92,14 @@ export const usePublishUnpublishAliases = (
 
       await mx.sendStateEvent(room.roomId, StateEvent.RoomCanonicalAlias as any, newContent);
     },
-    [mx, room]
+    [mx, room],
   );
 
   const unpublishAliases = useCallback(
     async (aliases: string[]) => {
       const content = getStateEvent(
         room,
-        StateEvent.RoomCanonicalAlias
+        StateEvent.RoomCanonicalAlias,
       )?.getContent<RoomCanonicalAliasEventContent>();
       const altAliases: string[] = [];
 
@@ -116,7 +116,7 @@ export const usePublishUnpublishAliases = (
 
       await mx.sendStateEvent(room.roomId, StateEvent.RoomCanonicalAlias as any, newContent);
     },
-    [mx, room]
+    [mx, room],
   );
 
   return {
@@ -126,7 +126,7 @@ export const usePublishUnpublishAliases = (
 };
 
 export const useLocalAliases = (
-  roomId: string
+  roomId: string,
 ): {
   localAliasesState: AsyncState<string[], MatrixError>;
   addLocalAlias: (alias: string) => Promise<void>;
@@ -139,7 +139,7 @@ export const useLocalAliases = (
     useCallback(async () => {
       const content = await mx.getLocalAliases(roomId);
       return content.aliases;
-    }, [mx, roomId])
+    }, [mx, roomId]),
   );
 
   useEffect(() => {
@@ -151,7 +151,7 @@ export const useLocalAliases = (
       await mx.createAlias(alias, roomId);
       if (alive()) await loadAliases();
     },
-    [mx, roomId, loadAliases, alive]
+    [mx, roomId, loadAliases, alive],
   );
 
   const removeLocalAlias = useCallback(
@@ -159,7 +159,7 @@ export const useLocalAliases = (
       await mx.deleteAlias(alias);
       if (alive()) await loadAliases();
     },
-    [mx, loadAliases, alive]
+    [mx, loadAliases, alive],
   );
 
   return {

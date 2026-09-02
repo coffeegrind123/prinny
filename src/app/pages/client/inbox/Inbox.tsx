@@ -1,11 +1,7 @@
 import { Avatar, Box, Icon, Icons, Text } from 'folds';
 import { useAtomValue } from 'jotai';
 import { NavCategory, NavItem, NavItemContent, NavLink } from '../../../components/nav';
-import {
-  getInboxAllPath,
-  getInboxInvitesPath,
-  getInboxNotificationsPath,
-} from '../../pathUtils';
+import { getInboxAllPath, getInboxInvitesPath, getInboxNotificationsPath } from '../../pathUtils';
 import {
   useInboxAllSelected,
   useInboxInvitesSelected,

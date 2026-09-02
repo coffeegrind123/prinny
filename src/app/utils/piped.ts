@@ -102,7 +102,7 @@ const probe = (origin: string, timeoutMs = 4000): Promise<string> =>
       (err) => {
         clearTimeout(timer);
         reject(err);
-      }
+      },
     );
   });
 
@@ -123,7 +123,7 @@ const firstReachable = (origins: string[]): Promise<string> =>
         () => {
           pending -= 1;
           if (pending === 0) resolve(DEFAULT_INSTANCE);
-        }
+        },
       );
     });
   });
@@ -157,7 +157,7 @@ export const resolvePipedInstance = (preferred?: string): Promise<string> => {
   if (preferred && PIPED_INSTANCES.includes(preferred)) {
     return probe(preferred).then(
       () => preferred,
-      () => resolveAuto()
+      () => resolveAuto(),
     );
   }
   return resolveAuto();

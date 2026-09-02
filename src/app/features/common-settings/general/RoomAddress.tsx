@@ -44,7 +44,7 @@ export function RoomPublishedAddresses({ permissions }: RoomPublishedAddressesPr
 
   const canEditCanonical = permissions.stateEvent(
     StateEvent.RoomCanonicalAlias,
-    mx.getSafeUserId()
+    mx.getSafeUserId(),
   );
 
   const [canonicalAlias, publishedAliases] = usePublishedAliases(room);
@@ -241,8 +241,8 @@ function LocalAddressesList({
           await removeLocalAlias(alias);
         }
       },
-      [removeLocalAlias]
-    )
+      [removeLocalAlias],
+    ),
   );
   const [publishState, publish] = useAsyncCallback(publishAliases);
   const [unpublishState, unpublish] = useAsyncCallback(unpublishAliases);
@@ -365,7 +365,7 @@ export function RoomLocalAddresses({ permissions }: { permissions: RoomPermissio
 
   const canEditCanonical = permissions.stateEvent(
     StateEvent.RoomCanonicalAlias,
-    mx.getSafeUserId()
+    mx.getSafeUserId(),
   );
 
   const [expand, setExpand] = useState(false);

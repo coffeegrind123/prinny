@@ -53,7 +53,7 @@ const useRoomSettingsMenuItems = (): RoomSettingsMenuItem[] =>
         icon: Icons.Terminal,
       },
     ],
-    []
+    [],
   );
 
 type RoomSettingsProps = {
@@ -71,7 +71,7 @@ export function RoomSettings({ initialPage, requestClose }: RoomSettingsProps) {
   const joinRuleContent = useRoomJoinRule(room);
 
   const avatarUrl = roomAvatar
-    ? mxcUrlToHttp(mx, roomAvatar, useAuthentication, 96, 96, 'crop') ?? undefined
+    ? (mxcUrlToHttp(mx, roomAvatar, useAuthentication, 96, 96, 'crop') ?? undefined)
     : undefined;
 
   const screenSize = useScreenSizeContext();

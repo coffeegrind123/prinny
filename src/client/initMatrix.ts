@@ -111,7 +111,7 @@ export const initClient = async (session: Session): Promise<MatrixClient> => {
     crypto.setDeviceIsolationMode(
       getSettings().onlySignedDevices
         ? new OnlySignedDevicesIsolationMode()
-        : new AllDevicesIsolationMode(false)
+        : new AllDevicesIsolationMode(false),
     );
   }
 

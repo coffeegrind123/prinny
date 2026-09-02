@@ -30,7 +30,7 @@ export type TranscriptEventBody = {
  */
 export const getTranscriptEventBody = (
   mEvent: MatrixEvent,
-  timelineSet?: EventTimelineSet
+  timelineSet?: EventTimelineSet,
 ): TranscriptEventBody | undefined => {
   if (mEvent.isRedacted()) {
     return { prefix: '', body: '[redacted]' };
@@ -80,7 +80,7 @@ export const getTranscriptEventBody = (
 const getReplyContextLine = (
   room: Room,
   mEvent: MatrixEvent,
-  timelineSet?: EventTimelineSet
+  timelineSet?: EventTimelineSet,
 ): string | undefined => {
   const { replyEventId } = mEvent;
   if (!replyEventId) return undefined;
@@ -106,7 +106,7 @@ export const eventToTranscriptLine = (
   room: Room,
   mEvent: MatrixEvent,
   timelineSet?: EventTimelineSet,
-  hour24Clock = true
+  hour24Clock = true,
 ): string | undefined => {
   const parsed = getTranscriptEventBody(mEvent, timelineSet);
   if (!parsed) return undefined;

@@ -20,12 +20,7 @@ import { useHomeRooms } from '../home/useHomeRooms';
 import { useNavToActivePathMapper } from '../../../hooks/useNavToActivePathMapper';
 import { PageNav, PageNavHeader, PageNavContent } from '../../../components/page';
 import { stopPropagation } from '../../../utils/keyboard';
-import {
-  MarkAsReadMenuItem,
-  RoomsNavActions,
-  RoomsNavList,
-  UnreadOnlyMenuItem,
-} from '../nav';
+import { MarkAsReadMenuItem, RoomsNavActions, RoomsNavList, UnreadOnlyMenuItem } from '../nav';
 
 type RoomsMenuProps = {
   rooms: string[];

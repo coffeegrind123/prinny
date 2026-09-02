@@ -34,7 +34,7 @@ export type YoutubeMeta = {
 export function useYoutubeMeta(
   videoId: string | null,
   usePiped: boolean,
-  pipedBase: string
+  pipedBase: string,
 ): YoutubeMeta {
   const [meta, setMeta] = useState<YoutubeMeta>({});
 
@@ -45,7 +45,7 @@ export function useYoutubeMeta(
     const endpoint = usePiped
       ? pipedStreamsUrl(pipedBase, videoId)
       : `https://www.youtube.com/oembed?url=${encodeURIComponent(
-          `https://www.youtube.com/watch?v=${videoId}`
+          `https://www.youtube.com/watch?v=${videoId}`,
         )}&format=json`;
     // No API host on file for this instance — asking the frontend origin would
     // return HTML, so we do not ask at all.

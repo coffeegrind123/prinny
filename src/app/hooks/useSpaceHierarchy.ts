@@ -51,7 +51,7 @@ const hierarchyItemByCustomOrder =
 const getHierarchySpaces = (
   rootSpaceId: string,
   getRoom: GetRoomCallback,
-  spaceRooms: Set<string>
+  spaceRooms: Set<string>,
 ): HierarchyItemSpace[] => {
   const rootSpaceItem: HierarchyItemSpace = {
     roomId: rootSpaceId,
@@ -110,7 +110,7 @@ const getSpaceHierarchy = (
   rootSpaceId: string,
   spaceRooms: Set<string>,
   getRoom: (roomId: string) => Room | undefined,
-  closedCategory: (spaceId: string) => boolean
+  closedCategory: (spaceId: string) => boolean,
 ): SpaceHierarchy[] => {
   const spaceItems: HierarchyItemSpace[] = getHierarchySpaces(rootSpaceId, getRoom, spaceRooms);
 
@@ -151,13 +151,13 @@ export const useSpaceHierarchy = (
   spaceId: string,
   spaceRooms: Set<string>,
   getRoom: (roomId: string) => Room | undefined,
-  closedCategory: (spaceId: string) => boolean
+  closedCategory: (spaceId: string) => boolean,
 ): SpaceHierarchy[] => {
   const mx = useMatrixClient();
   const roomToParents = useAtomValue(roomToParentsAtom);
 
   const [hierarchyAtom] = useState(() =>
-    atom(getSpaceHierarchy(spaceId, spaceRooms, getRoom, closedCategory))
+    atom(getSpaceHierarchy(spaceId, spaceRooms, getRoom, closedCategory)),
   );
   const [hierarchy, setHierarchy] = useAtom(hierarchyAtom);
 
@@ -177,8 +177,8 @@ export const useSpaceHierarchy = (
           setHierarchy(getSpaceHierarchy(spaceId, spaceRooms, getRoom, closedCategory));
         }
       },
-      [spaceId, roomToParents, setHierarchy, spaceRooms, getRoom, closedCategory]
-    )
+      [spaceId, roomToParents, setHierarchy, spaceRooms, getRoom, closedCategory],
+    ),
   );
 
   return hierarchy;
@@ -194,7 +194,7 @@ export const createHierarchyRoomSorter = (
   mx: MatrixClient,
   sortByActivity: (spaceId: string) => boolean,
   sortMode: RoomSortMode,
-  customOrders: Record<string, string[]>
+  customOrders: Record<string, string[]>,
 ): HierarchyRoomSorter => {
   const roomIdByActivity = factoryRoomIdByActivity(mx);
   const byActivity: SortFunc<HierarchyItem> = (a, b) => roomIdByActivity(a.roomId, b.roomId);
@@ -224,7 +224,7 @@ export const getSpaceJoinedHierarchy = (
   rootSpaceId: string,
   getRoom: GetRoomCallback,
   excludeRoom: (parentId: string, roomId: string) => boolean,
-  sortRoomItems: HierarchyRoomSorter
+  sortRoomItems: HierarchyRoomSorter,
 ): HierarchyItem[] => {
   const spaceItems: HierarchyItemSpace[] = getHierarchySpaces(rootSpaceId, getRoom, new Set());
 
@@ -272,18 +272,18 @@ export const useSpaceJoinedHierarchy = (
   excludeRoom: (parentId: string, roomId: string) => boolean,
   sortByActivity: (spaceId: string) => boolean,
   sortMode: RoomSortMode = 'default',
-  customOrders: Record<string, string[]> = {}
+  customOrders: Record<string, string[]> = {},
 ): HierarchyItem[] => {
   const mx = useMatrixClient();
   const roomToParents = useAtomValue(roomToParentsAtom);
 
   const sortRoomItems = useMemo(
     () => createHierarchyRoomSorter(mx, sortByActivity, sortMode, customOrders),
-    [mx, sortByActivity, sortMode, customOrders]
+    [mx, sortByActivity, sortMode, customOrders],
   );
 
   const [hierarchyAtom] = useState(() =>
-    atom(getSpaceJoinedHierarchy(spaceId, getRoom, excludeRoom, sortRoomItems))
+    atom(getSpaceJoinedHierarchy(spaceId, getRoom, excludeRoom, sortRoomItems)),
   );
   const [hierarchy, setHierarchy] = useAtom(hierarchyAtom);
 
@@ -303,8 +303,8 @@ export const useSpaceJoinedHierarchy = (
           setHierarchy(getSpaceJoinedHierarchy(spaceId, getRoom, excludeRoom, sortRoomItems));
         }
       },
-      [spaceId, roomToParents, setHierarchy, getRoom, excludeRoom, sortRoomItems]
-    )
+      [spaceId, roomToParents, setHierarchy, getRoom, excludeRoom, sortRoomItems],
+    ),
   );
 
   useAccountDataCallback(
@@ -314,8 +314,8 @@ export const useSpaceJoinedHierarchy = (
         if (mEvent.getType() !== AccountDataEvent.PrinnyRoomOrder) return;
         setHierarchy(getSpaceJoinedHierarchy(spaceId, getRoom, excludeRoom, sortRoomItems));
       },
-      [spaceId, setHierarchy, getRoom, excludeRoom, sortRoomItems]
-    )
+      [spaceId, setHierarchy, getRoom, excludeRoom, sortRoomItems],
+    ),
   );
 
   return hierarchy;
@@ -331,7 +331,7 @@ export type FetchSpaceHierarchyLevelData = {
 };
 export const useFetchSpaceHierarchyLevel = (
   roomId: string,
-  enable: boolean
+  enable: boolean,
 ): FetchSpaceHierarchyLevelData => {
   const mx = useMatrixClient();
   const pageNoRef = useRef(0);
@@ -342,7 +342,7 @@ export const useFetchSpaceHierarchyLevel = (
     string | undefined
   > = useCallback(
     ({ pageParam }) => mx.getRoomHierarchy(roomId, PER_PAGE_COUNT, 1, false, pageParam),
-    [roomId, mx]
+    [roomId, mx],
   );
 
   const queryResponse = useInfiniteQuery({

@@ -18,7 +18,7 @@ import { useMatrixClient } from '../../../hooks/useMatrixClient';
 const getAllMessageDefaultRule = (
   ruleId: RuleId,
   encrypted: boolean,
-  oneToOne: boolean
+  oneToOne: boolean,
 ): PushRuleData => {
   const conditions: PushRuleCondition[] = [];
   if (oneToOne)
@@ -66,7 +66,7 @@ function AllMessagesModeSwitcher({
       const actions = getModeActions(mode);
       await mx.setPushRuleActions('global', kind, ruleId, actions);
     },
-    [mx, getModeActions, kind, ruleId]
+    [mx, getModeActions, kind, ruleId],
   );
 
   return <NotificationModeSwitcher pushRule={pushRule} onChange={handleChange} />;
@@ -76,7 +76,7 @@ export function AllMessagesNotifications() {
   const pushRulesEvt = useAccountData(AccountDataEvent.PushRules);
   const pushRules = useMemo(
     () => pushRulesEvt?.getContent<IPushRules>() ?? { global: {} },
-    [pushRulesEvt]
+    [pushRulesEvt],
   );
 
   return (

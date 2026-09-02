@@ -28,7 +28,7 @@ export const TextViewerContent = forwardRef<HTMLPreElement, TextViewerContentPro
         </Suspense>
       </ErrorBoundary>
     </Text>
-  )
+  ),
 );
 
 export type TextViewerProps = {
@@ -83,5 +83,5 @@ export const TextViewer = as<'div', TextViewerProps>(
         </Box>
       </Box>
     );
-  }
+  },
 );

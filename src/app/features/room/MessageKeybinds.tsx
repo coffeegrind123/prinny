@@ -50,7 +50,7 @@ export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
       if (!ev) return;
       if (ev.getSender() !== mx.getUserId()) return;
       onSetEditId(id);
-    })
+    }),
   );
 
   useKeybind(
@@ -64,7 +64,7 @@ export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
       mx.redactEvent(room.roomId, id).catch((err) => {
         console.error('[keybind] redactEvent failed:', err);
       });
-    })
+    }),
   );
 
   useKeybind(
@@ -74,17 +74,13 @@ export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
       if (!userId) return;
       // Toggle: unpin if already pinned, otherwise pin.
       const isPinned = pinnedEvents.includes(id);
-      const next = isPinned
-        ? pinnedEvents.filter((p) => p !== id)
-        : [...pinnedEvents, id];
-      mx.sendStateEvent(
-        room.roomId,
-        StateEvent.RoomPinnedEvents as any,
-        { pinned: next }
-      ).catch((err) => {
-        console.error('[keybind] pin sendStateEvent failed:', err);
-      });
-    })
+      const next = isPinned ? pinnedEvents.filter((p) => p !== id) : [...pinnedEvents, id];
+      mx.sendStateEvent(room.roomId, StateEvent.RoomPinnedEvents as any, { pinned: next }).catch(
+        (err) => {
+          console.error('[keybind] pin sendStateEvent failed:', err);
+        },
+      );
+    }),
   );
 
   useKeybind(
@@ -93,8 +89,7 @@ export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
       const replyEvt = room.findEventById(id);
       if (!replyEvt) return;
       const editedReply = getEditedEvent(id, replyEvt, room.getUnfilteredTimelineSet());
-      const content =
-        editedReply?.getContent()['m.new_content'] ?? replyEvt.getContent();
+      const content = editedReply?.getContent()['m.new_content'] ?? replyEvt.getContent();
       const body = content.body as string | undefined;
       const formattedBody = content.formatted_body as string | undefined;
       const relation = (replyEvt.getWireContent() as any)['m.relates_to'];
@@ -107,7 +102,7 @@ export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
         formattedBody,
         relation,
       });
-    })
+    }),
   );
 
   useKeybind(
@@ -127,14 +122,14 @@ export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
       copyToClipboard(text);
       return undefined;
     },
-    { allowInEditable: true } // Mod+C is a modifier binding; let users copy from inputs too
+    { allowInEditable: true }, // Mod+C is a modifier binding; let users copy from inputs too
   );
 
   useKeybind(
     'mark-unread',
     withHoveredEvent((id) => {
       markAsUnread(mx, room.roomId, id);
-    })
+    }),
   );
 
   /**
@@ -161,12 +156,12 @@ export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
     requestOnHovered((row) => ({
       type: 'add-reaction',
       anchor: row.getBoundingClientRect(),
-    }))
+    })),
   );
 
   useKeybind(
     'forward-message',
-    requestOnHovered(() => ({ type: 'forward' }))
+    requestOnHovered(() => ({ type: 'forward' })),
   );
 
   /**
@@ -205,7 +200,7 @@ export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
       }
       return false;
     },
-    { allowInEditable: true }
+    { allowInEditable: true },
   );
 
   return null;

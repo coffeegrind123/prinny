@@ -59,8 +59,8 @@ function CreatePackTile({ packs, roomId }: CreatePackTileProps) {
         };
         await mx.sendStateEvent(roomId, StateEvent.PoniesRoomEmotes as any, content, stateKey);
       },
-      [mx, roomId]
-    )
+      [mx, roomId],
+    ),
   );
 
   const creating = addState.status === AsyncStatus.Loading;
@@ -96,10 +96,7 @@ function CreatePackTile({ packs, roomId }: CreatePackTileProps) {
       direction="Column"
       gap="400"
     >
-      <SettingTile
-        title="New Set"
-        description="Add your own emoji and sticker set to use in room."
-      >
+      <SettingTile title="New Set" description="Add your own emoji and sticker set to use in room.">
         <Box
           style={{ marginTop: config.space.S200 }}
           as="form"
@@ -166,7 +163,7 @@ export function RoomPacks({ onViewPack }: RoomPacksProps) {
         // eslint-disable-next-line no-await-in-loop
         await mx.sendStateEvent(room.roomId, StateEvent.PoniesRoomEmotes as any, {}, addr.stateKey);
       }
-    }, [mx, room, removedPacks])
+    }, [mx, room, removedPacks]),
   );
   const applyingChanges = applyState.status === AsyncStatus.Loading;
 

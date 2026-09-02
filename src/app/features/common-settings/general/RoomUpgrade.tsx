@@ -66,8 +66,8 @@ function RoomUpgradeDialog({ requestClose }: { requestClose: () => void }) {
           additional_creators: newAdditionalCreators,
         });
       },
-      [mx, room]
-    )
+      [mx, room],
+    ),
   );
 
   const upgrading = upgradeState.status === AsyncStatus.Loading;
@@ -168,14 +168,14 @@ export function RoomUpgrade({ permissions, requestClose }: RoomUpgradeProps) {
   const { navigateRoom, navigateSpace } = useRoomNavigate();
   const createContent = useStateEvent(
     room,
-    StateEvent.RoomCreate
+    StateEvent.RoomCreate,
   )?.getContent<IRoomCreateContent>();
   const roomVersion = createContent?.room_version ?? '1';
   const predecessorRoomId = createContent?.predecessor?.room_id;
 
   const tombstoneContent = useStateEvent(
     room,
-    StateEvent.RoomTombstone
+    StateEvent.RoomTombstone,
   )?.getContent<RoomTombstoneEventContent>();
   const replacementRoom = tombstoneContent?.replacement_room;
 

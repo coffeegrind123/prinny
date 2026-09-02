@@ -14,5 +14,5 @@ export const CompactLayout = as<'div', CompactLayoutProps>(
       </Box>
       {children}
     </Box>
-  )
+  ),
 );

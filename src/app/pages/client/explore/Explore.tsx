@@ -45,7 +45,7 @@ export function AddServer() {
   const serverInputRef = useRef<HTMLInputElement>(null);
 
   const [exploreState] = useAsyncCallback(
-    useCallback((server: string) => mx.publicRooms({ server, limit: 1 }), [mx])
+    useCallback((server: string) => mx.publicRooms({ server, limit: 1 }), [mx]),
   );
 
   const getInputServer = (): string | undefined => {

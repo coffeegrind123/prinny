@@ -223,12 +223,15 @@ const isGifHost = (value: unknown): boolean => {
 export const isGifStyleVideo = (
   pageUrl: unknown,
   videoUrl: unknown,
-  ogImageType: unknown
+  ogImageType: unknown,
 ): boolean => {
   if (isGifHost(pageUrl) || isGifHost(videoUrl)) return true;
   if (urlFileExtension(pageUrl) === 'gifv') return true;
   if (isAnimatedImageUrl(pageUrl)) return true;
-  if (typeof ogImageType === 'string' && ogImageType.split(';')[0].trim().toLowerCase() === 'image/gif')
+  if (
+    typeof ogImageType === 'string' &&
+    ogImageType.split(';')[0].trim().toLowerCase() === 'image/gif'
+  )
     return true;
   return false;
 };
@@ -463,8 +466,11 @@ export const blobIsAnimated = async (blob: Blob): Promise<boolean | undefined> =
  * while `is_animated: false` is a positive claim that this is a still image.
  */
 export const animatedImageInfo = (
-  animated: boolean | undefined
-): { [MATRIX_ANIMATED_PROPERTY_NAME]?: boolean; [MATRIX_ANIMATED_UNSTABLE_PROPERTY_NAME]?: boolean } =>
+  animated: boolean | undefined,
+): {
+  [MATRIX_ANIMATED_PROPERTY_NAME]?: boolean;
+  [MATRIX_ANIMATED_UNSTABLE_PROPERTY_NAME]?: boolean;
+} =>
   animated === undefined
     ? {}
     : {

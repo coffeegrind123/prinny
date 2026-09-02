@@ -71,5 +71,5 @@ export const MicPermissionDialog = forwardRef<HTMLDivElement, MicPermissionDialo
         </Box>
       </Dialog>
     );
-  }
+  },
 );

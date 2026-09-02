@@ -8,7 +8,7 @@ export type DebounceCallback<T extends unknown[]> = (...args: T) => void;
 
 export function useDebounce<T extends unknown[]>(
   callback: DebounceCallback<T>,
-  options?: DebounceOptions
+  options?: DebounceOptions,
 ): DebounceCallback<T> {
   const timeoutIdRef = useRef<number | undefined>(undefined);
   const { wait, immediate } = options ?? {};
@@ -27,7 +27,7 @@ export function useDebounce<T extends unknown[]>(
         timeoutIdRef.current = undefined;
       }, wait);
     },
-    [callback, wait, immediate]
+    [callback, wait, immediate],
   );
 
   return debounceCallback;

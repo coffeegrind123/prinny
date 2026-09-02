@@ -121,7 +121,7 @@ export function CreateTab() {
                       ? withSearchParam<_RoomSearchParams>(path, {
                           viaServers: encodeSearchParamValueArray(viaServers),
                         })
-                      : path
+                      : path,
                   );
                 }}
               />

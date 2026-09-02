@@ -59,7 +59,7 @@ const HomeMenu = forwardRef<HTMLDivElement, HomeMenuProps>(
         <MarkAsReadMenuItem rooms={rooms} requestClose={requestClose} />
       </Box>
     </Menu>
-  )
+  ),
 );
 
 type HomeHeaderProps = Omit<HomeMenuProps, 'requestClose'>;

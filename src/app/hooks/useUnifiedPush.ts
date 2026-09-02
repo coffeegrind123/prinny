@@ -107,7 +107,7 @@ async function pruneStalePushers(mx: MatrixClient, currentEndpoint: string) {
   try {
     const { pushers } = await mx.getPushers();
     const stale = pushers.filter(
-      (pusher) => pusher.app_id === UP_APP_ID && pusher.pushkey !== currentEndpoint
+      (pusher) => pusher.app_id === UP_APP_ID && pusher.pushkey !== currentEndpoint,
     );
     await Promise.all(
       stale.map(async (pusher) => {
@@ -116,7 +116,7 @@ async function pruneStalePushers(mx: MatrixClient, currentEndpoint: string) {
         } catch (err) {
           console.warn('[UnifiedPush] Could not remove a stale pusher:', pusher.pushkey, err);
         }
-      })
+      }),
     );
     if (stale.length > 0) {
       console.info(`[UnifiedPush] Removed ${stale.length} pusher(s) for retired endpoints.`);
@@ -132,12 +132,11 @@ async function pruneStalePushers(mx: MatrixClient, currentEndpoint: string) {
  * Registers the UnifiedPush endpoint as a Matrix HTTP pusher.
  */
 export type PusherRegistration =
-  | { ok: true; gateway: string }
-  | { ok: false; gateway?: string; reason: string };
+  { ok: true; gateway: string } | { ok: false; gateway?: string; reason: string };
 
 export async function registerMatrixPusher(
   mx: MatrixClient,
-  endpoint: string
+  endpoint: string,
 ): Promise<PusherRegistration> {
   // The endpoint is supplied by the installed UnifiedPush distributor, which is
   // just another app on the device. Refuse anything that is not an absolute
@@ -197,7 +196,7 @@ export async function registerMatrixPusher(
       '\n  app_id  :',
       UP_APP_ID,
       '\n  error   :',
-      err
+      err,
     );
     // Returned as well as logged. A console message inside a WebView on a phone
     // is not evidence anyone can reach; the diagnostics panel shows this.
@@ -258,7 +257,7 @@ export function useUnifiedPush(mx: MatrixClient | undefined) {
         console.error(
           '[UnifiedPush] The distributor refused to register this app:',
           reason,
-          '\n  Push cannot work until this is resolved — check the distributor app (ntfy, Sunup, NextPush).'
+          '\n  Push cannot work until this is resolved — check the distributor app (ntfy, Sunup, NextPush).',
         );
       }).then((unsub) => {
         unsubRegistrationFailed = unsub;
@@ -278,7 +277,7 @@ export function useUnifiedPush(mx: MatrixClient | undefined) {
             '\n  No notifications will arrive while the app is backgrounded.',
             '\n  Install a distributor (ntfy, Sunup, NextPush) and reopen Prinny.',
             '\n  error:',
-            err
+            err,
           );
           return;
         }
@@ -291,17 +290,23 @@ export function useUnifiedPush(mx: MatrixClient | undefined) {
       // 3. Listen for new endpoints (rotation)
       onEndpointReceived(async (newEndpoint) => {
         await registerMatrixPusher(mx, newEndpoint);
-      }).then((unsub) => { unsubEndpoint = unsub; });
+      }).then((unsub) => {
+        unsubEndpoint = unsub;
+      });
 
       // 4. Listen for push messages — trigger sync
       onPushMessage(() => {
         mx.retryImmediately();
-      }).then((unsub) => { unsubMessage = unsub; });
+      }).then((unsub) => {
+        unsubMessage = unsub;
+      });
 
       // 5. Listen for unregistration
       onUnregistered(() => {
         console.log('[UnifiedPush] Unregistered from distributor');
-      }).then((unsub) => { unsubUnregistered = unsub; });
+      }).then((unsub) => {
+        unsubUnregistered = unsub;
+      });
     }
 
     setup();
@@ -316,7 +321,7 @@ export function useUnifiedPush(mx: MatrixClient | undefined) {
         stopForegroundService().catch(() => {});
       }
     };
-  // `mx` as well as its running flag: a re-login swaps the client instance,
-  // and push setup belongs to whichever client is actually connected.
+    // `mx` as well as its running flag: a re-login swaps the client instance,
+    // and push setup belongs to whichever client is actually connected.
   }, [mx, mx?.clientRunning]);
 }

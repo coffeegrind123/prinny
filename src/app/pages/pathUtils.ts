@@ -37,7 +37,7 @@ export const joinPathComponent = (path: Path): string => path.pathname + path.se
 
 export const withSearchParam = <T extends Record<string, string>>(
   path: string,
-  searchParam: T
+  searchParam: T,
 ): string => {
   const params = new URLSearchParams(searchParam);
 
@@ -152,7 +152,7 @@ export const getSpaceSearchPath = (spaceIdOrAlias: string): string => {
 export const getSpaceRoomPath = (
   spaceIdOrAlias: string,
   roomIdOrAlias: string,
-  eventId?: string
+  eventId?: string,
 ): string => {
   const params = {
     spaceIdOrAlias,

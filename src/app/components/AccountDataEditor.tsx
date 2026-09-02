@@ -54,7 +54,7 @@ function AccountDataEdit({
 
   const { handleKeyDown, operations, getTarget } = useTextAreaCodeEditor(
     textAreaRef,
-    EDITOR_INTENT_SPACE_COUNT
+    EDITOR_INTENT_SPACE_COUNT,
   );
 
   const [submitState, submit] = useAsyncCallback<void, MatrixError, [string, object]>(submitChange);
@@ -276,7 +276,7 @@ export function AccountDataEditor({
 
   const contentJSONStr = useMemo(
     () => JSON.stringify(data.content, null, EDITOR_INTENT_SPACE_COUNT),
-    [data.content]
+    [data.content],
   );
 
   return (

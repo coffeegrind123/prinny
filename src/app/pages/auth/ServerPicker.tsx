@@ -114,7 +114,7 @@ export function ServerPicker({
       if (q.length < 2) return undefined;
       return candidates.find((n) => n.startsWith(q) && n !== q);
     },
-    [candidates]
+    [candidates],
   );
 
   /** The only path to the network. */
@@ -128,7 +128,7 @@ export function ServerPicker({
       setActiveIndex(-1);
       onServerChange(next);
     },
-    [onServerChange]
+    [onServerChange],
   );
 
   const handleKeyDownCapture: KeyboardEventHandler<HTMLInputElement> = (evt) => {

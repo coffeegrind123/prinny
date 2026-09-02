@@ -68,8 +68,8 @@ export const useSpaceAutoJoinGlobal = () => {
           forceUpdate();
         }
       },
-      [forceUpdate]
-    )
+      [forceUpdate],
+    ),
   );
 
   // Entry-point spaces whose children should be auto-joined: those with the

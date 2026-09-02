@@ -75,8 +75,7 @@ export function isEmojiSupported(unicode: string): boolean {
   if (cached !== undefined) return cached;
 
   const width = measure(unicode);
-  const supported =
-    Math.abs(width - tofuWidth) > EPSILON && Math.abs(width - goodWidth) <= EPSILON;
+  const supported = Math.abs(width - tofuWidth) > EPSILON && Math.abs(width - goodWidth) <= EPSILON;
 
   cache.set(unicode, supported);
   return supported;

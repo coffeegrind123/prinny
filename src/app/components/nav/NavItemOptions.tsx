@@ -13,5 +13,5 @@ export const NavItemOptions = as<'div', ComponentProps<typeof Box>>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );

@@ -50,7 +50,7 @@ export function RoomCardGrid({ children }: { children: ReactNode }) {
 
   useElementSizeObserver(
     useCallback(() => gridRef.current, []),
-    useCallback((width, _, target) => setGridColumnCount(target, getGridColumnCount(width)), [])
+    useCallback((width, _, target) => setGridColumnCount(target, getGridColumnCount(width)), []),
   );
 
   return (
@@ -159,14 +159,14 @@ export const RoomCard = as<'div', RoomCardProps>(
       renderTopicViewer,
       ...props
     },
-    ref
+    ref,
   ) => {
     const mx = useMatrixClient();
     const useAuthentication = useMediaAuthentication();
     const joinedRoomId = useJoinedRoomId(allRooms, roomIdOrAlias);
     const joinedRoom = mx.getRoom(joinedRoomId);
     const [topicEvent, setTopicEvent] = useState(() =>
-      joinedRoom ? getStateEvent(joinedRoom, StateEvent.RoomTopic) : undefined
+      joinedRoom ? getStateEvent(joinedRoom, StateEvent.RoomTopic) : undefined,
     );
 
     const fallbackName = getMxIdLocalPart(roomIdOrAlias) ?? roomIdOrAlias;
@@ -193,12 +193,15 @@ export const RoomCard = as<'div', RoomCardProps>(
             setTopicEvent(getStateEvent(joinedRoom, StateEvent.RoomTopic));
           }
         },
-        [joinedRoom]
-      )
+        [joinedRoom],
+      ),
     );
 
     const [joinState, join] = useAsyncCallback<Room, MatrixError, []>(
-      useCallback(() => mx.joinRoom(roomIdOrAlias, { viaServers }), [mx, roomIdOrAlias, viaServers])
+      useCallback(
+        () => mx.joinRoom(roomIdOrAlias, { viaServers }),
+        [mx, roomIdOrAlias, viaServers],
+      ),
     );
     const joining =
       joinState.status === AsyncStatus.Loading || joinState.status === AsyncStatus.Success;
@@ -316,5 +319,5 @@ export const RoomCard = as<'div', RoomCardProps>(
         )}
       </RoomCardBase>
     );
-  }
+  },
 );

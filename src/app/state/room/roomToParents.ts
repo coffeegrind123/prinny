@@ -46,7 +46,7 @@ export const roomToParentsAtom = atom<RoomToParents, [RoomToParentsAction], unde
         baseRoomToParents,
         produce(get(baseRoomToParents), (draftRoomToParents) => {
           mapParentWithChildren(draftRoomToParents, action.parent, action.children);
-        })
+        }),
       );
       return;
     }
@@ -61,15 +61,15 @@ export const roomToParentsAtom = atom<RoomToParents, [RoomToParentsAction], unde
             if (parents.size === 0) noParentRooms.push(child);
           });
           noParentRooms.forEach((room) => draftRoomToParents.delete(room));
-        })
+        }),
       );
     }
-  }
+  },
 );
 
 export const useBindRoomToParentsAtom = (
   mx: MatrixClient,
-  roomToParents: typeof roomToParentsAtom
+  roomToParents: typeof roomToParentsAtom,
 ) => {
   const setRoomToParents = useSetAtom(roomToParents);
 

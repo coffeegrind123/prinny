@@ -22,5 +22,5 @@ export const useMessageLayoutItems = (): MessageLayoutItem[] =>
         name: 'Bubble',
       },
     ],
-    []
+    [],
   );

@@ -76,5 +76,5 @@ export const AvatarPresence = as<'div', AvatarPresenceProps>(
       )}
       {children}
     </Box>
-  )
+  ),
 );

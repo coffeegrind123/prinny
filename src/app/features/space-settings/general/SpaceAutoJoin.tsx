@@ -28,8 +28,8 @@ export function SpaceAutoJoin({ permissions }: SpaceAutoJoinProps) {
         const content: SpaceAutoJoinContent = { auto_join: value };
         await mx.sendStateEvent(space.roomId, StateEvent.SpaceAutoJoin as any, content as any);
       },
-      [mx, space.roomId]
-    )
+      [mx, space.roomId],
+    ),
   );
   const toggling = toggleState.status === AsyncStatus.Loading;
 

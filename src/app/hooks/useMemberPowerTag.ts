@@ -12,7 +12,7 @@ export type GetMemberPowerTag = (userId: string) => MemberPowerTag;
 export const useGetMemberPowerTag = (
   room: Room,
   creators: Set<string>,
-  powerLevels: IPowerLevels
+  powerLevels: IPowerLevels,
 ) => {
   const creatorsTag = useRoomCreatorsTag();
   const powerLevelTags = usePowerLevelTags(room, powerLevels);
@@ -26,7 +26,7 @@ export const useGetMemberPowerTag = (
       const power = readPowerLevel.user(powerLevels, userId);
       return getPowerLevelTag(powerLevelTags, power);
     },
-    [creators, creatorsTag, powerLevels, powerLevelTags]
+    [creators, creatorsTag, powerLevels, powerLevelTags],
   );
 
   return getMemberPowerTag;
@@ -45,7 +45,7 @@ const looksLikeUrl = (key: string): boolean => key.includes(':') || key.includes
 export const getPowerTagIconSrc = (
   mx: MatrixClient,
   useAuthentication: boolean,
-  icon: MemberPowerTagIcon
+  icon: MemberPowerTagIcon,
 ): string | undefined => {
   const key = icon?.key;
   if (!key) return undefined;
@@ -58,7 +58,7 @@ export const getPowerTagIconSrc = (
 export const useAccessiblePowerTagColors = (
   themeKind: ThemeKind,
   creatorsTag: MemberPowerTag,
-  powerLevelTags: PowerLevelTags
+  powerLevelTags: PowerLevelTags,
 ): Map<string, string> => {
   const accessibleColors: Map<string, string> = useMemo(() => {
     const colors: Map<string, string> = new Map();
@@ -81,7 +81,7 @@ export const useAccessiblePowerTagColors = (
 
 export const useFlattenPowerTagMembers = (
   members: RoomMember[],
-  getTag: GetMemberPowerTag
+  getTag: GetMemberPowerTag,
 ): Array<MemberPowerTag | RoomMember> => {
   const PLTagOrRoomMember = useMemo(() => {
     let prevTag: MemberPowerTag | undefined;

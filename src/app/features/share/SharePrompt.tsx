@@ -1,4 +1,11 @@
-import { ChangeEventHandler, MouseEventHandler, useCallback, useMemo, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   Avatar,
   Box,
@@ -115,18 +122,18 @@ export function SharePrompt({ payload, requestClose }: SharePromptProps) {
 
   const allItems: string[] = useMemo(
     () => [...directs, ...rooms].sort(factoryRoomIdByAtoZ(mx)),
-    [rooms, directs, mx]
+    [rooms, directs, mx],
   );
 
   const getRoomNameStr: SearchItemStrGetter<string> = useCallback(
     (rId) => getRoom(rId)?.name ?? rId,
-    [getRoom]
+    [getRoom],
   );
 
   const [searchResult, searchRoom, resetSearch] = useAsyncSearch(
     allItems,
     getRoomNameStr,
-    SEARCH_OPTS
+    SEARCH_OPTS,
   );
 
   const items = searchResult ? searchResult.items : allItems;
@@ -196,8 +203,8 @@ export function SharePrompt({ payload, requestClose }: SharePromptProps) {
 
         return { requested: payload.files.length, read: files.length };
       },
-      [getRoom, payload, store]
-    )
+      [getRoom, payload, store],
+    ),
   );
 
   const staging = stageState.status === AsyncStatus.Loading;

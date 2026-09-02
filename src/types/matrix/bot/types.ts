@@ -122,10 +122,7 @@ export type ForceReply = {
  * and is ignored whole rather than partially applied.
  */
 export type ReplyMarkup =
-  | InlineKeyboardMarkup
-  | ReplyKeyboardMarkup
-  | ReplyKeyboardRemove
-  | ForceReply;
+  InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 
 // ── Callback queries ─────────────────────────────────────────────────────────
 

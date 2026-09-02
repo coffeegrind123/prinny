@@ -40,7 +40,7 @@ export const useMentionClickHandler = (roomId: string): ReactEventHandler<HTMLEl
 
       navigate(viaServers ? withSearchParam<_RoomSearchParams>(path, { viaServers }) : path);
     },
-    [mx, navigate, navigateRoom, navigateSpace, roomId, space, openProfile]
+    [mx, navigate, navigateRoom, navigateSpace, roomId, space, openProfile],
   );
 
   return handleClick;

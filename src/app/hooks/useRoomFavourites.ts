@@ -127,13 +127,16 @@ export const useRoomFavourites = (): RoomFavourites => {
 
   return useSyncExternalStore(
     useCallback((listener: () => void) => subscribe(mx, listener), [mx]),
-    useCallback(() => getSnapshot(mx), [mx])
+    useCallback(() => getSnapshot(mx), [mx]),
   );
 };
 
 export const useRoomFavourite = (roomId: string): boolean => useRoomFavourites().has(roomId);
 
-export const useToggleRoomFavourite = (): ((roomId: string, favourite: boolean) => Promise<void>) => {
+export const useToggleRoomFavourite = (): ((
+  roomId: string,
+  favourite: boolean,
+) => Promise<void>) => {
   const mx = useMatrixClient();
 
   return useCallback(
@@ -145,6 +148,6 @@ export const useToggleRoomFavourite = (): ((roomId: string, favourite: boolean) 
       }
       applyLocalChange(mx, roomId, favourite);
     },
-    [mx]
+    [mx],
   );
 };

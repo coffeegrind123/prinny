@@ -17,7 +17,7 @@ export const useInterval = (callback: IntervalCallback, ms: number): number | un
     () => () => {
       window.clearInterval(id);
     },
-    [id]
+    [id],
   );
 
   return id;

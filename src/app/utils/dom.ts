@@ -13,7 +13,7 @@ export const editableActiveElement = (): boolean =>
 
 export const isIntersectingScrollView = (
   scrollElement: HTMLElement,
-  childElement: HTMLElement
+  childElement: HTMLElement,
 ): boolean => {
   const scrollTop = scrollElement.offsetTop + scrollElement.scrollTop;
   const scrollBottom = scrollTop + scrollElement.offsetHeight;
@@ -38,7 +38,7 @@ export const isInScrollView = (scrollElement: HTMLElement, childElement: HTMLEle
 
 export const canFitInScrollView = (
   scrollElement: HTMLElement,
-  childElement: HTMLElement
+  childElement: HTMLElement,
 ): boolean => childElement.offsetHeight < scrollElement.offsetHeight;
 
 export type FilesOrFile<T extends boolean | undefined = undefined> = T extends true ? File[] : File;
@@ -67,7 +67,7 @@ const normalizeAccept = (accept: string): string => (accept === '*' ? '*/*' : ac
 
 export const selectFile = <M extends boolean | undefined = undefined>(
   accept: string,
-  multiple?: M
+  multiple?: M,
 ): Promise<FilesOrFile<M> | undefined> =>
   new Promise((resolve) => {
     const input = document.createElement('input');
@@ -158,7 +158,7 @@ export const getThumbnail = (
   img: HTMLImageElement | SVGImageElement | HTMLVideoElement,
   width: number,
   height: number,
-  thumbnailMimeType?: string
+  thumbnailMimeType?: string,
 ): Promise<Blob | undefined> =>
   new Promise((resolve) => {
     const canvas = document.createElement('canvas');
@@ -230,7 +230,7 @@ const legacyCopyToClipboard = (text: string): boolean => {
   // copied truncated, which is worse than not copying it.
   field.setSelectionRange(0, text.length);
 
-  let copied = false;
+  let copied: boolean;
   try {
     copied = document.execCommand('copy');
   } catch {

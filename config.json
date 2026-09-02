@@ -1,12 +1,6 @@
 {
   "defaultHomeserver": 1,
-  "homeserverList": [
-    "converser.eu",
-    "matrix.org",
-    "mozilla.org",
-    "unredacted.org",
-    "xmr.se"
-  ],
+  "homeserverList": ["converser.eu", "matrix.org", "mozilla.org", "unredacted.org", "xmr.se"],
   "allowCustomHomeservers": true,
 
   "featuredCommunities": {
@@ -22,11 +16,7 @@
       "#libregaming-games:tchncs.de",
       "#mathematics-on:matrix.org"
     ],
-    "rooms": [
-      "#tuwunel:grin.hu",
-      "#freesoftware:matrix.org",
-      "#gentoo:matrix.org"
-    ],
+    "rooms": ["#tuwunel:grin.hu", "#freesoftware:matrix.org", "#gentoo:matrix.org"],
     "servers": []
   },
 

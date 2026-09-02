@@ -10,7 +10,7 @@ export const SidebarItem = as<'div', css.SidebarItemVariants>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 export const SidebarItemBadge = as<'div', css.SidebarItemBadgeVariants>(
@@ -20,7 +20,7 @@ export const SidebarItemBadge = as<'div', css.SidebarItemBadgeVariants>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 export function SidebarItemTooltip({
@@ -57,7 +57,7 @@ export const SidebarAvatar = as<'div', css.SidebarAvatarVariants & ComponentProp
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 export const SidebarFolder = as<'div', css.SidebarFolderVariants>(
@@ -67,7 +67,7 @@ export const SidebarFolder = as<'div', css.SidebarFolderVariants>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 export const SidebarFolderDropTarget = as<'div', css.SidebarFolderDropTargetVariants>(
@@ -77,5 +77,5 @@ export const SidebarFolderDropTarget = as<'div', css.SidebarFolderDropTargetVari
       {...props}
       ref={ref}
     />
-  )
+  ),
 );

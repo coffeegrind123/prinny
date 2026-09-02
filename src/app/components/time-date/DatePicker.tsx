@@ -125,5 +125,5 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         </Box>
       </Menu>
     );
-  }
+  },
 );

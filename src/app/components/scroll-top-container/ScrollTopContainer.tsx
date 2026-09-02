@@ -27,10 +27,10 @@ export const ScrollTopContainer = as<
           onVisibilityChange?.(entry.isIntersecting);
         }
       },
-      [anchorRef, onVisibilityChange]
+      [anchorRef, onVisibilityChange],
     ),
     useCallback(() => ({ root: scrollRef?.current }), [scrollRef]),
-    useCallback(() => anchorRef.current, [anchorRef])
+    useCallback(() => anchorRef.current, [anchorRef]),
   );
 
   if (onTop) return null;

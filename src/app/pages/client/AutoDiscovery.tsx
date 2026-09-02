@@ -14,7 +14,7 @@ export function AutoDiscovery({ userId, baseUrl, children }: AutoDiscoveryProps)
     useCallback(async () => {
       const server = getMxIdServer(userId);
       return autoDiscovery(fetch, server ?? userId);
-    }, [userId])
+    }, [userId]),
   );
 
   const [, info] = state.status === AsyncStatus.Success ? state.data : [];
@@ -25,7 +25,7 @@ export function AutoDiscovery({ userId, baseUrl, children }: AutoDiscoveryProps)
         base_url: baseUrl,
       },
     }),
-    [baseUrl]
+    [baseUrl],
   );
 
   return <AutoDiscoveryInfoProvider value={info ?? fallback}>{children}</AutoDiscoveryInfoProvider>;

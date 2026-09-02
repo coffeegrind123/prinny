@@ -30,18 +30,18 @@ const getRoomsUnread = (rooms: string[], roomToUnread: RoomToUnread): Unread | u
 
 export const useRoomsUnread = (
   rooms: string[],
-  roomToUnreadAtm: typeof roomToUnreadAtom
+  roomToUnreadAtm: typeof roomToUnreadAtom,
 ): Unread | undefined => {
   const selector = useCallback(
     (roomToUnread: RoomToUnread) => getRoomsUnread(rooms, roomToUnread),
-    [rooms]
+    [rooms],
   );
   return useAtomValue(selectAtom(roomToUnreadAtm, selector, compareUnreadEqual));
 };
 
 export const useRoomUnread = (
   roomId: string,
-  roomToUnreadAtm: typeof roomToUnreadAtom
+  roomToUnreadAtm: typeof roomToUnreadAtom,
 ): Unread | undefined => {
   const selector = useCallback((roomToUnread: RoomToUnread) => roomToUnread.get(roomId), [roomId]);
   return useAtomValue(selectAtom(roomToUnreadAtm, selector, compareUnreadEqual));

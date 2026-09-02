@@ -19,7 +19,7 @@ export type RoomsNotificationPreferences = {
 };
 
 const RoomsNotificationPreferencesContext = createContext<RoomsNotificationPreferences | null>(
-  null
+  null,
 );
 export const RoomsNotificationPreferencesProvider = RoomsNotificationPreferencesContext.Provider;
 
@@ -78,7 +78,7 @@ export enum RoomNotificationMode {
 
 export const getRoomNotificationMode = (
   preferences: RoomsNotificationPreferences,
-  roomId: string
+  roomId: string,
 ): RoomNotificationMode => {
   if (preferences.mute.has(roomId)) {
     return RoomNotificationMode.Mute;
@@ -95,7 +95,7 @@ export const getRoomNotificationMode = (
 
 export const useRoomNotificationPreference = (
   preferences: RoomsNotificationPreferences,
-  roomId: string
+  roomId: string,
 ): RoomNotificationMode =>
   useMemo(() => getRoomNotificationMode(preferences, roomId), [preferences, roomId]);
 
@@ -111,7 +111,7 @@ export const setRoomNotificationPreference = async (
   mx: MatrixClient,
   roomId: string,
   mode: RoomNotificationMode,
-  previousMode: RoomNotificationMode
+  previousMode: RoomNotificationMode,
 ): Promise<void> => {
   // remove the old preference
   if (
@@ -158,8 +158,8 @@ export const useSetRoomNotificationPreference = (roomId: string) => {
     useCallback(
       (mode: RoomNotificationMode, previousMode: RoomNotificationMode) =>
         setRoomNotificationPreference(mx, roomId, mode, previousMode),
-      [mx, roomId]
-    )
+      [mx, roomId],
+    ),
   );
 
   return {

@@ -6,9 +6,9 @@ export type ListAction<T> =
       item: T | T[];
     }
   | {
-    type: 'REPLACE';
-    item: T;
-    replacement: T;
+      type: 'REPLACE';
+      item: T;
+      replacement: T;
     }
   | {
       type: 'DELETE';
@@ -25,7 +25,7 @@ export const createListAtom = <T>() => {
       if (action.type === 'DELETE') {
         set(
           baseListAtom,
-          items.filter((item) => !newItems.includes(item))
+          items.filter((item) => !newItems.includes(item)),
         );
         return;
       }
@@ -34,9 +34,12 @@ export const createListAtom = <T>() => {
         return;
       }
       if (action.type === 'REPLACE') {
-        set(baseListAtom, items.map((item) => item === action.item ? action.replacement : item));
+        set(
+          baseListAtom,
+          items.map((item) => (item === action.item ? action.replacement : item)),
+        );
       }
-    }
+    },
   );
 };
 export type TListAtom<T> = ReturnType<typeof createListAtom<T>>;

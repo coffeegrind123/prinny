@@ -109,7 +109,7 @@ export const usePowerLevelTags = (room: Room, powerLevels: IPowerLevels): PowerL
 
 export const getPowerLevelTag = (
   powerLevelTags: PowerLevelTags,
-  powerLevel: number
+  powerLevel: number,
 ): MemberPowerTag => {
   const tag: MemberPowerTag | undefined = powerLevelTags[powerLevel];
   return tag ?? generateFallbackTag(powerLevelTags, powerLevel);

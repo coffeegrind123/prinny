@@ -19,7 +19,7 @@ export function SSOLogin({ providers, redirectUrl, action, saveScreenSpace }: SS
 
   const withoutIcon = providers
     ? providers.find(
-        (provider) => !provider.icon || !mx.mxcUrlToHttp(provider.icon, 96, 96, 'crop', false)
+        (provider) => !provider.icon || !mx.mxcUrlToHttp(provider.icon, 96, 96, 'crop', false),
       )
     : true;
 

@@ -7,14 +7,64 @@ import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-config-prettier';
 import globals from 'globals';
 
+// eslint 10 removed the deprecated `context.getFilename()` and
+// `context.getSourceCode()` accessors in favour of `context.filename` and
+// `context.sourceCode`. eslint-plugin-react 7.37.5 — its newest release, from
+// April 2025, peer-capped at eslint ^9.7 — still calls them in exactly two
+// reachable places, and both are load-bearing here:
+//
+//   1. `util/version.js` -> resolveBasedir(), on the `settings.react.version:
+//      'detect'` path this config uses. This is the one that crashes first:
+//      `TypeError: contextOrFilename.getFilename is not a function`, aborting
+//      the whole run before a single file is reported.
+//   2. `rules/jsx-filename-extension.js`, a rule this config enables.
+//
+// Every other call it makes is already guarded by a fallback
+// (`sourceCode.getScope ? ... : context.getScope()` and friends), and the
+// unguarded `rules/forward-ref-uses-ref.js` is not in `recommended` and is not
+// enabled here. eslint-plugin-jsx-a11y and eslint-plugin-import declare the
+// same conservative `^9` peer ceiling but call none of the removed APIs at all.
+//
+// So the entire incompatibility is one missing method, and re-supplying it to
+// this plugin only is both smaller and less lossy than the alternatives:
+// staying on an eslint 9 line where every published version is deprecated, or
+// dropping the React rules this config deliberately tunes. `Reflect.get` reads
+// through with `target` as the receiver and functions are bound to `target`, so
+// `context.report` and the rest keep their original `this`.
+const restoreRemovedContextAccessors = (plugin) => ({
+  ...plugin,
+  rules: Object.fromEntries(
+    Object.entries(plugin.rules).map(([name, rule]) => [
+      name,
+      {
+        ...rule,
+        create(context) {
+          return rule.create(
+            new Proxy(context, {
+              get(target, prop) {
+                if (prop === 'getFilename') return () => target.filename;
+                if (prop === 'getSourceCode') return () => target.sourceCode;
+                const value = Reflect.get(target, prop, target);
+                return typeof value === 'function' ? value.bind(target) : value;
+              },
+            }),
+          );
+        },
+      },
+    ]),
+  ),
+});
+
+const reactCompat = restoreRemovedContextAccessors(reactPlugin);
+
 export default [
   {
     ignores: ['dist/**', 'node_modules/**', 'public/**', 'src/sw.ts'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  reactPlugin.configs.flat.recommended,
-  reactPlugin.configs.flat['jsx-runtime'],
+  { ...reactPlugin.configs.flat.recommended, plugins: { react: reactCompat } },
+  { ...reactPlugin.configs.flat['jsx-runtime'], plugins: { react: reactCompat } },
   jsxA11y.flatConfigs.recommended,
   importPlugin.flatConfigs?.recommended,
   prettier,

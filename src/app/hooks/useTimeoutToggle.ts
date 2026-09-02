@@ -30,7 +30,7 @@ export function useTimeoutToggle(duration = 1500, initial = false): [boolean, ()
     () => () => {
       clear();
     },
-    []
+    [],
   );
 
   return [active, trigger];

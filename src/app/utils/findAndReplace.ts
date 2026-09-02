@@ -1,6 +1,6 @@
 export type ReplaceCallback<R> = (
   match: RegExpExecArray | RegExpMatchArray,
-  pushIndex: number
+  pushIndex: number,
 ) => R;
 export type ConvertPartCallback<R> = (text: string, pushIndex: number) => R;
 
@@ -8,7 +8,7 @@ export const findAndReplace = <ReplaceReturnType, ConvertReturnType>(
   text: string,
   regex: RegExp,
   replace: ReplaceCallback<ReplaceReturnType>,
-  convertPart: ConvertPartCallback<ConvertReturnType>
+  convertPart: ConvertPartCallback<ConvertReturnType>,
 ): Array<ReplaceReturnType | ConvertReturnType> => {
   const result: Array<ReplaceReturnType | ConvertReturnType> = [];
   let lastEnd = 0;

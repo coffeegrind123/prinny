@@ -44,18 +44,20 @@ const readRecentEmoji = (mx: MatrixClient): RecentEmojiEntry[] => {
   if (Array.isArray(stable)) {
     return stable.filter(
       (entry): entry is RecentEmojiEntry =>
-        typeof entry?.emoji === 'string' && typeof entry?.total === 'number'
+        typeof entry?.emoji === 'string' && typeof entry?.total === 'number',
     );
   }
 
-  const legacy = getAccountData(mx, AccountDataEvent.ElementRecentEmoji)?.getContent<IRecentEmojiContent>()
-    .recent_emoji;
+  const legacy = getAccountData(
+    mx,
+    AccountDataEvent.ElementRecentEmoji,
+  )?.getContent<IRecentEmojiContent>().recent_emoji;
   if (!Array.isArray(legacy)) return [];
 
   return legacy
     .filter(
       (entry): entry is [EmojiUnicode, EmojiUsageCount] =>
-        Array.isArray(entry) && typeof entry[0] === 'string' && typeof entry[1] === 'number'
+        Array.isArray(entry) && typeof entry[0] === 'string' && typeof entry[1] === 'number',
     )
     .map(([emoji, total]) => ({ emoji, total }));
 };

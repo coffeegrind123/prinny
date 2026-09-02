@@ -94,7 +94,7 @@ export const mapDiscordActivity = (activity: DiscordRichPresenceActivity): Mappe
   }
   const name = activity.name || activity.details || 'Discord';
   const secondary = [activity.details, activity.state].filter(
-    (v): v is string => !!v && v !== name
+    (v): v is string => !!v && v !== name,
   );
   const details = Array.from(new Set(secondary)).join(' · ') || undefined;
   return {
@@ -115,7 +115,7 @@ export const withCoverArt = (p: ActivityPayload, mxc: string): ActivityPayload =
 
 export const sameActivityPayload = (
   a: ActivityPayload | null,
-  b: ActivityPayload | null
+  b: ActivityPayload | null,
 ): boolean => {
   if (a === null || b === null) return a === b;
   return JSON.stringify(a) === JSON.stringify(b);

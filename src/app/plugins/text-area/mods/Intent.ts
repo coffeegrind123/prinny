@@ -44,7 +44,7 @@ export class Intent {
     return new Cursor(
       cursor.start === linesCursor.start ? cursor.start : cursor.start + this.str.length,
       cursor.end + addedIntentLength,
-      cursor.direction
+      cursor.direction,
     );
   }
 
@@ -62,7 +62,7 @@ export class Intent {
 
     const firstLineTrimLength = lines[0].length - intentLines[0].length;
     const lastLine = this.textArea.cursorLines(
-      new Cursor(intentCursor.end, intentCursor.end, 'none')
+      new Cursor(intentCursor.end, intentCursor.end, 'none'),
     );
 
     const start = Math.max(cursor.start - firstLineTrimLength, linesCursor.start);

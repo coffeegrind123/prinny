@@ -232,7 +232,7 @@ export function ProxiedVideo({
       if (played && typeof played.catch === 'function') {
         played.then(
           () => setAutoplayBlocked(false),
-          () => setAutoplayBlocked(true)
+          () => setAutoplayBlocked(true),
         );
       }
     } else {
@@ -290,7 +290,9 @@ export function ProxiedVideo({
       }}
     >
       {useSourceChildren &&
-        safeSources.map((source) => <source key={source.src} src={source.src} type={source.type} />)}
+        safeSources.map((source) => (
+          <source key={source.src} src={source.src} type={source.type} />
+        ))}
     </video>
   );
 

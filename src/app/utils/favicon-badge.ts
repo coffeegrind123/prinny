@@ -57,7 +57,7 @@ const loadImage = (src: string): Promise<HTMLImageElement> =>
 export const renderFaviconWithBadge = async (
   baseSrc: string,
   count: number,
-  highlight: boolean
+  highlight: boolean,
 ): Promise<string | undefined> => {
   if (count <= 0) return undefined;
 

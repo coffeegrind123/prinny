@@ -47,7 +47,7 @@ export const useUserProfile = (userId: string): UserProfile => {
     };
     const onProfileUpdate = (
       updatedUserId: string,
-      updatedProfile: Record<string, unknown> | null
+      updatedProfile: Record<string, unknown> | null,
     ) => {
       if (updatedUserId !== userId) return;
       setProfile((current) => ({
@@ -80,9 +80,9 @@ export const useUserProfile = (userId: string): UserProfile => {
               extended: {},
               loaded: true,
             }),
-          () => setProfile((current) => ({ ...current, loaded: true }))
+          () => setProfile((current) => ({ ...current, loaded: true })),
         );
-      }
+      },
     );
 
     mx.on(ClientEvent.UserProfileUpdate, onProfileUpdate);

@@ -18,7 +18,7 @@ export const getMatrixToRoom = (roomIdOrAlias: string, viaServers?: string[]): s
 export const getMatrixToRoomEvent = (
   roomId: string,
   eventId: string,
-  viaServers?: string[]
+  viaServers?: string[],
 ): string => {
   let fragment = `${roomId}/${eventId}`;
 

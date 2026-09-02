@@ -17,7 +17,7 @@ export function AuthFooter() {
       >
         v{version}
       </Text>
-<Text as="a" size="T300" href="https://matrix.org" target="_blank" rel="noreferrer">
+      <Text as="a" size="T300" href="https://matrix.org" target="_blank" rel="noreferrer">
         Powered by Matrix
       </Text>
     </Box>

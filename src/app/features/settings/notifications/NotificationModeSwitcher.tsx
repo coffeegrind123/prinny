@@ -28,7 +28,7 @@ const useNotificationModeStr = (): Record<NotificationMode, string> =>
       [NotificationMode.Notify]: 'Notify Silent',
       [NotificationMode.NotifyLoud]: 'Notify Loud',
     }),
-    []
+    [],
   );
 
 type NotificationModeSwitcherProps = {

@@ -16,7 +16,7 @@ export type RoomsAction =
 export const useBindRoomsWithMembershipsAtom = (
   mx: MatrixClient,
   roomsAtom: WritableAtom<string[], [RoomsAction], undefined>,
-  memberships: Membership[]
+  memberships: Membership[],
 ) => {
   const setRoomsAtom = useSetAtom(roomsAtom);
 

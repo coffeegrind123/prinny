@@ -79,7 +79,7 @@ const elementToCustomHtml = (node: CustomElement, children: string): string => {
       // which makes the value remote input on the message-edit round trip.
       return node.key.startsWith('mxc://')
         ? `<img data-mx-emoticon src="${sanitizeText(node.key)}" alt="${sanitizeText(
-            node.shortcode
+            node.shortcode,
           )}" title="${sanitizeText(node.shortcode)}" height="32" />`
         : sanitizeText(node.key);
     case BlockType.Link:
@@ -97,12 +97,12 @@ const ignoreHTMLParseInlineMD = (text: string): string =>
     text,
     HTML_TAG_REG_G,
     (match) => match[0],
-    (txt) => parseInlineMD(txt)
+    (txt) => parseInlineMD(txt),
   ).join('');
 
 export const toMatrixCustomHTML = (
   node: Descendant | Descendant[],
-  opts: OutputOptions
+  opts: OutputOptions,
 ): string => {
   let markdownLines = '';
   const parseNode = (n: Descendant, index: number, targetNodes: Descendant[]) => {

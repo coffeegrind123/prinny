@@ -26,7 +26,7 @@ export type MicrophonePermission = {
  */
 export function useMicrophonePermission(): MicrophonePermission {
   const [state, setState] = useState<MicPermissionState>(() =>
-    readCachedMicrophoneGranted() ? 'granted' : 'unknown'
+    readCachedMicrophoneGranted() ? 'granted' : 'unknown',
   );
   const [requesting, setRequesting] = useState(false);
   const [error, setError] = useState<string>();

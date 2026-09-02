@@ -229,7 +229,7 @@ export const useClientRoomSearch = (
           break;
         }
         paginations += 1;
-        let ok = false;
+        let ok: boolean;
         try {
           // eslint-disable-next-line no-await-in-loop
           ok = await mx.paginateEventTimeline(timeline, {

@@ -60,7 +60,7 @@ export const useTauriDragDropListener = () => {
             // eslint-disable-next-line no-await-in-loop
             const r = await invoke<{ name: string; mime: string; bytes: number[] }>(
               'read_dropped_file',
-              { path }
+              { path },
             );
             files.push(new File([new Uint8Array(r.bytes)], r.name, { type: r.mime }));
           } catch (err) {
@@ -87,12 +87,12 @@ export const useFileDropHandler = (onDrop: (file: File[]) => void): DragEventHan
       const files = getDataTransferFiles(evt.dataTransfer);
       if (files) onDrop(files);
     },
-    [onDrop]
+    [onDrop],
   );
 
 export const useFileDropZone = (
   zoneRef: RefObject<HTMLElement | null>,
-  onDrop: (file: File[]) => void
+  onDrop: (file: File[]) => void,
 ): boolean => {
   const dragStateRef = useRef<'start' | 'leave' | 'over' | undefined>(undefined);
   const [active, setActive] = useState(false);

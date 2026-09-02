@@ -118,8 +118,8 @@ export function RoomJoinRules({ permissions }: RoomJoinRulesProps) {
         if (allow.length > 0) c.allow = allow;
         await mx.sendStateEvent(room.roomId, StateEvent.RoomJoinRules as any, c);
       },
-      [mx, room, space, subspaces, roomIdToParents]
-    )
+      [mx, room, space, subspaces, roomIdToParents],
+    ),
   );
 
   const submitting = submitState.status === AsyncStatus.Loading;

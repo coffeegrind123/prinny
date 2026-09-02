@@ -20,7 +20,7 @@ export const makePushRuleData = (
   conditions?: PushRuleCondition[],
   pattern?: string,
   enabled?: boolean,
-  _default?: boolean
+  _default?: boolean,
 ): PushRuleData => ({
   kind,
   pushRule: {
@@ -43,7 +43,7 @@ export const orderedPushRuleKinds: PushRuleKind[] = [
 
 export const getPushRule = (
   pushRules: IPushRules,
-  ruleId: RuleId | string
+  ruleId: RuleId | string,
 ): PushRuleData | undefined => {
   const { global } = pushRules;
 
@@ -67,5 +67,5 @@ export const getPushRule = (
 
 export const usePushRule = (
   pushRules: IPushRules,
-  ruleId: RuleId | string
+  ruleId: RuleId | string,
 ): PushRuleData | undefined => useMemo(() => getPushRule(pushRules, ruleId), [pushRules, ruleId]);

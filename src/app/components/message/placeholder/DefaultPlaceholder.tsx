@@ -35,5 +35,5 @@ export const DefaultPlaceholder = as<'div', { variant?: ContainerColor }>(
         </Box>
       </ModernLayout>
     );
-  }
+  },
 );

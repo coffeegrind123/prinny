@@ -474,7 +474,7 @@ export const getReactionContent = (eventId: string, key: string, shortcode?: str
 export const matchingReactionKey = (
   annotationsByKey: [string, Set<MatrixEvent>][],
   key: string,
-  shortcode?: string
+  shortcode?: string,
 ): string => {
   if (!shortcode || !key.startsWith('mxc://')) return key;
   if (annotationsByKey.some(([k]) => k === key)) return key;
@@ -483,8 +483,8 @@ export const matchingReactionKey = (
     ([k, events]) =>
       k.startsWith('mxc://') &&
       Array.from(events).some(
-        (mEvent) => !mEvent.isRedacted() && mEvent.getContent().shortcode === shortcode
-      )
+        (mEvent) => !mEvent.isRedacted() && mEvent.getContent().shortcode === shortcode,
+      ),
   );
 
   return existing ? existing[0] : key;

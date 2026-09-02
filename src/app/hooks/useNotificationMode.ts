@@ -9,10 +9,10 @@ export enum NotificationMode {
 
 export const getNotificationMode = (actions: PushRuleAction[]): NotificationMode => {
   const soundTweak = actions.find(
-    (action) => typeof action === 'object' && action.set_tweak === TweakName.Sound
+    (action) => typeof action === 'object' && action.set_tweak === TweakName.Sound,
   );
   const notify = actions.find(
-    (action) => typeof action === 'string' && action === PushRuleActionName.Notify
+    (action) => typeof action === 'string' && action === PushRuleActionName.Notify,
   );
 
   if (notify && soundTweak) return NotificationMode.NotifyLoud;
@@ -26,7 +26,7 @@ export type NotificationModeOptions = {
 };
 export const getNotificationModeActions = (
   mode: NotificationMode,
-  options?: NotificationModeOptions
+  options?: NotificationModeOptions,
 ): PushRuleAction[] => {
   if (mode === NotificationMode.OFF) return [];
 
@@ -51,11 +51,11 @@ export const getNotificationModeActions = (
 
 export type GetNotificationModeCallback = (mode: NotificationMode) => PushRuleAction[];
 export const useNotificationModeActions = (
-  options?: NotificationModeOptions
+  options?: NotificationModeOptions,
 ): GetNotificationModeCallback => {
   const getAction: GetNotificationModeCallback = useCallback(
     (mode) => getNotificationModeActions(mode, options),
-    [options]
+    [options],
   );
 
   return getAction;

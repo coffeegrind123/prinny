@@ -70,7 +70,7 @@ function buildChecks(status: UnifiedPushStatus, pusherEndpoints: string[] | unde
           // reason Android has no notifications: without a distributor there is
           // no push at all, and nothing else below can be true.
           fix: `Prinny has no Google/FCM path, so a UnifiedPush distributor app is required. Install ntfy, Sunup or NextPush, then use Re-register below. See ${DISTRIBUTOR_HELP_URL}`,
-        }
+        },
   );
 
   checks.push(
@@ -81,7 +81,7 @@ function buildChecks(status: UnifiedPushStatus, pusherEndpoints: string[] | unde
           health: distributors.length > 0 ? 'bad' : 'unknown',
           detail: 'None selected.',
           fix: 'Use Re-register below and pick one when Android asks.',
-        }
+        },
   );
 
   checks.push(
@@ -92,7 +92,7 @@ function buildChecks(status: UnifiedPushStatus, pusherEndpoints: string[] | unde
           health: savedDistributor ? 'bad' : 'unknown',
           detail: 'No handshake completed.',
           fix: 'The distributor app is installed but never answered. Open it, check it is connected to its server, then Re-register.',
-        }
+        },
   );
 
   checks.push(
@@ -102,7 +102,7 @@ function buildChecks(status: UnifiedPushStatus, pusherEndpoints: string[] | unde
           label: 'Push endpoint issued',
           health: ackDistributor ? 'bad' : 'unknown',
           detail: 'No endpoint on this device.',
-        }
+        },
   );
 
   if (pusherEndpoints === undefined) {
@@ -147,7 +147,7 @@ function buildChecks(status: UnifiedPushStatus, pusherEndpoints: string[] | unde
           // Worth spelling out: pushes still arrive and are still processed, so
           // every other check here can read green while nothing is ever shown.
           fix: 'Every notification is silently dropped by Android, including ones that arrive correctly. Grant notifications for Prinny in Android Settings → Apps.',
-        }
+        },
   );
 
   return checks;
@@ -186,7 +186,7 @@ export function PushDiagnostics() {
         pusherEndpoints = undefined;
       }
       return buildChecks(status, pusherEndpoints);
-    }, [mx])
+    }, [mx]),
   );
 
   const [reRegisterState, reRegister] = useAsyncCallback(
@@ -194,7 +194,7 @@ export function PushDiagnostics() {
       // Registering is what prompts Android to offer the distributor chooser
       // when more than one is installed, so this button doubles as the picker.
       await registerUnifiedPush();
-    }, [])
+    }, []),
   );
 
   /**
@@ -216,7 +216,7 @@ export function PushDiagnostics() {
         };
       }
       return registerMatrixPusher(mx, status.endpoint);
-    }, [mx])
+    }, [mx]),
   );
 
   useEffect(() => {

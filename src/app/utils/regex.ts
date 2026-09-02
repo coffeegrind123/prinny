@@ -42,7 +42,7 @@ export const EMOJI_PATTERN = `[#*0-9]\uFE0F?\u20E3|[\xA9\xAE\u203C\u2049\u2122\u
 // minutes. `[^\s:]+` cannot span a colon, so each shortcode has exactly one
 // possible extent and the partitioning ambiguity is gone.
 export const JUMBO_EMOJI_REG = new RegExp(
-  `^(((${EMOJI_PATTERN})|(:[^\\s:]+:))(${VARIATION_SELECTOR_PATTERN}|\\s)*){1,10}$`
+  `^(((${EMOJI_PATTERN})|(:[^\\s:]+:))(${VARIATION_SELECTOR_PATTERN}|\\s)*){1,10}$`,
 );
 
 // A jumbo-emoji body is at most ten emoji plus separators. Anything longer can

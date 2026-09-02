@@ -22,10 +22,7 @@ import { SettingTile } from '../../../components/setting-tile';
  * for shortcuts would find it.
  */
 function GestureTile({ def }: { def: KeybindDefinition }) {
-  const [settings, setSettings] = useSetting(
-    settingsAtom,
-    def.settingKey as 'replyOnDoubleClick'
-  );
+  const [settings, setSettings] = useSetting(settingsAtom, def.settingKey as 'replyOnDoubleClick');
 
   return (
     <SettingTile

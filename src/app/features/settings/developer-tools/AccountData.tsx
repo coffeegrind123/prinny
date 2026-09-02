@@ -15,14 +15,14 @@ type AccountDataProps = {
 export function AccountData({ expand, onExpandToggle, onSelect }: AccountDataProps) {
   const mx = useMatrixClient();
   const [accountDataTypes, setAccountDataKeys] = useState(() =>
-    Array.from(mx.store.accountData.keys())
+    Array.from(mx.store.accountData.keys()),
   );
 
   useAccountDataCallback(
     mx,
     useCallback(() => {
       setAccountDataKeys(Array.from(mx.store.accountData.keys()));
-    }, [mx])
+    }, [mx]),
   );
 
   return (

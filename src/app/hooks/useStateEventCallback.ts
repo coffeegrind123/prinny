@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 export type StateEventCallback = (
   event: MatrixEvent,
   state: RoomState,
-  lastStateEvent: MatrixEvent | null
+  lastStateEvent: MatrixEvent | null,
 ) => void;
 
 /**
@@ -40,7 +40,7 @@ const clientDispatchers = new WeakMap<MatrixClient, StateEventCallback>();
  */
 export const subscribeToStateEvents = (
   mx: MatrixClient,
-  callback: StateEventCallback
+  callback: StateEventCallback,
 ): (() => void) => {
   let subscribers = clientSubscribers.get(mx);
 

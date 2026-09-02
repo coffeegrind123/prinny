@@ -60,7 +60,7 @@ import { getRoomCreatorsForRoomId } from '../../hooks/useRoomCreators';
 const useCanDropLobbyItem = (
   space: Room,
   roomsPowerLevels: Map<string, IPowerLevels>,
-  getRoom: (roomId: string) => Room | undefined
+  getRoom: (roomId: string) => Room | undefined,
 ): CanDropCallback => {
   const mx = useMatrixClient();
 
@@ -87,7 +87,7 @@ const useCanDropLobbyItem = (
 
       return true;
     },
-    [space, roomsPowerLevels, getRoom, mx]
+    [space, roomsPowerLevels, getRoom, mx],
   );
 
   const canDropRoom: CanDropCallback = useCallback(
@@ -107,7 +107,7 @@ const useCanDropLobbyItem = (
 
         const canChangeJoinRuleAllow = itemPermissions.stateEvent(
           StateEvent.RoomJoinRules,
-          mx.getSafeUserId()
+          mx.getSafeUserId(),
         );
         if (!canChangeJoinRuleAllow) {
           return false;
@@ -125,7 +125,7 @@ const useCanDropLobbyItem = (
       }
       return true;
     },
-    [mx, getRoom, roomsPowerLevels]
+    [mx, getRoom, roomsPowerLevels],
   );
 
   const canDrop: CanDropCallback = useCallback(
@@ -142,7 +142,7 @@ const useCanDropLobbyItem = (
 
       return canDropRoom(item, container);
     },
-    [canDropSpace, canDropRoom]
+    [canDropSpace, canDropRoom],
   );
 
   return canDrop;
@@ -168,7 +168,7 @@ export function Lobby() {
   const [onTop, setOnTop] = useState(true);
   const [closedCategories, setClosedCategories] = useAtom(useClosedLobbyCategoriesAtom());
   const [sidebarItems] = useSidebarItems(
-    useOrphanSpaces(mx, allRoomsAtom, useAtomValue(roomToParentsAtom))
+    useOrphanSpaces(mx, allRoomsAtom, useAtomValue(roomToParentsAtom)),
   );
   const sidebarSpaces = useMemo(() => {
     const sideSpaces = sidebarItems.flatMap((item) => {
@@ -183,7 +183,7 @@ export function Lobby() {
 
   useElementSizeObserver(
     useCallback(() => heroSectionRef.current, []),
-    useCallback((w, height) => setHeroSectionHeight(height), [])
+    useCallback((w, height) => setHeroSectionHeight(height), []),
   );
 
   const getRoom = useGetRoom(allJoinedRooms);
@@ -197,8 +197,8 @@ export function Lobby() {
       (childId) =>
         closedCategories.has(makeLobbyCategoryId(space.roomId, childId)) ||
         (draggingItem ? 'space' in draggingItem : false),
-      [closedCategories, space.roomId, draggingItem]
-    )
+      [closedCategories, space.roomId, draggingItem],
+    ),
   );
 
   const virtualizer = useVirtualizer({
@@ -220,8 +220,8 @@ export function Lobby() {
             return [getRoom(i.space.roomId), ...childRooms];
           })
           .filter((r) => !!r) as Room[],
-      [hierarchy, getRoom]
-    )
+      [hierarchy, getRoom],
+    ),
   );
 
   const canDrop: CanDropCallback = useCanDropLobbyItem(space, roomsPowerLevels, getRoom);
@@ -275,13 +275,13 @@ export function Lobby() {
               reorder.item.parentId,
               StateEvent.SpaceChild as any,
               { ...reorder.item.content, order: reorder.orderKey },
-              reorder.item.roomId
+              reorder.item.roomId,
             );
           });
         }
       },
-      [mx, hierarchy, lex, roomsPowerLevels]
-    )
+      [mx, hierarchy, lex, roomsPowerLevels],
+    ),
   );
   const reorderingSpace = reorderSpaceState.status === AsyncStatus.Loading;
 
@@ -310,7 +310,7 @@ export function Lobby() {
           // restricted room from one space to another
           const joinRuleContent = getStateEvent(
             itemRoom,
-            StateEvent.RoomJoinRules
+            StateEvent.RoomJoinRules,
           )?.getContent<RoomJoinRulesEventContent>();
 
           if (joinRuleContent) {
@@ -326,7 +326,7 @@ export function Lobby() {
         }
 
         const itemSpaces = Array.from(
-          hierarchy?.find((i) => i.space.roomId === containerParentId)?.rooms ?? []
+          hierarchy?.find((i) => i.space.roomId === containerParentId)?.rooms ?? [],
         );
 
         const beforeItem: HierarchyItem | undefined =
@@ -362,13 +362,13 @@ export function Lobby() {
               containerParentId,
               StateEvent.SpaceChild as any,
               { ...reorder.item.content, order: reorder.orderKey },
-              reorder.item.roomId
+              reorder.item.roomId,
             );
           });
         }
       },
-      [mx, hierarchy, lex]
-    )
+      [mx, hierarchy, lex],
+    ),
   );
   const reorderingRoom = reorderRoomState.status === AsyncStatus.Loading;
   const reordering = reorderingRoom || reorderingSpace;
@@ -387,8 +387,8 @@ export function Lobby() {
           reorderRoom(item, container.item);
         }
       },
-      [reorderRoom, reorderSpace, canDrop]
-    )
+      [reorderRoom, reorderSpace, canDrop],
+    ),
   );
 
   const handleSpacesFound = useCallback(
@@ -401,11 +401,11 @@ export function Lobby() {
         return current.size === newItems.size ? current : newItems;
       });
     },
-    [setSpaceRooms]
+    [setSpaceRooms],
   );
 
   const handleCategoryClick = useCategoryHandler(setClosedCategories, (categoryId) =>
-    closedCategories.has(categoryId)
+    closedCategories.has(categoryId),
   );
 
   const handleOpenRoom: MouseEventHandler<HTMLButtonElement> = (evt) => {
@@ -424,7 +424,7 @@ export function Lobby() {
       const newSpacesContent = makeCinnySpacesContent(mx, newItems);
       mx.setAccountData(AccountDataEvent.CinnySpaces as any, newSpacesContent as any);
     },
-    [mx, sidebarItems, sidebarSpaces]
+    [mx, sidebarItems, sidebarSpaces],
   );
 
   return (

@@ -25,7 +25,7 @@ declare module 'browser-encrypt-attachment' {
 
   export function decryptAttachment(
     dataBuffer: ArrayBuffer,
-    info: EncryptedAttachmentInfo
+    info: EncryptedAttachmentInfo,
   ): Promise<ArrayBuffer>;
 }
 

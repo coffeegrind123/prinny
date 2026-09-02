@@ -28,7 +28,7 @@ export const UploadCard = forwardRef<HTMLDivElement, UploadCardProps & css.Uploa
       </Box>
       {bottom}
     </Box>
-  )
+  ),
 );
 
 type UploadCardProgressProps = {

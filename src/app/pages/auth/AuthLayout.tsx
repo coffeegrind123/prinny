@@ -103,7 +103,7 @@ export function AuthLayout() {
         serverName,
         response,
       };
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
@@ -117,7 +117,7 @@ export function AuthLayout() {
         generatePath(currentAuthPath(location.pathname), {
           server,
         }),
-        { replace: true }
+        { replace: true },
       );
     }
   }, [urlServer, navigate, location, server]);
@@ -129,11 +129,9 @@ export function AuthLayout() {
         discoverServer(server);
         return;
       }
-      navigate(
-        generatePath(currentAuthPath(location.pathname), { server: newServer })
-      );
+      navigate(generatePath(currentAuthPath(location.pathname), { server: newServer }));
     },
-    [navigate, location, discoveryState, server, discoverServer]
+    [navigate, location, discoveryState, server, discoverServer],
   );
 
   const [autoDiscoveryError, autoDiscoveryInfo] =

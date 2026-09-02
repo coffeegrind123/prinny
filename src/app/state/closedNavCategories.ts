@@ -36,7 +36,7 @@ export const makeClosedNavCategoriesAtom = (userId: string): ClosedNavCategories
     (key, value) => {
       const arrayValue = Array.from(value);
       setLocalStorageItem(key, arrayValue);
-    }
+    },
   );
 
   const closedNavCategoriesAtom = atom<Set<string>, [ClosedNavCategoriesAction], undefined>(
@@ -47,7 +47,7 @@ export const makeClosedNavCategoriesAtom = (userId: string): ClosedNavCategories
           baseClosedNavCategoriesAtom,
           produce(get(baseClosedNavCategoriesAtom), (draft) => {
             draft.delete(action.categoryId);
-          })
+          }),
         );
         return;
       }
@@ -56,10 +56,10 @@ export const makeClosedNavCategoriesAtom = (userId: string): ClosedNavCategories
           baseClosedNavCategoriesAtom,
           produce(get(baseClosedNavCategoriesAtom), (draft) => {
             draft.add(action.categoryId);
-          })
+          }),
         );
       }
-    }
+    },
   );
 
   return closedNavCategoriesAtom;

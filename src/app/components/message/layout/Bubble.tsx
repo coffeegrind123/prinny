@@ -59,5 +59,5 @@ export const BubbleLayout = as<'div', BubbleLayoutProps>(
         )}
       </Box>
     </Box>
-  )
+  ),
 );

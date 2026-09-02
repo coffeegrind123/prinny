@@ -66,7 +66,7 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
   const allowRestricted = space && restrictedSupported(selectedRoomVersion);
 
   const [access, setAccess] = useState(
-    defaultAccess ?? (allowRestricted ? CreateRoomAccess.Restricted : CreateRoomAccess.Private)
+    defaultAccess ?? (allowRestricted ? CreateRoomAccess.Restricted : CreateRoomAccess.Private),
   );
 
   const allowAdditionalCreators = creatorsSupported(selectedRoomVersion);
@@ -88,7 +88,7 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
   };
 
   const [createState, create] = useAsyncCallback<string, Error | MatrixError, [CreateRoomData]>(
-    useCallback((data) => createRoom(mx, data), [mx])
+    useCallback((data) => createRoom(mx, data), [mx]),
   );
   const loading = createState.status === AsyncStatus.Loading;
   const error = createState.status === AsyncStatus.Error ? createState.error : undefined;
@@ -255,7 +255,7 @@ export function CreateSpaceForm({ defaultAccess, space, onCreate }: CreateSpaceF
             <b>
               {error instanceof MatrixError && error.name === ErrorCode.M_LIMIT_EXCEEDED
                 ? `Server rate-limited your request for ${millisecondsToMinutes(
-                    (error.data.retry_after_ms as number | undefined) ?? 0
+                    (error.data.retry_after_ms as number | undefined) ?? 0,
                   )} minutes!`
                 : error.message}
             </b>

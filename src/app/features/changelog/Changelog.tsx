@@ -14,8 +14,7 @@ function CodeSpan({ children }: { children: React.ReactNode }) {
   return (
     <span
       style={{
-        fontFamily:
-          'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace',
+        fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace',
         fontSize: '0.875em',
         padding: '1px 6px',
         borderRadius: '4px',
@@ -41,8 +40,7 @@ function BulletRow({ bullet }: { bullet: ChangelogBullet }) {
           target="_blank"
           rel="noreferrer noopener"
           style={{
-            fontFamily:
-              'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace',
+            fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace',
             fontSize: '11px',
             padding: '2px 6px',
             borderRadius: '4px',
@@ -61,7 +59,7 @@ function BulletRow({ bullet }: { bullet: ChangelogBullet }) {
             <CodeSpan key={i}>{part.value}</CodeSpan>
           ) : (
             <React.Fragment key={i}>{part.value}</React.Fragment>
-          )
+          ),
         )}
       </span>
     </Box>

@@ -17,7 +17,7 @@ const baseSpaceRoomsAtom = atomWithLocalStorage<Set<string>>(
   (key, value) => {
     const arrayValue = Array.from(value);
     setLocalStorageItem(key, arrayValue);
-  }
+  },
 );
 
 type SpaceRoomsAction =
@@ -41,7 +41,7 @@ export const spaceRoomsAtom = atom<Set<string>, [SpaceRoomsAction], undefined>(
         baseSpaceRoomsAtom,
         produce(current, (draft) => {
           roomIds.forEach((roomId) => draft.delete(roomId));
-        })
+        }),
       );
       return;
     }
@@ -52,8 +52,8 @@ export const spaceRoomsAtom = atom<Set<string>, [SpaceRoomsAction], undefined>(
           baseSpaceRoomsAtom,
           produce(current, (draft) => {
             newEntries.forEach((roomId) => draft.add(roomId));
-          })
+          }),
         );
     }
-  }
+  },
 );

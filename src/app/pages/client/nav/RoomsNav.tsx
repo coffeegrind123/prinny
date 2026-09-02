@@ -46,7 +46,11 @@ import {
 import { UseStateProvider } from '../../../components/UseStateProvider';
 import { JoinAddressPrompt } from '../../../components/join-address-prompt';
 import { _RoomSearchParams } from '../../paths';
-import { factoryRoomIdByActivity, factoryRoomIdByAtoZ, factoryRoomIdByPinned } from '../../../utils/sort';
+import {
+  factoryRoomIdByActivity,
+  factoryRoomIdByAtoZ,
+  factoryRoomIdByPinned,
+} from '../../../utils/sort';
 import { useScrollElement } from '../../../hooks/useScrollElement';
 import { useScrollMargin } from '../../../hooks/useScrollMargin';
 import { useRegisterNavRoomOrder } from '../../../state/hooks/navRoomOrder';
@@ -136,7 +140,7 @@ export function RoomsNavActions({ base }: RoomsNavProps) {
                       ? withSearchParam<_RoomSearchParams>(path, {
                           viaServers: encodeSearchParamValueArray(viaServers),
                         })
-                      : path
+                      : path,
                   );
                 }}
               />
@@ -188,11 +192,14 @@ export function RoomsNavList({ base, scrollRef }: RoomsNavListProps) {
     // category used to have: a list showing only what has news reads better
     // newest-first, a full list reads better alphabetically.
     const items = Array.from(rooms).sort(
-      factoryRoomIdByPinned(pinned, unreadOnly ? factoryRoomIdByActivity(mx) : factoryRoomIdByAtoZ(mx))
+      factoryRoomIdByPinned(
+        pinned,
+        unreadOnly ? factoryRoomIdByActivity(mx) : factoryRoomIdByAtoZ(mx),
+      ),
     );
     if (unreadOnly) {
       return items.filter(
-        (rId) => pinned.has(rId) || roomToUnread.has(rId) || rId === selectedRoomId
+        (rId) => pinned.has(rId) || roomToUnread.has(rId) || rId === selectedRoomId,
       );
     }
     return items;

@@ -29,7 +29,7 @@ import { RefObject, useEffect, useState } from 'react';
  * same node.
  */
 export const useScrollElement = <T extends HTMLElement>(
-  scrollRef: RefObject<T | null>
+  scrollRef: RefObject<T | null>,
 ): T | null => {
   const [element, setElement] = useState<T | null>(() => scrollRef.current);
 

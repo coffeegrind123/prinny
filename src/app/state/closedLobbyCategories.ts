@@ -36,7 +36,7 @@ export const makeClosedLobbyCategoriesAtom = (userId: string): ClosedLobbyCatego
     (key, value) => {
       const arrayValue = Array.from(value);
       setLocalStorageItem(key, arrayValue);
-    }
+    },
   );
 
   const closedLobbyCategoriesAtom = atom<Set<string>, [ClosedLobbyCategoriesAction], undefined>(
@@ -47,7 +47,7 @@ export const makeClosedLobbyCategoriesAtom = (userId: string): ClosedLobbyCatego
           baseClosedLobbyCategoriesAtom,
           produce(get(baseClosedLobbyCategoriesAtom), (draft) => {
             draft.delete(action.categoryId);
-          })
+          }),
         );
         return;
       }
@@ -56,10 +56,10 @@ export const makeClosedLobbyCategoriesAtom = (userId: string): ClosedLobbyCatego
           baseClosedLobbyCategoriesAtom,
           produce(get(baseClosedLobbyCategoriesAtom), (draft) => {
             draft.add(action.categoryId);
-          })
+          }),
         );
       }
-    }
+    },
   );
 
   return closedLobbyCategoriesAtom;

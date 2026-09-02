@@ -10,7 +10,7 @@ import { useMatrixClient } from './useMatrixClient';
 import { useAlive } from './useAlive';
 
 export const useKeyBackupStatusChange = (
-  onChange: CryptoEventHandlerMap[CryptoEvent.KeyBackupStatus]
+  onChange: CryptoEventHandlerMap[CryptoEvent.KeyBackupStatus],
 ) => {
   const mx = useMatrixClient();
 
@@ -40,7 +40,7 @@ export const useKeyBackupStatus = (crypto: CryptoApi): boolean => {
 };
 
 export const useKeyBackupSessionsRemainingChange = (
-  onChange: CryptoEventHandlerMap[CryptoEvent.KeyBackupSessionsRemaining]
+  onChange: CryptoEventHandlerMap[CryptoEvent.KeyBackupSessionsRemaining],
 ) => {
   const mx = useMatrixClient();
 
@@ -53,7 +53,7 @@ export const useKeyBackupSessionsRemainingChange = (
 };
 
 export const useKeyBackupFailedChange = (
-  onChange: CryptoEventHandlerMap[CryptoEvent.KeyBackupFailed]
+  onChange: CryptoEventHandlerMap[CryptoEvent.KeyBackupFailed],
 ) => {
   const mx = useMatrixClient();
 
@@ -66,7 +66,7 @@ export const useKeyBackupFailedChange = (
 };
 
 export const useKeyBackupDecryptionKeyCached = (
-  onChange: CryptoEventHandlerMap[CryptoEvent.KeyBackupDecryptionKeyCached]
+  onChange: CryptoEventHandlerMap[CryptoEvent.KeyBackupDecryptionKeyCached],
 ) => {
   const mx = useMatrixClient();
 
@@ -86,7 +86,7 @@ export const useKeyBackupSync = (): [number, string | undefined] => {
     useCallback((count) => {
       setRemaining(count);
       setFailure(undefined);
-    }, [])
+    }, []),
   );
 
   useKeyBackupFailedChange(
@@ -95,7 +95,7 @@ export const useKeyBackupSync = (): [number, string | undefined] => {
         setFailure(f);
         setRemaining(0);
       }
-    }, [])
+    }, []),
   );
 
   return [remaining, failure];
@@ -126,8 +126,8 @@ export const useKeyBackupInfo = (crypto: CryptoApi): KeyBackupInfo | undefined |
           fetchInfo();
         }
       },
-      [fetchInfo]
-    )
+      [fetchInfo],
+    ),
   );
 
   return info;
@@ -135,7 +135,7 @@ export const useKeyBackupInfo = (crypto: CryptoApi): KeyBackupInfo | undefined |
 
 export const useKeyBackupTrust = (
   crypto: CryptoApi,
-  backupInfo: KeyBackupInfo
+  backupInfo: KeyBackupInfo,
 ): BackupTrustInfo | undefined => {
   const alive = useAlive();
   const [trust, setTrust] = useState<BackupTrustInfo>();

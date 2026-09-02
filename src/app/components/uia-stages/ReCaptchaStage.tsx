@@ -21,8 +21,7 @@ import { FallbackStageDialog } from './FallbackStage';
  * which is always correct because the server renders it.
  */
 const GOOGLE_SITEKEY_REG = /^6L[0-9A-Za-z_-]{20,}$/;
-const HCAPTCHA_SITEKEY_REG =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const HCAPTCHA_SITEKEY_REG = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 type CaptchaProvider = 'recaptcha' | 'hcaptcha' | 'unknown';
 
@@ -100,11 +99,7 @@ export function ReCaptchaStageDialog({ stageData, submitAuthDict, onCancel }: St
       <Box style={{ padding: config.space.S400 }} direction="Column" gap="400">
         <Text>Please check the box below to proceed.</Text>
         {provider === 'hcaptcha' ? (
-          <HCaptchaWidget
-            publicKey={publicKey}
-            session={session}
-            submitAuthDict={submitAuthDict}
-          />
+          <HCaptchaWidget publicKey={publicKey} session={session} submitAuthDict={submitAuthDict} />
         ) : (
           <ReCAPTCHA sitekey={publicKey} onChange={handleChange} />
         )}

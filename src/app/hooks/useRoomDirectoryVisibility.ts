@@ -10,7 +10,7 @@ export const useRoomDirectoryVisibility = (roomId: string) => {
     useCallback(async () => {
       const v = await mx.getRoomDirectoryVisibility(roomId);
       return v.visibility === Visibility.Public;
-    }, [mx, roomId])
+    }, [mx, roomId]),
   );
 
   useEffect(() => {
@@ -21,11 +21,11 @@ export const useRoomDirectoryVisibility = (roomId: string) => {
     async (visibility: boolean) => {
       await mx.setRoomDirectoryVisibility(
         roomId,
-        visibility ? Visibility.Public : Visibility.Private
+        visibility ? Visibility.Public : Visibility.Private,
       );
       await loadVisibility();
     },
-    [mx, roomId, loadVisibility]
+    [mx, roomId, loadVisibility],
   );
 
   return {

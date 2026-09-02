@@ -22,12 +22,9 @@ export function MobileSwipeBack({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleSwipe = useCallback(
-    () => {
-      navigate(-1 as any);
-    },
-    [navigate]
-  );
+  const handleSwipe = useCallback(() => {
+    navigate(-1 as any);
+  }, [navigate]);
 
   useSwipeGesture(ref, {
     edge: 'left',

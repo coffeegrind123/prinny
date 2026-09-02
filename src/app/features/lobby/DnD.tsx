@@ -21,7 +21,7 @@ export const useDraggableItem = (
   item: HierarchyItem,
   targetRef: RefObject<HTMLElement | null>,
   onDragging: (item?: HierarchyItem) => void,
-  dragHandleRef?: RefObject<HTMLElement | null>
+  dragHandleRef?: RefObject<HTMLElement | null>,
 ): boolean => {
   const [dragging, setDragging] = useState(false);
 
@@ -121,7 +121,7 @@ export function AfterItemDropTarget({
 export const useDnDMonitor = (
   scrollRef: RefObject<HTMLElement | null>,
   onDragging: (item?: HierarchyItem) => void,
-  onReorder: (item: HierarchyItem, container: DropContainerData) => void
+  onReorder: (item: HierarchyItem, container: DropContainerData) => void,
 ) => {
   useEffect(() => {
     const scrollElement = scrollRef.current;
@@ -140,7 +140,7 @@ export const useDnDMonitor = (
       }),
       autoScrollForElements({
         element: scrollElement,
-      })
+      }),
     );
   }, [scrollRef, onDragging, onReorder]);
 };

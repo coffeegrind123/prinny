@@ -3,8 +3,7 @@ import { ILoginFlow, IPasswordFlow, ISSOFlow, LoginFlow } from 'matrix-js-sdk/li
 
 export const getSSOFlow = (loginFlows: LoginFlow[]): ISSOFlow | undefined =>
   loginFlows.find((flow) => flow.type === 'm.login.sso' || flow.type === 'm.login.cas') as
-    | ISSOFlow
-    | undefined;
+    ISSOFlow | undefined;
 
 export const getPasswordFlow = (loginFlows: LoginFlow[]): IPasswordFlow | undefined =>
   loginFlows.find((flow) => flow.type === 'm.login.password') as IPasswordFlow;
@@ -25,7 +24,7 @@ export const useParsedLoginFlows = (loginFlows: LoginFlow[]) => {
       token: getTokenFlow(loginFlows),
       sso: getSSOFlow(loginFlows),
     }),
-    [loginFlows]
+    [loginFlows],
   );
 
   return parsedFlow;

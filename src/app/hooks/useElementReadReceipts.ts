@@ -38,7 +38,7 @@ function isUnrenderedEvent(mEvent: MatrixEvent, showHiddenEvents: boolean): bool
 function computeReceipts(
   room: Room,
   ownUserId: string,
-  showHiddenEvents: boolean
+  showHiddenEvents: boolean,
 ): Map<string, string[]> {
   const members = room.getJoinedMembers();
   const timeline = room.getLiveTimeline().getEvents();
@@ -153,7 +153,7 @@ function subscribeToReceipts(
   room: Room,
   ownUserId: string,
   showHiddenEvents: boolean,
-  onChange: () => void
+  onChange: () => void,
 ): () => void {
   const store = getStore(room, ownUserId, showHiddenEvents);
   store.subscribers.add(onChange);
@@ -213,7 +213,7 @@ function subscribeToReceipts(
 export function useElementReadReceipts(
   room: Room,
   enabled: boolean,
-  showHiddenEvents: boolean
+  showHiddenEvents: boolean,
 ): Map<string, string[]> {
   const mx = useMatrixClient();
   const ownUserId = mx.getUserId()!;
@@ -223,12 +223,12 @@ export function useElementReadReceipts(
       if (!enabled) return () => undefined;
       return subscribeToReceipts(room, ownUserId, showHiddenEvents, onChange);
     },
-    [room, ownUserId, enabled, showHiddenEvents]
+    [room, ownUserId, enabled, showHiddenEvents],
   );
 
   const getSnapshot = useCallback(
     () => (enabled ? getStore(room, ownUserId, showHiddenEvents).snapshot : EMPTY_RECEIPTS),
-    [room, ownUserId, enabled, showHiddenEvents]
+    [room, ownUserId, enabled, showHiddenEvents],
   );
 
   return useSyncExternalStore(subscribe, getSnapshot);

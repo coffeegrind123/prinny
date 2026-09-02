@@ -13,7 +13,7 @@ export const MessageDeletedContent = as<'div', { children?: never; reason?: stri
         <i>This message has been deleted</i>
       )}
     </Box>
-  )
+  ),
 );
 
 export const MessageUnsupportedContent = as<'div', { children?: never }>(({ ...props }, ref) => (

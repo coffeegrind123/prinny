@@ -12,10 +12,9 @@
  * mutates the caught error with extra fields. Nothing here ever passed it.
  */
 export function to<T, U = Error>(promise: Promise<T>): Promise<[U, undefined] | [null, T]> {
-  return promise.then<[null, T]>((value: T) => [null, value]).catch<[U, undefined]>((err: U) => [
-    err,
-    undefined,
-  ]);
+  return promise
+    .then<[null, T]>((value: T) => [null, value])
+    .catch<[U, undefined]>((err: U) => [err, undefined]);
 }
 
 export default to;

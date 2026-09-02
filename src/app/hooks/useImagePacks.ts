@@ -27,8 +27,8 @@ export const useUserImagePack = (): ImagePack | undefined => {
           setUserPack(getUserImagePack(mx));
         }
       },
-      [mx]
-    )
+      [mx],
+    ),
   );
 
   return userPack;
@@ -46,8 +46,8 @@ export const useGlobalImagePacks = (): ImagePack[] => {
           setGlobalPacks(getGlobalImagePacks(mx));
         }
       },
-      [mx]
-    )
+      [mx],
+    ),
   );
 
   useStateEventCallback(
@@ -60,15 +60,15 @@ export const useGlobalImagePacks = (): ImagePack[] => {
         if (eventType === StateEvent.PoniesRoomEmotes && roomId && typeof stateKey === 'string') {
           const global = !!globalPacks.find(
             (pack) =>
-              pack.address && pack.address.roomId === roomId && pack.address.stateKey === stateKey
+              pack.address && pack.address.roomId === roomId && pack.address.stateKey === stateKey,
           );
           if (global) {
             setGlobalPacks(getGlobalImagePacks(mx));
           }
         }
       },
-      [mx, globalPacks]
-    )
+      [mx, globalPacks],
+    ),
   );
 
   return globalPacks;
@@ -90,8 +90,8 @@ export const useRoomImagePack = (room: Room, stateKey: string): ImagePack | unde
           setRoomPack(getRoomImagePack(room, stateKey));
         }
       },
-      [room, stateKey]
-    )
+      [room, stateKey],
+    ),
   );
 
   return roomPack;
@@ -112,8 +112,8 @@ export const useRoomImagePacks = (room: Room): ImagePack[] => {
           setRoomPacks(getRoomImagePacks(room));
         }
       },
-      [room]
-    )
+      [room],
+    ),
   );
 
   return roomPacks;
@@ -134,8 +134,8 @@ export const useRoomsImagePacks = (rooms: Room[]) => {
           setRoomPacks(rooms.flatMap(getRoomImagePacks));
         }
       },
-      [rooms]
-    )
+      [rooms],
+    ),
   );
 
   return roomPacks;
@@ -158,7 +158,7 @@ export const useRelevantImagePacks = (usage: ImageUsage, rooms: Room[]): ImagePa
 
     const relPacks = packs.concat(
       globalPacks,
-      roomsPacks.filter((pack) => !globalPackIds.has(pack.id))
+      roomsPacks.filter((pack) => !globalPackIds.has(pack.id)),
     );
 
     return relPacks.filter((pack) => pack.getImages(usage).length > 0);

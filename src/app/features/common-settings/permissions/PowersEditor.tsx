@@ -228,7 +228,7 @@ function EditPower({ maxPower, power, tag, onSave, onClose }: EditPowerProps) {
                         onClick={
                           ((evt) =>
                             setCords(
-                              evt.currentTarget.getBoundingClientRect()
+                              evt.currentTarget.getBoundingClientRect(),
                             )) as MouseEventHandler<HTMLButtonElement>
                         }
                         type="button"
@@ -324,7 +324,7 @@ export function PowersEditor({ powerLevels, requestClose }: PowersEditorProps) {
         return editedTags;
       });
     },
-    [powerLevelTags]
+    [powerLevelTags],
   );
 
   const [applyState, applyChanges] = useAsyncCallback(
@@ -334,7 +334,7 @@ export function PowersEditor({ powerLevels, requestClose }: PowersEditorProps) {
         delete content[power];
       });
       await mx.sendStateEvent(room.roomId, StateEvent.PowerLevelTags as any, content);
-    }, [mx, room, powerLevelTags, editedPowerTags, deleted])
+    }, [mx, room, powerLevelTags, editedPowerTags, deleted]),
   );
 
   const resetChanges = useCallback(() => {

@@ -39,7 +39,7 @@ export class ASCIILexicalTable {
       console.warn(
         `[!] Warning: ASCIILexicalTable size is larger than the Number.MAX_SAFE_INTEGER: ${this.size()} > ${
           Number.MAX_SAFE_INTEGER
-        }`
+        }`,
       );
     }
   }
@@ -333,7 +333,7 @@ export class ASCIILexicalTable {
 
 const findNextFilledKey = (
   fromIndex: number,
-  keys: Array<string | undefined>
+  keys: Array<string | undefined>,
 ): [number, string] | [-1, undefined] => {
   for (let j = fromIndex; j < keys.length; j += 1) {
     const key = keys[j];
@@ -347,11 +347,11 @@ const findNextFilledKey = (
 
 export const orderKeys = (
   lex: ASCIILexicalTable,
-  keys: Array<string | undefined>
+  keys: Array<string | undefined>,
 ): Array<string> | undefined => {
   const newKeys: string[] = [];
 
-  for (let i = 0; i < keys.length; ) {
+  for (let i = 0; i < keys.length;) {
     const key = keys[i];
     const collectedKeys: string[] = [];
     const [nextKeyIndex, nextKey] = findNextFilledKey(i + 1, keys);
@@ -368,7 +368,7 @@ export const orderKeys = (
       const generatedKeys = lex.nBetween(
         keyToGenerateCount,
         key ?? lex.first(),
-        nextKey ?? lex.last()
+        nextKey ?? lex.last(),
       );
       if (generatedKeys) {
         collectedKeys.push(...generatedKeys);

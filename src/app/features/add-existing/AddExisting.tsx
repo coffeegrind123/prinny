@@ -98,13 +98,13 @@ export function AddExistingModal({ parentId, space, requestClose }: AddExistingM
 
   const getRoomNameStr: SearchItemStrGetter<string> = useCallback(
     (rId) => getRoom(rId)?.name ?? rId,
-    [getRoom]
+    [getRoom],
   );
 
   const [searchResult, searchRoom, resetSearch] = useAsyncSearch(
     allItems,
     getRoomNameStr,
-    SEARCH_OPTS
+    SEARCH_OPTS,
   );
   const queryHighlighRegex = searchResult?.query
     ? makeHighlightRegex(searchResult.query.split(' '))
@@ -143,12 +143,12 @@ export function AddExistingModal({ parentId, space, requestClose }: AddExistingM
               suggested: false,
               via,
             },
-            room.roomId
+            room.roomId,
           );
         });
       },
-      [mx, parentId]
-    )
+      [mx, parentId],
+    ),
   );
   const applyingChanges = applyState.status === AsyncStatus.Loading;
 

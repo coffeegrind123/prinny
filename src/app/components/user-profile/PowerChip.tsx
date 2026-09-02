@@ -183,8 +183,8 @@ export function PowerChip({ userId }: { userId: string }) {
       async (power: number) => {
         await mx.setPowerLevel(room.roomId, userId, power);
       },
-      [mx, userId, room]
-    )
+      [mx, userId, room],
+    ),
   );
   const changing = powerState.status === AsyncStatus.Loading;
   const error = powerState.status === AsyncStatus.Error;
@@ -297,13 +297,13 @@ export function PowerChip({ userId }: { userId: string }) {
                       openSpaceSettings(
                         room.roomId,
                         space?.roomId,
-                        SpaceSettingsPage.PermissionsPage
+                        SpaceSettingsPage.PermissionsPage,
                       );
                     } else {
                       openRoomSettings(
                         room.roomId,
                         space?.roomId,
-                        RoomSettingsPage.PermissionsPage
+                        RoomSettingsPage.PermissionsPage,
                       );
                     }
                     close();

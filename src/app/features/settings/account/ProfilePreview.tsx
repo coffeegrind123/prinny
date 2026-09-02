@@ -23,10 +23,10 @@ export function ProfilePreview({ profile, bannerMxc, userId, requestEdit }: Prof
   const useAuthentication = useMediaAuthentication();
   const displayName = profile.displayName ?? getMxIdLocalPart(userId) ?? userId;
   const avatarUrl = profile.avatarUrl
-    ? mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 128, 128, 'crop') ?? undefined
+    ? (mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 128, 128, 'crop') ?? undefined)
     : undefined;
   const bannerUrl = bannerMxc
-    ? mxcUrlToHttp(mx, bannerMxc, useAuthentication) ?? undefined
+    ? (mxcUrlToHttp(mx, bannerMxc, useAuthentication) ?? undefined)
     : undefined;
   const pronouns = getProfilePronouns(profile.extended)
     .map((pronoun) => pronoun.summary)

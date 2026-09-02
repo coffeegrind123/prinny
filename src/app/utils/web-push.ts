@@ -95,7 +95,7 @@ async function ensureSubscription(vapidPublicKey: string): Promise<PushSubscript
  */
 export async function registerWebPushPusher(
   mx: MatrixClient,
-  config: WebPushConfig
+  config: WebPushConfig,
 ): Promise<boolean> {
   if (!config.pushGateway || !config.vapidPublicKey) return false;
 

@@ -1455,8 +1455,7 @@ export const UrlPreviewCard = as<
     // one. Tenor declares all three, but they are read in document order and a
     // page that omits the bare `og:video` previously produced no player at all.
     const ogVideoUrl = (prev['og:video'] || prev['og:video:url'] || prev['og:video:secure_url']) as
-      | string
-      | undefined;
+      string | undefined;
     const bandcampEmbedUrl = isBandcampEmbedUrl(ogVideoUrl) ? ogVideoUrl : undefined;
     const inlineOgVideoUrl =
       !bandcampEmbedUrl && isWebUrl(ogVideoUrl) && !/video\.twimg\.com/.test(ogVideoUrl)

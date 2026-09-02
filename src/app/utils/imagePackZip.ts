@@ -22,7 +22,7 @@ const sanitizeSetName = (name: string): string => {
 export const downloadImagePackZip = async (
   mx: MatrixClient,
   useAuthentication: boolean,
-  pack: ImagePack
+  pack: ImagePack,
 ): Promise<void> => {
   const images = Array.from(pack.images.collection.values());
   if (images.length === 0) return;
@@ -47,7 +47,7 @@ export const downloadImagePackZip = async (
       usedNames.add(name);
 
       return { name, data: new Uint8Array(await blob.arrayBuffer()) };
-    })
+    }),
   );
 
   // Same save path as every other download in the app, so the desktop and

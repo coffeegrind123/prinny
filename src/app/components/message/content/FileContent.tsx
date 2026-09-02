@@ -95,7 +95,7 @@ export function ReadTextFile({ body, mimeType, url, encInfo, renderViewer }: Rea
       const text = fileContent.text();
       setTextViewer(true);
       return text;
-    }, [mx, useAuthentication, mimeType, encInfo, url])
+    }, [mx, useAuthentication, mimeType, encInfo, url]),
   );
 
   return (
@@ -184,7 +184,7 @@ export function ReadPdfFile({ body, mimeType, url, encInfo, renderViewer }: Read
         : await downloadMedia(mediaUrl);
       setPdfViewer(true);
       return URL.createObjectURL(fileContent);
-    }, [mx, url, useAuthentication, mimeType, encInfo])
+    }, [mx, url, useAuthentication, mimeType, encInfo]),
   );
 
   return (
@@ -292,5 +292,5 @@ export const FileContent = as<'div', FileContentProps>(
       {mimeType === 'application/pdf' && renderAsPdfFile()}
       {children}
     </Box>
-  )
+  ),
 );

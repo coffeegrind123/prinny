@@ -32,7 +32,7 @@ export const useRoomCreators = (room: Room): Set<string> => {
 
   const creators = useMemo(
     () => (createEvent ? getRoomCreators(createEvent) : new Set<string>()),
-    [createEvent]
+    [createEvent],
   );
 
   return creators;

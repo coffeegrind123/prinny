@@ -34,7 +34,7 @@ const useVisibilityStr = () =>
       [HistoryVisibility.Shared]: 'All Messages',
       [HistoryVisibility.WorldReadable]: 'All Messages (Guests)',
     }),
-    []
+    [],
   );
 
 const useVisibilityMenu = () =>
@@ -45,7 +45,7 @@ const useVisibilityMenu = () =>
       HistoryVisibility.Joined,
       HistoryVisibility.WorldReadable,
     ],
-    []
+    [],
   );
 
 type RoomHistoryVisibilityProps = {
@@ -78,8 +78,8 @@ export function RoomHistoryVisibility({ permissions }: RoomHistoryVisibilityProp
         };
         await mx.sendStateEvent(room.roomId, StateEvent.RoomHistoryVisibility as any, content);
       },
-      [mx, room.roomId]
-    )
+      [mx, room.roomId],
+    ),
   );
   const submitting = submitState.status === AsyncStatus.Loading;
 

@@ -62,7 +62,7 @@ export const getViaServers = (room: Room): string[] => {
   }
   const serverToPop = getServerToPopulation();
   const sortedServers = Object.keys(serverToPop).sort(
-    (svrA, svrB) => serverToPop[svrB] - serverToPop[svrA]
+    (svrA, svrB) => serverToPop[svrB] - serverToPop[svrA],
   );
   const mostPop3 = sortedServers.slice(0, 3);
   if (via.length === 0) return mostPop3;

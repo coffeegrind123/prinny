@@ -23,8 +23,7 @@ import { RectCords } from 'folds';
  * steal the binding from the timeline.
  */
 export type MessageActionRequest =
-  | { type: 'add-reaction'; anchor: RectCords }
-  | { type: 'forward' };
+  { type: 'add-reaction'; anchor: RectCords } | { type: 'forward' };
 
 type Listener = (request: MessageActionRequest) => void;
 

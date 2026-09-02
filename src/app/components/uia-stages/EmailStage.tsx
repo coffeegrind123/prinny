@@ -95,14 +95,14 @@ export function EmailStageDialog({
         session,
       });
     },
-    [submitAuthDict, session, clientSecret]
+    [submitAuthDict, session, clientSecret],
   );
 
   const handleEmailSubmit = useCallback(
     (userEmail: string) => {
       requestEmailToken(userEmail, clientSecret);
     },
-    [clientSecret, requestEmailToken]
+    [clientSecret, requestEmailToken],
   );
 
   useEffect(() => {

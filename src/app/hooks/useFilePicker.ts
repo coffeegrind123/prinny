@@ -3,7 +3,7 @@ import { selectFile } from '../utils/dom';
 
 export const useFilePicker = <M extends boolean | undefined = undefined>(
   onSelect: (file: M extends true ? File[] : File) => void,
-  multiple?: M
+  multiple?: M,
 ) =>
   useCallback(
     async (accept: string) => {
@@ -11,5 +11,5 @@ export const useFilePicker = <M extends boolean | undefined = undefined>(
       if (!file) return;
       onSelect(file);
     },
-    [multiple, onSelect]
+    [multiple, onSelect],
   );

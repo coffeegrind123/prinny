@@ -10,7 +10,7 @@ export const useAccountManagementActions = () => {
       accountDeactivate: 'org.matrix.account_deactivate',
       crossSigningReset: 'org.matrix.cross_signing_reset',
     }),
-    []
+    [],
   );
 
   return actions;

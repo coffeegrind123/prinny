@@ -9,7 +9,7 @@ type MemberSpeakingProps = {
 };
 export function MemberSpeaking({ room, speakers }: MemberSpeakingProps) {
   const speakingNames = Array.from(speakers).map(
-    (userId) => getMemberDisplayName(room, userId) ?? getMxIdLocalPart(userId) ?? userId
+    (userId) => getMemberDisplayName(room, userId) ?? getMxIdLocalPart(userId) ?? userId,
   );
   return (
     <Box alignItems="Center" gap="100">

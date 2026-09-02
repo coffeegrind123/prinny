@@ -60,7 +60,7 @@ const DirectRoomMenu = forwardRef<HTMLDivElement, DirectRoomMenuProps>(
         </Box>
       </Menu>
     );
-  }
+  },
 );
 
 type DirectRailButtonProps = {
@@ -158,7 +158,7 @@ export function DirectRailButtons() {
       Array.from(directs)
         .filter((rId) => roomToUnread.has(rId) || rId === selectedRoomId)
         .sort(factoryRoomIdByActivity(mx)),
-    [mx, directs, roomToUnread, selectedRoomId]
+    [mx, directs, roomToUnread, selectedRoomId],
   );
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = (evt) => {

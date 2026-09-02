@@ -125,19 +125,19 @@ export function Room() {
               {/* On anything narrower than desktop the thread takes over the
                 room, matching how search behaves — a 360px panel beside a
                 phone-width timeline would leave neither usable. */}
-            {openThreadRootId && screenSize !== ScreenSize.Desktop && (
-              <Box style={{ position: 'absolute', inset: 0, zIndex: 11 }}>
-                <ThreadView
-                  key={openThreadRootId}
-                  room={room}
-                  rootId={openThreadRootId}
-                  onClose={closeThread}
-                />
-              </Box>
-            )}
-            {searchOpen && screenSize !== ScreenSize.Desktop && (
-              <Box style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
-                {/*
+              {openThreadRootId && screenSize !== ScreenSize.Desktop && (
+                <Box style={{ position: 'absolute', inset: 0, zIndex: 11 }}>
+                  <ThreadView
+                    key={openThreadRootId}
+                    room={room}
+                    rootId={openThreadRootId}
+                    onClose={closeThread}
+                  />
+                </Box>
+              )}
+              {searchOpen && screenSize !== ScreenSize.Desktop && (
+                <Box style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
+                  {/*
                   Same component the desktop side panel uses, rendered
                   full-screen. There used to be a second, messages-only search
                   view here, so the toolbar's search button led somewhere
@@ -146,49 +146,49 @@ export function Room() {
                   SearchResultGroup), so collapsing onto this one costs no
                   capability and gains people search on mobile.
                 */}
-                <MembersDrawer
-                  key={room.roomId}
-                  room={room}
-                  members={members}
-                  overlay
-                  onClose={() => setSearchOpen(false)}
-                />
-              </Box>
-            )}
-          </Box>
-        )}
+                  <MembersDrawer
+                    key={room.roomId}
+                    room={room}
+                    members={members}
+                    overlay
+                    onClose={() => setSearchOpen(false)}
+                  />
+                </Box>
+              )}
+            </Box>
+          )}
 
-        {callView && chat && (
-          <>
-            {screenSize === ScreenSize.Desktop && (
-              <ResizeHandle paneId="callChatPane" side="After" label="call chat" />
-            )}
-            <CallChatView />
-          </>
-        )}
-        {/* A thread takes the side panel when one is open, in preference to
+          {callView && chat && (
+            <>
+              {screenSize === ScreenSize.Desktop && (
+                <ResizeHandle paneId="callChatPane" side="After" label="call chat" />
+              )}
+              <CallChatView />
+            </>
+          )}
+          {/* A thread takes the side panel when one is open, in preference to
             the member list — both cannot share the space, and the thread is
             what the user just asked for. */}
-        {!callView && screenSize === ScreenSize.Desktop && openThreadRootId && (
-          <>
-            <ResizeHandle paneId="threadPane" side="After" label="thread panel" />
-            <Box shrink="No" style={threadPane.style}>
-              <ThreadView
-                key={openThreadRootId}
-                room={room}
-                rootId={openThreadRootId}
-                onClose={closeThread}
-              />
-            </Box>
-          </>
-        )}
-        {!callView && screenSize === ScreenSize.Desktop && !openThreadRootId && isDrawer && (
-          <>
-            <ResizeHandle paneId="membersPane" side="After" label="member list" />
-            <MembersDrawer key={room.roomId} room={room} members={members} />
-          </>
-        )}
-      </Box>
+          {!callView && screenSize === ScreenSize.Desktop && openThreadRootId && (
+            <>
+              <ResizeHandle paneId="threadPane" side="After" label="thread panel" />
+              <Box shrink="No" style={threadPane.style}>
+                <ThreadView
+                  key={openThreadRootId}
+                  room={room}
+                  rootId={openThreadRootId}
+                  onClose={closeThread}
+                />
+              </Box>
+            </>
+          )}
+          {!callView && screenSize === ScreenSize.Desktop && !openThreadRootId && isDrawer && (
+            <>
+              <ResizeHandle paneId="membersPane" side="After" label="member list" />
+              <MembersDrawer key={room.roomId} room={room} members={members} />
+            </>
+          )}
+        </Box>
       </MobileSwipeBack>
     </PowerLevelsContextProvider>
   );

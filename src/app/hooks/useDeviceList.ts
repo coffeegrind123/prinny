@@ -5,7 +5,7 @@ import { CryptoEvent, CryptoEventHandlerMap } from 'matrix-js-sdk/lib/crypto-api
 import { useMatrixClient } from './useMatrixClient';
 
 export const useDeviceListChange = (
-  onChange: CryptoEventHandlerMap[CryptoEvent.DevicesUpdated]
+  onChange: CryptoEventHandlerMap[CryptoEvent.DevicesUpdated],
 ) => {
   const mx = useMatrixClient();
   useEffect(() => {
@@ -46,8 +46,8 @@ export function useDeviceList(): [undefined | IMyDevice[], () => Promise<void>] 
           refreshDeviceList();
         }
       },
-      [mx, refreshDeviceList]
-    )
+      [mx, refreshDeviceList],
+    ),
   );
 
   return [deviceList ?? undefined, refreshDeviceList];
@@ -60,17 +60,17 @@ export const useDeviceIds = (devices: IMyDevice[] | undefined): string[] => {
 };
 
 export const useSplitCurrentDevice = (
-  devices: IMyDevice[] | undefined
+  devices: IMyDevice[] | undefined,
 ): [IMyDevice | undefined, IMyDevice[] | undefined] => {
   const mx = useMatrixClient();
   const currentDeviceId = mx.getDeviceId();
   const currentDevice = useMemo(
     () => devices?.find((d) => d.device_id === currentDeviceId),
-    [devices, currentDeviceId]
+    [devices, currentDeviceId],
   );
   const otherDevices = useMemo(
     () => devices?.filter((device) => device.device_id !== currentDeviceId),
-    [devices, currentDeviceId]
+    [devices, currentDeviceId],
   );
 
   return [currentDevice, otherDevices];

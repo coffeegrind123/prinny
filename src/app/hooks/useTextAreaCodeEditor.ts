@@ -6,7 +6,7 @@ import { GetTarget } from '../plugins/text-area/type';
 
 export const useTextAreaCodeEditor = (
   textAreaRef: MutableRefObject<HTMLTextAreaElement | null>,
-  intentSpaceCount: number
+  intentSpaceCount: number,
 ) => {
   const getTarget: GetTarget = useCallback(() => {
     const target = textAreaRef.current;

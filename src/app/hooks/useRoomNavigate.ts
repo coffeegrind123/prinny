@@ -32,7 +32,7 @@ export const useRoomNavigate = () => {
       const roomIdOrAlias = getCanonicalAliasOrRoomId(mx, roomId);
       navigate(getSpacePath(roomIdOrAlias));
     },
-    [mx, navigate]
+    [mx, navigate],
   );
 
   const navigateRoom = useCallback(
@@ -53,7 +53,7 @@ export const useRoomNavigate = () => {
 
         navigate(
           getSpaceRoomPath(pSpaceIdOrAlias, openSpaceTimeline ? roomId : roomIdOrAlias, eventId),
-          opts
+          opts,
         );
         return;
       }
@@ -70,10 +70,10 @@ export const useRoomNavigate = () => {
         roomsPseudoSpace
           ? getRoomsRoomPath(roomIdOrAlias, eventId)
           : getHomeRoomPath(roomIdOrAlias, eventId),
-        opts
+        opts,
       );
     },
-    [mx, navigate, spaceSelectedId, roomToParents, mDirects, developerTools, roomsPseudoSpace]
+    [mx, navigate, spaceSelectedId, roomToParents, mDirects, developerTools, roomsPseudoSpace],
   );
 
   return {

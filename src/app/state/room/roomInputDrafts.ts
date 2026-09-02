@@ -22,9 +22,7 @@ export type TUploadItem = {
 
 export type TUploadListAtom = ReturnType<typeof createListAtom<TUploadItem>>;
 
-export const roomIdToUploadItemsAtomFamily = atomFamily<string, TUploadListAtom>(
-  createListAtom
-);
+export const roomIdToUploadItemsAtomFamily = atomFamily<string, TUploadListAtom>(createListAtom);
 
 export const roomUploadAtomFamily = createUploadAtomFamily();
 
@@ -42,7 +40,7 @@ export type RoomIdToMsgAction =
 const createMsgDraftAtom = () => atom<Descendant[]>([]);
 export type TMsgDraftAtom = ReturnType<typeof createMsgDraftAtom>;
 export const roomIdToMsgDraftAtomFamily = atomFamily<string, TMsgDraftAtom>(() =>
-  createMsgDraftAtom()
+  createMsgDraftAtom(),
 );
 
 export type IReplyDraft = {
@@ -55,5 +53,5 @@ export type IReplyDraft = {
 const createReplyDraftAtom = () => atom<IReplyDraft | undefined>(undefined);
 export type TReplyDraftAtom = ReturnType<typeof createReplyDraftAtom>;
 export const roomIdToReplyDraftAtomFamily = atomFamily<string, TReplyDraftAtom>(() =>
-  createReplyDraftAtom()
+  createReplyDraftAtom(),
 );

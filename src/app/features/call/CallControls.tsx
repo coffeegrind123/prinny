@@ -44,11 +44,11 @@ export function CallControls({ callEmbed }: CallControlsProps) {
       if (!element) return;
       setCompact(element.clientWidth < 500);
     }, []),
-    useCallback(() => controlRef.current, [])
+    useCallback(() => controlRef.current, []),
   );
 
   const { microphone, video, sound, screenshare, spotlight } = useCallControlState(
-    callEmbed.control
+    callEmbed.control,
   );
 
   const [cords, setCords] = useState<RectCords>();
@@ -72,11 +72,14 @@ export function CallControls({ callEmbed }: CallControlsProps) {
     setCords(undefined);
   };
 
-  const handleMicrophoneToggle = useCallback(() => callEmbed.control.toggleMicrophone(), [callEmbed]);
+  const handleMicrophoneToggle = useCallback(
+    () => callEmbed.control.toggleMicrophone(),
+    [callEmbed],
+  );
   const handleVideoToggle = useCallback(() => callEmbed.control.toggleVideo(), [callEmbed]);
 
   const [hangupState, hangup] = useAsyncCallback(
-    useCallback(() => callEmbed.hangup(), [callEmbed])
+    useCallback(() => callEmbed.hangup(), [callEmbed]),
   );
   const exiting =
     hangupState.status === AsyncStatus.Loading || hangupState.status === AsyncStatus.Success;
@@ -117,10 +120,7 @@ export function CallControls({ callEmbed }: CallControlsProps) {
       >
         <Box alignItems="Center" gap="Inherit" grow="Yes" direction={compact ? 'Column' : 'Row'}>
           <Box shrink="No" alignItems="Inherit" justifyContent="Inherit" gap="200">
-            <MicrophoneButton
-              enabled={microphone}
-              onToggle={handleMicrophoneToggle}
-            />
+            <MicrophoneButton enabled={microphone} onToggle={handleMicrophoneToggle} />
             <SoundButton enabled={sound} onToggle={() => callEmbed.control.toggleSound()} />
           </Box>
           {!compact && <ControlDivider />}

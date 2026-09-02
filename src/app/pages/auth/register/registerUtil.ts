@@ -37,7 +37,7 @@ export type CustomRegisterResponse = {
 export type RegisterResult = [IAuthData, undefined] | [undefined, CustomRegisterResponse];
 export const register = async (
   mx: MatrixClient,
-  requestData: RegisterRequest
+  requestData: RegisterRequest,
 ): Promise<RegisterResult> => {
   const [err, res] = await to<RegisterResponse, MatrixError>(mx.registerRequest(requestData));
 
@@ -130,7 +130,7 @@ export const useRegisterComplete = (data?: CustomRegisterResponse) => {
           withSearchParam<LoginPathSearchParams>(getLoginPath(userServer), {
             username,
           }),
-          { replace: true }
+          { replace: true },
         );
       }
     }

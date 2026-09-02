@@ -115,7 +115,11 @@ function MemberItem({
         <AvatarPresence
           badge={
             userPresence ? (
-              <PresenceBadge presence={userPresence.presence} status={userPresence.status} size="200" />
+              <PresenceBadge
+                presence={userPresence.presence}
+                status={userPresence.status}
+                size="200"
+              />
             ) : null
           }
         >
@@ -239,13 +243,13 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
 
   const filteredMembers = useMemo(
     () => members.filter(membershipFilter.filterFn).sort(memberSort.sortFn).sort(memberPowerSort),
-    [members, membershipFilter, memberSort, memberPowerSort]
+    [members, membershipFilter, memberSort, memberPowerSort],
   );
 
   const [result, search, resetSearch] = useAsyncSearch(
     filteredMembers,
     getRoomMemberStr,
-    SEARCH_OPTIONS
+    SEARCH_OPTIONS,
   );
   if (!result && searchInputRef.current?.value) search(searchInputRef.current.value);
 
@@ -272,9 +276,9 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
         // term.
         setMessageTerm(value.length >= MIN_MESSAGE_SEARCH_TERM_LEN ? value : undefined);
       },
-      [search, resetSearch]
+      [search, resetSearch],
     ),
-    { wait: 300 }
+    { wait: 300 },
   );
 
   const handleMessageOpen = useCallback(
@@ -284,7 +288,7 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
       // jumped-to message is visible.
       if (screenSize !== ScreenSize.Desktop) closeDrawer();
     },
-    [navigateRoom, screenSize, closeDrawer]
+    [navigateRoom, screenSize, closeDrawer],
   );
 
   // The toolbar search button has no drawer of its own to open on desktop, so it
@@ -321,7 +325,7 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
     <Box
       className={classNames(
         overlay ? css.MembersDrawerOverlay : css.MembersDrawer,
-        ContainerColor({ variant: 'Background' })
+        ContainerColor({ variant: 'Background' }),
       )}
       shrink="No"
       grow={overlay ? 'Yes' : undefined}
@@ -349,11 +353,7 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
               }
             >
               {(triggerRef) => (
-                <IconButton
-                  ref={triggerRef}
-                  variant="Background"
-                  onClick={closeDrawer}
-                >
+                <IconButton ref={triggerRef} variant="Background" onClick={closeDrawer}>
                   <Icon src={Icons.Cross} />
                 </IconButton>
               )}
@@ -433,7 +433,7 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
                         onClick={
                           ((evt) =>
                             setAnchor(
-                              evt.currentTarget.getBoundingClientRect()
+                              evt.currentTarget.getBoundingClientRect(),
                             )) as MouseEventHandler<HTMLButtonElement>
                         }
                         variant="Background"
@@ -468,7 +468,7 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
                         onClick={
                           ((evt) =>
                             setAnchor(
-                              evt.currentTarget.getBoundingClientRect()
+                              evt.currentTarget.getBoundingClientRect(),
                             )) as MouseEventHandler<HTMLButtonElement>
                         }
                         variant="Background"
@@ -549,7 +549,7 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
                         onClick={handleMemberClick}
                         pressed={openProfileUserId === tagOrMember.userId}
                         typing={typingMembers.some(
-                          (receipt) => receipt.userId === tagOrMember.userId
+                          (receipt) => receipt.userId === tagOrMember.userId,
                         )}
                       />
                     </div>

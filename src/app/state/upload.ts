@@ -92,7 +92,7 @@ export const createUploadAtom = (file: TUploadContent) => {
           error: update.error,
         });
       }
-    }
+    },
   );
 };
 export type TUploadAtom = ReturnType<typeof createUploadAtom>;
@@ -100,14 +100,14 @@ export type TUploadAtom = ReturnType<typeof createUploadAtom>;
 export const useBindUploadAtom = (
   mx: MatrixClient,
   uploadAtom: TUploadAtom,
-  hideFilename?: boolean
+  hideFilename?: boolean,
 ) => {
   const [upload, setUpload] = useAtom(uploadAtom);
   const { file } = upload;
 
   const handleProgress = useThrottle(
     useCallback((progress: UploadProgress) => setUpload({ progress }), [setUpload]),
-    { immediate: true, wait: 200 }
+    { immediate: true, wait: 200 },
   );
 
   const startUpload = useCallback(
@@ -119,7 +119,7 @@ export const useBindUploadAtom = (
         onSuccess: (mxc) => setUpload({ mxc }),
         onError: (error) => setUpload({ error }),
       }),
-    [mx, file, hideFilename, setUpload, handleProgress]
+    [mx, file, hideFilename, setUpload, handleProgress],
   );
 
   const cancelUpload = useCallback(async () => {
@@ -141,6 +141,6 @@ export type TUploadAtomFamily = ReturnType<typeof createUploadAtomFamily>;
 
 export const createUploadFamilyObserverAtom = (
   uploadFamily: TUploadAtomFamily,
-  uploads: TUploadContent[]
+  uploads: TUploadContent[],
 ) => atom<Upload[]>((get) => uploads.map((upload) => get(uploadFamily(upload))));
 export type TUploadFamilyObserverAtom = ReturnType<typeof createUploadFamilyObserverAtom>;

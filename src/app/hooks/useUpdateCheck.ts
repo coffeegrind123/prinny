@@ -8,13 +8,7 @@ import { isMobile as isMobileTauri } from '../utils/platform';
 import LogoSVG from '../../../public/res/svg/prinny.svg';
 
 type UpdateStatus =
-  | 'idle'
-  | 'checking'
-  | 'available'
-  | 'downloading'
-  | 'installing'
-  | 'error'
-  | 'no-update';
+  'idle' | 'checking' | 'available' | 'downloading' | 'installing' | 'error' | 'no-update';
 
 interface UpdateInfo {
   version: string;

@@ -17,13 +17,7 @@
  */
 
 export type ClassValue =
-  | string
-  | number
-  | null
-  | undefined
-  | false
-  | ClassValue[]
-  | { [key: string]: unknown };
+  string | number | null | undefined | false | ClassValue[] | { [key: string]: unknown };
 
 const push = (out: string[], value: ClassValue): void => {
   // Plain falsiness, which is what the real package tests. That drops `''`,

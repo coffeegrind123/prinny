@@ -13,7 +13,7 @@ const INITIAL_PAN = {
 export const usePan = (active: boolean) => {
   const [pan, setPan] = useState<Pan>(INITIAL_PAN);
   const [cursor, setCursor] = useState<'grab' | 'grabbing' | 'initial'>(
-    active ? 'grab' : 'initial'
+    active ? 'grab' : 'initial',
   );
 
   useEffect(() => {

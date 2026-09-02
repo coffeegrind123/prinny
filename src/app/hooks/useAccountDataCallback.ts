@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 export const useAccountDataCallback = (
   mx: MatrixClient,
-  onAccountData: ClientEventHandlerMap[ClientEvent.AccountData]
+  onAccountData: ClientEventHandlerMap[ClientEvent.AccountData],
 ) => {
   useEffect(() => {
     mx.on(ClientEvent.AccountData, onAccountData);

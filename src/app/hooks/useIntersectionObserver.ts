@@ -10,13 +10,13 @@ export type IntersectionObserverOpts = {
 
 export const getIntersectionObserverEntry = (
   target: Element | Document,
-  entries: IntersectionObserverEntry[]
+  entries: IntersectionObserverEntry[],
 ): IntersectionObserverEntry | undefined => entries.find((entry) => entry.target === target);
 
 export const useIntersectionObserver = (
   onIntersectionCallback: OnIntersectionCallback,
   opts?: IntersectionObserverOpts | (() => IntersectionObserverOpts),
-  observeElement?: Element | null | (() => Element | null)
+  observeElement?: Element | null | (() => Element | null),
 ): IntersectionObserver | undefined => {
   const [intersectionObserver, setIntersectionObserver] = useState<IntersectionObserver>();
 

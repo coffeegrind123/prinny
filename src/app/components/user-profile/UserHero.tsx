@@ -1,14 +1,5 @@
 import { useState } from 'react';
-import {
-  Avatar,
-  Box,
-  Icon,
-  Icons,
-  Overlay,
-  OverlayBackdrop,
-  OverlayCenter,
-  Text,
-} from 'folds';
+import { Avatar, Box, Icon, Icons, Overlay, OverlayBackdrop, OverlayCenter, Text } from 'folds';
 import classNames from 'classnames';
 import { FocusTrap } from 'focus-trap-react';
 import * as css from './styles.css';

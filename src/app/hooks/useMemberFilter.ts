@@ -45,12 +45,12 @@ export const useMembershipFilterMenu = (): MembershipFilterItem[] =>
         filterFn: MembershipFilter.filterBanned,
       },
     ],
-    []
+    [],
   );
 
 export const useMembershipFilter = (
   index: number,
-  membershipFilter: MembershipFilterItem[]
+  membershipFilter: MembershipFilterItem[],
 ): MembershipFilterItem => {
   const filter = membershipFilter[index] ?? membershipFilter[0];
   return filter;

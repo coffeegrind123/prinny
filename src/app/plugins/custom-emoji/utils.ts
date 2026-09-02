@@ -50,8 +50,7 @@ export function getRoomImagePacks(room: Room): ImagePack[] {
 
 export function getGlobalImagePacks(mx: MatrixClient): ImagePack[] {
   const emoteRoomsContent = getAccountData(mx, AccountDataEvent.PoniesEmoteRooms)?.getContent() as
-    | EmoteRoomsContent
-    | undefined;
+    EmoteRoomsContent | undefined;
   if (typeof emoteRoomsContent !== 'object') return [];
 
   const { rooms: roomIdToPackInfo } = emoteRoomsContent;

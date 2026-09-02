@@ -18,9 +18,7 @@ export type AccountDataEventType = AccountDataEvent | keyof AccountDataEvents | 
 
 export function useAccountData(eventType: AccountDataEventType) {
   const mx = useMatrixClient();
-  const [event, setEvent] = useState(() =>
-    mx.getAccountData(eventType as keyof AccountDataEvents)
-  );
+  const [event, setEvent] = useState(() => mx.getAccountData(eventType as keyof AccountDataEvents));
 
   useAccountDataCallback(
     mx,
@@ -30,8 +28,8 @@ export function useAccountData(eventType: AccountDataEventType) {
           setEvent(evt);
         }
       },
-      [eventType, setEvent]
-    )
+      [eventType, setEvent],
+    ),
   );
 
   return event;

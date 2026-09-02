@@ -25,5 +25,5 @@ export const RoomNavCategoryLabel = as<'div', { children: ReactNode }>(
         {children}
       </Text>
     </Box>
-  )
+  ),
 );

@@ -39,7 +39,7 @@ export const useMemberSortMenu = (): MemberSortItem[] =>
         sortFn: MemberSort.Oldest,
       },
     ],
-    []
+    [],
   );
 
 export const useMemberSort = (index: number, memberSort: MemberSortItem[]): MemberSortItem => {
@@ -49,7 +49,7 @@ export const useMemberSort = (index: number, memberSort: MemberSortItem[]): Memb
 
 export const useMemberPowerSort = (
   creators: Set<string>,
-  getPowerLevel: (userId: string) => number
+  getPowerLevel: (userId: string) => number,
 ): MemberSortFn => {
   const sort: MemberSortFn = useCallback(
     (a, b) => {
@@ -61,7 +61,12 @@ export const useMemberPowerSort = (
 
       return getPowerLevel(b.userId) - getPowerLevel(a.userId);
     },
-    [creators]
+    // `getPowerLevel` is itself a useCallback keyed on the power-level event, so
+    // it only changes when the levels actually change — which is exactly when
+    // this comparator must be rebuilt. Omitting it pinned the closure to the
+    // levels read on first render, so a promotion or demotion left the member
+    // list sorted by stale power.
+    [creators, getPowerLevel],
   );
 
   return sort;

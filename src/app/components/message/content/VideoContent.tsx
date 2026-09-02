@@ -75,7 +75,7 @@ export const VideoContent = as<'div', VideoContentProps>(
       renderOverlay,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { src, state, needsBlob, onSrcError } = useMediaSrc(url, mimeType, encInfo, filename);
     const blurHash = validBlurHash(info.thumbnail_info?.[MATRIX_BLUR_HASH_PROPERTY_NAME]);
@@ -198,5 +198,5 @@ export const VideoContent = as<'div', VideoContentProps>(
         )}
       </Box>
     );
-  }
+  },
 );

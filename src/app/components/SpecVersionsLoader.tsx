@@ -15,7 +15,7 @@ export function SpecVersionsLoader({
   children,
 }: SpecVersionsLoaderProps) {
   const [state, load] = useAsyncCallback(
-    useCallback(() => specVersions(fetch, baseUrl), [baseUrl])
+    useCallback(() => specVersions(fetch, baseUrl), [baseUrl]),
   );
   const [ignoreError, setIgnoreError] = useState(false);
 
@@ -38,6 +38,6 @@ export function SpecVersionsLoader({
       ? state.data
       : {
           versions: [],
-        }
+        },
   );
 }

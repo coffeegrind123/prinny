@@ -19,6 +19,6 @@ export const useRestoreBackupOnVerification = () => {
           setRestoreProgress(progress);
         },
       });
-    }, [mx, setRestoreProgress])
+    }, [mx, setRestoreProgress]),
   );
 };

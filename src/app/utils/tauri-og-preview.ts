@@ -18,9 +18,7 @@ import { isTauri } from './desktop-notifications';
 // observe roughly when the message was rendered. The returned metadata is
 // likewise attacker-chosen; callers must validate anything they put in a
 // `src`/`href` (see `isWebUrl` in utils/safeUrl.ts).
-export async function fetchOgPreview(
-  url: string
-): Promise<Record<string, string> | null> {
+export async function fetchOgPreview(url: string): Promise<Record<string, string> | null> {
   if (!isTauri()) return null;
   try {
     const { invoke } = await import('@tauri-apps/api/core');

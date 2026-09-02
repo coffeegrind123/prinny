@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useMatrixClient } from './useMatrixClient';
 
 export const useUserTrustStatusChange = (
-  onChange: CryptoEventHandlerMap[CryptoEvent.UserTrustStatusChanged]
+  onChange: CryptoEventHandlerMap[CryptoEvent.UserTrustStatusChanged],
 ) => {
   const mx = useMatrixClient();
 

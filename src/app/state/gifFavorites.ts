@@ -118,7 +118,7 @@ export const migrateGifFavorites = async (mx: MatrixClient): Promise<void> => {
   }
   if (!raw) return;
 
-  let legacy: StoredFavorite[] = [];
+  let legacy: StoredFavorite[];
   try {
     legacy = parseFavorites(JSON.parse(raw));
   } catch {

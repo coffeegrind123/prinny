@@ -42,7 +42,7 @@ const SOFTWARE_MATCHERS: ReadonlyArray<readonly [ServerSoftware, RegExp]> = [
 ];
 
 export const identifyServerSoftware = (
-  serverVersion: ServerVersion | undefined
+  serverVersion: ServerVersion | undefined,
 ): ServerSoftwareInfo => {
   if (!serverVersion) return UNKNOWN_SERVER_SOFTWARE;
 

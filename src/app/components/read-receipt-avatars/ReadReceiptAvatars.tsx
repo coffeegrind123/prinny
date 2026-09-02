@@ -33,7 +33,7 @@ export function ReadReceiptAvatars({ room, userIds, maxVisible = 3 }: ReadReceip
         const name = getMemberDisplayName(room, userId) ?? getMxIdLocalPart(userId) ?? userId;
         const member = room.getMember(userId);
         const avatarUrl = member?.getMxcAvatarUrl()
-          ? mxcUrlToHttp(mx, member.getMxcAvatarUrl()!, useAuth, 24, 24, 'crop') ?? undefined
+          ? (mxcUrlToHttp(mx, member.getMxcAvatarUrl()!, useAuth, 24, 24, 'crop') ?? undefined)
           : undefined;
         const isHovered = hovered === i;
 

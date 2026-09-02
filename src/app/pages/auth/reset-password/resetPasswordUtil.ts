@@ -6,10 +6,10 @@ export type ResetPasswordResult = [IAuthData, undefined] | [undefined, ResetPass
 export const resetPassword = async (
   mx: MatrixClient,
   authDict: AuthDict,
-  newPassword: string
+  newPassword: string,
 ): Promise<ResetPasswordResult> => {
   const [err, res] = await to<ResetPasswordResponse, MatrixError>(
-    mx.setPassword(authDict, newPassword, false)
+    mx.setPassword(authDict, newPassword, false),
   );
 
   if (err) {

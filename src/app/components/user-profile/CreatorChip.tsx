@@ -62,7 +62,7 @@ export function CreatorChip() {
                     openSpaceSettings(
                       room.roomId,
                       space?.roomId,
-                      SpaceSettingsPage.PermissionsPage
+                      SpaceSettingsPage.PermissionsPage,
                     );
                   } else {
                     openRoomSettings(room.roomId, space?.roomId, RoomSettingsPage.PermissionsPage);

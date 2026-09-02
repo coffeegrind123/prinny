@@ -5,7 +5,7 @@ import { useMatrixClient } from './useMatrixClient';
 
 export const useImagePackRooms = (
   roomId: string,
-  roomToParents: Map<string, Set<string>>
+  roomToParents: Map<string, Set<string>>,
 ): Room[] => {
   const mx = useMatrixClient();
 

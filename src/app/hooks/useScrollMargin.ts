@@ -16,7 +16,7 @@ import { RefObject, useLayoutEffect, useState } from 'react';
  */
 export const useScrollMargin = (
   scrollRef: RefObject<HTMLElement | null>,
-  contentRef: RefObject<HTMLElement | null>
+  contentRef: RefObject<HTMLElement | null>,
 ): number => {
   const [scrollMargin, setScrollMargin] = useState(0);
 

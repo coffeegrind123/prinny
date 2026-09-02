@@ -22,5 +22,5 @@ export const VirtualTile = as<'div', VirtualTileProps>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );

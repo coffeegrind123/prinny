@@ -4,8 +4,7 @@ import { useMemo } from 'react';
 import { Settings, settingsAtom as sAtom } from '../settings';
 
 export type SettingSetter<K extends keyof Settings> =
-  | Settings[K]
-  | ((s: Settings[K]) => Settings[K]);
+  Settings[K] | ((s: Settings[K]) => Settings[K]);
 
 export const useSetSetting = <K extends keyof Settings>(settingsAtom: typeof sAtom, key: K) => {
   const setterAtom = useMemo(
@@ -15,7 +14,7 @@ export const useSetSetting = <K extends keyof Settings>(settingsAtom: typeof sAt
         s[key] = typeof value === 'function' ? value(s[key]) : value;
         set(settingsAtom, s);
       }),
-    [settingsAtom, key]
+    [settingsAtom, key],
   );
 
   return useSetAtom(setterAtom);
@@ -23,7 +22,7 @@ export const useSetSetting = <K extends keyof Settings>(settingsAtom: typeof sAt
 
 export const useSetting = <K extends keyof Settings>(
   settingsAtom: typeof sAtom,
-  key: K
+  key: K,
 ): [Settings[K], ReturnType<typeof useSetSetting<K>>] => {
   const selector = useMemo(() => (s: Settings) => s[key], [key]);
   const setting = useAtomValue(selectAtom(settingsAtom, selector));

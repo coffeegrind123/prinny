@@ -27,7 +27,7 @@ const useOwnEmotePack = (): ImagePack | undefined => {
 
   return useMemo(
     () => (event && userId ? ImagePack.fromMatrixEvent(userId, event) : undefined),
-    [event, userId]
+    [event, userId],
   );
 };
 
@@ -59,10 +59,7 @@ export const useMashupImagePack = (): ImagePack | undefined => {
   const mashups = useStoredMashups();
   const userPack = useOwnEmotePack();
 
-  const pinned = useMemo(
-    () => new Set(userPack?.images.collection.keys() ?? []),
-    [userPack]
-  );
+  const pinned = useMemo(() => new Set(userPack?.images.collection.keys() ?? []), [userPack]);
 
   return useMemo(() => {
     const unpinned = mashups.filter((mashup) => !pinned.has(mashup.shortcode));
@@ -126,7 +123,7 @@ export const useMashupPinning = (): MashupPinning => {
 
   const isPinned = useCallback(
     (shortcode: string) => userPack?.images.collection.has(shortcode) ?? false,
-    [userPack]
+    [userPack],
   );
 
   const togglePin = useCallback(
@@ -144,7 +141,7 @@ export const useMashupPinning = (): MashupPinning => {
       }
       return writeUserPack(mx, images);
     },
-    [mx]
+    [mx],
   );
 
   return useMemo(() => ({ isPinned, togglePin }), [isPinned, togglePin]);

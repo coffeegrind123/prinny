@@ -17,12 +17,12 @@ export const allRoomsAtom = atom<string[], [RoomsAction], undefined>(
       if (action.type === 'PUT') newIds.push(action.roomId);
       return newIds;
     });
-  }
+  },
 );
 export const useBindAllRoomsAtom = (mx: MatrixClient, allRooms: typeof allRoomsAtom) => {
   useBindRoomsWithMembershipsAtom(
     mx,
     allRooms,
-    useMemo(() => [Membership.Join], [])
+    useMemo(() => [Membership.Join], []),
   );
 };

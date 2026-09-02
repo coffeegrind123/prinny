@@ -10,7 +10,7 @@ import { CallControlState } from './CallControlState';
 export const useClientWidgetApiEvent = <T>(
   api: ClientWidgetApi | undefined,
   type: string,
-  callback: (event: CustomEvent<T>) => void
+  callback: (event: CustomEvent<T>) => void,
 ) => {
   useEffect(() => {
     api?.on(`action:${type}`, callback);
@@ -24,9 +24,9 @@ export const useSendClientWidgetApiAction = (api: ClientWidgetApi) => {
   const sendWidgetAction = useCallback(
     async <T extends IWidgetApiRequestData = IWidgetApiRequestData>(
       action: string,
-      data: T
+      data: T,
     ): Promise<IWidgetApiAcknowledgeResponseData> => api.transport.send(action, data),
-    [api]
+    [api],
   );
 
   return sendWidgetAction;

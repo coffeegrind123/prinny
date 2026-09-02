@@ -7,7 +7,7 @@ export const getRoomSearchParams: SearchParamsGetter<_RoomSearchParams> = (searc
 });
 
 export const getDirectCreateSearchParams: SearchParamsGetter<DirectCreateSearchParams> = (
-  searchParams
+  searchParams,
 ) => ({
   userId: searchParams.get('userId') ?? undefined,
 });

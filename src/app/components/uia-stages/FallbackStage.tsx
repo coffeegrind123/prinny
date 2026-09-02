@@ -60,9 +60,7 @@ function UnsupportedStageDialog({ type, onCancel }: { type: string; onCancel: ()
 
         {regLink ? (
           <Box direction="Column" gap="100">
-            <Text size="T200">
-              Its sign-up page{regMethod ? ` (${regMethod})` : ''}:
-            </Text>
+            <Text size="T200">Its sign-up page{regMethod ? ` (${regMethod})` : ''}:</Text>
             <a href={regLink} target="_blank" rel="noreferrer noopener">
               <Text size="T300">{regLink}</Text>
             </a>
@@ -72,8 +70,8 @@ function UnsupportedStageDialog({ type, onCancel }: { type: string; onCancel: ()
           </Box>
         ) : (
           <Text size="T200" priority="400">
-            Check {serverName} for a sign-up page, then come back and sign in normally. You can
-            also pick a different server from the list beside the homeserver field.
+            Check {serverName} for a sign-up page, then come back and sign in normally. You can also
+            pick a different server from the list beside the homeserver field.
           </Text>
         )}
 
@@ -195,9 +193,7 @@ export function FallbackStageDialog({ stageData, submitAuthDict, onCancel }: Sta
   // client can drive. The public directory usually knows where that server
   // actually wants people to sign up — surface it instead of a dead end.
   if (unsupported) {
-    return (
-      <UnsupportedStageDialog type={type} onCancel={onCancel} />
-    );
+    return <UnsupportedStageDialog type={type} onCancel={onCancel} />;
   }
 
   if (!session || !fallbackUrl) {
@@ -226,8 +222,8 @@ export function FallbackStageDialog({ stageData, submitAuthDict, onCancel }: Sta
         <Box direction="Column" gap="100">
           <Text size="H4">One more step</Text>
           <Text size="T200">
-            This server handles this step ({type}) on its own page. It opens in a new window;
-            finish there and you will be brought straight back.
+            This server handles this step ({type}) on its own page. It opens in a new window; finish
+            there and you will be brought straight back.
           </Text>
         </Box>
 

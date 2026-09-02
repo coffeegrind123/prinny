@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 export const useSyncState = (
   mx: MatrixClient | undefined,
-  onChange: ClientEventHandlerMap[ClientEvent.Sync]
+  onChange: ClientEventHandlerMap[ClientEvent.Sync],
 ): void => {
   useEffect(() => {
     mx?.on(ClientEvent.Sync, onChange);

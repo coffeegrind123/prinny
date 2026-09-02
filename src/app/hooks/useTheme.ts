@@ -52,13 +52,13 @@ export const useThemeNames = (): Record<string, string> =>
       [DarkTheme.id]: 'Dark',
       [ButterTheme.id]: 'Butter',
     }),
-    []
+    [],
   );
 
 export const useSystemThemeKind = (): ThemeKind => {
   const darkModeQueryList = useMemo(() => window.matchMedia('(prefers-color-scheme: dark)'), []);
   const [themeKind, setThemeKind] = useState<ThemeKind>(
-    darkModeQueryList.matches ? ThemeKind.Dark : ThemeKind.Light
+    darkModeQueryList.matches ? ThemeKind.Dark : ThemeKind.Light,
   );
 
   useEffect(() => {
@@ -91,8 +91,8 @@ export const useActiveTheme = (): Theme => {
 
   const selectedTheme =
     systemThemeKind === ThemeKind.Dark
-      ? themes.find((theme) => theme.id === darkThemeId) ?? DarkTheme
-      : themes.find((theme) => theme.id === lightThemeId) ?? LightTheme;
+      ? (themes.find((theme) => theme.id === darkThemeId) ?? DarkTheme)
+      : (themes.find((theme) => theme.id === lightThemeId) ?? LightTheme);
 
   return selectedTheme;
 };

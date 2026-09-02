@@ -26,5 +26,9 @@ export function useWebPush(mx: MatrixClient | undefined) {
     }).then((ok) => {
       if (!ok) setupDone.current = false; // allow retry next render
     });
-  }, [mx?.clientRunning, pushGateway, pushVapidPublicKey]);
+    // `mx` itself, not just `mx?.clientRunning`: the effect closes over the
+    // client it registers the pusher against. It comes from a context provider
+    // so its identity is stable in practice, and the `setupDone` guard makes a
+    // re-run idempotent regardless.
+  }, [mx, mx?.clientRunning, pushGateway, pushVapidPublicKey]);
 }

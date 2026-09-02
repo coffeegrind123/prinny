@@ -64,7 +64,7 @@ const ensureClientListeners = (mx: MatrixClient) => {
 const subscribeUserPresence = (
   mx: MatrixClient,
   userId: string,
-  cb: PresenceListener
+  cb: PresenceListener,
 ): (() => void) => {
   ensureClientListeners(mx);
 
@@ -131,5 +131,5 @@ export const usePresenceLabel = (): Record<Presence, string> =>
       [Presence.Unavailable]: 'Busy',
       [Presence.Offline]: 'Away',
     }),
-    []
+    [],
   );

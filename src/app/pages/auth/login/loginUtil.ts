@@ -79,7 +79,7 @@ export type CustomLoginResponse = {
 };
 export const login = async (
   serverBaseUrl: string | (() => Promise<string>),
-  data: LoginRequest
+  data: LoginRequest,
 ): Promise<CustomLoginResponse> => {
   const [urlError, url] =
     typeof serverBaseUrl === 'function' ? await to(serverBaseUrl()) : [undefined, serverBaseUrl];

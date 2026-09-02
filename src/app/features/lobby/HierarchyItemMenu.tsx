@@ -49,7 +49,7 @@ function SuggestMenuItem({
     useCallback(() => {
       const newContent: MSpaceChildContent = { ...content, suggested: !content.suggested };
       return mx.sendStateEvent(parentId, StateEvent.SpaceChild as any, newContent, roomId);
-    }, [mx, parentId, roomId, content])
+    }, [mx, parentId, roomId, content]),
   );
 
   useEffect(() => {
@@ -86,8 +86,8 @@ function RemoveMenuItem({
   const [removeState, handleRemove] = useAsyncCallback(
     useCallback(
       () => mx.sendStateEvent(parentId, StateEvent.SpaceChild as any, {}, roomId),
-      [mx, parentId, roomId]
-    )
+      [mx, parentId, roomId],
+    ),
   );
 
   useEffect(() => {

@@ -90,8 +90,7 @@ export const useBotCallback = (room: Room, mEvent: MatrixEvent): BotCallbackStat
 
       const content = event.getContent() as Record<string, unknown>;
       const relation = content['m.relates_to'] as
-        | { rel_type?: string; event_id?: string }
-        | undefined;
+        { rel_type?: string; event_id?: string } | undefined;
       if (relation?.rel_type !== BotRelType.CallbackAnswer) return;
       if (expecting.eventId && relation.event_id !== expecting.eventId) return;
 

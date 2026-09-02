@@ -59,10 +59,7 @@ import {
   getMemberAvatarMxc,
   getMemberDisplayName,
 } from '../../../utils/room';
-import {
-  getMxIdLocalPart,
-  mxcUrlToHttp,
-} from '../../../utils/matrix';
+import { getMxIdLocalPart, mxcUrlToHttp } from '../../../utils/matrix';
 import { markAsUnread } from '../../../utils/notifications';
 import { getWebhookIdentity } from '../../../utils/webhook';
 import { ForwardPrompt } from './ForwardPrompt';
@@ -195,7 +192,7 @@ export const MessageQuickReactions = as<'div', MessageQuickReactionsProps>(
         <Line size="300" />
       </>
     );
-  }
+  },
 );
 
 export const MessageAllReactionItem = as<
@@ -400,7 +397,6 @@ export const MessageCopyLinkItem = as<
     onClose?: () => void;
   }
 >(({ room, mEvent, onClose, ...props }, ref) => {
-
   const handleCopy = () => {
     const eventId = mEvent.getId();
     if (!eventId) return;
@@ -576,8 +572,8 @@ export function MessageDeletePrompt({
     useCallback(
       (eventId: string, reason?: string) =>
         mx.redactEvent(room.roomId, eventId, undefined, reason ? { reason } : undefined),
-      [mx, room]
-    )
+      [mx, room],
+    ),
   );
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (evt) => {
@@ -720,8 +716,8 @@ export const MessageReportItem = as<
     useCallback(
       (eventId: string, score: number, reason: string) =>
         mx.reportEvent(room.roomId, eventId, score, reason),
-      [mx, room]
-    )
+      [mx, room],
+    ),
   );
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (evt) => {
@@ -1082,7 +1078,7 @@ export type MessageProps = {
   onUsernameClick: MouseEventHandler<HTMLButtonElement>;
   onReplyClick: (
     ev: Parameters<MouseEventHandler<HTMLButtonElement>>[0],
-    startThread?: boolean
+    startThread?: boolean,
   ) => void;
   onThreadClick: (rootId: string) => void;
   onEditId?: (eventId?: string) => void;
@@ -1134,7 +1130,7 @@ export const Message = as<'div', MessageProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const mx = useMatrixClient();
     const useAuthentication = useMediaAuthentication();
@@ -1145,7 +1141,7 @@ export const Message = as<'div', MessageProps>(
     const elementReceipts = useElementReadReceipts(
       room,
       readReceiptStyle === 'element' && !hideOthersReadReceipts,
-      showHiddenEvents
+      showHiddenEvents,
     );
     const receiptUserIds = elementReceipts.get(mEvent.getId() ?? '') ?? [];
 
@@ -1187,7 +1183,7 @@ export const Message = as<'div', MessageProps>(
      * group notifies nothing at all.
      */
     const groupHovered = useHoveredMessageGroup(
-      collapse ? undefined : groupHeadEventId ?? mEvent.getId()
+      collapse ? undefined : (groupHeadEventId ?? mEvent.getId()),
     );
 
     const [forwardOpen, setForwardOpen] = useState(false);
@@ -1266,7 +1262,7 @@ export const Message = as<'div', MessageProps>(
     const isFailed = eventStatus === EventStatus.NOT_SENT;
 
     const [retryState, resendMessage] = useAsyncCallback(
-      useCallback(() => Promise.resolve(mx.resendEvent(mEvent, room)), [mx, mEvent, room])
+      useCallback(() => Promise.resolve(mx.resendEvent(mEvent, room)), [mx, mEvent, room]),
     );
     const handleRemoveFailed = useCallback(() => {
       mx.cancelPendingEvent(mEvent);
@@ -1455,7 +1451,8 @@ export const Message = as<'div', MessageProps>(
               userId={senderId}
               src={
                 senderAvatarMxc
-                  ? mxcUrlToHttp(mx, senderAvatarMxc, useAuthentication, 48, 48, 'crop') ?? undefined
+                  ? (mxcUrlToHttp(mx, senderAvatarMxc, useAuthentication, 48, 48, 'crop') ??
+                    undefined)
                   : undefined
               }
               alt={senderDisplayName}
@@ -1493,11 +1490,7 @@ export const Message = as<'div', MessageProps>(
     // instead of sitting beside the block. `vertical-align` is carried by the
     // class; see MessageInlineReceipts.
     const inlineReceiptsJSX = textLikeContent && receiptUserIds.length > 0 && (
-      <Box
-        as="span"
-        className={css.MessageInlineReceipts}
-        onClick={() => setReadReceiptOpen(true)}
-      >
+      <Box as="span" className={css.MessageInlineReceipts} onClick={() => setReadReceiptOpen(true)}>
         <ReadReceiptAvatars room={room} userIds={receiptUserIds} />
       </Box>
     );
@@ -1698,7 +1691,7 @@ export const Message = as<'div', MessageProps>(
         if (target.closest('a, button, input, textarea, [contenteditable]')) return;
         onReplyClick(evt as unknown as Parameters<typeof onReplyClick>[0]);
       },
-      [edit, onReplyClick, replyOnDoubleClick]
+      [edit, onReplyClick, replyOnDoubleClick],
     );
 
     const handleOpenMenu: MouseEventHandler<HTMLButtonElement> = (evt) => {
@@ -1821,7 +1814,7 @@ export const Message = as<'div', MessageProps>(
                     >
                       <Icon src={Icons.ReplyArrow} size="100" />
                     </IconButton>
-                    {(
+                    {
                       <IconButton
                         onClick={() => {
                           const threadRoot = mEvent.threadRootId ?? mEvent.getId();
@@ -1834,7 +1827,7 @@ export const Message = as<'div', MessageProps>(
                       >
                         <Icon src={Icons.ThreadPlus} size="100" />
                       </IconButton>
-                    )}
+                    }
                     {canEditEvent(mx, mEvent) && onEditId && (
                       <IconButton
                         onClick={() => onEditId(mEvent.getId())}
@@ -1981,7 +1974,11 @@ export const Message = as<'div', MessageProps>(
                                 mEvent={mEvent}
                                 onClose={closeMenu}
                               />
-                              <MessageCopyLinkItem room={room} mEvent={mEvent} onClose={closeMenu} />
+                              <MessageCopyLinkItem
+                                room={room}
+                                mEvent={mEvent}
+                                onClose={closeMenu}
+                              />
                               <MenuItem
                                 size="300"
                                 after={<Icon size="100" src={Icons.MessageUnread} />}
@@ -2068,7 +2065,7 @@ export const Message = as<'div', MessageProps>(
         )}
       </MessageBase>
     );
-  }
+  },
 );
 
 export type EventProps = {
@@ -2095,7 +2092,7 @@ export const Event = as<'div', EventProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const mx = useMatrixClient();
     const [hover, setHover] = useState(false);
@@ -2180,11 +2177,7 @@ export const Event = as<'div', EventProps>(
                             />
                           )}
                           <MessageForwardItem mEvent={mEvent} onClose={closeMenu} />
-                          <MessageEditHistoryItem
-                            room={room}
-                            mEvent={mEvent}
-                            onClose={closeMenu}
-                          />
+                          <MessageEditHistoryItem room={room} mEvent={mEvent} onClose={closeMenu} />
                           <MessageCopyLinkItem room={room} mEvent={mEvent} onClose={closeMenu} />
                         </Box>
                         {((!mEvent.isRedacted() && canDelete && !stateEvent) ||
@@ -2230,5 +2223,5 @@ export const Event = as<'div', EventProps>(
         <div onContextMenu={handleContextMenu}>{children}</div>
       </MessageBase>
     );
-  }
+  },
 );

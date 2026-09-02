@@ -45,7 +45,7 @@ export function AutoTermsStageDialog({ stageData, submitAuthDict, onCancel }: St
         type: AuthType.Terms,
         session,
       }),
-    [session, submitAuthDict]
+    [session, submitAuthDict],
   );
 
   useEffect(() => {

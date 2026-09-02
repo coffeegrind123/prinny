@@ -13,7 +13,7 @@ export function useCompositionEndTracking(): void {
     (evt: TimeStamped) => {
       setLastCompositionEnd(evt.timeStamp);
     },
-    [setLastCompositionEnd]
+    [setLastCompositionEnd],
   );
 
   useEffect(() => {
@@ -42,6 +42,6 @@ export function useComposingCheck({
       (evt.keyCode === 229 &&
         typeof compositionEnd !== 'undefined' &&
         evt.timeStamp - compositionEnd < compositionEndThreshold),
-    [compositionEndThreshold, compositionEnd]
+    [compositionEndThreshold, compositionEnd],
   );
 }

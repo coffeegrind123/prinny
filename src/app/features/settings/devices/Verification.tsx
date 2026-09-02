@@ -177,7 +177,7 @@ export function VerifyOtherDeviceTile({ crypto, deviceId }: VerifyOtherDeviceTil
       const requestPromise = crypto.requestDeviceVerification(mx.getSafeUserId(), deviceId);
       return requestPromise;
     }, [mx, crypto, deviceId]),
-    setRequestState
+    setRequestState,
   );
 
   const handleExit = useCallback(() => {
@@ -277,7 +277,7 @@ export function DeviceVerificationOptions() {
         withSearchParam(authUrl, {
           action: accountManagementActions.crossSigningReset,
         }),
-        '_blank'
+        '_blank',
       );
       return;
     }

@@ -87,11 +87,7 @@ export function PrivacySettings() {
             title="Hide window from screen capture"
             description="Asks the system to leave this window out of screenshots and screen recordings. Works on Windows and macOS; most Linux desktops ignore it."
             after={
-              <Switch
-                variant="Primary"
-                value={contentProtection}
-                onChange={setContentProtection}
-              />
+              <Switch variant="Primary" value={contentProtection} onChange={setContentProtection} />
             }
           />
         </SequenceCard>

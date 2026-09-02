@@ -43,7 +43,7 @@ export const RoomIntro = as<'div', RoomIntroProps>(({ room, ...props }, ref) => 
   const prevRoomId = createContent?.predecessor?.room_id;
 
   const [prevRoomState, joinPrevRoom] = useAsyncCallback(
-    useCallback(async (roomId: string) => mx.joinRoom(roomId), [mx])
+    useCallback(async (roomId: string) => mx.joinRoom(roomId), [mx]),
   );
 
   const [hour24Clock] = useSetting(settingsAtom, 'hour24Clock');

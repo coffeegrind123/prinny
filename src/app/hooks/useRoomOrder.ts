@@ -1,10 +1,6 @@
 import { useCallback } from 'react';
 import { MatrixClient } from 'matrix-js-sdk';
-import {
-  AccountDataEvent,
-  RoomOrderContent,
-  RoomSortMode,
-} from '../../types/matrix/accountData';
+import { AccountDataEvent, RoomOrderContent, RoomSortMode } from '../../types/matrix/accountData';
 import { getAccountData } from '../utils/room';
 import { useMatrixClient } from './useMatrixClient';
 import { useAccountData } from './useAccountData';
@@ -21,7 +17,7 @@ export const getRoomOrderContent = (mx: MatrixClient): RoomOrderContent =>
  */
 export const makeRoomOrderContent = (
   mx: MatrixClient,
-  partial: Partial<RoomOrderContent>
+  partial: Partial<RoomOrderContent>,
 ): RoomOrderContent => {
   const current = getRoomOrderContent(mx);
   return {
@@ -79,7 +75,7 @@ export const useRoomSortMode = (spaceId: string): RoomSortMode => {
  * switching that space to `custom` sort mode.
  */
 export const useReorderRoom = (
-  spaceId: string
+  spaceId: string,
 ): ((parentSpaceId: string, orderedRoomIds: string[]) => void) => {
   const mx = useMatrixClient();
   return useCallback(
@@ -87,6 +83,6 @@ export const useReorderRoom = (
       setRoomOrder(mx, parentSpaceId, orderedRoomIds);
       setRoomSortMode(mx, spaceId, 'custom');
     },
-    [mx, spaceId]
+    [mx, spaceId],
   );
 };

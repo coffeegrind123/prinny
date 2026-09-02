@@ -27,12 +27,7 @@ import { useDirectRooms } from './useDirectRooms';
 import { PageNav, PageNavContent, PageNavHeader } from '../../../components/page';
 import { stopPropagation } from '../../../utils/keyboard';
 import { useShellLayout } from '../../../hooks/useShellLayout';
-import {
-  DirectsNavActions,
-  DirectsNavList,
-  MarkAsReadMenuItem,
-  UnreadOnlyMenuItem,
-} from '../nav';
+import { DirectsNavActions, DirectsNavList, MarkAsReadMenuItem, UnreadOnlyMenuItem } from '../nav';
 import { Home } from '../home/Home';
 
 type DirectMenuProps = {

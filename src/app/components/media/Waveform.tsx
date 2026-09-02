@@ -82,7 +82,7 @@ export function Waveform({ waveform, progress, onSeek, className }: WaveformProp
           <div
             // Bars are a fixed-length positional strip; there is no identity to
             // key on beyond position.
-             
+
             key={index}
             className={classNames(css.WaveformBar, index < filledUpTo && css.WaveformBarFilled)}
             style={{ height: `${height}%` }}

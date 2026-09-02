@@ -556,10 +556,7 @@ const useLiveTimelineRefresh = (room: Room, onRefresh: () => void) => {
  */
 const useLiveTimelineReset = (room: Room, onReset: () => void) => {
   useEffect(() => {
-    const handleTimelineReset: RoomEventHandlerMap[RoomEvent.TimelineReset] = (
-      r,
-      timelineSet,
-    ) => {
+    const handleTimelineReset: RoomEventHandlerMap[RoomEvent.TimelineReset] = (r, timelineSet) => {
       if (r?.roomId !== room.roomId) return;
       if (timelineSet !== room.getUnfilteredTimelineSet()) return;
       onReset();

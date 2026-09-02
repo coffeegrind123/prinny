@@ -49,7 +49,7 @@ export function RoomEncryption({ permissions }: RoomEncryptionProps) {
       await mx.sendStateEvent(room.roomId, StateEvent.RoomEncryption as any, {
         algorithm: ROOM_ENC_ALGO,
       });
-    }, [mx, room.roomId])
+    }, [mx, room.roomId]),
   );
 
   const enabling = enableState.status === AsyncStatus.Loading;

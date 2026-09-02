@@ -32,7 +32,7 @@ export function RoomImagePack({ room, stateKey }: RoomImagePackProps) {
       {
         roomId: room.roomId,
         stateKey,
-      }
+      },
     );
   }, [room.roomId, stateKey]);
   const imagePack = useRoomImagePack(room, stateKey) ?? fallbackPack;
@@ -46,10 +46,10 @@ export function RoomImagePack({ room, stateKey }: RoomImagePackProps) {
         address.roomId,
         StateEvent.PoniesRoomEmotes,
         packContent,
-        address.stateKey
+        address.stateKey,
       );
     },
-    [mx, imagePack]
+    [mx, imagePack],
   );
 
   return (

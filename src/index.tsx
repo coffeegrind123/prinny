@@ -1,7 +1,7 @@
 /* eslint-disable import/first */
 import { createRoot } from 'react-dom/client';
 import { enableMapSet } from 'immer';
-import '@fontsource/inter/variable.css';
+import '@fontsource-variable/inter';
 import 'folds/dist/style.css';
 import { configClass, varsClass } from 'folds';
 
@@ -124,7 +124,7 @@ if ('serviceWorker' in navigator) {
       window.dispatchEvent(
         new CustomEvent('cinny:notification-click', {
           detail: { roomId: ev.data.roomId, eventId: ev.data.eventId },
-        })
+        }),
       );
     }
   });

@@ -12,7 +12,7 @@ import { InlineMDParser, InlineMDRule } from './type';
 export const runInlineRule = (
   text: string,
   rule: InlineMDRule,
-  parse: InlineMDParser
+  parse: InlineMDParser,
 ): string | undefined => {
   const matchResult = rule.match(text);
   if (matchResult) {
@@ -34,7 +34,7 @@ export const runInlineRule = (
 export const runInlineRules = (
   text: string,
   rules: InlineMDRule[],
-  parse: InlineMDParser
+  parse: InlineMDParser,
 ): string | undefined => {
   const matchResults = rules.map((rule) => rule.match(text));
 

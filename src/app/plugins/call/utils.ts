@@ -9,7 +9,7 @@ import { EventType } from 'matrix-js-sdk';
 export function getCallCapabilities(
   roomId: string,
   userId: string,
-  deviceId: string
+  deviceId: string,
 ): Set<Capability> {
   const capabilities: Set<Capability> = new Set();
 
@@ -24,60 +24,60 @@ export function getCallCapabilities(
   capabilities.add(`org.matrix.msc2762.state:${roomId}`);
 
   capabilities.add(
-    WidgetEventCapability.forStateEvent(EventDirection.Receive, EventType.RoomMember).raw
+    WidgetEventCapability.forStateEvent(EventDirection.Receive, EventType.RoomMember).raw,
   );
   capabilities.add(
-    WidgetEventCapability.forStateEvent(EventDirection.Receive, 'org.matrix.msc3401.call').raw
+    WidgetEventCapability.forStateEvent(EventDirection.Receive, 'org.matrix.msc3401.call').raw,
   );
   capabilities.add(
-    WidgetEventCapability.forStateEvent(EventDirection.Receive, EventType.RoomEncryption).raw
+    WidgetEventCapability.forStateEvent(EventDirection.Receive, EventType.RoomEncryption).raw,
   );
   capabilities.add(
-    WidgetEventCapability.forStateEvent(EventDirection.Receive, EventType.RoomName).raw
+    WidgetEventCapability.forStateEvent(EventDirection.Receive, EventType.RoomName).raw,
   );
 
   capabilities.add(
     WidgetEventCapability.forStateEvent(
       EventDirection.Send,
       'org.matrix.msc3401.call.member',
-      userId
-    ).raw
+      userId,
+    ).raw,
   );
   capabilities.add(
     WidgetEventCapability.forStateEvent(
       EventDirection.Send,
       'org.matrix.msc3401.call.member',
-      `_${userId}_${deviceId}_m.call`
-    ).raw
+      `_${userId}_${deviceId}_m.call`,
+    ).raw,
   );
   capabilities.add(
     WidgetEventCapability.forStateEvent(
       EventDirection.Send,
       'org.matrix.msc3401.call.member',
-      `${userId}_${deviceId}_m.call`
-    ).raw
+      `${userId}_${deviceId}_m.call`,
+    ).raw,
   );
   capabilities.add(
     WidgetEventCapability.forStateEvent(
       EventDirection.Send,
       'org.matrix.msc3401.call.member',
-      `_${userId}_${deviceId}`
-    ).raw
+      `_${userId}_${deviceId}`,
+    ).raw,
   );
   capabilities.add(
     WidgetEventCapability.forStateEvent(
       EventDirection.Send,
       'org.matrix.msc3401.call.member',
-      `${userId}_${deviceId}`
-    ).raw
+      `${userId}_${deviceId}`,
+    ).raw,
   );
 
   capabilities.add(
     WidgetEventCapability.forStateEvent(EventDirection.Receive, 'org.matrix.msc3401.call.member')
-      .raw
+      .raw,
   );
   capabilities.add(
-    WidgetEventCapability.forStateEvent(EventDirection.Receive, EventType.RoomCreate).raw
+    WidgetEventCapability.forStateEvent(EventDirection.Receive, EventType.RoomCreate).raw,
   );
 
   [

@@ -23,8 +23,7 @@ export const useMapStyleUrl = (): string | undefined => {
   const config = useClientConfig();
 
   const wellKnown = mx.getClientWellKnown() as
-    | Record<string, { map_style_url?: string } | undefined>
-    | undefined;
+    Record<string, { map_style_url?: string } | undefined> | undefined;
 
   const fromServer =
     wellKnown?.[TILE_SERVER_STABLE]?.map_style_url ??

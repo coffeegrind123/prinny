@@ -15,5 +15,5 @@ export const NavCategoryHeader = as<'div', NavCategoryHeaderProps>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );

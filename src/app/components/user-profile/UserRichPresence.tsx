@@ -86,10 +86,10 @@ export function UserRichPresence({ presence }: UserRichPresenceProps) {
   const useAuthentication = useMediaAuthentication();
   const imageMxc = presence.type === 'media' ? presence.coverArt : presence.image;
   const imageUrl = imageMxc
-    ? mxcUrlToHttp(mx, imageMxc, useAuthentication, 96, 96, 'crop') ?? undefined
+    ? (mxcUrlToHttp(mx, imageMxc, useAuthentication, 96, 96, 'crop') ?? undefined)
     : undefined;
   const [imageStatus, setImageStatus] = useState<'loading' | 'loaded' | 'error'>(
-    imageUrl ? 'loading' : 'error'
+    imageUrl ? 'loading' : 'error',
   );
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export function UserRichPresence({ presence }: UserRichPresenceProps) {
   }, [imageUrl]);
 
   const externalUrl = getExternalUrl(
-    presence.type === 'media' ? presence.streamingLink : undefined
+    presence.type === 'media' ? presence.streamingLink : undefined,
   );
 
   // The streaming link is written by another user, so it is confirmed before

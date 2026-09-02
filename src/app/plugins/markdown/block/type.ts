@@ -18,7 +18,7 @@ export type BlockMDParser = (text: string, parseInline?: (txt: string) => string
  */
 export type BlockMatchConverter = (
   match: MatchResult,
-  parseInline?: (txt: string) => string
+  parseInline?: (txt: string) => string,
 ) => string;
 
 /**

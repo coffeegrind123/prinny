@@ -27,13 +27,13 @@ export function ThumbnailContent({ info, renderImage }: ThumbnailContentProps) {
       if (!mediaUrl) throw new Error('Invalid media URL');
       if (encInfo) {
         const fileContent = await downloadEncryptedMedia(mediaUrl, (encBuf) =>
-          decryptFile(encBuf, getImageSafeMimeType(thumbInfo.mimetype), encInfo)
+          decryptFile(encBuf, getImageSafeMimeType(thumbInfo.mimetype), encInfo),
         );
         return URL.createObjectURL(fileContent);
       }
 
       return mediaUrl;
-    }, [mx, info, useAuthentication])
+    }, [mx, info, useAuthentication]),
   );
 
   useEffect(() => {

@@ -13,5 +13,5 @@ export const StackedAvatar = as<'span', css.StackedAvatarVariants & StackedAvata
       {...props}
       ref={ref}
     />
-  )
+  ),
 );

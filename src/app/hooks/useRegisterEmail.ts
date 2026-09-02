@@ -4,7 +4,7 @@ import { AsyncState, useAsyncCallback } from './useAsyncCallback';
 import { RequestEmailTokenCallback, RequestEmailTokenResponse } from './types';
 
 export const useRegisterEmail = (
-  mx: MatrixClient
+  mx: MatrixClient,
 ): [AsyncState<RequestEmailTokenResponse, MatrixError>, RequestEmailTokenCallback] => {
   const sendAttemptRef = useRef(1);
 
@@ -19,7 +19,7 @@ export const useRegisterEmail = (
         result,
       };
     },
-    [mx]
+    [mx],
   );
 
   const [registerEmailState, registerEmail] = useAsyncCallback<

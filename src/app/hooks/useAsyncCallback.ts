@@ -33,7 +33,7 @@ export type AsyncCallback<TArgs extends unknown[], TData> = (...args: TArgs) => 
 
 export const useAsync = <TData, TError, TArgs extends unknown[]>(
   asyncCallback: AsyncCallback<TArgs, TData>,
-  onStateChange: (state: AsyncState<TData, TError>) => void
+  onStateChange: (state: AsyncState<TData, TError>) => void,
 ): AsyncCallback<TArgs, TData> => {
   const alive = useAlive();
 
@@ -76,7 +76,7 @@ export const useAsync = <TData, TError, TArgs extends unknown[]>(
         return data;
       } catch (e) {
         if (currentReqNumber !== reqNumberRef.current) {
-          throw new Error('AsyncCallbackHook: Request replaced!');
+          throw new Error('AsyncCallbackHook: Request replaced!', { cause: e });
         }
 
         if (alive()) {
@@ -90,14 +90,14 @@ export const useAsync = <TData, TError, TArgs extends unknown[]>(
         throw e;
       }
     },
-    [asyncCallback, alive, onStateChange]
+    [asyncCallback, alive, onStateChange],
   );
 
   return callback;
 };
 
 export const useAsyncCallback = <TData, TError, TArgs extends unknown[]>(
-  asyncCallback: AsyncCallback<TArgs, TData>
+  asyncCallback: AsyncCallback<TArgs, TData>,
 ): [AsyncState<TData, TError>, AsyncCallback<TArgs, TData>] => {
   const [state, setState] = useState<AsyncState<TData, TError>>({
     status: AsyncStatus.Idle,
@@ -109,7 +109,7 @@ export const useAsyncCallback = <TData, TError, TArgs extends unknown[]>(
 };
 
 export const useAsyncCallbackValue = <TData, TError>(
-  asyncCallback: AsyncCallback<[], TData>
+  asyncCallback: AsyncCallback<[], TData>,
 ): [AsyncState<TData, TError>, AsyncCallback<[], TData>] => {
   const [state, load] = useAsyncCallback<TData, TError, []>(asyncCallback);
 

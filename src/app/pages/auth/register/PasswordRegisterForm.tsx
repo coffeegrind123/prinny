@@ -125,7 +125,7 @@ function RegisterUIAFlow({
         initial_device_display_name: 'Cinny Web',
       });
     },
-    [onRegister, formData]
+    [onRegister, formData],
   );
 
   const handleCancel = useCallback(() => {

@@ -19,7 +19,7 @@ export type UseAsyncSearchOptions = AsyncSearchOption & {
 
 export type SearchItemStrGetter<TSearchItem extends object | string | number> = (
   searchItem: TSearchItem,
-  query: string
+  query: string,
 ) => string | string[];
 
 export type UseAsyncSearchResult<TSearchItem extends object | string | number> = {
@@ -32,11 +32,11 @@ export type SearchResetHandler = () => void;
 const performMatch = (
   target: string | string[],
   query: string,
-  options?: UseAsyncSearchOptions
+  options?: UseAsyncSearchOptions,
 ): string | undefined => {
   if (Array.isArray(target)) {
     const matchTarget = target.find((i) =>
-      matchQuery(normalize(i, options?.normalizeOptions), query, options?.matchOptions)
+      matchQuery(normalize(i, options?.normalizeOptions), query, options?.matchOptions),
     );
     return matchTarget ? normalize(matchTarget, options?.normalizeOptions) : undefined;
   }
@@ -50,7 +50,7 @@ export const orderSearchItems = <TSearchItem extends object | string | number>(
   query: string,
   items: TSearchItem[],
   getItemStr: SearchItemStrGetter<TSearchItem>,
-  options?: UseAsyncSearchOptions
+  options?: UseAsyncSearchOptions,
 ): TSearchItem[] => {
   const orderedItems: TSearchItem[] = Array.from(items);
 
@@ -107,7 +107,7 @@ export const orderSearchItems = <TSearchItem extends object | string | number>(
 export const useAsyncSearch = <TSearchItem extends object | string | number>(
   list: TSearchItem[],
   getItemStr: SearchItemStrGetter<TSearchItem>,
-  options?: UseAsyncSearchOptions
+  options?: UseAsyncSearchOptions,
 ): [UseAsyncSearchResult<TSearchItem> | undefined, AsyncSearchHandler, SearchResetHandler] => {
   const [result, setResult] = useState<UseAsyncSearchResult<TSearchItem>>();
 
@@ -135,7 +135,7 @@ export const useAsyncSearch = <TSearchItem extends object | string | number>(
       const normalizedQuery = normalize(query, options?.normalizeOptions);
       searchCallback(normalizedQuery);
     },
-    [searchCallback, options?.normalizeOptions]
+    [searchCallback, options?.normalizeOptions],
   );
 
   const resetHandler: SearchResetHandler = useCallback(() => {
@@ -148,7 +148,7 @@ export const useAsyncSearch = <TSearchItem extends object | string | number>(
       // terminate any ongoing search request on unmount.
       terminateSearch();
     },
-    [terminateSearch]
+    [terminateSearch],
   );
 
   return [result, searchHandler, resetHandler];

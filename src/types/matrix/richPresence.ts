@@ -93,6 +93,6 @@ export const parseRichPresence = (value: unknown): RichPresence | undefined => {
 };
 
 export const getProfileRichPresence = (
-  profile: Record<string, unknown>
+  profile: Record<string, unknown>,
 ): RichPresence | undefined =>
   parseRichPresence(profile[MSC4320_RPC]) ?? parseRichPresence(profile[M_RPC]);

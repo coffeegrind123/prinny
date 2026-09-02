@@ -36,7 +36,7 @@ export const makeOpenedSidebarFolderAtom = (userId: string): OpenedSidebarFolder
     (key, value) => {
       const arrayValue = Array.from(value);
       setLocalStorageItem(key, arrayValue);
-    }
+    },
   );
 
   const openedSidebarFolderAtom = atom<Set<string>, [OpenedSidebarFolderAction], undefined>(
@@ -47,7 +47,7 @@ export const makeOpenedSidebarFolderAtom = (userId: string): OpenedSidebarFolder
           baseOpenedSidebarFolderAtom,
           produce(get(baseOpenedSidebarFolderAtom), (draft) => {
             draft.delete(action.id);
-          })
+          }),
         );
         return;
       }
@@ -56,10 +56,10 @@ export const makeOpenedSidebarFolderAtom = (userId: string): OpenedSidebarFolder
           baseOpenedSidebarFolderAtom,
           produce(get(baseOpenedSidebarFolderAtom), (draft) => {
             draft.add(action.id);
-          })
+          }),
         );
       }
-    }
+    },
   );
 
   return openedSidebarFolderAtom;

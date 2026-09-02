@@ -225,8 +225,7 @@ const galleryItemsFromEvent = (mEvent: MatrixEvent): MediaItem[] => {
         gif: (item as Record<string, unknown>)[MATRIX_GIF_PROPERTY_NAME] === true,
         spoiler: (item as Record<string, unknown>)[MATRIX_SPOILER_PROPERTY_NAME] === true,
         spoilerReason: (item as Record<string, unknown>)[MATRIX_SPOILER_REASON_PROPERTY_NAME] as
-          | string
-          | undefined,
+          string | undefined,
       },
     ];
   });

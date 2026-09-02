@@ -6,13 +6,13 @@ export const useMembership = (room: Room, userId: string): Membership => {
   const member = room.getMember(userId);
 
   const [membership, setMembership] = useState<Membership>(
-    () => (member?.membership as Membership | undefined) ?? Membership.Leave
+    () => (member?.membership as Membership | undefined) ?? Membership.Leave,
   );
 
   useEffect(() => {
     const handleMembershipChange: RoomMemberEventHandlerMap[RoomMemberEvent.Membership] = (
       event,
-      m
+      m,
     ) => {
       if (event.getRoomId() === room.roomId && m.userId === userId) {
         setMembership((m.membership as Membership | undefined) ?? Membership.Leave);

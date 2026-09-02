@@ -3,7 +3,7 @@ import { RelationsEvent, type Relations } from 'matrix-js-sdk/lib/models/relatio
 
 export const useRelations = <T>(
   relations: Relations,
-  getRelations: (relations: Relations) => T
+  getRelations: (relations: Relations) => T,
 ) => {
   const [data, setData] = useState(() => getRelations(relations));
 

@@ -22,5 +22,5 @@ export const RoomNavCategoryButton = as<'button', { closed?: boolean }>(
         {children}
       </Text>
     </Chip>
-  )
+  ),
 );

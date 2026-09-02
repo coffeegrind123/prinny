@@ -8,5 +8,5 @@ export type RequestEmailTokenResponse = {
 export type RequestEmailTokenCallback = (
   email: string,
   clientSecret: string,
-  nextLink?: string
+  nextLink?: string,
 ) => Promise<RequestEmailTokenResponse>;

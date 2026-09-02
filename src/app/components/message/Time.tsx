@@ -43,7 +43,7 @@ export const Time = as<'span', TimeProps & ComponentProps<typeof Text>>(
   ({ compact, hour24Clock, dateFormatString, ts, overrideText, overrideSuffix, ...props }, ref) => {
     const formattedTime = timeHourMinute(ts, hour24Clock);
 
-    let time = '';
+    let time: string;
     if (overrideText) {
       time = overrideText;
     } else if (compact) {
@@ -71,5 +71,5 @@ export const Time = as<'span', TimeProps & ComponentProps<typeof Text>>(
         {overrideSuffix}
       </Text>
     );
-  }
+  },
 );

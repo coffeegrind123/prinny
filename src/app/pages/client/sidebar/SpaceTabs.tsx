@@ -123,7 +123,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(
     const allChild = useSpaceChildren(
       allRoomsAtom,
       room.roomId,
-      useRecursiveChildScopeFactory(mx, roomToParents)
+      useRecursiveChildScopeFactory(mx, roomToParents),
     );
     const notificationPreferences = useRoomsNotificationPreferencesContext();
     const unread = useRoomsUnread(allChild, roomToUnreadAtom);
@@ -250,7 +250,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(
         </Box>
       </Menu>
     );
-  }
+  },
 );
 
 type InstructionType = Instruction['type'];
@@ -265,7 +265,7 @@ const useDraggableItem = (
   item: SidebarDraggable,
   targetRef: RefObject<HTMLElement | null>,
   onDragging: (item?: SidebarDraggable) => void,
-  dragHandleRef?: RefObject<HTMLElement | null>
+  dragHandleRef?: RefObject<HTMLElement | null>,
 ): boolean => {
   const [dragging, setDragging] = useState(false);
 
@@ -295,7 +295,7 @@ const useDraggableItem = (
 
 const useDropTarget = (
   item: SidebarDraggable,
-  targetRef: RefObject<HTMLElement | null>
+  targetRef: RefObject<HTMLElement | null>,
 ): Instruction | undefined => {
   const [dropState, setDropState] = useState<Instruction>();
 
@@ -322,7 +322,7 @@ const useDropTarget = (
             indentPerLevel: 0,
             mode: 'standard',
             block,
-          }
+          },
         );
 
         const instruction: Instruction | null = extractInstruction(insData);
@@ -344,7 +344,7 @@ const useDropTarget = (
 function useDropTargetInstruction<T extends InstructionType>(
   item: SidebarDraggable,
   targetRef: RefObject<HTMLElement | null>,
-  instructionType: T
+  instructionType: T,
 ): T | undefined {
   const [dropState, setDropState] = useState<T>();
 
@@ -380,8 +380,8 @@ const useDnDMonitor = (
   onReorder: (
     draggable: SidebarDraggable,
     container: SidebarDraggable,
-    instruction: InstructionType
-  ) => void
+    instruction: InstructionType,
+  ) => void,
 ) => {
   useEffect(() => {
     const scrollElement = scrollRef.current;
@@ -398,15 +398,14 @@ const useDnDMonitor = (
           const item = source.data.item as SidebarDraggable;
           const containerItem = dropTargets[0].data.item as SidebarDraggable;
           const instructionType = dropTargets[0].data.instructionType as
-            | InstructionType
-            | undefined;
+            InstructionType | undefined;
           if (!instructionType) return;
           onReorder(item, containerItem, instructionType);
         },
       }),
       autoScrollForElements({
         element: scrollElement,
-      })
+      }),
     );
   }, [scrollRef, onDragging, onReorder]);
 };
@@ -443,7 +442,7 @@ function SpaceTab({
             spaceId: space.roomId,
           }
         : space.roomId,
-    [folder, space]
+    [folder, space],
   );
 
   useDraggableItem(spaceDraggable, targetRef, onDragging);
@@ -811,8 +810,8 @@ export function SpaceTabs({ scrollRef }: SpaceTabsProps) {
         localEchoSidebarItem(parseSidebar(mx, orphanSpaces, newSpacesContent));
         mx.setAccountData(AccountDataEvent.CinnySpaces, newSpacesContent);
       },
-      [mx, sidebarItems, setOpenedFolder, localEchoSidebarItem, orphanSpaces]
-    )
+      [mx, sidebarItems, setOpenedFolder, localEchoSidebarItem, orphanSpaces],
+    ),
   );
 
   const selectedSpaceId = useSelectedSpace();
@@ -857,7 +856,7 @@ export function SpaceTabs({ scrollRef }: SpaceTabsProps) {
       localEchoSidebarItem(parseSidebar(mx, orphanSpaces, newSpacesContent));
       mx.setAccountData(AccountDataEvent.CinnySpaces, newSpacesContent);
     },
-    [mx, sidebarItems, orphanSpaces, localEchoSidebarItem]
+    [mx, sidebarItems, orphanSpaces, localEchoSidebarItem],
   );
 
   if (sidebarItems.length === 0) return null;

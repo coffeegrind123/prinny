@@ -84,7 +84,7 @@ function serverMatrixSdkCryptoWasm(wasmFilePath) {
         if (req.url === wasmFilePath) {
           const resolvedPath = path.join(
             path.resolve(),
-            '/node_modules/@matrix-org/matrix-sdk-crypto-wasm/pkg/matrix_sdk_crypto_wasm_bg.wasm'
+            '/node_modules/@matrix-org/matrix-sdk-crypto-wasm/pkg/matrix_sdk_crypto_wasm_bg.wasm',
           );
 
           if (fs.existsSync(resolvedPath)) {

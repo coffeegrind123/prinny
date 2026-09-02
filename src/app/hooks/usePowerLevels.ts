@@ -69,7 +69,7 @@ export function usePowerLevels(room: Room): IPowerLevels {
   const powerLevelsEvent = useStateEvent(room, StateEvent.RoomPowerLevels);
   const powerLevels: IPowerLevels = useMemo(
     () => getPowersLevelFromMatrixEvent(powerLevelsEvent),
-    [powerLevelsEvent]
+    [powerLevelsEvent],
   );
 
   return powerLevels;
@@ -114,8 +114,8 @@ export const useRoomsPowerLevels = (rooms: Room[]): Map<string, IPowerLevels> =>
           setRoomToPowerLevels(getRoomsPowerLevels());
         }
       },
-      [rooms, getRoomsPowerLevels]
-    )
+      [rooms, getRoomsPowerLevels],
+    ),
   );
 
   return roomToPowerLevels;
@@ -171,7 +171,7 @@ export const readPowerLevel: ReadPowerLevelAPI = {
 export const useGetMemberPowerLevel = (powerLevels: IPowerLevels) => {
   const callback = useCallback(
     (userId?: string): number => readPowerLevel.user(powerLevels, userId),
-    [powerLevels]
+    [powerLevels],
   );
 
   return callback;
@@ -209,7 +209,7 @@ export type PermissionLocation =
 
 export const getPermissionPower = (
   powerLevels: IPowerLevels,
-  location: PermissionLocation
+  location: PermissionLocation,
 ): number => {
   if ('user' in location) {
     return readPowerLevel.user(powerLevels, location.key);
@@ -230,7 +230,7 @@ export const getPermissionPower = (
 export const applyPermissionPower = (
   powerLevels: IPowerLevels,
   location: PermissionLocation,
-  power: number
+  power: number,
 ): IPowerLevels => {
   if ('user' in location) {
     if (typeof location.key === 'string') {

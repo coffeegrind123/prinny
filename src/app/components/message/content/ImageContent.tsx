@@ -72,7 +72,7 @@ export const ImageContent = as<'div', ImageContentProps>(
       renderImage,
       ...props
     },
-    ref
+    ref,
   ) => {
     const mx = useMatrixClient();
     const useAuthentication = useMediaAuthentication();
@@ -89,12 +89,12 @@ export const ImageContent = as<'div', ImageContentProps>(
         if (!mediaUrl) throw new Error('Invalid media URL');
         if (encInfo) {
           const fileContent = await downloadEncryptedMedia(mediaUrl, (encBuf) =>
-            decryptFile(encBuf, mimeType ?? FALLBACK_MIMETYPE, encInfo)
+            decryptFile(encBuf, mimeType ?? FALLBACK_MIMETYPE, encInfo),
           );
           return URL.createObjectURL(fileContent);
         }
         return mediaUrl;
-      }, [mx, url, useAuthentication, mimeType, encInfo])
+      }, [mx, url, useAuthentication, mimeType, encInfo]),
     );
 
     const handleLoad = () => {
@@ -249,5 +249,5 @@ export const ImageContent = as<'div', ImageContentProps>(
         )}
       </Box>
     );
-  }
+  },
 );

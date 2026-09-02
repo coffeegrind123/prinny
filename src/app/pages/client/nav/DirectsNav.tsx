@@ -80,14 +80,14 @@ export function DirectsNavList({ scrollRef }: DirectsNavListProps) {
 
   const sortedDirects = useMemo(() => {
     const items = Array.from(directs).sort(
-      factoryRoomIdByPinned(pinned, factoryRoomIdByActivity(mx))
+      factoryRoomIdByPinned(pinned, factoryRoomIdByActivity(mx)),
     );
     if (unreadOnly) {
       // A pin survives the filter by design: the point of pinning someone is to
       // keep them reachable, which a filter that hides read chats would
       // otherwise undo for exactly the chats you care most about.
       return items.filter(
-        (rId) => pinned.has(rId) || roomToUnread.has(rId) || rId === selectedRoomId
+        (rId) => pinned.has(rId) || roomToUnread.has(rId) || rId === selectedRoomId,
       );
     }
     return items;

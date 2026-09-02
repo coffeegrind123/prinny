@@ -85,8 +85,7 @@ export abstract class BaseWidgetDriver extends WidgetDriver {
   }
 
   public async sendDelayedEvent(
-    delay: number | null,
-    parentDelayId: string | null,
+    delay: number,
     eventType: string,
     content: IContent,
     stateKey: string | null = null,
@@ -94,19 +93,12 @@ export abstract class BaseWidgetDriver extends WidgetDriver {
   ): Promise<ISendDelayedEventDetails> {
     const roomId = targetRoomId || this.inRoomId;
 
-    let delayOpts;
-    if (delay !== null) {
-      delayOpts = {
-        delay,
-        ...(parentDelayId !== null && { parent_delay_id: parentDelayId }),
-      };
-    } else if (parentDelayId !== null) {
-      delayOpts = {
-        parent_delay_id: parentDelayId,
-      };
-    } else {
-      throw new Error('Must provide at least one of delay or parentDelayId');
-    }
+    // matrix-widget-api 1.18 dropped `parentDelayId` from this signature and
+    // made `delay` non-nullable. It is an @experimental MSC4140 API, which is
+    // how a parameter removal landed in a minor release. Chaining a delayed
+    // event onto a parent (`parent_delay_id`) is no longer expressible through
+    // the widget API, so the request options are now just the delay.
+    const delayOpts = { delay };
 
     let r: SendDelayedEventResponse | null;
     if (stateKey !== null) {

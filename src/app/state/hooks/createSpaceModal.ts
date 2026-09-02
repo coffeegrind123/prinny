@@ -27,7 +27,7 @@ export const useOpenCreateSpaceModal = (): OpenCallback => {
     (spaceId) => {
       setSettings({ spaceId });
     },
-    [setSettings]
+    [setSettings],
   );
 
   return open;

@@ -43,7 +43,8 @@ export const RoomViewFollowing = as<'div', RoomViewFollowingProps>(
     const names = latestEventReaders
       .filter((readerId) => readerId !== mx.getUserId())
       .map(
-        (readerId) => getMemberDisplayName(room, readerId) ?? getMxIdLocalPart(readerId) ?? readerId
+        (readerId) =>
+          getMemberDisplayName(room, readerId) ?? getMxIdLocalPart(readerId) ?? readerId,
       );
 
     const eventId = latestEvent?.getId();
@@ -153,5 +154,5 @@ export const RoomViewFollowing = as<'div', RoomViewFollowingProps>(
         </Box>
       </>
     );
-  }
+  },
 );

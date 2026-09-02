@@ -14,7 +14,7 @@ export const useMatrixEventRenderer =
   <T extends unknown[]>(
     typeToRenderer: EventRendererOpts<T>,
     renderStateEvent?: EventRenderer<T>,
-    renderEvent?: EventRenderer<T>
+    renderEvent?: EventRenderer<T>,
   ): RenderMatrixEvent<T> =>
   (eventType, isStateEvent, ...args) => {
     const renderer = typeToRenderer[eventType];

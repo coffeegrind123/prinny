@@ -22,14 +22,14 @@ export const SequenceCard = as<
       children,
       ...props
     },
-    ref
+    ref,
   ) => (
     <Box
       as={AsSequenceCard}
       className={classNames(
         css.SequenceCard({ radii, outlined, mergeBorder }),
         ContainerColor({ variant }),
-        className
+        className,
       )}
       data-first-child={firstChild}
       data-last-child={lastChild}
@@ -40,5 +40,5 @@ export const SequenceCard = as<
       {header}
       {children}
     </Box>
-  )
+  ),
 );

@@ -294,7 +294,7 @@ export function OptionsChip({
       const users = ignoredUsers.filter((u) => u !== userId);
       if (!ignored) users.push(userId);
       await mx.setIgnoredUsers(users);
-    }, [mx, ignoredUsers, userId, ignored])
+    }, [mx, ignoredUsers, userId, ignored]),
   );
   const ignoring = ignoreState.status === AsyncStatus.Loading;
 
@@ -307,8 +307,8 @@ export function OptionsChip({
         if (action === 'ban') await mx.ban(room.roomId, userId, moderationReason);
         if (action === 'unban') await mx.unban(room.roomId, userId);
       },
-      [mx, room, userId, reason]
-    )
+      [mx, room, userId, reason],
+    ),
   );
   const moderating = moderationState.status === AsyncStatus.Loading;
   const hasModerationActions =

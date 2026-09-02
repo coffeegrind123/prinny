@@ -27,7 +27,7 @@ export function SyncStatus({ mx }: SyncStatusProps) {
         }
         return { current, previous };
       });
-    }, [])
+    }, []),
   );
 
   if (

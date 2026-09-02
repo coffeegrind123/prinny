@@ -28,13 +28,13 @@ export type AutoDiscoveryInfo = Record<string, unknown> & {
     {
       livekit_service_url: string;
       type: 'livekit';
-    }
+    },
   ];
 };
 
 export const autoDiscovery = async (
   request: typeof fetch,
-  server: string
+  server: string,
 ): Promise<[AutoDiscoveryError, undefined] | [undefined, AutoDiscoveryInfo]> => {
   // Force https. This used to preserve whatever scheme the caller already had,
   // so an `http://` prefix survived all the way to the credential-bearing login
@@ -106,7 +106,7 @@ export const autoDiscovery = async (
   content['m.homeserver'].base_url = trimTrailingSlash(baseUrl);
   if (content['m.identity_server']) {
     content['m.identity_server'].base_url = trimTrailingSlash(
-      content['m.identity_server'].base_url
+      content['m.identity_server'].base_url,
     );
   }
 
@@ -119,7 +119,7 @@ export type SpecVersions = {
 };
 export const specVersions = async (
   request: typeof fetch,
-  baseUrl: string
+  baseUrl: string,
 ): Promise<SpecVersions> => {
   const res = await request(`${trimTrailingSlash(baseUrl)}/_matrix/client/versions`);
 
@@ -150,7 +150,7 @@ const SERVER_VERSION_TIMEOUT = 5000;
  */
 export const serverVersion = async (
   request: typeof fetch,
-  baseUrl: string
+  baseUrl: string,
 ): Promise<ServerVersion | undefined> => {
   const abortController = new AbortController();
   const timeoutId = setTimeout(() => abortController.abort(), SERVER_VERSION_TIMEOUT);
@@ -158,7 +158,7 @@ export const serverVersion = async (
   const [err, res] = await to(
     request(`${trimTrailingSlash(baseUrl)}/_matrix/federation/v1/version`, {
       signal: abortController.signal,
-    })
+    }),
   );
 
   if (err || !res.ok) {

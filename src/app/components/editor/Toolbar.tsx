@@ -173,7 +173,12 @@ export function HeadingBlockButton() {
           <Menu style={{ padding: config.space.S100 }}>
             <Box gap="100">
               <TooltipProvider
-                tooltip={<BtnTooltip text="Heading 1" shortCode={resolveFormatKey('format-heading-1', 'mod+1')} />}
+                tooltip={
+                  <BtnTooltip
+                    text="Heading 1"
+                    shortCode={resolveFormatKey('format-heading-1', 'mod+1')}
+                  />
+                }
                 delay={500}
               >
                 {(triggerRef) => (
@@ -188,7 +193,12 @@ export function HeadingBlockButton() {
                 )}
               </TooltipProvider>
               <TooltipProvider
-                tooltip={<BtnTooltip text="Heading 2" shortCode={resolveFormatKey('format-heading-2', 'mod+2')} />}
+                tooltip={
+                  <BtnTooltip
+                    text="Heading 2"
+                    shortCode={resolveFormatKey('format-heading-2', 'mod+2')}
+                  />
+                }
                 delay={500}
               >
                 {(triggerRef) => (
@@ -203,7 +213,12 @@ export function HeadingBlockButton() {
                 )}
               </TooltipProvider>
               <TooltipProvider
-                tooltip={<BtnTooltip text="Heading 3" shortCode={resolveFormatKey('format-heading-3', 'mod+3')} />}
+                tooltip={
+                  <BtnTooltip
+                    text="Heading 3"
+                    shortCode={resolveFormatKey('format-heading-3', 'mod+3')}
+                  />
+                }
                 delay={500}
               >
                 {(triggerRef) => (
@@ -301,17 +316,26 @@ export function Toolbar() {
               <MarkButton
                 format={MarkType.Underline}
                 icon={Icons.Underline}
-                tooltip={<BtnTooltip text="Underline" shortCode={kbd('format-underline', 'mod+u')} />}
+                tooltip={
+                  <BtnTooltip text="Underline" shortCode={kbd('format-underline', 'mod+u')} />
+                }
               />
               <MarkButton
                 format={MarkType.StrikeThrough}
                 icon={Icons.Strike}
-                tooltip={<BtnTooltip text="Strike Through" shortCode={kbd('format-strikethrough', 'mod+s')} />}
+                tooltip={
+                  <BtnTooltip
+                    text="Strike Through"
+                    shortCode={kbd('format-strikethrough', 'mod+s')}
+                  />
+                }
               />
               <MarkButton
                 format={MarkType.Code}
                 icon={Icons.Code}
-                tooltip={<BtnTooltip text="Inline Code" shortCode={kbd('format-inline-code', 'mod+[')} />}
+                tooltip={
+                  <BtnTooltip text="Inline Code" shortCode={kbd('format-inline-code', 'mod+[')} />
+                }
               />
               <MarkButton
                 format={MarkType.Spoiler}
@@ -325,22 +349,33 @@ export function Toolbar() {
             <BlockButton
               format={BlockType.BlockQuote}
               icon={Icons.BlockQuote}
-              tooltip={<BtnTooltip text="Block Quote" shortCode={kbd('format-block-quote', "mod+'")} />}
+              tooltip={
+                <BtnTooltip text="Block Quote" shortCode={kbd('format-block-quote', "mod+'")} />
+              }
             />
             <BlockButton
               format={BlockType.CodeBlock}
               icon={Icons.BlockCode}
-              tooltip={<BtnTooltip text="Block Code" shortCode={kbd('format-code-block', 'mod+;')} />}
+              tooltip={
+                <BtnTooltip text="Block Code" shortCode={kbd('format-code-block', 'mod+;')} />
+              }
             />
             <BlockButton
               format={BlockType.OrderedList}
               icon={Icons.OrderList}
-              tooltip={<BtnTooltip text="Ordered List" shortCode={kbd('format-ordered-list', 'mod+7')} />}
+              tooltip={
+                <BtnTooltip text="Ordered List" shortCode={kbd('format-ordered-list', 'mod+7')} />
+              }
             />
             <BlockButton
               format={BlockType.UnorderedList}
               icon={Icons.UnorderList}
-              tooltip={<BtnTooltip text="Unordered List" shortCode={kbd('format-unordered-list', 'mod+8')} />}
+              tooltip={
+                <BtnTooltip
+                  text="Unordered List"
+                  shortCode={kbd('format-unordered-list', 'mod+8')}
+                />
+              }
             />
             <HeadingBlockButton />
           </Box>
@@ -350,7 +385,10 @@ export function Toolbar() {
               <Box shrink="No" gap="100">
                 <ExitFormatting
                   tooltip={
-                    <BtnTooltip text="Exit Formatting" shortCode={`Esc, ${kbd('format-clear', 'mod+e')}`} />
+                    <BtnTooltip
+                      text="Exit Formatting"
+                      shortCode={`Esc, ${kbd('format-clear', 'mod+e')}`}
+                    />
                   }
                 />
               </Box>

@@ -154,10 +154,7 @@ const subscribeToBots = (room: Room, onChange: () => void): (() => void) => {
  * has written them, and this is where the client reads them back.
  */
 export const useRoomBots = (room: Room): RoomBots => {
-  const subscribe = useCallback(
-    (onChange: () => void) => subscribeToBots(room, onChange),
-    [room]
-  );
+  const subscribe = useCallback((onChange: () => void) => subscribeToBots(room, onChange), [room]);
   const getSnapshot = useCallback(() => getStore(room).snapshot, [room]);
 
   return useSyncExternalStore(subscribe, getSnapshot);

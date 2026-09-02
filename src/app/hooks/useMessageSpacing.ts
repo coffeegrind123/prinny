@@ -34,5 +34,5 @@ export const useMessageSpacingItems = (): MessageSpacingItem[] =>
         name: 'Large',
       },
     ],
-    []
+    [],
   );

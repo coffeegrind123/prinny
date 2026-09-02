@@ -42,9 +42,9 @@ export function CreateRoomAliasInput({ disabled }: { disabled?: boolean }) {
           throw e;
         }
       },
-      [mx]
+      [mx],
     ),
-    setAliasAvail
+    setAliasAvail,
   );
   const aliasAvailable: boolean | undefined =
     aliasAvail.status === AsyncStatus.Success ? aliasAvail.data : undefined;

@@ -18,7 +18,7 @@ const equalTypingMembers = (x: TypingReceipt[], y: TypingReceipt[]): boolean => 
 export const useRoomTypingMember = (roomId: string) => {
   const selector = useCallback(
     (roomToTyping: IRoomIdToTypingMembers) => roomToTyping.get(roomId) ?? [],
-    [roomId]
+    [roomId],
   );
 
   const typing = useAtomValue(selectAtom(roomIdToTypingMembersAtom, selector, equalTypingMembers));

@@ -17,16 +17,16 @@ export const allInvitesAtom = atom<string[], [RoomsAction], undefined>(
       if (action.type === 'PUT') newIds.push(action.roomId);
       return newIds;
     });
-  }
+  },
 );
 
 export const useBindAllInvitesAtom = (
   mx: MatrixClient,
-  allRooms: WritableAtom<string[], [RoomsAction], undefined>
+  allRooms: WritableAtom<string[], [RoomsAction], undefined>,
 ) => {
   useBindRoomsWithMembershipsAtom(
     mx,
     allRooms,
-    useMemo(() => [Membership.Invite], [])
+    useMemo(() => [Membership.Invite], []),
   );
 };

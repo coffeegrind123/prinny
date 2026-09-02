@@ -22,13 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { ServerBrowser } from '../../../components/ServerBrowser';
 import { getExploreServerPath } from '../../pathUtils';
 
-function ConfigRoomCardRow({
-  ids,
-  onView,
-}: {
-  ids: string[];
-  onView: (roomId: string) => void;
-}) {
+function ConfigRoomCardRow({ ids, onView }: { ids: string[]; onView: (roomId: string) => void }) {
   const allRooms = useAtomValue(allRoomsAtom);
   return (
     <RoomCardGrid>
@@ -79,10 +73,7 @@ export function FeaturedRooms() {
   return (
     <Page>
       {browserOpen && (
-        <ServerBrowser
-          requestClose={() => setBrowserOpen(false)}
-          onSelect={handleServerSelect}
-        />
+        <ServerBrowser requestClose={() => setBrowserOpen(false)} onSelect={handleServerSelect} />
       )}
       {screenSize === ScreenSize.Mobile && (
         <PageHeader>

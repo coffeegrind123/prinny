@@ -23,5 +23,5 @@ export const CompactPlaceholder = as<'div', { variant?: ContainerColor }>(
         <LinePlaceholder variant={variant} style={{ maxWidth: toRem(msgSize) }} />
       </CompactLayout>
     );
-  }
+  },
 );

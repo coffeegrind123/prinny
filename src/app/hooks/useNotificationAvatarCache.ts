@@ -61,8 +61,7 @@ export function useNotificationAvatarCache(mx: MatrixClient | undefined) {
       if (cancelled) return;
 
       const accessToken = mx.getAccessToken();
-      const authHeader =
-        useAuthentication && accessToken ? `Bearer ${accessToken}` : undefined;
+      const authHeader = useAuthentication && accessToken ? `Bearer ${accessToken}` : undefined;
 
       const rooms = allRooms
         .map((roomId) => mx.getRoom(roomId))

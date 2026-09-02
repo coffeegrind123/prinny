@@ -22,15 +22,10 @@
 const ALLOWED_PROTOCOLS = new Set(['https:']);
 
 export type WidgetUrlRejection =
-  | 'invalid'
-  | 'scheme'
-  | 'same-origin'
-  | 'credentials'
-  | 'private-host';
+  'invalid' | 'scheme' | 'same-origin' | 'credentials' | 'private-host';
 
 export type WidgetUrlCheck =
-  | { ok: true; url: URL }
-  | { ok: false; reason: WidgetUrlRejection; message: string };
+  { ok: true; url: URL } | { ok: false; reason: WidgetUrlRejection; message: string };
 
 // Hosts that resolve back to the user's own machine or network. A widget served
 // from one of those is either our own app (see same-origin above) or something

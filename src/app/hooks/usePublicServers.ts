@@ -116,9 +116,9 @@ const parseServer = (raw: unknown): PublicServer | undefined => {
       ? clientDomainRaw
       : '';
 
-  const reg = (typeof r.registration === 'object' && r.registration !== null
-    ? r.registration
-    : {}) as Record<string, unknown>;
+  const reg = (
+    typeof r.registration === 'object' && r.registration !== null ? r.registration : {}
+  ) as Record<string, unknown>;
   const priv = (typeof r.privacy === 'object' && r.privacy !== null ? r.privacy : {}) as Record<
     string,
     unknown

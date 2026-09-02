@@ -1,11 +1,4 @@
-import {
-  MouseEventHandler,
-  forwardRef,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { MouseEventHandler, forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   Avatar,
@@ -126,7 +119,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
   const allChild = useSpaceChildren(
     allRoomsAtom,
     room.roomId,
-    useRecursiveChildScopeFactory(mx, roomToParents)
+    useRecursiveChildScopeFactory(mx, roomToParents),
   );
   const unread = useRoomsUnread(allChild, roomToUnreadAtom);
 
@@ -326,7 +319,7 @@ function SpaceHeader() {
 
   const joinRules = useStateEvent(
     space,
-    StateEvent.RoomJoinRules
+    StateEvent.RoomJoinRules,
   )?.getContent<RoomJoinRulesEventContent>();
 
   const handleOpenMenu: MouseEventHandler<HTMLButtonElement> = (evt) => {
@@ -393,7 +386,7 @@ export function SpaceTombstone({ roomId, replacementRoomId }: SpaceTombstoneProp
       return mx.joinRoom(replacementRoomId, {
         viaServers: via,
       });
-    }, [mx, roomId, replacementRoomId])
+    }, [mx, roomId, replacementRoomId]),
   );
   const replacementRoom = mx.getRoom(replacementRoomId);
 
@@ -478,7 +471,7 @@ export function Space() {
       }
       return undefined;
     },
-    [mx, allJoinedRooms]
+    [mx, allJoinedRooms],
   );
 
   const roomOrderContent = useRoomOrderContent();
@@ -499,14 +492,14 @@ export function Space() {
           roomToUnread.has(roomId) || roomId === selectedRoomId || callEmbed?.roomId === roomId;
         return !showRoomAnyway;
       },
-      [space.roomId, closedCategories, roomToUnread, selectedRoomId, callEmbed]
+      [space.roomId, closedCategories, roomToUnread, selectedRoomId, callEmbed],
     ),
     useCallback(
       (sId) => closedCategories.has(makeNavCategoryId(space.roomId, sId)),
-      [closedCategories, space.roomId]
+      [closedCategories, space.roomId],
     ),
     sortMode,
-    customOrders
+    customOrders,
   );
 
   // The rooms this nav renders, in hierarchy order — categories, custom order,
@@ -523,7 +516,7 @@ export function Space() {
           const room = getRoom(roomId);
           return room !== undefined && !room.isSpaceRoom();
         }),
-    [hierarchy, getRoom]
+    [hierarchy, getRoom],
   );
   useRegisterNavRoomOrder(10, listedRooms);
 
@@ -533,7 +526,7 @@ export function Space() {
         .filter((item) => 'space' in item)
         .map((item) => getRoom(item.roomId))
         .filter((room): room is Room => room !== undefined),
-    [hierarchy, getRoom]
+    [hierarchy, getRoom],
   );
   const roomsPowerLevels = useRoomsPowerLevels(parentRooms);
 
@@ -548,14 +541,14 @@ export function Space() {
       const permissions = getRoomPermissionsAPI(creators, powerLevels);
       return permissions.stateEvent(StateEvent.SpaceChild, mx.getSafeUserId());
     },
-    [mx, getRoom, roomsPowerLevels, sortMode]
+    [mx, getRoom, roomsPowerLevels, sortMode],
   );
 
   const [reorderState, handleReorder] = useAsyncCallback(
     useCallback(
       async (parentId: string, fromRoomId: string, toRoomId: string) => {
         const sectionRooms = hierarchy.filter(
-          (item) => !('space' in item) && item.parentId === parentId
+          (item) => !('space' in item) && item.parentId === parentId,
         );
         const orderedRoomIds = sectionRooms.map((item) => item.roomId);
         const filtered = orderedRoomIds.filter((roomId) => roomId !== fromRoomId);
@@ -594,12 +587,12 @@ export function Space() {
             parentId,
             StateEvent.SpaceChild as any,
             { ...item.content, order: orderKey },
-            item.roomId
-          )
+            item.roomId,
+          ),
         );
       },
-      [mx, hierarchy, sortMode, reorderRoom, canReorderInParent, lex]
-    )
+      [mx, hierarchy, sortMode, reorderRoom, canReorderInParent, lex],
+    ),
   );
 
   const virtualizer = useVirtualizer({
@@ -610,7 +603,7 @@ export function Space() {
   });
 
   const handleCategoryClick = useCategoryHandler(setClosedCategories, (categoryId) =>
-    closedCategories.has(categoryId)
+    closedCategories.has(categoryId),
   );
 
   const getToLink = (roomId: string) =>
@@ -710,7 +703,7 @@ export function Space() {
                         linkPath={getToLink(roomId)}
                         notificationMode={getRoomNotificationMode(
                           notificationPreferences,
-                          room.roomId
+                          room.roomId,
                         )}
                         parentId={parentId}
                         onReorder={handleReorder}

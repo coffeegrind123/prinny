@@ -29,11 +29,11 @@ export function OnlyVerifiedDevicesTile() {
       const crypto = mx.getCrypto();
       if (crypto) {
         crypto.setDeviceIsolationMode(
-          value ? new OnlySignedDevicesIsolationMode() : new AllDevicesIsolationMode(false)
+          value ? new OnlySignedDevicesIsolationMode() : new AllDevicesIsolationMode(false),
         );
       }
     },
-    [mx, setOnlySignedDevices]
+    [mx, setOnlySignedDevices],
   );
 
   return (

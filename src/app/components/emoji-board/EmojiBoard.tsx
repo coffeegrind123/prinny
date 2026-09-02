@@ -515,7 +515,7 @@ export function EmojiBoard({
     (mxc: string, shortcode: string) => {
       onCustomEmojiSelect?.(mxc, shortcode);
     },
-    [onCustomEmojiSelect]
+    [onCustomEmojiSelect],
   );
 
   const handleTextCustomEmojiSelect = (textEmoji: string) => {

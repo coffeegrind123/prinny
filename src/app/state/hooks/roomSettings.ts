@@ -27,7 +27,7 @@ export const useOpenRoomSettings = (): OpenCallback => {
     (roomId, spaceId, page) => {
       setSettings({ roomId, spaceId, page });
     },
-    [setSettings]
+    [setSettings],
   );
 
   return open;

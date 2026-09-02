@@ -53,7 +53,7 @@ export function ImagePackProfile({ meta, canEdit, onEdit }: ImagePackProfileProp
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const avatarUrl = meta.avatar
-    ? mxcUrlToHttp(mx, meta.avatar, useAuthentication) ?? undefined
+    ? (mxcUrlToHttp(mx, meta.avatar, useAuthentication) ?? undefined)
     : undefined;
 
   return (
@@ -101,7 +101,7 @@ export function ImagePackProfileEdit({ meta, onCancel, onSave }: ImagePackProfil
   const useAuthentication = useMediaAuthentication();
   const [avatar, setAvatar] = useState(meta.avatar);
 
-  const avatarUrl = avatar ? mxcUrlToHttp(mx, avatar, useAuthentication) ?? undefined : undefined;
+  const avatarUrl = avatar ? (mxcUrlToHttp(mx, avatar, useAuthentication) ?? undefined) : undefined;
 
   const [imageFile, setImageFile] = useState<File>();
   const avatarFileUrl = useObjectURL(imageFile);

@@ -32,7 +32,7 @@ export const makeCallPreferencesAtom = (userId: string): CallPreferencesAtom => 
     },
     (key, value) => {
       setLocalStorageItem(key, value);
-    }
+    },
   );
 
   return callPreferencesAtom;

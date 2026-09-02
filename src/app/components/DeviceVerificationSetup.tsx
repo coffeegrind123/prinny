@@ -27,7 +27,7 @@ import { useAlive } from '../hooks/useAlive';
 import { UseStateProvider } from './UseStateProvider';
 
 type UIACallback<T> = (
-  authDict: AuthDict | null
+  authDict: AuthDict | null,
 ) => Promise<[IAuthData, undefined] | [undefined, T]>;
 
 type PerformAction<T> = (authDict: AuthDict | null) => Promise<T>;
@@ -42,7 +42,7 @@ function makeUIAAction<T>(
   authData: IAuthData,
   performAction: PerformAction<T>,
   resolve: (data: T) => void,
-  reject: (error?: any) => void
+  reject: (error?: any) => void,
 ): UIAAction<T> {
   const action: UIAAction<T> = {
     authData,
@@ -91,7 +91,7 @@ function SetupVerification({ onComplete }: SetupVerificationProps) {
         setNextAuthData(authData);
       }
     },
-    [uiaAction, alive]
+    [uiaAction, alive],
   );
 
   const resetUIA = useCallback(() => {
@@ -118,7 +118,7 @@ function SetupVerification({ onComplete }: SetupVerificationProps) {
                 (err) => {
                   resetUIA();
                   reject(err);
-                }
+                },
               );
               if (alive()) {
                 setUIAAction(action);
@@ -130,7 +130,7 @@ function SetupVerification({ onComplete }: SetupVerificationProps) {
             reject(error);
           });
       }),
-    [alive, resetUIA]
+    [alive, resetUIA],
   );
 
   const [setupState, setup] = useAsyncCallback<void, Error, [string | undefined]>(
@@ -159,8 +159,8 @@ function SetupVerification({ onComplete }: SetupVerificationProps) {
 
         onComplete(recoveryKeyData.encodedPrivateKey);
       },
-      [mx, onComplete, authUploadDeviceSigningKeys]
-    )
+      [mx, onComplete, authUploadDeviceSigningKeys],
+    ),
   );
 
   const loading = setupState.status === AsyncStatus.Loading;
@@ -314,7 +314,7 @@ export const DeviceVerificationSetup = forwardRef<HTMLDivElement, DeviceVerifica
         </Box>
       </Dialog>
     );
-  }
+  },
 );
 type DeviceVerificationResetProps = {
   onCancel: () => void;
@@ -371,5 +371,5 @@ export const DeviceVerificationReset = forwardRef<HTMLDivElement, DeviceVerifica
         )}
       </Dialog>
     );
-  }
+  },
 );

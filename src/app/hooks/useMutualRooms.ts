@@ -47,7 +47,7 @@ const fetchAllMutualRooms = async (mx: MatrixClient, userId: string): Promise<st
       undefined,
       {
         prefix: '/_matrix/client/v1',
-      }
+      },
     );
     result.joined.forEach((r) => mutualRooms.add(r));
     nextBatch = result.next_batch;
@@ -67,7 +67,7 @@ export const useMutualRooms = (userId: string): AsyncState<string[], unknown> =>
       if (support) return fetchAllMutualRooms(mx, userId);
       if (unstableSupport) return mx._unstable_getSharedRooms(userId);
       return Promise.resolve([]);
-    }, [mx, userId, unstableSupport, support])
+    }, [mx, userId, unstableSupport, support]),
   );
 
   return mutualRoomsState;

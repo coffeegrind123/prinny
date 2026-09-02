@@ -73,7 +73,7 @@ export async function markAsRead(
   mx: MatrixClient,
   roomId: string,
   privateReceipt: boolean,
-  options?: MarkAsReadOptions
+  options?: MarkAsReadOptions,
 ) {
   const room = mx.getRoom(roomId);
   if (!room) return;
@@ -109,7 +109,7 @@ export async function markAsRead(
 
   await mx.sendReadReceipt(
     latestEvent,
-    privateReceipt ? ReceiptType.ReadPrivate : ReceiptType.Read
+    privateReceipt ? ReceiptType.ReadPrivate : ReceiptType.Read,
   );
 }
 

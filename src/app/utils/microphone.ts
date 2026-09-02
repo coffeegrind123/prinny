@@ -109,7 +109,7 @@ const MICROPHONE_DESCRIPTOR = { name: 'microphone' } as unknown as PermissionDes
  * rather than to pretend it knows.
  */
 export const observeMicrophonePermission = (
-  onState: (state: MicPermissionState) => void
+  onState: (state: MicPermissionState) => void,
 ): (() => void) => {
   let status: PermissionStatus | undefined;
   let disposed = false;
@@ -123,7 +123,7 @@ export const observeMicrophonePermission = (
     // "the query said X, we reported Y" is the line that makes that visible.
     if (platformState !== state) {
       console.info(
-        `microphone permission: platform reported "${platformState}", treating as "${state}"`
+        `microphone permission: platform reported "${platformState}", treating as "${state}"`,
       );
     }
     if (state === 'granted') writeCachedMicrophoneGranted(true);

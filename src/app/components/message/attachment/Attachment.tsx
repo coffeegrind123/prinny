@@ -11,7 +11,7 @@ export const Attachment = as<'div', css.AttachmentVariants>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );
 
 export const AttachmentBox = as<'div'>(({ className, ...props }, ref) => (

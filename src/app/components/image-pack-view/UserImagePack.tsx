@@ -15,7 +15,7 @@ export function UserImagePack() {
     async (packContent: PackContent) => {
       await mx.setAccountData(AccountDataEvent.PoniesUserEmotes, packContent);
     },
-    [mx]
+    [mx],
   );
 
   return <ImagePackContent imagePack={imagePack ?? defaultPack} canEdit onUpdate={handleUpdate} />;

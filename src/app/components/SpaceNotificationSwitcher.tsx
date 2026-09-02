@@ -32,7 +32,7 @@ type SpaceNotificationModeSwitcherProps = {
   children: (
     handleOpen: MouseEventHandler<HTMLButtonElement>,
     opened: boolean,
-    changing: boolean
+    changing: boolean,
   ) => ReactNode;
 };
 export function SpaceNotificationModeSwitcher({
@@ -56,8 +56,8 @@ export function SpaceNotificationModeSwitcher({
           }
         }
       },
-      [mx, roomIds, preferences]
-    )
+      [mx, roomIds, preferences],
+    ),
   );
   const changing = applyState.status === AsyncStatus.Loading;
 

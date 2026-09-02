@@ -11,7 +11,7 @@ type CategoryAction =
     };
 export const useCategoryHandler = (
   setAtom: (action: CategoryAction) => void,
-  closed: (categoryId: string) => boolean
+  closed: (categoryId: string) => boolean,
 ) => {
   const handleCategoryClick: MouseEventHandler<HTMLButtonElement> = (evt) => {
     const categoryId = evt.currentTarget.getAttribute('data-category-id');

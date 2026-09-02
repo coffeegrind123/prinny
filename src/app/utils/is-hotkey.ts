@@ -188,15 +188,16 @@ const compareHotkey = (parsed: ParsedHotkey, event: KeyboardEventLike): boolean 
  * curried form.
  */
 export function isKeyHotkey(
-  hotkey: string | readonly string[]
+  hotkey: string | readonly string[],
 ): (event: KeyboardEventLike) => boolean;
 export function isKeyHotkey(hotkey: string | readonly string[], event: KeyboardEventLike): boolean;
 export function isKeyHotkey(
   hotkey: string | readonly string[],
-  event?: KeyboardEventLike
+  event?: KeyboardEventLike,
 ): boolean | ((event: KeyboardEventLike) => boolean) {
   const parsed = (Array.isArray(hotkey) ? hotkey : [hotkey as string]).map(parseHotkey);
-  const check = (e: KeyboardEventLike): boolean => parsed.some((object) => compareHotkey(object, e));
+  const check = (e: KeyboardEventLike): boolean =>
+    parsed.some((object) => compareHotkey(object, e));
 
   return event == null ? check : check(event);
 }

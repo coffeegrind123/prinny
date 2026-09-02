@@ -33,7 +33,7 @@ const isSharePayload = (value: unknown): value is SharePayload => {
   if (typeof p.text !== 'string' || typeof p.subject !== 'string') return false;
   if (!Array.isArray(p.files)) return false;
   return p.files.every(
-    (f) => typeof f === 'object' && f !== null && typeof (f as SharedFileRef).token === 'string'
+    (f) => typeof f === 'object' && f !== null && typeof (f as SharedFileRef).token === 'string',
   );
 };
 
@@ -64,7 +64,7 @@ export const readSharedFile = async (token: string): Promise<File> => {
   const { invoke } = await import('@tauri-apps/api/core');
   const result = await invoke<{ name: string; mime: string; base64: string }>(
     'plugin:share-target|read_shared_file',
-    { token }
+    { token },
   );
 
   const binary = atob(result.base64);
@@ -85,7 +85,7 @@ export const readSharedFile = async (token: string): Promise<File> => {
  * `onNotificationAction`'s `js_ready` call.
  */
 export const onShareReceived = async (
-  callback: (payload: SharePayload) => void
+  callback: (payload: SharePayload) => void,
 ): Promise<() => void> => {
   if (!isTauri()) return () => {};
 
@@ -107,7 +107,7 @@ export const onShareReceived = async (
           return;
         }
         callback(payload);
-      }
+      },
     );
 
     try {

@@ -78,7 +78,7 @@ const getDropIndex = (
   range: ItemRange,
   dropDirection: Direction,
   getItemElement: (index: number) => HTMLElement | undefined,
-  pageThreshold = 1
+  pageThreshold = 1,
 ): number | undefined => {
   const fromBackward = dropDirection === Direction.Backward;
   const items = fromBackward ? generateItems(range) : generateItems(range).reverse();
@@ -115,7 +115,7 @@ type RestoreAnchorData = [number | undefined, HTMLElement | undefined];
 const getRestoreAnchor = (
   range: ItemRange,
   getItemElement: (index: number) => HTMLElement | undefined,
-  direction: Direction
+  direction: Direction,
 ): RestoreAnchorData => {
   let scrollAnchorEl: HTMLElement | undefined;
   const scrollAnchorItem = (
@@ -145,7 +145,7 @@ const getRestoreScrollData = (scrollTop: number, restoreAnchorData: RestoreAncho
 
 const useObserveAnchorHandle = (
   intersectionObserver: ReturnType<typeof useIntersectionObserver>,
-  anchorType: Direction
+  anchorType: Direction,
 ): HandleObserveAnchor =>
   useMemo<HandleObserveAnchor>(() => {
     let anchor: HTMLElement | null = null;
@@ -160,7 +160,7 @@ const useObserveAnchorHandle = (
   }, [intersectionObserver, anchorType]);
 
 export const useVirtualPaginator = <TScrollElement extends HTMLElement>(
-  options: VirtualPaginatorOptions<TScrollElement>
+  options: VirtualPaginatorOptions<TScrollElement>,
 ): VirtualPaginator => {
   const { count, limit, range, onRangeChange, getScrollElement, getItemElement, onEnd } = options;
 
@@ -230,7 +230,7 @@ export const useVirtualPaginator = <TScrollElement extends HTMLElement>(
       });
       return true;
     },
-    [getScrollElement]
+    [getScrollElement],
   );
 
   const scrollToItem = useCallback<ScrollToItem>(
@@ -267,7 +267,7 @@ export const useVirtualPaginator = <TScrollElement extends HTMLElement>(
       }
       return scrollToElement(itemElement, opts);
     },
-    [getScrollElement, scrollToElement, getItemElement, onRangeChange]
+    [getScrollElement, scrollToElement, getItemElement, onRangeChange],
   );
 
   const paginate = useCallback(
@@ -285,7 +285,7 @@ export const useVirtualPaginator = <TScrollElement extends HTMLElement>(
         if (scrollEl) {
           restoreScrollRef.current = getRestoreScrollData(
             scrollEl.scrollTop,
-            getRestoreAnchor({ start, end }, getItemElement, Direction.Backward)
+            getRestoreAnchor({ start, end }, getItemElement, Direction.Backward),
           );
         }
         if (scrollEl) {
@@ -303,7 +303,7 @@ export const useVirtualPaginator = <TScrollElement extends HTMLElement>(
         if (scrollEl) {
           restoreScrollRef.current = getRestoreScrollData(
             scrollEl.scrollTop,
-            getRestoreAnchor({ start, end }, getItemElement, Direction.Forward)
+            getRestoreAnchor({ start, end }, getItemElement, Direction.Forward),
           );
         }
         end = Math.min(end + currentLimit, currentCount);
@@ -318,25 +318,25 @@ export const useVirtualPaginator = <TScrollElement extends HTMLElement>(
         end,
       });
     },
-    [getScrollElement, getItemElement, onEnd, onRangeChange]
+    [getScrollElement, getItemElement, onEnd, onRangeChange],
   );
 
   const handlePaginatorElIntersection: OnIntersectionCallback = useCallback(
     (entries) => {
       const anchorB = entries.find(
-        (entry) => entry.target.getAttribute(PAGINATOR_ANCHOR_ATTR) === Direction.Backward
+        (entry) => entry.target.getAttribute(PAGINATOR_ANCHOR_ATTR) === Direction.Backward,
       );
       if (anchorB?.isIntersecting) {
         paginate(Direction.Backward);
       }
       const anchorF = entries.find(
-        (entry) => entry.target.getAttribute(PAGINATOR_ANCHOR_ATTR) === Direction.Forward
+        (entry) => entry.target.getAttribute(PAGINATOR_ANCHOR_ATTR) === Direction.Forward,
       );
       if (anchorF?.isIntersecting) {
         paginate(Direction.Forward);
       }
     },
-    [paginate]
+    [paginate],
   );
 
   const intersectionObserver = useIntersectionObserver(
@@ -345,8 +345,8 @@ export const useVirtualPaginator = <TScrollElement extends HTMLElement>(
       () => ({
         root: getScrollElement(),
       }),
-      [getScrollElement]
-    )
+      [getScrollElement],
+    ),
   );
 
   const observeBackAnchor = useObserveAnchorHandle(intersectionObserver, Direction.Backward);
@@ -402,10 +402,10 @@ export const useVirtualPaginator = <TScrollElement extends HTMLElement>(
     const scrollElement = getScrollElement();
     if (!scrollElement) return;
     const backAnchor = scrollElement.querySelector(
-      `[${PAGINATOR_ANCHOR_ATTR}="${Direction.Backward}"]`
+      `[${PAGINATOR_ANCHOR_ATTR}="${Direction.Backward}"]`,
     ) as HTMLElement | null;
     const frontAnchor = scrollElement.querySelector(
-      `[${PAGINATOR_ANCHOR_ATTR}="${Direction.Forward}"]`
+      `[${PAGINATOR_ANCHOR_ATTR}="${Direction.Forward}"]`,
     ) as HTMLElement | null;
 
     if (backAnchor && isIntersectingScrollView(scrollElement, backAnchor)) {

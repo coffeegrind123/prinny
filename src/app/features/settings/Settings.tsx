@@ -91,18 +91,22 @@ const useSettingsMenuItems = (): SettingsMenuItem[] => {
         icon: Icons.Terminal,
       },
       // Keybinds are physical-keyboard-only — hide on mobile entirely.
-      ...(isMobile ? [] : [{
-        page: SettingsPages.KeybindsPage,
-        name: 'Keybinds',
-        icon: Icons.Alphabet,
-      }]),
+      ...(isMobile
+        ? []
+        : [
+            {
+              page: SettingsPages.KeybindsPage,
+              name: 'Keybinds',
+              icon: Icons.Alphabet,
+            },
+          ]),
       {
         page: SettingsPages.AboutPage,
         name: 'About',
         icon: Icons.Info,
       },
     ],
-    [isMobile]
+    [isMobile],
   );
 };
 
@@ -117,7 +121,7 @@ export function Settings({ initialPage, requestClose }: SettingsProps) {
   const profile = useUserProfile(userId);
   const displayName = profile.displayName ?? getMxIdLocalPart(userId) ?? userId;
   const avatarUrl = profile.avatarUrl
-    ? mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 96, 96, 'crop') ?? undefined
+    ? (mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 96, 96, 'crop') ?? undefined)
     : undefined;
 
   const screenSize = useScreenSizeContext();
@@ -206,117 +210,120 @@ export function Settings({ initialPage, requestClose }: SettingsProps) {
         touchAction: 'pan-y',
       }}
     >
-    <PageRoot
-      nav={
-        screenSize === ScreenSize.Mobile && activePage !== undefined ? undefined : (
-          <PageNav size="300">
-            <PageNavHeader outlined={false}>
-              <Box grow="Yes" gap="200">
-                <Avatar size="200" radii="300">
-                  <UserAvatar
-                    userId={userId}
-                    src={avatarUrl}
-                    renderFallback={() => <Text size="H6">{nameInitials(displayName)}</Text>}
-                  />
-                </Avatar>
-                <Text size="H4" truncate>
-                  Settings
-                </Text>
-              </Box>
-              <Box shrink="No">
-                {screenSize === ScreenSize.Mobile && (
-                  <IconButton onClick={requestClose} variant="Background">
-                    <Icon src={Icons.Cross} />
-                  </IconButton>
-                )}
-              </Box>
-            </PageNavHeader>
-            <Box grow="Yes" direction="Column">
-              <Scroll hideTrack visibility="Hover" variant="Background" size="300">
-                <div className={settingsCss.SettingsMobileMenu}>
-                  {menuItems.map((item) => (
-                    <MenuItem
-                      key={item.name}
-                      variant="Background"
-                      radii="400"
-                      aria-pressed={activePage === item.page}
-                      before={<Icon src={item.icon} size="100" filled={activePage === item.page} />}
-                      onClick={() => setActivePage(item.page)}
-                    >
-                      <Text
-                        style={{
-                          fontWeight: activePage === item.page ? config.fontWeight.W600 : undefined,
-                        }}
-                        size="T300"
-                        truncate
-                      >
-                        {item.name}
-                      </Text>
-                    </MenuItem>
-                  ))}
-                </div>
-              </Scroll>
-              <Box style={{ padding: config.space.S200 }} shrink="No" direction="Column">
-                <UseStateProvider initial={false}>
-                  {(logout, setLogout) => (
-                    <>
-                      <Button
-                        size="300"
-                        variant="Critical"
-                        fill="None"
-                        radii="Pill"
-                        before={<Icon src={Icons.Power} size="100" />}
-                        onClick={() => setLogout(true)}
-                      >
-                        <Text size="B400">Logout</Text>
-                      </Button>
-                      {logout && (
-                        <Overlay open backdrop={<OverlayBackdrop />}>
-                          <OverlayCenter>
-                            <FocusTrap
-                              focusTrapOptions={{
-                                onDeactivate: () => setLogout(false),
-                                clickOutsideDeactivates: true,
-                                escapeDeactivates: stopPropagation,
-                              }}
-                            >
-                              <LogoutDialog handleClose={() => setLogout(false)} />
-                            </FocusTrap>
-                          </OverlayCenter>
-                        </Overlay>
-                      )}
-                    </>
+      <PageRoot
+        nav={
+          screenSize === ScreenSize.Mobile && activePage !== undefined ? undefined : (
+            <PageNav size="300">
+              <PageNavHeader outlined={false}>
+                <Box grow="Yes" gap="200">
+                  <Avatar size="200" radii="300">
+                    <UserAvatar
+                      userId={userId}
+                      src={avatarUrl}
+                      renderFallback={() => <Text size="H6">{nameInitials(displayName)}</Text>}
+                    />
+                  </Avatar>
+                  <Text size="H4" truncate>
+                    Settings
+                  </Text>
+                </Box>
+                <Box shrink="No">
+                  {screenSize === ScreenSize.Mobile && (
+                    <IconButton onClick={requestClose} variant="Background">
+                      <Icon src={Icons.Cross} />
+                    </IconButton>
                   )}
-                </UseStateProvider>
+                </Box>
+              </PageNavHeader>
+              <Box grow="Yes" direction="Column">
+                <Scroll hideTrack visibility="Hover" variant="Background" size="300">
+                  <div className={settingsCss.SettingsMobileMenu}>
+                    {menuItems.map((item) => (
+                      <MenuItem
+                        key={item.name}
+                        variant="Background"
+                        radii="400"
+                        aria-pressed={activePage === item.page}
+                        before={
+                          <Icon src={item.icon} size="100" filled={activePage === item.page} />
+                        }
+                        onClick={() => setActivePage(item.page)}
+                      >
+                        <Text
+                          style={{
+                            fontWeight:
+                              activePage === item.page ? config.fontWeight.W600 : undefined,
+                          }}
+                          size="T300"
+                          truncate
+                        >
+                          {item.name}
+                        </Text>
+                      </MenuItem>
+                    ))}
+                  </div>
+                </Scroll>
+                <Box style={{ padding: config.space.S200 }} shrink="No" direction="Column">
+                  <UseStateProvider initial={false}>
+                    {(logout, setLogout) => (
+                      <>
+                        <Button
+                          size="300"
+                          variant="Critical"
+                          fill="None"
+                          radii="Pill"
+                          before={<Icon src={Icons.Power} size="100" />}
+                          onClick={() => setLogout(true)}
+                        >
+                          <Text size="B400">Logout</Text>
+                        </Button>
+                        {logout && (
+                          <Overlay open backdrop={<OverlayBackdrop />}>
+                            <OverlayCenter>
+                              <FocusTrap
+                                focusTrapOptions={{
+                                  onDeactivate: () => setLogout(false),
+                                  clickOutsideDeactivates: true,
+                                  escapeDeactivates: stopPropagation,
+                                }}
+                              >
+                                <LogoutDialog handleClose={() => setLogout(false)} />
+                              </FocusTrap>
+                            </OverlayCenter>
+                          </Overlay>
+                        )}
+                      </>
+                    )}
+                  </UseStateProvider>
+                </Box>
               </Box>
-            </Box>
-          </PageNav>
-        )
-      }
-    >
-      {activePage === SettingsPages.GeneralPage && (
-        <General requestClose={handlePageRequestClose} />
-      )}
-      {activePage === SettingsPages.AccountPage && (
-        <Account requestClose={handlePageRequestClose} />
-      )}
-      {activePage === SettingsPages.NotificationPage && (
-        <Notifications requestClose={handlePageRequestClose} />
-      )}
-      {activePage === SettingsPages.DevicesPage && (
-        <Devices requestClose={handlePageRequestClose} />
-      )}
-      {activePage === SettingsPages.EmojisStickersPage && (
-        <EmojisStickers requestClose={handlePageRequestClose} />
-      )}
-      {activePage === SettingsPages.DeveloperToolsPage && (
-        <DeveloperTools requestClose={handlePageRequestClose} />
-      )}
-      {activePage === SettingsPages.KeybindsPage && (
-        <Keybinds requestClose={handlePageRequestClose} />
-      )}
-      {activePage === SettingsPages.AboutPage && <About requestClose={handlePageRequestClose} />}
-    </PageRoot>
+            </PageNav>
+          )
+        }
+      >
+        {activePage === SettingsPages.GeneralPage && (
+          <General requestClose={handlePageRequestClose} />
+        )}
+        {activePage === SettingsPages.AccountPage && (
+          <Account requestClose={handlePageRequestClose} />
+        )}
+        {activePage === SettingsPages.NotificationPage && (
+          <Notifications requestClose={handlePageRequestClose} />
+        )}
+        {activePage === SettingsPages.DevicesPage && (
+          <Devices requestClose={handlePageRequestClose} />
+        )}
+        {activePage === SettingsPages.EmojisStickersPage && (
+          <EmojisStickers requestClose={handlePageRequestClose} />
+        )}
+        {activePage === SettingsPages.DeveloperToolsPage && (
+          <DeveloperTools requestClose={handlePageRequestClose} />
+        )}
+        {activePage === SettingsPages.KeybindsPage && (
+          <Keybinds requestClose={handlePageRequestClose} />
+        )}
+        {activePage === SettingsPages.AboutPage && <About requestClose={handlePageRequestClose} />}
+      </PageRoot>
     </div>
   );
 }

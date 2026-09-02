@@ -17,7 +17,7 @@ export const useDeviceVerificationDetect = (
   crypto: CryptoApi | undefined,
   userId: string,
   deviceId: string | undefined,
-  callback: (status: VerificationStatus) => void
+  callback: (status: VerificationStatus) => void,
 ): void => {
   const mx = useMatrixClient();
 
@@ -45,15 +45,15 @@ export const useDeviceVerificationDetect = (
           updateStatus();
         }
       },
-      [userId, updateStatus]
-    )
+      [userId, updateStatus],
+    ),
   );
 };
 
 export const useDeviceVerificationStatus = (
   crypto: CryptoApi | undefined,
   userId: string,
-  deviceId: string | undefined
+  deviceId: string | undefined,
 ): VerificationStatus => {
   const [verificationStatus, setVerificationStatus] = useState(VerificationStatus.Unknown);
 
@@ -65,7 +65,7 @@ export const useDeviceVerificationStatus = (
 export const useUnverifiedDeviceCount = (
   crypto: CryptoApi | undefined,
   userId: string,
-  devices: string[]
+  devices: string[],
 ): number | undefined => {
   const [unverifiedCount, setUnverifiedCount] = useState<number>();
   const alive = useAlive();
@@ -94,8 +94,8 @@ export const useUnverifiedDeviceCount = (
           updateCount();
         }
       },
-      [userId, updateCount]
-    )
+      [userId, updateCount],
+    ),
   );
 
   useEffect(() => {

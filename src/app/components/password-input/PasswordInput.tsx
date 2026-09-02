@@ -41,5 +41,5 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
         )}
       </UseStateProvider>
     );
-  }
+  },
 );

@@ -21,7 +21,7 @@ export function SpaceChildRoomsProvider({
   const childRooms = useSpaceChildren(
     allRoomsAtom,
     spaceId,
-    useChildRoomScopeFactory(mx, mDirects, roomToParents)
+    useChildRoomScopeFactory(mx, mDirects, roomToParents),
   );
 
   return children(childRooms);

@@ -120,7 +120,7 @@ export function PasswordResetForm({ defaultEmail }: PasswordResetFormProps) {
           },
           password: formData.password,
         },
-        formData.password
+        formData.password,
       );
     }
   }, [ongoingAuthData, flowErrorCode, formData, handleResetPassword]);
@@ -161,7 +161,7 @@ export function PasswordResetForm({ defaultEmail }: PasswordResetFormProps) {
       const { password } = formData;
       handleResetPassword(authDict, password);
     },
-    [formData, handleResetPassword]
+    [formData, handleResetPassword],
   );
 
   return (

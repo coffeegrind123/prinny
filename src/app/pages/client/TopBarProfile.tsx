@@ -27,7 +27,7 @@ export function TopBarProfile() {
   const displayName = profile.displayName ?? getMxIdLocalPart(userId) ?? userId;
   const status = presence?.status?.trim();
   const avatarUrl = profile.avatarUrl
-    ? mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 64, 64, 'crop') ?? undefined
+    ? (mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 64, 64, 'crop') ?? undefined)
     : undefined;
 
   const openSettings = () => setSettings(true);

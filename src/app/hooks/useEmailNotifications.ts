@@ -11,7 +11,7 @@ type EmailNotificationResult = {
 
 export const useEmailNotifications = (): [
   EmailNotificationResult | undefined | null,
-  RefreshHandler
+  RefreshHandler,
 ] => {
   const mx = useMatrixClient();
 
@@ -26,7 +26,7 @@ export const useEmailNotifications = (): [
 
       const pushers = (await mx.getPushers())?.pushers;
       const emailPusher = pushers.find(
-        (pusher) => pusher.app_id === 'm.email' && emailAddresses.includes(pusher.pushkey)
+        (pusher) => pusher.app_id === 'm.email' && emailAddresses.includes(pusher.pushkey),
       );
 
       if (emailPusher?.pushkey) {
@@ -40,7 +40,7 @@ export const useEmailNotifications = (): [
         enabled: false,
         email: emailAddresses[0],
       };
-    }, [mx])
+    }, [mx]),
   );
 
   if (emailState.status === AsyncStatus.Success) {

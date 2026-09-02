@@ -24,7 +24,7 @@ const getKeybind = (id: string, fallback: string): string => {
 export const useTextAreaIntentHandler = (
   textArea: TextArea,
   operations: Operations,
-  intent: Intent
+  intent: Intent,
 ) => {
   const handler: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (evt) => {
@@ -70,7 +70,7 @@ export const useTextAreaIntentHandler = (
         operations.select(intent.addPreviousLine(cursor));
       }
     },
-    [textArea, operations, intent]
+    [textArea, operations, intent],
   );
 
   return handler;

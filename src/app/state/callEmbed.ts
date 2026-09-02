@@ -14,7 +14,7 @@ export const callEmbedAtom = atom<CallEmbed | undefined, [CallEmbed | undefined]
     }
 
     set(baseCallEmbedAtom, callEmbed);
-  }
+  },
 );
 
 export const callChatAtom = atom<boolean>(false);

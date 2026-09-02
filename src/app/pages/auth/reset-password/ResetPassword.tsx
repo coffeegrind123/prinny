@@ -7,13 +7,13 @@ import { PasswordResetForm } from './PasswordResetForm';
 import { ResetPasswordPathSearchParams } from '../../paths';
 
 const useResetPasswordSearchParams = (
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams,
 ): ResetPasswordPathSearchParams =>
   useMemo(
     () => ({
       email: searchParams.get('email') ?? undefined,
     }),
-    [searchParams]
+    [searchParams],
   );
 
 export function ResetPassword() {

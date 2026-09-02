@@ -10,5 +10,5 @@ export const LinePlaceholder = as<'div', css.LinePlaceholderVariants>(
       {...props}
       ref={ref}
     />
-  )
+  ),
 );

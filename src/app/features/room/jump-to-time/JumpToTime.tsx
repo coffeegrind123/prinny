@@ -73,8 +73,8 @@ export function JumpToTime({ onCancel, onSubmit }: JumpToTimeProps) {
         const result = await mx.timestampToEvent(room.roomId, newTs, Direction.Forward);
         return result.event_id;
       },
-      [mx, room]
-    )
+      [mx, room],
+    ),
   );
 
   const handleSubmit = () => {

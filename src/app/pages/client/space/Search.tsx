@@ -23,7 +23,7 @@ export function SpaceSearch() {
   const rooms = useSpaceChildren(
     allRoomsAtom,
     space.roomId,
-    useRecursiveChildRoomScopeFactory(mx, mDirects, roomToParents)
+    useRecursiveChildRoomScopeFactory(mx, mDirects, roomToParents),
   );
 
   return (

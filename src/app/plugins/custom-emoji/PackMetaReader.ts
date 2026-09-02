@@ -31,7 +31,7 @@ export class PackMetaReader {
     if (!Array.isArray(this.meta.usage)) return this.fallbackUsage;
 
     const knownUsage = this.meta.usage.filter(
-      (u) => u === ImageUsage.Emoticon || u === ImageUsage.Sticker
+      (u) => u === ImageUsage.Emoticon || u === ImageUsage.Sticker,
     );
 
     if (knownUsage.length === 0) return this.fallbackUsage;

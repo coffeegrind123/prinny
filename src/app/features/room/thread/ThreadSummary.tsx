@@ -31,8 +31,7 @@ export function ThreadSummary({ room, mEvent, onClick }: ThreadSummaryProps) {
     if (!rootId) return undefined;
 
     const bundled = mEvent.getServerAggregatedRelation(THREAD_RELATION_TYPE.name) as
-      | { count?: number; current_user_participated?: boolean; latest_event?: unknown }
-      | undefined;
+      { count?: number; current_user_participated?: boolean; latest_event?: unknown } | undefined;
 
     let count = typeof bundled?.count === 'number' ? bundled.count : 0;
     let participated = bundled?.current_user_participated === true;

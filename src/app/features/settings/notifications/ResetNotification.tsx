@@ -99,12 +99,12 @@ const DEFAULT_RULE_ACTIONS: DefaultRuleActions[] = [
 const resetPushRules = async (mx: MatrixClient): Promise<void> => {
   const pushRules: IPushRules = await mx.getPushRules();
   const keywordRules = (pushRules.global[PushRuleKind.ContentSpecific] ?? []).filter(
-    (rule) => !rule.rule_id.startsWith('.')
+    (rule) => !rule.rule_id.startsWith('.'),
   );
   await Promise.all(
     keywordRules.map((rule) =>
-      mx.deletePushRule('global', PushRuleKind.ContentSpecific, rule.rule_id)
-    )
+      mx.deletePushRule('global', PushRuleKind.ContentSpecific, rule.rule_id),
+    ),
   );
 
   await Promise.all(
@@ -113,11 +113,11 @@ const resetPushRules = async (mx: MatrixClient): Promise<void> => {
       if (!rule) return;
       await mx.setPushRuleActions('global', kind, ruleId, actions);
       if (!rule.enabled) await mx.setPushRuleEnabled('global', kind, ruleId, true);
-    })
+    }),
   );
 
   const master = pushRules.global[PushRuleKind.Override]?.find(
-    (rule) => rule.rule_id === RuleId.Master
+    (rule) => rule.rule_id === RuleId.Master,
   );
   if (master?.enabled) {
     await mx.setPushRuleEnabled('global', PushRuleKind.Override, RuleId.Master, false);
@@ -132,7 +132,7 @@ function ResetPrompt({ onDone, onCancel }: ResetPromptProps) {
   const mx = useMatrixClient();
 
   const [resetState, reset] = useAsyncCallback<void, MatrixError, []>(
-    useCallback(() => resetPushRules(mx), [mx])
+    useCallback(() => resetPushRules(mx), [mx]),
   );
 
   useEffect(() => {

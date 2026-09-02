@@ -76,7 +76,7 @@ export const useUIAFlow = (authData: IAuthData, uiaFlow: UIAFlow): UIAFlowInterf
 
   const hasStage = useCallback(
     (stageType: string): boolean => uiaFlow.stages.includes(stageType),
-    [uiaFlow]
+    [uiaFlow],
   );
 
   const getStageInfo = useCallback(
@@ -85,7 +85,7 @@ export const useUIAFlow = (authData: IAuthData, uiaFlow: UIAFlow): UIAFlowInterf
 
       return params[stageType];
     },
-    [hasStage, params]
+    [hasStage, params],
   );
 
   return {
@@ -96,7 +96,7 @@ export const useUIAFlow = (authData: IAuthData, uiaFlow: UIAFlow): UIAFlowInterf
 };
 
 export const useUIAMatrixError = (
-  error?: MatrixError
+  error?: MatrixError,
 ): [undefined, undefined] | [IAuthData, undefined] | [undefined, MatrixError] => {
   if (!error) return [undefined, undefined];
   if (error.httpStatus === 401) return [error.data as IAuthData, undefined];

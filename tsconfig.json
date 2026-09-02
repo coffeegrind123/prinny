@@ -3,6 +3,16 @@
     "sourceMap": true,
     "jsx": "react-jsx",
     "target": "ES2020",
+    // TypeScript 6 stopped auto-including every `@types/*` package it can
+    // find, so the one this project relies on globally is named explicitly —
+    // without it `Buffer` (polyfilled for the browser via
+    // @esbuild-plugins/node-globals-polyfill) resolves to nothing and every
+    // use fails with TS2591. `vite/client` needs no entry here: `src/ext.d.ts`
+    // already pulls it in with a triple-slash reference, which the `types`
+    // option does not govern. Everything else — @types/react, chroma-js,
+    // prismjs, sanitize-html — is reached through the imports themselves, not
+    // through global inclusion.
+    "types": ["node"],
     "module": "ESNext",
     "allowJs": true,
     "strict": true,
@@ -13,12 +23,23 @@
     "noEmit": true,
     "outDir": "dist",
     "skipLibCheck": true,
-    "lib": ["ES2020", "DOM"],
+    // ES2022.Error, and only that slice of ES2022, for the two-argument
+    // `new Error(message, { cause })`. eslint 10's `preserve-caught-error` rule
+    // requires a rethrow to carry the error it came from, and without this the
+    // call is a TS2554 ("Expected 0-1 arguments, but got 2") because the
+    // overload lives in lib.es2022.error.d.ts. Naming the slice keeps every
+    // other ES2022 global out of scope, so `target: ES2020` stays honest.
+    "lib": ["ES2020", "ES2022.Error", "DOM"],
     // Mirror the bare-`folds` alias in vite.config.js. Without this tsc keeps
     // resolving `folds` to the package while the bundler resolves it to the
     // shim, so an `Icons.Foo` the shim does not define would typecheck against
     // folds' enum and be `undefined` at runtime.
-    "baseUrl": ".",
+    //
+    // No `baseUrl`: TypeScript 6 deprecates it (TS5101) and 7.0 drops it
+    // entirely. Since TS 4.4 `paths` no longer needs one — entries resolve
+    // relative to this file, which is what the leading `./` below already
+    // assumed. Removing it is the migration; `"ignoreDeprecations": "6.0"`
+    // would only defer the same failure to the TypeScript 7 bump.
     "paths": {
       "folds": ["./src/folds/index.ts"],
       "classnames": ["./src/app/utils/classNames.ts"]

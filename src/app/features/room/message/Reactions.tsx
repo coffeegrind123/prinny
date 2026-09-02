@@ -39,7 +39,7 @@ export const Reactions = as<'div', ReactionsProps>(
     const myUserId = mx.getUserId();
     const reactions = useRelations(
       relations,
-      useCallback((rel) => [...(rel.getSortedAnnotationsByKey() ?? [])], [])
+      useCallback((rel) => [...(rel.getSortedAnnotationsByKey() ?? [])], []),
     );
 
     const handleViewReaction: MouseEventHandler<HTMLButtonElement> = (evt) => {
@@ -126,5 +126,5 @@ export const Reactions = as<'div', ReactionsProps>(
         )}
       </Box>
     );
-  }
+  },
 );

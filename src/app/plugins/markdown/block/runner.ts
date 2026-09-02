@@ -14,7 +14,7 @@ export const runBlockRule = (
   text: string,
   rule: BlockMDRule,
   parse: BlockMDParser,
-  parseInline?: (txt: string) => string
+  parseInline?: (txt: string) => string,
 ): string | undefined => {
   const matchResult = rule.match(text);
   if (matchResult) {

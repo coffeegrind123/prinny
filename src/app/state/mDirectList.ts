@@ -14,7 +14,7 @@ export const mDirectAtom = atom<Set<string>, [MDirectAction], undefined>(
   (get) => get(baseMDirectAtom),
   (get, set, action) => {
     set(baseMDirectAtom, action.rooms);
-  }
+  },
 );
 
 export const useBindMDirectAtom = (mx: MatrixClient, mDirect: typeof mDirectAtom) => {

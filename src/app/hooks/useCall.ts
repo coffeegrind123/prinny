@@ -39,7 +39,7 @@ export const useCallSession = (room: Room): MatrixRTCSession => {
 
 export const useCallMembersChange = (
   session: MatrixRTCSession,
-  callback: (members: CallMembership[]) => void
+  callback: (members: CallMembership[]) => void,
 ): void => {
   useEffect(() => {
     const handleMembershipsChange: MatrixRTCSessionEventHandlerMap[MatrixRTCSessionEvent.MembershipsChanged] =
@@ -92,7 +92,7 @@ export const useSpaceHasCall = (space: Room): boolean => {
             const membershipEvents = state.filter(
               (event) =>
                 event.type === EventType.GroupCallMemberPrefix ||
-                event.type === EventType.RTCMembership
+                event.type === EventType.RTCMembership,
             );
             const memberships = await Promise.all(
               membershipEvents.map(async (event) => {
@@ -101,13 +101,13 @@ export const useSpaceHasCall = (space: Room): boolean => {
                 } catch {
                   return undefined;
                 }
-              })
+              }),
             );
             return memberships.some((membership) => membership && !membership.isExpired());
           } catch {
             return false;
           }
-        })
+        }),
       );
 
       if (!cancelled && version === stateVersion) {

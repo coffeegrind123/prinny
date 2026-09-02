@@ -22,7 +22,7 @@ export type AutocompleteQuery<TPrefix extends string> = {
 export const getAutocompletePrefix = <TPrefix extends string>(
   editor: Editor,
   queryRange: BaseRange,
-  validPrefixes: readonly TPrefix[]
+  validPrefixes: readonly TPrefix[],
 ): TPrefix | undefined => {
   const world = Editor.string(editor, queryRange);
   return validPrefixes.find((p) => world.startsWith(p));
@@ -31,7 +31,7 @@ export const getAutocompletePrefix = <TPrefix extends string>(
 export const getAutocompleteQueryText = (
   editor: Editor,
   queryRange: BaseRange,
-  prefix: string
+  prefix: string,
 ): string => Editor.string(editor, queryRange).slice(prefix.length);
 
 // Emoji shortcodes only ever contain word characters plus `+`/`-`
@@ -51,7 +51,7 @@ const EMOTICON_QUERY_RE = /^[a-zA-Z0-9_+-]{2,}$/;
 export const getAutocompleteQuery = <TPrefix extends string>(
   editor: Editor,
   queryRange: BaseRange,
-  validPrefixes: readonly TPrefix[]
+  validPrefixes: readonly TPrefix[],
 ): AutocompleteQuery<TPrefix> | undefined => {
   const prefix = getAutocompletePrefix(editor, queryRange, validPrefixes);
   if (!prefix) return undefined;

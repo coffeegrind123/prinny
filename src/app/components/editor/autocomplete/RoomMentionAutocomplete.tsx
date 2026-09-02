@@ -90,9 +90,9 @@ export function RoomMentionAutocomplete({
         if (alias) return [r.name, alias];
         return r.name;
       },
-      [mx]
+      [mx],
     ),
-    SEARCH_OPTIONS
+    SEARCH_OPTIONS,
   );
 
   const autoCompleteRoomIds = result ? result.items.slice(0, 20) : allRooms.slice(0, 20);
@@ -110,7 +110,7 @@ export function RoomMentionAutocomplete({
       name.startsWith('#') ? name : `#${name}`,
       roomId === roomAliasOrId || mx.getRoom(roomId)?.getCanonicalAlias() === roomAliasOrId,
       undefined,
-      viaServers
+      viaServers,
     );
     replaceWithElement(editor, query.range, mentionEl);
     moveCursor(editor, true);

@@ -57,9 +57,7 @@ export function MobileSwipeOpen({ children }: { children: React.ReactNode }) {
       const room = mx.getRoom(target);
       if (room) {
         const aliasOrId = getCanonicalAliasOrRoomId(mx, target);
-        const isDM = Array.from(mDirects.values()).some((roomIds) =>
-          roomIds.includes(target)
-        );
+        const isDM = Array.from(mDirects.values()).some((roomIds) => roomIds.includes(target));
         return isDM ? getDirectRoomPath(aliasOrId) : getHomeRoomPath(aliasOrId);
       }
     }
@@ -87,14 +85,11 @@ export function MobileSwipeOpen({ children }: { children: React.ReactNode }) {
 
   const canSwipe = useCallback(() => resolveTargetPath() !== null, [resolveTargetPath]);
 
-  const handleSwipe = useCallback(
-    () => {
-      const path = resolveTargetPath();
-      if (!path) return;
-      navigate(path);
-    },
-    [resolveTargetPath, navigate]
-  );
+  const handleSwipe = useCallback(() => {
+    const path = resolveTargetPath();
+    if (!path) return;
+    navigate(path);
+  }, [resolveTargetPath, navigate]);
 
   const { isTracking } = useSwipeGesture(ref, {
     edge: 'right',

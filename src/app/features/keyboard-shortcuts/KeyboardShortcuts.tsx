@@ -14,11 +14,7 @@ import { FocusTrap } from 'focus-trap-react';
 import { useAtom } from 'jotai';
 import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
-import {
-  KEYBIND_DEFINITIONS,
-  KeybindCategory,
-  keyboardShortcutsAtom,
-} from '../../state/keybinds';
+import { KEYBIND_DEFINITIONS, KeybindCategory, keyboardShortcutsAtom } from '../../state/keybinds';
 import { formatKeyComboSplit } from '../../utils/key-display';
 import { isMacOS } from '../../utils/user-agent';
 import { KeySymbol } from '../../utils/key-symbol';
@@ -81,7 +77,7 @@ export function KeyboardShortcuts({ requestClose }: KeyboardShortcutsProps) {
   for (const def of KEYBIND_DEFINITIONS) {
     // A gesture is not rebindable, so it always shows its own label rather than
     // an override that cannot exist.
-    const keys = def.gesture ? def.defaultKeys : keybinds[def.id] ?? def.defaultKeys;
+    const keys = def.gesture ? def.defaultKeys : (keybinds[def.id] ?? def.defaultKeys);
     grouped
       .get(def.category)
       ?.push({ id: def.id, description: def.description, keys, gesture: def.gesture });
@@ -121,7 +117,11 @@ export function KeyboardShortcuts({ requestClose }: KeyboardShortcutsProps) {
                 </Box>
               </Box>
               <Scroll ref={scrollRef} size="300" hideTrack tabIndex={0}>
-                <Box style={{ padding: config.space.S400, paddingRight: config.space.S200 }} direction="Column" gap="500">
+                <Box
+                  style={{ padding: config.space.S400, paddingRight: config.space.S200 }}
+                  direction="Column"
+                  gap="500"
+                >
                   {CATEGORY_ORDER.map((cat) => {
                     const items = grouped.get(cat);
                     if (!items || items.length === 0) return null;

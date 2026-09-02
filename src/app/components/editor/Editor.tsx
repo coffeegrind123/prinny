@@ -57,7 +57,7 @@ const withInline = (editor: Editor): Editor => {
 
   editor.isInline = (element) =>
     [BlockType.Mention, BlockType.Emoticon, BlockType.Link, BlockType.Command].includes(
-      element.type
+      element.type,
     ) || isInline(element);
 
   return editor;
@@ -111,14 +111,14 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
       onPaste,
       onDrop,
     },
-    ref
+    ref,
   ) => {
     // Per-instance, and never regenerated: `<Slate>` reads it once on mount.
     const [initialValue] = useState(createInitialValue);
 
     const renderElement = useCallback(
       (props: RenderElementProps) => <RenderElement {...props} />,
-      []
+      [],
     );
 
     const renderLeaf = useCallback((props: RenderLeafProps) => <RenderLeaf {...props} />, []);
@@ -137,7 +137,7 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
         const shortcutToggled = toggleKeyboardShortcut(editor, evt);
         if (shortcutToggled) evt.preventDefault();
       },
-      [editor, onKeyDown]
+      [editor, onKeyDown],
     );
 
     /**
@@ -172,7 +172,7 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
         rememberSelection(editor);
         onChange?.(value);
       },
-      [editor, onChange]
+      [editor, onChange],
     );
 
     /**
@@ -258,7 +258,7 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
           </Text>
         </span>
       ),
-      []
+      [],
     );
 
     return (
@@ -304,5 +304,5 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
         </Slate>
       </div>
     );
-  }
+  },
 );

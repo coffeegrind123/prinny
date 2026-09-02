@@ -50,7 +50,7 @@ const getCropGeometry = (
   image: Size,
   aspectRatio: number,
   zoom: number,
-  center: Point
+  center: Point,
 ): CropGeometry | undefined => {
   if (!stage.width || !stage.height || !image.width || !image.height) return undefined;
 
@@ -97,14 +97,14 @@ const canvasToBlob = (canvas: HTMLCanvasElement, type: string): Promise<Blob> =>
   new Promise((resolve, reject) => {
     canvas.toBlob(
       (blob) => (blob ? resolve(blob) : reject(new Error('Failed to crop image'))),
-      type
+      type,
     );
   });
 
 export const ImageEditor = as<'div', ImageEditorProps>(
   (
     { className, name, url, requestClose, aspectRatio = 1, outputWidth = 1024, onApply, ...props },
-    ref
+    ref,
   ) => {
     const stageRef = useRef<HTMLDivElement>(null);
     const dragRef = useRef<
@@ -128,16 +128,16 @@ export const ImageEditor = as<'div', ImageEditorProps>(
         if (entry) {
           const { width, height } = entry.contentRect;
           setStageSize((current) =>
-            current.width === width && current.height === height ? current : { width, height }
+            current.width === width && current.height === height ? current : { width, height },
           );
         }
       }, []),
-      useCallback(() => stageRef.current, [])
+      useCallback(() => stageRef.current, []),
     );
 
     const crop = useMemo(
       () => getCropGeometry(stageSize, imageSize, aspectRatio, zoom, center),
-      [stageSize, imageSize, aspectRatio, zoom, center]
+      [stageSize, imageSize, aspectRatio, zoom, center],
     );
 
     const setClampedCenter = useCallback(
@@ -145,7 +145,7 @@ export const ImageEditor = as<'div', ImageEditorProps>(
         const geometry = getCropGeometry(stageSize, imageSize, aspectRatio, zoom, nextCenter);
         if (geometry) setCenter({ x: geometry.centerX, y: geometry.centerY });
       },
-      [stageSize, imageSize, aspectRatio, zoom]
+      [stageSize, imageSize, aspectRatio, zoom],
     );
 
     const handleCropPointerDown: PointerEventHandler<HTMLButtonElement> = (event) => {
@@ -219,7 +219,7 @@ export const ImageEditor = as<'div', ImageEditorProps>(
           0,
           0,
           canvas.width,
-          canvas.height
+          canvas.height,
         );
         const type = 'image/jpeg';
         const blob = await canvasToBlob(canvas, type);
@@ -320,5 +320,5 @@ export const ImageEditor = as<'div', ImageEditorProps>(
         </Box>
       </Box>
     );
-  }
+  },
 );

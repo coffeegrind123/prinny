@@ -60,7 +60,7 @@ export function useSwipeGesture(
     canSwipe,
     trackElement,
     commitOffset = 0,
-  }: SwipeGestureOptions
+  }: SwipeGestureOptions,
 ): { isTracking: boolean } {
   const startX = useRef(0);
   const startY = useRef(0);
@@ -73,13 +73,16 @@ export function useSwipeGesture(
   // Apply translateX to the tracked element (inline-style mutation, no
   // React re-render per frame). `transitioning` toggles a smooth ease on
   // release while we settle back to 0.
-  const setTrackTransform = useCallback((px: number, transitioning: boolean) => {
-    const el = trackElement?.current;
-    if (!el) return;
-    el.style.transition = transitioning ? 'transform 180ms ease-out' : 'none';
-    el.style.transform = px === 0 ? '' : `translate3d(${px}px, 0, 0)`;
-    el.style.willChange = px === 0 && !transitioning ? '' : 'transform';
-  }, [trackElement]);
+  const setTrackTransform = useCallback(
+    (px: number, transitioning: boolean) => {
+      const el = trackElement?.current;
+      if (!el) return;
+      el.style.transition = transitioning ? 'transform 180ms ease-out' : 'none';
+      el.style.transform = px === 0 ? '' : `translate3d(${px}px, 0, 0)`;
+      el.style.willChange = px === 0 && !transitioning ? '' : 'transform';
+    },
+    [trackElement],
+  );
 
   const handleTouchStart = useCallback(
     (e: TouchEvent) => {
@@ -104,7 +107,7 @@ export function useSwipeGesture(
         setIsTracking(true);
       }
     },
-    [edge, edgeWidth, anywhere, canSwipe]
+    [edge, edgeWidth, anywhere, canSwipe],
   );
 
   const handleTouchMove = useCallback(
@@ -133,10 +136,10 @@ export function useSwipeGesture(
       const clamped =
         Math.abs(inwardDx) <= max
           ? inwardDx
-          : (Math.sign(inwardDx) * (max + Math.log2(Math.abs(inwardDx) - max + 1) * 8));
+          : Math.sign(inwardDx) * (max + Math.log2(Math.abs(inwardDx) - max + 1) * 8);
       setTrackTransform(clamped, false);
     },
-    [edge, setTrackTransform]
+    [edge, setTrackTransform],
   );
 
   const handleTouchEnd = useCallback(
@@ -153,8 +156,12 @@ export function useSwipeGesture(
       const passedThreshold = Math.abs(dx) >= threshold;
       const direction =
         edge === 'left'
-          ? dx > 0 ? 1 : -1   // left edge: right = inward
-          : dx < 0 ? 1 : -1;  // right edge: left = inward
+          ? dx > 0
+            ? 1
+            : -1 // left edge: right = inward
+          : dx < 0
+            ? 1
+            : -1; // right edge: left = inward
 
       const committed = horizDominant && passedThreshold && direction > 0;
 
@@ -174,7 +181,7 @@ export function useSwipeGesture(
         onSwipe({ startY: startY.current, direction });
       }
     },
-    [edge, threshold, onSwipe, setTrackTransform, commitOffset]
+    [edge, threshold, onSwipe, setTrackTransform, commitOffset],
   );
 
   const handleTouchCancel = useCallback(() => {

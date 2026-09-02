@@ -53,7 +53,7 @@ export const replaceMatch = <C>(
   text: string,
   match: MatchResult,
   content: C,
-  processPart: (txt: string) => Array<string | C>
+  processPart: (txt: string) => Array<string | C>,
 ): Array<string | C> => [
   ...processPart(beforeMatch(text, match)),
   content,

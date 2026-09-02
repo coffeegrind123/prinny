@@ -47,21 +47,21 @@ function StateEventEdit({ type, stateKey, content, requestClose }: StateEventEdi
 
   const defaultContentStr = useMemo(
     () => JSON.stringify(content, undefined, EDITOR_INTENT_SPACE_COUNT),
-    [content]
+    [content],
   );
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [jsonError, setJSONError] = useState<SyntaxError>();
   const { handleKeyDown, operations, getTarget } = useTextAreaCodeEditor(
     textAreaRef,
-    EDITOR_INTENT_SPACE_COUNT
+    EDITOR_INTENT_SPACE_COUNT,
   );
 
   const [submitState, submit] = useAsyncCallback<object, MatrixError, [object]>(
     useCallback(
       (c) => mx.sendStateEvent(room.roomId, type as any, c, stateKey),
-      [mx, room, type, stateKey]
-    )
+      [mx, room, type, stateKey],
+    ),
   );
   const submitting = submitState.status === AsyncStatus.Loading;
 

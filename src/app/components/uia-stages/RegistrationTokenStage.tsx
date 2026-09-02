@@ -82,7 +82,7 @@ export function RegistrationTokenStageDialog({
         session,
       });
     },
-    [session, submitAuthDict]
+    [session, submitAuthDict],
   );
 
   useEffect(() => {

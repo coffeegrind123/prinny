@@ -21,7 +21,7 @@ export function SpaceChildDirectsProvider({
   const childDirects = useSpaceChildren(
     allRoomsAtom,
     spaceId,
-    useChildDirectScopeFactory(mx, mDirects, roomToParents)
+    useChildDirectScopeFactory(mx, mDirects, roomToParents),
   );
 
   return children(childDirects);

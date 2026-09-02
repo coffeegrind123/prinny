@@ -99,7 +99,7 @@ export function LiveChip({ room, members }: LiveChipProps) {
                       getMemberDisplayName(room, userId) ?? getMxIdLocalPart(userId) ?? userId;
                     const avatarMxc = getMemberAvatarMxc(room, userId);
                     const avatarUrl = avatarMxc
-                      ? mxcUrlToHttp(mx, avatarMxc, useAuthentication, 96, 96) ?? undefined
+                      ? (mxcUrlToHttp(mx, avatarMxc, useAuthentication, 96, 96) ?? undefined)
                       : undefined;
 
                     return (
@@ -115,7 +115,7 @@ export function LiveChip({ room, members }: LiveChipProps) {
                             undefined,
                             userId,
                             getMouseEventCords(evt.nativeEvent),
-                            'Right'
+                            'Right',
                           )
                         }
                         before={

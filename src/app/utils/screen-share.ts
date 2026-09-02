@@ -1,6 +1,5 @@
 import { invoke } from '@tauri-apps/api/core';
 import { isTauri } from './desktop-notifications';
-import { armCaptureIntent } from './capture';
 import { mobileOrTablet } from './user-agent';
 
 /**

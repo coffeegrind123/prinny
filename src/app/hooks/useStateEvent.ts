@@ -20,13 +20,13 @@ export const useStateEvent = (room: Room, eventType: StateEvent, stateKey = '') 
           forceUpdate();
         }
       },
-      [room, eventType, stateKey, forceUpdate]
-    )
+      [room, eventType, stateKey, forceUpdate],
+    ),
   );
 
   return useMemo(
     () => getStateEvent(room, eventType, stateKey),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [room, eventType, stateKey, updateCount]
+    [room, eventType, stateKey, updateCount],
   );
 };

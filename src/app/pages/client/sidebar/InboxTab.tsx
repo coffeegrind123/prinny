@@ -8,9 +8,7 @@ import {
   SidebarItemTooltip,
 } from '../../../components/sidebar';
 import { allInvitesAtom } from '../../../state/room-list/inviteList';
-import {
-  getInboxPath,
-} from '../../pathUtils';
+import { getInboxPath } from '../../pathUtils';
 import { useDefaultInboxPath, useInboxSelected } from '../../../hooks/router/useInbox';
 import { UnreadBadge } from '../../../components/unread-badge';
 import { ScreenSize, useScreenSizeContext } from '../../../hooks/useScreenSize';

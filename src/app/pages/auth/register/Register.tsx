@@ -20,7 +20,7 @@ const useRegisterSearchParams = (searchParams: URLSearchParams): RegisterPathSea
       email: searchParams.get('email') ?? undefined,
       token: searchParams.get('token') ?? undefined,
     }),
-    [searchParams]
+    [searchParams],
   );
 
 export function Register() {
@@ -67,7 +67,7 @@ export function Register() {
               // than refusing outright, which is what used to happen to anyone
               // whose server required an unrecognised stage.
               const flows =
-                supportedFlows.length > 0 ? supportedFlows : registerFlows.data.flows ?? [];
+                supportedFlows.length > 0 ? supportedFlows : (registerFlows.data.flows ?? []);
 
               if (flows.length === 0) {
                 return (

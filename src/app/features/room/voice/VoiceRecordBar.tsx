@@ -169,7 +169,6 @@ export function VoiceRecordBar({ controls, onSend }: VoiceRecordBarProps) {
       </Box>
 
       {previewUrl && (
-         
         <audio
           ref={audioRef}
           src={previewUrl}

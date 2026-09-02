@@ -41,8 +41,8 @@ export function DirectMessageComposer({ userId }: DirectMessageComposerProps) {
         await mx.sendMessage(roomId, { msgtype: MsgType.Text, body });
         return roomId;
       },
-      [mx, userId]
-    )
+      [mx, userId],
+    ),
   );
 
   const sending = sendState.status === AsyncStatus.Loading;

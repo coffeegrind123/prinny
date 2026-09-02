@@ -79,7 +79,7 @@ export function DirectTab() {
   const layout = useShellLayout();
   const countedDirects = useMemo(
     () => (layout.dmRailButtons ? [] : directs),
-    [layout.dmRailButtons, directs]
+    [layout.dmRailButtons, directs],
   );
   const directUnread = useRoomsUnread(countedDirects, roomToUnreadAtom);
   const [menuAnchor, setMenuAnchor] = useState<RectCords>();

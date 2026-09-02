@@ -24,7 +24,7 @@ function swallowNextTap(): void {
       e.stopPropagation();
       cleanup();
     },
-    { capture: true, once: true }
+    { capture: true, once: true },
   );
   blocker.addEventListener(
     'click',
@@ -32,7 +32,7 @@ function swallowNextTap(): void {
       e.preventDefault();
       e.stopPropagation();
     },
-    { capture: true, once: true }
+    { capture: true, once: true },
   );
   document.body.appendChild(blocker);
   // Fallback cleanup if no tap arrives within the window (e.g. the close
@@ -85,5 +85,5 @@ export const ImageOverlay = as<'div', ImageOverlayProps>(
         </FocusTrap>
       </OverlayCenter>
     </Overlay>
-  )
+  ),
 );

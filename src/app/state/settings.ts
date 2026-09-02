@@ -6,12 +6,7 @@ import { atom } from 'jotai';
 
 const STORAGE_KEY = 'settings';
 export type DateFormat =
-  | 'D MMM YYYY'
-  | 'DD/MM/YYYY'
-  | 'MM/DD/YYYY'
-  | 'YYYY/MM/DD'
-  | 'YYYY-MM-DD'
-  | '';
+  'D MMM YYYY' | 'DD/MM/YYYY' | 'MM/DD/YYYY' | 'YYYY/MM/DD' | 'YYYY-MM-DD' | '';
 export type MessageSpacing = '0' | '100' | '200' | '300' | '400' | '500';
 /**
  * Which tab the Inbox opens on.
@@ -413,5 +408,5 @@ export const settingsAtom = atom<Settings, [Settings], undefined>(
   (get, set, update) => {
     set(baseSettings, update);
     setSettings(update);
-  }
+  },
 );

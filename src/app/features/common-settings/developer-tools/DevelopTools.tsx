@@ -62,10 +62,10 @@ export function DeveloperTools({ requestClose }: DeveloperToolsProps) {
       await mx.setRoomAccountData(
         room.roomId,
         type as keyof RoomAccountDataEvents,
-        content as never
+        content as never,
       );
     },
-    [mx, room.roomId]
+    [mx, room.roomId],
   );
 
   if (accountDataType !== undefined) {

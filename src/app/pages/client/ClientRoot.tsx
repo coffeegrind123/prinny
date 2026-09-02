@@ -157,11 +157,11 @@ export function ClientRoot({ children }: ClientRootProps) {
         throw new Error('No session Found!');
       }
       return initClient(session);
-    }, [])
+    }, []),
   );
   const mx = loadState.status === AsyncStatus.Success ? loadState.data : undefined;
   const [startState, startMatrix] = useAsyncCallback<void, Error, [MatrixClient]>(
-    useCallback((m) => startClient(m), [])
+    useCallback((m) => startClient(m), []),
   );
 
   useLogoutListener(mx);
@@ -184,7 +184,7 @@ export function ClientRoot({ children }: ClientRootProps) {
       if (state === 'PREPARED') {
         setLoading(false);
       }
-    }, [])
+    }, []),
   );
 
   useUnifiedPush(mx);

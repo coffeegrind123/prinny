@@ -60,12 +60,6 @@ export function VoiceContent({ mimeType, url, encInfo, filename }: VoiceContentP
   // note and an audio attachment are the same thing with different framing,
   // and they should not have looked like two different players.
   return (
-    <audio
-      style={{ width: '100%' }}
-      src={src}
-      controls
-      preload="metadata"
-      onError={onSrcError}
-    />
+    <audio style={{ width: '100%' }} src={src} controls preload="metadata" onError={onSrcError} />
   );
 }

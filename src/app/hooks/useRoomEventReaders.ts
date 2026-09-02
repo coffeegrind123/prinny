@@ -33,7 +33,7 @@ export const useRoomEventReaders = (room: Room, eventId?: string): string[] => {
     const handleLocalEcho: RoomEventHandlerMap[RoomEvent.LocalEchoUpdated] = (
       event,
       r,
-      oldEventId
+      oldEventId,
     ) => {
       // update members on local event id replaced
       // with server generated id

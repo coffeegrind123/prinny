@@ -97,12 +97,12 @@ const sanitizeShortcode = (value: string, fallback: string): string => {
 export const fetchTelegramStickerPack = async (
   token: string,
   setName: string,
-  onProgress?: (done: number, total: number) => void
+  onProgress?: (done: number, total: number) => void,
 ): Promise<TelegramImportResult> => {
   const set = await callTelegram<TelegramStickerSet>(
     token,
     'getStickerSet',
-    `name=${encodeURIComponent(setName)}`
+    `name=${encodeURIComponent(setName)}`,
   );
 
   const stickers = Array.isArray(set.stickers) ? set.stickers : [];
@@ -122,7 +122,7 @@ export const fetchTelegramStickerPack = async (
     const fileInfo = await callTelegram<{ file_path?: string }>(
       token,
       'getFile',
-      `file_id=${encodeURIComponent(sticker.file_id)}`
+      `file_id=${encodeURIComponent(sticker.file_id)}`,
     );
 
     if (fileInfo.file_path) {
@@ -130,9 +130,7 @@ export const fetchTelegramStickerPack = async (
       if (resp.ok) {
         const blob = await resp.blob();
         const shortcode = sanitizeShortcode(sticker.emoji ?? '', `${setName}_${i + 1}`);
-        files.push(
-          new File([blob], `${shortcode}.webp`, { type: blob.type || 'image/webp' })
-        );
+        files.push(new File([blob], `${shortcode}.webp`, { type: blob.type || 'image/webp' }));
       }
     }
 

@@ -19,7 +19,7 @@ export const useMemberPowerCompare = (creators: Set<string>, powerLevels: IPower
 
       return aPower > bPower;
     },
-    [creators, powerLevels]
+    [creators, powerLevels],
   );
 
   return {

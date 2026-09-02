@@ -408,8 +408,7 @@ function CallButton({
   const disabled = !!(inAnotherCall || callStarted || callBlocked);
 
   const blockerTooltip = () => {
-    if (inAnotherCall)
-      return 'Already in another call — End the current call to join!';
+    if (inAnotherCall) return 'Already in another call — End the current call to join!';
     if (!livekitSupported)
       return 'Your homeserver does not advertise a LiveKit/MatrixRTC focus, so calls cannot be started.';
     if (!hasCallPermission) return 'You do not have permission to start a call in this room.';
@@ -489,7 +488,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
 
   const hasCallPermission = permissions.stateEvent(
     StateEvent.GroupCallMemberPrefix,
-    mx.getSafeUserId()
+    mx.getSafeUserId(),
   );
   const livekitSupported = useLivekitSupport();
   const rtcSupported = webRTCSupported();
@@ -767,10 +766,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
             }
           />
           {!room.isCallRoom() && rtcSupported && (
-            <CallButton
-              livekitSupported={livekitSupported}
-              hasCallPermission={hasCallPermission}
-            />
+            <CallButton livekitSupported={livekitSupported} hasCallPermission={hasCallPermission} />
           )}
           {screenSize === ScreenSize.Desktop && (
             <TooltipProvider

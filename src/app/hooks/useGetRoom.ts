@@ -22,7 +22,7 @@ export const useGetRoom = (rooms: Set<string>): GetRoomCallback => {
       }
       return undefined;
     },
-    [mx, rooms]
+    [mx, rooms],
   );
 
   return getRoom;

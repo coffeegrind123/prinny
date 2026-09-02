@@ -28,12 +28,6 @@ export function AudioContent({ mimeType, url, encInfo, filename }: AudioContentP
   }
 
   return (
-    <audio
-      style={{ width: '100%' }}
-      controls
-      preload="metadata"
-      src={src}
-      onError={onSrcError}
-    />
+    <audio style={{ width: '100%' }} controls preload="metadata" src={src} onError={onSrcError} />
   );
 }

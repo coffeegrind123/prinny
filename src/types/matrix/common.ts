@@ -126,10 +126,7 @@ export type IGalleryVideoItem = Omit<IVideoContent, 'msgtype'> & { itemtype: 'm.
 export type IGalleryAudioItem = Omit<IAudioContent, 'msgtype'> & { itemtype: 'm.audio' };
 export type IGalleryFileItem = Omit<IFileContent, 'msgtype'> & { itemtype: 'm.file' };
 export type IGalleryItem =
-  | IGalleryImageItem
-  | IGalleryVideoItem
-  | IGalleryAudioItem
-  | IGalleryFileItem;
+  IGalleryImageItem | IGalleryVideoItem | IGalleryAudioItem | IGalleryFileItem;
 
 export type IGalleryContent = {
   msgtype: typeof GALLERY_MSGTYPE | typeof GALLERY_MSGTYPE_STABLE;
