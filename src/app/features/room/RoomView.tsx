@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { CSSProperties, useCallback, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { Box, Text, config } from 'folds';
 import { EventType } from 'matrix-js-sdk';
@@ -25,6 +25,26 @@ import { useRoom } from '../../hooks/useRoom';
 import { PinnedMessageBanner } from './PinnedMessageBanner';
 import { MediaFeedHost, RoomGallery, RoomMediaProvider } from './gallery';
 import { mediaFeedRequestAtom, roomGalleryOpenAtom } from '../../state/roomGallery';
+import { ContainerColor } from '../../styles/ContainerColor.css';
+
+/**
+ * How the conversation is taken off screen while the gallery is up.
+ *
+ * `visibility` rather than `display` on purpose — see the note at the call
+ * site. `pointerEvents` is belt and braces: a hidden subtree already swallows
+ * nothing, but the gallery overlay paints over it and a stray hover target
+ * underneath would be a bug that only shows up as a wrong cursor.
+ */
+const HIDDEN_UNDER_GALLERY: CSSProperties = {
+  visibility: 'hidden',
+  pointerEvents: 'none',
+};
+
+const GALLERY_OVERLAY: CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  zIndex: 1,
+};
 
 const FN_KEYS_REGEX = /^F\d+$/;
 const shouldFocusMessageField = (evt: KeyboardEvent): boolean => {
@@ -83,8 +103,8 @@ export function RoomView({ eventId }: { eventId?: string }) {
     window,
     useCallback(
       (evt) => {
-        // No composer is mounted in gallery mode, so there is nothing to type
-        // into and `safeFocusEditor` would be reaching for a detached editor.
+        // The composer is still mounted in gallery mode, just hidden under it
+        // — typing must not pull focus into something the reader cannot see.
         if (galleryOpen) return;
         if (editableActiveElement()) return;
         const portalContainer = document.getElementById('portalContainer');
@@ -104,71 +124,94 @@ export function RoomView({ eventId }: { eventId?: string }) {
   const mediaActive = galleryOpen || feedRequest?.roomId === roomId;
 
   return (
-    <Page ref={roomViewRef}>
+    <Page ref={roomViewRef} style={{ position: 'relative' }}>
       <RoomMediaProvider room={room} enabled={mediaActive}>
-        <Box grow="Yes" direction="Column">
-          {galleryOpen ? (
-            <RoomGallery />
-          ) : (
-            <>
-              <RoomTimeline
-                key={roomId}
-                room={room}
-                eventId={eventId}
-                roomInputRef={roomInputRef}
-                editor={editor}
-              />
-              <RoomViewTyping room={room} />
-            </>
-          )}
+        {/* The conversation is HIDDEN under the gallery, never unmounted.
+            Unmounting it threw away the timeline's scroll position, its loaded
+            pagination window and its unread state, so coming back out of the
+            gallery re-ran the "scroll to last read message" pass and dumped the
+            reader back at messages they had already scrolled past — the jump
+            that made the toggle unusable as a toggle. `visibility: hidden`
+            keeps the boxes in the layout at exactly the size they had, so
+            `scrollTop`, `clientHeight` and every observer that measures against
+            them survive the round trip untouched; `display: none` would not,
+            because the browser resets the scroll offset of a scroller it has
+            taken out of the flow. Hidden elements are also out of the tab
+            order, so nothing behind the gallery can be typed into or focused. */}
+        <Box
+          grow="Yes"
+          direction="Column"
+          aria-hidden={galleryOpen || undefined}
+          style={galleryOpen ? HIDDEN_UNDER_GALLERY : undefined}
+        >
+          <RoomTimeline
+            key={roomId}
+            room={room}
+            eventId={eventId}
+            roomInputRef={roomInputRef}
+            editor={editor}
+          />
+          <RoomViewTyping room={room} />
         </Box>
+        {/* Painted in the page's own surface colour and stretched over the
+            whole page: the gallery still reads as a mode that replaces the
+            conversation rather than a panel floating above it, and the
+            composer, the pinned banner and the read receipts stay covered —
+            a message box under a wall of photos has nothing to send into. */}
+        {galleryOpen && (
+          <Box
+            direction="Column"
+            className={ContainerColor({ variant: 'Surface' })}
+            style={GALLERY_OVERLAY}
+          >
+            <RoomGallery />
+          </Box>
+        )}
         <MediaFeedHost room={room} />
       </RoomMediaProvider>
-      {/* The gallery replaces the conversation rather than sitting on top of
-          it, so everything that belongs to the conversation goes with it: a
-          composer under a wall of photos has nothing to compose into, the
-          pinned-message banner is about messages you cannot see, and the read
-          receipts track a timeline that is not on screen. */}
-      {!galleryOpen && (
-        <Box shrink="No" direction="Column">
-          <div style={{ padding: `0 ${config.space.S400}` }}>
-            <PinnedMessageBanner room={room} />
-            {tombstoneEvent ? (
-              <RoomTombstone
-                roomId={roomId}
-                body={tombstoneEvent.getContent().body}
-                replacementRoomId={tombstoneEvent.getContent().replacement_room}
-              />
-            ) : (
-              <>
-                {canMessage && (
-                  <RoomInput
-                    room={room}
-                    editor={editor}
-                    roomId={roomId}
-                    fileDropContainerRef={roomViewRef}
-                    ref={roomInputRef}
-                  />
-                )}
-                {!canMessage && (
-                  <RoomInputPlaceholder
-                    style={{ padding: config.space.S200 }}
-                    alignItems="Center"
-                    justifyContent="Center"
-                  >
-                    <Text align="Center">You do not have permission to post in this room</Text>
-                  </RoomInputPlaceholder>
-                )}
-              </>
-            )}
-          </div>
-          {hideOthersReadReceipts ? (
-            <RoomViewFollowingPlaceholder />
+      <Box
+        shrink="No"
+        direction="Column"
+        aria-hidden={galleryOpen || undefined}
+        style={galleryOpen ? HIDDEN_UNDER_GALLERY : undefined}
+      >
+        <div style={{ padding: `0 ${config.space.S400}` }}>
+          <PinnedMessageBanner room={room} />
+          {tombstoneEvent ? (
+            <RoomTombstone
+              roomId={roomId}
+              body={tombstoneEvent.getContent().body}
+              replacementRoomId={tombstoneEvent.getContent().replacement_room}
+            />
           ) : (
-            <RoomViewFollowing room={room} />
+            <>
+              {canMessage && (
+                <RoomInput
+                  room={room}
+                  editor={editor}
+                  roomId={roomId}
+                  fileDropContainerRef={roomViewRef}
+                  ref={roomInputRef}
+                />
+              )}
+              {!canMessage && (
+                <RoomInputPlaceholder
+                  style={{ padding: config.space.S200 }}
+                  alignItems="Center"
+                  justifyContent="Center"
+                >
+                  <Text align="Center">You do not have permission to post in this room</Text>
+                </RoomInputPlaceholder>
+              )}
+            </>
           )}
-        </Box>
-      )}
+        </div>
+        {hideOthersReadReceipts ? (
+          <RoomViewFollowingPlaceholder />
+        ) : (
+          <RoomViewFollowing room={room} />
+        )}
+      </Box>
     </Page>
   );
 }
