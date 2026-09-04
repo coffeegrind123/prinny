@@ -9,20 +9,21 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/check-csp.mjs",
     "preview": "vite preview",
     "lint": "npm run check:eslint && npm run check:prettier && npm run check:contexts",
     "check:contexts": "node scripts/check-context-hooks.mjs",
     "check:eslint": "eslint src/*",
     "check:prettier": "prettier --check .",
     "fix:prettier": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:csp": "node scripts/check-csp.mjs"
   },
   "keywords": [],
   "author": "Ajay Bura",
   "license": "AGPL-3.0-only",
   "//devDependencies": {
-    "eslint": "Held at 9.39.5 even though EVERY published 9.x is deprecated (\"This version is no longer supported\"). eslint 10 is not reachable from here: three of the four plugins this config loads cap their peer range at eslint 9 and have shipped nothing since — eslint-plugin-react 7.37.5 (2025-04-03, peer ^9.7), eslint-plugin-jsx-a11y 6.10.2 (peer ^9), eslint-plugin-import 2.32.0 (peer ^9). It is not a soft warning: under eslint 10, eslint-plugin-react dies with `TypeError: contextOrFilename.getFilename is not a function` because eslint 10 removed the context.getFilename() that its version detection calls. Revisit when eslint-plugin-react ships eslint 10 support; dropping the plugin instead would lose the React rules this config deliberately tunes."
+    "eslint": "Held at 9.39.5 even though EVERY published 9.x is deprecated (\"This version is no longer supported\"). eslint 10 is not reachable from here: three of the four plugins this config loads cap their peer range at eslint 9 and have shipped nothing since \u2014 eslint-plugin-react 7.37.5 (2025-04-03, peer ^9.7), eslint-plugin-jsx-a11y 6.10.2 (peer ^9), eslint-plugin-import 2.32.0 (peer ^9). It is not a soft warning: under eslint 10, eslint-plugin-react dies with `TypeError: contextOrFilename.getFilename is not a function` because eslint 10 removed the context.getFilename() that its version detection calls. Revisit when eslint-plugin-react ships eslint 10 support; dropping the plugin instead would lose the React rules this config deliberately tunes."
   },
   "//dependencies": {
     "badwords-list": "Pinned to 2.0.1-4 deliberately. Despite the prerelease suffix, 2.0.1-4 IS the npm `latest` dist-tag (published 2024-08-18); the only non-prerelease is 1.0.0 from 2014, which is CommonJS with no type declarations and would fail `npm run typecheck`. Do not 'downgrade to a stable version'. See DEPENDENCY_AUDIT.md section 4."
