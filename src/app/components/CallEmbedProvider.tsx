@@ -35,7 +35,7 @@ import {
   useCallStart,
 } from '../hooks/useCallEmbed';
 import { callChatAtom, callEmbedAtom } from '../state/callEmbed';
-import { setCaptureSession } from '../utils/screen-share';
+import { openCaptureSession } from '../utils/screen-share';
 import { CallEmbed } from '../plugins/call';
 import { useSelectedRoom } from '../hooks/router/useSelectedRoom';
 import { ScreenSize, useScreenSizeContext } from '../hooks/useScreenSize';
@@ -395,10 +395,9 @@ export function CallEmbedProvider({ children }: CallEmbedProviderProps) {
   // what keeps the widening bounded to the call.
   useEffect(() => {
     if (!callEmbed) return undefined;
-    setCaptureSession(true);
-    return () => {
-      setCaptureSession(false);
-    };
+    // The shell's gate expires unless renewed, so hold it open for as long as
+    // this call is mounted and let it lapse otherwise.
+    return openCaptureSession();
   }, [callEmbed]);
 
   const selectedRoom = useSelectedRoom();

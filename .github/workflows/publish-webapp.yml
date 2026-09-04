@@ -178,11 +178,26 @@ jobs:
       # step-level `env:` is not in scope for its `if:` expression, so
       # `if: env.DEPLOY_TOKEN != ''` would read as empty and skip forever.
       # Same in-script guard the dispatch step below uses.
-      - name: Rebuild and deploy to prinny.app
+      #
+      # SPLIT INTO TWO STEPS ON PURPOSE. `npm run build` runs vite, which loads
+      # and executes plugin, PostCSS and transform code from node_modules in
+      # process. Any of that code can read `process.env`, so a step that holds
+      # DEPLOY_TOKEN must not also run the build - a single compromised
+      # transitive dependency would otherwise walk off with a Contents:write
+      # token for the repository that serves the live site. The build step below
+      # carries no secret; the deploy step that follows runs only git.
+      - name: Rebuild for prinny.app (no secrets in this step)
+        if: success()
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: |
+          set -euo pipefail
+          PRINNY_BASE=/app/ npm --prefix source run build
+
+      - name: Deploy to prinny.app
         if: success()
         env:
           DEPLOY_TOKEN: ${{ secrets.PRINNY_APP_DEPLOY_TOKEN }}
-          NODE_OPTIONS: '--max_old_space_size=4096'
           VERSION: ${{ steps.meta.outputs.version }}
           SOURCE_SHORT: ${{ steps.meta.outputs.source_short }}
         run: |
@@ -191,7 +206,6 @@ jobs:
             echo "::warning::PRINNY_APP_DEPLOY_TOKEN not set — skipping prinny.app/app deploy"
             exit 0
           fi
-          PRINNY_BASE=/app/ npm --prefix source run build
           AUTH_HEADER="AUTHORIZATION: basic $(printf 'x-access-token:%s' "${DEPLOY_TOKEN}" | base64 -w0)"
           echo "::add-mask::${AUTH_HEADER#AUTHORIZATION: basic }"
           git -c "http.extraheader=${AUTH_HEADER}" \

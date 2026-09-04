@@ -89,3 +89,78 @@ export const openWebUrl = (value: unknown): boolean => {
   window.open(value, '_blank', 'noopener,noreferrer');
   return true;
 };
+
+/**
+ * True for a host that names the user's own machine or private network.
+ *
+ * Tests the ADDRESS, not its spelling. A textual denylist misses `127.1`,
+ * `2130706433`, `0x7f000001`, `[::ffff:127.0.0.1]`, `fc00::/7`, link-local
+ * (including the `169.254.169.254` cloud-metadata address) and CGNAT space,
+ * which are all the same destinations written differently. Mirrors
+ * `is_disallowed_ip` in the Tauri shell, which is the enforcing copy for
+ * anything that leaves the page.
+ *
+ * A hostname that only RESOLVES to a private address cannot be caught here -
+ * that needs resolution, which the page cannot do.
+ */
+export const isPrivateHost = (rawHost: string): boolean => {
+  const host = rawHost.trim().replace(/\.$/, '').toLowerCase();
+  if (!host) return true;
+
+  if (host === 'localhost' || host.endsWith('.localhost') || host.endsWith('.local')) return true;
+
+  // Bracketed or bare IPv6.
+  const v6 = host.startsWith('[') && host.endsWith(']') ? host.slice(1, -1) : host;
+  if (v6.includes(':')) {
+    if (v6 === '::1' || v6 === '::') return true;
+    // Unwrap any IPv4 embedded in an IPv6 form and re-test it.
+    const embedded = /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/.exec(v6);
+    if (embedded?.[1]) return isPrivateHost(embedded[1]);
+    const head = parseInt(v6.split(':')[0] || '0', 16);
+    if (Number.isFinite(head)) {
+      if ((head & 0xfe00) === 0xfc00) return true; // fc00::/7 unique local
+      if ((head & 0xffc0) === 0xfe80) return true; // fe80::/10 link local
+      if (head === 0x2002) return true; // 6to4
+    }
+    if (v6.startsWith('64:ff9b')) return true; // NAT64
+    return false;
+  }
+
+  // IPv4 in dotted, shorthand, decimal or hex form.
+  const octets = ipv4Octets(v6);
+  if (!octets) return false;
+  const [a, b] = octets;
+  if (a === 0 || a === 10 || a === 127) return true;
+  if (a === 169 && b === 254) return true; // link local + cloud metadata
+  if (a === 172 && b >= 16 && b <= 31) return true;
+  if (a === 192 && b === 168) return true;
+  if (a === 100 && b >= 64 && b <= 127) return true; // CGNAT
+  if (a === 192 && b === 0 && octets[2] === 0) return true;
+  if (a === 198 && (b === 18 || b === 19)) return true; // benchmarking
+  return false;
+};
+
+/** Parse the dotted, shorthand (`127.1`), decimal or hex forms of an IPv4 host. */
+const ipv4Octets = (host: string): [number, number, number, number] | null => {
+  const parts = host.split('.');
+  if (parts.length > 4) return null;
+  const nums: number[] = [];
+  for (const part of parts) {
+    if (part === '') return null;
+    let n: number;
+    if (/^0[xX][0-9a-fA-F]+$/.test(part)) n = parseInt(part, 16);
+    else if (/^0[0-7]+$/.test(part)) n = parseInt(part, 8);
+    else if (/^\d+$/.test(part)) n = parseInt(part, 10);
+    else return null;
+    if (!Number.isFinite(n) || n < 0) return null;
+    nums.push(n);
+  }
+  // `a.b` and `a` are legal shorthand: the final part fills the remaining bytes.
+  const last = nums.pop();
+  if (last === undefined || last > 0xffffffff) return null;
+  const fill = 4 - nums.length;
+  const bytes = [...nums];
+  for (let i = fill - 1; i >= 0; i -= 1) bytes.push((last >>> (i * 8)) & 0xff);
+  if (bytes.length !== 4 || bytes.some((n) => n > 255)) return null;
+  return bytes as [number, number, number, number];
+};

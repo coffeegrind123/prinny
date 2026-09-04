@@ -80,7 +80,17 @@ export const useSpaceAutoJoinGlobal = () => {
     spaces.forEach((spaceId) => {
       const room = mx.getRoom(spaceId);
       if (!room) return;
-      if (autoJoinSpaceRooms) set.add(spaceId);
+      // The LOCAL setting is now required. Previously the remote state event
+      // alone armed auto-join, so anyone with state-send power in a space (power
+      // level 50 by default) could make every member's client silently join
+      // rooms of their choosing, on servers of their choosing, via attacker-
+      // supplied `via` entries - and it overrode this setting, which defaults to
+      // false. Joining a room changes the user's exposure (profile disclosure,
+      // content delivery, federation with the named servers), so it stays a
+      // local decision; the room's event may only opt IN to a choice the user
+      // already made, never make it for them.
+      if (!autoJoinSpaceRooms) return;
+      set.add(spaceId);
       const evt = getStateEvent(room, StateEvent.SpaceAutoJoin);
       if (evt?.getContent<SpaceAutoJoinContent>().auto_join === true) {
         set.add(spaceId);

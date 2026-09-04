@@ -19,6 +19,8 @@
  * So: same-origin URLs are rejected outright, and only https is accepted.
  */
 
+import { isPrivateHost } from '../../utils/safeUrl';
+
 const ALLOWED_PROTOCOLS = new Set(['https:']);
 
 export type WidgetUrlRejection =
@@ -31,8 +33,11 @@ export type WidgetUrlCheck =
 // from one of those is either our own app (see same-origin above) or something
 // on the user's LAN that a remote room member should not be able to make their
 // browser reach.
-const PRIVATE_HOST_REG =
-  /^(localhost|127(?:\.\d+){3}|0\.0\.0\.0|\[?::1\]?|10(?:\.\d+){3}|192\.168(?:\.\d+){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d+){2}|.*\.local|.*\.localhost)$/i;
+//
+// This was a textual denylist, which matched `127.0.0.1` but not `127.1`,
+// `2130706433`, `0x7f000001`, `[::ffff:127.0.0.1]`, `fc00::/7`, `fe80::/10`,
+// `169.254.169.254` or CGNAT space - the same addresses spelled differently.
+// `isPrivateHost` parses the address instead.
 
 export const checkWidgetUrl = (rawUrl: string): WidgetUrlCheck => {
   let url: URL;
@@ -68,7 +73,7 @@ export const checkWidgetUrl = (rawUrl: string): WidgetUrlCheck => {
     };
   }
 
-  if (PRIVATE_HOST_REG.test(url.hostname)) {
+  if (isPrivateHost(url.hostname)) {
     return {
       ok: false,
       reason: 'private-host',

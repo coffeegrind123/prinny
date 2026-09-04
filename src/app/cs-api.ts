@@ -93,7 +93,14 @@ export const autoDiscovery = async (
     ];
   }
 
-  if (/^https?:\/\//.test(baseUrl) === false) {
+  // https ONLY. This admitted `http://`, so a `.well-known` document could
+  // downgrade the whole session: the password, the returned access token and
+  // every later authenticated request went out in cleartext. Neither the
+  // desktop shell (page origin http://localhost:44548) nor the Android build
+  // applies mixed-content blocking that would have stopped it. The discovery
+  // request itself is already forced to https a few lines above; this is the
+  // same rule for the value it returns.
+  if (/^https:\/\//.test(baseUrl) === false) {
     return [
       {
         host,

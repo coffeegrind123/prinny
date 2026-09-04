@@ -11,6 +11,7 @@ import { pushSessionToSW } from '../sw-session';
 import { reportClientStorageError, resetClientStorageError } from './storageStatus';
 import { isTauri } from '../app/utils/desktop-notifications';
 import { USER_PROFILE_FIELDS } from '../types/matrix/profile';
+import { isPrivateHost } from '../app/utils/safeUrl';
 
 type Session = {
   baseUrl: string;
@@ -132,9 +133,34 @@ export const initClient = async (session: Session): Promise<MatrixClient> => {
 
 const registerHomeserverOriginWithShell = async (baseUrl: string): Promise<void> => {
   if (!isTauri()) return;
+  // The native side uses this origin, and nothing else, to decide when it may
+  // relax its private-address guard. It arrives from `.well-known` discovery,
+  // which is remote-supplied, so it is validated HERE - at the boundary where it
+  // gains native authority - rather than trusted because the discovery layer
+  // already looked at it.
+  let origin: string;
+  try {
+    const parsed = new URL(baseUrl);
+    if (parsed.protocol !== 'https:') {
+      console.warn('[shell] refusing non-https homeserver origin:', parsed.protocol);
+      return;
+    }
+    if (parsed.username || parsed.password) {
+      console.warn('[shell] refusing homeserver origin carrying credentials');
+      return;
+    }
+    if (isPrivateHost(parsed.hostname)) {
+      console.warn('[shell] refusing private/loopback homeserver origin:', parsed.hostname);
+      return;
+    }
+    origin = parsed.origin;
+  } catch {
+    console.warn('[shell] refusing unparseable homeserver origin');
+    return;
+  }
   try {
     const { invoke } = await import('@tauri-apps/api/core');
-    await invoke('set_homeserver_origin', { origin: baseUrl });
+    await invoke('set_homeserver_origin', { origin });
   } catch (err) {
     // Non-fatal: the native side falls back to enforcing the guard.
     console.warn('[shell] set_homeserver_origin failed:', err);

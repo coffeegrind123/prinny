@@ -2,13 +2,26 @@
 // Klipy is a free GIF API service: https://docs.klipy.com
 //
 // The key is a free-tier, client-side key — it identifies the app, not the
-// user, and Klipy expects it in the query string. Set `VITE_KLIPY_API_KEY` at
-// build time to use your own; the fallback below is the one the upstream fork
-// ships, and it is shared with every deployment that never set the variable,
-// so it will be rate-limited accordingly. Get one at https://docs.klipy.com
-const KLIPY_API_KEY =
-  import.meta.env.VITE_KLIPY_API_KEY ||
-  'Qy1TVEgEphESxOxmLkKghRD6O0ZZB7TOBTEKZavPBoZcmfUWv2ydB3NzjKguRvTR';
+// user, and Klipy expects it in the query string. It must be supplied at build
+// time as `VITE_KLIPY_API_KEY`. Get one at https://docs.klipy.com
+//
+// There is deliberately NO committed fallback. One used to be inlined here, so
+// it shipped in every bundle and in every request, which meant anyone reading
+// the repository could spend the shared quota and have the abuse attributed to
+// this project. When the variable is unset the GIF picker reports itself
+// unavailable rather than silently borrowing someone else's key.
+const KLIPY_API_KEY = import.meta.env.VITE_KLIPY_API_KEY ?? '';
+
+/** True when this build was given a Klipy key; the GIF picker checks this. */
+export const isKlipyConfigured = (): boolean => KLIPY_API_KEY.length > 0;
+
+const assertConfigured = (): void => {
+  if (!KLIPY_API_KEY) {
+    throw new Error(
+      'Klipy is not configured: set VITE_KLIPY_API_KEY at build time to enable GIF search.',
+    );
+  }
+};
 
 const KLIPY_BASE_URL = 'https://api.klipy.com/v2';
 
@@ -58,6 +71,7 @@ export type KlipyPage = {
 };
 
 export const fetchTrendingGifs = async (pos?: string, signal?: AbortSignal): Promise<KlipyPage> => {
+  assertConfigured();
   const url = new URL(`${KLIPY_BASE_URL}/featured`);
   url.searchParams.set('key', KLIPY_API_KEY);
   url.searchParams.set('limit', '40');
@@ -72,6 +86,7 @@ export const searchGifs = async (
   pos?: string,
   signal?: AbortSignal,
 ): Promise<KlipyPage> => {
+  assertConfigured();
   const url = new URL(`${KLIPY_BASE_URL}/search`);
   url.searchParams.set('key', KLIPY_API_KEY);
   url.searchParams.set('q', query);

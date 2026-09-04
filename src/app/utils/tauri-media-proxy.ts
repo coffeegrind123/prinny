@@ -189,7 +189,15 @@ export async function fetchNoReferrerBlobUrl(
  * saving nothing.
  */
 export async function downloadRemoteMedia(url: string, mimeType?: string): Promise<Blob> {
-  if (isTauri() && isAllowedMediaUrl(url)) {
+  // The allowlist gated only the native branch, so a non-allowlisted URL fell
+  // through to the plain fetch below - which is how a URL chosen by the author
+  // of a linked social post reached an arbitrary host, loopback and LAN
+  // included, from the user's own network position. Every render path in this
+  // module enforces the allowlist; the download path now does too.
+  if (!isAllowedMediaUrl(url)) {
+    throw new Error('[media-proxy] refusing to download non-allowlisted URL');
+  }
+  if (isTauri()) {
     try {
       const bytes = await fetchRemoteMediaBytes(url);
       return new Blob([bytes], { type: mimeType ?? '' });

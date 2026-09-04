@@ -41,6 +41,25 @@ import { fileURLToPath } from 'node:url';
 const SOURCE =
   'https://raw.githubusercontent.com/USYDShawnTan/emojimix/main/data/emojimix_data_compact.json';
 
+// `baseUrl` is copied out of the fetched document into the committed index, and
+// the runtime builds EVERY artwork URL from it. The rest of the document is
+// shape-checked below, but this one field decides where every client sends its
+// requests, so it is the one field that must not be taken on trust: a poisoned
+// regeneration would otherwise repoint the whole client at another origin as a
+// single-field diff inside a ~300 KB single-line JSON file.
+const ALLOWED_BASE_URLS = ['https://www.gstatic.com/android/keyboard/emojikitchen/'];
+
+const assertAllowedBaseUrl = (value) => {
+  if (typeof value !== 'string' || !ALLOWED_BASE_URLS.includes(value)) {
+    throw new Error(
+      `Refusing baseUrl ${JSON.stringify(value)}: not in the allowlist. ` +
+        'If the upstream legitimately moved, add the new origin to ALLOWED_BASE_URLS ' +
+        'in this script as a reviewed change.',
+    );
+  }
+  return value;
+};
+
 const OUT = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
   '..',
@@ -106,7 +125,7 @@ const main = async () => {
 
   const index = {
     source: SOURCE,
-    baseUrl: source.baseUrl,
+    baseUrl: assertAllowedBaseUrl(source.baseUrl),
     count: entries.length,
     dates,
     codepoints,
