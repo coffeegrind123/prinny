@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 04.09.2026
+
+- `aaf0732` Fixed **the conversation jumping backwards after a look at the gallery**. Opening the gallery took the conversation off the screen entirely, and closing it built the conversation again from scratch — which meant it also ran, again, the thing it runs when you first walk into a room: find the last message you had read, and go there. So a trip to the gallery and back landed you at messages you had already read, however far down you had been. The conversation is now merely covered by the gallery rather than taken away, keeping its place, its loaded history and its unread mark, and the gallery still hides the message box, the pinned banner and the read receipts the way it did before.
+
 ## 02.09.2026
 
 - `5fe15f3` Fixed **a gap in the way message formatting is cleaned up before you see it**. Anything anyone sends you is stripped of the parts that could act on your behalf before it reaches the screen, and one shape of drawing — an animated one, carrying a list of addresses — had a way of carrying something past that check. Nothing is asked of you; the cleaner has been replaced with a version that closes it.
