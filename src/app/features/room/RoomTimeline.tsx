@@ -609,7 +609,17 @@ const getEmptyTimeline = () => ({
   linkedTimelines: [],
 });
 
-const getRoomUnreadInfo = (room: Room, scrollTo = false) => {
+/**
+ * Where the read marker is, for drawing it — not for deciding where to open.
+ *
+ * Opening a room used to scroll to this, and it is why a conversation could
+ * open somewhere that looked arbitrary: the marker is wherever your read
+ * receipt last got to, which is not the same thing as the last message you
+ * looked at, and drifts further from it every time anything stops the receipt
+ * advancing. A room now opens on the newest message, and this is only used to
+ * draw the "new messages" divider and to offer Jump to Unread.
+ */
+const getRoomUnreadInfo = (room: Room) => {
   const readUptoEventId = room.getEventReadUpTo(room.client.getUserId() ?? '');
   if (!readUptoEventId) return undefined;
   const evtTimeline = getEventTimeline(room, readUptoEventId);
@@ -617,7 +627,6 @@ const getRoomUnreadInfo = (room: Room, scrollTo = false) => {
   return {
     readUptoEventId,
     inLiveTimeline: latestTimeline === room.getLiveTimeline(),
-    scrollTo,
   };
 };
 
@@ -691,7 +700,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
 
   const imagePackRooms: Room[] = useImagePackRooms(room.roomId, roomToParents);
 
-  const [unreadInfo, setUnreadInfo] = useState(() => getRoomUnreadInfo(room, true));
+  const [unreadInfo, setUnreadInfo] = useState(() => getRoomUnreadInfo(room));
   const readUptoEventIdRef = useRef<string | undefined>(undefined);
   if (unreadInfo) {
     readUptoEventIdRef.current = unreadInfo.readUptoEventId;
@@ -956,13 +965,48 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
               document.hasFocus() && mEvt.getSender() !== mx.getUserId();
           }
 
-          setTimeline((ct) => ({
-            ...ct,
-            range: {
-              start: ct.range.start + 1,
-              end: ct.range.end + 1,
-            },
-          }));
+          // `range` indexes into the concatenation of `linkedTimelines`, so it
+          // must never run past how many events are actually in there. Two
+          // things reach this callback WITHOUT adding an event to the timeline
+          // this view renders, and each of them pushed `range.end` one past the
+          // count and left it there:
+          //
+          //  - `RoomEvent.Redaction`, which the SDK emits *in addition to*
+          //    adding the `m.room.redaction` event to the timeline (room.ts,
+          //    `tryApplyRedaction`: "we continue to add the redaction event to
+          //    the timeline at the end of this function"). One redaction
+          //    therefore arrives here twice — once as itself, once as the
+          //    notice — and advanced the range by two for one new event.
+          //  - a live event in a timeline set this view is not rendering.
+          //    `Room` re-emits `RoomEvent.Timeline` from every set it owns, not
+          //    just the unfiltered one walked here, and keeps emitting from the
+          //    OLD live timeline after `resetLiveTimeline` until the re-seed in
+          //    `useLiveTimelineReset` lands.
+          //
+          // A `range.end` past the count is not a cosmetic off-by-one. It makes
+          // `rangeAtEnd` false, and that one flag renders the loading
+          // placeholder rows *under* the newest message, clears `atLiveEndRef`
+          // — which every stay-at-the-bottom correction in this file is gated
+          // on — and stops the bottom anchor ever setting `atBottomRef` true
+          // again. The conversation is left sitting a few rows above the live
+          // end with nothing willing to put it back, until the forward
+          // paginator happens to heal the range. Clamping prevents that and
+          // repairs a range that is already past the end.
+          setTimeline((ct) => {
+            const ctEventsLength = getTimelinesEventsCount(ct.linkedTimelines);
+            const end = Math.min(ct.range.end + 1, ctEventsLength);
+            // Nothing was added to what we render. Still re-render — a
+            // redaction has to repaint the message it redacted — but do not
+            // drop a message off the top of the range to pay for it.
+            if (end === ct.range.end) return { ...ct };
+            return {
+              ...ct,
+              range: {
+                start: ct.range.start + 1,
+                end,
+              },
+            };
+          });
           return;
         }
         // User is scrolled up. If they just sent a message themselves and the
@@ -1098,6 +1142,41 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   // up measures as scrolled up, and a jump to the unread marker or a focused
   // message measures as what it is.
   const followMetricsRef = useRef({ scrollHeight: 0, clientHeight: 0 });
+
+  /**
+   * Take the "before" reading `keepFollowingLiveEnd` will measure the next
+   * resize against.
+   *
+   * **Every programmatic scroll has to do this, and only two of them did.**
+   * The reading is a pair of heights, and the verdict is computed by putting
+   * the *current* `scrollTop` into them. That only means anything while the
+   * heights and the scroll position describe the same layout. A scroll this
+   * component performs itself moves `scrollTop` without touching the heights,
+   * so until the next reading every resize judges the reader's position from a
+   * layout that has been left behind.
+   *
+   * **Jump to Latest is the worst case, because it also replaces the rendered
+   * range.** `handleJumpToLatest` re-seeds the timeline from the live end, so
+   * the recorded `scrollHeight` belongs to a different set of messages
+   * entirely — commonly a shorter one, which makes `distanceBefore` negative,
+   * which the check below reads as a paginator restore and discards. The
+   * fallback is `distanceNow`, and `distanceNow` is whatever the pictures and
+   * embeds in the newly rendered range have grown by since the jump. One image
+   * settling past `FOLLOW_LIVE_END_PX` is enough to decide the reader had
+   * scrolled up, after which nothing puts them back: the button lands short of
+   * the newest message and the only way down is to scroll by hand. The same
+   * staleness is behind a room opening away from where it was sent, and a jump
+   * to a permalink or a notification drifting once the pictures around it load.
+   */
+  const recordFollowMetrics = useCallback(() => {
+    const scrollElement = getScrollElement();
+    if (!scrollElement) return;
+    followMetricsRef.current = {
+      scrollHeight: scrollElement.scrollHeight,
+      clientHeight: scrollElement.clientHeight,
+    };
+  }, [getScrollElement]);
+
   const keepFollowingLiveEnd = useCallback(() => {
     const scrollElement = getScrollElement();
     if (!scrollElement) return;
@@ -1122,16 +1201,13 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       distanceNow <= FOLLOW_LIVE_END_PX;
     if (!following || !atLiveEndRef.current) return;
     scrollToBottom(scrollElement);
-    followMetricsRef.current = {
-      scrollHeight: scrollElement.scrollHeight,
-      clientHeight: scrollElement.clientHeight,
-    };
+    recordFollowMetrics();
     // The view is at the live end by construction now, so record it rather than
     // waiting for the intersection observer to say so next frame: an event
     // arriving in between reads this ref synchronously to decide whether to
     // follow, and a stale `false` there is what strands a room off the bottom.
     atBottomRef.current = true;
-  }, [getScrollElement]);
+  }, [getScrollElement, recordFollowMetrics]);
 
   useResizeObserver(
     keepFollowingLiveEnd,
@@ -1321,31 +1397,18 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       // Recorded here, at the live end, so growth that lands before the resize
       // observer's first delivery is still measured as "the reader was at the
       // bottom" rather than being taken for a scroll-up.
-      followMetricsRef.current = {
-        scrollHeight: scrollEl.scrollHeight,
-        clientHeight: scrollEl.clientHeight,
-      };
+      recordFollowMetrics();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // if live timeline is linked and unreadInfo change
-  // Scroll to last read message
-  useLayoutEffect(() => {
-    const { readUptoEventId, inLiveTimeline, scrollTo } = unreadInfo ?? {};
-    if (readUptoEventId && inLiveTimeline && scrollTo) {
-      const linkedTimelines = getLinkedTimelines(getLiveTimeline(room));
-      const evtTimeline = getEventTimeline(room, readUptoEventId);
-      const absoluteIndex =
-        evtTimeline && getEventIdAbsoluteIndex(linkedTimelines, evtTimeline, readUptoEventId);
-      if (absoluteIndex) {
-        scrollToItem(absoluteIndex, {
-          behavior: 'instant',
-          align: 'start',
-          stopInView: true,
-        });
-      }
-    }
-  }, [room, unreadInfo, scrollToItem]);
+  // A room opens on the newest message. The scroll to the read marker that
+  // used to run here is gone: the marker is wherever the read receipt last got
+  // to, so a receipt that had stopped advancing — which is what a stale
+  // `atLiveEndRef` does, since auto-mark-as-read is gated on it — opened the
+  // room at a message from some arbitrary point in the past, with the rest of
+  // the conversation already below it. The marker is still drawn where it
+  // falls, and Jump to Unread still goes to it.
 
   // scroll to focused message
   useLayoutEffect(() => {
@@ -1355,6 +1418,11 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         align: 'center',
         stopInView: true,
       });
+      // Same as the unread marker: a permalink, a search result and the message
+      // behind a desktop notification all land mid-conversation on purpose, and
+      // the reading taken at whatever the view was doing before the jump would
+      // let the first resize afterwards decide otherwise.
+      recordFollowMetrics();
     }
 
     setTimeout(() => {
@@ -1364,16 +1432,29 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         return currentItem;
       });
     }, 2000);
-  }, [alive, focusItem, scrollToItem]);
+  }, [alive, focusItem, scrollToItem, recordFollowMetrics]);
 
   // scroll to bottom of timeline
   const scrollToBottomCount = scrollToBottomRef.current.count;
   useLayoutEffect(() => {
     if (scrollToBottomCount > 0) {
       const scrollEl = scrollRef.current;
-      if (scrollEl)
-        scrollToBottom(scrollEl, scrollToBottomRef.current.smooth ? 'smooth' : 'instant');
+      if (scrollEl) {
+        const smooth = scrollToBottomRef.current.smooth;
+        scrollToBottom(scrollEl, smooth ? 'smooth' : 'instant');
+        // Only for the instant scroll, which has already landed by the time
+        // this returns. A smooth one is still animating, so the heights would
+        // be paired with a `scrollTop` on its way down and the reading would be
+        // a position the view never actually held. Smooth is used only for
+        // somebody else's message arriving while the reader is already at the
+        // bottom, where the existing reading is a message's height out at
+        // worst — Jump to Latest, a re-seeded live timeline and the reader's
+        // own message are all instant, and they are the jumps that land in a
+        // rendered range the recorded heights know nothing about.
+        if (!smooth) recordFollowMetrics();
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollToBottomCount]);
 
   // Remove unreadInfo on mark as read
