@@ -73,13 +73,42 @@ jobs:
       # The built app goes into a `dist/` subdirectory of the published branch,
       # never the branch root: self-hosters point nginx at the checkout, and a
       # docroot that contains `.git` serves the whole object store publicly.
-      # nginx.conf / README.md / checksums.sha256 stay at the root, outside the
-      # docroot.
+      # nginx.conf / README.md / checksums.sha256 / .gitignore stay at the root,
+      # outside the docroot.
+      #
+      # `config.json` is published as `config.sample.json`, and ONLY here.
+      #
+      # Self-hosters install this branch with `git clone` and update it with
+      # `git pull`, and configuring the app means editing the config file. Those
+      # two facts are incompatible while the file the app reads is tracked: on
+      # the builds that change it (3 of the first 142) git refuses the pull with
+      # "Your local changes to the following files would be overwritten by
+      # merge" and the operator has to back the file up, reset it, pull, and
+      # copy it back. Nothing about that is discoverable in advance — the pull
+      # that breaks looks exactly like the 139 that did not.
+      #
+      # So the branch ships the sample under a name nobody edits, the root
+      # `.gitignore` untracks `dist/config.json`, and nginx serves the sample
+      # when no local config exists (`try_files $uri /config.sample.json`). A
+      # fresh clone therefore works with the defaults, an edited config is
+      # untracked and can never conflict, and `checksums.sha256` verifies clean
+      # because the file the operator edits is not in the manifest.
+      #
+      # The rename is deliberately done to the *publish copy* rather than to
+      # the build: `source/dist/config.json` is what the desktop and Android
+      # bundles embed (`tauri.conf.json` frontendDist) and what the
+      # prinny.app/app deploy below copies, and both fetch `/config.json` at
+      # runtime. Renaming it in vite.config.js would take the config away from
+      # all three.
       - name: Stage publish contents
         run: |
+          set -euo pipefail
           mkdir -p publish/dist
           cp -a source/dist/. publish/dist/
           cp -a source/.github/webapp-release-template/. publish/
+          # Fail loudly rather than publishing a branch with no config at all.
+          test -f publish/dist/config.json
+          mv publish/dist/config.json publish/dist/config.sample.json
 
       # Integrity manifest for the published artifact: self-hosters `git clone`
       # / `git pull` this branch straight onto a web server, so give them

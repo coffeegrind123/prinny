@@ -10,8 +10,11 @@ Each commit on this branch is one full build. To install or update, you only nee
 <checkout>/
 ├── .git/               # never expose this — see "Serve"
 ├── dist/               # THE DOCUMENT ROOT: the built app, nothing else
+│   ├── config.sample.json   # shipped defaults — tracked, replaced each build
+│   └── config.json          # YOURS — untracked, overrides the sample
 ├── checksums.sha256    # SHA-256 of every file under dist/
 ├── nginx.conf          # example vhost
+├── .gitignore          # untracks dist/config.json — see "Configure"
 └── README.md           # this file
 ```
 
@@ -49,9 +52,15 @@ sha256sum -c checksums.sha256      # every line must say "OK"
 `sha256sum -c` reports missing files and content mismatches, but it will not tell you that a file was *added*. To catch that too:
 
 ```bash
-diff <(find dist -type f | LC_ALL=C sort) \
+diff <(find dist -type f ! -path dist/config.json | LC_ALL=C sort) \
      <(cut -d' ' -f3- checksums.sha256 | LC_ALL=C sort)
 ```
+
+`dist/config.json` is excluded because it is yours: it is untracked, so no
+publish creates it and the manifest does not cover it (see "Configure"). It is
+the **only** file that may legitimately be in the docroot without appearing in
+`checksums.sha256` — anything else this command prints is a file neither you nor
+the build put there, and is worth explaining before you reload nginx.
 
 The manifest is committed alongside the build, so it proves integrity of the transfer and of your local tree — it is not a signature and does not by itself prove *who* produced the build. For that, confirm the commit is on `webapp-release` in the upstream repository and was authored by `github-actions[bot]`:
 
@@ -71,7 +80,7 @@ nginx -t && systemctl reload nginx
 Two rules that matter more than the rewrites:
 
 1. **The document root is `<checkout>/dist`, never the checkout itself.** Serving the checkout exposes `.git/` — which is the full history of every build, and on a private fork, everything else you ever committed to that branch.
-2. **Keep the dotfile deny rule.** `nginx.conf` refuses any path containing a `/.` segment as a second line of defence, plus `nginx.conf`, `README.md` and `checksums.sha256` in case someone points the root at the checkout anyway.
+2. **Keep the dotfile deny rule.** `nginx.conf` refuses any path containing a `/.` segment as a second line of defence — which covers `.git/` and `.gitignore` — plus `nginx.conf`, `README.md` and `checksums.sha256` in case someone points the root at the checkout anyway.
 
 The shipped `nginx.conf` also sets the security headers this app expects: a
 `Content-Security-Policy` tight enough to contain a sanitiser bypass in message
@@ -82,12 +91,67 @@ message and script execution on your origin. Uncomment the
 `Strict-Transport-Security` line once you serve over TLS.
 
 If you're not on nginx, just replicate the rewrites (relative to `dist/`):
-- `/config.json`, `/manifest.json`, `/sw.js`, `/pdf.worker.min.js` → serve as-is
+- `/config.json` → serve `config.json` if it exists, otherwise `config.sample.json` (nginx: `try_files $uri /config.sample.json`). If your server cannot express a fallback, `cp dist/config.sample.json dist/config.json` once instead — that file is untracked, so it will not be disturbed by a pull.
+- `/manifest.json`, `/sw.js`, `/pdf.worker.min.js` → serve as-is
 - `/public/*`, `/assets/*` → serve as-is
 - everything else → `/index.html` (let React Router take it)
 
 ## Configure
 
-`dist/config.json` holds the homeserver list and explore directory. Either edit it in place after `git pull` (your edits survive future pulls only if there are no upstream changes to `config.json` — otherwise you get a merge conflict, which is loud and recoverable) or override with `git update-index --skip-worktree dist/config.json` to ignore future updates to it.
+The config holds the homeserver list, the explore directory and the push
+gateway. **Two files, and only one of them is yours:**
 
-Note that editing `dist/config.json` makes `sha256sum -c checksums.sha256` report a mismatch for that one file. That is expected; every other line must still say OK.
+| file | tracked? | who owns it |
+|---|---|---|
+| `dist/config.sample.json` | yes — replaced on every build | this repository. Never edit it; your changes will be overwritten. |
+| `dist/config.json` | **no** — listed in `.gitignore` | you. Git will never create, update or complain about it. |
+
+To configure, copy the sample once and edit the copy:
+
+```bash
+cd /usr/share/webapps/prinny
+cp dist/config.sample.json dist/config.json
+$EDITOR dist/config.json
+```
+
+That is the whole thing. `git pull` cannot touch `dist/config.json` — it is not
+tracked — so there is no backup-and-restore dance, no `--skip-worktree`, and no
+merge conflict, ever. `sha256sum -c checksums.sha256` also stays completely
+clean, because the manifest covers the sample and not your copy.
+
+You can also skip the copy entirely: the shipped `nginx.conf` serves
+`/config.json` with `try_files $uri /config.sample.json`, so a checkout with no
+`dist/config.json` runs on the shipped defaults. Create the file when you want
+to change something.
+
+When the sample gains a new key, `git pull` brings it into
+`dist/config.sample.json` and leaves your `dist/config.json` alone — the app
+reads only yours, so a genuinely new setting needs copying across by hand. To
+see what changed:
+
+```bash
+git log -p -- dist/config.sample.json | head -50
+diff <(python3 -m json.tool dist/config.sample.json) \
+     <(python3 -m json.tool dist/config.json)
+```
+
+> **One-time migration (from a checkout made before this change).** Earlier
+> builds published the config as a *tracked* `dist/config.json`, which is
+> exactly the file that now has to become untracked — so the pull that brings
+> this change in is the last one that can conflict with it. If you had edited
+> it, that pull stops with `Your local changes to the following files would be
+> overwritten by merge: dist/config.json`. Do the dance one final time:
+>
+> ```bash
+> cd /usr/share/webapps/prinny
+> cp dist/config.json /tmp/prinny-config.json   # keep your settings
+> git checkout -- dist/config.json              # let git delete it
+> git pull
+> cp /tmp/prinny-config.json dist/config.json   # now untracked, and staying that way
+> ```
+>
+> If you had *not* edited it, the pull is clean and the app carries on serving
+> `dist/config.sample.json` — which holds what your unedited `config.json` held.
+> If you had run `git update-index --skip-worktree dist/config.json`, undo it
+> first with `git update-index --no-skip-worktree dist/config.json`, or the pull
+> will fail in a way that does not name the file.
