@@ -1,0 +1,21 @@
+# Published to the root of the `webapp-release` branch.
+#
+# `dist/config.json` is the one file in this branch an operator is expected to
+# edit, and it is deliberately NOT tracked. While it was, configuring the app
+# and updating the app were in direct conflict: on a build that changed the
+# shipped config, `git pull` refused with "Your local changes to the following
+# files would be overwritten by merge" and the only way forward was to back the
+# file up, reset it, pull, and copy it back. That happened on 3 of the first 142
+# builds, which is the worst possible frequency — rare enough that nobody has a
+# routine for it, common enough to bite.
+#
+# The defaults now ship as `dist/config.sample.json`, which no operator edits
+# and git is therefore free to update on every pull. `nginx.conf` serves
+# `/config.json` with `try_files $uri /config.sample.json`, so a fresh clone
+# runs on the defaults and creating this file overrides them. See README.md,
+# "Configure".
+/dist/config.json
+
+# Nothing else in a served checkout should be ignored: `checksums.sha256` is a
+# manifest of every file under dist/, and an ignored file inside the docroot is
+# a file the manifest cannot vouch for.
