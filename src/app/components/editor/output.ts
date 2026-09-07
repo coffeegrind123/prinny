@@ -4,6 +4,7 @@ import { sanitizeText } from '../../utils/sanitize';
 import { BlockType } from './types';
 import { CustomElement } from './slate';
 import {
+  canonicalFencedCodeBlocks,
   parseBlockMD,
   parseInlineMD,
   unescapeMarkdownBlockSequences,
@@ -145,7 +146,12 @@ const elementToPlainText = (node: CustomElement, children: string): string => {
     case BlockType.CodeLine:
       return `${children}\n`;
     case BlockType.CodeBlock:
-      return `${children}\n`;
+      // Fenced, for the same reason the markdown path is canonicalised: this
+      // is the fallback other clients read, and an unfenced block arrives
+      // there as ordinary prose — indentation, punctuation and all — with
+      // nothing marking it as code. A block made with the toolbar or `mod+;`
+      // used to send exactly that.
+      return `\`\`\`\n${children.replace(/\n+$/, '')}\n\`\`\`\n`;
     case BlockType.QuoteLine:
       return `| ${children}\n`;
     case BlockType.BlockQuote:
@@ -169,15 +175,36 @@ const elementToPlainText = (node: CustomElement, children: string): string => {
   }
 };
 
-export const toPlainText = (node: Descendant | Descendant[], isMarkdown: boolean): string => {
-  if (Array.isArray(node)) return node.map((n) => toPlainText(n, isMarkdown)).join('');
+const nodeToPlainText = (node: Descendant | Descendant[], isMarkdown: boolean): string => {
+  if (Array.isArray(node)) return node.map((n) => nodeToPlainText(n, isMarkdown)).join('');
   if (Text.isText(node))
     return isMarkdown
       ? unescapeMarkdownBlockSequences(node.text, unescapeMarkdownInlineSequences)
       : node.text;
 
-  const children = node.children.map((n) => toPlainText(n, isMarkdown)).join('');
+  const children = node.children.map((n) => nodeToPlainText(n, isMarkdown)).join('');
   return elementToPlainText(node, children);
+};
+
+/**
+ * The message's plain-text `body`.
+ *
+ * In markdown mode the fences are normalised on the way out, so what goes on
+ * the wire is standard CommonMark even when what was typed was not. This is
+ * the fallback every client that does not render our `formatted_body` reads —
+ * some of them by re-parsing it as markdown — so a shape only this client
+ * understands is not a local convenience, it is a message that renders wrong
+ * everywhere else. `` ```code``` `` on one line was arriving elsewhere as an
+ * inline code span for exactly that reason. See
+ * `canonicalFencedCodeBlocks`.
+ *
+ * Only the fences are touched. The rest of the body stays the sender's own
+ * text, because it is their words and not a document this client gets to
+ * rewrite.
+ */
+export const toPlainText = (node: Descendant | Descendant[], isMarkdown: boolean): string => {
+  const text = nodeToPlainText(node, isMarkdown);
+  return isMarkdown ? canonicalFencedCodeBlocks(text) : text;
 };
 
 /**

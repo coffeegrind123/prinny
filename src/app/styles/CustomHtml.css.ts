@@ -45,9 +45,27 @@ const BaseCode = style({
   color: color.SurfaceVariant.OnContainer,
   background: color.SurfaceVariant.Container,
   borderRadius: config.radii.R300,
+  // Code sits on surfaces that are frequently the SAME colour it is — a
+  // message row, a url-preview card, a quote — so background alone did not
+  // separate it from the prose around it at all, and that is most of what
+  // "code is hard to see" was. A hairline does the separating, and unlike a
+  // stronger fill it works the same in both themes.
+  border: `${config.borderWidth.B300} solid ${color.SurfaceVariant.ContainerLine}`,
 });
 const CodeFont = style({
-  fontFamily: 'monospace',
+  // `monospace` ALONE is the reason code rendered smaller than the text around
+  // it. Every major engine applies a separate, smaller default size (13px
+  // against 16px) to the bare `monospace` keyword, so `font-family: monospace`
+  // with no size silently shrinks the run — the single biggest contributor to
+  // code being hard to read here. Naming real families first and stating an
+  // explicit relative size defeats it: the size is then ours, not the
+  // browser's fallback.
+  fontFamily:
+    'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace',
+  fontSize: '0.9375em',
+  // Programming ligatures turn `!=` and `=>` into glyphs that are not what was
+  // typed. Fine in an editor you chose; not in someone else's message.
+  fontVariantLigatures: 'none',
 });
 
 export const Code = style([
@@ -56,6 +74,9 @@ export const Code = style([
   CodeFont,
   {
     padding: `2px ${config.space.S100}`,
+    // Without this an inline span's border and background clip against the
+    // line above and below on tight line-heights.
+    lineHeight: 1.4,
   },
 ]);
 
@@ -105,6 +126,11 @@ export const CodeBlock = style([
     fontStyle: 'normal',
     position: 'relative',
     overflow: 'hidden',
+    // Inherited from BaseCode, but a block needs the full box rather than the
+    // hairline an inline span gets: the header strip already draws a bottom
+    // border, and without an outer one the block's left and right edges melt
+    // into the message.
+    borderWidth: config.borderWidth.B400,
   },
 ]);
 export const CodeBlockHeader = style([

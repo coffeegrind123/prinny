@@ -1,3 +1,4 @@
+import { MatchResult } from '../internal';
 import { BlockMDRule } from './type';
 
 const HEADING_REG_1 = /^(#{1,6}) +(.+)\n?/m;
@@ -10,14 +11,13 @@ export const HeadingRule: BlockMDRule = {
   },
 };
 
-// opening fence: 3 or more backticks at the start of a line, captured in group
-// 1 so the closing fence can be matched against the same length via \1
-// group 2 is everything between the fences, info string included
-// the closing fence ends a line (trailing spaces allowed) and may be longer
-// than the opening one, which is what `*` after \1 absorbs
+// Fenced code blocks.
 //
-// Everything about this shape is deliberate, because Discord is far more
-// forgiving than the previous pattern was:
+// Two things have to be right, and they pull in opposite directions.
+//
+// FORGIVENESS. Discord accepts far more than CommonMark does, and so does
+// this, because these are the shapes you actually get by typing ``` and
+// pasting:
 //
 //   ```code```            one line -> a block containing "code"
 //   ```lang\ncode\n```    a language token, but ONLY when a bare word is
@@ -25,18 +25,121 @@ export const HeadingRule: BlockMDRule = {
 //   ```code\nmore\n```    content starting on the fence line itself
 //   ```\ncode\nmore```    closing fence at the end of the last content line
 //
-// The old regex demanded `\n` right after the info string and a closing fence
-// alone on its own line, so the last two forms did not match at all and came
-// out as literal backticks around the text. Those are exactly the forms you get
-// by typing ``` and pasting several lines after it — the common case, and the
-// one that was reported broken.
-const CODEBLOCK_REG_1 = /^(`{3,})(?!`)([\s\S]*?)\1`* *(?!.)\n?/m;
+// WHICH FENCE CLOSES IT. This is the part that was wrong. The closing fence
+// used to be found lazily — the first line after the opening fence that looks
+// like one — which is CommonMark's rule and is exactly wrong for the single
+// most common way this feature gets used: wrapping something in ``` that
+// itself contains a fenced block. Copy a chunk of documentation or of an
+// assistant's answer, wrap it in ```, and the block ended at the *inner*
+// block's closing fence, leaving the back half of the message as loose prose
+// with a stray ``` dangling at the end of it. Reported as "code blocks are
+// broken", and from the outside that is precisely what it looks like.
+//
+// The fix is to count depth instead of stopping at the first candidate, and
+// the thing that makes it possible is a CommonMark rule that holds here too:
+// **a closing fence may not carry an info string.** So a line that is a fence
+// run followed by a bare word (```bash, ```json) can only ever be an *opener*,
+// which is what tells an inner block's closing fence apart from this block's
+// own. Walk the openers and closers in order, and the fence that brings the
+// depth back to zero is ours.
+//
+// What this deliberately does NOT do is get greedy. Two separate code blocks
+// in one message stay two blocks, because the first bare fence after the
+// opening one balances it and the walk stops there.
+const CODEBLOCK_OPEN_REG = /^(`{3,})(?!`)/m;
+
+// A line that is a fence run plus a NON-EMPTY info string, and nothing else.
+// Only ever an opener — see above. Requires a preceding newline: the opening
+// fence is already known not to be followed by a backtick, so nothing at the
+// very start of the body can be one of these.
+const CODEBLOCK_INNER_OPEN_REG = /\n(`{3,})(?!`)[^\s`]+[ \t]*(?=\n|$)/g;
+
+/** Positions where a fence of `length` backticks could close a block. */
+const closerRegFor = (length: number): RegExp => new RegExp(`\`{${length},} *(?!.)`, 'g');
+
+type FenceEvent = { index: number; end: number; opens: boolean };
+
+/**
+ * The extent of the first fenced block in `text`, as a synthetic match.
+ *
+ * Shaped like a `RegExpMatchArray` — `[whole, fence, body]` plus `index` — so
+ * it drops into `runBlockRule`/`replaceMatch` exactly as the regex it replaced
+ * did.
+ */
+const matchCodeBlock = (text: string): MatchResult | null => {
+  const open = text.match(CODEBLOCK_OPEN_REG);
+  if (!open || open.index === undefined) return null;
+
+  const fence = open[1];
+  const bodyStart = open.index + fence.length;
+  const region = text.slice(bodyStart);
+
+  const events: FenceEvent[] = [];
+
+  CODEBLOCK_INNER_OPEN_REG.lastIndex = 0;
+  let innerOpen = CODEBLOCK_INNER_OPEN_REG.exec(region);
+  while (innerOpen !== null) {
+    events.push({
+      index: innerOpen.index,
+      end: innerOpen.index + innerOpen[0].length,
+      opens: true,
+    });
+    innerOpen = CODEBLOCK_INNER_OPEN_REG.exec(region);
+  }
+
+  const closerReg = closerRegFor(fence.length);
+  let closer = closerReg.exec(region);
+  while (closer !== null) {
+    events.push({ index: closer.index, end: closer.index + closer[0].length, opens: false });
+    closer = closerReg.exec(region);
+  }
+
+  events.sort((a, b) => a.index - b.index);
+
+  const closers = events.filter((event) => !event.opens);
+  if (closers.length === 0) return null;
+
+  let depth = 1;
+  let chosen: FenceEvent | undefined;
+  for (let i = 0; i < events.length; i += 1) {
+    const event = events[i];
+    if (event.opens) {
+      depth += 1;
+    } else {
+      depth -= 1;
+      if (depth === 0) {
+        chosen = event;
+        break;
+      }
+    }
+  }
+
+  // Unbalanced — more openers than closers, so no fence brings the depth back
+  // to zero. There is no correct answer here, and the *last* closer is the
+  // forgiving one: it keeps the whole paste inside the block rather than
+  // rendering the message as loose prose. Returning nothing would print every
+  // backtick literally, which is the outcome this rule exists to avoid.
+  const end = chosen ?? closers[closers.length - 1];
+
+  const whole = text.slice(
+    open.index,
+    // The regex this replaced absorbed one trailing newline after the closing
+    // fence, so the block does not leave an empty line behind it.
+    bodyStart + end.end + (region[end.end] === '\n' ? 1 : 0),
+  );
+
+  const result = [whole, fence, region.slice(0, end.index)] as unknown as RegExpMatchArray;
+  result.index = open.index;
+  result.input = text;
+  return result;
+};
+
 // A language token is a run with no whitespace and no backtick, terminated by a
 // newline. Anything else on the fence line — "const a = 1;", a sentence, an
 // empty rest-of-line — is content, not a language.
 const CODEBLOCK_INFO_REG = /^([^\s`]*)\n/;
 export const CodeBlockRule: BlockMDRule = {
-  match: (text) => text.match(CODEBLOCK_REG_1),
+  match: matchCodeBlock,
   html: (match) => {
     const [, fence, body] = match;
     const infoMatch = body.match(CODEBLOCK_INFO_REG);
@@ -51,6 +154,69 @@ export const CodeBlockRule: BlockMDRule = {
     const filenameAtt = filename ? ` data-label="${filename}"` : '';
     return `<pre data-md="${fence}"><code${classNameAtt}${filenameAtt}>${content}</code></pre>`;
   },
+};
+
+/**
+ * Rewrite every fenced code block in `text` into the canonical CommonMark
+ * shape: opening fence and info string alone on their own line, content, then
+ * the closing fence alone on its own line.
+ *
+ * This exists because of what a Matrix message actually puts on the wire. A
+ * message carries both an HTML `formatted_body` and a plain-text `body`, and
+ * the `body` is the fallback every client that does not render our HTML falls
+ * back to — including clients that re-parse it as markdown. The forgiving
+ * fence shapes above are read correctly *here* and are simply wrong there:
+ * `` ```code``` `` on one line is not a CommonMark code fence at all (the info
+ * string may not contain a backtick), so a strict reader sees an inline code
+ * span, and that is exactly how it comes out the far end. The report was "type
+ * it on one line and it shows up as inline code" — from another client, which
+ * was reading the fallback we sent it.
+ *
+ * The fence must be alone on its line precisely because the opening fence is
+ * allowed an info string; that is the whole reason the rule exists. So rather
+ * than emit a shape that only this client understands, accept the loose input
+ * and put the standard form on the wire. The editor stays forgiving and other
+ * clients stay correct — instead of the leniency becoming everyone else's
+ * problem.
+ *
+ * Deliberately shares `matchCodeBlock` with the HTML rule above: `body` and
+ * `formatted_body` describing different blocks would be worse than either
+ * being loose, and this is the only thing that keeps the two agreeing on where
+ * a block starts and ends.
+ */
+export const canonicalFencedCodeBlocks = (text: string): string => {
+  const match = matchCodeBlock(text);
+  if (!match || match.index === undefined) return text;
+
+  const [whole, fence, body] = match;
+  const infoMatch = body.match(CODEBLOCK_INFO_REG);
+  const info = infoMatch?.[1] ?? '';
+  const content = infoMatch ? body.slice(infoMatch[0].length) : body;
+  // One newline before the closing fence, never two: the closer supplies the
+  // line break, so keeping the content's own trailing newlines would add a
+  // blank line to the block on every round trip through this.
+  const inner = content.replace(/\n+$/, '');
+
+  // The fence has to be LONGER than any backtick run inside the block, or a
+  // strict reader closes it on the first one. That is not a nicety: the case
+  // that started all of this is a paste that contains a fenced block of its
+  // own, and emitting `` ``` `` around content that itself contains `` ``` ``
+  // sends something that reads correctly here and falls apart anywhere else —
+  // the outer block ending early, the back half arriving as loose prose. A
+  // longer fence is CommonMark's own answer for nesting, and it costs a
+  // backtick.
+  const longestRun = Math.max(0, ...(inner.match(/`+/g) ?? []).map((run) => run.length));
+  const fenceLength = Math.max(fence.length, longestRun + 1, 3);
+  const outerFence = '`'.repeat(fenceLength);
+
+  const canonical = `${outerFence}${info}\n${inner === '' ? '' : `${inner}\n`}${outerFence}`;
+  const before = text.slice(0, match.index);
+  const after = text.slice(match.index + whole.length);
+  // `matchCodeBlock` absorbs one newline after the closing fence; put it back,
+  // or the block would run into whatever the sender wrote on the next line.
+  const trailing = whole.endsWith('\n') ? '\n' : '';
+
+  return `${before}${canonical}${trailing}${canonicalFencedCodeBlocks(after)}`;
 };
 
 const BLOCKQUOTE_MD_1 = '>';
