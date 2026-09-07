@@ -114,6 +114,43 @@ export const EmojiGroupContent = style([
 ]);
 
 /**
+ * Row-level equivalents of the group block above.
+ *
+ * `EmojiGroup`'s `padding: S300 0` used to separate one group from the next;
+ * with rows as the virtual unit that padding belongs to the heading, which is
+ * the only row that ever sits at a group boundary.
+ */
+export const EmojiGroupLabelRow = style({
+  padding: `${config.space.S300} ${config.space.S200} ${config.space.S200}`,
+  // The pinned heading is drawn over the rows scrolling beneath it, so it needs
+  // a ground of its own — the pill's own background does not cover the gap
+  // around it.
+  backgroundColor: color.Surface.Container,
+});
+
+export const EmojiItemRow = style([
+  DefaultReset,
+  {
+    padding: `0 ${config.space.S200}`,
+  },
+]);
+
+/**
+ * The one heading pinned to the top of the scroller.
+ *
+ * Every other row is absolutely positioned by the virtualizer; this one is left
+ * in flow so `position: sticky` has a scrollport to stick to. Which row wears
+ * it is decided per scroll position by the board's `rangeExtractor`, which also
+ * keeps that row rendered after it has scrolled out of range.
+ */
+export const StickyRow = style({
+  position: 'sticky',
+  top: 0,
+  zIndex: 2,
+  width: '100%',
+});
+
+/**
  * Item
  */
 

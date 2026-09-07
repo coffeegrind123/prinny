@@ -18,6 +18,8 @@
  * anything the moment the platform's font is updated.
  */
 
+import { emojiGroups, emojis, IEmoji, IEmojiGroup } from './emoji';
+
 /**
  * A codepoint permanently unassigned by Unicode, so no font will ever have a
  * glyph for it. Whatever the platform draws here IS its tofu.
@@ -79,4 +81,81 @@ export function isEmojiSupported(unicode: string): boolean {
 
   cache.set(unicode, supported);
   return supported;
+}
+
+/**
+ * The emoji groups with the unsupported entries removed, computed once.
+ *
+ * The filter itself is one `measureText` per emoji against a cache, which is
+ * cheap per call and decidedly not cheap 1949 times — and the emoji picker used
+ * to redo it on every mount, because the filtering lived in a `useMemo` that
+ * belonged to a component the board creates fresh each time it opens. Nothing
+ * about the answer is per-board, so it is computed here and kept.
+ */
+let supportedGroups: IEmojiGroup[] | undefined;
+let supportedEmojis: IEmoji[] | undefined;
+
+export function getSupportedEmojiGroups(): IEmojiGroup[] {
+  if (!supportedGroups) {
+    supportedGroups = emojiGroups
+      .map((group) => ({
+        ...group,
+        emojis: group.emojis.filter((emoji) => isEmojiSupported(emoji.unicode)),
+      }))
+      .filter((group) => group.emojis.length > 0);
+  }
+  return supportedGroups;
+}
+
+/** The same filter applied to the flat list the search index is built from. */
+export function getSupportedEmojis(): IEmoji[] {
+  if (!supportedEmojis) {
+    supportedEmojis = emojis.filter((emoji) => isEmojiSupported(emoji.unicode));
+  }
+  return supportedEmojis;
+}
+
+/**
+ * Pay for the measurement before anyone is waiting on it.
+ *
+ * Measured in a headless Chromium with no colour emoji font installed, the
+ * 1949 `measureText` calls take ~1.5s — the pathological case, since every
+ * lookup walks the whole fallback chain before giving up, but the case a fresh
+ * container hits and a good upper bound. With a font present it is far less.
+ * Either way it is work with a known answer, so it happens in idle slices well
+ * before the first picker opens rather than inside the click that opens it.
+ *
+ * Chunked against the idle deadline: a single 1.5s block during "idle" is still
+ * a 1.5s block, and would land as a dropped frame in whatever the user was
+ * doing instead.
+ */
+const WARM_CHUNK = 100;
+
+export function warmEmojiSupport(): void {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  if (supportedGroups && supportedEmojis) return;
+
+  const idle: (cb: () => void) => void =
+    'requestIdleCallback' in window
+      ? (cb) => window.requestIdleCallback(() => cb(), { timeout: 2000 })
+      : (cb) => window.setTimeout(cb, 0);
+
+  let index = 0;
+  const step = () => {
+    // `init()` reads the body's computed font, so measuring before webfonts
+    // settle would answer about a fallback face rather than the one that ends
+    // up drawing the emoji.
+    const end = Math.min(index + WARM_CHUNK, emojis.length);
+    for (; index < end; index += 1) isEmojiSupported(emojis[index].unicode);
+    if (index < emojis.length) {
+      idle(step);
+      return;
+    }
+    getSupportedEmojiGroups();
+    getSupportedEmojis();
+  };
+
+  const start = () => idle(step);
+  if (document.fonts?.status === 'loaded') start();
+  else (document.fonts?.ready ?? Promise.resolve()).then(start, start);
 }

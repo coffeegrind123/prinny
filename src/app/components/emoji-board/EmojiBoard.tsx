@@ -8,17 +8,18 @@ import {
   lazy,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
-import { Box, config, Icons, Scroll, Spinner } from 'folds';
+import { Box, Icons, Scroll, Spinner } from 'folds';
 import { FocusTrap } from 'focus-trap-react';
 import { isKeyHotkey } from '../../utils/is-hotkey';
 import { Room } from 'matrix-js-sdk';
 import { atom, PrimitiveAtom, useAtom, useSetAtom } from 'jotai';
-import { useVirtualizer } from '@tanstack/react-virtual';
-import { IEmoji, emojiGroups, emojis } from '../../plugins/emoji';
+import { defaultRangeExtractor, Range, useVirtualizer } from '@tanstack/react-virtual';
+import { IEmoji } from '../../plugins/emoji';
 import { useEmojiGroupLabels } from './useEmojiGroupLabels';
 import { useEmojiGroupIcons } from './useEmojiGroupIcons';
 import { preventScrollWithArrowKey, stopPropagation } from '../../utils/keyboard';
@@ -50,21 +51,33 @@ import {
   ImageGroupIcon,
   GroupIcon,
   getEmojiItemInfo,
-  EmojiGroup,
+  EmojiGroupLabelRow,
+  EmojiItemRow,
   EmojiBoardLayout,
 } from './components';
-import { isEmojiSupported } from '../../plugins/emojiSupport';
+import {
+  getSupportedEmojiGroups,
+  getSupportedEmojis,
+  warmEmojiSupport,
+} from '../../plugins/emojiSupport';
 import { EmojiBoardTab, EmojiType } from './types';
 import { VirtualTile } from '../virtualizer';
 import { GifPicker } from './GifPicker';
 import { FavoriteGif } from '../../state/gifFavorites';
 import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
+import * as css from './components/styles.css';
 
 // The mashup tab carries ~233 KB of inlined Twemoji parts. Loading it with the
 // board would make every emoji picker pay for a tab most openings never touch,
 // so it arrives on first use instead.
 const MashupPicker = lazy(() => import('./MashupPicker'));
+
+// Deciding which emoji the platform can draw is ~1,950 canvas measurements, and
+// it used to happen inside the click that opened the picker. It is the same
+// answer every time, so it is taken here instead — in idle slices, once the
+// fonts have settled, as soon as the room UI that owns a picker is loaded.
+warmEmojiSupport();
 
 const RECENT_GROUP_ID = 'recent_group';
 const SEARCH_GROUP_ID = 'search_group';
@@ -106,24 +119,30 @@ const useGroups = (
       g.push({
         id: pack.id,
         name: label ?? 'Unknown',
+        // `getImages` hands back the pack's own memoized array, so sorting it
+        // directly reorders the pack for everyone. `getAvatarUrl` reads
+        // `images[0].url`, so that silently changed a pack's sidebar icon to
+        // its alphabetically-first emoji the moment a board had been opened
+        // once. Sort a copy.
         items: pack
           .getImages(ImageUsage.Emoticon)
+          .slice()
           .sort((a, b) => a.shortcode.localeCompare(b.shortcode)),
       });
     });
 
-    emojiGroups.forEach((group) => {
-      // Anything the platform's font cannot draw is dropped rather than offered
-      // as an empty box — see plugins/emojiSupport. `emojibase-data` is pinned
-      // at Unicode 17 and the fonts trail it, so a handful of the newest emoji
-      // (orca, distorted face, fingerprint, face with bags under eyes, …) had
-      // no glyph anywhere and were pickable regardless.
-      const items = group.emojis.filter((emoji) => isEmojiSupported(emoji.unicode));
-      if (items.length === 0) return;
+    // Anything the platform's font cannot draw is dropped rather than offered
+    // as an empty box — see plugins/emojiSupport. `emojibase-data` is pinned at
+    // Unicode 17 and the fonts trail it, so a handful of the newest emoji
+    // (orca, distorted face, fingerprint, face with bags under eyes, …) had no
+    // glyph anywhere and were pickable regardless. The filtering is memoized in
+    // that module: it is the same answer for every board that ever opens, and
+    // recomputing it here cost a measurable chunk of every open.
+    getSupportedEmojiGroups().forEach((group) => {
       g.push({
         id: group.id,
         name: labels[group.id],
-        items,
+        items: group.emojis,
       });
     });
 
@@ -143,6 +162,7 @@ const useGroups = (
         name: label ?? 'Unknown',
         items: pack
           .getImages(ImageUsage.Sticker)
+          .slice()
           .sort((a, b) => a.shortcode.localeCompare(b.shortcode)),
       });
     });
@@ -245,7 +265,7 @@ function EmojiSidebar({ activeGroupAtom, packs, onScrollToGroup }: EmojiSidebarP
         }}
       >
         <SidebarDivider />
-        {emojiGroups.map((group) => (
+        {getSupportedEmojiGroups().map((group) => (
           <GroupIcon
             key={group.id}
             active={activeGroupId === group.id}
@@ -369,7 +389,94 @@ const SEARCH_OPTIONS: UseAsyncSearchOptions = {
   },
 };
 
-const VIRTUAL_OVER_SCAN = 2;
+/**
+ * Four rows of runway rather than two.
+ *
+ * A row is ~8 buttons, so this is cheap — and it is what keyboard navigation
+ * walks on. Arrow keys move focus button by button through the mounted grid;
+ * focusing a button below the fold scrolls it into view, which mounts the next
+ * rows, which is what lets the whole list be walked. The overscan is the buffer
+ * that keeps that chain from running dry at a row boundary.
+ */
+const VIRTUAL_OVER_SCAN = 4;
+
+/**
+ * The board virtualizes ROWS, not groups.
+ *
+ * It used to virtualize groups, with `estimateSize: () => 40` — an estimate off
+ * by two orders of magnitude, since "Smileys & People" alone is 559 emoji and
+ * some 3,300px tall. The virtualizer sized the whole list from that estimate,
+ * decided every group was on screen, and mounted them all; only once
+ * `measureElement` reported the real heights did the range collapse back to one
+ * or two. Measured in a headless Chromium with Noto Color Emoji installed, one
+ * open mounted 841 emoji buttons where about 60 are visible — and every one of
+ * those buttons is a distinct glyph the font has to rasterize, plus, for custom
+ * emoji, an `<img>` with a request behind it.
+ *
+ * A row is a fixed, knowable height, so the estimate is right the first time
+ * and the range is right the first time.
+ */
+
+/** `toRem(48)` / `toRem(112)` on `EmojiItem` / `StickerItem`, in rem. */
+const EMOJI_ITEM_REM = 3;
+const STICKER_ITEM_REM = 7;
+/** `EmojiItemRow`'s `padding: 0 S200`, both sides together, in rem. */
+const ROW_INLINE_PADDING_REM = 1;
+/**
+ * A heading row before it is measured: S300 + S200 of padding around a pill of
+ * roughly one line. Only ever used for the frame before `measureElement`
+ * reports the real height.
+ */
+const LABEL_ROW_ESTIMATE_REM = 2.75;
+/**
+ * The board's own content width, for the single frame before the scroller
+ * exists to be measured. `Base` is 498px wide minus a 54px sidebar.
+ */
+const FALLBACK_CONTENT_WIDTH = 444;
+
+type RowItem = IEmoji | PackImageReader;
+
+type BoardRow =
+  | { kind: 'label'; groupId: string; label: string }
+  | { kind: 'items'; groupId: string; items: RowItem[] };
+
+const rootFontSize = (): number => {
+  if (typeof document === 'undefined') return 16;
+  return parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+};
+
+/**
+ * The scroller's inner width, measured rather than assumed.
+ *
+ * How many items fit on a row decides where the rows fall, so it has to match
+ * what the browser would have wrapped to — and the board is not a fixed width
+ * (`Base` is `calc(100vw - 2 * S400)` up to 498px, so on a phone it is
+ * whatever the phone is). Measured in a layout effect so the first paint is
+ * already right, and observed afterwards for orientation changes and window
+ * resizes.
+ *
+ * `token` re-runs the effect when the scroller is a different element —
+ * `EmojiGroupHolder` is keyed by tab, so switching tabs replaces it.
+ */
+const useScrollerWidth = (
+  scrollRef: RefObject<HTMLDivElement | null>,
+  token: EmojiBoardTab,
+): number => {
+  const [width, setWidth] = useState(0);
+
+  useLayoutEffect(() => {
+    const element = scrollRef.current;
+    if (!element) return undefined;
+    setWidth(element.clientWidth);
+
+    if (typeof ResizeObserver === 'undefined') return undefined;
+    const observer = new ResizeObserver(() => setWidth(element.clientWidth));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [scrollRef, token]);
+
+  return width;
+};
 
 type EmojiBoardProps = {
   tab?: EmojiBoardTab;
@@ -453,7 +560,7 @@ export function EmojiBoard({
     list = list.concat(imagePacks.flatMap((pack) => pack.getImages(usage)));
     // The same filter on the search index: searching "orca" should not turn up
     // a box either.
-    if (emojiTab) list = list.concat(emojis.filter((emoji) => isEmojiSupported(emoji.unicode)));
+    if (emojiTab) list = list.concat(getSupportedEmojis());
     return list;
   }, [emojiTab, usage, imagePacks]);
 
@@ -463,7 +570,7 @@ export function EmojiBoard({
     SEARCH_OPTIONS,
   );
 
-  const searchedItems = result?.items.slice(0, 100);
+  const searchedItems = useMemo(() => result?.items.slice(0, 100), [result]);
 
   const handleOnChange: ChangeEventHandler<HTMLInputElement> = useDebounce(
     useCallback(
@@ -478,14 +585,87 @@ export function EmojiBoard({
   );
 
   const contentScrollRef = useRef<HTMLDivElement>(null);
-  const virtualBaseRef = useRef<HTMLDivElement>(null);
+  const scrollerWidth = useScrollerWidth(contentScrollRef, activeTab);
+  const rem = useMemo(rootFontSize, []);
+  const itemSize = (emojiTab ? EMOJI_ITEM_REM : STICKER_ITEM_REM) * rem;
+  const perRow = useMemo(() => {
+    const available = (scrollerWidth || FALLBACK_CONTENT_WIDTH) - ROW_INLINE_PADDING_REM * rem;
+    return Math.max(1, Math.floor(available / itemSize));
+  }, [scrollerWidth, itemSize, rem]);
+
+  const rows = useMemo(() => {
+    const list: BoardRow[] = [];
+
+    const pushGroup = (groupId: string, label: string, items: RowItem[]) => {
+      list.push({ kind: 'label', groupId, label });
+      for (let i = 0; i < items.length; i += perRow) {
+        list.push({ kind: 'items', groupId, items: items.slice(i, i + perRow) });
+      }
+    };
+
+    // Results sit above the full list, as they did when they were a group of
+    // their own outside the virtualizer — the difference is that they are now
+    // virtualized too, so a hundred hits cost the same as none.
+    if (searchedItems) {
+      pushGroup(
+        SEARCH_GROUP_ID,
+        searchedItems.length ? 'Search Results' : 'No Results found',
+        searchedItems,
+      );
+    }
+    groups.forEach((group) => pushGroup(group.id, group.name, group.items));
+
+    return list;
+  }, [groups, perRow, searchedItems]);
+
+  /**
+   * Which rows are headings, and which heading is currently pinned.
+   *
+   * A heading used to be sticky for free: it lived inside its group's element,
+   * so `position: sticky` had that element as its containing block. Rows have
+   * no such element, and the virtualizer positions them absolutely, which
+   * `sticky` cannot apply to at all. So the board picks the heading itself —
+   * the last one at or above the top of the range — renders that one in flow so
+   * it can stick, and keeps it in the rendered range after it has scrolled out
+   * of it. Nothing else changes: the same pill, in the same place.
+   */
+  const labelIndexes = useMemo(
+    () =>
+      rows.reduce<number[]>((indexes, row, index) => {
+        if (row.kind === 'label') indexes.push(index);
+        return indexes;
+      }, []),
+    [rows],
+  );
+  const stickyIndexRef = useRef(-1);
+
+  const rangeExtractor = useCallback(
+    (range: Range) => {
+      let sticky = -1;
+      for (let i = 0; i < labelIndexes.length; i += 1) {
+        if (labelIndexes[i] > range.startIndex) break;
+        sticky = labelIndexes[i];
+      }
+      stickyIndexRef.current = sticky;
+
+      const indexes = new Set(defaultRangeExtractor(range));
+      if (sticky >= 0) indexes.add(sticky);
+      return Array.from(indexes).sort((a, b) => a - b);
+    },
+    [labelIndexes],
+  );
+
   const virtualizer = useVirtualizer({
-    count: groups.length,
+    count: rows.length,
     getScrollElement: () => contentScrollRef.current,
-    estimateSize: () => 40,
+    estimateSize: (index) =>
+      rows[index]?.kind === 'label' ? LABEL_ROW_ESTIMATE_REM * rem : itemSize,
     overscan: VIRTUAL_OVER_SCAN,
+    rangeExtractor,
   });
+  // Read after `getVirtualItems()`, which is what runs `rangeExtractor`.
   const vItems = virtualizer.getVirtualItems();
+  const stickyIndex = stickyIndexRef.current;
 
   const handleGroupItemClick: MouseEventHandler = (evt) => {
     const targetEl = targetFromEvent(evt.nativeEvent, 'button');
@@ -524,22 +704,17 @@ export function EmojiBoard({
   };
 
   const handleScrollToGroup = (groupId: string) => {
-    const groupIndex = groups.findIndex((group) => group.id === groupId);
-    virtualizer.scrollToIndex(groupIndex, { align: 'start' });
+    const rowIndex = rows.findIndex((row) => row.kind === 'label' && row.groupId === groupId);
+    if (rowIndex < 0) return;
+    virtualizer.scrollToIndex(rowIndex, { align: 'start' });
   };
 
-  // sync active sidebar tab with scroll
+  // sync active sidebar tab with scroll — the pinned heading IS the group the
+  // reader is in, so there is nothing left to work out here.
   useEffect(() => {
-    const scrollElement = contentScrollRef.current;
-    if (scrollElement) {
-      const scrollTop = scrollElement.offsetTop + scrollElement.scrollTop;
-      const offsetTop = virtualBaseRef.current?.offsetTop ?? 0;
-      const inViewVItem = vItems.find((vItem) => scrollTop < offsetTop + vItem.end);
-
-      const group = inViewVItem ? groups[inViewVItem?.index] : undefined;
-      setActiveGroupId(group?.id);
-    }
-  }, [vItems, groups, setActiveGroupId, result?.query]);
+    const stickyRow = stickyIndex >= 0 ? rows[stickyIndex] : undefined;
+    setActiveGroupId(stickyRow?.groupId);
+  }, [vItems, rows, stickyIndex, setActiveGroupId]);
 
   // reset scroll position on search
   useEffect(() => {
@@ -635,34 +810,45 @@ export function EmojiBoard({
               previewAtom={previewAtom}
               onGroupItemClick={handleGroupItemClick}
             >
-              {searchedItems && (
-                <EmojiGroup
-                  id={SEARCH_GROUP_ID}
-                  label={searchedItems.length ? 'Search Results' : 'No Results found'}
-                >
-                  {searchedItems.map(renderItem)}
-                </EmojiGroup>
-              )}
               <div
-                ref={virtualBaseRef}
                 style={{
                   position: 'relative',
                   height: virtualizer.getTotalSize(),
                 }}
               >
                 {vItems.map((vItem) => {
-                  const group = groups[vItem.index];
+                  const row = rows[vItem.index];
+                  if (!row) return null;
+
+                  const content =
+                    row.kind === 'label' ? (
+                      <EmojiGroupLabelRow id={row.groupId} label={row.label} />
+                    ) : (
+                      <EmojiItemRow groupId={row.groupId}>{row.items.map(renderItem)}</EmojiItemRow>
+                    );
+
+                  // The pinned heading is the one row left in normal flow, so
+                  // that `position: sticky` has a scrollport to stick to.
+                  if (vItem.index === stickyIndex) {
+                    return (
+                      <div
+                        key={vItem.key}
+                        className={css.StickyRow}
+                        data-index={vItem.index}
+                        ref={virtualizer.measureElement}
+                      >
+                        {content}
+                      </div>
+                    );
+                  }
 
                   return (
                     <VirtualTile
                       virtualItem={vItem}
-                      style={{ paddingTop: config.space.S200 }}
                       ref={virtualizer.measureElement}
-                      key={vItem.index}
+                      key={vItem.key}
                     >
-                      <EmojiGroup key={group.id} id={group.id} label={group.name}>
-                        {group.items.map(renderItem)}
-                      </EmojiGroup>
+                      {content}
                     </VirtualTile>
                   );
                 })}
