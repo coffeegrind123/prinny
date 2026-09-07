@@ -4,7 +4,7 @@ import { UrlPreviewImg } from './UrlPreview';
 import {
   fetchAsBlobUrl,
   fetchNoReferrerBlobUrl,
-  isAllowedMediaUrl,
+  needsMediaProxy,
 } from '../../utils/tauri-media-proxy';
 import { isTauri } from '../../utils/desktop-notifications';
 import { isWebUrl, webUrlOrUndefined } from '../../utils/safeUrl';
@@ -34,22 +34,27 @@ import { onEnterOrSpace } from '../../utils/keyboard';
  * Callers that render an image therefore leave `stripReferrer` off and keep the
  * cheap direct-URL path.
  *
- * Skipping both proxies for non-allowlisted hosts is not just an optimisation:
- * the IPC command rejects them, so an unconditional attempt burned a round trip
- * and logged a warning for every Tenor/Giphy GIF before falling back to the URL
- * it could have used immediately.
+ * Skipping both proxies for hosts that do not need one is not just an
+ * optimisation: it burned a round trip and logged a warning for every
+ * Tenor/Giphy GIF before falling back to the URL it could have used
+ * immediately. The gate is `needsMediaProxy`, NOT `isAllowedMediaUrl` — the
+ * latter is the permission to fetch a host's bytes at all (which the media
+ * feed's Download needs for rule34, say), and a host can be permitted while
+ * having no reason to be proxied. Routing a hotlinkable host through here is a
+ * regression, not a precaution: rule34's CDNs send no CORS headers, so the
+ * in-page fetch cannot succeed, and their videos overrun the native proxy's
+ * whole-file buffer.
  *
  * Returns `null` while a proxy fetch is still outstanding, so callers can show
  * a placeholder instead of an element with an empty `src`.
  */
 export const useResolvedMediaSrc = (src: string, stripReferrer = false): string | null => {
-  const allowed = isAllowedMediaUrl(src);
-  const proxied = allowed && (isTauri() || stripReferrer);
+  const proxied = needsMediaProxy(src) && (isTauri() || stripReferrer);
   const [resolvedSrc, setResolvedSrc] = useState<string | null>(proxied ? null : src);
 
   useEffect(() => {
-    const useNative = isTauri() && isAllowedMediaUrl(src);
-    const useNoReferrer = stripReferrer && isAllowedMediaUrl(src);
+    const useNative = isTauri() && needsMediaProxy(src);
+    const useNoReferrer = stripReferrer && needsMediaProxy(src);
     if (!useNative && !useNoReferrer) {
       setResolvedSrc(src);
       return undefined;

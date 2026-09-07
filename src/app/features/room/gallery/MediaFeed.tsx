@@ -53,6 +53,7 @@ import { timeDayMonthYear, timeHourMinute } from '../../../utils/time';
 import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
 import { stopPropagation } from '../../../utils/keyboard';
+import { SOCIAL_EMBED_PROVIDER_LABEL } from '../../../utils/socialEmbed';
 import { useKeyDown } from '../../../hooks/useKeyDown';
 import { ScreenSize, useScreenSizeContext } from '../../../hooks/useScreenSize';
 import * as css from './MediaFeed.css';
@@ -322,7 +323,7 @@ function MediaFeedContent({
   if (hlsError) failureText = hlsError;
   else if (isEmbed)
     failureText = `Could not load this ${isVideo ? 'video' : 'image'} from ${
-      item.embed?.provider === 'twitter' ? 'Twitter' : 'Bluesky'
+      item.embed ? SOCIAL_EMBED_PROVIDER_LABEL[item.embed.provider] : 'the linked post'
     }.`;
 
   const senderName =
@@ -924,8 +925,15 @@ function MediaFeedContent({
         )}
         {item.embed ? (
           <Text size="T200" style={{ opacity: 0.8 }} truncate>
-            {`${item.embed.provider === 'twitter' ? 'Twitter' : 'Bluesky'}${
-              item.embed.authorHandle ? ` · @${item.embed.authorHandle}` : ''
+            {/* A booru's uploader has a site account name, not an @handle —
+                see `rule34ToPost` — so the two are shown differently rather
+                than one being rendered as the other. */}
+            {`${SOCIAL_EMBED_PROVIDER_LABEL[item.embed.provider]}${
+              item.embed.authorHandle
+                ? ` · @${item.embed.authorHandle}`
+                : item.embed.authorName
+                  ? ` · ${item.embed.authorName}`
+                  : ''
             }`}
           </Text>
         ) : (

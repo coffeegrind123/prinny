@@ -1,5 +1,13 @@
 import { isTwitterGifUrl, parseTenorGif, isAnimatedImageUrl } from './animatedMedia';
 import { isWebUrl } from './safeUrl';
+import { fetchEmbedJson, sharedRequest } from './embedFetch';
+import {
+  Rule34Post,
+  fetchRule34Post,
+  getRule34PostId,
+  rule34TagSummary,
+  rule34PostPageUrl,
+} from './rule34';
 
 /**
  * Recognising and fetching the social posts this client renders inline.
@@ -11,15 +19,34 @@ import { isWebUrl } from './safeUrl';
  * media" reading of each API's response live here so the card and the gallery
  * cannot disagree about what a link contains.
  *
- * Everything here is a *rich post* embed — a message whose link is a Twitter or
- * Bluesky post, and whose pictures are the author's own. Homeserver `og:image`
- * link previews are deliberately not in scope: a site's meta-card image is
- * furniture (a logo, a stock hero, an article's header) that nobody sent and
- * nobody goes looking for later, so folding those into a room's gallery would
- * bury the actual photos under them.
+ * Everything here is a *rich post* embed — a message whose link is a Twitter,
+ * Bluesky or Rule34 post, and whose pictures are the post's own. Homeserver
+ * `og:image` link previews are deliberately not in scope: a site's meta-card
+ * image is furniture (a logo, a stock hero, an article's header) that nobody
+ * sent and nobody goes looking for later, so folding those into a room's
+ * gallery would bury the actual photos under them.
+ *
+ * The transport — retries, the in-flight cache, what is worth asking twice for
+ * — is shared with any other embed provider and lives in `embedFetch.ts`. What
+ * differs per provider, and therefore stays here, is how to read its answer.
  */
 
-export type SocialEmbedProvider = 'twitter' | 'bluesky';
+export type SocialEmbedProvider = 'twitter' | 'bluesky' | 'rule34';
+
+/**
+ * What to call each provider in the interface.
+ *
+ * A record rather than a ternary at each site: there were two of those in the
+ * media feed alone, both reading `provider === 'twitter' ? 'Twitter' :
+ * 'Bluesky'`, which silently labelled a third provider's media as Bluesky the
+ * moment one existed. An exhaustive record cannot do that — a missing key is a
+ * type error.
+ */
+export const SOCIAL_EMBED_PROVIDER_LABEL: Record<SocialEmbedProvider, string> = {
+  twitter: 'Twitter',
+  bluesky: 'Bluesky',
+  rule34: 'Rule34',
+};
 
 export type SocialEmbedMediaType = 'image' | 'video';
 
@@ -97,6 +124,7 @@ export function getBskyProfileActor(url: string): string | null {
 export const socialEmbedProvider = (url: string): SocialEmbedProvider | undefined => {
   if (getTwitterId(url)) return 'twitter';
   if (getBskyPostInfo(url)) return 'bluesky';
+  if (getRule34PostId(url)) return 'rule34';
   return undefined;
 };
 
@@ -107,106 +135,10 @@ export const socialEmbedProvider = (url: string): SocialEmbedProvider | undefine
 export const BSKY_API = 'https://public.api.bsky.app';
 const VX_API = 'https://api.vxtwitter.com/Twitter/status';
 
-/**
- * How many times one of these endpoints is asked before the answer is "no".
- *
- * A Bluesky card is built from two chained requests (`resolveHandle`, then
- * `getPostThread`) and nothing else — the homeserver's own preview of a
- * `bsky.app` link is a separate race that plenty of homeservers do not run at
- * all. So a single dropped connection used to be the whole difference between
- * a rendered post and a message with no card under it, with nothing logged and
- * nothing retried: the reported "it seems to not be doing that sometimes".
- */
-const FETCH_ATTEMPTS = 3;
-/** Backoff between attempts, multiplied by the attempt number. */
-const RETRY_BASE_MS = 600;
-
-/** An HTTP status this module decided against, kept so retries can read it. */
-class ProviderHttpError extends Error {
-  readonly status: number;
-
-  constructor(endpoint: string, status: number) {
-    super(`${endpoint} HTTP ${status}`);
-    this.name = 'ProviderHttpError';
-    this.status = status;
-  }
-}
-
-/**
- * Whether a failure is the kind that might not happen again.
- *
- * A rate limit and a 5xx are the server having a moment; a `TypeError` from
- * `fetch` is the network having one (offline, DNS, TLS, a WebView tearing the
- * request down). A 400 or a 404 is an answer — the post is gone or the handle
- * does not exist — and asking again is just noise aimed at a host the message
- * *sender* chose.
- */
-const worthRetrying = (err: unknown): boolean => {
-  if (err instanceof ProviderHttpError) return err.status === 429 || err.status >= 500;
-  return true;
-};
-
-const delay = (ms: number): Promise<void> =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-
-/** GET some JSON, with the retry policy above and one line if it never works. */
-const fetchJson = async (endpoint: string, url: string): Promise<any> => {
-  let lastErr: unknown;
-  for (let attempt = 1; attempt <= FETCH_ATTEMPTS; attempt += 1) {
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      const resp = await fetch(url);
-      if (!resp.ok) throw new ProviderHttpError(endpoint, resp.status);
-      // eslint-disable-next-line no-await-in-loop
-      return await resp.json();
-    } catch (err) {
-      lastErr = err;
-      if (!worthRetrying(err) || attempt === FETCH_ATTEMPTS) break;
-      // eslint-disable-next-line no-await-in-loop
-      await delay(RETRY_BASE_MS * attempt);
-    }
-  }
-  // Every one of these used to be swallowed by a bare `.catch()` in the card,
-  // so a link with no preview looked identical whether the post was deleted,
-  // the API refused, or the machine was briefly offline.
-  console.warn('[social-embed] fetch failed', {
-    endpoint,
-    url,
-    attempts: FETCH_ATTEMPTS,
-    error: String(lastErr),
-  });
-  throw lastErr;
-};
-
-/**
- * One in-flight-or-successful request per key, shared by every caller.
- *
- * The card and the room's media scan ask for exactly the same posts, and a
- * timeline can hold the same link several times over — each of which used to
- * be its own pair of requests to a third-party API. **Failures are deliberately
- * not kept**: the whole point of the retry above is that these are recoverable,
- * and a cached rejection would make the first bad moment permanent for the rest
- * of the session.
- */
-const requestCache = new Map<string, Promise<any>>();
-
-const shared = <T>(key: string, run: () => Promise<T>): Promise<T> => {
-  const cached = requestCache.get(key) as Promise<T> | undefined;
-  if (cached) return cached;
-  const pending = run().catch((err) => {
-    requestCache.delete(key);
-    throw err;
-  });
-  requestCache.set(key, pending);
-  return pending;
-};
-
 export function resolveBskyDid(actor: string): Promise<string> {
   if (actor.startsWith('did:')) return Promise.resolve(actor);
-  return shared(`bsky:did:${actor}`, async () => {
-    const data = await fetchJson(
+  return sharedRequest(`bsky:did:${actor}`, async () => {
+    const data = await fetchEmbedJson(
       'resolveHandle',
       `${BSKY_API}/xrpc/com.atproto.identity.resolveHandle?handle=${encodeURIComponent(actor)}`,
     );
@@ -216,10 +148,10 @@ export function resolveBskyDid(actor: string): Promise<string> {
 }
 
 export function fetchBskyPost(actor: string, rkey: string): Promise<any> {
-  return shared(`bsky:post:${actor}/${rkey}`, async () => {
+  return sharedRequest(`bsky:post:${actor}/${rkey}`, async () => {
     const did = await resolveBskyDid(actor);
     const uri = `at://${did}/app.bsky.feed.post/${rkey}`;
-    return fetchJson(
+    return fetchEmbedJson(
       'getPostThread',
       `${BSKY_API}/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(uri)}&depth=0&parentHeight=0`,
     );
@@ -227,8 +159,8 @@ export function fetchBskyPost(actor: string, rkey: string): Promise<any> {
 }
 
 export function fetchBskyProfile(actor: string): Promise<any> {
-  return shared(`bsky:profile:${actor}`, () =>
-    fetchJson(
+  return sharedRequest(`bsky:profile:${actor}`, () =>
+    fetchEmbedJson(
       'getProfile',
       `${BSKY_API}/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(actor)}`,
     ),
@@ -236,8 +168,8 @@ export function fetchBskyProfile(actor: string): Promise<any> {
 }
 
 export function fetchVxTweet(id: string): Promise<any> {
-  return shared(`twitter:${id}`, () =>
-    fetchJson('vxtwitter', `${VX_API}/${encodeURIComponent(id)}`),
+  return sharedRequest(`twitter:${id}`, () =>
+    fetchEmbedJson('vxtwitter', `${VX_API}/${encodeURIComponent(id)}`),
   );
 }
 
@@ -393,6 +325,58 @@ export const bskyPostMedia = (data: any): SocialEmbedMedia[] => {
   return media;
 };
 
+/**
+ * A Rule34 post as this module's media shape — always exactly one entry.
+ *
+ * A booru post *is* one file, so unlike a tweet or a Bluesky post there is no
+ * "which of these is the media" question to answer. What does need deciding is
+ * the *kind*, because three of them need mutually exclusive treatment and the
+ * response carries no type field at all — see `rule34FileKind`.
+ *
+ * `url` is the original file, never the site's downscaled sample. It is what
+ * the viewer opens, what the media feed lists, and — because `url` is the key
+ * the card and the gallery match a clicked picture on — it must be the same
+ * value in both places. The card renders the sample *inline* and still hands
+ * this URL to the feed; that asymmetry is deliberate and lives in the card.
+ */
+export const rule34PostMedia = (post: Rule34Post): SocialEmbedMedia[] => {
+  const alt = rule34TagSummary(post.tags) || undefined;
+
+  if (post.kind === 'video') {
+    return [
+      {
+        url: post.fileUrl,
+        type: 'video',
+        thumbnailUrl: post.previewUrl,
+        // A real video with sound, not a GIF surrogate: it gets controls and
+        // does not autoplay. Rule34 stores animation it transcoded as `.mp4`
+        // and animation it did not as `.gif`, so there is no `/tweet_video/`
+        // -style ambiguity to resolve here.
+        gif: false,
+        hls: false,
+        width: post.width,
+        height: post.height,
+        alt,
+        mimeType: post.mimeType,
+      },
+    ];
+  }
+
+  return [
+    {
+      url: post.fileUrl,
+      type: 'image',
+      thumbnailUrl: post.previewUrl,
+      gif: post.kind === 'gif',
+      hls: false,
+      width: post.width,
+      height: post.height,
+      alt,
+      mimeType: post.mimeType,
+    },
+  ];
+};
+
 /* -------------------------------------------------------------------------- */
 /* Resolution, with a cache                                                    */
 /* -------------------------------------------------------------------------- */
@@ -402,6 +386,8 @@ export type SocialEmbedOptions = {
   twitter: boolean;
   /** `useBlueskyEmbeds`. Off means the Bluesky API is never contacted. */
   bluesky: boolean;
+  /** `useRule34Embeds`. Off means api.rule34.xxx is never contacted. */
+  rule34: boolean;
 };
 
 /**
@@ -471,6 +457,35 @@ export const bskyThreadToPost = (
   };
 };
 
+/**
+ * A Rule34 post as this module's post shape. See `vxTweetToPost` above for why
+ * the card builds its entry through this function rather than by hand.
+ *
+ * `authorName` is the *uploader*, which on a booru is not the artist — the
+ * artist is a tag, and telling which tag it is needs one API request per tag
+ * (see `rule34.ts`), so this client does not claim to know. `authorHandle` is
+ * left unset for the same reason: the uploader has a site account name, not an
+ * `@handle`, and rendering one as the other would be a small lie repeated on
+ * every entry.
+ *
+ * `text` is a bounded tag line rather than the whole tag list. It becomes the
+ * gallery entry's caption, and a post carries well over a hundred tags.
+ */
+export const rule34ToPost = (url: string, post: Rule34Post): SocialEmbedPost | undefined => {
+  const media = rule34PostMedia(post);
+  if (media.length === 0) return undefined;
+  return {
+    provider: 'rule34',
+    // The link as it appeared, so the card's own "open the original" matches
+    // what the sender wrote — search parameters and all.
+    url: isWebUrl(url) ? url : rule34PostPageUrl(post.id),
+    id: post.id,
+    authorName: post.owner,
+    text: rule34TagSummary(post.tags) || undefined,
+    media,
+  };
+};
+
 const resolveTwitter = async (url: string, id: string): Promise<SocialEmbedPost | undefined> =>
   vxTweetToPost(url, id, await fetchVxTweet(id));
 
@@ -480,6 +495,9 @@ const resolveBluesky = async (
   rkey: string,
 ): Promise<SocialEmbedPost | undefined> =>
   bskyThreadToPost(url, actor, rkey, await fetchBskyPost(actor, rkey));
+
+const resolveRule34 = async (url: string, id: string): Promise<SocialEmbedPost | undefined> =>
+  rule34ToPost(url, await fetchRule34Post(id));
 
 /**
  * The pictures behind one link, or undefined when there are none to have.
@@ -522,9 +540,23 @@ export const resolveSocialEmbed = (
     return pending;
   }
 
+  const rule34Id = getRule34PostId(url);
+  if (rule34Id) {
+    if (!options.rule34) return Promise.resolve(undefined);
+    const key = cacheKey('rule34', rule34Id);
+    const cached = postCache.get(key);
+    if (cached) return cached;
+    const pending = resolveRule34(url, rule34Id).catch(() => {
+      postCache.delete(key);
+      return undefined;
+    });
+    postCache.set(key, pending);
+    return pending;
+  }
+
   return Promise.resolve(undefined);
 };
 
 /** True when at least one provider is enabled — i.e. scanning can find anything. */
 export const socialEmbedsEnabled = (options: SocialEmbedOptions): boolean =>
-  options.twitter || options.bluesky;
+  options.twitter || options.bluesky || options.rule34;

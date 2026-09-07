@@ -59,9 +59,11 @@ import {
   getBskyProfileActor,
   getTwitterId,
   isVxGifMedia,
+  rule34ToPost,
   SocialEmbedPost,
   vxTweetToPost,
 } from '../../utils/socialEmbed';
+import { fetchRule34Post, getRule34PostId, rule34TagSummary, Rule34Post } from '../../utils/rule34';
 import { mediaFeedRequestAtom } from '../../state/roomGallery';
 
 const linkStyles = { color: color.Secondary.Main, textDecoration: 'none' };
@@ -329,6 +331,7 @@ export const UrlPreviewCard = as<
   const [useVxTwitter] = useSetting(settingsAtom, 'useVxTwitter');
   const [useSoundcloak] = useSetting(settingsAtom, 'useSoundcloak');
   const [useBlueskyEmbeds] = useSetting(settingsAtom, 'useBlueskyEmbeds');
+  const [useRule34Embeds] = useSetting(settingsAtom, 'useRule34Embeds');
   const [useHackerNewsEmbeds] = useSetting(settingsAtom, 'useHackerNewsEmbeds');
   const [usePiped] = useSetting(settingsAtom, 'usePiped');
   const [pipedInstance] = useSetting(settingsAtom, 'pipedInstance');
@@ -363,6 +366,11 @@ export const UrlPreviewCard = as<
   // Gated identically to the post path: rendering a message must not fire an
   // unprompted request to a host the *sender* chose.
   const bskyActor = useBlueskyEmbeds && !bskyPost ? getBskyProfileActor(url) : null;
+  // Gated exactly like the paths above, and with one addition of its own: the
+  // rule34 request carries the *app's* API key (rule34 has no keyless dapi —
+  // see utils/rule34), so leaving it ungated would spend a shared rate limit
+  // on a link the reader never asked to open.
+  const r34Id = useRule34Embeds ? getRule34PostId(url) : null;
   // Gated for the same reason as the two above, even though the host here is
   // fixed: the request still happens because a *sender* put an HN link in a
   // message, so it discloses the viewer's IP to firebaseio.com on someone
@@ -430,6 +438,28 @@ export const UrlPreviewCard = as<
         setBskyProfileLoading(false);
       });
   }, [bskyActor]);
+
+  // Rule34 post fetch. `fetchRule34Post` rejects for every unusable answer,
+  // including the three the API serves with a 200 (empty body, an error
+  // string, a post with no file) — so `r34Error` is the single signal that
+  // this card should stand aside for the homeserver's preview.
+  const [r34Post, setR34Post] = useState<Rule34Post | null>(null);
+  const [r34Loading, setR34Loading] = useState(false);
+  const [r34Error, setR34Error] = useState(false);
+  useEffect(() => {
+    if (!r34Id) return;
+    setR34Loading(true);
+    setR34Error(false);
+    fetchRule34Post(r34Id)
+      .then((d) => {
+        setR34Post(d);
+        setR34Loading(false);
+      })
+      .catch(() => {
+        setR34Error(true);
+        setR34Loading(false);
+      });
+  }, [r34Id]);
 
   // Hacker News item fetch — public API, no key, no auth, CORS open.
   const [hnItem, setHnItem] = useState<any>(null);
@@ -590,6 +620,7 @@ export const UrlPreviewCard = as<
     if (twId && !vxError) return;
     if (bskyPost && !bskyError) return;
     if (bskyActor && !bskyProfileError) return;
+    if (r34Id && !r34Error) return;
     if (hnItemId && !hnError) return;
     if (isYt) return;
     if (directAudio) return;
@@ -610,6 +641,8 @@ export const UrlPreviewCard = as<
     bskyError,
     bskyActor,
     bskyProfileError,
+    r34Id,
+    r34Error,
     hnItemId,
     hnError,
     isYt,
@@ -1104,6 +1137,234 @@ export const UrlPreviewCard = as<
   }
   // bskyError: fall through to Matrix og: preview
 
+  // Rule34 post card.
+  //
+  // The homeserver's own preview of one of these links is an og: card whose
+  // image is a *thumbnail* of the post — a few hundred pixels of a picture the
+  // link is entirely about, and a single still frame for a video or a GIF. So
+  // this renders the post's actual file, the way the Twitter and Bluesky cards
+  // render theirs.
+  //
+  // Every field below is third-party JSON. It arrives already validated by
+  // `parseRule34Post` — URLs scheme-checked, numbers range-checked, strings
+  // length-bounded — which is why nothing here re-checks them: doing it at the
+  // boundary is what stops the several use sites disagreeing about it.
+  if (r34Id && dismissed) return null;
+  if (r34Id && r34Post && !r34Error) {
+    const post = r34Post;
+    // The same post the media scan builds for this link, so a picture clicked
+    // here and the gallery entry for it are one and the same. As on the two
+    // paths above, built through `socialEmbed`'s normaliser rather than by hand
+    // — the order of `media` decides each picture's gallery key.
+    const socialPost = rule34ToPost(url, post);
+    // `alt` for a booru post: there is no author-written alt text anywhere in
+    // the API, and a filename of hex would tell a screen reader nothing, so the
+    // tags are the only description the post actually has.
+    const mediaAlt = rule34TagSummary(post.tags) || `Rule34 post ${post.id}`;
+    // The full file, always — never the downscaled sample. This is the value
+    // `rule34PostMedia` used as the media's identity, so it is what the feed
+    // and the viewer have to be handed, even where the card drew the sample.
+    const fullUrl = post.fileUrl;
+    const openFull = () => {
+      if (!openPostMediaInFeed(socialPost, fullUrl)) setViewerSrc(fullUrl);
+    };
+
+    const shownTags = expanded ? post.tags : post.tags.slice(0, 10);
+    const hiddenTagCount = post.tags.length - shownTags.length;
+    const dimensions = post.width && post.height ? `${post.width}×${post.height}` : '';
+    const updated = post.changedAt ? timeAgo(Math.round(post.changedAt / 1000)) : '';
+    const sourceHost = post.sourceUrl ? urlHostname(post.sourceUrl).replace(/^www\./, '') : '';
+
+    return (
+      <UrlPreview {...props} ref={ref}>
+        <Box grow="Yes" direction="Column" style={{ position: 'relative', minWidth: 0 }}>
+          <IconButton
+            size="300"
+            radii="300"
+            variant="SurfaceVariant"
+            onClick={(e) => {
+              e.stopPropagation();
+              dismiss();
+            }}
+            aria-label="Dismiss embed"
+            style={{ position: 'absolute', top: 4, right: 4, zIndex: 1 }}
+          >
+            <Icon size="50" src={Icons.Cross} />
+          </IconButton>
+
+          {post.kind === 'video' && (
+            <ProxiedVideo
+              src={fullUrl}
+              poster={post.previewUrl}
+              // A real video with its own audio, not a GIF surrogate: controls,
+              // no autoplay. See `rule34PostMedia`.
+              isGif={false}
+              width={post.width}
+              height={post.height}
+              className={urlPreviewCss.UrlPreviewVideo}
+              renderOverlay={renderFeedChip(socialPost, fullUrl)}
+            />
+          )}
+          {post.kind === 'gif' && (
+            // An `<img>`, not a `<video>`: a GIF animates there with no
+            // autoplay policy attached, which is the only reliable path on the
+            // shells that refuse to autoplay media. See GifMedia.
+            <GifImage src={fullUrl} alt={mediaAlt} title={mediaAlt} onView={openFull} />
+          )}
+          {post.kind === 'image' && (
+            // The site's downscaled rendition inline, the original in the
+            // viewer. A rule34 still is routinely a multi-megabyte PNG several
+            // thousand pixels wide, and this card is a few hundred wide — but
+            // the click still opens the full file, which is the thing the
+            // reader asked to see. Where the site made no sample of its own,
+            // `sampleUrl` is the original, so nothing is lost.
+            <ProxiedImg src={post.sampleUrl} alt={mediaAlt} title={mediaAlt} onView={openFull} />
+          )}
+
+          <UrlPreviewContent>
+            <Text
+              style={linkStyles}
+              truncate
+              as="a"
+              href={safeUrl}
+              target="_blank"
+              rel="noreferrer"
+              size="T200"
+              priority="300"
+            >
+              {`Rule34 #${post.id} | `}
+              {tryDecodeURIComponent(url)}
+            </Text>
+
+            <Box gap="300" wrap="Wrap" alignItems="Center">
+              {post.rating && (
+                <Text size="T200" priority="400">
+                  {post.rating}
+                </Text>
+              )}
+              {typeof post.score === 'number' && (
+                <Text size="T200" priority="300">
+                  <b>{post.score.toLocaleString()}</b> score
+                </Text>
+              )}
+              {post.owner && (
+                <Text size="T200" priority="300">
+                  by <b>{post.owner}</b>
+                </Text>
+              )}
+              {dimensions && (
+                <Text size="T200" priority="300">
+                  {dimensions}
+                </Text>
+              )}
+              {typeof post.commentCount === 'number' && post.commentCount > 0 && (
+                <Text size="T200" priority="300">
+                  <b>{post.commentCount.toLocaleString()}</b>{' '}
+                  {post.commentCount === 1 ? 'comment' : 'comments'}
+                </Text>
+              )}
+              {updated && (
+                <Text size="T200" priority="300">
+                  updated {updated}
+                </Text>
+              )}
+            </Box>
+
+            {/* Tags, and only tags. The API's JSON post shape carries no tag
+                *types*, and categorising them means one XML request per tag
+                against an endpoint that takes a single exact name — for a post
+                that routinely has well over a hundred. So this shows the list
+                as rule34 orders it rather than inventing an "artist" line it
+                cannot actually know. See utils/rule34. */}
+            {shownTags.length > 0 && (
+              <>
+                <Text size="T200" priority="300" style={{ overflowWrap: 'anywhere' }}>
+                  {shownTags.join(', ')}
+                  {hiddenTagCount > 0 ? '…' : ''}
+                </Text>
+                {(hiddenTagCount > 0 || expanded) && (
+                  <Button
+                    variant="Secondary"
+                    fill="Soft"
+                    size="300"
+                    radii="300"
+                    onClick={() => setExpanded(!expanded)}
+                  >
+                    <Text size="B300">
+                      {expanded ? 'Show fewer tags' : `Show ${hiddenTagCount} more tags`}
+                    </Text>
+                  </Button>
+                )}
+              </>
+            )}
+
+            {post.sourceUrl && (
+              <Text size="T200" priority="300" truncate>
+                Source:{' '}
+                <a
+                  href={post.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  style={linkStyles}
+                >
+                  {sourceHost || post.sourceUrl}
+                </a>
+              </Text>
+            )}
+          </UrlPreviewContent>
+
+          {viewerSrc && renderViewer && (
+            <ImageOverlay
+              src={viewerSrc}
+              alt={mediaAlt}
+              viewer={!!viewerSrc}
+              requestClose={() => setViewerSrc(undefined)}
+              renderViewer={renderViewer}
+              externalUrl={url}
+            />
+          )}
+          {viewerSrc && !renderViewer && (
+            <Overlay open backdrop={<OverlayBackdrop />}>
+              <OverlayCenter>
+                <FocusTrap
+                  focusTrapOptions={{
+                    initialFocus: false,
+                    onDeactivate: () => setViewerSrc(undefined),
+                    clickOutsideDeactivates: true,
+                    escapeDeactivates: stopPropagation,
+                  }}
+                >
+                  <ImageViewer
+                    src={viewerSrc}
+                    alt={mediaAlt}
+                    requestClose={() => setViewerSrc(undefined)}
+                    externalUrl={url}
+                  />
+                </FocusTrap>
+              </OverlayCenter>
+            </Overlay>
+          )}
+        </Box>
+      </UrlPreview>
+    );
+  }
+  if (r34Id && r34Loading) {
+    return (
+      <UrlPreview {...props} ref={ref}>
+        <Box
+          grow="Yes"
+          alignItems="Center"
+          justifyContent="Center"
+          style={{ padding: config.space.S400 }}
+        >
+          <Spinner variant="Secondary" size="400" />
+        </Box>
+      </UrlPreview>
+    );
+  }
+  // r34Error: fall through to the Matrix og: preview. Its thumbnail is a poor
+  // substitute for the post, but a poor card beats no card.
+
   // Hacker News card. HN serves no OpenGraph metadata at all, so the
   // homeserver preview falls back to scraping the page and the description
   // comes out as the site's navigation strip ("new | past | comments | ask |
@@ -1289,6 +1550,12 @@ export const UrlPreviewCard = as<
     if (getBskyProfileActor(url))
       return { what: 'Bluesky profile', enabled: useBlueskyEmbeds, failed: bskyProfileError };
     if (getTwitterId(url)) return { what: 'post on X', enabled: useVxTwitter, failed: vxError };
+    // Unlike the two above, rule34 links DO get a usable homeserver og: card,
+    // so this arm rarely decides anything — but a room with url previews off
+    // has no other card either, and "Rule34 embeds are turned off" is still
+    // the one thing the reader cannot otherwise discover.
+    if (getRule34PostId(url))
+      return { what: 'Rule34 post', enabled: useRule34Embeds, failed: r34Error };
     return undefined;
   })();
 

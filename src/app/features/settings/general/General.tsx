@@ -887,6 +887,7 @@ function Editor() {
   const [useVxTwitter, setUseVxTwitter] = useSetting(settingsAtom, 'useVxTwitter');
   const [useSoundcloak, setUseSoundcloak] = useSetting(settingsAtom, 'useSoundcloak');
   const [useBlueskyEmbeds, setUseBlueskyEmbeds] = useSetting(settingsAtom, 'useBlueskyEmbeds');
+  const [useRule34Embeds, setUseRule34Embeds] = useSetting(settingsAtom, 'useRule34Embeds');
   const [useHackerNewsEmbeds, setUseHackerNewsEmbeds] = useSetting(
     settingsAtom,
     'useHackerNewsEmbeds',
@@ -1054,6 +1055,13 @@ function Editor() {
           after={
             <Switch variant="Primary" value={useBlueskyEmbeds} onChange={setUseBlueskyEmbeds} />
           }
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Rule34 post embeds"
+          description="Show a linked rule34.xxx post's own image, GIF or video inline instead of the site's link card. Sends the post number and your IP address to api.rule34.xxx, and lets the sender of a link see when you view it. Requests carry this app's shared API key — rule34 has no keyless API."
+          after={<Switch variant="Primary" value={useRule34Embeds} onChange={setUseRule34Embeds} />}
         />
       </SequenceCard>
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">

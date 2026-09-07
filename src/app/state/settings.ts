@@ -112,6 +112,13 @@ export interface Settings {
   useVxTwitter: boolean;
   useSoundcloak: boolean;
   useBlueskyEmbeds: boolean;
+  // Renders a linked rule34.xxx post inline — the picture, the video or the
+  // GIF itself, rather than the site's og: card. Unlike the two above, the
+  // request carries the *app's* API key: rule34's dapi answers an
+  // unauthenticated request with a 200 and an error string (see utils/rule34),
+  // so there is no keyless mode, and every deployment that ships the built-in
+  // fallback key shares one rate limit.
+  useRule34Embeds: boolean;
   // Builds Hacker News cards from HN's own API instead of the homeserver
   // preview. HN publishes no OpenGraph metadata at all, so the preview falls
   // back to scraping the page and the description comes out as the site's
@@ -294,13 +301,14 @@ const defaultSettings: Settings = {
   // viewer's IP to that host and turns "did you open the room yet?" into a
   // signal the sender can observe.
   //
-  // vxtwitter, Bluesky and Hacker News are on by default as a deliberate
-  // product decision: they are the embeds users expect to just work, and the
-  // settings tiles state the disclosure plainly so each can be turned off.
-  // soundcloak stays opt-in.
+  // vxtwitter, Bluesky, rule34 and Hacker News are on by default as a
+  // deliberate product decision: they are the embeds users expect to just
+  // work, and the settings tiles state the disclosure plainly so each can be
+  // turned off. soundcloak stays opt-in.
   useVxTwitter: true,
   useSoundcloak: false,
   useBlueskyEmbeds: true,
+  useRule34Embeds: true,
   useHackerNewsEmbeds: true,
   notificationContentMode: DEFAULT_NOTIFICATION_CONTENT_MODE,
   // On by default, pinned to gmach. Piped is the privacy-preserving option

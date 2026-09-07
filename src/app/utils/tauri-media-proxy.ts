@@ -10,20 +10,46 @@ import { isTauri } from './desktop-notifications';
 // the default `reqwest/x.x` UA and twimg.com 403s it. Our Rust command sets
 // a real Chrome UA and sends no Referer (twimg serves when Referer is empty).
 
-// Hosts the frontend is allowed to proxy through `fetch_remote_bytes`
-// (Twitter/X CDN via vxtwitter, Bluesky image/video CDN). Suffix-matched, so
-// every subdomain (video.twimg.com, pbs.twimg.com, video.bsky.app, …) is
-// covered.
+// Hosts whose media bytes the frontend is allowed to fetch itself — through
+// `fetch_remote_bytes` inside the shell, or through the plain no-referrer
+// `fetch` on the web. Suffix-matched, so every subdomain (video.twimg.com,
+// pbs.twimg.com, video.bsky.app, api-cdn.rule34.xxx, …) is covered.
 //
 // MUST STAY IN SYNC WITH `ALLOWED_MEDIA_HOSTS` in the Tauri shell's
 // `src-tauri/src/lib.rs`. The native side enforces the real boundary, but the
 // URLs that reach this command come from third-party API JSON (vxtwitter,
-// public.api.bsky.app) — i.e. attacker-influenced data — and every caller here
-// used to hand them to the IPC with zero JS-side checking. Duplicating the
-// contract locally makes the coupling explicit instead of leaving the only
-// copy of it in a different repository, and stops obviously-out-of-scope URLs
-// (other hosts, non-https schemes, `file:`) from ever crossing the IPC.
-export const ALLOWED_MEDIA_HOSTS: readonly string[] = ['twimg.com', 'bsky.app'];
+// public.api.bsky.app, api.rule34.xxx) — i.e. attacker-influenced data — and
+// every caller here used to hand them to the IPC with zero JS-side checking.
+// Duplicating the contract locally makes the coupling explicit instead of
+// leaving the only copy of it in a different repository, and stops
+// obviously-out-of-scope URLs (other hosts, non-https schemes, `file:`) from
+// ever crossing the IPC.
+//
+// This is the *permission* list, not the *routing* list — see
+// `PROXY_REQUIRED_MEDIA_HOSTS`. A host belongs here as soon as any feature
+// needs its bytes rather than just an element pointed at it, which for rule34
+// is the media feed's Download control (`useMediaDownload`).
+export const ALLOWED_MEDIA_HOSTS: readonly string[] = ['twimg.com', 'bsky.app', 'rule34.xxx'];
+
+// Hosts that will not serve their media to a plain element and therefore have
+// to be routed through a proxy to *render* at all.
+//
+// A strict subset of the allowlist above, and the distinction is load-bearing
+// in both directions:
+//
+//  - `video.twimg.com` answers 403 to any request carrying a cross-origin
+//    `Referer`, and a media element cannot express a referrer policy, so
+//    without the blob there is nothing to play. See `fetchNoReferrerBlobUrl`.
+//  - rule34's CDNs are the opposite case, measured rather than assumed: a
+//    ranged GET carrying `Referer: https://prinny.app/` is answered 206, and
+//    the response carries no CORS headers whatsoever. So the in-page fetch is
+//    both unnecessary AND guaranteed to fail there — it would spend a round
+//    trip on an opaque CORS error, log a warning, and fall back to the direct
+//    URL that would have worked immediately. Worse inside the shell: the
+//    native proxy buffers the whole file, and rule34 videos routinely run past
+//    `MAX_MEDIA_BYTES`, so a working video would be replaced by a failure and
+//    a fallback.
+export const PROXY_REQUIRED_MEDIA_HOSTS: readonly string[] = ['twimg.com', 'bsky.app'];
 
 // Upper bound on a proxied media response. `fetch_remote_bytes` hands us the
 // whole body as one buffer, so without a cap a hostile (or merely broken) CDN
@@ -31,8 +57,7 @@ export const ALLOWED_MEDIA_HOSTS: readonly string[] = ['twimg.com', 'bsky.app'];
 // a link. 64 MiB comfortably covers Twitter/Bluesky video and images.
 export const MAX_MEDIA_BYTES = 64 * 1024 * 1024;
 
-/** True when `value` is an https URL on an allowlisted media host. */
-export function isAllowedMediaUrl(value: unknown): value is string {
+const hostInList = (value: unknown, list: readonly string[]): boolean => {
   if (typeof value !== 'string' || value.length === 0) return false;
   let parsed: URL;
   try {
@@ -42,7 +67,24 @@ export function isAllowedMediaUrl(value: unknown): value is string {
   }
   if (parsed.protocol !== 'https:') return false;
   const host = parsed.hostname.replace(/\.$/, '').toLowerCase();
-  return ALLOWED_MEDIA_HOSTS.some((suffix) => host === suffix || host.endsWith(`.${suffix}`));
+  return list.some((suffix) => host === suffix || host.endsWith(`.${suffix}`));
+};
+
+/** True when `value` is an https URL whose bytes this app may fetch. */
+export function isAllowedMediaUrl(value: unknown): value is string {
+  return hostInList(value, ALLOWED_MEDIA_HOSTS);
+}
+
+/**
+ * True when `value` is an https URL that cannot be handed to an element
+ * directly and has to go through a proxy to render.
+ *
+ * Answering "no" here is not merely an optimisation: for a host that hotlinks
+ * fine it saves a wasted round trip, a console warning and — inside the shell
+ * — a whole-file buffer, for a URL that was already usable as it stood.
+ */
+export function needsMediaProxy(value: unknown): value is string {
+  return hostInList(value, PROXY_REQUIRED_MEDIA_HOSTS);
 }
 
 /**
