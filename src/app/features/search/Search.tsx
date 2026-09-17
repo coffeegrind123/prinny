@@ -44,6 +44,7 @@ import {
   getDirectRoomAvatarUrl,
   getRoomAvatarUrl,
   guessPerfectParent,
+  isTombstoned,
 } from '../../utils/room';
 import { highlightText, makeHighlightRegex } from '../../plugins/react-custom-html-parser';
 import { factoryRoomIdByActivity } from '../../utils/sort';
@@ -180,7 +181,22 @@ export function Search({ requestClose }: SearchProps) {
   );
 
   const [result, search, resetSearch] = useAsyncSearch(targetRooms, getTargetStr, SEARCH_OPTIONS);
-  const roomsToRender = result ? result.items : topActiveRooms;
+
+  // A tombstoned room has been upgraded and replaced (m.room.tombstone), so it
+  // is almost never the one being looked for — but its name usually collides
+  // with its replacement's, and the match scorer cannot tell them apart. Sink
+  // every replaced room below every live one, keeping the scorer's order
+  // within each group, so a deprecated room is only ever reached when nothing
+  // else matches.
+  const roomsToRender = useMemo(() => {
+    const ordered = result ? result.items : topActiveRooms;
+    const live: string[] = [];
+    const replaced: string[] = [];
+    ordered.forEach((roomId) => {
+      (isTombstoned(getRoom(roomId)) ? replaced : live).push(roomId);
+    });
+    return replaced.length === 0 ? ordered : [...live, ...replaced];
+  }, [result, topActiveRooms, getRoom]);
   const listFocus = useListFocusIndex(roomsToRender.length, 0);
 
   const queryHighlighRegex = result?.query
@@ -327,6 +343,7 @@ export function Search({ requestClose }: SearchProps) {
                         exactParents && guessPerfectParent(mx, roomId, Array.from(exactParents));
 
                       const unread = roomToUnread.get(roomId);
+                      const deprecated = isTombstoned(room);
 
                       return (
                         <MenuItem
@@ -405,6 +422,11 @@ export function Search({ requestClose }: SearchProps) {
                             {!dm && perfectParent && perfectParent !== perfectOrphanParent && (
                               <Text size="T200" priority="300" truncate>
                                 — {getRoom(perfectParent)?.name ?? perfectParent}
+                              </Text>
+                            )}
+                            {deprecated && (
+                              <Text as="span" size="T200" priority="300" truncate>
+                                (deprecated)
                               </Text>
                             )}
                           </Box>

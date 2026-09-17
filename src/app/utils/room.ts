@@ -82,6 +82,9 @@ export const isSpace = (room: Room | null): boolean => {
   return event.getContent().type === RoomType.Space;
 };
 
+export const isTombstoned = (room: Room | null | undefined): boolean =>
+  !!room && getStateEvent(room, StateEvent.RoomTombstone) !== undefined;
+
 export const isRoom = (room: Room | null): boolean => {
   if (!room) return false;
   const event = getStateEvent(room, StateEvent.RoomCreate);
