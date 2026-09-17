@@ -1,4 +1,5 @@
 import { Box } from 'folds';
+import classNames from 'classnames';
 import { MatrixClient } from 'matrix-js-sdk';
 import { EmojiItemInfo, EmojiType } from '../types';
 import * as css from './styles.css';
@@ -22,19 +23,27 @@ export const getEmojiItemInfo = (element: Element): EmojiItemInfo | undefined =>
   return undefined;
 };
 
+/**
+ * `selected` is the board's keyboard selection — the one item the arrow keys
+ * are on and Enter would pick. It is a virtual selection, not focus: focus can
+ * stay in the search box while it moves. The `data-selected` attribute is how
+ * the board finds the selected button in the DOM when it does want to focus it.
+ */
 type EmojiItemProps = {
   emoji: IEmoji;
+  selected?: boolean;
 };
-export function EmojiItem({ emoji }: EmojiItemProps) {
+export function EmojiItem({ emoji, selected }: EmojiItemProps) {
   return (
     <Box
       as="button"
       type="button"
       alignItems="Center"
       justifyContent="Center"
-      className={css.EmojiItem}
+      className={classNames(css.EmojiItem, selected && css.EmojiItemSelected)}
       title={emoji.label}
       aria-label={`${emoji.label} emoji`}
+      data-selected={selected ? 'true' : undefined}
       data-emoji-type={EmojiType.Emoji}
       data-emoji-data={emoji.unicode}
       data-emoji-shortcode={emoji.shortcode}
@@ -48,17 +57,19 @@ type CustomEmojiItemProps = {
   mx: MatrixClient;
   useAuthentication?: boolean;
   image: PackImageReader;
+  selected?: boolean;
 };
-export function CustomEmojiItem({ mx, useAuthentication, image }: CustomEmojiItemProps) {
+export function CustomEmojiItem({ mx, useAuthentication, image, selected }: CustomEmojiItemProps) {
   return (
     <Box
       as="button"
       type="button"
       alignItems="Center"
       justifyContent="Center"
-      className={css.EmojiItem}
+      className={classNames(css.EmojiItem, selected && css.EmojiItemSelected)}
       title={image.body || image.shortcode}
       aria-label={`${image.body || image.shortcode} emoji`}
+      data-selected={selected ? 'true' : undefined}
       data-emoji-type={EmojiType.CustomEmoji}
       data-emoji-data={image.url}
       data-emoji-shortcode={image.shortcode}
@@ -77,18 +88,20 @@ type StickerItemProps = {
   mx: MatrixClient;
   useAuthentication?: boolean;
   image: PackImageReader;
+  selected?: boolean;
 };
 
-export function StickerItem({ mx, useAuthentication, image }: StickerItemProps) {
+export function StickerItem({ mx, useAuthentication, image, selected }: StickerItemProps) {
   return (
     <Box
       as="button"
       type="button"
       alignItems="Center"
       justifyContent="Center"
-      className={css.StickerItem}
+      className={classNames(css.StickerItem, selected && css.EmojiItemSelected)}
       title={image.body || image.shortcode}
       aria-label={`${image.body || image.shortcode} emoji`}
+      data-selected={selected ? 'true' : undefined}
       data-emoji-type={EmojiType.Sticker}
       data-emoji-data={image.url}
       data-emoji-shortcode={image.shortcode}

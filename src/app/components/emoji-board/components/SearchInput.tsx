@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useRef } from 'react';
+import { ChangeEventHandler, RefObject, useRef } from 'react';
 import { Input, Chip, Icon, Icons, Text } from 'folds';
 import { mobileOrTablet } from '../../../utils/user-agent';
 
@@ -7,14 +7,22 @@ type SearchInputProps = {
   onChange: ChangeEventHandler<HTMLInputElement>;
   allowTextCustomEmoji?: boolean;
   onTextCustomEmojiSelect?: (text: string) => void;
+  /**
+   * The board's own handle on the input. Keyboard selection keeps focus here
+   * while the arrow keys walk the grid, and parks it here when the button that
+   * had focus is about to scroll out of the virtualized range.
+   */
+  inputRef?: RefObject<HTMLInputElement | null>;
 };
 export function SearchInput({
   query,
   onChange,
   allowTextCustomEmoji,
   onTextCustomEmojiSelect,
+  inputRef: externalRef,
 }: SearchInputProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const ownRef = useRef<HTMLInputElement>(null);
+  const inputRef = externalRef ?? ownRef;
 
   const handleReact = () => {
     const textEmoji = inputRef.current?.value.trim();

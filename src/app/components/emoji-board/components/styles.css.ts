@@ -171,6 +171,17 @@ export const EmojiItem = style([
   },
 ]);
 
+/**
+ * The item the keyboard is on.
+ *
+ * Same look as `:hover`, deliberately: the mouse and the arrow keys move the
+ * one selection, so whichever put it there, it reads as the same thing. The
+ * real focus ring still draws on top when the button itself has focus.
+ */
+export const EmojiItemSelected = style({
+  backgroundColor: color.Surface.ContainerHover,
+});
+
 export const StickerItem = style([
   EmojiItem,
   {

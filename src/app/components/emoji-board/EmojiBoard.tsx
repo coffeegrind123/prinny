@@ -1,6 +1,7 @@
 import {
   ChangeEventHandler,
   FocusEventHandler,
+  KeyboardEventHandler,
   MouseEventHandler,
   ReactNode,
   RefObject,
@@ -60,7 +61,7 @@ import {
   getSupportedEmojis,
   warmEmojiSupport,
 } from '../../plugins/emojiSupport';
-import { EmojiBoardTab, EmojiType } from './types';
+import { EmojiBoardTab, EmojiItemInfo, EmojiType } from './types';
 import { VirtualTile } from '../virtualizer';
 import { GifPicker } from './GifPicker';
 import { FavoriteGif } from '../../state/gifFavorites';
@@ -177,9 +178,9 @@ const useItemRenderer = (tab: EmojiBoardTab) => {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
 
-  const renderItem = (emoji: IEmoji | PackImageReader, index: number) => {
+  const renderItem = (emoji: IEmoji | PackImageReader, index: number, selected: boolean) => {
     if ('unicode' in emoji) {
-      return <EmojiItem key={emoji.unicode + index} emoji={emoji} />;
+      return <EmojiItem key={emoji.unicode + index} emoji={emoji} selected={selected} />;
     }
     if (tab === EmojiBoardTab.Sticker) {
       return (
@@ -188,6 +189,7 @@ const useItemRenderer = (tab: EmojiBoardTab) => {
           mx={mx}
           useAuthentication={useAuthentication}
           image={emoji}
+          selected={selected}
         />
       );
     }
@@ -197,6 +199,7 @@ const useItemRenderer = (tab: EmojiBoardTab) => {
         mx={mx}
         useAuthentication={useAuthentication}
         image={emoji}
+        selected={selected}
       />
     );
   };
@@ -328,11 +331,18 @@ type EmojiGroupHolderProps = {
   previewAtom: PrimitiveAtom<PreviewData | undefined>;
   children?: ReactNode;
   onGroupItemClick: MouseEventHandler;
+  /**
+   * An item the pointer has moved onto, or that has taken focus. Both move the
+   * board's keyboard selection there, so the arrow keys and Enter carry on from
+   * wherever the mouse left off.
+   */
+  onItemPointed?: (element: HTMLButtonElement) => void;
 };
 function EmojiGroupHolder({
   contentScrollRef,
   previewAtom,
   onGroupItemClick,
+  onItemPointed,
   children,
 }: EmojiGroupHolderProps) {
   const setPreviewData = useSetAtom(previewAtom);
@@ -359,11 +369,13 @@ function EmojiGroupHolder({
     const targetEl = targetFromEvent(evt.nativeEvent, 'button') as HTMLButtonElement | undefined;
     if (!targetEl) return;
     throttleEmojiHover(targetEl);
+    onItemPointed?.(targetEl);
   };
 
   const handleEmojiFocus: FocusEventHandler = (evt) => {
     const targetEl = evt.target as HTMLButtonElement;
     handleEmojiPreview(targetEl);
+    if (getEmojiItemInfo(targetEl)) onItemPointed?.(targetEl);
   };
 
   return (
@@ -439,6 +451,86 @@ type RowItem = IEmoji | PackImageReader;
 type BoardRow =
   | { kind: 'label'; groupId: string; label: string }
   | { kind: 'items'; groupId: string; items: RowItem[] };
+type ItemsRow = Extract<BoardRow, { kind: 'items' }>;
+
+/**
+ * The keyboard selection: one item, by its row in `rows` and its column in
+ * that row. Rows are what the arrow keys move through — Up and Down go to the
+ * items row above or below, Left and Right run along a row and wrap onto the
+ * next — so the selection is stored in the grid's own terms rather than as a
+ * flat index that would have to be re-derived from `perRow` at every step.
+ *
+ * It is a selection, not focus. Discord's picker is the model: focus stays in
+ * the search box, typing keeps filtering, the highlight moves with the arrows,
+ * and Enter picks — the same as clicking. Focus only follows the selection
+ * when the user had Tabbed onto an item button before pressing an arrow.
+ */
+type Selection = { row: number; col: number };
+type ArrowDirection = 'up' | 'down' | 'left' | 'right';
+
+const ARROW_KEYS: Record<ArrowDirection, string> = {
+  up: 'arrowup',
+  down: 'arrowdown',
+  left: 'arrowleft',
+  right: 'arrowright',
+};
+
+const arrowDirection = (evt: Parameters<KeyboardEventHandler>[0]): ArrowDirection | undefined =>
+  (Object.keys(ARROW_KEYS) as ArrowDirection[]).find((dir) => isKeyHotkey(ARROW_KEYS[dir], evt));
+
+const isItemsRow = (row: BoardRow | undefined): row is ItemsRow => row?.kind === 'items';
+
+/** The nearest items row from `from` in `step` direction, or -1 when there is none. */
+const findItemsRow = (rows: BoardRow[], from: number, step: 1 | -1): number => {
+  for (let i = from + step; i >= 0 && i < rows.length; i += step) {
+    if (isItemsRow(rows[i])) return i;
+  }
+  return -1;
+};
+
+const itemInfo = (item: RowItem, tab: EmojiBoardTab): EmojiItemInfo => {
+  if ('unicode' in item) {
+    return {
+      type: EmojiType.Emoji,
+      data: item.unicode,
+      shortcode: item.shortcode,
+      label: item.label,
+    };
+  }
+  return {
+    type: tab === EmojiBoardTab.Sticker ? EmojiType.Sticker : EmojiType.CustomEmoji,
+    data: item.url,
+    shortcode: item.shortcode,
+    label: item.body || item.shortcode,
+  };
+};
+
+const previewOf = (item: RowItem): PreviewData =>
+  'unicode' in item
+    ? { key: item.unicode, shortcode: item.shortcode }
+    : { key: item.url, shortcode: item.shortcode };
+
+/**
+ * Where a button sits in the grid, read back from the DOM: its row is the
+ * virtual tile's `data-index`, its column its position among the row's
+ * buttons. This is how the mouse hands the selection over to the keyboard
+ * without every button carrying its coordinates as attributes.
+ */
+const selectionFromElement = (element: HTMLElement): Selection | undefined => {
+  const rowEl = element.closest<HTMLElement>('[data-index]');
+  if (!rowEl) return undefined;
+  const row = Number(rowEl.dataset.index);
+  if (!Number.isInteger(row)) return undefined;
+  const col = Array.prototype.indexOf.call(
+    rowEl.querySelectorAll('button[data-emoji-type]'),
+    element,
+  );
+  if (col < 0) return undefined;
+  return { row, col };
+};
+
+const sameSelection = (a: Selection | undefined, b: Selection | undefined): boolean =>
+  a === b || (!!a && !!b && a.row === b.row && a.col === b.col);
 
 const rootFontSize = (): number => {
   if (typeof document === 'undefined') return 16;
@@ -548,6 +640,7 @@ export function EmojiBoard({
     () => createPreviewDataAtom(emojiTab ? DefaultEmojiPreview : undefined),
     [emojiTab],
   );
+  const setPreviewData = useSetAtom(previewAtom);
   const activeGroupIdAtom = useMemo(() => atom<string | undefined>(undefined), []);
   const setActiveGroupId = useSetAtom(activeGroupIdAtom);
   const imagePacks = useRelevantImagePacks(usage, imagePackRooms);
@@ -585,6 +678,7 @@ export function EmojiBoard({
   );
 
   const contentScrollRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const scrollerWidth = useScrollerWidth(contentScrollRef, activeTab);
   const rem = useMemo(rootFontSize, []);
   const itemSize = (emojiTab ? EMOJI_ITEM_REM : STICKER_ITEM_REM) * rem;
@@ -667,14 +761,46 @@ export function EmojiBoard({
   const vItems = virtualizer.getVirtualItems();
   const stickyIndex = stickyIndexRef.current;
 
-  const handleGroupItemClick: MouseEventHandler = (evt) => {
-    const targetEl = targetFromEvent(evt.nativeEvent, 'button');
-    const emojiInfo = targetEl && getEmojiItemInfo(targetEl);
-    if (!emojiInfo) return;
+  /**
+   * The selection is keyed to the `rows` it was made in. Rows are rebuilt on
+   * every keystroke in the search box, on a tab change and on a resize, and a
+   * `{ row, col }` from the old grid means nothing in the new one — so rather
+   * than an effect that clears it a frame late, a selection made against other
+   * rows is simply not the selection any more. What stands in for it is the
+   * first search result when there is one: type "thumbs", press Enter, done.
+   */
+  const [selectionState, setSelectionState] = useState<{
+    rows: BoardRow[];
+    selection: Selection | undefined;
+  }>();
+  const firstResult: Selection | undefined =
+    searchedItems && searchedItems.length > 0 ? { row: 1, col: 0 } : undefined;
+  const selection = selectionState?.rows === rows ? selectionState.selection : firstResult;
+  const setSelection = useCallback(
+    (next: Selection | undefined) => setSelectionState({ rows, selection: next }),
+    [rows],
+  );
+  const selectedItem: RowItem | undefined = (() => {
+    if (!selection) return undefined;
+    const row = rows[selection.row];
+    return isItemsRow(row) ? row.items[selection.col] : undefined;
+  })();
+  /**
+   * Set when an arrow key was pressed with focus on an item button rather than
+   * in the search box: focus is then expected to land on the newly selected
+   * button, which may not be mounted until the scroller has caught up.
+   */
+  const focusSelectionRef = useRef(false);
 
+  const handleTextCustomEmojiSelect = (textEmoji: string) => {
+    onCustomEmojiSelect?.(textEmoji, textEmoji);
+    requestClose();
+  };
+
+  const pickItem = (emojiInfo: EmojiItemInfo, keepOpen: boolean) => {
     if (emojiInfo.type === EmojiType.Emoji) {
       onEmojiSelect?.(emojiInfo.data, emojiInfo.shortcode);
-      if (!evt.altKey && !evt.shiftKey && addToRecentEmoji) {
+      if (!keepOpen && addToRecentEmoji) {
         addRecentEmoji(mx, emojiInfo.data);
       }
     }
@@ -684,8 +810,175 @@ export function EmojiBoard({
     if (emojiInfo.type === EmojiType.Sticker) {
       onStickerSelect?.(emojiInfo.data, emojiInfo.shortcode, emojiInfo.label);
     }
-    if (!evt.altKey && !evt.shiftKey) requestClose();
+    if (!keepOpen) requestClose();
   };
+
+  const handleGroupItemClick: MouseEventHandler = (evt) => {
+    const targetEl = targetFromEvent(evt.nativeEvent, 'button');
+    const emojiInfo = targetEl && getEmojiItemInfo(targetEl);
+    if (!emojiInfo) return;
+    pickItem(emojiInfo, evt.altKey || evt.shiftKey);
+  };
+
+  const handleItemPointed = (element: HTMLButtonElement) => {
+    const pointed = selectionFromElement(element);
+    if (pointed && !sameSelection(pointed, selection)) setSelection(pointed);
+  };
+
+  /**
+   * The pinned heading covers the top of the scroller, so "in view" starts
+   * below it: a row scrolled to the very top would sit under the heading.
+   * Every heading is the same height, so the first one's measurement serves
+   * for all of them.
+   */
+  const pinnedHeadingHeight = (): number => {
+    const labelIndex = labelIndexes[0];
+    const measured =
+      labelIndex === undefined ? undefined : virtualizer.measurementsCache[labelIndex]?.size;
+    return measured ?? LABEL_ROW_ESTIMATE_REM * rem;
+  };
+
+  /** Scroll just far enough that `rowIndex` is fully visible, heading included. */
+  const revealRow = (rowIndex: number) => {
+    const scrollElement = contentScrollRef.current;
+    const measurement = virtualizer.measurementsCache[rowIndex];
+    if (!scrollElement || !measurement) return;
+
+    const viewTop = scrollElement.scrollTop;
+    const viewHeight = scrollElement.clientHeight;
+    const coveredTop = viewTop + pinnedHeadingHeight();
+
+    if (measurement.start < coveredTop) {
+      virtualizer.scrollToOffset(measurement.start - pinnedHeadingHeight());
+    } else if (measurement.end > viewTop + viewHeight) {
+      virtualizer.scrollToOffset(measurement.end - viewHeight);
+    }
+  };
+
+  /** With nothing selected, an arrow lands on the first item the user can see. */
+  const firstVisibleItem = (): Selection | undefined => {
+    const coveredTop = (contentScrollRef.current?.scrollTop ?? 0) + pinnedHeadingHeight();
+    const visible = vItems.find((vItem) => isItemsRow(rows[vItem.index]) && vItem.end > coveredTop);
+    if (visible) return { row: visible.index, col: 0 };
+    const first = findItemsRow(rows, -1, 1);
+    return first < 0 ? undefined : { row: first, col: 0 };
+  };
+
+  const moveSelection = (direction: ArrowDirection): Selection | undefined => {
+    if (!selection) return firstVisibleItem();
+    const { row, col } = selection;
+    const current = rows[row];
+    if (!isItemsRow(current)) return firstVisibleItem();
+
+    const lastColumn = (index: number) => (rows[index] as ItemsRow).items.length - 1;
+
+    switch (direction) {
+      case 'right': {
+        if (col < current.items.length - 1) return { row, col: col + 1 };
+        const next = findItemsRow(rows, row, 1);
+        return next < 0 ? selection : { row: next, col: 0 };
+      }
+      case 'left': {
+        if (col > 0) return { row, col: col - 1 };
+        const prev = findItemsRow(rows, row, -1);
+        return prev < 0 ? selection : { row: prev, col: lastColumn(prev) };
+      }
+      case 'down': {
+        const next = findItemsRow(rows, row, 1);
+        return next < 0 ? selection : { row: next, col: Math.min(col, lastColumn(next)) };
+      }
+      case 'up': {
+        const prev = findItemsRow(rows, row, -1);
+        return prev < 0 ? selection : { row: prev, col: Math.min(col, lastColumn(prev)) };
+      }
+      default:
+        return selection;
+    }
+  };
+
+  /**
+   * Keyboard selection, Discord-style, for the emoji and sticker tabs.
+   *
+   * Handled here, at the board's root, so it applies with focus in the search
+   * box as well as on an item button. It deliberately does not apply with
+   * focus on the tab strip or the sidebar: there the arrows keep walking the
+   * focusable controls one by one, as they always have (see the FocusTrap's
+   * `isKeyForward`/`isKeyBackward`, which stand aside for the same two places
+   * this handler claims).
+   */
+  const handleKeyDown: KeyboardEventHandler = (evt) => {
+    if (!listTab) return;
+    // Mid-composition (an IME building a character) Enter and the arrows
+    // belong to the IME, not to the board.
+    if (evt.nativeEvent.isComposing) return;
+    const active = document.activeElement;
+    const inGrid = !!active && !!contentScrollRef.current?.contains(active);
+    const inSearch = !!active && active === searchInputRef.current;
+    if (!inGrid && !inSearch) return;
+
+    const direction = arrowDirection(evt);
+    if (direction) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      const next = moveSelection(direction);
+      if (!next || !isItemsRow(rows[next.row])) return;
+
+      if (inGrid) {
+        // The button that has focus may be about to leave the mounted range.
+        // Park focus in the search box so it never falls out of the trap, and
+        // move it onto the selected button once that has rendered.
+        focusSelectionRef.current = true;
+        searchInputRef.current?.focus({ preventScroll: true });
+      }
+      setSelection(next);
+      revealRow(next.row);
+      const item = (rows[next.row] as ItemsRow).items[next.col];
+      if (item) setPreviewData(previewOf(item));
+      return;
+    }
+
+    if (isKeyHotkey(['enter', 'shift+enter', 'alt+enter'], evt)) {
+      // A focused button already turns Enter into a click on its own; that
+      // click goes through `handleGroupItemClick` like any other.
+      if (inGrid) return;
+
+      if (selectedItem) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        pickItem(itemInfo(selectedItem, activeTab), evt.altKey || evt.shiftKey);
+        return;
+      }
+
+      // Nothing to select but something typed: Enter does what the "React"
+      // chip beside the search box does, so a text reaction needs no mouse.
+      const text = searchInputRef.current?.value.trim();
+      if (allowTextCustomEmoji && text && searchedItems?.length === 0) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        handleTextCustomEmojiSelect(text);
+      }
+    }
+  };
+
+  // Focus follows the selection only when the arrows were pressed on an item
+  // button. The selected button may mount a frame later than the selection is
+  // made — after the scroller has moved — so this re-runs as rows mount.
+  useEffect(() => {
+    if (!focusSelectionRef.current || !selection) return;
+    const selected = contentScrollRef.current?.querySelector<HTMLElement>(
+      'button[data-selected="true"]',
+    );
+    if (!selected) return;
+    focusSelectionRef.current = false;
+    selected.focus({ preventScroll: true });
+  }, [selection, vItems]);
+
+  // The first search result is selected as soon as it exists — so the preview
+  // shows what Enter would pick, as it does for a hovered or arrowed-to item.
+  useEffect(() => {
+    const first = searchedItems?.[0];
+    if (first) setPreviewData(previewOf(first));
+  }, [searchedItems, setPreviewData]);
 
   // A mashup is a custom emoji that did not exist until a moment ago. Once
   // uploaded it is an `mxc://` like any other, so it goes out through the same
@@ -697,11 +990,6 @@ export function EmojiBoard({
     },
     [onCustomEmojiSelect],
   );
-
-  const handleTextCustomEmojiSelect = (textEmoji: string) => {
-    onCustomEmojiSelect?.(textEmoji, textEmoji);
-    requestClose();
-  };
 
   const handleScrollToGroup = (groupId: string) => {
     const rowIndex = rows.findIndex((row) => row.kind === 'label' && row.groupId === groupId);
@@ -760,14 +1048,22 @@ export function EmojiBoard({
         onDeactivate: requestClose,
         clickOutsideDeactivates: true,
         allowOutsideClick: true,
+        // Arrows walk the focusable controls — except in the search box and
+        // on the grid, where `handleKeyDown` moves the selection instead. The
+        // trap reads these at creation, so they consult the DOM, not state.
         isKeyForward: (evt: KeyboardEvent) =>
-          !editableActiveElement() && isKeyHotkey(['arrowdown', 'arrowright'], evt),
+          !editableActiveElement() &&
+          !contentScrollRef.current?.contains(document.activeElement) &&
+          isKeyHotkey(['arrowdown', 'arrowright'], evt),
         isKeyBackward: (evt: KeyboardEvent) =>
-          !editableActiveElement() && isKeyHotkey(['arrowup', 'arrowleft'], evt),
+          !editableActiveElement() &&
+          !contentScrollRef.current?.contains(document.activeElement) &&
+          isKeyHotkey(['arrowup', 'arrowleft'], evt),
         escapeDeactivates: stopPropagation,
       }}
     >
       <EmojiBoardLayout
+        onKeyDown={handleKeyDown}
         header={
           <Box direction="Column" gap="200">
             {tabs.length > 1 && (
@@ -776,6 +1072,7 @@ export function EmojiBoard({
             {listTab && (
               <SearchInput
                 key={activeTab}
+                inputRef={searchInputRef}
                 query={result?.query}
                 onChange={handleOnChange}
                 allowTextCustomEmoji={allowTextCustomEmoji}
@@ -809,6 +1106,7 @@ export function EmojiBoard({
               contentScrollRef={contentScrollRef}
               previewAtom={previewAtom}
               onGroupItemClick={handleGroupItemClick}
+              onItemPointed={handleItemPointed}
             >
               <div
                 style={{
@@ -824,7 +1122,15 @@ export function EmojiBoard({
                     row.kind === 'label' ? (
                       <EmojiGroupLabelRow id={row.groupId} label={row.label} />
                     ) : (
-                      <EmojiItemRow groupId={row.groupId}>{row.items.map(renderItem)}</EmojiItemRow>
+                      <EmojiItemRow groupId={row.groupId}>
+                        {row.items.map((item, col) =>
+                          renderItem(
+                            item,
+                            col,
+                            selection?.row === vItem.index && selection.col === col,
+                          ),
+                        )}
+                      </EmojiItemRow>
                     );
 
                   // The pinned heading is the one row left in normal flow, so
