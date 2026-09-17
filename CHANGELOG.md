@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 17.09.2026
+
+- `a6e80ac` Added **picking an emoji with the keyboard alone**, the way Discord's picker works. Open the picker, and the arrow keys now move a highlight over the emoji while you keep typing in the search box: Left and Right run along a row and wrap onto the next, Up and Down move a row at a time and skip over the category headings. Enter picks the highlighted one — exactly as clicking it would, so it lands in Recent and the picker closes; Shift+Enter or Alt+Enter picks it and keeps the picker open, as Shift-click and Alt-click already did. Searching selects the first hit for you, so `thumbs` then Enter is the whole gesture. The list scrolls only as far as it needs to keep the highlight in view, and takes care not to slide it under the category heading pinned at the top when you are moving upward. Moving the mouse moves the same highlight, so the keyboard carries on from wherever the pointer left off, and the preview at the bottom always shows what Enter would pick. Stickers get all of this too. If you had tabbed onto an emoji button first, the arrows move the focus ring along with the highlight rather than leaving it behind, and the tab strip and side strip keep working as before. In the reaction picker, Enter with something typed and nothing found now sends it as a text reaction — the same as pressing the `React` button.
+
 ## 07.09.2026
 
 - `391adb7` Fixed **wrapping something in ` ``` ` breaking when what you wrapped already had a code block in it**. Copy a chunk of documentation, or an answer that has commands in it, wrap the lot in ` ``` ` and send: the block used to stop at the _first_ closing marker it found, which was the inner one — so half the message came out as a code block, the rest as loose text, and a stray ` ``` ` sat at the end. It now works out which marker actually closes the block you opened, and two separate code blocks in one message still stay two separate blocks.
