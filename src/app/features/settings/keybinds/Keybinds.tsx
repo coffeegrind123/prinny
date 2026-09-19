@@ -6,8 +6,8 @@ import { SequenceCardStyle } from '../styles.css';
 import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
 import {
+  KEYBIND_CATEGORY_ORDER,
   KEYBIND_DEFINITIONS,
-  KeybindCategory,
   type KeybindDefinition,
 } from '../../../state/keybinds';
 import { formatKeyComboSplit } from '../../../utils/key-display';
@@ -27,19 +27,37 @@ function GestureTile({ def }: { def: KeybindDefinition }) {
   return (
     <SettingTile
       title={def.description}
+      description={alternativesText(def)}
       after={<Switch variant="Primary" value={settings} onChange={setSettings} />}
     />
   );
 }
 
-const CATEGORY_ORDER: KeybindCategory[] = [
-  KeybindCategory.Messages,
-  KeybindCategory.Navigation,
-  KeybindCategory.Formatting,
-  KeybindCategory.Chat,
-  KeybindCategory.Input,
-  KeybindCategory.Call,
-];
+/** "Also: Ctrl ⇧ /" for an entry with alternates, or nothing. */
+function alternativesText(def: KeybindDefinition): string | undefined {
+  if (!def.altKeys || def.altKeys.length === 0) return undefined;
+  const labels = def.altKeys.map((k) => (def.gesture ? k : formatKeyComboSplit(k).join(' ')));
+  return `Also: ${labels.join(', ')}`;
+}
+
+/**
+ * A binding that cannot be changed — fixed in code, or a gesture with no
+ * switch. Shown so the list is complete, without a capture control that would
+ * invite the user to rebind something that will not follow.
+ */
+function ReadOnlyTile({ def }: { def: KeybindDefinition }) {
+  return (
+    <SettingTile
+      title={def.description}
+      description={alternativesText(def)}
+      after={
+        <Box style={{ padding: config.space.S100 }}>
+          <KeyCombo keys={def.gesture ? [def.defaultKeys] : formatKeyComboSplit(def.defaultKeys)} />
+        </Box>
+      }
+    />
+  );
+}
 
 function KeyCombo({ keys }: { keys: string[] }) {
   return (
@@ -83,7 +101,8 @@ function eventToKeyString(event: KeyboardEvent): string | null {
   if (event.metaKey || event.ctrlKey) parts.push('mod');
   if (event.shiftKey) parts.push('shift');
   if (event.altKey) parts.push('alt');
-  parts.push(event.key.toLowerCase());
+  // `+` is the parser's separator; a literal plus is its `add` alias.
+  parts.push(event.key === '+' ? 'add' : event.key.toLowerCase());
   return parts.join('+');
 }
 
@@ -192,7 +211,7 @@ export function Keybinds({ requestClose }: KeybindsProps) {
           <PageContent>
             <PageContentCenter>
               <Box direction="Column" gap="700">
-                {CATEGORY_ORDER.map((cat) => {
+                {KEYBIND_CATEGORY_ORDER.map((cat) => {
                   const items = KEYBIND_DEFINITIONS.filter((d) => d.category === cat);
                   if (items.length === 0) return null;
                   return (
@@ -209,8 +228,11 @@ export function Keybinds({ requestClose }: KeybindsProps) {
                           // on or off. Rendering the capture control for one
                           // would invite the user to bind a key that could
                           // never fire.
-                          if (def.gesture) {
+                          if (def.gesture && def.settingKey) {
                             return <GestureTile key={def.id} def={def} />;
+                          }
+                          if (def.gesture || def.fixed) {
+                            return <ReadOnlyTile key={def.id} def={def} />;
                           }
                           const currentKey = keybinds[def.id] ?? def.defaultKeys;
                           const isCustom = keybinds[def.id] !== undefined;
@@ -218,6 +240,7 @@ export function Keybinds({ requestClose }: KeybindsProps) {
                             <SettingTile
                               key={def.id}
                               title={def.description}
+                              description={alternativesText(def)}
                               after={
                                 <Box gap="100" alignItems="Center">
                                   <KeybindCapture

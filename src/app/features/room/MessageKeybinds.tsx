@@ -1,5 +1,5 @@
 import { useSetAtom } from 'jotai';
-import { Room } from 'matrix-js-sdk';
+import { MatrixEvent, RelationType, Room } from 'matrix-js-sdk';
 import { Editor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useKeybind } from '../../hooks/useKeybind';
@@ -9,7 +9,7 @@ import { roomIdToReplyDraftAtomFamily } from '../../state/room/roomInputDrafts';
 import { useRoomPinnedEvents } from '../../hooks/useRoomPinnedEvents';
 import { copyToClipboard } from '../../utils/dom';
 import { markAsUnread } from '../../utils/notifications';
-import { StateEvent } from '../../../types/matrix/room';
+import { MessageEvent, StateEvent } from '../../../types/matrix/room';
 import { canEditEvent, getEditedEvent } from '../../utils/room';
 import { isEmptyEditor } from '../../components/editor/utils';
 import { hasMessageActionListener, requestMessageAction } from '../../state/messageAction';
@@ -18,17 +18,68 @@ type Props = {
   room: Room;
   onSetEditId: (id: string | undefined) => void;
   /**
-   * The composer. Only `edit-last-message` needs it, to tell "the composer is
-   * empty so Up means edit" from "the caret is in text so Up means move".
+   * The composer. `edit-last-message` and `delete-last-message` need it, to
+   * tell "the composer is empty so the key means act on my last message" from
+   * "the caret is in text so the key means move or delete text".
    */
   editor: Editor;
+  /**
+   * Whether this user may redact the event — the timeline's own answer, which
+   * folds together the room's redact power and the send-redaction permission
+   * for one's own messages.
+   */
+  canDelete: (mEvent: MatrixEvent) => boolean;
+};
+
+/**
+ * Event types the Del key counts as "a message of mine". Reactions, edits and
+ * redactions are relations to a message rather than messages, and deleting the
+ * newest of those instead of the message under it is never what was meant.
+ */
+const DELETABLE_TYPES = new Set<string>([
+  MessageEvent.RoomMessage,
+  MessageEvent.Sticker,
+  MessageEvent.RoomMessageEncrypted,
+]);
+
+/**
+ * The newest event this user may delete with `delete-last-message`.
+ *
+ * Walks back from the live end, like `edit-last-message`, because the last
+ * event in a timeline is usually somebody else's message or a membership
+ * change and the useful answer is the last message YOU sent. Skips edits
+ * (`m.replace`): an edit is a separate event that displays merged into its
+ * target, and redacting the edit alone would only revert the text.
+ */
+const getLatestDeletableEvt = (
+  room: Room,
+  userId: string,
+  canDelete: (mEvent: MatrixEvent) => boolean,
+): MatrixEvent | undefined => {
+  const events = room.getLiveTimeline().getEvents();
+  for (let i = events.length - 1; i >= 0; i -= 1) {
+    const ev = events[i];
+    if (!ev || ev.isRedacted() || ev.isState()) continue;
+    if (ev.getSender() !== userId) continue;
+    if (!DELETABLE_TYPES.has(ev.getType())) continue;
+    if (ev.getRelation()?.rel_type === RelationType.Replace) continue;
+    if (!canDelete(ev)) continue;
+    return ev;
+  }
+  return undefined;
+};
+
+/** True while a modal, popover or menu is mounted over the room. */
+const overlayOpen = (): boolean => {
+  const portalContainer = document.getElementById('portalContainer');
+  return !!portalContainer && portalContainer.children.length > 0;
 };
 
 // Bindings keyed to the message currently under the cursor. Mounted once
 // inside RoomTimeline so the room context here matches the visible
 // timeline. All bindings are no-ops when no message is hovered (or the
 // hovered event is no longer in this room's timeline).
-export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
+export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props) {
   const mx = useMatrixClient();
   const setReplyDraft = useSetAtom(roomIdToReplyDraftAtomFamily(room.roomId));
   const pinnedEvents = useRoomPinnedEvents(room);
@@ -199,6 +250,45 @@ export function MessageKeybinds({ room, onSetEditId, editor }: Props) {
         }
       }
       return false;
+    },
+    { allowInEditable: true },
+  );
+
+  /**
+   * Del deletes your newest message in this room — no confirmation, no reason.
+   *
+   * The point is speed: send, notice the typo, Del, retype. A dialog in that
+   * loop is the thing being removed, so there is none, and the binding is
+   * rebindable for anyone who wants it further from their fingers.
+   *
+   * `allowInEditable` for the same reason as `edit-last-message`: the composer
+   * is where this is pressed. The guard is the same too — only when the
+   * composer has focus AND is empty, or when nothing editable is focused at
+   * all — so Del in text is still forward-delete, and Del in the search box or
+   * a message's edit box touches nothing. Nor does it fire under an open
+   * overlay, where Del belongs to whatever dialog is up.
+   */
+  useKeybind(
+    'delete-last-message',
+    () => {
+      if (overlayOpen()) return false;
+      const active = document.activeElement as HTMLElement | null;
+      const inEditable =
+        !!active &&
+        (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable);
+      if (inEditable) {
+        if (!ReactEditor.isFocused(editor)) return false;
+        if (!isEmptyEditor(editor)) return false;
+      }
+      const userId = mx.getUserId();
+      if (!userId) return false;
+      const target = getLatestDeletableEvt(room, userId, canDelete);
+      const id = target?.getId();
+      if (!id) return false;
+      mx.redactEvent(room.roomId, id).catch((err) => {
+        console.error('[keybind] delete-last-message redactEvent failed:', err);
+      });
+      return undefined;
     },
     { allowInEditable: true },
   );

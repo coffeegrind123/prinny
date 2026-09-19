@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import { isMacOS } from '../utils/user-agent';
 
 export enum KeybindCategory {
   Messages = 'Messages',
@@ -7,7 +8,25 @@ export enum KeybindCategory {
   Chat = 'Chat',
   Input = 'Input',
   Call = 'Call',
+  MediaViewer = 'Media Viewer',
+  EmojiPicker = 'Emoji Picker',
 }
+
+/** The order both the shortcuts panel and the settings page list categories in. */
+export const KEYBIND_CATEGORY_ORDER: KeybindCategory[] = [
+  KeybindCategory.Messages,
+  KeybindCategory.Navigation,
+  KeybindCategory.Formatting,
+  KeybindCategory.Chat,
+  KeybindCategory.Input,
+  KeybindCategory.Call,
+  KeybindCategory.MediaViewer,
+  KeybindCategory.EmojiPicker,
+];
+
+// Pointer-gesture labels. A gesture's `defaultKeys` is shown verbatim, so the
+// platform's modifier name is baked in here rather than mapped at render time.
+const MOD_LABEL = isMacOS() ? '⌘' : 'Ctrl';
 
 export interface KeybindDefinition {
   id: string;
@@ -28,8 +47,26 @@ export interface KeybindDefinition {
    * renders a switch where it would otherwise render a key capture.
    */
   gesture?: true;
-  /** The `Settings` key holding the on/off state. Only for `gesture` entries. */
+  /**
+   * The `Settings` key holding the on/off state. Only for `gesture` entries,
+   * and only for those that can be switched off — a gesture without one is
+   * listed for discoverability and rendered read-only.
+   */
   settingKey?: string;
+  /**
+   * Bound in code rather than through the registry, so it cannot be rebound.
+   *
+   * Listed anyway: the panel is where a user looks to find out what keys do,
+   * and a key that works but is not listed is indistinguishable from one that
+   * does not exist. The settings page renders these without a capture control.
+   */
+  fixed?: true;
+  /**
+   * Further combos (or gesture labels) that trigger the same action, always
+   * fixed. Shown after the main combo as "or …". `mod+/` is rebindable while
+   * Discord's `ctrl+shift+/` always works, and both belong on the same row.
+   */
+  altKeys?: string[];
 }
 
 export const KEYBIND_DEFINITIONS: KeybindDefinition[] = [
@@ -56,7 +93,10 @@ export const KEYBIND_DEFINITIONS: KeybindDefinition[] = [
     id: 'add-reaction',
     description: 'Add Reaction',
     category: KeybindCategory.Messages,
-    defaultKeys: '+',
+    // Written as the `add` alias with Shift optional. A bare `+` parses as an
+    // empty combo and never matched anything, and on most layouts `+` is typed
+    // as Shift+= while a numpad sends it unshifted; `shift?` accepts both.
+    defaultKeys: 'shift?+add',
   },
   {
     id: 'reply-message',
@@ -95,6 +135,26 @@ export const KEYBIND_DEFINITIONS: KeybindDefinition[] = [
     description: 'Focus text area',
     category: KeybindCategory.Messages,
     defaultKeys: 'escape',
+  },
+  {
+    id: 'delete-last-message',
+    description: 'Delete your latest message (no confirmation, no reason)',
+    category: KeybindCategory.Messages,
+    defaultKeys: 'delete',
+  },
+  {
+    id: 'shift-toolbar',
+    description: 'Show every action for the hovered message',
+    category: KeybindCategory.Messages,
+    defaultKeys: 'Hold Shift',
+    gesture: true,
+  },
+  {
+    id: 'delete-message-now',
+    description: 'Delete Message Now — skip the reason prompt (Shift toolbar)',
+    category: KeybindCategory.Messages,
+    defaultKeys: `${MOD_LABEL}+Click Delete`,
+    gesture: true,
   },
 
   // ── Navigation ───────────────────────────────────────────
@@ -249,6 +309,14 @@ export const KEYBIND_DEFINITIONS: KeybindDefinition[] = [
     description: 'Clear formatting',
     category: KeybindCategory.Formatting,
     defaultKeys: 'mod+e',
+    altKeys: ['escape'],
+  },
+  {
+    id: 'format-exit-block',
+    description: 'Leave a heading, list, quote or code block (at its start)',
+    category: KeybindCategory.Formatting,
+    defaultKeys: 'backspace',
+    fixed: true,
   },
 
   // ── Chat ─────────────────────────────────────────────────
@@ -262,9 +330,11 @@ export const KEYBIND_DEFINITIONS: KeybindDefinition[] = [
     id: 'mark-channel-read',
     description: 'Mark channel as read',
     category: KeybindCategory.Chat,
-    // Previously `escape` which collided with focus-textarea. Moved to
-    // `alt+shift+r` so plain Escape stays free for focus / overlay-close.
+    // The rebindable key is `alt+shift+r`, but plain Escape also marks the
+    // open room read — wired in `Room.tsx` for Discord parity, and it stays
+    // there because Escape is shared with focus-textarea and overlay-close.
     defaultKeys: 'alt+shift+r',
+    altKeys: ['escape'],
   },
   {
     id: 'toggle-member-list',
@@ -310,25 +380,89 @@ export const KEYBIND_DEFINITIONS: KeybindDefinition[] = [
   // ── Input ────────────────────────────────────────────────
   {
     id: 'send-message',
-    description: 'Send message',
+    description: 'Send message / save edit',
     category: KeybindCategory.Input,
     defaultKeys: 'mod+enter',
   },
   {
+    id: 'send-enter',
+    description: 'Send message / save edit (unless "Enter for newline" is on)',
+    category: KeybindCategory.Input,
+    defaultKeys: 'enter',
+    fixed: true,
+  },
+  {
+    id: 'newline',
+    description: 'New line',
+    category: KeybindCategory.Input,
+    defaultKeys: 'shift+enter',
+    fixed: true,
+  },
+  {
+    id: 'cancel-reply',
+    description: 'Close autocomplete, then cancel the reply',
+    category: KeybindCategory.Input,
+    defaultKeys: 'escape',
+    fixed: true,
+  },
+  {
+    id: 'cancel-edit',
+    description: 'Cancel editing a message',
+    category: KeybindCategory.Input,
+    defaultKeys: 'escape',
+    fixed: true,
+  },
+  {
+    id: 'autocomplete-accept',
+    description: 'Accept the highlighted autocomplete suggestion',
+    category: KeybindCategory.Input,
+    defaultKeys: 'tab',
+    altKeys: ['enter'],
+    fixed: true,
+  },
+  {
+    id: 'focus-textarea-paste',
+    description: 'Focus text area and paste',
+    category: KeybindCategory.Input,
+    defaultKeys: 'mod+v',
+    fixed: true,
+  },
+  {
+    id: 'focus-textarea-type',
+    description: 'Focus text area (start typing)',
+    category: KeybindCategory.Input,
+    defaultKeys: 'Any character',
+    gesture: true,
+  },
+  {
     id: 'indent',
-    description: 'Indent',
+    description: 'Indent (code editor)',
     category: KeybindCategory.Input,
     defaultKeys: 'tab',
   },
   {
     id: 'unindent',
-    description: 'Unindent',
+    description: 'Unindent (code editor)',
     category: KeybindCategory.Input,
     defaultKeys: 'shift+tab',
   },
   {
+    id: 'code-line-below',
+    description: 'Insert a line below (code editor)',
+    category: KeybindCategory.Input,
+    defaultKeys: 'mod+enter',
+    fixed: true,
+  },
+  {
+    id: 'code-line-above',
+    description: 'Insert a line above (code editor)',
+    category: KeybindCategory.Input,
+    defaultKeys: 'mod+shift+enter',
+    fixed: true,
+  },
+  {
     id: 'edit-last-message',
-    description: 'Edit last message',
+    description: 'Edit last message (empty text area)',
     category: KeybindCategory.Input,
     defaultKeys: 'up',
   },
@@ -339,6 +473,8 @@ export const KEYBIND_DEFINITIONS: KeybindDefinition[] = [
     description: 'Keyboard shortcuts',
     category: KeybindCategory.Navigation,
     defaultKeys: 'mod+/',
+    // Discord's Ctrl+? — fixed in GlobalKeybinds so it survives any rebind.
+    altKeys: ['ctrl+shift+/'],
   },
 
   // ── Call ─────────────────────────────────────────────────
@@ -374,6 +510,74 @@ export const KEYBIND_DEFINITIONS: KeybindDefinition[] = [
     description: 'Leave the call',
     category: KeybindCategory.Call,
     defaultKeys: 'mod+shift+h',
+  },
+
+  // ── Media Viewer ─────────────────────────────────────────
+  // The gallery feed's keys are fixed in `MediaFeed.tsx`: the viewer is a
+  // modal with its own focus trap, and its keys mirror a video player's.
+  {
+    id: 'gallery-close',
+    description: 'Close the media viewer',
+    category: KeybindCategory.MediaViewer,
+    defaultKeys: 'escape',
+    fixed: true,
+  },
+  {
+    id: 'gallery-next',
+    description: 'Next item',
+    category: KeybindCategory.MediaViewer,
+    defaultKeys: 'down',
+    altKeys: ['pagedown', 'j', 'space'],
+    fixed: true,
+  },
+  {
+    id: 'gallery-prev',
+    description: 'Previous item',
+    category: KeybindCategory.MediaViewer,
+    defaultKeys: 'up',
+    altKeys: ['pageup', 'k'],
+    fixed: true,
+  },
+  {
+    id: 'gallery-mute',
+    description: 'Toggle mute',
+    category: KeybindCategory.MediaViewer,
+    defaultKeys: 'm',
+    fixed: true,
+  },
+
+  // ── Emoji Picker ─────────────────────────────────────────
+  // Fixed in `EmojiBoard.tsx`; they act while the search box has focus.
+  {
+    id: 'picker-move',
+    description: 'Move the highlight',
+    category: KeybindCategory.EmojiPicker,
+    defaultKeys: 'up',
+    altKeys: ['down', 'left', 'right'],
+    fixed: true,
+  },
+  {
+    id: 'picker-select',
+    description: 'Pick the highlighted emoji (or send typed text as a reaction)',
+    category: KeybindCategory.EmojiPicker,
+    defaultKeys: 'enter',
+    fixed: true,
+  },
+  {
+    id: 'picker-select-keep-open',
+    description: 'Pick and keep the picker open',
+    category: KeybindCategory.EmojiPicker,
+    defaultKeys: 'shift+enter',
+    altKeys: ['alt+enter'],
+    fixed: true,
+  },
+  {
+    id: 'picker-click-keep-open',
+    description: 'Pick and keep the picker open',
+    category: KeybindCategory.EmojiPicker,
+    defaultKeys: 'Shift+Click',
+    altKeys: ['Alt+Click'],
+    gesture: true,
   },
 ];
 

@@ -57,7 +57,6 @@ import { roomToParentsAtom } from '../../state/room/roomToParents';
 import { roomToUnreadAtom } from '../../state/room/roomToUnread';
 import { UnreadBadge, UnreadBadgeCenter } from '../../components/unread-badge';
 import { searchModalAtom } from '../../state/searchModal';
-import { useKeyDown } from '../../hooks/useKeyDown';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { KeySymbol } from '../../utils/key-symbol';
 import { isMacOS } from '../../utils/user-agent';
@@ -454,27 +453,9 @@ export function Search({ requestClose }: SearchProps) {
 export function SearchModalRenderer() {
   const [opened, setOpen] = useAtom(searchModalAtom);
 
-  useKeyDown(
-    window,
-    useCallback(
-      (event) => {
-        if (isKeyHotkey('mod+k', event)) {
-          event.preventDefault();
-          if (opened) {
-            setOpen(false);
-            return;
-          }
-
-          const portalContainer = document.getElementById('portalContainer');
-          if (portalContainer && portalContainer.children.length > 0) {
-            return;
-          }
-          setOpen(true);
-        }
-      },
-      [opened, setOpen],
-    ),
-  );
+  // The Mod+K toggle lives in GlobalKeybinds via useKeybind('quick-switcher')
+  // so user rebinds apply. A second literal `mod+k` listener here kept the
+  // default key alive after a rebind, and answered alongside the registry one.
 
   return opened && <Search requestClose={() => setOpen(false)} />;
 }

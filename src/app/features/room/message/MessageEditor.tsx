@@ -43,6 +43,7 @@ import {
 } from '../../../components/editor';
 import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
+import { getKeybindDefinition } from '../../../state/keybinds';
 import { UseStateProvider } from '../../../components/UseStateProvider';
 import { EmojiBoard } from '../../../components/emoji-board';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
@@ -64,6 +65,13 @@ export const MessageEditor = as<'div', MessageEditorProps>(
     const mx = useMatrixClient();
     const editor = useEditor();
     const [enterForNewline] = useSetting(settingsAtom, 'enterForNewline');
+    // Saving an edit answers to the same rebindable key as sending a message.
+    // It tested a literal `mod+enter` before, so rebinding `send-message`
+    // changed what sent but not what saved. Bare Enter stays governed by
+    // `enterForNewline`, as in the composer.
+    const [keybinds] = useSetting(settingsAtom, 'keybinds');
+    const sendKeys =
+      keybinds['send-message'] ?? getKeybindDefinition('send-message')?.defaultKeys ?? 'mod+enter';
     const [globalToolbar] = useSetting(settingsAtom, 'editorToolbar');
     const [isMarkdown] = useSetting(settingsAtom, 'isMarkdown');
     const [toolbar, setToolbar] = useState(globalToolbar);
@@ -181,7 +189,7 @@ export const MessageEditor = as<'div', MessageEditorProps>(
     const handleKeyDown: KeyboardEventHandler = useCallback(
       (evt) => {
         if (
-          (isKeyHotkey('mod+enter', evt) || (!enterForNewline && isKeyHotkey('enter', evt))) &&
+          (isKeyHotkey(sendKeys, evt) || (!enterForNewline && isKeyHotkey('enter', evt))) &&
           !isComposing(evt)
         ) {
           evt.preventDefault();
@@ -192,7 +200,7 @@ export const MessageEditor = as<'div', MessageEditorProps>(
           onCancel();
         }
       },
-      [onCancel, handleSave, enterForNewline, isComposing],
+      [onCancel, handleSave, enterForNewline, isComposing, sendKeys],
     );
 
     const handleKeyUp: KeyboardEventHandler = useCallback(

@@ -93,11 +93,16 @@ export function GlobalKeybinds() {
   }, [setKeyboardShortcutsOpen]);
 
   // ── Quick switcher (Mod+K) ───────────────────────────────────
-  // Search.tsx already opens this on Mod+K via its own listener, but
-  // duplicating here keeps the binding configurable through the registry
-  // and is harmless (the modal open atom is idempotent).
+  // Source of truth for the binding; Search.tsx no longer has a listener of
+  // its own. Closes when open; opens only when nothing else is on top —
+  // a room switcher summoned over a dialog would land behind it.
   useKeybind('quick-switcher', () => {
-    setSearchOpen((prev) => !prev);
+    setSearchOpen((prev) => {
+      if (prev) return false;
+      const portalContainer = document.getElementById('portalContainer');
+      if (portalContainer && portalContainer.children.length > 0) return prev;
+      return true;
+    });
   });
 
   // ── History back / forward (Alt+Left / Alt+Right) ────────────

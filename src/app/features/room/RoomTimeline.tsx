@@ -46,7 +46,6 @@ import {
   config,
   toRem,
 } from 'folds';
-import { isKeyHotkey } from '../../utils/is-hotkey';
 import { Opts as LinkifyOpts } from 'linkifyjs';
 import { useTranslation } from 'react-i18next';
 import { eventWithShortcode, factoryEventSentBy, getMxIdLocalPart } from '../../utils/matrix';
@@ -78,13 +77,11 @@ import {
   renderMatrixMention,
 } from '../../plugins/react-custom-html-parser';
 import {
-  canEditEvent,
   decryptAllTimelineEvent,
   findRoomEventById,
   getEditedEvent,
   getReplyDraftBody,
   getEventReactions,
-  getLatestEditableEvt,
   getMemberDisplayName,
   getReactionContent,
   matchingReactionKey,
@@ -108,11 +105,10 @@ import { useDebounce } from '../../hooks/useDebounce';
 import { getResizeObserverEntry, useResizeObserver } from '../../hooks/useResizeObserver';
 import * as css from './RoomTimeline.css';
 import { inSameDay, minuteDifference, timeDayMonthYear, today, yesterday } from '../../utils/time';
-import { isEmptyEditor, moveCursor, safeFocusEditor } from '../../components/editor';
+import { moveCursor, safeFocusEditor } from '../../components/editor';
 import { roomIdToReplyDraftAtomFamily } from '../../state/room/roomInputDrafts';
 import { usePowerLevelsContext } from '../../hooks/usePowerLevels';
 import { GetContentCallback, MessageEvent, StateEvent } from '../../../types/matrix/room';
-import { useKeyDown } from '../../hooks/useKeyDown';
 import { useDocumentFocusChange } from '../../hooks/useDocumentFocusChange';
 import { RenderMessageContent } from '../../components/RenderMessageContent';
 import { Image } from '../../components/media';
@@ -686,6 +682,12 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
 
   const canRedact = permissions.action('redact', mx.getSafeUserId());
   const canDeleteOwn = permissions.event(MessageEvent.RoomRedaction, mx.getSafeUserId());
+  // The same test the message rows' `canDelete` prop is built from, for the
+  // Del key, which has to answer it for an event it finds on its own.
+  const canDeleteEvent = useCallback(
+    (mEvent: MatrixEvent) => canRedact || (canDeleteOwn && mEvent.getSender() === mx.getUserId()),
+    [canRedact, canDeleteOwn, mx],
+  );
   const canSendReaction = permissions.event(MessageEvent.Reaction, mx.getSafeUserId());
   const canPinEvent = permissions.stateEvent(StateEvent.RoomPinnedEvents, mx.getSafeUserId());
   const [editId, setEditId] = useState<string>();
@@ -1354,30 +1356,6 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         }
       },
       [tryAutoMarkAsRead, unreadInfo, handleOpenEvent, liveTimelineLinked],
-    ),
-  );
-
-  // Handle up arrow edit
-  useKeyDown(
-    window,
-    useCallback(
-      (evt) => {
-        if (
-          isKeyHotkey('arrowup', evt) &&
-          editableActiveElement() &&
-          document.activeElement?.getAttribute('data-editable-name') === 'RoomInput' &&
-          isEmptyEditor(editor)
-        ) {
-          const editableEvt = getLatestEditableEvt(room.getLiveTimeline(), (mEvt) =>
-            canEditEvent(mx, mEvt),
-          );
-          const editableEvtId = editableEvt?.getId();
-          if (!editableEvtId) return;
-          setEditId(editableEvtId);
-          evt.preventDefault();
-        }
-      },
-      [mx, room, editor],
     ),
   );
 
@@ -2672,7 +2650,12 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           </Chip>
         </TimelineFloat>
       )}
-      <MessageKeybinds room={room} onSetEditId={setEditId} editor={editor} />
+      <MessageKeybinds
+        room={room}
+        onSetEditId={setEditId}
+        editor={editor}
+        canDelete={canDeleteEvent}
+      />
       <Scroll ref={scrollRef} className={css.TimelineScroll} visibility="Hover">
         <Box
           direction="Column"

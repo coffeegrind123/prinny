@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Box, Scroll, Text, color, config, toRem } from 'folds';
 import { Page } from '../../components/page';
 import { version } from '../../../../package.json';
-import { ChangelogBullet, formatDate, parseChangelog } from './parser';
+import { ChangelogBullet, ChangelogInline, formatDate, parseChangelog } from './parser';
 // `?raw` ships the file contents as a string at build time — Vite handles
 // this natively. The changelog is part of the binary; no network fetch.
 import changelogMd from '../../../../CHANGELOG.md?raw';
@@ -24,6 +24,45 @@ function CodeSpan({ children }: { children: React.ReactNode }) {
     >
       {children}
     </span>
+  );
+}
+
+function Inline({ parts }: { parts: ChangelogInline[] }) {
+  return (
+    <>
+      {parts.map((part, i) => {
+        switch (part.kind) {
+          case 'code':
+            return <CodeSpan key={i}>{part.value}</CodeSpan>;
+          case 'bold':
+            return (
+              <strong key={i} style={{ fontWeight: config.fontWeight.W600 }}>
+                <Inline parts={part.children} />
+              </strong>
+            );
+          case 'italic':
+            return (
+              <em key={i}>
+                <Inline parts={part.children} />
+              </em>
+            );
+          case 'link':
+            return (
+              <a
+                key={i}
+                href={part.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                style={{ color: color.Secondary.Main }}
+              >
+                <Inline parts={part.children} />
+              </a>
+            );
+          default:
+            return <React.Fragment key={i}>{part.value}</React.Fragment>;
+        }
+      })}
+    </>
   );
 }
 
@@ -54,13 +93,7 @@ function BulletRow({ bullet }: { bullet: ChangelogBullet }) {
         </a>
       </span>
       <span style={{ flex: 1, minWidth: 0 }}>
-        {bullet.parts.map((part, i) =>
-          part.kind === 'code' ? (
-            <CodeSpan key={i}>{part.value}</CodeSpan>
-          ) : (
-            <React.Fragment key={i}>{part.value}</React.Fragment>
-          ),
-        )}
+        <Inline parts={bullet.parts} />
       </span>
     </Box>
   );

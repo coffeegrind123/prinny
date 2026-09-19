@@ -73,7 +73,8 @@ import {
   setHoveredMessageGroup,
 } from '../../../state/hoveredMessageGroup';
 import { useHoveredMessageGroup } from '../../../hooks/useHoveredMessageGroup';
-import { useShiftKey } from '../../../hooks/useShiftKey';
+import { useModKey, useShiftKey } from '../../../hooks/useShiftKey';
+import { isMacOS } from '../../../utils/user-agent';
 import { subscribeMessageAction } from '../../../state/messageAction';
 import { useElementReadReceipts } from '../../../hooks/useElementReadReceipts';
 import { ReadReceiptAvatars } from '../../../components/read-receipt-avatars/ReadReceiptAvatars';
@@ -949,12 +950,19 @@ export function MessageShiftOptions({
   /** Absent when the timeline has nowhere to put an editor. */
   onEdit?: (eventId: string) => void;
   onForward: () => void;
-  onDelete: () => void;
+  /**
+   * Receives the click so the handler can tell a plain press (open the
+   * confirmation) from a Ctrl/Cmd-press (delete now, no reason asked).
+   */
+  onDelete: MouseEventHandler<HTMLButtonElement>;
 }) {
   const mx = useMatrixClient();
   const pinnedEvents = useRoomPinnedEvents(room);
   const eventId = mEvent.getId();
   const isPinned = !!eventId && pinnedEvents.includes(eventId);
+  // Only the Delete button reads it, and this bar exists only while Shift is
+  // held over one message, so the subscription is one row at a time.
+  const modHeld = useModKey(!!canDelete && !mEvent.isRedacted());
 
   if (!eventId) return null;
 
@@ -1038,9 +1046,10 @@ export function MessageShiftOptions({
         // The one destructive button in a dense row of icons, and it carries
         // the same red the menu's Delete does. It opens the same confirmation,
         // so the colour is a warning rather than the only thing standing
-        // between a slipped press and a redaction.
+        // between a slipped press and a redaction — unless Ctrl (Cmd on a
+        // Mac) is also held, which is a different action and says so.
         <MessageShiftOptionButton
-          label="Delete Message"
+          label={modHeld ? 'Delete Message Now' : 'Delete Message'}
           icon={Icons.Delete}
           critical
           onClick={onDelete}
@@ -1191,6 +1200,30 @@ export const Message = as<'div', MessageProps>(
     // unmounts as soon as the pointer leaves the row, and a confirmation dialog
     // that vanishes when you move towards it is worse than none.
     const [deleteOpen, setDeleteOpen] = useState(false);
+
+    /**
+     * The Shift toolbar's Delete. A plain click opens the confirmation with
+     * its optional reason; Ctrl-click (Cmd on a Mac) is "Delete Message Now"
+     * and redacts on the spot, with no dialog and no reason — the same as the
+     * `delete-last-message` key, for the message under the pointer instead of
+     * the newest one. Ctrl is read off the click itself rather than the
+     * tracked modifier state so the action matches what was held at the
+     * moment of the press, not a keyup that raced the click.
+     */
+    const handleShiftDelete: MouseEventHandler<HTMLButtonElement> = useCallback(
+      (evt) => {
+        const id = mEvent.getId();
+        const instant = isMacOS() ? evt.metaKey : evt.ctrlKey;
+        if (!instant || !id) {
+          setDeleteOpen(true);
+          return;
+        }
+        mx.redactEvent(room.roomId, id).catch((err) => {
+          console.error('[shift-options] instant redactEvent failed:', err);
+        });
+      },
+      [mx, room.roomId, mEvent],
+    );
 
     /**
      * Holding Shift swaps the hover toolbar for the power actions, the way
@@ -1764,7 +1797,7 @@ export const Message = as<'div', MessageProps>(
                     onAddReaction={handleOpenEmojiBoard}
                     onEdit={onEditId}
                     onForward={() => setForwardOpen(true)}
-                    onDelete={() => setDeleteOpen(true)}
+                    onDelete={handleShiftDelete}
                   />
                 ) : (
                   <>

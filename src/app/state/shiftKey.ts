@@ -1,8 +1,12 @@
-// Whether the Shift key is held right now, published to whoever is watching.
+import { isMacOS } from '../utils/user-agent';
+
+// Whether the Shift key — and the platform's primary modifier, Ctrl or Cmd —
+// is held right now, published to whoever is watching.
 //
 // The hover toolbar swaps its buttons for a second set while Shift is down, the
-// way Discord's does. That needs a *state* rather than an event, and every
-// message that renders a toolbar has to read the same one.
+// way Discord's does, and its Delete button turns into "Delete Message Now"
+// while Ctrl is down on top. Both need a *state* rather than an event, and
+// every message that renders a toolbar has to read the same one.
 //
 // Deliberately not a jotai atom, for the same reason `hoveredMessage` is not:
 // an atom re-renders every subscriber in the timeline on every change, and for
@@ -12,30 +16,41 @@
 
 type Listener = () => void;
 
+const IS_MAC = isMacOS();
+
 let shiftPressed = false;
+let modPressed = false;
 const listeners = new Set<Listener>();
 
-const setShiftPressed = (pressed: boolean) => {
-  if (shiftPressed === pressed) return;
-  shiftPressed = pressed;
-  listeners.forEach((listener) => listener());
+const notify = () => listeners.forEach((listener) => listener());
+
+const setPressed = (shift: boolean, mod: boolean) => {
+  if (shiftPressed === shift && modPressed === mod) return;
+  shiftPressed = shift;
+  modPressed = mod;
+  notify();
 };
+
+// `mod` is whichever modifier the keybinds call `mod`: Cmd on a Mac, Ctrl
+// elsewhere. Reading both flags rather than picking one keeps a Mac's Ctrl-click
+// (a right-click) from counting.
+const modOf = (evt: KeyboardEvent | MouseEvent): boolean => (IS_MAC ? evt.metaKey : evt.ctrlKey);
 
 // `evt.shiftKey` is true throughout Shift's own keydown and false throughout
 // its keyup, so one handler covers pressing it, releasing it, and releasing it
-// while some other key is still down.
-const handleKey = (evt: KeyboardEvent) => setShiftPressed(evt.shiftKey);
+// while some other key is still down. The same holds for `ctrlKey`/`metaKey`.
+const handleKey = (evt: KeyboardEvent) => setPressed(evt.shiftKey, modOf(evt));
 
 // Entering the window with Shift ALREADY held delivers no keydown — alt-tabbing
 // back, or clicking in from another app. Every mouse event carries the current
 // modifier state, so the first pointer movement resyncs us. Hovering a message
 // requires moving the pointer, which makes this the path that gets it right in
 // exactly the case the keyboard cannot.
-const handlePointer = (evt: MouseEvent) => setShiftPressed(evt.shiftKey);
+const handlePointer = (evt: MouseEvent) => setPressed(evt.shiftKey, modOf(evt));
 
-// Releasing Shift while the window is in the background delivers no keyup at
-// all, which would otherwise leave the flag stuck on until the next keypress.
-const handleRelease = () => setShiftPressed(false);
+// Releasing a modifier while the window is in the background delivers no keyup
+// at all, which would otherwise leave the flag stuck on until the next keypress.
+const handleRelease = () => setPressed(false, false);
 
 let listening = false;
 
@@ -74,4 +89,8 @@ export function subscribeShiftKey(listener: Listener): () => void {
 
 export function isShiftPressed(): boolean {
   return shiftPressed;
+}
+
+export function isModPressed(): boolean {
+  return modPressed;
 }

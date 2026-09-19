@@ -14,20 +14,16 @@ import { FocusTrap } from 'focus-trap-react';
 import { useAtom } from 'jotai';
 import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
-import { KEYBIND_DEFINITIONS, KeybindCategory, keyboardShortcutsAtom } from '../../state/keybinds';
+import {
+  KEYBIND_CATEGORY_ORDER,
+  KEYBIND_DEFINITIONS,
+  KeybindCategory,
+  keyboardShortcutsAtom,
+} from '../../state/keybinds';
 import { formatKeyComboSplit } from '../../utils/key-display';
 import { isMacOS } from '../../utils/user-agent';
 import { KeySymbol } from '../../utils/key-symbol';
 import { stopPropagation } from '../../utils/keyboard';
-
-const CATEGORY_ORDER: KeybindCategory[] = [
-  KeybindCategory.Messages,
-  KeybindCategory.Navigation,
-  KeybindCategory.Formatting,
-  KeybindCategory.Chat,
-  KeybindCategory.Input,
-  KeybindCategory.Call,
-];
 
 function KeyCombo({ keys }: { keys: string[] }) {
   return (
@@ -69,18 +65,22 @@ export function KeyboardShortcuts({ requestClose }: KeyboardShortcutsProps) {
 
   const grouped = new Map<
     KeybindCategory,
-    { id: string; description: string; keys: string; gesture?: true }[]
+    { id: string; description: string; keys: string[]; gesture?: true }[]
   >();
-  for (const cat of CATEGORY_ORDER) {
+  for (const cat of KEYBIND_CATEGORY_ORDER) {
     grouped.set(cat, []);
   }
   for (const def of KEYBIND_DEFINITIONS) {
-    // A gesture is not rebindable, so it always shows its own label rather than
-    // an override that cannot exist.
-    const keys = def.gesture ? def.defaultKeys : (keybinds[def.id] ?? def.defaultKeys);
-    grouped
-      .get(def.category)
-      ?.push({ id: def.id, description: def.description, keys, gesture: def.gesture });
+    // A gesture or fixed binding is not rebindable, so it always shows its own
+    // label rather than an override that cannot exist. Alternates are always
+    // fixed and follow the main combo.
+    const main = def.gesture || def.fixed ? def.defaultKeys : (keybinds[def.id] ?? def.defaultKeys);
+    grouped.get(def.category)?.push({
+      id: def.id,
+      description: def.description,
+      keys: [main, ...(def.altKeys ?? [])],
+      gesture: def.gesture,
+    });
   }
 
   return (
@@ -122,7 +122,7 @@ export function KeyboardShortcuts({ requestClose }: KeyboardShortcutsProps) {
                   direction="Column"
                   gap="500"
                 >
-                  {CATEGORY_ORDER.map((cat) => {
+                  {KEYBIND_CATEGORY_ORDER.map((cat) => {
                     const items = grouped.get(cat);
                     if (!items || items.length === 0) return null;
                     return (
@@ -147,9 +147,20 @@ export function KeyboardShortcuts({ requestClose }: KeyboardShortcutsProps) {
                                   {item.description}
                                 </span>
                               </div>
-                              <KeyCombo
-                                keys={item.gesture ? [item.keys] : formatKeyComboSplit(item.keys)}
-                              />
+                              <Box gap="200" alignItems="Center" shrink="No" wrap="Wrap">
+                                {item.keys.map((combo, i) => (
+                                  <Box key={combo} gap="200" alignItems="Center">
+                                    {i > 0 && (
+                                      <Text size="T200" priority="300">
+                                        or
+                                      </Text>
+                                    )}
+                                    <KeyCombo
+                                      keys={item.gesture ? [combo] : formatKeyComboSplit(combo)}
+                                    />
+                                  </Box>
+                                ))}
+                              </Box>
                             </Box>
                           ))}
                         </Box>
