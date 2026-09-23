@@ -2,6 +2,14 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 23.09.2026
+
+- `d440137` Added **custom CSS** under Settings → General → Custom CSS. `Edit in Text Editor` hands you Prinny's complete stylesheet (about 8,400 lines, including the math, map and code-highlighting styles) with your changes already in it: on desktop it opens in your default editor and every save applies within half a second, even with Settings closed; on Android it opens in an editor app and applies when you come back; in Chrome/Edge you pick where to save it and saves apply live; other browsers download it and `Import File` brings it back. Only what differs from the defaults is kept, so later Prinny style updates still reach everything you did not touch, and deleting a line reverts it to the default rather than removing the styling. An empty `Snippets` box applies small CSS after everything else. Both stay on this device and are never synced to your account.
+- `d440137` Improved **CSS class and variable names to be readable and stable across updates** (`.RoomViewHeader_HeaderTopic`, `--folds-color_Background-Container` instead of hashes like `._10dxgc60`), so custom CSS keeps matching after an update. The build now fails if two styles would get the same name. The folds UI library is compiled from source (`vendor/folds`, v2.7.1) instead of the npm package, whose CSS ships with hashes baked in; its output is rule-for-rule identical.
+- `a820c72` Added **the native half of editing custom CSS in an external editor**: the desktop `custom_css_edit` / `custom_css_stop` commands, which write a fixed file in the app data folder, open it and watch it for saves, and the Android `CustomCssEditorPlugin`, which shares that file to an editor with read and write access through the FileProvider and offers export/import through the system file picker for editors that save a copy instead.
+- `86a8334` Added **editing and clearing a room's topic from the topic box** that opens when you click the topic in the room header, for anyone allowed to change it. The pencil switches the box to a text field with Save and Cancel; the bin clears the topic and closes the box.
+- `e299a46` Fixed **the notification inbox showing no online dots on avatars**, the one place that still left them out. Sender avatars there now show presence like everywhere else.
+
 ## 19.09.2026
 
 - `b3d44e5` Added **deleting your latest message with the `Del` key** — no confirmation and no reason prompt, so a typo can be sent, deleted and retyped without leaving the keyboard. It works from an empty message box or when nothing is focused, and never eats a `Del` pressed inside text you are writing. It only ever deletes your own newest message (edits and reactions are skipped), and is rebindable under Settings → Keybinds → Messages.
