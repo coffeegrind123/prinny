@@ -88,6 +88,8 @@ import { markAsRead } from '../../../utils/notifications';
 import { ContainerColor } from '../../../styles/ContainerColor.css';
 import { VirtualTile } from '../../../components/virtualizer';
 import { UserAvatar } from '../../../components/user-avatar';
+import { AvatarPresence, PresenceBadge } from '../../../components/presence';
+import { useUserPresence } from '../../../hooks/useUserPresence';
 import { EncryptedContent } from '../../../features/room/message';
 import { useMentionClickHandler } from '../../../hooks/useMentionClickHandler';
 import { useSpoilerClickHandler } from '../../../hooks/useSpoilerClickHandler';
@@ -305,6 +307,23 @@ const useNotificationTimeline = (
 
   return [notificationTimeline, loadTimeline, silentReloadTimeline];
 };
+
+// Notifications render in a loop, so the presence hook needs its own component per sender.
+function SenderPresence({ userId, children }: { userId: string; children: ReactNode }) {
+  const presence = useUserPresence(userId);
+
+  return (
+    <AvatarPresence
+      badge={
+        presence ? (
+          <PresenceBadge presence={presence.presence} status={presence.status} size="200" />
+        ) : null
+      }
+    >
+      {children}
+    </AvatarPresence>
+  );
+}
 
 type RoomNotificationsGroupProps = {
   room: Room;
@@ -610,25 +629,27 @@ function RoomNotificationsGroupComp({
               <ModernLayout
                 before={
                   <AvatarBase>
-                    <Avatar size="300">
-                      <UserAvatar
-                        userId={event.sender}
-                        src={
-                          senderAvatarMxc
-                            ? (mxcUrlToHttp(
-                                mx,
-                                senderAvatarMxc,
-                                useAuthentication,
-                                48,
-                                48,
-                                'crop',
-                              ) ?? undefined)
-                            : undefined
-                        }
-                        alt={displayName}
-                        renderFallback={() => <Icon size="200" src={Icons.User} filled />}
-                      />
-                    </Avatar>
+                    <SenderPresence userId={event.sender}>
+                      <Avatar size="300">
+                        <UserAvatar
+                          userId={event.sender}
+                          src={
+                            senderAvatarMxc
+                              ? (mxcUrlToHttp(
+                                  mx,
+                                  senderAvatarMxc,
+                                  useAuthentication,
+                                  48,
+                                  48,
+                                  'crop',
+                                ) ?? undefined)
+                              : undefined
+                          }
+                          alt={displayName}
+                          renderFallback={() => <Icon size="200" src={Icons.User} filled />}
+                        />
+                      </Avatar>
+                    </SenderPresence>
                   </AvatarBase>
                 }
               >
