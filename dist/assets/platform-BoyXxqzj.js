@@ -1,8 +1,8 @@
 const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/dist-js-C2nftEJl.js","assets/core-CGI43Uw5.js","assets/rolldown-runtime-B0Z9INg1.js"])))=>i.map(i=>d[i]);
 import { r as e } from "./rolldown-runtime-B0Z9INg1.js";
 import { t } from "./preload-helper-Czpn1I53.js";
-import { a as n, __tla as __tla_0 } from "./desktop-notifications-CsTx3iv_.js";
-let r, s, c, o;
+import { a as n, __tla as __tla_0 } from "./desktop-notifications-CAoLCV_6.js";
+let r, c, o, s, a;
 let __tla = Promise.all([
     (()=>{
         try {
@@ -18,7 +18,7 @@ let __tla = Promise.all([
         isTauriDesktop: ()=>c
     });
     i = null;
-    async function a() {
+    a = async function() {
         if (!n()) return null;
         if (i !== null) return i;
         try {
@@ -29,7 +29,7 @@ let __tla = Promise.all([
         } catch  {
             return null;
         }
-    }
+    };
     o = async function() {
         return await a() === `android`;
     };
@@ -42,4 +42,4 @@ let __tla = Promise.all([
         return e === `windows` || e === `macos` || e === `linux`;
     };
 });
-export { r as i, s as n, c as r, o as t, __tla };
+export { r as a, c as i, o as n, s as r, a as t, __tla };

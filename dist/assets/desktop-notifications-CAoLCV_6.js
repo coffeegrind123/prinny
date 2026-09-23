@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/dist-js-1-t5gZ4t.js","assets/core-CGI43Uw5.js","assets/rolldown-runtime-B0Z9INg1.js","assets/platform-s_O7oK-3.js","assets/preload-helper-Czpn1I53.js","assets/event-DWBRSZIL.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/dist-js-1-t5gZ4t.js","assets/core-CGI43Uw5.js","assets/rolldown-runtime-B0Z9INg1.js","assets/platform-BoyXxqzj.js","assets/preload-helper-Czpn1I53.js","assets/event-DWBRSZIL.js"])))=>i.map(i=>d[i]);
 import { t as e } from "./preload-helper-Czpn1I53.js";
 let i, f, T, p, D, l, c, E, m, o, _, C;
 let __tla = (async ()=>{
@@ -25,10 +25,10 @@ let __tla = (async ()=>{
             a = !0;
             try {
                 let { getTauriPlatform: t } = await e(async ()=>{
-                    let { getTauriPlatform: e } = await import(`./platform-s_O7oK-3.js`).then(async (m)=>{
+                    let { getTauriPlatform: e } = await import(`./platform-BoyXxqzj.js`).then(async (m)=>{
                         await m.__tla;
                         return m;
-                    }).then((e)=>e.i);
+                    }).then((e)=>e.a);
                     return {
                         getTauriPlatform: e
                     };
@@ -46,10 +46,10 @@ let __tla = (async ()=>{
     c = async function() {
         if (i()) try {
             let { getTauriPlatform: t } = await e(async ()=>{
-                let { getTauriPlatform: e } = await import(`./platform-s_O7oK-3.js`).then(async (m)=>{
+                let { getTauriPlatform: e } = await import(`./platform-BoyXxqzj.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
-                }).then((e)=>e.i);
+                }).then((e)=>e.a);
                 return {
                     getTauriPlatform: e
                 };
@@ -213,10 +213,10 @@ let __tla = (async ()=>{
             let t;
             c && s ? t = await C(s, n?.iconAuthHeader, n?.iconHomeserver) : s && !s.startsWith(`data:`) && (t = s);
             let { getTauriPlatform: i } = await e(async ()=>{
-                let { getTauriPlatform: e } = await import(`./platform-s_O7oK-3.js`).then(async (m)=>{
+                let { getTauriPlatform: e } = await import(`./platform-BoyXxqzj.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
-                }).then((e)=>e.i);
+                }).then((e)=>e.a);
                 return {
                     getTauriPlatform: e
                 };
