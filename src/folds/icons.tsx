@@ -122,7 +122,7 @@ import {
   X,
   type LucideIcon,
 } from 'lucide-react';
-import type { IconName, IconSrc } from 'folds/dist/components/icon/Icons';
+import type { IconName, IconSrc } from '../../vendor/folds/src/components/icon/Icons';
 
 // Icon fill strategy. Lucide is a stroke-based line set with no solid
 // variants, so a `filled` cue cannot be auto-derived. Only icons that look good

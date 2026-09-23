@@ -73,23 +73,30 @@ register) on react-router 7.18.2.
 
 ### Build/dev only — fixed
 
-| Package             | Was                    | Now                        | Severity                                         |
-| ------------------- | ---------------------- | -------------------------- | ------------------------------------------------ |
-| **vite**            | 8.0.13                 | **8.2.1**                  | high                                             |
-| **@babel/core**     | ≤7.29.0                | **^7.29.6** (override)     | low — arbitrary file read via `sourceMappingURL` |
-| **esbuild**         | 0.28.0                 | **^0.28.2** (override)     | low — dev-server file read on Windows            |
-| **brace-expansion** | 1.1.14 / 2.1.0 / 5.0.6 | **^5.0.9** (override)      | high — exponential-time expansion DoS            |
-| **js-yaml**         | 4.1.1                  | **^4.3.1** (override)      | high — quadratic CPU via merge keys / `!!omap`   |
-| **fast-uri**        | 3.1.2                  | **^3.1.5** (override)      | high — host confusion                            |
-| **tmp**             | 0.0.33                 | **^0.2.7** (override)      | high — path traversal / symlink write            |
-| **uuid**            | 10.0.0                 | **^11.1.1** (override)     | moderate                                         |
-| postcss, nanoid     | transitive             | cleared by the `vite` bump | high                                             |
+| Package             | Was                    | Now                                | Severity                                         |
+| ------------------- | ---------------------- | ---------------------------------- | ------------------------------------------------ |
+| **vite**            | 8.0.13                 | **8.2.1**                          | high                                             |
+| **@babel/core**     | ≤7.29.0                | **7.29.7** (direct + `$` override) | low — arbitrary file read via `sourceMappingURL` |
+| **esbuild**         | 0.28.0                 | **^0.28.2** (override)             | low — dev-server file read on Windows            |
+| **brace-expansion** | 1.1.14 / 2.1.0 / 5.0.6 | **^5.0.9** (override)              | high — exponential-time expansion DoS            |
+| **js-yaml**         | 4.1.1                  | **^4.3.1** (override)              | high — quadratic CPU via merge keys / `!!omap`   |
+| **fast-uri**        | 3.1.2                  | **^3.1.5** (override)              | high — host confusion                            |
+| **tmp**             | 0.0.33                 | **^0.2.7** (override)              | high — path traversal / symlink write            |
+| **uuid**            | 10.0.0                 | **^11.1.1** (override)             | moderate                                         |
+| postcss, nanoid     | transitive             | cleared by the `vite` bump         | high                                             |
 
 `overrides` in `package.json` is doing the work for the transitive set. npm's
 own suggestion for the last five was to **downgrade `@vanilla-extract/vite-plugin`
 from 5.2.2 to 3.9.4** — two majors back — because that plugin pins the
 vulnerable `@babel/core` and `esbuild`. Overriding the two root causes directly
 clears the same advisories without regressing the CSS build.
+
+`@babel/core` is now also a direct devDependency, because
+`scripts/vite-readable-css.mjs` runs vanilla-extract's babel debug-id pass
+itself (with `@babel/plugin-syntax-typescript` and
+`@vanilla-extract/babel-plugin-debug-ids`, both declared for the same reason).
+npm rejects an override that differs from a direct dependency's spec, so the
+override is `"$@babel/core"`, which pins the whole tree to the direct version.
 
 Verified after every override: `tsc --noEmit` clean, `vite build` exit 0, no
 source maps in `dist`, no inline script in `index.html`, app boots.
@@ -166,7 +173,8 @@ Fixed 2026-08-11:
 ## 3. Keep — complex enough not to rewrite
 
 `@vanilla-extract/css` · `@vanilla-extract/recipes` · `@vanilla-extract/vite-plugin`
-· `folds` (Cinny's own UI library) · `focus-trap-react` · `html-react-parser` ·
+· `folds` (Cinny's own UI library — vendored as source in `vendor/folds`, not
+installed; see its README) · `focus-trap-react` · `html-react-parser` ·
 `html-dom-parser` · `domhandler` · `emojibase` / `emojibase-data` ·
 `browser-encrypt-attachment` (Matrix E2EE attachments) · `blurhash` ·
 `ua-parser-js` (advisory above) · `pdfjs-dist` · `prismjs`.

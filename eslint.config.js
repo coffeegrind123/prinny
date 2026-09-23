@@ -59,7 +59,7 @@ const reactCompat = restoreRemovedContextAccessors(reactPlugin);
 
 export default [
   {
-    ignores: ['dist/**', 'node_modules/**', 'public/**', 'src/sw.ts'],
+    ignores: ['dist/**', 'node_modules/**', 'vendor/**', 'public/**', 'src/sw.ts'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

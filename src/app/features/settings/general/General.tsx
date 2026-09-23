@@ -44,6 +44,7 @@ import {
   settingsAtom,
 } from '../../../state/settings';
 import { SettingTile } from '../../../components/setting-tile';
+import { CustomCssSettings } from '../../custom-css/CustomCssSettings';
 import { KeySymbol } from '../../../utils/key-symbol';
 import { isMacOS } from '../../../utils/user-agent';
 import { isTauri } from '../../../utils/desktop-notifications';
@@ -1596,6 +1597,7 @@ export function General({ requestClose }: GeneralProps) {
             <PageContentCenter>
               <Box direction="Column" gap="700">
                 <Appearance />
+                <CustomCssSettings />
                 <DateAndTime />
                 <Editor />
                 <Messages />

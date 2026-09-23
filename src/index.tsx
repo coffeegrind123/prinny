@@ -2,7 +2,6 @@
 import { createRoot } from 'react-dom/client';
 import { enableMapSet } from 'immer';
 import '@fontsource-variable/inter';
-import 'folds/dist/style.css';
 import { configClass, varsClass } from 'folds';
 
 enableMapSet();
@@ -18,8 +17,16 @@ import { initBlobLinkHandler } from './app/utils/blob-links';
 import './app/i18n';
 import { ensureSWControl, pushSessionToSW } from './sw-session';
 import { getFallbackSession } from './app/state/sessions';
+import { initCustomCss } from './app/features/custom-css/customCssStore';
+import { listenForDesktopEdits } from './app/features/custom-css/externalEditor';
 
 document.body.classList.add(configClass, varsClass);
+
+// Before the first render, so custom CSS never flashes the default styling.
+initCustomCss();
+listenForDesktopEdits().catch((err) => {
+  console.error('[custom-css] could not listen for editor saves:', err);
+});
 
 // A tab left open across a deploy is holding an index.html whose hashed chunks
 // the server has already pruned. Nothing fails until the app lazily imports one
