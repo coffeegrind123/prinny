@@ -501,6 +501,9 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
   const avatarMxc = useRoomAvatar(room, direct);
   const name = useRoomName(room);
   const topic = useRoomTopic(room);
+  const canEditTopic = permissions.stateEvent(StateEvent.RoomTopic, mx.getSafeUserId());
+  const handleTopicChange = (newTopic: string) =>
+    mx.sendStateEvent(room.roomId, StateEvent.RoomTopic as any, { topic: newTopic });
   const avatarUrl = avatarMxc
     ? (mxcUrlToHttp(mx, avatarMxc, useAuthentication, 96, 96, 'crop') ?? undefined)
     : undefined;
@@ -627,6 +630,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
                             name={name}
                             topic={topic}
                             requestClose={() => setViewTopic(false)}
+                            onTopicChange={canEditTopic ? handleTopicChange : undefined}
                           />
                         </FocusTrap>
                       </OverlayCenter>
