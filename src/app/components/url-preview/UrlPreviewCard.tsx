@@ -61,6 +61,8 @@ import {
   isVxGifMedia,
   rule34ToPost,
   SocialEmbedPost,
+  vxQuotedTweet,
+  stripVxQuoteLink,
   vxTweetToPost,
 } from '../../utils/socialEmbed';
 import { fetchRule34Post, getRule34PostId, rule34TagSummary, Rule34Post } from '../../utils/rule34';
@@ -669,6 +671,64 @@ export const UrlPreviewCard = as<
     // The same post the media scan would build for this link, so a picture
     // clicked here and the gallery entry for it are one and the same.
     const twPost = vxTweetToPost(url, twId, vxData);
+    const quoted = vxQuotedTweet(vxData);
+    const quotedMedia = (quoted?.media_extended ?? []) as typeof allMedia;
+    const quotedUrl = webUrlOrUndefined(quoted?.tweetURL);
+    const quotedAuthor = `${typeof quoted?.user_name === 'string' ? quoted.user_name : 'Quoted tweet'}${
+      typeof quoted?.user_screen_name === 'string' ? ` (@${quoted.user_screen_name})` : ''
+    }`;
+    const tweetText =
+      typeof vxData.text === 'string' ? stripVxQuoteLink(vxData.text, quoted?.tweetID) : '';
+    const renderVxMedia = (items: typeof allMedia, fallbackAlt: string) => {
+      const imgs = items.filter((m) => m.type === 'image' || m.type === 'photo');
+      const vids = items.filter((m) => m.type === 'video' || m.type === 'gif');
+      return (
+        <>
+          {imgs.length > 0 && (
+            <Box direction="Row" gap="100" style={{ width: '100%', flexWrap: 'wrap' }}>
+              {imgs.map((m, i) => {
+                // 1 image: full width. 2+: 2-column grid that fills.
+                const basis = imgs.length === 1 ? '100%' : 'calc(50% - 2px)';
+                return (
+                  <Box
+                    key={i}
+                    style={{
+                      flexBasis: basis,
+                      flexGrow: 1,
+                      minWidth: '160px',
+                      maxWidth: '100%',
+                      overflow: 'hidden',
+                      borderRadius: '8px',
+                    }}
+                  >
+                    <ProxiedImg
+                      src={m.url}
+                      alt={m.altText || fallbackAlt}
+                      title={m.altText || fallbackAlt || undefined}
+                      onView={() => {
+                        if (!openPostMediaInFeed(twPost, m.url)) setViewerSrc(m.url);
+                      }}
+                    />
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
+          {vids.map((m, i) => (
+            <ProxiedVideo
+              key={i}
+              src={m.url}
+              poster={m.thumbnail_url}
+              isGif={isGifMedia(m)}
+              width={m.size?.width}
+              height={m.size?.height}
+              className={urlPreviewCss.UrlPreviewVideo}
+              renderOverlay={renderFeedChip(twPost, m.url)}
+            />
+          ))}
+        </>
+      );
+    };
     return (
       <UrlPreview {...props} ref={ref}>
         <Box grow="Yes" direction="Column" style={{ position: 'relative', minWidth: 0 }}>
@@ -685,56 +745,7 @@ export const UrlPreviewCard = as<
           >
             <Icon size="50" src={Icons.Cross} />
           </IconButton>
-          {(() => {
-            const imgs = allMedia.filter((m) => m.type === 'image' || m.type === 'photo');
-            const vids = allMedia.filter((m) => m.type === 'video' || m.type === 'gif');
-            return (
-              <>
-                {imgs.length > 0 && (
-                  <Box direction="Row" gap="100" style={{ width: '100%', flexWrap: 'wrap' }}>
-                    {imgs.map((m, i) => {
-                      // 1 image: full width. 2+: 2-column grid that fills.
-                      const basis = imgs.length === 1 ? '100%' : 'calc(50% - 2px)';
-                      return (
-                        <Box
-                          key={i}
-                          style={{
-                            flexBasis: basis,
-                            flexGrow: 1,
-                            minWidth: '160px',
-                            maxWidth: '100%',
-                            overflow: 'hidden',
-                            borderRadius: '8px',
-                          }}
-                        >
-                          <ProxiedImg
-                            src={m.url}
-                            alt={m.altText || vxData.text || ''}
-                            title={m.altText || vxData.text}
-                            onView={() => {
-                              if (!openPostMediaInFeed(twPost, m.url)) setViewerSrc(m.url);
-                            }}
-                          />
-                        </Box>
-                      );
-                    })}
-                  </Box>
-                )}
-                {vids.map((m, i) => (
-                  <ProxiedVideo
-                    key={i}
-                    src={m.url}
-                    poster={m.thumbnail_url}
-                    isGif={isGifMedia(m)}
-                    width={m.size?.width}
-                    height={m.size?.height}
-                    className={urlPreviewCss.UrlPreviewVideo}
-                    renderOverlay={renderFeedChip(twPost, m.url)}
-                  />
-                ))}
-              </>
-            );
-          })()}
+          {renderVxMedia(allMedia, tweetText)}
           <UrlPreviewContent>
             <Text
               style={linkStyles}
@@ -751,7 +762,44 @@ export const UrlPreviewCard = as<
                 : ''}
               {tryDecodeURIComponent(url)}
             </Text>
-            {vxData.text && <Text size="T300">{vxData.text}</Text>}
+            {tweetText && <Text size="T300">{tweetText}</Text>}
+            {quoted && (
+              <Box
+                direction="Column"
+                gap="200"
+                style={{
+                  padding: config.space.S200,
+                  border: `${config.borderWidth.B300} solid ${color.SurfaceVariant.ContainerLine}`,
+                  borderRadius: config.radii.R400,
+                  minWidth: 0,
+                }}
+              >
+                {quotedUrl ? (
+                  <Text
+                    style={linkStyles}
+                    truncate
+                    as="a"
+                    href={quotedUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    size="T200"
+                    priority="400"
+                  >
+                    {quotedAuthor}
+                  </Text>
+                ) : (
+                  <Text truncate size="T200" priority="400">
+                    {quotedAuthor}
+                  </Text>
+                )}
+                {typeof quoted.text === 'string' && quoted.text && (
+                  <Text size="T300" style={{ whiteSpace: 'pre-wrap' }}>
+                    {quoted.text}
+                  </Text>
+                )}
+                {renderVxMedia(quotedMedia, typeof quoted.text === 'string' ? quoted.text : '')}
+              </Box>
+            )}
             <Text size="T200" priority="300">
               {`${vxData.likes ?? 0} likes · ${vxData.retweets ?? 0} retweets · ${vxData.replies ?? 0} replies`}
             </Text>

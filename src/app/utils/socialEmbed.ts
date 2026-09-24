@@ -229,6 +229,38 @@ export const vxTweetMedia = (data: any): SocialEmbedMedia[] => {
 };
 
 /**
+ * The tweet a quote tweet quotes, or undefined for an ordinary tweet.
+ *
+ * vxtwitter resolves the quote server-side and nests the full tweet object
+ * under `qrt` (same shape as the top level, one level deep — its own `qrt` is
+ * always null); `qrtURL` alone is the id with nothing to draw. A `qrt` whose
+ * id is the parent's own is rejected so a malformed response cannot recurse.
+ */
+export const vxQuotedTweet = (data: any): any | undefined => {
+  const qrt = data?.qrt;
+  if (!qrt || typeof qrt !== 'object' || Array.isArray(qrt)) return undefined;
+  if (qrt.tweetID !== undefined && qrt.tweetID === data?.tweetID) return undefined;
+  return qrt;
+};
+
+/**
+ * `text` without the trailing link to the tweet it quotes.
+ *
+ * vxtwitter expands the quote's t.co link to `https://x.com/<user>/status/<id>`
+ * and leaves it at the end of the text. With the quote drawn inline that link
+ * is a duplicate, so it goes — the same thing X's own client does. Only a
+ * trailing link whose status id is the quoted one is removed; a link to the
+ * same tweet mid-sentence is the author's words and stays.
+ */
+export const stripVxQuoteLink = (text: string, quotedId: unknown): string => {
+  if (typeof quotedId !== 'string' || !/^\d+$/.test(quotedId)) return text;
+  const trailing = new RegExp(
+    `\\s*https?:\\/\\/(?:[\\w-]+\\.)?(?:twitter\\.com|x\\.com)\\/(?:i\\/web\\/status|i\\/status|\\w+\\/status)\\/${quotedId}(?:[/?#]\\S*)?\\s*$`,
+  );
+  return text.replace(trailing, '');
+};
+
+/**
  * Normalise a Bluesky `getPostThread` response into this module's media shape.
  *
  * Handles the three embed views a post's pictures can arrive in: `images#view`
@@ -420,9 +452,14 @@ const cacheKey = (provider: SocialEmbedProvider, id: string): string => `${provi
  * the order of `media` decides the gallery key of every picture in the post
  * (`embedMediaItems`), so a card that normalised its own copy differently
  * would open the feed on the wrong photo.
+ *
+ * A quote tweet's media is the quoting tweet's own followed by the quoted
+ * tweet's, in the order the card draws them. The quoted media is what the
+ * reader sees in the card, so it belongs in the gallery too — and a text-only
+ * quote of a picture would otherwise be missing from it entirely.
  */
 export const vxTweetToPost = (url: string, id: string, data: any): SocialEmbedPost | undefined => {
-  const media = vxTweetMedia(data);
+  const media = [...vxTweetMedia(data), ...vxTweetMedia(vxQuotedTweet(data))];
   if (media.length === 0) return undefined;
   return {
     provider: 'twitter',
@@ -430,7 +467,10 @@ export const vxTweetToPost = (url: string, id: string, data: any): SocialEmbedPo
     id,
     authorName: typeof data?.user_name === 'string' ? data.user_name : undefined,
     authorHandle: typeof data?.user_screen_name === 'string' ? data.user_screen_name : undefined,
-    text: typeof data?.text === 'string' ? data.text : undefined,
+    text:
+      typeof data?.text === 'string'
+        ? stripVxQuoteLink(data.text, vxQuotedTweet(data)?.tweetID)
+        : undefined,
     media,
   };
 };
