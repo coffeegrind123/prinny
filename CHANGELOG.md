@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 24.09.2026
+
+- `07ed1c4` Fixed **Twitter/X quote tweets not showing the tweet they quote** — the embed showed only the quoting tweet's text. The quoted tweet now appears in a box under it with its author (linking to it), text, images and video, and the redundant trailing link to it is dropped from the main text. Quoted media also opens in the media feed and appears in the room gallery.
+
 ## 23.09.2026
 
 - `d440137` Added **custom CSS** under Settings → General → Custom CSS. `Edit in Text Editor` hands you Prinny's complete stylesheet (about 8,400 lines, including the math, map and code-highlighting styles) with your changes already in it: on desktop it opens in your default editor and every save applies within half a second, even with Settings closed; on Android it opens in an editor app and applies when you come back; in Chrome/Edge you pick where to save it and saves apply live; other browsers download it and `Import File` brings it back. Only what differs from the defaults is kept, so later Prinny style updates still reach everything you did not touch, and deleting a line reverts it to the default rather than removing the styling. An empty `Snippets` box applies small CSS after everything else. Both stay on this device and are never synced to your account.
