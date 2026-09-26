@@ -3,7 +3,7 @@
 // vite.config.js and the matching `paths` entry in tsconfig.json, so every
 // `import {...} from 'folds'` resolves here.
 //
-// folds is compiled from source (vendor/folds, v2.7.1) rather than taken from
+// folds is compiled from source (vendor/folds, v2.7.2) rather than taken from
 // the npm package's prebuilt dist: the dist ships vanilla-extract hashes baked
 // in (`._5z5e2h3`, `--oq6d070`), which the custom-CSS feature cannot target
 // stably. Built here, its classes and theme variables go through the same

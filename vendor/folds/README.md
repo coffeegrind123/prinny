@@ -1,7 +1,7 @@
 # folds (vendored)
 
-Source of [cinnyapp/folds](https://github.com/cinnyapp/folds) **v2.7.1**
-(Apache-2.0, see `LICENSE`), minus Storybook stories. Imported through
+Source of [cinnyapp/folds](https://github.com/cinnyapp/folds) **v2.7.2**
+(Apache-2.0, see `LICENSE` and `NOTICE.md`), minus Storybook stories. Imported through
 `src/folds/index.ts`, never directly.
 
 Vendored rather than installed because the npm package ships compiled
@@ -10,7 +10,7 @@ here, folds goes through the same readable-identifier rule as the app
 (`scripts/vite-readable-css.mjs`), which the custom-CSS feature depends on:
 `.folds-Button_Button_variant_Primary`, `--folds-color_Background-Container`.
 
-Local changes against v2.7.1 — only what React 19 types / TS 6 require; the
+Local changes against v2.7.2 — only what React 19 types / TS 6 require; the
 emitted CSS is rule-for-rule identical to the npm build:
 
 - `components/as.tsx` — cast `fc` to `ForwardRefRenderFunction` before
