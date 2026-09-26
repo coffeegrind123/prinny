@@ -84,12 +84,23 @@ export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props)
   const setReplyDraft = useSetAtom(roomIdToReplyDraftAtomFamily(room.roomId));
   const pinnedEvents = useRoomPinnedEvents(room);
 
-  const withHoveredEvent = (cb: (eventId: string) => void) => () => {
+  /**
+   * Run `cb` against the hovered message, and give the key back when there is
+   * nothing to act on.
+   *
+   * `false` is what tells `useKeybind` not to `preventDefault`. Returning
+   * nothing instead swallowed the key: these are bare letters (`e`, `p`, `r`,
+   * `f`), and typing with focus outside the composer — straight after clicking
+   * a room in the list, say — hands the keystroke to the composer from
+   * RoomView's window listener. A cancelled keydown inserts no text, so
+   * "foobar" arrived as "oobar", "pear" as "ear" and "rest" as "est".
+   */
+  const withHoveredEvent = (cb: (eventId: string) => void | false) => (): void | false => {
     const id = getHoveredMessageEventId();
-    if (!id) return;
+    if (!id) return false;
     const ev = room.findEventById(id);
-    if (!ev) return;
-    cb(id);
+    if (!ev) return false;
+    return cb(id);
   };
 
   // Edit own messages only — the server rejects edits from other senders
@@ -98,9 +109,10 @@ export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props)
     'edit-message',
     withHoveredEvent((id) => {
       const ev = room.findEventById(id);
-      if (!ev) return;
-      if (ev.getSender() !== mx.getUserId()) return;
+      if (!ev) return false;
+      if (ev.getSender() !== mx.getUserId()) return false;
       onSetEditId(id);
+      return undefined;
     }),
   );
 
@@ -122,7 +134,7 @@ export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props)
     'pin-message',
     withHoveredEvent((id) => {
       const userId = mx.getUserId();
-      if (!userId) return;
+      if (!userId) return false;
       // Toggle: unpin if already pinned, otherwise pin.
       const isPinned = pinnedEvents.includes(id);
       const next = isPinned ? pinnedEvents.filter((p) => p !== id) : [...pinnedEvents, id];
@@ -131,6 +143,7 @@ export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props)
           console.error('[keybind] pin sendStateEvent failed:', err);
         },
       );
+      return undefined;
     }),
   );
 
@@ -138,14 +151,14 @@ export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props)
     'reply-message',
     withHoveredEvent((id) => {
       const replyEvt = room.findEventById(id);
-      if (!replyEvt) return;
+      if (!replyEvt) return false;
       const editedReply = getEditedEvent(id, replyEvt, room.getUnfilteredTimelineSet());
       const content = editedReply?.getContent()['m.new_content'] ?? replyEvt.getContent();
       const body = content.body as string | undefined;
       const formattedBody = content.formatted_body as string | undefined;
       const relation = (replyEvt.getWireContent() as any)['m.relates_to'];
       const senderId = replyEvt.getSender();
-      if (!senderId || typeof body !== 'string') return;
+      if (!senderId || typeof body !== 'string') return false;
       setReplyDraft({
         userId: senderId,
         eventId: id,
@@ -153,6 +166,7 @@ export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props)
         formattedBody,
         relation,
       });
+      return undefined;
     }),
   );
 
@@ -196,10 +210,11 @@ export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props)
    */
   const requestOnHovered = (build: (row: Element) => Parameters<typeof requestMessageAction>[1]) =>
     withHoveredEvent((id) => {
-      if (!hasMessageActionListener(id)) return;
+      if (!hasMessageActionListener(id)) return false;
       const row = document.querySelector(`[data-message-id="${CSS.escape(id)}"]`);
-      if (!row) return;
+      if (!row) return false;
       requestMessageAction(id, build(row));
+      return undefined;
     });
 
   useKeybind(
