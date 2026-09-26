@@ -25,6 +25,26 @@ export type MediaSrc = {
    * no-op after the first call, so this cannot loop.
    */
   onSrcError: () => void;
+  /**
+   * Hand this to the media element's `controlsList`.
+   *
+   * On the blob path it removes the native player's own Download item, because
+   * that item cannot name the file: Chromium's download button issues its
+   * request with an empty suggested filename, a `blob:` URL has no
+   * Content-Disposition, and the one path segment it does have is the object
+   * URL's UUID. The named `File` the blob is built from is not consulted. So a
+   * file sent as `goofy ahh beat.wav` saved as
+   * `6eca0ed0-9412-4e38-a182-467ee2fdfb18.wav`, right next to the caption that
+   * showed its real name. The caption's download (`useMediaDownload`) is the
+   * one that sets `a[download]`, so it becomes the only download on offer.
+   *
+   * Only for elements that have that caption. A voice note has none, and there
+   * a download under a UUID beats no download at all.
+   *
+   * Left undefined on the streaming path, where the filename is in the URL and
+   * the native item already saves under it.
+   */
+  controlsList?: string;
 };
 
 /** `/_matrix/media/v3/download/<server>/<id>` or its `/_matrix/client/v1/media/` twin. */
@@ -161,5 +181,11 @@ export function useMediaSrc(
       : undefined
     : directUrl;
 
-  return { src, state: srcState, needsBlob, onSrcError };
+  return {
+    src,
+    state: srcState,
+    needsBlob,
+    onSrcError,
+    controlsList: needsBlob ? 'nodownload' : undefined,
+  };
 }

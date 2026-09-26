@@ -77,7 +77,12 @@ export const VideoContent = as<'div', VideoContentProps>(
     },
     ref,
   ) => {
-    const { src, state, needsBlob, onSrcError } = useMediaSrc(url, mimeType, encInfo, filename);
+    const { src, state, needsBlob, onSrcError, controlsList } = useMediaSrc(
+      url,
+      mimeType,
+      encInfo,
+      filename,
+    );
     const blurHash = validBlurHash(info.thumbnail_info?.[MATRIX_BLUR_HASH_PROPERTY_NAME]);
     // In low animation mode a GIF holds still until pointed at or focused.
     // `hoverProps` is empty when the mode is off, so this costs nothing then.
@@ -158,6 +163,7 @@ export const VideoContent = as<'div', VideoContentProps>(
               // A GIF shows controls only once the browser has refused to play
               // it, which is the one case where the user has no other way in.
               controls={!gif || playbackRefused}
+              controlsList={controlsList}
               autoPlay={autoPlay}
               loop={!!gif}
               muted={!!gif}

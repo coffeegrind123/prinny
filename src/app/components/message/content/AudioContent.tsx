@@ -13,7 +13,12 @@ export type AudioContentProps = {
   filename?: string;
 };
 export function AudioContent({ mimeType, url, encInfo, filename }: AudioContentProps) {
-  const { src, state, needsBlob, onSrcError } = useMediaSrc(url, mimeType, encInfo, filename);
+  const { src, state, needsBlob, onSrcError, controlsList } = useMediaSrc(
+    url,
+    mimeType,
+    encInfo,
+    filename,
+  );
 
   if (needsBlob && state.status === AsyncStatus.Error) {
     return (
@@ -28,6 +33,13 @@ export function AudioContent({ mimeType, url, encInfo, filename }: AudioContentP
   }
 
   return (
-    <audio style={{ width: '100%' }} controls preload="metadata" src={src} onError={onSrcError} />
+    <audio
+      style={{ width: '100%' }}
+      controls
+      controlsList={controlsList}
+      preload="metadata"
+      src={src}
+      onError={onSrcError}
+    />
   );
 }
