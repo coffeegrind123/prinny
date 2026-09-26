@@ -3,8 +3,8 @@
 Tracks upstream `cinnyapp/cinny` commits cherry-picked into our fork (`coffeegrind123/prinny`, branch `main`).
 
 **Fork base:** `6a05ff5` (v4.11.1-era)
-**Last sync:** 2026-08-10 (formal merge of `upstream/dev` @ `33f4ba36` via `-X ours`)
-**Start from:** `33f4ba36` — next time, fetch upstream and check commits AFTER this one
+**Last sync:** 2026-09-26 (upstream `dev` @ `8967c138`, v4.12.7; ancestry recorded with `git merge -s ours`)
+**Start from:** `8967c138` — next time, fetch upstream and check commits AFTER this one
 
 > **2026-08-10:** Second sync. Same shape as the first: cherry-picked the
 > meaningful commits, then `git merge upstream/dev -X ours` to bring the
@@ -104,7 +104,32 @@ Range: `80fd8863..upstream/dev` (`33f4ba36`) — 25 commits.
 | `ce9ae932` | `[-]`  | chore(deps): bump docker/login-action 4.2.0 → 4.4.0 (#3013)         | CI dep                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `730a748a` | `[~]`  | fix(deps): update folds to v2.7.1 (#3049)                           | Conflict in package.json — took only `folds` 2.7.1, kept our newer focus-trap-react/html-parser/i18next/immer and our `hls.js`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `90837f72` | `[x]`  | fix(deps): update sanitize-html to v2.17.6 [security] (#3051)       | Conflict in package.json — took only `sanitize-html` 2.17.6, kept our newer react-i18next/react-range/react-router-dom/slate. **Security fix, do not skip**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `33f4ba36` | `[-]`  | chore: Release v4.12.6 (#3053)                                      | Release/version stamp — **START HERE next sync**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `33f4ba36` | `[-]`  | chore: Release v4.12.6 (#3053)                                      | Release/version stamp                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+
+### 2026-09-26 sync session
+
+Range: `33f4ba36..upstream/dev` (`8967c138`) — 18 commits.
+
+| SHA        | Status | Description                                                              | Notes                                                                                                                                                                                                                                                                                                                                                 |
+| ---------- | ------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `c434e0dd` | `[x]`  | fix: emoji autocompletion overwriting preceding element (#3064)          | Clean — our `beff0cd7`, upstream author kept. `getPrevWordRange` stops at empty text children, so a `:query` typed straight after an emoji or mention no longer takes that element into the replaced range. Reproduced live first: `hi 😄` + `:heart` Enter gave `hi ❤️`, `@bob` + `:heart` replaced the mention; both keep the element after the fix |
+| `3f9bca3d` | `[-]`  | chore(deps): bump actions/setup-node 6.4.0 → 7.0.0 (#3036)               | CI dep                                                                                                                                                                                                                                                                                                                                                |
+| `3327011e` | `[-]`  | chore(deps): bump actions/checkout 7.0.0 → 7.0.1 (#3035)                 | CI dep                                                                                                                                                                                                                                                                                                                                                |
+| `49785dbf` | `[-]`  | chore(deps): bump nginx 1.31.2-alpine → 1.31.4-alpine (#3082)            | CI dep (upstream Dockerfile)                                                                                                                                                                                                                                                                                                                          |
+| `e046757d` | `[-]`  | chore(deps): bump docker/login-action 4.4.0 → 4.6.0 (#3056)              | CI dep                                                                                                                                                                                                                                                                                                                                                |
+| `9a02e5ce` | `[-]`  | chore(deps): bump dawidd6/action-download-artifact 21 → 24 (#3083)       | CI dep — workflow not in our tree                                                                                                                                                                                                                                                                                                                     |
+| `cff50dc1` | `[-]`  | chore: use marocchino/sticky-pull-request-comment for PR comment (#3100) | CI — upstream's PR-preview workflow, not in our tree                                                                                                                                                                                                                                                                                                  |
+| `e9680fe1` | `[-]`  | chore(deps): bump nginx 1.31.4-alpine → 1.31.5-alpine (#3098)            | CI dep (upstream Dockerfile)                                                                                                                                                                                                                                                                                                                          |
+| `02a1c44c` | `[-]`  | chore(deps): bump docker/setup-qemu-action 4.2.0 → 4.3.0 (#3096)         | CI dep                                                                                                                                                                                                                                                                                                                                                |
+| `cfe186ef` | `[-]`  | chore(deps): bump docker/setup-buildx-action 4.2.0 → 4.3.0 (#3090)       | CI dep                                                                                                                                                                                                                                                                                                                                                |
+| `61e8f080` | `[-]`  | chore: update contribution guidelines (#2849)                            | Docs — we removed CONTRIBUTING (`5989652`)                                                                                                                                                                                                                                                                                                            |
+| `22c6f3c1` | `[-]`  | chore: add a checkbox for contribution policy (#3101)                    | Docs / issue templates                                                                                                                                                                                                                                                                                                                                |
+| `5794a88a` | `[-]`  | chore(deps): bump softprops/action-gh-release 3.0.1 → 3.0.3 (#3097)      | CI dep                                                                                                                                                                                                                                                                                                                                                |
+| `9a49bf46` | `[-]`  | fix(deps): update sanitize-html to v2.17.7 [security] (#3091)            | Already satisfied — we were on 2.17.7 through our own dependency upgrades. **Security fix: checked, not skipped**                                                                                                                                                                                                                                     |
+| `c143b300` | `[-]`  | fix(deps): update react-router-dom to v6.30.6 [security] (#3099)         | Not applicable — the fix is for the 6.x line and we are on 7.18.2; `npm audit --omit=dev` reports 0 vulnerabilities. **Security fix: checked, not skipped**                                                                                                                                                                                           |
+| `fcca7c21` | `[~]`  | fix(deps): update folds to v2.7.2 (#3103)                                | Adapted — we vendor folds (`vendor/folds`), so our `5143346d` applies the release's only source change by hand: cinnyapp/folds `7d6d627` drops `flexWrap: "wrap"` from `Input` and `TextArea`. Reproduced live first: an input at its default size dropped its trailing icon below itself at 240px. Also vendors the `NOTICE.md` the release added    |
+| `6578bdf9` | `[-]`  | chore: Update actionable issues note in CONTRIBUTING.md (#3104)          | Docs                                                                                                                                                                                                                                                                                                                                                  |
+| `8967c138` | `[-]`  | chore: Release v4.12.7 (#3105)                                           | Release/version stamp — **START HERE next sync**                                                                                                                                                                                                                                                                                                      |
 
 ---
 
@@ -112,8 +137,8 @@ Range: `80fd8863..upstream/dev` (`33f4ba36`) — 25 commits.
 
 ### Cumulative
 
-- **Backported:** 22 commits
-- **Skipped:** 48 commits (CI/deps, release stamps, docs)
+- **Backported:** 24 commits
+- **Skipped:** 64 commits (CI/deps, release stamps, docs)
 
 ### 2026-05-15 session
 
@@ -127,6 +152,14 @@ Range: `80fd8863..upstream/dev` (`33f4ba36`) — 25 commits.
 - **Skipped:** 20 commits (16 CI/deps + 3 release stamps + 1 docs)
 - **Conflicts resolved:** package.json (×3), package-lock.json (×3)
 - **Verified:** `npm ci` clean (lockfile internally consistent), `npm run build` clean
+
+### 2026-09-26 session
+
+- **Backported:** 2 commits (1 bugfix clean, 1 vendored dep adapted)
+- **Skipped:** 16 commits (10 CI/deps, 3 docs, 2 security bumps already satisfied or not applicable, 1 release stamp)
+- **Conflicts resolved:** none
+- **Verified:** both backports reproduced before and checked after in the live client (`../context/live-testing.md`); `tsc --noEmit` 0 errors; `npm run build` clean
+- **History:** recorded with `git merge -s ours upstream/dev`, not `-X ours` — see the reasoning in `../UPSTREAM_BACKPORT_LOG.md`
 
 #### `npm run typecheck` is already failing — 133 errors, unrelated to this sync
 
@@ -155,7 +188,7 @@ typecheck from a dirty tree convince you it is already fixed.
 git fetch upstream --tags
 
 # 2. Check what's new since last sync (start from the "START HERE" marker above)
-git log --oneline 33f4ba36..upstream/dev --reverse --no-merges
+git log --oneline 8967c138..upstream/dev --reverse --no-merges
 
 # 3. Filter out noise (chore, CI deps, docs)
 # 4. Cherry-pick meaningful commits oldest-first
