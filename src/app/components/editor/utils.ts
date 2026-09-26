@@ -9,6 +9,7 @@ import {
   LinkElement,
   MentionElement,
 } from './slate';
+import { editableActiveElement } from '../../utils/dom';
 
 const ALL_MARK_TYPE: MarkType[] = [
   MarkType.Bold,
@@ -343,6 +344,12 @@ export const restoreDomCaretIfMissing = (editor: Editor): boolean => {
 };
 
 /**
+ * Frames to wait for a just-inserted node to render before focusing without a
+ * caret. One is normally enough; the rest cover a render that is deferred.
+ */
+const FOCUS_RENDER_RETRIES = 5;
+
+/**
  * Focus the editor's DOM node and point the browser's selection at
  * `editor.selection`, skipping if it is already the active element.
  *
@@ -351,25 +358,65 @@ export const restoreDomCaretIfMissing = (editor: Editor): boolean => {
  * sets it from the focus event this raises, so the React tree learns about it
  * through the same path as a click.
  */
-const focusEditorDOM = (editor: Editor): void => {
+const focusEditorDOM = (
+  editor: Editor,
+  retriesLeft = FOCUS_RENDER_RETRIES,
+  focusedBefore: globalThis.Element | null = null,
+): void => {
   const el = ReactEditor.toDOMNode(editor as ReactEditor, editor);
   const root = el.getRootNode();
   const activeElement =
     root instanceof Document || root instanceof ShadowRoot ? root.activeElement : null;
   if (activeElement === el) return;
 
+  // A retry that finds the reader typing somewhere else has lost its claim to
+  // focus. The element this was first called from is exempt: it is the popup
+  // being closed, which may not have unmounted yet.
+  if (retriesLeft < FOCUS_RENDER_RETRIES && editableActiveElement()) {
+    if (activeElement !== focusedBefore) return;
+  }
+
   const { selection } = editor;
   if (selection) {
+    let domRange: globalThis.Range | undefined;
     try {
-      const domRange = ReactEditor.toDOMRange(editor as ReactEditor, selection);
+      domRange = ReactEditor.toDOMRange(editor as ReactEditor, selection);
+    } catch {
+      // The caret points at a node that has not rendered yet — see below.
+    }
+
+    /**
+     * Wait for the render rather than focus blind. This is what reversed
+     * emoji picked from the board with the keyboard, and put everything typed
+     * after them at the start of the message.
+     *
+     * The board inserts the emoji and closes in the same keystroke, so this
+     * runs while the emoji — and the caret after it — exist only in the model.
+     * A bare `el.focus()` then lets the browser choose the caret, and with the
+     * board's search box holding the document selection it chooses the START
+     * of the message. Slate does not correct it: its selection handler adopts
+     * that caret into the model. Measured against the real composer: "hi ",
+     * pick 😄 by typing "smile" + Enter, and the caret sat at offset 0; picking
+     * ❤️ the same way next gave "❤️😄", and "abcdef" typed afterwards gave
+     * "abcdefhi ❤️😄". Picking by mouse escaped it only because a click on a
+     * button leaves the old caret inside the composer for the browser to keep.
+     */
+    if (!domRange && retriesLeft > 0) {
+      const from = focusedBefore ?? activeElement;
+      requestAnimationFrame(() => {
+        try {
+          focusEditorDOM(editor, retriesLeft - 1, from);
+        } catch {
+          // Unmounted while waiting — nothing left to focus.
+        }
+      });
+      return;
+    }
+
+    if (domRange) {
       const domSelection = (root instanceof Document ? root : el.ownerDocument).getSelection();
       domSelection?.removeAllRanges();
       domSelection?.addRange(domRange);
-    } catch {
-      // The selection points at a node that is not rendered yet. Focusing
-      // without it still beats not focusing: the browser puts a caret in the
-      // contenteditable itself, and slate's own DOM sync corrects it on the
-      // next render.
     }
   }
   el.focus({ preventScroll: true });
