@@ -2,6 +2,15 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 26.09.2026
+
+- `fd12b90` Fixed **text typing in backwards after picking an emoji with the keyboard**. Typing a search into the emoji picker and pressing Enter put the emoji in, but left the cursor at the very start of the message — so the next emoji you picked landed in front of the first, and everything you typed afterwards went to the front too: "hi ", 😄, ❤️ and "abcdef" came out as `abcdefhi ❤️😄`. The composer now waits the instant it takes for the emoji to appear before handing the cursor back, and puts it after the emoji. Picking with the mouse was never affected.
+- `f130e96` Fixed **the first letter going missing when you start typing without clicking into the message box**, for example straight after clicking a room. `e`, `p`, `r` and `f` are also shortcuts for the message under your pointer (edit, pin, reply, forward), and with no message there they still swallowed the key: "foobar" arrived as "oobar". They now only take the key when they have a message to act on.
+- `bc8ce53` Fixed **audio and video downloading under a random name** like `6eca0ed0-9412-….wav` instead of the name it was sent with. That name came from the player's own ⋮ → Download, which cannot name the file on most servers, so it is gone from attachments; the download button beside the filename above the player saves it under its real name. Voice messages keep the player's download, as they have no other.
+- `d3828d2` Added **grouping of joins, leaves and other membership changes**, the way Element does. Two or more in a row become one line — "carol joined and left, dave and 2 others were invited" — with the avatars of everyone involved and an Expand button to see each one. A message or a date line ends the group, and following a link to an event inside a group opens it. On by default; turn it off with **Group Membership Changes** under Settings → General.
+- `beff0cd` Fixed **an emoji or mention being replaced when you autocomplete another straight after it** (from upstream Cinny). Typing `:heart` directly after an emoji or `@mention`, with no space, and picking from the list overwrote the one before it.
+- `5143346` Fixed **the end of a text box dropping onto a new line** when the box gets narrow — the icon or button at the right of an input now stays beside it (folds 2.7.2, from upstream Cinny).
+
 ## 24.09.2026
 
 - `07ed1c4` Fixed **Twitter/X quote tweets not showing the tweet they quote** — the embed showed only the quoting tweet's text. The quoted tweet now appears in a box under it with its author (linking to it), text, images and video, and the redundant trailing link to it is dropped from the main text. Quoted media also opens in the media feed and appears in the room gallery.
