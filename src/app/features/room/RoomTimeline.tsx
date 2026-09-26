@@ -4,6 +4,7 @@ import React, {
   Dispatch,
   MouseEventHandler,
   MutableRefObject,
+  ReactNode,
   RefObject,
   SetStateAction,
   useCallback,
@@ -92,6 +93,8 @@ import { useSetting } from '../../state/hooks/settings';
 import { MessageLayout, settingsAtom } from '../../state/settings';
 import { useMatrixEventRenderer } from '../../hooks/useMatrixEventRenderer';
 import { Reactions, Message, Event, EncryptedContent } from './message';
+import { MembershipEventGroup } from './message/MembershipEventGroup';
+import { groupMembershipRuns } from '../../utils/membershipSummary';
 import { useMemberEventParser } from '../../hooks/useMemberEventParser';
 import * as customHtmlCss from '../../styles/CustomHtml.css';
 import { RoomIntro } from '../../components/room-intro';
@@ -280,6 +283,20 @@ const FOLLOW_LIVE_END_PX = 120;
 type Timeline = {
   linkedTimelines: EventTimeline[];
   range: ItemRange;
+};
+
+/**
+ * One event of the rendered range that draws a row, before membership runs are
+ * folded into summaries. The dividers are kept apart from the row because a
+ * divider above the first event of a run has to go above the run's summary.
+ */
+type RenderedTimelineRow = {
+  item: number;
+  mEventId: string;
+  mEvent: MatrixEvent;
+  eventJSX: ReactNode;
+  newDividerJSX: ReactNode;
+  dayDividerJSX: ReactNode;
 };
 
 const useEventTimelineLoader = (
@@ -644,6 +661,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   const direct = useIsDirectRoom();
   const [hideMembershipEvents] = useSetting(settingsAtom, 'hideMembershipEvents');
   const [hideNickAvatarEvents] = useSetting(settingsAtom, 'hideNickAvatarEvents');
+  const [groupMembershipEvents] = useSetting(settingsAtom, 'groupMembershipEvents');
   const [mediaAutoLoad] = useSetting(settingsAtom, 'mediaAutoLoad');
   const [urlPreview] = useSetting(settingsAtom, 'urlPreview');
   const [mathsEnabled] = useSetting(settingsAtom, 'renderMaths');
@@ -743,6 +761,31 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     | undefined
   >();
   const alive = useAlive();
+
+  /**
+   * Open/closed state of collapsed membership runs, per event id.
+   *
+   * A run has no identity of its own — it is recomputed from the rendered range
+   * on every pass — so the choice is recorded against every event in it, and a
+   * run is open if any of its events says so. Keying on the first event alone
+   * would drop the choice as soon as backfill added an older membership event
+   * in front of the run, and an open group snapping shut under the reader is
+   * exactly the kind of layout jump this timeline works hard to avoid.
+   *
+   * A ref plus a version counter rather than state holding the Map: the render
+   * pass also records runs it opened on its own (see `autoOpenedRuns`), and
+   * that must not cost a second render. Session-only by design.
+   */
+  const runExpansionRef = useRef(new Map<string, boolean>());
+  const [, setRunExpansionVersion] = useState(0);
+  // The focus whose run has already been opened for it. Opening happens once
+  // per jump; after that the recorded state rules, so a reader who collapses
+  // the run again while the highlight is still pulsing is not overruled.
+  const runOpenedForFocusRef = useRef<typeof focusItem>(undefined);
+  const handleToggleMembershipRun = useCallback((eventIds: string[], expanded: boolean) => {
+    eventIds.forEach((id) => runExpansionRef.current.set(id, expanded));
+    setRunExpansionVersion((version) => version + 1);
+  }, []);
 
   const linkifyOpts = useMemo<LinkifyOpts>(
     () => ({
@@ -2521,14 +2564,14 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
    * exactly what `collapsed` does, since `isPrevRendered` starts false.
    */
   let groupHeadEventId: string | undefined;
-  const eventRenderer = (item: number) => {
+  const eventRenderer = (item: number): RenderedTimelineRow | undefined => {
     const [eventTimeline, baseIndex] = getTimelineAndBaseIndex(timeline.linkedTimelines, item);
-    if (!eventTimeline) return null;
+    if (!eventTimeline) return undefined;
     const timelineSet = eventTimeline?.getTimelineSet();
     const mEvent = getTimelineEvent(eventTimeline, getTimelineRelativeIndex(item, baseIndex));
     const mEventId = mEvent?.getId();
 
-    if (!mEvent || !mEventId) return null;
+    if (!mEvent || !mEventId) return undefined;
 
     // Before any of the filters below, so an unrendered event can still anchor
     // the divider — see `prevIteratedEventId`.
@@ -2539,10 +2582,10 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
 
     const eventSender = mEvent.getSender();
     if (eventSender && ignoredUsersSet.has(eventSender)) {
-      return null;
+      return undefined;
     }
     if (mEvent.isRedacted() && !showHiddenEvents) {
-      return null;
+      return undefined;
     }
 
     if (!dayDivider) {
@@ -2609,21 +2652,117 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         </MessageBase>
       ) : null;
 
-    if (eventJSX && (newDividerJSX || dayDividerJSX)) {
-      if (newDividerJSX) newDivider = false;
-      if (dayDividerJSX) dayDivider = false;
+    if (!eventJSX) return undefined;
+    if (newDividerJSX) newDivider = false;
+    if (dayDividerJSX) dayDivider = false;
 
-      return (
-        <React.Fragment key={mEventId}>
-          {newDividerJSX}
-          {dayDividerJSX}
-          {eventJSX}
-        </React.Fragment>
-      );
+    return { item, mEventId, mEvent, eventJSX, newDividerJSX, dayDividerJSX };
+  };
+
+  const renderRow = (row: RenderedTimelineRow) => {
+    if (!row.newDividerJSX && !row.dayDividerJSX) return row.eventJSX;
+    return (
+      <React.Fragment key={row.mEventId}>
+        {row.newDividerJSX}
+        {row.dayDividerJSX}
+        {row.eventJSX}
+      </React.Fragment>
+    );
+  };
+
+  // Element-style membership summaries. Only rows that actually draw take part,
+  // so an event the timeline hides (a reaction, an edit, a hidden profile
+  // change, an ignored user) neither joins a run nor splits one. A row carrying
+  // a date or "new messages" divider can start a run but not continue one, so
+  // the divider keeps sitting between the events it separates.
+  const groupMembership = groupMembershipEvents && !hideMembershipEvents;
+  const renderedRows = getItems()
+    .map(eventRenderer)
+    .filter((row): row is RenderedTimelineRow => row !== undefined);
+  const timelineRows = groupMembership
+    ? groupMembershipRuns(
+        renderedRows,
+        (row) => row.mEvent.getType() === StateEvent.RoomMember,
+        (row) => !!(row.newDividerJSX || row.dayDividerJSX),
+      )
+    : renderedRows.map((row) => ({ kind: 'single' as const, row }));
+
+  /**
+   * Runs opened by this pass because the event being jumped to is inside one.
+   *
+   * A highlighted jump (a permalink, a reply, a search hit, a notification)
+   * must land on the event itself, not on a summary standing in for it. The
+   * run is recorded as open once this pass commits, so it stays open after the
+   * highlight wears off two seconds later instead of snapping shut under the
+   * reader. A plain jump to the read marker is not highlighted and leaves runs
+   * alone — it lands on the summary, which is where that event is.
+   */
+  const autoOpenedRuns: string[][] = [];
+
+  const renderMembershipRun = (rows: RenderedTimelineRow[]) => {
+    const [first] = rows;
+    const eventIds = rows.map((row) => row.mEventId);
+    const focusToOpen =
+      !!focusItem?.highlight &&
+      runOpenedForFocusRef.current !== focusItem &&
+      rows.some((row) => row.item === focusItem.index);
+    const stored = eventIds
+      .map((id) => runExpansionRef.current.get(id))
+      .find((value) => value !== undefined);
+    const expanded = focusToOpen || (stored ?? false);
+    if (focusToOpen) {
+      autoOpenedRuns.push(eventIds);
     }
 
-    return eventJSX;
+    // The summary carries the first event's item index: it stands where that
+    // event would, so the paginator's scroll restore, `scrollToItem` (which
+    // falls back to the nearest earlier item with an element) and the content
+    // anchor all treat it as that event's row. The later events of a collapsed
+    // run have no element, which those already handle the same way as an event
+    // that renders nothing.
+    return (
+      <React.Fragment key={`membership-run-${first.mEventId}`}>
+        {first.newDividerJSX}
+        {first.dayDividerJSX}
+        <MembershipEventGroup
+          data-message-item={first.item}
+          room={room}
+          events={rows.map((row) => row.mEvent)}
+          expanded={expanded}
+          onToggle={() => handleToggleMembershipRun(eventIds, !expanded)}
+          messageLayout={messageLayout}
+          messageSpacing={messageSpacing}
+          hideOthersReadReceipts={hideOthersReadReceipts}
+          hour24Clock={hour24Clock}
+          dateFormatString={dateFormatString}
+          onUserClick={handleUserClick}
+        />
+        {expanded && rows.map((row) => row.eventJSX)}
+      </React.Fragment>
+    );
   };
+
+  const timelineJSX = timelineRows.map((entry) =>
+    entry.kind === 'group' ? renderMembershipRun(entry.rows) : renderRow(entry.row),
+  );
+
+  // Commits `autoOpenedRuns`, and brings the jumped-to event into view: when
+  // the jump was started by `handleOpenEvent`, its scroll ran before this pass
+  // drew the event, so it could only aim at the summary above it.
+  useLayoutEffect(() => {
+    if (autoOpenedRuns.length === 0) return;
+    autoOpenedRuns.forEach((eventIds) =>
+      eventIds.forEach((id) => runExpansionRef.current.set(id, true)),
+    );
+    runOpenedForFocusRef.current = focusItem;
+    if (!focusItem) return;
+    scrollToItem(focusItem.index, {
+      behavior: 'instant',
+      align: 'center',
+      stopInView: true,
+    });
+    recordFollowMetrics();
+  });
 
   return (
     <Box grow="Yes" style={{ position: 'relative' }}>
@@ -2707,7 +2846,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
               </>
             ))}
 
-          {getItems().map(eventRenderer)}
+          {timelineJSX}
 
           {(!liveTimelineLinked || !rangeAtEnd) &&
             (messageLayout === MessageLayout.Compact ? (

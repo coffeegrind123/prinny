@@ -85,6 +85,13 @@ export interface Settings {
   messageSpacing: MessageSpacing;
   hideMembershipEvents: boolean;
   hideNickAvatarEvents: boolean;
+  /**
+   * Collapse a run of consecutive membership events (joins, leaves, invites,
+   * kicks, bans, and the profile changes shown alongside them) into one
+   * Element-style summary line with an expand toggle. Has no effect while
+   * `hideMembershipEvents` is on.
+   */
+  groupMembershipEvents: boolean;
   mediaAutoLoad: boolean;
   mediaFeedViewer: boolean;
   urlPreview: boolean;
@@ -269,6 +276,7 @@ const defaultSettings: Settings = {
   messageSpacing: '400',
   hideMembershipEvents: false,
   hideNickAvatarEvents: true,
+  groupMembershipEvents: true,
   mediaAutoLoad: true,
   // Tapping a photo in the timeline opens the room's media feed at that photo
   // rather than a single-image lightbox — the same list the gallery shows, so

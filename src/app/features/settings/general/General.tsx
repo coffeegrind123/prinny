@@ -1294,6 +1294,10 @@ function Messages() {
     settingsAtom,
     'hideNickAvatarEvents',
   );
+  const [groupMembershipEvents, setGroupMembershipEvents] = useSetting(
+    settingsAtom,
+    'groupMembershipEvents',
+  );
   const [mediaAutoLoad, setMediaAutoLoad] = useSetting(settingsAtom, 'mediaAutoLoad');
   const [mediaFeedViewer, setMediaFeedViewer] = useSetting(settingsAtom, 'mediaFeedViewer');
   const [galleryUploads, setGalleryUploads] = useSetting(settingsAtom, 'galleryUploads');
@@ -1342,6 +1346,20 @@ function Messages() {
               variant="Primary"
               value={hideNickAvatarEvents}
               onChange={setHideNickAvatarEvents}
+            />
+          }
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Group Membership Changes"
+          description="Collapse several joins, leaves and profile changes in a row into one expandable summary line. Needs membership changes to be shown."
+          after={
+            <Switch
+              variant="Primary"
+              disabled={hideMembershipEvents}
+              value={groupMembershipEvents}
+              onChange={setGroupMembershipEvents}
             />
           }
         />
