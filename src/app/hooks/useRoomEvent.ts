@@ -51,7 +51,7 @@ export const useRoomEvent = (
   const fetchEvent = useFetchEvent(room, eventId);
 
   const { data, error } = useQuery({
-    // An empty/absent eventId (e.g. PinnedMessageBanner passing `eventId ?? ''`
+    // An empty/absent eventId (e.g. a caller passing `eventId ?? ''`
     // when nothing is pinned) would otherwise fire fetchRoomEvent(roomId, '')
     // → GET /rooms/{roomId}/event/ → 404, which react-query then retries,
     // spamming the network log on every room with no pin.

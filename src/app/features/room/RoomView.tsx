@@ -22,7 +22,6 @@ import { useSetting } from '../../state/hooks/settings';
 import { useRoomPermissions } from '../../hooks/useRoomPermissions';
 import { useRoomCreators } from '../../hooks/useRoomCreators';
 import { useRoom } from '../../hooks/useRoom';
-import { PinnedMessageBanner } from './PinnedMessageBanner';
 import { MediaFeedHost, RoomGallery, RoomMediaProvider } from './gallery';
 import { mediaFeedRequestAtom, roomGalleryOpenAtom } from '../../state/roomGallery';
 import { ContainerColor } from '../../styles/ContainerColor.css';
@@ -176,7 +175,6 @@ export function RoomView({ eventId }: { eventId?: string }) {
         style={galleryOpen ? HIDDEN_UNDER_GALLERY : undefined}
       >
         <div style={{ padding: `0 ${config.space.S400}` }}>
-          <PinnedMessageBanner room={room} />
           {tombstoneEvent ? (
             <RoomTombstone
               roomId={roomId}
