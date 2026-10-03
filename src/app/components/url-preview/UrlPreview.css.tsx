@@ -90,3 +90,15 @@ export const UrlPreviewVideo = style([
     display: 'block',
   },
 ]);
+
+// Not `UrlPreviewVideo`: its `height: auto` — there so a video keeps its aspect
+// ratio — collapses an `<audio controls>` to 0px in Chromium, leaving only the
+// link text. Measured: 0px with it, 54px without. The player draws its own
+// chrome at its intrinsic height, so it gets no height rule at all.
+export const UrlPreviewAudio = style([
+  DefaultReset,
+  {
+    width: '100%',
+    display: 'block',
+  },
+]);

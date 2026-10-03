@@ -1849,7 +1849,7 @@ export const UrlPreviewCard = as<
             has to be checked before the value reaches a media element. */}
         {isWebUrl(audioSrc) && (
           <audio
-            className={urlPreviewCss.UrlPreviewVideo}
+            className={urlPreviewCss.UrlPreviewAudio}
             src={audioSrc}
             controls
             preload="metadata"
@@ -2236,7 +2236,7 @@ export const UrlPreviewCard = as<
             (Spotify, Last.fm) fall through to the image branch instead. */}
         {directAudioUrl && (
           <audio
-            className={urlPreviewCss.UrlPreviewVideo}
+            className={urlPreviewCss.UrlPreviewAudio}
             src={directAudioUrl}
             controls
             preload="metadata"
