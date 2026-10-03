@@ -2,6 +2,12 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 03.10.2026
+
+- `62eb7dd` `6c4772f` Added **Reddit post embeds** in the desktop and Android apps. A linked Reddit post now plays its video right in the chat — with sound and seeking — or shows its picture or gallery, instead of a plain link card, and the media joins the room's gallery and media feed. Works with normal post and comment links, `redd.it` short links and the app's share links. Reddit blocks browsers from reading posts directly, so this is not available on the web version. Turn it off with **Reddit post embeds** under Settings → General.
+- `8b031a3` Fixed **linked audio files showing only the link, with no player** — `.flac`, `.mp3`, `.ogg` and the rest. The file was loading fine, but the player was drawn zero pixels tall.
+- `97a0ab3` Removed **the pinned message bar above the message box**. Pinned messages are still in the pin menu at the top of the room.
+
 ## 26.09.2026
 
 - `fd12b90` Fixed **text typing in backwards after picking an emoji with the keyboard**. Typing a search into the emoji picker and pressing Enter put the emoji in, but left the cursor at the very start of the message — so the next emoji you picked landed in front of the first, and everything you typed afterwards went to the front too: "hi ", 😄, ❤️ and "abcdef" came out as `abcdefhi ❤️😄`. The composer now waits the instant it takes for the emoji to appear before handing the cursor back, and puts it after the emoji. Picking with the mouse was never affected.
