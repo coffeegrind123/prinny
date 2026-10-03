@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 04.10.2026
+
+- `1a14bb7` Added **Reddit post embeds on the web version**. A linked Reddit post now plays its video or shows its picture inline in the browser too, fetched through vxreddit.com. Firefox reads vxreddit directly and shows whole galleries; other browsers go through your homeserver's link preview (Synapse), which shows one picture per gallery. The web route has no NSFW label or post date. Turn it off with **Reddit post embeds** under Settings → General, which now appears on the web as well.
+
 ## 03.10.2026
 
 - `62eb7dd` `6c4772f` Added **Reddit post embeds** in the desktop and Android apps. A linked Reddit post now plays its video right in the chat — with sound and seeking — or shows its picture or gallery, instead of a plain link card, and the media joins the room's gallery and media feed. Works with normal post and comment links, `redd.it` short links and the app's share links. Reddit blocks browsers from reading posts directly, so this is not available on the web version. Turn it off with **Reddit post embeds** under Settings → General.
