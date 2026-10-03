@@ -889,6 +889,7 @@ function Editor() {
   const [useSoundcloak, setUseSoundcloak] = useSetting(settingsAtom, 'useSoundcloak');
   const [useBlueskyEmbeds, setUseBlueskyEmbeds] = useSetting(settingsAtom, 'useBlueskyEmbeds');
   const [useRule34Embeds, setUseRule34Embeds] = useSetting(settingsAtom, 'useRule34Embeds');
+  const [useRedditEmbeds, setUseRedditEmbeds] = useSetting(settingsAtom, 'useRedditEmbeds');
   const [useHackerNewsEmbeds, setUseHackerNewsEmbeds] = useSetting(
     settingsAtom,
     'useHackerNewsEmbeds',
@@ -1065,6 +1066,19 @@ function Editor() {
           after={<Switch variant="Primary" value={useRule34Embeds} onChange={setUseRule34Embeds} />}
         />
       </SequenceCard>
+      {/* App only: Reddit sends no CORS headers, so the post is fetched by the
+          shell and a browser has no route to it. See utils/reddit. */}
+      {isTauri() && (
+        <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+          <SettingTile
+            title="Reddit post embeds"
+            description="Play a linked Reddit post's video, or show its image or gallery, inline instead of the site's link card. Sends the post number and your IP address to embed.reddit.com, and lets the sender of a link see when you view it."
+            after={
+              <Switch variant="Primary" value={useRedditEmbeds} onChange={setUseRedditEmbeds} />
+            }
+          />
+        </SequenceCard>
+      )}
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
           title="Hacker News post embeds"

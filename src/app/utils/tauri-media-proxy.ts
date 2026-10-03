@@ -28,8 +28,16 @@ import { isTauri } from './desktop-notifications';
 // This is the *permission* list, not the *routing* list — see
 // `PROXY_REQUIRED_MEDIA_HOSTS`. A host belongs here as soon as any feature
 // needs its bytes rather than just an element pointed at it, which for rule34
-// is the media feed's Download control (`useMediaDownload`).
-export const ALLOWED_MEDIA_HOSTS: readonly string[] = ['twimg.com', 'bsky.app', 'rule34.xxx'];
+// and Reddit is the media feed's Download control (`useMediaDownload`). Reddit's
+// media hosts (`i.`, `v.`, `preview.`, `packaged-media.redd.it`) all hotlink —
+// `v.redd.it` even sends `access-control-allow-origin: *` — so like rule34 it
+// is permitted here and deliberately absent from the routing list below.
+export const ALLOWED_MEDIA_HOSTS: readonly string[] = [
+  'twimg.com',
+  'bsky.app',
+  'rule34.xxx',
+  'redd.it',
+];
 
 // Hosts that will not serve their media to a plain element and therefore have
 // to be routed through a proxy to *render* at all.

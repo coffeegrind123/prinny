@@ -8,6 +8,7 @@ import {
   rule34TagSummary,
   rule34PostPageUrl,
 } from './rule34';
+import { RedditPost, fetchRedditPost, getRedditTarget } from './reddit';
 
 /**
  * Recognising and fetching the social posts this client renders inline.
@@ -20,7 +21,7 @@ import {
  * cannot disagree about what a link contains.
  *
  * Everything here is a *rich post* embed — a message whose link is a Twitter,
- * Bluesky or Rule34 post, and whose pictures are the post's own. Homeserver
+ * Bluesky, Rule34 or Reddit post, and whose pictures are the post's own. Homeserver
  * `og:image` link previews are deliberately not in scope: a site's meta-card
  * image is furniture (a logo, a stock hero, an article's header) that nobody
  * sent and nobody goes looking for later, so folding those into a room's
@@ -31,7 +32,7 @@ import {
  * differs per provider, and therefore stays here, is how to read its answer.
  */
 
-export type SocialEmbedProvider = 'twitter' | 'bluesky' | 'rule34';
+export type SocialEmbedProvider = 'twitter' | 'bluesky' | 'rule34' | 'reddit';
 
 /**
  * What to call each provider in the interface.
@@ -46,6 +47,7 @@ export const SOCIAL_EMBED_PROVIDER_LABEL: Record<SocialEmbedProvider, string> = 
   twitter: 'Twitter',
   bluesky: 'Bluesky',
   rule34: 'Rule34',
+  reddit: 'Reddit',
 };
 
 export type SocialEmbedMediaType = 'image' | 'video';
@@ -125,6 +127,7 @@ export const socialEmbedProvider = (url: string): SocialEmbedProvider | undefine
   if (getTwitterId(url)) return 'twitter';
   if (getBskyPostInfo(url)) return 'bluesky';
   if (getRule34PostId(url)) return 'rule34';
+  if (getRedditTarget(url)) return 'reddit';
   return undefined;
 };
 
@@ -409,6 +412,33 @@ export const rule34PostMedia = (post: Rule34Post): SocialEmbedMedia[] => {
   ];
 };
 
+/**
+ * A Reddit post as this module's media shape, in the post's own order.
+ *
+ * The kinds map onto the two flags the card and the feed already branch on:
+ * a `clip` is Reddit's silent looping MP4 standing in for a GIF (`gif`), and a
+ * `video` is a real one with controls. A video's `url` is its best muxed MP4
+ * when Reddit made one and its HLS playlist otherwise, so `hls` is read off
+ * which of the two it is rather than assumed.
+ */
+export const redditPostMedia = (post: RedditPost): SocialEmbedMedia[] =>
+  post.media.map((m) => {
+    const isVideo = m.kind === 'video' || m.kind === 'clip';
+    const hls = isVideo && m.url === m.hlsUrl;
+    return {
+      url: m.url,
+      type: isVideo ? 'video' : 'image',
+      thumbnailUrl: m.thumbnailUrl,
+      gif: m.kind === 'gif' || m.kind === 'clip',
+      hls,
+      width: m.width,
+      height: m.height,
+      duration: m.durationSecs !== undefined ? m.durationSecs * 1000 : undefined,
+      alt: m.caption ?? post.title,
+      mimeType: isVideo && !hls ? 'video/mp4' : undefined,
+    };
+  });
+
 /* -------------------------------------------------------------------------- */
 /* Resolution, with a cache                                                    */
 /* -------------------------------------------------------------------------- */
@@ -420,6 +450,11 @@ export type SocialEmbedOptions = {
   bluesky: boolean;
   /** `useRule34Embeds`. Off means api.rule34.xxx is never contacted. */
   rule34: boolean;
+  /**
+   * `useRedditEmbeds`, and only inside the shell — Reddit cannot be reached
+   * from a page at all (see `reddit.ts`). Off means Reddit is never contacted.
+   */
+  reddit: boolean;
 };
 
 /**
@@ -526,6 +561,26 @@ export const rule34ToPost = (url: string, post: Rule34Post): SocialEmbedPost | u
   };
 };
 
+/**
+ * A Reddit post as this module's post shape. See `vxTweetToPost` for why the
+ * card builds its entry through this function rather than by hand.
+ *
+ * `authorName` carries Reddit's own `u/` prefix rather than posing as an
+ * `@handle`, the way `rule34ToPost` keeps a booru uploader distinct from one.
+ */
+export const redditToPost = (url: string, post: RedditPost): SocialEmbedPost | undefined => {
+  const media = redditPostMedia(post);
+  if (media.length === 0) return undefined;
+  return {
+    provider: 'reddit',
+    url: isWebUrl(url) ? url : post.permalink,
+    id: post.id,
+    authorName: post.author ? `u/${post.author}` : `r/${post.subreddit}`,
+    text: post.title,
+    media,
+  };
+};
+
 const resolveTwitter = async (url: string, id: string): Promise<SocialEmbedPost | undefined> =>
   vxTweetToPost(url, id, await fetchVxTweet(id));
 
@@ -594,9 +649,20 @@ export const resolveSocialEmbed = (
     return pending;
   }
 
+  const redditTarget = getRedditTarget(url);
+  if (redditTarget) {
+    if (!options.reddit) return Promise.resolve(undefined);
+    // Not through `postCache`: that keeps an answer for the page's lifetime,
+    // and a Reddit video's MP4 URLs are signed for a few hours. `reddit.ts`
+    // keeps its own cache that honours the expiry; this just adapts it.
+    return fetchRedditPost(redditTarget)
+      .then((post) => redditToPost(url, post))
+      .catch(() => undefined);
+  }
+
   return Promise.resolve(undefined);
 };
 
 /** True when at least one provider is enabled — i.e. scanning can find anything. */
 export const socialEmbedsEnabled = (options: SocialEmbedOptions): boolean =>
-  options.twitter || options.bluesky || options.rule34;
+  options.twitter || options.bluesky || options.rule34 || options.reddit;

@@ -134,6 +134,12 @@ export type ProxiedVideoProps = {
    * a caller that wants no overlay still gets the bare element.
    */
   renderOverlay?: () => ReactNode;
+  /**
+   * Called when the element reports a load or decode failure, after it has
+   * surfaced its own controls. Lets a caller with a second rendition switch to
+   * it — a Reddit MP4 is signed for a few hours, its HLS playlist is not.
+   */
+  onError?: () => void;
 };
 
 /**
@@ -162,6 +168,7 @@ export function ProxiedVideo({
   height,
   className,
   renderOverlay,
+  onError,
 }: ProxiedVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
@@ -287,7 +294,10 @@ export function ProxiedVideo({
       // above simply never runs and a chrome-less GIF would sit there as an
       // empty box forever. Surfacing the native controls at least shows the
       // engine's own error state instead of nothing.
-      onError={() => setAutoplayBlocked(true)}
+      onError={() => {
+        setAutoplayBlocked(true);
+        onError?.();
+      }}
       onClick={(e) => {
         e.stopPropagation();
         // With controls visible the engine owns the click.

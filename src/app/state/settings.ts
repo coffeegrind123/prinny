@@ -126,6 +126,11 @@ export interface Settings {
   // so there is no keyless mode, and every deployment that ships the built-in
   // fallback key shares one rate limit.
   useRule34Embeds: boolean;
+  // Renders a linked Reddit post's video, image or gallery inline. Reddit
+  // answers a page's requests with no CORS headers and blocks logged-out
+  // `.json` reads outright, so the post is fetched by the shell
+  // (`fetch_reddit_post`) and the setting has no effect on the web build.
+  useRedditEmbeds: boolean;
   // Builds Hacker News cards from HN's own API instead of the homeserver
   // preview. HN publishes no OpenGraph metadata at all, so the preview falls
   // back to scraping the page and the description comes out as the site's
@@ -309,7 +314,7 @@ const defaultSettings: Settings = {
   // viewer's IP to that host and turns "did you open the room yet?" into a
   // signal the sender can observe.
   //
-  // vxtwitter, Bluesky, rule34 and Hacker News are on by default as a
+  // vxtwitter, Bluesky, rule34, Reddit and Hacker News are on by default as a
   // deliberate product decision: they are the embeds users expect to just
   // work, and the settings tiles state the disclosure plainly so each can be
   // turned off. soundcloak stays opt-in.
@@ -317,6 +322,7 @@ const defaultSettings: Settings = {
   useSoundcloak: false,
   useBlueskyEmbeds: true,
   useRule34Embeds: true,
+  useRedditEmbeds: true,
   useHackerNewsEmbeds: true,
   notificationContentMode: DEFAULT_NOTIFICATION_CONTENT_MODE,
   // On by default, pinned to gmach. Piped is the privacy-preserving option

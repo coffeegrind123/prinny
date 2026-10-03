@@ -59,6 +59,7 @@ import {
   getBskyProfileActor,
   getTwitterId,
   isVxGifMedia,
+  redditToPost,
   rule34ToPost,
   SocialEmbedPost,
   vxQuotedTweet,
@@ -66,6 +67,8 @@ import {
   vxTweetToPost,
 } from '../../utils/socialEmbed';
 import { fetchRule34Post, getRule34PostId, rule34TagSummary, Rule34Post } from '../../utils/rule34';
+import { fetchRedditPost, getRedditTarget, RedditMedia, RedditPost } from '../../utils/reddit';
+import { isTauri } from '../../utils/desktop-notifications';
 import { mediaFeedRequestAtom } from '../../state/roomGallery';
 
 const linkStyles = { color: color.Secondary.Main, textDecoration: 'none' };
@@ -308,6 +311,65 @@ function HlsVideo({
   );
 }
 
+// A Reddit video in the HTML5 player.
+//
+// The muxed MP4 comes first: one file carrying audio and video, ranged, so a
+// plain `<video src>` gives sound and seeking with nothing to load. It is
+// signed for a few hours, though, and a card can outlive that — so a load
+// failure switches to the unsigned HLS playlist, which carries the same video
+// through hls.js and does not expire. A video Reddit made no MP4 for (the
+// `.json` route with audio) starts on the playlist.
+function RedditVideo({
+  media,
+  renderOverlay,
+}: {
+  media: RedditMedia;
+  renderOverlay?: () => ReactNode;
+}) {
+  const [mp4Failed, setMp4Failed] = useState(false);
+  useEffect(() => {
+    setMp4Failed(false);
+  }, [media.url]);
+
+  const playlistOnly = media.url === media.hlsUrl;
+  if (media.hlsUrl && (playlistOnly || mp4Failed)) {
+    return (
+      <HlsVideo
+        src={media.hlsUrl}
+        poster={media.thumbnailUrl}
+        width={media.width}
+        height={media.height}
+        className={urlPreviewCss.UrlPreviewVideo}
+        renderOverlay={renderOverlay}
+      />
+    );
+  }
+  return (
+    <ProxiedVideo
+      src={media.url}
+      poster={media.thumbnailUrl}
+      // A `clip` is Reddit's silent loop standing in for a GIF; a `video` has
+      // sound, so it gets controls and does not autoplay.
+      isGif={media.kind === 'clip'}
+      width={media.width}
+      height={media.height}
+      className={urlPreviewCss.UrlPreviewVideo}
+      renderOverlay={renderOverlay}
+      onError={
+        media.hlsUrl
+          ? () => {
+              console.warn('[reddit] mp4 failed, switching to HLS', { hls: media.hlsUrl });
+              setMp4Failed(true);
+            }
+          : undefined
+      }
+    />
+  );
+}
+
+/** Gallery images drawn before a "Show all" button takes over. */
+const REDDIT_GALLERY_PREVIEW = 4;
+
 export const UrlPreviewCard = as<
   'div',
   {
@@ -334,6 +396,7 @@ export const UrlPreviewCard = as<
   const [useSoundcloak] = useSetting(settingsAtom, 'useSoundcloak');
   const [useBlueskyEmbeds] = useSetting(settingsAtom, 'useBlueskyEmbeds');
   const [useRule34Embeds] = useSetting(settingsAtom, 'useRule34Embeds');
+  const [useRedditEmbeds] = useSetting(settingsAtom, 'useRedditEmbeds');
   const [useHackerNewsEmbeds] = useSetting(settingsAtom, 'useHackerNewsEmbeds');
   const [usePiped] = useSetting(settingsAtom, 'usePiped');
   const [pipedInstance] = useSetting(settingsAtom, 'pipedInstance');
@@ -373,6 +436,12 @@ export const UrlPreviewCard = as<
   // see utils/rule34), so leaving it ungated would spend a shared rate limit
   // on a link the reader never asked to open.
   const r34Id = useRule34Embeds ? getRule34PostId(url) : null;
+  // Gated like the rest, and app-only on top: Reddit can only be reached
+  // through the shell's `fetch_reddit_post` (see utils/reddit), so on the web
+  // build a Reddit link keeps the homeserver's preview.
+  const redditTarget = useRedditEmbeds && isTauri() ? getRedditTarget(url) : null;
+  // The target is a fresh object each render; the effect keys on this.
+  const redditKey = redditTarget ? JSON.stringify(redditTarget) : null;
   // Gated for the same reason as the two above, even though the host here is
   // fixed: the request still happens because a *sender* put an HN link in a
   // message, so it discloses the viewer's IP to firebaseio.com on someone
@@ -462,6 +531,33 @@ export const UrlPreviewCard = as<
         setR34Loading(false);
       });
   }, [r34Id]);
+
+  // Reddit post fetch, through the shell. Like `fetchRule34Post`, it rejects
+  // for every unusable answer — deleted, a text post, the edge refusing — so
+  // `redditError` is the single signal to stand aside for the homeserver.
+  const [redditPost, setRedditPost] = useState<RedditPost | null>(null);
+  const [redditLoading, setRedditLoading] = useState(false);
+  const [redditError, setRedditError] = useState(false);
+  useEffect(() => {
+    if (!redditKey) return undefined;
+    let cancelled = false;
+    setRedditLoading(true);
+    setRedditError(false);
+    fetchRedditPost(JSON.parse(redditKey))
+      .then((post) => {
+        if (cancelled) return;
+        setRedditPost(post);
+        setRedditLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setRedditError(true);
+        setRedditLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [redditKey]);
 
   // Hacker News item fetch — public API, no key, no auth, CORS open.
   const [hnItem, setHnItem] = useState<any>(null);
@@ -623,6 +719,7 @@ export const UrlPreviewCard = as<
     if (bskyPost && !bskyError) return;
     if (bskyActor && !bskyProfileError) return;
     if (r34Id && !r34Error) return;
+    if (redditKey && !redditError) return;
     if (hnItemId && !hnError) return;
     if (isYt) return;
     if (directAudio) return;
@@ -645,6 +742,8 @@ export const UrlPreviewCard = as<
     bskyProfileError,
     r34Id,
     r34Error,
+    redditKey,
+    redditError,
     hnItemId,
     hnError,
     isYt,
@@ -1413,6 +1512,216 @@ export const UrlPreviewCard = as<
   // r34Error: fall through to the Matrix og: preview. Its thumbnail is a poor
   // substitute for the post, but a poor card beats no card.
 
+  // Reddit post card: the video in the HTML5 player, or the image, or the
+  // gallery — the post's own files rather than the og: thumbnail of them.
+  //
+  // Every field arrives validated by `parseRedditPost` (media URLs https on a
+  // `redd.it` host, numbers range-checked, strings bounded), so nothing here
+  // re-checks them.
+  if (redditKey && dismissed) return null;
+  if (redditKey && redditPost && !redditError) {
+    const post = redditPost;
+    // Built through `socialEmbed`'s normaliser, as on every path above, so a
+    // picture clicked here names the media feed's entry for it.
+    const socialPost = redditToPost(url, post);
+    const mediaAlt = post.title || `Reddit post in r/${post.subreddit}`;
+    const videos = post.media.filter((m) => m.kind === 'video' || m.kind === 'clip');
+    const images = post.media.filter((m) => m.kind === 'image' || m.kind === 'gif');
+    const shownImages = expanded ? images : images.slice(0, REDDIT_GALLERY_PREVIEW);
+    const hiddenImageCount = images.length - shownImages.length;
+    // The full file is what the feed and the viewer open — it is the media's
+    // identity in `redditPostMedia` — even where the card drew the preview.
+    const openFull = (fullUrl: string) => {
+      if (!openPostMediaInFeed(socialPost, fullUrl)) setViewerSrc(fullUrl);
+    };
+    const posted = post.createdAt ? timeAgo(Math.round(post.createdAt / 1000)) : '';
+
+    return (
+      <UrlPreview {...props} ref={ref}>
+        <Box grow="Yes" direction="Column" style={{ position: 'relative', minWidth: 0 }}>
+          <IconButton
+            size="300"
+            radii="300"
+            variant="SurfaceVariant"
+            onClick={(e) => {
+              e.stopPropagation();
+              dismiss();
+            }}
+            aria-label="Dismiss embed"
+            style={{ position: 'absolute', top: 4, right: 4, zIndex: 1 }}
+          >
+            <Icon size="50" src={Icons.Cross} />
+          </IconButton>
+
+          {videos.map((media) => (
+            <RedditVideo
+              key={media.url}
+              media={media}
+              renderOverlay={renderFeedChip(socialPost, media.url)}
+            />
+          ))}
+
+          {shownImages.length > 0 && (
+            <Box direction="Row" gap="100" style={{ width: '100%', flexWrap: 'wrap' }}>
+              {shownImages.map((media) => {
+                // 1 image: full width. 2+: a 2-column grid, as on Bluesky.
+                const basis = shownImages.length === 1 ? '100%' : 'calc(50% - 2px)';
+                const alt = media.caption || mediaAlt;
+                return (
+                  <Box
+                    key={media.url}
+                    style={{
+                      flexBasis: basis,
+                      flexGrow: 1,
+                      minWidth: '160px',
+                      maxWidth: '100%',
+                      overflow: 'hidden',
+                      borderRadius: '8px',
+                    }}
+                  >
+                    {media.kind === 'gif' ? (
+                      <GifImage
+                        src={media.url}
+                        alt={alt}
+                        title={alt}
+                        onView={() => openFull(media.url)}
+                      />
+                    ) : (
+                      // Reddit's 640px preview inline, the original on click —
+                      // an original is routinely several megabytes.
+                      <ProxiedImg
+                        src={media.thumbnailUrl ?? media.url}
+                        alt={alt}
+                        title={alt}
+                        onView={() => openFull(media.url)}
+                      />
+                    )}
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
+          {(hiddenImageCount > 0 || (expanded && images.length > REDDIT_GALLERY_PREVIEW)) && (
+            <Box style={{ padding: `${config.space.S100} ${config.space.S200}` }}>
+              <Button
+                variant="Secondary"
+                fill="Soft"
+                size="300"
+                radii="300"
+                onClick={() => setExpanded(!expanded)}
+              >
+                <Text size="B300">
+                  {expanded ? 'Show fewer images' : `Show all ${images.length} images`}
+                </Text>
+              </Button>
+            </Box>
+          )}
+
+          <UrlPreviewContent>
+            <Text
+              style={linkStyles}
+              truncate
+              as="a"
+              href={safeUrl}
+              target="_blank"
+              rel="noreferrer"
+              size="T200"
+              priority="300"
+            >
+              {`r/${post.subreddit} | `}
+              {tryDecodeURIComponent(url)}
+            </Text>
+            {post.title && (
+              <Text size="T300" priority="400" style={{ overflowWrap: 'anywhere' }}>
+                <b>{post.title}</b>
+              </Text>
+            )}
+            <Box gap="300" wrap="Wrap" alignItems="Center">
+              {post.nsfw && (
+                <Text size="T200" priority="400" style={{ color: color.Critical.Main }}>
+                  <b>NSFW</b>
+                </Text>
+              )}
+              {post.author && (
+                <Text size="T200" priority="300">
+                  u/<b>{post.author}</b>
+                </Text>
+              )}
+              {typeof post.score === 'number' && (
+                <Text size="T200" priority="300">
+                  <b>{post.score.toLocaleString()}</b> points
+                </Text>
+              )}
+              {typeof post.commentCount === 'number' && (
+                <Text size="T200" priority="300">
+                  <b>{post.commentCount.toLocaleString()}</b>{' '}
+                  {post.commentCount === 1 ? 'comment' : 'comments'}
+                </Text>
+              )}
+              {posted && (
+                <Text size="T200" priority="300">
+                  {posted}
+                </Text>
+              )}
+              {images.length > 1 && (
+                <Text size="T200" priority="300">
+                  {images.length} images
+                </Text>
+              )}
+            </Box>
+          </UrlPreviewContent>
+
+          {viewerSrc && renderViewer && (
+            <ImageOverlay
+              src={viewerSrc}
+              alt={mediaAlt}
+              viewer={!!viewerSrc}
+              requestClose={() => setViewerSrc(undefined)}
+              renderViewer={renderViewer}
+              externalUrl={url}
+            />
+          )}
+          {viewerSrc && !renderViewer && (
+            <Overlay open backdrop={<OverlayBackdrop />}>
+              <OverlayCenter>
+                <FocusTrap
+                  focusTrapOptions={{
+                    initialFocus: false,
+                    onDeactivate: () => setViewerSrc(undefined),
+                    clickOutsideDeactivates: true,
+                    escapeDeactivates: stopPropagation,
+                  }}
+                >
+                  <ImageViewer
+                    src={viewerSrc}
+                    alt={mediaAlt}
+                    requestClose={() => setViewerSrc(undefined)}
+                    externalUrl={url}
+                  />
+                </FocusTrap>
+              </OverlayCenter>
+            </Overlay>
+          )}
+        </Box>
+      </UrlPreview>
+    );
+  }
+  if (redditKey && redditLoading) {
+    return (
+      <UrlPreview {...props} ref={ref}>
+        <Box
+          grow="Yes"
+          alignItems="Center"
+          justifyContent="Center"
+          style={{ padding: config.space.S400 }}
+        >
+          <Spinner variant="Secondary" size="400" />
+        </Box>
+      </UrlPreview>
+    );
+  }
+  // redditError: fall through to the Matrix og: preview.
+
   // Hacker News card. HN serves no OpenGraph metadata at all, so the
   // homeserver preview falls back to scraping the page and the description
   // comes out as the site's navigation strip ("new | past | comments | ask |
@@ -1604,6 +1913,9 @@ export const UrlPreviewCard = as<
     // the one thing the reader cannot otherwise discover.
     if (getRule34PostId(url))
       return { what: 'Rule34 post', enabled: useRule34Embeds, failed: r34Error };
+    // App only — on the web there is no Reddit renderer to be switched off.
+    if (isTauri() && getRedditTarget(url))
+      return { what: 'Reddit post', enabled: useRedditEmbeds, failed: redditError };
     return undefined;
   })();
 

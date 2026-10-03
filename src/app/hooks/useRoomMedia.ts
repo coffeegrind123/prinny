@@ -39,6 +39,7 @@ import {
 import { mimeTypeFromUrl } from '../utils/animatedMedia';
 import { useSetting } from '../state/hooks/settings';
 import { settingsAtom } from '../state/settings';
+import { isTauri } from '../utils/desktop-notifications';
 
 /**
  * The parts of `m.image` / `m.video` content this reads.
@@ -65,7 +66,7 @@ export type MediaItemType = 'image' | 'video';
  * Where a gallery entry came from.
  *
  * `attachment` is an `m.image`/`m.video` somebody sent. `embed` is a picture
- * inside a Twitter, Bluesky or Rule34 post that somebody linked — the same media the
+ * inside a Twitter, Bluesky, Rule34 or Reddit post that somebody linked — the same media the
  * timeline already renders inline in its preview card, which people remember as
  * "that picture in this conversation" exactly like an upload. Homeserver
  * `og:image` link previews are deliberately not gathered: a site's meta-card
@@ -302,7 +303,7 @@ const TEXTUAL_MSGTYPES: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * One Twitter/Bluesky/Rule34 post link found in one message.
+ * One Twitter/Bluesky/Rule34/Reddit post link found in one message.
  *
  * Exported with `embedMediaItems` so the timeline's preview card can build the
  * exact same gallery entries the scan builds for that message — see there.
@@ -317,7 +318,7 @@ export type EmbedCandidate = {
 };
 
 /**
- * The Twitter/Bluesky/Rule34 post links in one message, if it has any.
+ * The Twitter/Bluesky/Rule34/Reddit post links in one message, if it has any.
  *
  * Reads the same two places `UrlPreviewCard` is fed from — the anchor hrefs in
  * `formatted_body` first, the plain body second — via `extractPreviewUrls`, so
@@ -557,6 +558,7 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
   const [useVxTwitter] = useSetting(settingsAtom, 'useVxTwitter');
   const [useBlueskyEmbeds] = useSetting(settingsAtom, 'useBlueskyEmbeds');
   const [useRule34Embeds] = useSetting(settingsAtom, 'useRule34Embeds');
+  const [useRedditEmbeds] = useSetting(settingsAtom, 'useRedditEmbeds');
   const [urlPreview] = useSetting(settingsAtom, 'urlPreview');
   const [encUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
   // The same gate the timeline applies to preview cards. Resolving a linked
@@ -568,8 +570,9 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
       twitter: previewsAllowed && useVxTwitter,
       bluesky: previewsAllowed && useBlueskyEmbeds,
       rule34: previewsAllowed && useRule34Embeds,
+      reddit: previewsAllowed && useRedditEmbeds && isTauri(),
     }),
-    [previewsAllowed, useVxTwitter, useBlueskyEmbeds, useRule34Embeds],
+    [previewsAllowed, useVxTwitter, useBlueskyEmbeds, useRule34Embeds, useRedditEmbeds],
   );
   const embedOptionsRef = useRef(embedOptions);
   embedOptionsRef.current = embedOptions;

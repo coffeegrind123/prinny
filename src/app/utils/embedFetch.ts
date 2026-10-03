@@ -129,10 +129,30 @@ export const redactUrl = (url: string): string => {
  * rejects has to be able to end the attempt — and, when it throws a
  * `ProviderContentError`, to end the whole call without asking again.
  */
-const fetchWithRetry = async <T>(
+const fetchWithRetry = <T>(
   endpoint: string,
   url: string,
   read: (resp: Response) => Promise<T>,
+): Promise<T> =>
+  retryEmbed(endpoint, redactUrl(url), async () => {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new ProviderHttpError(endpoint, resp.status);
+    return read(resp);
+  });
+
+/**
+ * Run `run` under the retry policy above and log one line if it never
+ * works — the transport-agnostic half of `fetchWithRetry`.
+ *
+ * Exported for a provider whose request is not a page `fetch` at all: Reddit's
+ * goes through the shell's `fetch_reddit_post` command (see `reddit.ts`), and
+ * it should be asked again on exactly the same terms as everything else.
+ * `target` is what the log line names; it must already be safe to print.
+ */
+export const retryEmbed = async <T>(
+  endpoint: string,
+  target: string,
+  run: () => Promise<T>,
 ): Promise<T> => {
   let lastErr: unknown;
   // The attempt that actually failed last, so the log below reports what was
@@ -143,9 +163,7 @@ const fetchWithRetry = async <T>(
   for (let attempt = 1; attempt <= FETCH_ATTEMPTS; attempt += 1) {
     spent = attempt;
     try {
-      const resp = await fetch(url);
-      if (!resp.ok) throw new ProviderHttpError(endpoint, resp.status);
-      return await read(resp);
+      return await run();
     } catch (err) {
       lastErr = err;
       if (!worthRetrying(err) || attempt === FETCH_ATTEMPTS) break;
@@ -157,7 +175,7 @@ const fetchWithRetry = async <T>(
   // the API refused, or the machine was briefly offline.
   console.warn('[embed-fetch] fetch failed', {
     endpoint,
-    url: redactUrl(url),
+    url: target,
     attempts: spent,
     budget: FETCH_ATTEMPTS,
     error: String(lastErr),
