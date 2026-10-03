@@ -8,7 +8,7 @@ import {
   rule34TagSummary,
   rule34PostPageUrl,
 } from './rule34';
-import { RedditPost, fetchRedditPost, getRedditTarget } from './reddit';
+import { RedditHomeserverRoute, RedditPost, fetchRedditPost, getRedditTarget } from './reddit';
 
 /**
  * Recognising and fetching the social posts this client renders inline.
@@ -75,6 +75,12 @@ export type SocialEmbedMedia = {
   /** The author's own alt text, when they wrote any. */
   alt?: string;
   mimeType?: string;
+  /**
+   * Set when `url` is the homeserver's re-hosted copy rather than the
+   * provider's file — a Reddit picture on the web build, which arrives through
+   * the homeserver's URL preview (see `reddit.ts`). Downloads go by this.
+   */
+  mxcUrl?: string;
 };
 
 export type SocialEmbedPost = {
@@ -435,7 +441,8 @@ export const redditPostMedia = (post: RedditPost): SocialEmbedMedia[] =>
       height: m.height,
       duration: m.durationSecs !== undefined ? m.durationSecs * 1000 : undefined,
       alt: m.caption ?? post.title,
-      mimeType: isVideo && !hls ? 'video/mp4' : undefined,
+      mimeType: isVideo && !hls ? 'video/mp4' : m.mimeType,
+      mxcUrl: m.mxcUrl,
     };
   });
 
@@ -450,11 +457,13 @@ export type SocialEmbedOptions = {
   bluesky: boolean;
   /** `useRule34Embeds`. Off means api.rule34.xxx is never contacted. */
   rule34: boolean;
-  /**
-   * `useRedditEmbeds`, and only inside the shell — Reddit cannot be reached
-   * from a page at all (see `reddit.ts`). Off means Reddit is never contacted.
-   */
+  /** `useRedditEmbeds`. Off means neither Reddit nor vxreddit is contacted. */
   reddit: boolean;
+  /**
+   * The web build's way to vxreddit when the browser will not send the
+   * crawler User-Agent itself (see `reddit.ts`). Unused inside the shell.
+   */
+  redditHomeserver?: RedditHomeserverRoute;
 };
 
 /**
@@ -655,7 +664,7 @@ export const resolveSocialEmbed = (
     // Not through `postCache`: that keeps an answer for the page's lifetime,
     // and a Reddit video's MP4 URLs are signed for a few hours. `reddit.ts`
     // keeps its own cache that honours the expiry; this just adapts it.
-    return fetchRedditPost(redditTarget)
+    return fetchRedditPost(redditTarget, options.redditHomeserver)
       .then((post) => redditToPost(url, post))
       .catch(() => undefined);
   }

@@ -67,7 +67,13 @@ import {
   vxTweetToPost,
 } from '../../utils/socialEmbed';
 import { fetchRule34Post, getRule34PostId, rule34TagSummary, Rule34Post } from '../../utils/rule34';
-import { fetchRedditPost, getRedditTarget, RedditMedia, RedditPost } from '../../utils/reddit';
+import {
+  fetchRedditPost,
+  getRedditTarget,
+  homeserverRoute,
+  RedditMedia,
+  RedditPost,
+} from '../../utils/reddit';
 import { isTauri } from '../../utils/desktop-notifications';
 import { mediaFeedRequestAtom } from '../../state/roomGallery';
 
@@ -436,10 +442,9 @@ export const UrlPreviewCard = as<
   // see utils/rule34), so leaving it ungated would spend a shared rate limit
   // on a link the reader never asked to open.
   const r34Id = useRule34Embeds ? getRule34PostId(url) : null;
-  // Gated like the rest, and app-only on top: Reddit can only be reached
-  // through the shell's `fetch_reddit_post` (see utils/reddit), so on the web
-  // build a Reddit link keeps the homeserver's preview.
-  const redditTarget = useRedditEmbeds && isTauri() ? getRedditTarget(url) : null;
+  // Gated like the rest. Fetched by the shell's `fetch_reddit_post` in the app
+  // and from vxreddit on the web — see utils/reddit.
+  const redditTarget = useRedditEmbeds ? getRedditTarget(url) : null;
   // The target is a fresh object each render; the effect keys on this.
   const redditKey = redditTarget ? JSON.stringify(redditTarget) : null;
   // Gated for the same reason as the two above, even though the host here is
@@ -532,9 +537,9 @@ export const UrlPreviewCard = as<
       });
   }, [r34Id]);
 
-  // Reddit post fetch, through the shell. Like `fetchRule34Post`, it rejects
-  // for every unusable answer — deleted, a text post, the edge refusing — so
-  // `redditError` is the single signal to stand aside for the homeserver.
+  // Reddit post fetch. Like `fetchRule34Post`, it rejects for every unusable
+  // answer — deleted, a text post, the edge refusing — so `redditError` is the
+  // single signal to stand aside for the homeserver's preview of the link.
   const [redditPost, setRedditPost] = useState<RedditPost | null>(null);
   const [redditLoading, setRedditLoading] = useState(false);
   const [redditError, setRedditError] = useState(false);
@@ -543,7 +548,10 @@ export const UrlPreviewCard = as<
     let cancelled = false;
     setRedditLoading(true);
     setRedditError(false);
-    fetchRedditPost(JSON.parse(redditKey))
+    fetchRedditPost(
+      JSON.parse(redditKey),
+      isTauri() ? undefined : homeserverRoute(mx, useAuthentication),
+    )
       .then((post) => {
         if (cancelled) return;
         setRedditPost(post);
@@ -557,7 +565,7 @@ export const UrlPreviewCard = as<
     return () => {
       cancelled = true;
     };
-  }, [redditKey]);
+  }, [redditKey, mx, useAuthentication]);
 
   // Hacker News item fetch — public API, no key, no auth, CORS open.
   const [hnItem, setHnItem] = useState<any>(null);
@@ -1515,9 +1523,10 @@ export const UrlPreviewCard = as<
   // Reddit post card: the video in the HTML5 player, or the image, or the
   // gallery — the post's own files rather than the og: thumbnail of them.
   //
-  // Every field arrives validated by `parseRedditPost` (media URLs https on a
-  // `redd.it` host, numbers range-checked, strings bounded), so nothing here
-  // re-checks them.
+  // Every field arrives validated by `parseRedditPost` or, on the web,
+  // `postFromVxRedditCard` (media URLs https on a `redd.it` host or the
+  // homeserver's own media path, numbers range-checked, strings bounded), so
+  // nothing here re-checks them.
   if (redditKey && dismissed) return null;
   if (redditKey && redditPost && !redditError) {
     const post = redditPost;
@@ -1913,8 +1922,7 @@ export const UrlPreviewCard = as<
     // the one thing the reader cannot otherwise discover.
     if (getRule34PostId(url))
       return { what: 'Rule34 post', enabled: useRule34Embeds, failed: r34Error };
-    // App only — on the web there is no Reddit renderer to be switched off.
-    if (isTauri() && getRedditTarget(url))
+    if (getRedditTarget(url))
       return { what: 'Reddit post', enabled: useRedditEmbeds, failed: redditError };
     return undefined;
   })();

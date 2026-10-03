@@ -1,5 +1,7 @@
+import type { MatrixClient } from 'matrix-js-sdk';
 import { ProviderContentError, retryEmbed } from './embedFetch';
 import { isTauri } from './desktop-notifications';
+import { mxcUrlToHttp } from './matrix';
 
 /**
  * Reddit post client — the fourth provider whose post links this client
@@ -16,10 +18,11 @@ import { isTauri } from './desktop-notifications';
  *    sends an `Access-Control-Allow-Origin` header, so an in-page `fetch`
  *    can never read it.
  *
- * So the request is made by the shell's `fetch_reddit_post` command
- * (`src-tauri/src/reddit.rs`), off the webview where CORS does not apply, and
- * this embed exists in the desktop and Android apps only. On the web build
- * every Reddit link keeps the homeserver's ordinary preview.
+ * So inside the shell the request is made by the `fetch_reddit_post` command
+ * (`src-tauri/src/reddit.rs`), off the webview where CORS does not apply.
+ *
+ * The web build has no such command and reads the post from vxreddit.com
+ * instead — see "The web build" below for the two ways it gets there.
  *
  * The media needs no such help: `v.redd.it` sends
  * `access-control-allow-origin: *`, and the image and MP4 hosts serve a
@@ -155,6 +158,15 @@ export type RedditMedia = {
   sources: RedditVideoSource[];
   durationSecs?: number;
   caption?: string;
+  /**
+   * The homeserver's copy of the file, when it arrived through the
+   * homeserver's URL preview. `url` is then an authenticated-media URL, which
+   * an element can load (the service worker signs it) but the remote-media
+   * download path cannot, so a download goes by this instead.
+   */
+  mxcUrl?: string;
+  /** Known only for that copy, whose URL carries no extension to infer one from. */
+  mimeType?: string;
 };
 
 /**
@@ -179,8 +191,11 @@ export type RedditPost = {
   media: RedditMedia[];
   /** When the earliest signed media URL stops working, epoch milliseconds. */
   expiresAt?: number;
-  /** Which route answered: the embed page, or the `.json` listing. */
-  source: 'embed' | 'json';
+  /**
+   * Which route answered: inside the shell, the embed page or the `.json`
+   * listing; on the web, vxreddit read by the page itself or by the homeserver.
+   */
+  source: 'embed' | 'json' | 'vxreddit' | 'homeserver';
 };
 
 /** True for an https URL on a `redd.it` host — the only media this embed shows. */
@@ -269,6 +284,407 @@ export const parseRedditPost = (raw: unknown): RedditPost | null => {
   };
 };
 
+/* -------------------------------------------------------------------------- */
+/* The web build                                                               */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * vxreddit.com (github.com/dylanpdx/vxReddit) is the one public Reddit fixer
+ * that still answers — rxddit.com now serves "Reddit blocked the request" for
+ * every post. It sends `Access-Control-Allow-Origin`, but it serves the post's
+ * meta tags only to a link-preview crawler: any User-Agent outside the
+ * `crawler-user-agents` list's "social-preview" tag gets a 302 to reddit.com,
+ * which a page cannot read. Measured 03.10.2026, so there are two routes:
+ *
+ *   browser lets a page set User-Agent (Firefox)       Chromium does not
+ *   ──────────────────────────────────────────────     ───────────────────────
+ *   page ── fetch, Discordbot UA ──► vxreddit          page ── preview_url ──►
+ *        ◄── every og:image, og:video, CORS ──              homeserver ── UA
+ *                                                           "Synapse (bot; …)"
+ *                                                           ──► vxreddit
+ *
+ * "Synapse" is on that crawler list, so a Synapse homeserver's preview of the
+ * vxreddit URL carries the post's media. What survives Synapse's parser:
+ *
+ *  - ONE image. Open Graph meta tags are folded into a dict, so of a gallery's
+ *    repeated `og:image` the last one wins, and Synapse re-hosts it (`mxc://`).
+ *  - `og:video` untouched: a silent video's direct `v.redd.it` MP4, or for one
+ *    with sound vxreddit's `/redditvideo.mp4` muxer (a 307 to an AWS Lambda
+ *    that takes ~12 s cold to answer).
+ *  - `og:description` is NOT the post's text when vxreddit sent none — Synapse
+ *    summarises the body ("Redirecting... or click here.") — so it is unread.
+ *
+ * Neither route reports NSFW or a post date.
+ */
+const VXREDDIT_ORIGIN = 'https://vxreddit.com';
+
+/** A User-Agent vxreddit's crawler filter admits. */
+const VXREDDIT_BOT_UA = 'Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)';
+
+/** What a vxreddit page says about a post, read from either route. */
+type VxRedditImage = {
+  url: string;
+  thumbnailUrl?: string;
+  mxcUrl?: string;
+  width?: number;
+  height?: number;
+  mimeType?: string;
+};
+
+export type VxRedditCard = {
+  url?: string;
+  title?: string;
+  siteName?: string;
+  /** In page order. For a video post the only one is its poster. */
+  images: VxRedditImage[];
+  videoUrl?: string;
+  videoWidth?: number;
+  videoHeight?: number;
+};
+
+/** The vxreddit page for a target; vxreddit takes Reddit's own path shapes. */
+export const vxRedditUrl = (target: RedditTarget): string => {
+  if (target.kind === 'share') {
+    return `${VXREDDIT_ORIGIN}/r/${target.subreddit}/s/${target.token}`;
+  }
+  return target.subreddit
+    ? `${VXREDDIT_ORIGIN}/r/${target.subreddit}/comments/${target.id}/`
+    : `${VXREDDIT_ORIGIN}/comments/${target.id}/`;
+};
+
+let userAgentSettable: boolean | undefined;
+
+/**
+ * Whether this browser sends a `User-Agent` a page sets on a request.
+ *
+ * Read off a `Request` object, so it costs no network round trip: Chromium
+ * drops the header from the `Request` (`headers.get` → null) while still
+ * accepting it on a bare `Headers`, and Firefox keeps it.
+ */
+const canSetUserAgent = (): boolean => {
+  if (userAgentSettable === undefined) {
+    try {
+      const probe = new Request(VXREDDIT_ORIGIN, { headers: { 'User-Agent': VXREDDIT_BOT_UA } });
+      userAgentSettable = probe.headers.get('user-agent') === VXREDDIT_BOT_UA;
+    } catch {
+      userAgentSettable = false;
+    }
+  }
+  return userAgentSettable;
+};
+
+/**
+ * vxreddit's stats line, from `build_stats_line` in its utils.py:
+ * `u/{author} on {r/sub | u/user} - ⬆️ {score}[ | 💬 {comments}]`.
+ *
+ * Doubles as the proof that vxreddit answered at all. A preview fetcher it does
+ * not admit is redirected to reddit.com and comes back with Reddit's own
+ * meta tags — site name "Reddit", a stock image — which must not be rendered
+ * as the post.
+ */
+const STATS_LINE_REG =
+  /^u\/(\S+) on (r|u)\/([A-Za-z0-9_-]{2,32}) - ⬆️ (-?\d+)(?: \| \u{1F4AC} (\d+))?$/u;
+
+/** vxreddit's `og:url`: `https://www.reddit.com/comments/{id}[/_/{comment}]`. */
+const VX_PERMALINK_REG = /^https:\/\/www\.reddit\.com\/comments\/([a-z0-9]{1,12})(?:\/|$)/;
+
+/** What Synapse puts in a preview's `og:image` after re-hosting it. */
+const MXC_REG = /^mxc:\/\/[A-Za-z0-9.:[\]-]+\/[A-Za-z0-9_-]+$/;
+
+/** The re-hosted file's type as Synapse sniffed it. */
+const IMAGE_MIME_REG = /^image\/[a-z0-9.+-]{1,40}$/;
+
+/** A `v.redd.it` video id: the first path segment of every rendition. */
+const VREDDIT_ID_REG = /^[a-z0-9]{6,20}$/;
+
+/** vxreddit's title for a post with no media of its own (text and link posts). */
+const VXREDDIT_PLACEHOLDER_TITLE = 'vxReddit';
+
+const dimension = (value: unknown): number | undefined => {
+  const n = typeof value === 'string' ? Number(value) : value;
+  return positive(n);
+};
+
+const isGifUrl = (url: string): boolean => {
+  try {
+    return new URL(url).pathname.toLowerCase().endsWith('.gif');
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * The `v.redd.it` id behind a vxreddit `og:video`, and whether it is a file a
+ * `<video src>` can play as-is.
+ *
+ *   https://v.redd.it/{id}/CMAF_720.mp4?source=fallback      silent, direct
+ *   https://vxreddit.com/redditvideo.mp4?video_url=          with sound, muxed
+ *     https%3A%2F%2Fv.redd.it%2F{id}%2FCMAF_720.m3u8&audio_url=…
+ */
+const parseVxVideo = (raw: string): { id: string; directMp4?: string } | null => {
+  let parsed: URL;
+  try {
+    parsed = new URL(raw);
+  } catch {
+    return null;
+  }
+  if (parsed.protocol !== 'https:') return null;
+  if (parsed.hostname === 'vxreddit.com' && parsed.pathname === '/redditvideo.mp4') {
+    const inner = parsed.searchParams.get('video_url');
+    const found = inner ? parseVxVideo(inner) : null;
+    return found ? { id: found.id } : null;
+  }
+  if (parsed.hostname !== 'v.redd.it') return null;
+  const [id, file] = parsed.pathname.split('/').filter((s) => s.length > 0);
+  if (!id || !VREDDIT_ID_REG.test(id)) return null;
+  return file?.toLowerCase().endsWith('.mp4') ? { id, directMp4: raw } : { id };
+};
+
+/**
+ * A vxreddit card as a post, or a `ProviderContentError` naming why not.
+ *
+ * Audio videos play from Reddit's unsigned HLS playlist rather than vxreddit's
+ * muxed MP4: the playlist answers at once from Reddit's own CDN, where the
+ * muxer is a cold Lambda that holds the first frame back by seconds and sees
+ * every viewer's address. A silent video has a plain MP4 and keeps the
+ * playlist as its fallback, as the shell's posts do.
+ */
+export const postFromVxRedditCard = (
+  card: VxRedditCard,
+  target: RedditTarget,
+  source: 'vxreddit' | 'homeserver',
+): RedditPost => {
+  const stats = card.siteName ? STATS_LINE_REG.exec(card.siteName) : null;
+  if (!stats) {
+    throw new ProviderContentError(
+      ENDPOINT,
+      `invalid: not a vxreddit answer (site name ${JSON.stringify(card.siteName ?? null)})`,
+    );
+  }
+  const [, author, prefix, name, score, comments] = stats;
+  const subreddit = prefix === 'u' ? `u_${name}` : name;
+  if (!SUBREDDIT_REG.test(subreddit)) {
+    throw new ProviderContentError(ENDPOINT, 'invalid: subreddit out of range');
+  }
+
+  const idMatch = card.url ? VX_PERMALINK_REG.exec(card.url) : null;
+  const id = idMatch?.[1] ?? (target.kind === 'post' ? target.id : undefined);
+  if (!id || !POST_ID_REG.test(id)) {
+    throw new ProviderContentError(ENDPOINT, 'invalid: no post id in the answer');
+  }
+
+  const title =
+    card.title && card.title !== VXREDDIT_PLACEHOLDER_TITLE ? text(card.title, 300) : undefined;
+
+  const media: RedditMedia[] = [];
+  const video = card.videoUrl ? parseVxVideo(card.videoUrl) : null;
+  if (video) {
+    const hlsUrl = `https://v.redd.it/${video.id}/HLSPlaylist.m3u8`;
+    const poster = card.images[0];
+    media.push({
+      kind: 'video',
+      url: video.directMp4 ?? hlsUrl,
+      width: card.videoWidth,
+      height: card.videoHeight,
+      thumbnailUrl: poster ? (poster.thumbnailUrl ?? poster.url) : undefined,
+      hlsUrl,
+      sources: [],
+    });
+  } else {
+    card.images.forEach((image) => {
+      const gif = image.mimeType === 'image/gif' || isGifUrl(image.url);
+      media.push({
+        kind: gif ? 'gif' : 'image',
+        url: image.url,
+        width: image.width,
+        height: image.height,
+        // A thumbnail is a still; an animated file has to be drawn whole.
+        thumbnailUrl: gif ? undefined : image.thumbnailUrl,
+        sources: [],
+        mxcUrl: image.mxcUrl,
+        mimeType: image.mimeType,
+      });
+    });
+  }
+  if (media.length === 0) {
+    throw new ProviderContentError(ENDPOINT, 'nomedia: vxreddit found no image or video');
+  }
+
+  return {
+    id,
+    subreddit,
+    title,
+    author: SUBREDDIT_REG.test(author) ? author : undefined,
+    score: integer(Number(score)),
+    commentCount: comments === undefined ? undefined : integer(Number(comments)),
+    nsfw: false,
+    permalink: `https://www.reddit.com/r/${subreddit}/comments/${id}/`,
+    media,
+    source,
+  };
+};
+
+/**
+ * A vxreddit page's meta tags as a card. Media URLs off a `redd.it` host are
+ * dropped here, as `parseRedditPost` drops them from the shell's answer.
+ */
+export const parseVxRedditHtml = (html: string): VxRedditCard => {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const values = (key: string): string[] =>
+    Array.from(doc.querySelectorAll('meta'))
+      .filter((m) => (m.getAttribute('property') ?? m.getAttribute('name')) === key)
+      .map((m) => m.getAttribute('content') ?? '')
+      .filter((v) => v.length > 0);
+  const first = (key: string): string | undefined => values(key)[0];
+
+  return {
+    url: first('og:url'),
+    title: first('og:title'),
+    siteName: first('og:site_name'),
+    images: values('og:image')
+      .filter(isRedditMediaUrl)
+      .map((url) => ({ url })),
+    videoUrl: first('og:video'),
+    videoWidth: dimension(first('og:video:width')),
+    videoHeight: dimension(first('og:video:height')),
+  };
+};
+
+/**
+ * What the web build needs from the homeserver: its URL preview, and the http
+ * form of what it re-hosted (full file, or a still `thumbnail`).
+ */
+export type RedditHomeserverRoute = {
+  preview: (url: string) => Promise<Record<string, unknown>>;
+  mediaUrl: (mxc: string, thumbnail: boolean) => string | undefined;
+};
+
+/** Width and height the card's inline still is scaled into; Reddit's own preview is 640px. */
+const HOMESERVER_THUMBNAIL_PX = 640;
+
+export const homeserverRoute = (
+  mx: MatrixClient,
+  useAuthentication: boolean,
+): RedditHomeserverRoute => ({
+  preview: async (url) => (await mx.getUrlPreview(url, Date.now())) as Record<string, unknown>,
+  mediaUrl: (mxc, thumbnail) =>
+    (thumbnail
+      ? mxcUrlToHttp(
+          mx,
+          mxc,
+          useAuthentication,
+          HOMESERVER_THUMBNAIL_PX,
+          HOMESERVER_THUMBNAIL_PX,
+          'scale',
+          false,
+        )
+      : mxcUrlToHttp(mx, mxc, useAuthentication)) ?? undefined,
+});
+
+/** A homeserver's preview of a vxreddit page as a card. */
+export const vxRedditCardFromPreview = (
+  og: Record<string, unknown>,
+  route: Pick<RedditHomeserverRoute, 'mediaUrl'>,
+): VxRedditCard => {
+  const str = (key: string): string | undefined =>
+    typeof og[key] === 'string' && og[key] !== '' ? (og[key] as string) : undefined;
+
+  const images: VxRedditImage[] = [];
+  const mxc = str('og:image');
+  if (mxc && MXC_REG.test(mxc)) {
+    const url = route.mediaUrl(mxc, false);
+    if (url) {
+      images.push({
+        url,
+        thumbnailUrl: route.mediaUrl(mxc, true),
+        mxcUrl: mxc,
+        width: dimension(og['og:image:width']),
+        height: dimension(og['og:image:height']),
+        mimeType: IMAGE_MIME_REG.test(str('og:image:type') ?? '')
+          ? str('og:image:type')
+          : undefined,
+      });
+    }
+  }
+
+  return {
+    url: str('og:url'),
+    title: str('og:title'),
+    siteName: str('og:site_name'),
+    images,
+    videoUrl: str('og:video') ?? str('og:video:secure_url'),
+    videoWidth: dimension(og['og:video:width']),
+    videoHeight: dimension(og['og:video:height']),
+  };
+};
+
+const resolveViaVxReddit = async (target: RedditTarget): Promise<RedditPost> => {
+  const res = await fetch(vxRedditUrl(target), {
+    headers: { 'User-Agent': VXREDDIT_BOT_UA },
+    // vxreddit's answer to a UA it did not see is a redirect to reddit.com.
+    // Not followed: the hop would hand the reader's address to Reddit for a
+    // page CORS forbids reading anyway.
+    redirect: 'manual',
+    credentials: 'omit',
+    referrerPolicy: 'no-referrer',
+  });
+  if (res.type === 'opaqueredirect') {
+    // A plain Error, not a content verdict: the post may be fine, this browser
+    // just did not send the User-Agent. The caller moves to the homeserver.
+    throw new Error(`${ENDPOINT}: vxreddit redirected — the User-Agent was not sent`);
+  }
+  if (!res.ok) throw new Error(`${ENDPOINT}: vxreddit HTTP ${res.status}`);
+  return postFromVxRedditCard(parseVxRedditHtml(await res.text()), target, 'vxreddit');
+};
+
+const resolveViaHomeserver = async (
+  target: RedditTarget,
+  route: RedditHomeserverRoute,
+): Promise<RedditPost> => {
+  const og = await route.preview(vxRedditUrl(target));
+  try {
+    return postFromVxRedditCard(vxRedditCardFromPreview(og, route), target, 'homeserver');
+  } catch (err) {
+    // The one failure that is the homeserver's to fix, not the post's: its
+    // preview fetcher is not a User-Agent vxreddit serves (Synapse is; other
+    // homeserver software may not be), so it previewed reddit.com instead.
+    if (err instanceof ProviderContentError && err.message.includes('not a vxreddit answer')) {
+      console.warn('[reddit] the homeserver preview of vxreddit is not vxreddit’s', {
+        siteName: og['og:site_name'],
+        url: og['og:url'],
+      });
+    }
+    throw err;
+  }
+};
+
+const resolveOnWeb = async (
+  target: RedditTarget,
+  route: RedditHomeserverRoute | undefined,
+): Promise<RedditPost> => {
+  let post: RedditPost | undefined;
+  if (canSetUserAgent()) {
+    try {
+      post = await resolveViaVxReddit(target);
+    } catch (err) {
+      // vxreddit's own verdict on the post (deleted, no media) holds on every
+      // route; only a transport failure is worth asking the homeserver about.
+      if (err instanceof ProviderContentError || !route) throw err;
+      console.warn('[reddit] vxreddit direct failed, asking the homeserver', String(err));
+    }
+  }
+  if (!post) {
+    if (!route) throw new ProviderContentError(ENDPOINT, 'no route to vxreddit');
+    post = await resolveViaHomeserver(target, route);
+  }
+  console.debug('[reddit] resolved', {
+    id: post.id,
+    source: post.source,
+    media: post.media.map((m) => m.kind),
+  });
+  return post;
+};
+
 /**
  * Error prefixes from `fetch_reddit_post` meaning "asking again cannot help":
  * deleted or missing post, a text or link post with no media, a target the
@@ -321,13 +737,18 @@ const resolveViaShell = async (target: RedditTarget): Promise<RedditPost> => {
 /**
  * One post, cached per the policy above and retried per `embedFetch`'s.
  *
- * Rejects outside the shell rather than resolving null: on the web build there
- * is no route to Reddit at all, and the card treats a rejection as "fall
- * through to the homeserver's preview", which is the right answer there.
+ * Inside the shell this is `fetch_reddit_post`. On the web it is vxreddit,
+ * read directly where the browser allows it and through `homeserver`
+ * otherwise; with neither, it rejects, which the card reads as "fall through
+ * to the homeserver's preview of the Reddit link itself".
  */
-export function fetchRedditPost(target: RedditTarget): Promise<RedditPost> {
-  if (!isTauri()) {
-    return Promise.reject(new ProviderContentError(ENDPOINT, 'needs the desktop or mobile app'));
+export function fetchRedditPost(
+  target: RedditTarget,
+  homeserver?: RedditHomeserverRoute,
+): Promise<RedditPost> {
+  const inShell = isTauri();
+  if (!inShell && !homeserver && !canSetUserAgent()) {
+    return Promise.reject(new ProviderContentError(ENDPOINT, 'no route to vxreddit'));
   }
   const key = targetKey(target);
   const cached = cache.get(key);
@@ -336,7 +757,9 @@ export function fetchRedditPost(target: RedditTarget): Promise<RedditPost> {
   }
 
   const entry: CacheEntry = {
-    pending: retryEmbed(ENDPOINT, key, () => resolveViaShell(target)),
+    pending: retryEmbed(ENDPOINT, key, () =>
+      inShell ? resolveViaShell(target) : resolveOnWeb(target, homeserver),
+    ),
   };
   entry.pending.then(
     (post) => {

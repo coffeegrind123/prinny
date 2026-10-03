@@ -234,12 +234,14 @@ function MediaFeedContent({
   // that one uses the picture's own URL instead.
   const thumbnail = useMediaThumbnail(item, item.type === 'video' || !item.encInfo);
   const reaction = useMediaReaction(room, item.eventId);
+  // Embed media the homeserver re-hosted is saved like an attachment: its
+  // `httpUrl` is authenticated media, which the remote-media path refuses.
   const download = useMediaDownload(
     item.filename,
-    item.mxcUrl ?? '',
+    item.mxcUrl ?? item.embedMxcUrl ?? '',
     item.mimeType,
     item.encInfo,
-    isEmbed ? item.httpUrl : undefined,
+    isEmbed && !item.embedMxcUrl ? item.httpUrl : undefined,
   );
 
   const videoRef = useRef<HTMLVideoElement>(null);

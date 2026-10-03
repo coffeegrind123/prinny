@@ -40,6 +40,8 @@ import { mimeTypeFromUrl } from '../utils/animatedMedia';
 import { useSetting } from '../state/hooks/settings';
 import { settingsAtom } from '../state/settings';
 import { isTauri } from '../utils/desktop-notifications';
+import { homeserverRoute } from '../utils/reddit';
+import { useMediaAuthentication } from './useMediaAuthentication';
 
 /**
  * The parts of `m.image` / `m.video` content this reads.
@@ -112,6 +114,13 @@ export type MediaItem = {
   mxcUrl?: string;
   /** Set for `source: 'embed'` — a direct https URL on the provider's CDN. */
   httpUrl?: string;
+  /**
+   * Set for embed media the homeserver re-hosted, where `httpUrl` is its
+   * authenticated-media URL rather than the provider's — see
+   * `SocialEmbedMedia.mxcUrl`. Kept apart from `mxcUrl`, which marks an
+   * attachment everywhere it is read.
+   */
+  embedMxcUrl?: string;
   /** A still for embed media, when the provider gave one. */
   posterUrl?: string;
   /**
@@ -502,6 +511,7 @@ export const embedMediaItems = (
       // The alt text the author wrote beats the post's prose; both beat nothing.
       caption: media.alt || post.text || undefined,
       httpUrl: media.url,
+      embedMxcUrl: media.mxcUrl,
       posterUrl: media.thumbnailUrl,
       hls: media.hls,
       embed,
@@ -528,6 +538,7 @@ export type EmbedMediaLike = {
   duration?: number;
   alt?: string;
   mimeType?: string;
+  mxcUrl?: string;
 };
 
 /**
@@ -565,14 +576,24 @@ export const useRoomMedia = (room: Room, enabled: boolean): RoomMedia => {
   // post is an unprompted request to a host the *sender* chose, so a room where
   // the user has switched previews off must not have its links resolved either.
   const previewsAllowed = room.hasEncryptionStateEvent() ? encUrlPreview : urlPreview;
+  const useAuthentication = useMediaAuthentication();
   const embedOptions: SocialEmbedOptions = useMemo(
     () => ({
       twitter: previewsAllowed && useVxTwitter,
       bluesky: previewsAllowed && useBlueskyEmbeds,
       rule34: previewsAllowed && useRule34Embeds,
-      reddit: previewsAllowed && useRedditEmbeds && isTauri(),
+      reddit: previewsAllowed && useRedditEmbeds,
+      redditHomeserver: isTauri() ? undefined : homeserverRoute(mx, useAuthentication),
     }),
-    [previewsAllowed, useVxTwitter, useBlueskyEmbeds, useRule34Embeds, useRedditEmbeds],
+    [
+      previewsAllowed,
+      useVxTwitter,
+      useBlueskyEmbeds,
+      useRule34Embeds,
+      useRedditEmbeds,
+      mx,
+      useAuthentication,
+    ],
   );
   const embedOptionsRef = useRef(embedOptions);
   embedOptionsRef.current = embedOptions;

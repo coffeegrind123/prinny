@@ -1066,19 +1066,19 @@ function Editor() {
           after={<Switch variant="Primary" value={useRule34Embeds} onChange={setUseRule34Embeds} />}
         />
       </SequenceCard>
-      {/* App only: Reddit sends no CORS headers, so the post is fetched by the
-          shell and a browser has no route to it. See utils/reddit. */}
-      {isTauri() && (
-        <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
-          <SettingTile
-            title="Reddit post embeds"
-            description="Play a linked Reddit post's video, or show its image or gallery, inline instead of the site's link card. Sends the post number and your IP address to embed.reddit.com, and lets the sender of a link see when you view it."
-            after={
-              <Switch variant="Primary" value={useRedditEmbeds} onChange={setUseRedditEmbeds} />
-            }
-          />
-        </SequenceCard>
-      )}
+      {/* The app fetches the post itself; a browser cannot read Reddit and goes
+          through vxreddit.com instead. See utils/reddit. */}
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Reddit post embeds"
+          description={
+            isTauri()
+              ? "Play a linked Reddit post's video, or show its image or gallery, inline instead of the site's link card. Sends the post number and your IP address to embed.reddit.com, and lets the sender of a link see when you view it."
+              : "Play a linked Reddit post's video, or show its image, inline instead of the site's link card. Asks vxreddit.com for the post — from this browser where it allows that (Firefox, which also gets whole galleries), otherwise through your homeserver's link preview. Videos stream from v.redd.it with your IP address, and the sender of a link can see when you view it."
+          }
+          after={<Switch variant="Primary" value={useRedditEmbeds} onChange={setUseRedditEmbeds} />}
+        />
+      </SequenceCard>
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
           title="Hacker News post embeds"
