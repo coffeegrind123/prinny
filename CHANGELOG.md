@@ -5,6 +5,7 @@ User-facing changes per commit. Most recent at the top.
 ## 17.10.2026
 
 - `de65e2a` Fixed **security updates for the desktop app's network code**. Updated `rustls` to 0.23.46, fixing a TLS 1.3 handshake flaw (RUSTSEC-2026-0285), and `quinn-proto` to 0.11.19, fixing three bugs that let a remote peer crash the connection. The release security check passes again; it had been failing since 23.09.2026.
+- `e4bba77` Fixed **two security issues in libraries the app ships with**. Updated `source-map-js`, which had a flaw that could freeze processing on a crafted source map, and `i18next-http-backend` to 4.0.3, fixing incomplete URL checks when loading translations.
 
 ## 04.10.2026
 
