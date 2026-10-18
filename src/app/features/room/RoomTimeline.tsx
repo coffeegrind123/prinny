@@ -53,6 +53,7 @@ import { eventWithShortcode, factoryEventSentBy, getMxIdLocalPart } from '../../
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { useVirtualPaginator, ItemRange } from '../../hooks/useVirtualPaginator';
 import { useScrollContentAnchor } from '../../hooks/useScrollContentAnchor';
+import { useScrollTargetHold } from '../../hooks/useScrollTargetHold';
 import { useAlive } from '../../hooks/useAlive';
 import { editableActiveElement, scrollToBottom } from '../../utils/dom';
 import { setActiveTimelineScrollContainer } from '../../components/global-keybinds/GlobalKeybinds';
@@ -917,14 +918,44 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   // scrolled onto arrive. The hook measures the distance to the bottom itself,
   // at the moment of each resize, against the same FOLLOW_LIVE_END_PX this
   // component follows the end by; there is nothing for a flag to add.
+  const getContentElement = useCallback(
+    () => (scrollRef.current?.firstElementChild as HTMLElement) ?? null,
+    [],
+  );
   useScrollContentAnchor(
     getScrollElement,
-    useCallback(() => (scrollRef.current?.firstElementChild as HTMLElement) ?? null, []),
+    getContentElement,
     '[data-message-item]',
     true,
     timeline.range,
     FOLLOW_LIVE_END_PX,
   );
+
+  // Keeps a jumped-to event centred until the timeline settles or the reader
+  // takes over; see `useScrollTargetHold` for what moves it otherwise. Held by
+  // event id, not item index: backward pagination renumbers every item.
+  const { hold: holdScrollTarget, reassert: reassertScrollTarget } =
+    useScrollTargetHold(getContentElement);
+  const holdEventInView = useCallback(
+    (evtId: string) =>
+      holdScrollTarget(() => {
+        const evtTimeline = getEventTimeline(room, evtId);
+        const index =
+          evtTimeline &&
+          getEventIdAbsoluteIndex(timelineRef.current.linkedTimelines, evtTimeline, evtId);
+        if (typeof index !== 'number') {
+          return;
+        }
+        scrollToItem(index, { behavior: 'instant', align: 'center' });
+      }),
+    [room, holdScrollTarget, scrollToItem],
+  );
+
+  // Declared after `useVirtualPaginator`, so this runs after its scroll restore
+  // for the same range change — the restore is what cuts a smooth jump short.
+  useLayoutEffect(() => {
+    reassertScrollTarget();
+  }, [timeline.range, reassertScrollTarget]);
 
   const loadEventTimeline = useEventTimelineLoader(
     mx,
@@ -934,6 +965,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         if (!alive()) return;
         const evLength = getTimelinesEventsCount(lTimelines);
 
+        holdEventInView(evtId);
         setFocusItem({
           index: evtAbsIndex,
           scrollTo: true,
@@ -947,7 +979,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           },
         });
       },
-      [alive],
+      [alive, holdEventInView],
     ),
     useCallback(() => {
       if (!alive()) return;
@@ -1100,6 +1132,11 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           stopInView: true,
         });
         if (onScroll) onScroll(scrolled);
+        // Not when it was already in view: `stopInView` left the view alone on
+        // purpose, and holding would centre it on the next resize.
+        if (scrolled) {
+          holdEventInView(evtId);
+        }
         setFocusItem({
           index: absoluteIndex,
           scrollTo: false,
@@ -1110,7 +1147,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         loadEventTimeline(evtId);
       }
     },
-    [room, timeline, scrollToItem, loadEventTimeline],
+    [room, timeline, scrollToItem, loadEventTimeline, holdEventInView],
   );
 
   useLiveTimelineRefresh(
