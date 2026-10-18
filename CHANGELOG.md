@@ -9,6 +9,8 @@ User-facing changes per commit. Most recent at the top.
 - `9c45fa9` Fixed **links in messages doing nothing when tapped** in the desktop and Android apps. A security cleanup on 11.08.2026 removed the `opener:allow-open-url` permission the link opener relies on, so every tap was silently swallowed. Restored for `http`, `https` and `mailto` links.
 - `4b77cb1` Improved **the edit-message box layout** — Save now sits on the right next to Cancel, matching where Send is in the composer; the formatting and emoji buttons moved to the left.
 
+- `aceab41` Fixed **jumping to a replied-to message landing in the wrong place**. Tapping a reply could stop short, overshoot, or seem to do nothing when the message was near the top of what was loaded: loading older history mid-scroll cut the scroll off. Images and previews finishing loading afterwards also pushed it away. The message is now held in the middle of the screen until the timeline settles, and lets go the moment you scroll or tap.
+
 ## 17.10.2026
 
 - `de65e2a` Fixed **security updates for the desktop app's network code**. Updated `rustls` to 0.23.46, fixing a TLS 1.3 handshake flaw (RUSTSEC-2026-0285), and `quinn-proto` to 0.11.19, fixing three bugs that let a remote peer crash the connection. The release security check passes again; it had been failing since 23.09.2026.
