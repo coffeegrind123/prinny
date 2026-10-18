@@ -4,7 +4,7 @@ User-facing changes per commit. Most recent at the top.
 
 ## 18.10.2026
 
-- `e4bba77` Fixed **two security issues in libraries the app ships with**. Updated `source-map-js`, which had a flaw that could freeze processing on a crafted source map, and `i18next-http-backend` to 4.0.3, fixing incomplete URL checks when loading translations.
+- `e4bba77` `af62311` `cddd313` Fixed **security issues in libraries the app ships with and its build tools**. Updated `source-map-js`, which had a flaw that could freeze processing on a crafted source map, and `i18next-http-backend` to 4.0.3, fixing incomplete URL checks when loading translations. Build-only tools `brace-expansion` and `undici` were updated to patched releases too.
 
 ## 17.10.2026
 
