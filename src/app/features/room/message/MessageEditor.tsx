@@ -293,25 +293,6 @@ export const MessageEditor = as<'div', MessageEditorProps>(
                 gap="100"
               >
                 <Box gap="Inherit">
-                  <Chip
-                    onClick={handleSave}
-                    variant="Primary"
-                    radii="Pill"
-                    disabled={saveState.status === AsyncStatus.Loading}
-                    outlined
-                    before={
-                      saveState.status === AsyncStatus.Loading ? (
-                        <Spinner variant="Primary" fill="Soft" size="100" />
-                      ) : undefined
-                    }
-                  >
-                    <Text size="B300">Save</Text>
-                  </Chip>
-                  <Chip onClick={onCancel} variant="SurfaceVariant" radii="Pill">
-                    <Text size="B300">Cancel</Text>
-                  </Chip>
-                </Box>
-                <Box gap="Inherit">
                   <IconButton
                     variant="SurfaceVariant"
                     size="300"
@@ -326,7 +307,7 @@ export const MessageEditor = as<'div', MessageEditorProps>(
                         anchor={anchor}
                         alignOffset={-8}
                         position="Top"
-                        align="End"
+                        align="Start"
                         content={
                           <EmojiBoard
                             imagePackRooms={imagePackRooms ?? []}
@@ -362,6 +343,25 @@ export const MessageEditor = as<'div', MessageEditorProps>(
                       </PopOut>
                     )}
                   </UseStateProvider>
+                </Box>
+                <Box gap="Inherit">
+                  <Chip onClick={onCancel} variant="SurfaceVariant" radii="Pill">
+                    <Text size="B300">Cancel</Text>
+                  </Chip>
+                  <Chip
+                    onClick={handleSave}
+                    variant="Primary"
+                    radii="Pill"
+                    disabled={saveState.status === AsyncStatus.Loading}
+                    outlined
+                    before={
+                      saveState.status === AsyncStatus.Loading ? (
+                        <Spinner variant="Primary" fill="Soft" size="100" />
+                      ) : undefined
+                    }
+                  >
+                    <Text size="B300">Save</Text>
+                  </Chip>
                 </Box>
               </Box>
               {toolbar && (
