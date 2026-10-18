@@ -6,6 +6,9 @@ User-facing changes per commit. Most recent at the top.
 
 - `e4bba77` `af62311` `cddd313` Fixed **security issues in libraries the app ships with and its build tools**. Updated `source-map-js`, which had a flaw that could freeze processing on a crafted source map, and `i18next-http-backend` to 4.0.3, fixing incomplete URL checks when loading translations. Build-only tools `brace-expansion` and `undici` were updated to patched releases too.
 
+- `9c45fa9` Fixed **links in messages doing nothing when tapped** in the desktop and Android apps. A security cleanup on 11.08.2026 removed the `opener:allow-open-url` permission the link opener relies on, so every tap was silently swallowed. Restored for `http`, `https` and `mailto` links.
+- `4b77cb1` Improved **the edit-message box layout** — Save now sits on the right next to Cancel, matching where Send is in the composer; the formatting and emoji buttons moved to the left.
+
 ## 17.10.2026
 
 - `de65e2a` Fixed **security updates for the desktop app's network code**. Updated `rustls` to 0.23.46, fixing a TLS 1.3 handshake flaw (RUSTSEC-2026-0285), and `quinn-proto` to 0.11.19, fixing three bugs that let a remote peer crash the connection. The release security check passes again; it had been failing since 23.09.2026.
