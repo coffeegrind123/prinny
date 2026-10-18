@@ -3,8 +3,8 @@
 Tracks upstream `cinnyapp/cinny` commits cherry-picked into our fork (`coffeegrind123/prinny`, branch `main`).
 
 **Fork base:** `6a05ff5` (v4.11.1-era)
-**Last sync:** 2026-09-26 (upstream `dev` @ `8967c138`, v4.12.7; ancestry recorded with `git merge -s ours`)
-**Start from:** `8967c138` — next time, fetch upstream and check commits AFTER this one
+**Last sync:** 2026-10-18 (upstream `dev` @ `eff1f48e`; ancestry recorded with `git merge -s ours`)
+**Start from:** `eff1f48e` — next time, fetch upstream and check commits AFTER this one
 
 > **2026-08-10:** Second sync. Same shape as the first: cherry-picked the
 > meaningful commits, then `git merge upstream/dev -X ours` to bring the
@@ -129,7 +129,16 @@ Range: `33f4ba36..upstream/dev` (`8967c138`) — 18 commits.
 | `c143b300` | `[-]`  | fix(deps): update react-router-dom to v6.30.6 [security] (#3099)         | Not applicable — the fix is for the 6.x line and we are on 7.18.2; `npm audit --omit=dev` reports 0 vulnerabilities. **Security fix: checked, not skipped**                                                                                                                                                                                           |
 | `fcca7c21` | `[~]`  | fix(deps): update folds to v2.7.2 (#3103)                                | Adapted — we vendor folds (`vendor/folds`), so our `5143346d` applies the release's only source change by hand: cinnyapp/folds `7d6d627` drops `flexWrap: "wrap"` from `Input` and `TextArea`. Reproduced live first: an input at its default size dropped its trailing icon below itself at 240px. Also vendors the `NOTICE.md` the release added    |
 | `6578bdf9` | `[-]`  | chore: Update actionable issues note in CONTRIBUTING.md (#3104)          | Docs                                                                                                                                                                                                                                                                                                                                                  |
-| `8967c138` | `[-]`  | chore: Release v4.12.7 (#3105)                                           | Release/version stamp — **START HERE next sync**                                                                                                                                                                                                                                                                                                      |
+| `8967c138` | `[-]`  | chore: Release v4.12.7 (#3105)                                           | Release/version stamp                                                                                                                                                                                                                                                                                                      |
+
+### 2026-10-18 sync session
+
+Range: `8967c138..upstream/dev` (`eff1f48e`) — 2 commits. Nothing to apply.
+
+| SHA        | Status | Description                                                             | Notes |
+| ---------- | ------ | ----------------------------------------------------------------------- | ----- |
+| `8788f0cf` | `[-]`  | fix(deps): update dependency i18next-http-backend 2.5.2 to 4.0.3 (#3127) | Already satisfied — our `e4bba77` took 4.0.3 the same day for the incomplete URL check advisory |
+| `eff1f48e` | `[-]`  | chore(deps): bump actions/setup-node from 7.0.0 to 7.1.0 (#3128)          | CI dep — **START HERE next sync** |
 
 ---
 
@@ -138,7 +147,7 @@ Range: `33f4ba36..upstream/dev` (`8967c138`) — 18 commits.
 ### Cumulative
 
 - **Backported:** 24 commits
-- **Skipped:** 64 commits (CI/deps, release stamps, docs)
+- **Skipped:** 66 commits (CI/deps, release stamps, docs)
 
 ### 2026-05-15 session
 
@@ -152,6 +161,12 @@ Range: `33f4ba36..upstream/dev` (`8967c138`) — 18 commits.
 - **Skipped:** 20 commits (16 CI/deps + 3 release stamps + 1 docs)
 - **Conflicts resolved:** package.json (×3), package-lock.json (×3)
 - **Verified:** `npm ci` clean (lockfile internally consistent), `npm run build` clean
+
+### 2026-10-18 session
+
+- **Backported:** 0 commits
+- **Skipped:** 2 commits (1 security dep bump already satisfied, 1 CI dep)
+- **History:** recorded with `git merge -s ours upstream/dev`
 
 ### 2026-09-26 session
 
@@ -188,7 +203,7 @@ typecheck from a dirty tree convince you it is already fixed.
 git fetch upstream --tags
 
 # 2. Check what's new since last sync (start from the "START HERE" marker above)
-git log --oneline 8967c138..upstream/dev --reverse --no-merges
+git log --oneline eff1f48e..upstream/dev --reverse --no-merges
 
 # 3. Filter out noise (chore, CI deps, docs)
 # 4. Cherry-pick meaningful commits oldest-first
