@@ -1,4 +1,4 @@
-import { type Capability } from 'matrix-widget-api';
+import { type Capability, type IRtcTransport, type IRtcTransportsResult } from 'matrix-widget-api';
 import { MatrixClient } from 'matrix-js-sdk';
 import { getCallCapabilities } from './utils';
 import { BaseWidgetDriver } from '../widget/BaseWidgetDriver';
@@ -38,5 +38,39 @@ export class CallWidgetDriver extends BaseWidgetDriver {
   public async validateCapabilities(requested: Set<Capability>): Promise<Set<Capability>> {
     const allow = Array.from(requested).filter((cap) => this.allowedCapabilities.has(cap));
     return new Set(allow);
+  }
+
+  /**
+   * Element Call 0.24 no longer reads `.well-known` itself: it asks the host
+   * for the LiveKit focus over the widget API (MSC4515) and, failing that,
+   * uses only its own config.json, which ships without one. Answering here is
+   * what makes calls connect at all.
+   *
+   * Order follows Element Web: the homeserver's MSC4143 `/rtc/transports`
+   * endpoint first, then the `org.matrix.msc4143.rtc_foci` list in the
+   * client `.well-known` — the same source useLivekitSupport gates the call
+   * buttons on, so a server that shows the buttons can also connect.
+   */
+  public async getRtcTransports(): Promise<IRtcTransportsResult> {
+    let endpointError: unknown;
+    try {
+      const transports = await this.mx.cachedRtcTransports.wait();
+      if (transports && transports.length > 0) return { rtc_transports: transports };
+    } catch (e) {
+      endpointError = e;
+    }
+
+    const wellKnown = await this.mx.waitForClientWellKnown().catch(() => undefined);
+    const foci: unknown = wellKnown?.['org.matrix.msc4143.rtc_foci'];
+    if (Array.isArray(foci)) {
+      const transports = foci.filter(
+        (focus): focus is IRtcTransport =>
+          typeof focus === 'object' && focus !== null && typeof focus.type === 'string',
+      );
+      if (transports.length > 0) return { rtc_transports: transports };
+    }
+
+    if (endpointError) throw endpointError;
+    return { rtc_transports: [] };
   }
 }
