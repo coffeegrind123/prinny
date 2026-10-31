@@ -500,6 +500,27 @@ export const getReactCustomHtmlParser = (
             </ol>
           );
         }
+        if (name === 'dl') {
+          return (
+            <dl {...props} className={css.DescriptionList}>
+              {domToReact(toDOMNodes(children), opts)}
+            </dl>
+          );
+        }
+        if (name === 'dt') {
+          return (
+            <dt {...props} className={css.DescriptionTerm}>
+              {domToReact(toDOMNodes(children), opts)}
+            </dt>
+          );
+        }
+        if (name === 'dd') {
+          return (
+            <dd {...props} className={css.DescriptionDetails}>
+              {domToReact(toDOMNodes(children), opts)}
+            </dd>
+          );
+        }
 
         if (name === 'code') {
           if (parent && 'name' in parent && parent.name === 'pre') {

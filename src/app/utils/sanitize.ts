@@ -43,6 +43,9 @@ const permittedHtmlTags = [
   'img',
   'details',
   'summary',
+  'dl',
+  'dt',
+  'dd',
 ];
 
 // Shared with the plain-text linkifier so a scheme narrowed in one place cannot

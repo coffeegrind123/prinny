@@ -230,6 +230,29 @@ export const List = style([
   },
 ]);
 
+export const DescriptionList = style([
+  DefaultReset,
+  MarginSpaced,
+  {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+]);
+
+export const DescriptionTerm = style([
+  DefaultReset,
+  {
+    fontWeight: 'bolder',
+  },
+]);
+
+export const DescriptionDetails = style([
+  DefaultReset,
+  {
+    marginInlineStart: config.space.S700,
+  },
+]);
+
 export const Img = style([
   DefaultReset,
   MarginSpaced,
