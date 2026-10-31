@@ -63,6 +63,17 @@ User-facing changes per commit. Most recent at the top.
 - `bbb3b0e` Added **an "Unencrypted" warning on private rooms and DMs** — an icon in the room list and a badge in the room header; public rooms are left alone (from meow).
 - `a070e92` Fixed **call speaker detection stopping after someone joined late, the layout changed or the call reloaded** — and screen sharers are tracked too (from meow).
 - `0dbb134` Added **a "Call activity in room list" setting** (Settings › General › Calls, off by default) — a speaking ring and LIVE tag on call members in the room list (from meow).
+- `b7a8d6b` Fixed **calls failing to connect** — since the Element Call 0.24 update the call asks the app for the call server instead of reading it itself, and the app never answered. It now gets the server from your homeserver's `/rtc/transports` or `.well-known` `rtc_foci`.
+- `5e50bd2` Fixed **closed calls leaving event listeners behind** (from meow).
+- `44fdee1` Fixed **dragging rooms or files breaking over an open call** — the call stops catching the pointer during a drag (from meow).
+- `b87845d` Fixed **calls always starting with microphone and sound on** — they start the way you last left them (from meow).
+- `c8e952b` Improved **startup in large spaces** — the space's call badge no longer downloads the state of every room in it (from meow).
+- `deda320` Fixed **people on Element X and newer Element Call missing from calls** — calls can now see their sticky call memberships (from Sable).
+- `c8f55b6` Fixed **a stale cached call screen on the web after an update** (from meow).
+- `0a124e8` Improved **diagnostics when a call drops** — the reason the call screen gave is logged (from meow).
+- `3f06bbd` Added **"Keep chat open in DM calls"** (Settings › General › Calls, off by default) — the call sits above the chat with a draggable divider (from meow).
+- `0003171` Added **"Voice panel in room list"** (Settings › General › Calls, off by default) — a Voice Connected panel with connection progress and controls at the bottom of the room list; rooms with an active call turn green (from meow).
+- `c78fcad` Added **"Redesigned call controls"** (Settings › General › Calls, off by default) — grouped controls, invite, a fullscreen that hides the rest of the app, controls that fade when idle, and a header showing who is sharing their screen (from meow).
 
 ## 18.10.2026
 
