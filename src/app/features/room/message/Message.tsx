@@ -46,6 +46,7 @@ import {
   BubbleLayout,
   CompactLayout,
   MessageBase,
+  MessageShieldIcon,
   MessageTrailingContext,
   ModernLayout,
   SenderTime,
@@ -82,6 +83,7 @@ import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
 import { MessageLayout, MessageSpacing } from '../../../state/settings';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
+import { useMessageShield } from '../../../hooks/useMessageShield';
 import { useRecentEmoji } from '../../../hooks/useRecentEmoji';
 import * as css from './styles.css';
 import { EventReaders } from '../../../components/event-readers';
@@ -1109,8 +1111,8 @@ export const Message = as<'div', MessageProps>(
       className,
       room,
       mEvent,
-      collapse,
-      groupHeadEventId,
+      collapse: collapseProp,
+      groupHeadEventId: groupHeadProp,
       highlight,
       repliedToMe,
       edit,
@@ -1144,6 +1146,12 @@ export const Message = as<'div', MessageProps>(
     const mx = useMatrixClient();
     const useAuthentication = useMediaAuthentication();
     const senderId = mEvent.getSender() ?? '';
+
+    // A message with a trust shield always gets its own header, so it cannot sit unnoticed
+    // inside a run from one sender; it then heads its own group for the hover label.
+    const shield = useMessageShield(mEvent);
+    const collapse = collapseProp && !shield;
+    const groupHeadEventId = collapseProp && shield ? mEvent.getId() : groupHeadProp;
     const [readReceiptStyle] = useSetting(settingsAtom, 'readReceiptStyle');
     const [replyOnDoubleClick] = useSetting(settingsAtom, 'replyOnDoubleClick');
     const [showHiddenEvents] = useSetting(settingsAtom, 'showHiddenEvents');
@@ -1370,6 +1378,7 @@ export const Message = as<'div', MessageProps>(
                 )
               }
             />
+            {shield && <MessageShieldIcon shield={shield} />}
           </Box>
           {tagIconSrc && <PowerIcon size="100" iconSrc={tagIconSrc} />}
         </Box>

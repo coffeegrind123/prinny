@@ -11,3 +11,4 @@ export * from './MsgTypeRenderers';
 export * from './MessageTrailing';
 export * from './AttachmentCaption';
 export * from './RenderBody';
+export * from './MessageShield';
