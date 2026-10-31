@@ -1,5 +1,12 @@
-import { type Capability, type IRtcTransport, type IRtcTransportsResult } from 'matrix-widget-api';
-import { MatrixClient } from 'matrix-js-sdk';
+import {
+  type Capability,
+  type IRoomEvent,
+  type IRtcTransport,
+  type IRtcTransportsResult,
+  type ISendDelayedEventDetails,
+  type ISendEventDetails,
+} from 'matrix-widget-api';
+import { MatrixClient, type TimelineEvents } from 'matrix-js-sdk';
 import { getCallCapabilities } from './utils';
 import { BaseWidgetDriver } from '../widget/BaseWidgetDriver';
 
@@ -72,5 +79,53 @@ export class CallWidgetDriver extends BaseWidgetDriver {
 
     if (endpointError) throw endpointError;
     return { rtc_transports: [] };
+  }
+
+  // MSC4354 sticky events, exposed to the widget by MSC4407. Clients in
+  // MatrixRTC "Matrix 2.0" mode (Element X, newer Element Call) publish their
+  // call membership as a sticky org.matrix.msc4143.rtc.member event instead of
+  // a state event. Without these the call cannot see them: they look absent
+  // and their media keys never reach us.
+  public async sendStickyEvent(
+    stickyDurationMs: number,
+    eventType: string,
+    content: unknown,
+    targetRoomId: string | null = null,
+  ): Promise<ISendEventDetails> {
+    const roomId = targetRoomId || this.inRoomId;
+    const r = await this.mx._unstable_sendStickyEvent(
+      roomId,
+      stickyDurationMs,
+      null,
+      eventType as keyof TimelineEvents,
+      content as TimelineEvents[keyof TimelineEvents],
+    );
+    return { roomId, eventId: r.event_id };
+  }
+
+  public async sendDelayedStickyEvent(
+    delay: number,
+    stickyDurationMs: number,
+    eventType: string,
+    content: unknown,
+    targetRoomId: string | null = null,
+  ): Promise<ISendDelayedEventDetails> {
+    const roomId = targetRoomId || this.inRoomId;
+    const r = await this.mx._unstable_sendStickyDelayedEvent(
+      roomId,
+      stickyDurationMs,
+      { delay },
+      null,
+      eventType as keyof TimelineEvents,
+      content as TimelineEvents[keyof TimelineEvents],
+    );
+    return { roomId, delayId: r.delay_id };
+  }
+
+  // The widget API filters these by the granted receive capabilities.
+  public async readStickyEvents(roomId: string): Promise<IRoomEvent[]> {
+    const room = this.mx.getRoom(roomId);
+    if (!room) return [];
+    return [...room._unstable_getStickyEvents()].map((ev) => ev.getEffectiveEvent() as IRoomEvent);
   }
 }

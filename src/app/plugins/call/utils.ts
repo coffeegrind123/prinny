@@ -21,6 +21,8 @@ export function getCallCapabilities(
   capabilities.add(MatrixCapabilities.MSC4515RtcTransports);
   capabilities.add(MatrixCapabilities.MSC4157SendDelayedEvent);
   capabilities.add(MatrixCapabilities.MSC4157UpdateDelayedEvent);
+  capabilities.add(MatrixCapabilities.MSC4407SendStickyEvent);
+  capabilities.add(MatrixCapabilities.MSC4407ReceiveStickyEvent);
   capabilities.add(`org.matrix.msc2762.timeline:${roomId}`);
   capabilities.add(`org.matrix.msc2762.state:${roomId}`);
 
@@ -89,6 +91,7 @@ export function getCallCapabilities(
     'io.element.call.reaction',
     'org.matrix.msc4075.rtc.notification',
     'org.matrix.msc4310.rtc.decline',
+    EventType.RTCMembership,
   ].forEach((type) => {
     capabilities.add(WidgetEventCapability.forRoomEvent(EventDirection.Send, type).raw);
     capabilities.add(WidgetEventCapability.forRoomEvent(EventDirection.Receive, type).raw);
