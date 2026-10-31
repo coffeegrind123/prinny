@@ -13,6 +13,7 @@ import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import buildConfig from './build.config';
 import { readableCssIdentifiers } from './scripts/vite-readable-css.mjs';
+import { hasBuild, readQueue } from './scripts/element-call.mjs';
 
 // Short hash of the commit this bundle was built from, shown in About. The
 // Docker build context has no .git, so the Dockerfile passes APP_COMMIT in.
@@ -30,20 +31,49 @@ const appCommit = (() => {
   }
 })();
 
+// The call widget. By default it is our patched build of Element Call
+// (element-call/UPSTREAM + element-call/patches, built by
+// .github/workflows/element-call.yml and fetched into element-call/dist by
+// `npm start` / `npm run build`). A missing or stale build is an error, not a
+// reason to fall back: shipping unpatched calls must be a decision, made with
+// PRINNY_ELEMENT_CALL=npm (offline work only).
+const elementCall = (() => {
+  const source = process.env.PRINNY_ELEMENT_CALL || 'patched';
+  if (source === 'npm') {
+    const pkg = JSON.parse(
+      fs.readFileSync('node_modules/@element-hq/element-call-embedded/package.json', 'utf8'),
+    );
+    return {
+      dir: 'node_modules/@element-hq/element-call-embedded/dist',
+      stripBase: 4,
+      version: pkg.version,
+    };
+  }
+  if (source !== 'patched') {
+    throw new Error(`PRINNY_ELEMENT_CALL must be "patched" or "npm", got "${source}"`);
+  }
+  const queue = readQueue();
+  if (!hasBuild(queue)) {
+    throw new Error(
+      `[element-call] element-call/dist does not hold ${queue.tag}. Run ` +
+        '`node scripts/element-call.mjs fetch` (npm start and npm run build do), ' +
+        'or set PRINNY_ELEMENT_CALL=npm to ship the unpatched npm package.',
+    );
+  }
+  return { dir: 'element-call/dist', stripBase: 2, version: queue.version };
+})();
+
 const copyFiles = {
   targets: [
     {
-      // The vendored widget ships its own source maps — 18 MB across 9 files,
-      // every byte of it served to every visitor and never requested unless
+      // The widget ships its own source maps — 18 MB across 9 files, every
+      // byte of it served to every visitor and never requested unless
       // devtools is open. Production maps are stripped from our own bundle
       // (`build.sourcemap: false`); excluding them here applies the same rule to
       // vendored code instead of exempting it.
-      src: [
-        'node_modules/@element-hq/element-call-embedded/dist/**/*',
-        '!node_modules/@element-hq/element-call-embedded/dist/**/*.map',
-      ],
+      src: [`${elementCall.dir}/**/*`, `!${elementCall.dir}/**/*.map`],
       dest: 'public/element-call',
-      rename: { stripBase: 4 },
+      rename: { stripBase: elementCall.stripBase },
     },
     {
       src: 'node_modules/pdfjs-dist/build/pdf.worker.min.mjs',
@@ -131,6 +161,7 @@ export default defineConfig(({ command }) => {
     publicDir: false,
     define: {
       __APP_COMMIT__: JSON.stringify(appCommit),
+      __ELEMENT_CALL_VERSION__: JSON.stringify(elementCall.version),
     },
     base: buildConfig.base,
     resolve: {

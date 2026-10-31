@@ -7,16 +7,11 @@ name: Element Call
 # `element-call-<UPSTREAM>-<hash>` (scripts/element-call.mjs computes it), and
 # `npm run build` downloads it from there.
 #
-# A queue that is already published is not rebuilt, so this costs seconds on
-# every push that leaves element-call/ alone.
+# publish-webapp.yml calls this first on every push to main. A queue that is
+# already published is not rebuilt, so that costs seconds on every push that
+# leaves element-call/ alone.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'element-call/**'
-      - 'scripts/element-call.mjs'
-      - '.github/workflows/element-call.yml'
   workflow_dispatch:
     inputs:
       rebuild:
@@ -26,7 +21,7 @@ on:
   workflow_call:
     outputs:
       tag:
-        description: 'Release tag holding this queue''s build'
+        description: "Release tag holding this queue's build"
         value: ${{ jobs.build.outputs.tag }}
 
 permissions:
@@ -39,9 +34,9 @@ jobs:
     timeout-minutes: 45
     permissions:
       contents: write
-    # Serialised rather than cancelled: a push that touches element-call/ starts
-    # this both directly and from publish-webapp, and the second run must find
-    # the first one's release instead of racing it to create the same tag.
+    # Serialised rather than cancelled: a manual run and publish-webapp's call
+    # can overlap, and the second must find the first one's release instead of
+    # racing it to create the same tag.
     concurrency:
       group: element-call-build
       cancel-in-progress: false

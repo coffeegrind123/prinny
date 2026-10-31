@@ -8,8 +8,8 @@
     "node": ">=22.18"
   },
   "scripts": {
-    "start": "vite",
-    "build": "vite build && node scripts/check-csp.mjs",
+    "start": "node scripts/element-call.mjs fetch && vite",
+    "build": "node scripts/element-call.mjs fetch && vite build && node scripts/check-csp.mjs",
     "preview": "vite preview",
     "lint": "npm run check:eslint && npm run check:prettier && npm run check:contexts",
     "check:contexts": "node scripts/check-context-hooks.mjs",

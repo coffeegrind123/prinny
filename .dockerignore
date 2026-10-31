@@ -19,6 +19,9 @@
 !docker-nginx.conf
 !src
 !public
+# `npm run build` fetches the patched call widget for this queue first.
+!element-call
+!scripts
 
 # --- belt and braces ------------------------------------------------------
 # Re-excluded after the allowlist so a future `!` rule cannot leak them.
@@ -28,6 +31,8 @@
 node_modules
 **/node_modules
 dist
+element-call/dist
+element-call/dist.partial
 coverage
 *.log
 .env

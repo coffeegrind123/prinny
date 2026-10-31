@@ -21,7 +21,15 @@
  */
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -48,7 +56,9 @@ const HASH_LENGTH = 12;
 export function readQueue() {
   const upstream = readFileSync(join(QUEUE_DIR, 'UPSTREAM'), 'utf8').trim();
   if (!/^v\d+\.\d+\.\d+$/.test(upstream)) {
-    throw new Error(`[element-call] element-call/UPSTREAM must be a release tag like v0.24.0, got "${upstream}"`);
+    throw new Error(
+      `[element-call] element-call/UPSTREAM must be a release tag like v0.24.0, got "${upstream}"`,
+    );
   }
 
   const patches = readdirSync(PATCH_DIR)
@@ -107,8 +117,8 @@ async function fetchRelease(queue) {
       throw new Error(
         [
           `[element-call] no published build for this patch queue: ${REPO} release ${queue.tag} does not exist.`,
-          '  It is made by .github/workflows/element-call.yml (push to main, or run it from the',
-          '  Actions tab). If that workflow failed, the patches do not build: fix them first.',
+          '  It is made by .github/workflows/element-call.yml (publish-webapp runs it on every push',
+          '  to main, or run it from the Actions tab). If it failed, the patches do not build.',
           '  For offline work only: PRINNY_ELEMENT_CALL=npm ships the unpatched npm package.',
         ].join('\n'),
       );
@@ -120,7 +130,9 @@ async function fetchRelease(queue) {
 
 async function fetchBuild() {
   if (process.env.PRINNY_ELEMENT_CALL === 'npm') {
-    console.log('[element-call] PRINNY_ELEMENT_CALL=npm: using the unpatched npm package, nothing to fetch');
+    console.log(
+      '[element-call] PRINNY_ELEMENT_CALL=npm: using the unpatched npm package, nothing to fetch',
+    );
     return;
   }
 
@@ -130,13 +142,17 @@ async function fetchBuild() {
     return;
   }
 
-  console.log(`[element-call] fetching ${queue.tag} (${queue.patches.length} patches on ${queue.upstream})`);
+  console.log(
+    `[element-call] fetching ${queue.tag} (${queue.patches.length} patches on ${queue.upstream})`,
+  );
   const { sums, tarball } = await fetchRelease(queue);
 
   const expected = sums.trim().split(/\s+/)[0];
   const actual = createHash('sha256').update(tarball).digest('hex');
   if (expected !== actual) {
-    throw new Error(`[element-call] ${ASSET} checksum mismatch: release says ${expected}, got ${actual}`);
+    throw new Error(
+      `[element-call] ${ASSET} checksum mismatch: release says ${expected}, got ${actual}`,
+    );
   }
 
   // Extract beside the destination and swap it in, so an interrupted fetch

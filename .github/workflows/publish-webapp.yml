@@ -13,8 +13,19 @@ permissions:
   contents: read
 
 jobs:
+  # The call widget this build ships: our patched Element Call, published as a
+  # release of this repository once per patch queue (a no-op when it already
+  # is). `npm run build` below downloads it and fails if it is missing, so a
+  # queue that does not build stops the publish here instead of shipping a
+  # webapp without calls.
+  element-call:
+    uses: ./.github/workflows/element-call.yml
+    permissions:
+      contents: write
+
   publish:
     name: Build dist and publish to webapp-release
+    needs: element-call
     runs-on: ubuntu-latest
     permissions:
       contents: write
