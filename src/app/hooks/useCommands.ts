@@ -29,6 +29,8 @@ import { getStateEvent } from '../utils/room';
 import { splitWithSpace } from '../utils/common';
 import { createRoomEncryptionState } from '../components/create-room';
 import { leaveRoomExplicitly } from '../state/leftRooms';
+import { saveStatusMessage } from '../state/ownPresence';
+import { Presence } from './useUserPresence';
 
 export const SHRUG = '¯\\_(ツ)_/¯';
 export const TABLEFLIP = '(╯°□°)╯︵ ┻━┻';
@@ -581,17 +583,17 @@ export const useCommands = (mx: MatrixClient, room: Room): CommandRecord => {
           // presence state rather than merging into it: posting only a status
           // message would quietly reset an `unavailable` back to `online`.
           const currentPresence = mx.getUser(mx.getSafeUserId())?.presence;
-          await mx.setPresence({
-            presence:
-              currentPresence === 'offline' || currentPresence === 'unavailable'
-                ? currentPresence
-                : 'online',
-            // Empty clears it. Unlike /nick, where an empty payload is a slip
-            // worth ignoring, `/status` with nothing after it has an obvious
-            // and useful reading, and it is the only way to take a status down
-            // from the composer.
-            status_msg: status,
-          });
+          // Empty clears it. Unlike /nick, where an empty payload is a slip
+          // worth ignoring, `/status` with nothing after it has an obvious
+          // and useful reading, and it is the only way to take a status down
+          // from the composer.
+          await saveStatusMessage(
+            mx,
+            currentPresence === Presence.Offline || currentPresence === Presence.Unavailable
+              ? currentPresence
+              : Presence.Online,
+            status,
+          );
         },
       },
       [Command.MyAvatar]: {

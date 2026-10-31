@@ -5,10 +5,10 @@ import { Modal500 } from '../../components/Modal500';
 import { Settings } from '../../features/settings';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
-import { useUserPresence } from '../../hooks/useUserPresence';
 import { useUserProfile } from '../../hooks/useUserProfile';
 import { nameInitials } from '../../utils/common';
 import { getMxIdLocalPart, mxcUrlToHttp } from '../../utils/matrix';
+import { useOwnStatus } from '../../state/ownPresence';
 import * as css from './TopBar.css';
 
 /**
@@ -21,11 +21,10 @@ export function TopBarProfile() {
   const useAuthentication = useMediaAuthentication();
   const userId = mx.getSafeUserId();
   const profile = useUserProfile(userId);
-  const presence = useUserPresence(userId);
   const [settings, setSettings] = useState(false);
 
   const displayName = profile.displayName ?? getMxIdLocalPart(userId) ?? userId;
-  const status = presence?.status?.trim();
+  const status = useOwnStatus(userId);
   const avatarUrl = profile.avatarUrl
     ? (mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 64, 64, 'crop') ?? undefined)
     : undefined;

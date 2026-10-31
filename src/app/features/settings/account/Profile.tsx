@@ -59,9 +59,10 @@ import {
   ProfilePronoun,
 } from '../../../../types/matrix/profile';
 import { blobIsAnimated } from '../../../utils/animatedMedia';
+import { saveStatusMessage, useOwnStatus } from '../../../state/ownPresence';
 import { ProfilePreview } from './ProfilePreview';
 import * as previewCss from './ProfilePreview.css';
-import { useUserPresence } from '../../../hooks/useUserPresence';
+import { Presence, useUserPresence } from '../../../hooks/useUserPresence';
 
 type ProfileProps = {
   profile: UserProfile;
@@ -651,7 +652,7 @@ function ProfileTimezone({ profile }: { profile: UserProfile }) {
 function ProfileStatus({ userId }: { userId: string }) {
   const mx = useMatrixClient();
   const presence = useUserPresence(userId);
-  const currentValue = presence?.status ?? '';
+  const currentValue = useOwnStatus(userId);
   const [value, setValue] = useState(currentValue);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string>();
@@ -663,10 +664,7 @@ function ProfileStatus({ userId }: { userId: string }) {
     setSaving(true);
     setError(undefined);
     try {
-      await mx.setPresence({
-        presence: presence?.presence ?? 'online',
-        status_msg: value.trim(),
-      });
+      await saveStatusMessage(mx, presence?.presence ?? Presence.Online, value.trim());
     } catch {
       setError('Could not save your status. Try again.');
     } finally {

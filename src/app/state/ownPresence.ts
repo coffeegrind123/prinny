@@ -1,0 +1,49 @@
+import { MatrixClient } from 'matrix-js-sdk';
+import { AccountDataEvent } from '../../types/matrix/accountData';
+import { getAccountData } from '../utils/room';
+import { useAccountData } from '../hooks/useAccountData';
+import { Presence, useUserPresence } from '../hooks/useUserPresence';
+
+export type OwnPresenceContent = {
+  /** The status message the user last saved, kept across presence changes. */
+  status?: string;
+};
+
+const parseContent = (content: unknown): OwnPresenceContent => {
+  if (typeof content !== 'object' || content === null) {
+    return {};
+  }
+  const { status } = content as Record<string, unknown>;
+  return { status: typeof status === 'string' ? status : undefined };
+};
+
+const getContent = (mx: MatrixClient): OwnPresenceContent =>
+  parseContent(getAccountData(mx, AccountDataEvent.PrinnyPresence)?.getContent());
+
+// PUT /presence replaces the whole presence state, and servers drop status_msg
+// when presence goes offline or is set without one. So the user's message is
+// kept in account data and re-sent with every presence change.
+export const getRememberedStatus = (mx: MatrixClient): string => getContent(mx).status ?? '';
+
+export const sendPresence = (
+  mx: MatrixClient,
+  presence: Presence,
+  statusMsg: string = getRememberedStatus(mx),
+): Promise<void> => mx.setPresence({ presence, status_msg: statusMsg });
+
+/** Stores the status message and applies it to the current presence. */
+export const saveStatusMessage = async (
+  mx: MatrixClient,
+  presence: Presence,
+  status: string,
+): Promise<void> => {
+  await mx.setAccountData(AccountDataEvent.PrinnyPresence, { ...getContent(mx), status });
+  await sendPresence(mx, presence, status);
+};
+
+/** The user's own status: what the server reports, else the remembered message. */
+export const useOwnStatus = (userId: string): string => {
+  const presence = useUserPresence(userId);
+  const event = useAccountData(AccountDataEvent.PrinnyPresence);
+  return presence?.status?.trim() || parseContent(event?.getContent()).status?.trim() || '';
+};
