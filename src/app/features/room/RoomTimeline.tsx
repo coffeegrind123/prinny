@@ -343,6 +343,7 @@ const useTimelinePagination = (
    * would send the view further back than the events that arrived.
    */
   paginatingRef: MutableRefObject<boolean>,
+  onStalled: (stalledTimeline: EventTimeline) => void,
 ) => {
   const timelineRef = useRef(timeline);
   timelineRef.current = timeline;
@@ -350,6 +351,9 @@ const useTimelinePagination = (
 
   const handleTimelinePagination = useMemo(() => {
     let fetching = false;
+    // Keyed to the timeline and direction that stalled, so a jump to another
+    // chain (permalink, jump to latest) can paginate again.
+    let stalledAt: { timeline: EventTimeline; backwards: boolean } | undefined;
 
     const recalibratePagination = (
       linkedTimelines: EventTimeline[],
@@ -386,10 +390,20 @@ const useTimelinePagination = (
 
       const timelineToPaginate = backwards ? lTimelines[0] : lTimelines[lTimelines.length - 1];
       if (!timelineToPaginate) return;
+      if (stalledAt?.timeline === timelineToPaginate && stalledAt.backwards === backwards) return;
 
-      const paginationToken = timelineToPaginate.getPaginationToken(
-        backwards ? Direction.Backward : Direction.Forward,
-      );
+      // A permalink or jump swaps in another chain while we await the server
+      // or decryption; a result for the old chain must not replace it.
+      const isStale = () => {
+        const current = timelineRef.current.linkedTimelines;
+        return (
+          current[0] !== lTimelines[0] ||
+          current[current.length - 1] !== lTimelines[lTimelines.length - 1]
+        );
+      };
+
+      const direction = backwards ? Direction.Backward : Direction.Forward;
+      const paginationToken = timelineToPaginate.getPaginationToken(direction);
       if (
         !paginationToken &&
         getTimelinesEventsCount(lTimelines) !==
@@ -398,7 +412,17 @@ const useTimelinePagination = (
         recalibratePagination(lTimelines, timelinesEventsCount, backwards);
         return;
       }
+      if (!paginationToken) {
+        // Without a token (null, or the empty string some servers send) the
+        // SDK requests `/messages` with no `from`, which returns the newest
+        // page again: nothing is added and the paginator asks forever.
+        console.warn(
+          `[timeline] not paginating ${backwards ? 'back' : 'forward'} in ${timelineToPaginate.getRoomId()}: token is ${JSON.stringify(paginationToken)}`,
+        );
+        return;
+      }
 
+      const eventsBefore = getTimelinesEventsCount(getLinkedTimelines(timelineToPaginate));
       fetching = true;
       paginatingRef.current = true;
       try {
@@ -417,6 +441,21 @@ const useTimelinePagination = (
           console.warn('[timeline] pagination failed', err);
           return;
         }
+        // No new events and the same token again means the server never saw
+        // our `from` (an extension stripping it as a tracking parameter is
+        // the known cause); asking again would repeat forever.
+        if (
+          getTimelinesEventsCount(getLinkedTimelines(timelineToPaginate)) === eventsBefore &&
+          timelineToPaginate.getPaginationToken(direction) === paginationToken
+        ) {
+          console.warn(
+            `[timeline] pagination made no progress in ${timelineToPaginate.getRoomId()}, giving up`,
+          );
+          if (isStale()) return;
+          stalledAt = { timeline: timelineToPaginate, backwards };
+          if (alive()) onStalled(timelineToPaginate);
+          return;
+        }
         const fetchedTimeline =
           timelineToPaginate.getNeighbouringTimeline(
             backwards ? Direction.Backward : Direction.Forward,
@@ -429,7 +468,7 @@ const useTimelinePagination = (
           await to(decryptAllTimelineEvent(mx, fetchedTimeline));
         }
 
-        if (alive()) {
+        if (alive() && !isStale()) {
           recalibratePagination(lTimelines, timelinesEventsCount, backwards);
         }
       } finally {
@@ -437,7 +476,7 @@ const useTimelinePagination = (
         paginatingRef.current = false;
       }
     };
-  }, [mx, alive, setTimeline, limit, paginatingRef]);
+  }, [mx, alive, setTimeline, limit, paginatingRef, onStalled]);
   return handleTimelinePagination;
 };
 
@@ -852,8 +891,13 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
 
   const liveTimelineLinked =
     timeline.linkedTimelines[timeline.linkedTimelines.length - 1] === getLiveTimeline(room);
-  const canPaginateBack =
-    typeof timeline.linkedTimelines[0]?.getPaginationToken(Direction.Backward) === 'string';
+  const canPaginateBack = Boolean(
+    timeline.linkedTimelines[0]?.getPaginationToken(Direction.Backward),
+  );
+  // The chain whose backward pagination stalled; the notice shows only while
+  // that chain is still the top of the view, so any jump clears it.
+  const [stalledTimeline, setStalledTimeline] = useState<EventTimeline>();
+  const paginationStalled = !!stalledTimeline && stalledTimeline === timeline.linkedTimelines[0];
   const rangeAtStart = timeline.range.start === 0;
   const rangeAtEnd = timeline.range.end === eventsLength;
   const atLiveEndRef = useRef(liveTimelineLinked && rangeAtEnd);
@@ -868,6 +912,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     setTimeline,
     PAGINATION_LIMIT,
     ownPaginationRef,
+    useCallback((t: EventTimeline) => setStalledTimeline(t), []),
   );
 
   // History paginated in by the media scan or in-room search moves every
@@ -2854,7 +2899,21 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
               <RoomIntro room={room} />
             </div>
           )}
+          {paginationStalled && rangeAtStart && (
+            <div
+              style={{
+                padding: `${config.space.S600} ${config.space.S400}`,
+                textAlign: 'center',
+              }}
+            >
+              <Text size="T300" priority="300">
+                Older messages could not be loaded: the server keeps returning the same ones. A
+                browser extension that strips link parameters can cause this.
+              </Text>
+            </div>
+          )}
           {(canPaginateBack || !rangeAtStart) &&
+            !(paginationStalled && rangeAtStart) &&
             (messageLayout === MessageLayout.Compact ? (
               <>
                 <MessageBase>
