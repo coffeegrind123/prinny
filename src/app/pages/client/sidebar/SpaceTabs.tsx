@@ -410,6 +410,32 @@ const useDnDMonitor = (
   }, [scrollRef, onDragging, onReorder]);
 };
 
+type SpaceUnreadBadgeProps = {
+  unread?: { total: number; highlight: number };
+  pill: boolean;
+};
+/**
+ * A space's unread badge. With the `spaceUnreadPill` setting, plain unread
+ * shows as the pill SidebarItem draws, and only mentions get a badge: in the
+ * bottom-right corner, counting mentions rather than every unread message.
+ */
+function SpaceUnreadBadge({ unread, pill }: SpaceUnreadBadgeProps) {
+  if (!unread) return null;
+  if (!pill) {
+    return (
+      <SidebarItemBadge hasCount={unread.total > 0}>
+        <UnreadBadge highlight={unread.highlight > 0} count={unread.total} />
+      </SidebarItemBadge>
+    );
+  }
+  if (unread.highlight === 0) return null;
+  return (
+    <SidebarItemBadge hasCount placement="bottomRight">
+      <UnreadBadge highlight count={unread.highlight} />
+    </SidebarItemBadge>
+  );
+}
+
 type SpaceTabProps = {
   space: Room;
   selected: boolean;
@@ -451,6 +477,7 @@ function SpaceTab({
 
   const hasCall = useSpaceHasCall(space);
   const [callVoicePanel] = useSetting(settingsAtom, 'callVoicePanel');
+  const [spaceUnreadPill] = useSetting(settingsAtom, 'spaceUnreadPill');
   const currentCallInSpace =
     !!activeCallRoomId && getSpaceChildren(space).includes(activeCallRoomId);
 
@@ -470,6 +497,7 @@ function SpaceTab({
       {(unread) => (
         <SidebarItem
           active={selected}
+          unreadPill={spaceUnreadPill && !!unread && unread.total > 0 && unread.highlight === 0}
           ref={targetRef}
           aria-disabled={disabled}
           data-drop-child={dropType === 'make-child'}
@@ -498,11 +526,7 @@ function SpaceTab({
               </SidebarAvatar>
             )}
           </SidebarItemTooltip>
-          {unread && (
-            <SidebarItemBadge hasCount={unread.total > 0}>
-              <UnreadBadge highlight={unread.highlight > 0} count={unread.total} />
-            </SidebarItemBadge>
-          )}
+          <SpaceUnreadBadge unread={unread} pill={spaceUnreadPill} />
           {hasCall && (
             <div
               style={{
@@ -617,12 +641,14 @@ function ClosedSpaceFolder({
 
   const tooltipName =
     folder.name ?? folder.content.map((i) => mx.getRoom(i)?.name ?? '').join(', ') ?? 'Unnamed';
+  const [spaceUnreadPill] = useSetting(settingsAtom, 'spaceUnreadPill');
 
   return (
     <RoomsUnreadProvider rooms={folder.content}>
       {(unread) => (
         <SidebarItem
           active={selected}
+          unreadPill={spaceUnreadPill && !!unread && unread.total > 0 && unread.highlight === 0}
           ref={handlerRef}
           aria-disabled={disabled}
           data-drop-child={dropType === 'make-child'}
@@ -654,11 +680,7 @@ function ClosedSpaceFolder({
               </SidebarFolder>
             )}
           </SidebarItemTooltip>
-          {unread && (
-            <SidebarItemBadge hasCount={unread.total > 0}>
-              <UnreadBadge highlight={unread.highlight > 0} count={unread.total} />
-            </SidebarItemBadge>
-          )}
+          <SpaceUnreadBadge unread={unread} pill={spaceUnreadPill} />
         </SidebarItem>
       )}
     </RoomsUnreadProvider>

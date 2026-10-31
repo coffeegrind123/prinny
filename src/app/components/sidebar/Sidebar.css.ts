@@ -117,6 +117,23 @@ export const SidebarItem = recipe({
 });
 export type SidebarItemVariants = RecipeVariants<typeof SidebarItem>;
 
+// Same slot and shape as the active marker (SidebarItem's ::before), smaller,
+// so "unread" reads as a lighter form of "here".
+export const SidebarItemUnreadPill = style([
+  DefaultReset,
+  {
+    position: 'absolute',
+    top: '50%',
+    left: toRem(-11.5),
+    transform: 'translateY(-50%)',
+    width: toRem(4),
+    height: toRem(8),
+    borderRadius: `0 ${toRem(4)} ${toRem(4)} 0`,
+    backgroundColor: color.Background.OnContainer,
+    pointerEvents: 'none',
+  },
+]);
+
 export const SidebarItemBadge = recipe({
   base: [
     DefaultReset,
@@ -138,9 +155,19 @@ export const SidebarItemBadge = recipe({
         left: toRem(-2),
       },
     },
+    placement: {
+      topLeft: {},
+      bottomRight: {
+        top: 'auto',
+        left: 'auto',
+        bottom: toRem(-6),
+        right: toRem(-6),
+      },
+    },
   },
   defaultVariants: {
     hasCount: false,
+    placement: 'topLeft',
   },
 });
 export type SidebarItemBadgeVariants = RecipeVariants<typeof SidebarItemBadge>;

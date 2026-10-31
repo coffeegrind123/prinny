@@ -403,6 +403,7 @@ function Appearance() {
   const [systemTheme, setSystemTheme] = useSetting(settingsAtom, 'useSystemTheme');
   const [monochromeMode, setMonochromeMode] = useSetting(settingsAtom, 'monochromeMode');
   const [twitterEmoji, setTwitterEmoji] = useSetting(settingsAtom, 'twitterEmoji');
+  const [spaceUnreadPill, setSpaceUnreadPill] = useSetting(settingsAtom, 'spaceUnreadPill');
   const [redMentionBadges, setRedMentionBadges] = useSetting(settingsAtom, 'redMentionBadges');
 
   return (
@@ -441,6 +442,14 @@ function Appearance() {
         <SettingTile
           title="Twitter Emoji"
           after={<Switch variant="Primary" value={twitterEmoji} onChange={setTwitterEmoji} />}
+        />
+      </SequenceCard>
+
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Unread Pills in the Space Bar"
+          description="A space with unread messages gets a small pill beside it instead of a badge. Only mentions get a count, in the corner."
+          after={<Switch variant="Primary" value={spaceUnreadPill} onChange={setSpaceUnreadPill} />}
         />
       </SequenceCard>
 

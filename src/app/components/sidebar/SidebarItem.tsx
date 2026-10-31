@@ -3,20 +3,23 @@ import { as, Avatar, Text, Tooltip, TooltipProvider, toRem } from 'folds';
 import { ComponentProps, ReactNode, RefCallback } from 'react';
 import * as css from './Sidebar.css';
 
-export const SidebarItem = as<'div', css.SidebarItemVariants>(
-  ({ as: AsSidebarAvatarBox = 'div', className, active, ...props }, ref) => (
+export const SidebarItem = as<'div', css.SidebarItemVariants & { unreadPill?: boolean }>(
+  ({ as: AsSidebarAvatarBox = 'div', className, active, unreadPill, children, ...props }, ref) => (
     <AsSidebarAvatarBox
       className={classNames(css.SidebarItem({ active }), className)}
       {...props}
       ref={ref}
-    />
+    >
+      {unreadPill && !active && <span className={css.SidebarItemUnreadPill} aria-hidden />}
+      {children}
+    </AsSidebarAvatarBox>
   ),
 );
 
 export const SidebarItemBadge = as<'div', css.SidebarItemBadgeVariants>(
-  ({ as: AsSidebarBadgeBox = 'div', className, hasCount, ...props }, ref) => (
+  ({ as: AsSidebarBadgeBox = 'div', className, hasCount, placement, ...props }, ref) => (
     <AsSidebarBadgeBox
-      className={classNames(css.SidebarItemBadge({ hasCount }), className)}
+      className={classNames(css.SidebarItemBadge({ hasCount, placement }), className)}
       {...props}
       ref={ref}
     />

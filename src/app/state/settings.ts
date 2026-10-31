@@ -293,6 +293,9 @@ export interface Settings {
   soundPack: string;
   // Mention and highlight badges in red (Critical) instead of green.
   redMentionBadges: boolean;
+  // Space rail: a plain unread space gets a pill on its left edge instead of a badge, and only
+  // mentions get a count badge, in the bottom-right corner, showing the mention total.
+  spaceUnreadPill: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -425,6 +428,7 @@ const defaultSettings: Settings = {
   gifProvider: 'klipy',
   soundPack: 'default',
   redMentionBadges: false,
+  spaceUnreadPill: false,
 };
 
 /** Settings that existed under a different shape in an older build. */
