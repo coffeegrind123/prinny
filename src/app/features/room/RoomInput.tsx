@@ -172,6 +172,9 @@ interface RoomInputProps {
    */
   threadLatestEventId?: string;
 }
+
+const ENCRYPT_PREPARE_INTERVAL_MS = 60_000;
+
 export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
   ({ editor, fileDropContainerRef, roomId, room, threadRootId, threadLatestEventId }, ref) => {
     const mx = useMatrixClient();
@@ -277,8 +280,24 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
 
     const sendTypingStatus = useTypingStatusUpdater(mx, roomId);
 
+    // Typing in an encrypted room starts the key query, Olm sessions and
+    // room-key share the first send would otherwise wait on; in a large room
+    // that is the bulk of the delay before a message leaves. Throttled because
+    // the SDK queues each call behind the last.
+    const lastEncryptPrepareRef = useRef(0);
+    const prepareToEncrypt = useCallback(() => {
+      if (!room.hasEncryptionStateEvent()) return;
+      const now = Date.now();
+      if (now - lastEncryptPrepareRef.current < ENCRYPT_PREPARE_INTERVAL_MS) return;
+      lastEncryptPrepareRef.current = now;
+      mx.getCrypto()?.prepareToEncrypt(room);
+    }, [mx, room]);
+
     const [emojiShortcodeReplace] = useSetting(settingsAtom, 'emojiShortcodeReplace');
     const handleEditorChange = useCallback(() => {
+      if (editor.operations.some((op) => op.type !== 'set_selection')) {
+        prepareToEncrypt();
+      }
       if (!emojiShortcodeReplace) return;
       // Only look when the change actually introduced a ':'. Every keystroke
       // runs through here, and scanning back from the cursor for a shortcode on
@@ -289,7 +308,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
       if (hasColonInsert) {
         replaceShortcodeWithEmoji(editor, emojiShortcodeMap);
       }
-    }, [editor, emojiShortcodeMap, emojiShortcodeReplace]);
+    }, [editor, emojiShortcodeMap, emojiShortcodeReplace, prepareToEncrypt]);
 
     const voiceRecorder = useVoiceRecorder(roomId);
     const micPermission = useMicrophonePermission();
