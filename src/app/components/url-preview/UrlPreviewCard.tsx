@@ -171,8 +171,11 @@ function rewriteEmbedUrl(url: string, useSoundcloak: boolean): string {
   return url;
 }
 
+// `mkv` plays where the engine has a Matroska demuxer (Chromium/WebView2,
+// Firefox 145+, WebKitGTK via GStreamer) and the tracks are codecs it decodes;
+// elsewhere the direct-video player falls back to a link on `error`.
 function isVideoUrl(url: string): boolean {
-  return /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
+  return /\.(mp4|webm|mov|ogg|mkv)(\?|$)/i.test(url);
 }
 
 function isAudioUrl(url: string): boolean {
@@ -602,6 +605,14 @@ export const UrlPreviewCard = as<
   const [thumbnailRejected, setThumbnailRejected] = useState(false);
   useEffect(() => {
     setThumbnailRejected(false);
+  }, [url]);
+
+  // Set when the direct-link <video> fails to load or decode (e.g. an .mkv on
+  // Safari, or a codec the engine lacks), so the card shows a link instead of
+  // a dead player. Keyed on `url` like the latch above.
+  const [directVideoFailed, setDirectVideoFailed] = useState(false);
+  useEffect(() => {
+    setDirectVideoFailed(false);
   }, [url]);
 
   const [mediaFeedViewer] = useSetting(settingsAtom, 'mediaFeedViewer');
@@ -2051,7 +2062,7 @@ export const UrlPreviewCard = as<
     // og:image is a poster, never the media. When the link itself is the file,
     // it is the only correct source — previously the <video> was pointed at
     // og:image, so a direct .mp4 got an empty src and silently rendered nothing.
-    const directVideoUrl = isVideoUrl(url) && isWebUrl(url) ? url : '';
+    const directVideoUrl = isVideoUrl(url) && isWebUrl(url) && !directVideoFailed ? url : '';
     const directAudioUrl = isAudioUrl(url) && isWebUrl(url) ? url : '';
     // A direct image link with no usable og:image at all (preview disabled,
     // preview failed, or a homeserver that declines to re-upload). The URL is
@@ -2232,11 +2243,23 @@ export const UrlPreviewCard = as<
             preload="metadata"
             style={ogVideoAspect ? { aspectRatio: ogVideoAspect } : undefined}
             onClick={(e) => e.stopPropagation()}
+            onError={() => {
+              console.warn('[url-preview] direct video failed to play:', directVideoUrl);
+              setDirectVideoFailed(true);
+            }}
           >
             <a href={directVideoUrl} target="_blank" rel="noreferrer">
               {title || 'Video'}
             </a>
           </video>
+        )}
+        {!isYt && !hasOgVideo && isVideo && directVideoFailed && isWebUrl(url) && (
+          <Text size="T200" priority="300">
+            This video can&apos;t be played here.{' '}
+            <a href={url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+              Open it
+            </a>
+          </Text>
         )}
 
         {/* Audio embed — same reasoning: an <audio> pointed at og:image is a

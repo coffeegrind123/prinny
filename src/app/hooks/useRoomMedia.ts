@@ -469,6 +469,8 @@ const EXTENSION_BY_MIME: Record<string, string> = {
   'image/avif': 'avif',
   'video/mp4': 'mp4',
   'video/webm': 'webm',
+  'video/x-matroska': 'mkv',
+  'video/matroska': 'mkv',
 };
 
 /**

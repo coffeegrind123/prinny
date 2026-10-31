@@ -76,6 +76,7 @@ const VIDEO_EXTENSION_MIME: Readonly<Record<string, string>> = {
   webm: 'video/webm',
   mov: 'video/quicktime',
   ogv: 'video/ogg',
+  mkv: 'video/x-matroska',
 };
 
 const AUDIO_EXTENSION_MIME: Readonly<Record<string, string>> = {
