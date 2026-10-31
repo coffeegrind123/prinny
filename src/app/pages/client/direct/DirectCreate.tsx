@@ -6,6 +6,7 @@ import { getDirectCreateSearchParams } from '../../pathSearchParam';
 import { getDirectRoomPath } from '../../pathUtils';
 import { getDMRoomFor } from '../../../utils/matrix';
 import { useDirectRooms } from './useDirectRooms';
+import { useRoomNavigate } from '../../../hooks/useRoomNavigate';
 import { ScreenSize, useScreenSizeContext } from '../../../hooks/useScreenSize';
 import {
   Page,
@@ -23,6 +24,7 @@ export function DirectCreate() {
   const screenSize = useScreenSizeContext();
 
   const navigate = useNavigate();
+  const { navigateRoom } = useRoomNavigate();
   const [searchParams] = useSearchParams();
   const { userId } = getDirectCreateSearchParams(searchParams);
 
@@ -31,11 +33,16 @@ export function DirectCreate() {
   useEffect(() => {
     if (userId) {
       const roomId = getDMRoomFor(mx, userId)?.roomId;
-      if (roomId && directs.includes(roomId)) {
+      if (!roomId) return;
+      // An untagged room the fallback found is still the DM; it just does not
+      // live under Direct.
+      if (directs.includes(roomId)) {
         navigate(getDirectRoomPath(roomId), { replace: true });
+      } else {
+        navigateRoom(roomId, undefined, { replace: true });
       }
     }
-  }, [mx, navigate, directs, userId]);
+  }, [mx, navigate, navigateRoom, directs, userId]);
 
   return (
     <Page>

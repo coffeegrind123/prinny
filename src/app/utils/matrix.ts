@@ -14,6 +14,7 @@ import {
   UploadResponse,
 } from 'matrix-js-sdk';
 import to from './await-to';
+import { factoryRoomIdByActivity } from './sort';
 import { getMediaAuthHeaders } from '../../sw-session';
 import { IImageInfo, IThumbnailContent, IVideoInfo } from '../../types/matrix/common';
 import { AccountDataEvent } from '../../types/matrix/accountData';
@@ -211,7 +212,34 @@ export const factoryEventSentBy = (senderId: string) => (ev: MatrixEvent) =>
 export const eventWithShortcode = (ev: MatrixEvent) =>
   typeof ev.getContent().shortcode === 'string';
 
+const PRESENT_MEMBERSHIPS = new Set<string>([Membership.Join, Membership.Invite]);
+
+/**
+ * The existing DM with `userId`, to reuse instead of creating another.
+ *
+ * m.direct is the real signal; the member-count guess below is only the
+ * fallback for rooms nobody tagged. Used alone it missed unencrypted DMs
+ * (bridges, older rooms) and any DM a third person had once joined and left,
+ * since getMembers() counts departed members, and so created a duplicate.
+ */
 export const getDMRoomFor = (mx: MatrixClient, userId: string): Room | undefined => {
+  const directRoomIds: unknown = mx.getAccountData(AccountDataEvent.Direct as any)?.getContent()[
+    userId
+  ];
+  const tagged = (Array.isArray(directRoomIds) ? (directRoomIds as string[]) : [])
+    .filter((roomId) => typeof roomId === 'string')
+    .sort(factoryRoomIdByActivity(mx))
+    .map((roomId) => mx.getRoom(roomId))
+    .filter((room): room is Room => room?.getMyMembership() === Membership.Join);
+
+  if (tagged.length > 0) {
+    // A room the other user is still in beats one they left.
+    return (
+      tagged.find((room) => PRESENT_MEMBERSHIPS.has(room.getMember(userId)?.membership ?? '')) ??
+      tagged[0]
+    );
+  }
+
   const dmLikeRooms = mx
     .getRooms()
     .filter(
