@@ -1,6 +1,4 @@
 import { Room } from 'matrix-js-sdk';
-import { EventType } from 'matrix-js-sdk/lib/@types/event';
-import { MatrixEvent } from 'matrix-js-sdk/lib/models/event';
 import {
   MatrixRTCSession,
   MatrixRTCSessionEvent,
@@ -68,9 +66,6 @@ export const useSpaceHasCall = (space: Room): boolean => {
 
   useEffect(() => {
     const childRoomIds = getSpaceChildren(space);
-    let cancelled = false;
-    let stateVersion = 0;
-
     const hasLocalCall = () =>
       childRoomIds.some((roomId) => {
         const room = mx.getRoom(roomId);
@@ -78,51 +73,17 @@ export const useSpaceHasCall = (space: Room): boolean => {
         return mx.matrixRTC.getRoomSession(room).memberships.length > 0;
       });
 
-    const check = () => {
-      stateVersion += 1;
-      setHasCall(hasLocalCall());
-    };
-
-    const fetchCallState = async () => {
-      const version = stateVersion;
-      const results = await Promise.all(
-        childRoomIds.map(async (roomId) => {
-          try {
-            const state = await mx.roomState(roomId);
-            const membershipEvents = state.filter(
-              (event) =>
-                event.type === EventType.GroupCallMemberPrefix ||
-                event.type === EventType.RTCMembership,
-            );
-            const memberships = await Promise.all(
-              membershipEvents.map(async (event) => {
-                try {
-                  return await CallMembership.parseFromEvent(new MatrixEvent(event));
-                } catch {
-                  return undefined;
-                }
-              }),
-            );
-            return memberships.some((membership) => membership && !membership.isExpired());
-          } catch {
-            return false;
-          }
-        }),
-      );
-
-      if (!cancelled && version === stateVersion) {
-        setHasCall(hasLocalCall() || results.some(Boolean));
-      }
-    };
+    // MatrixRTC sessions are built from synced state for every joined room,
+    // so no per-room /state download is needed. That download ran for every
+    // child at mount, and the server refuses it (403) for most unjoined ones.
+    const check = () => setHasCall(hasLocalCall());
 
     mx.matrixRTC.on(MatrixRTCSessionManagerEvents.SessionStarted, check);
     mx.matrixRTC.on(MatrixRTCSessionManagerEvents.SessionEnded, check);
 
     check();
-    fetchCallState();
 
     return () => {
-      cancelled = true;
       mx.matrixRTC.off(MatrixRTCSessionManagerEvents.SessionStarted, check);
       mx.matrixRTC.off(MatrixRTCSessionManagerEvents.SessionEnded, check);
     };
