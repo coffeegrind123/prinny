@@ -33,6 +33,12 @@ User-facing changes per commit. Most recent at the top.
 - `1aaf46d` Fixed **Clear Cache silently doing nothing while another Prinny tab or window was open** — it now says which is blocking it, and finishes once that tab closes (from meow).
 - `1e791fa` Fixed **the "Connecting…" banner staying up to 30 seconds after the connection was already working**, and added a detail line to the connecting and connection-lost banners showing what it's doing and the last error (from meow).
 - `8e7e79f` Fixed **messages arriving a minute or two late after waking the laptop or reopening the Android app** — a stalled connection is restarted right away (from Sable).
+- `37fd619` `3325ece` Fixed **missed notifications for the second of two messages arriving together, and notifications that ignored a room's mentions-only or silent rules** — each message is now judged by its own push rules, encrypted ones after they decrypt (a late room key still notifies). Mention badges in encrypted rooms also update as soon as a message decrypts (from meow).
+- `41fe200` `8872ce2` `e659967` Fixed **spoilers being shown in notifications** on desktop, web push and Android — spoilered text now shows as `[spoiler]` (from meow).
+- `5c800ab` Fixed **GIFs announced as "🎬 file.mp4" in notifications** — they now say "Sent a GIF" (from meow).
+- `7e5a598` Fixed **clicking a browser notification not bringing the Prinny tab forward** (from meow).
+- `182f423` `3a2aad1` Fixed **push gateways that send the notification as text getting no notification on Android (it even cleared the existing one) or a generic "New message" on the web** — both shapes are now read (from Sable).
+- `4a55ff3` Fixed **link previews loading in encrypted rooms from search, pinned messages, the inbox and threads** when previews in encrypted rooms are turned off — those views now follow the setting (from meow).
 
 ## 18.10.2026
 
