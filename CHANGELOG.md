@@ -2,6 +2,11 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 31.10.2026
+
+- `d8cd1dd` Fixed **deleted messages reappearing when you copy a stretch of the timeline**. Copy picked up edits the timeline never shows, so a message that was edited and then deleted came back as its `* new text` edit, and every edited message added a stray `* …` line. Copy now includes only the messages actually drawn on screen.
+- `fbbc487` Added **inline playback for linked `.mkv` videos** — Matroska links now embed a player like `.mp4`/`.webm` do (plays in the Windows app, Chrome and Firefox 145+). Where a linked video can't be played, the card shows an "Open it" link instead of a dead player.
+
 ## 18.10.2026
 
 - `e4bba77` `af62311` `cddd313` Fixed **security issues in libraries the app ships with and its build tools**. Updated `source-map-js`, which had a flaw that could freeze processing on a crafted source map, and `i18next-http-backend` to 4.0.3, fixing incomplete URL checks when loading translations. Build-only tools `brace-expansion` and `undici` were updated to patched releases too.
