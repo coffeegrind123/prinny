@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import { ClientEvent, MatrixClient } from 'matrix-js-sdk';
 import {
   getProfileRichPresence,
+  RICH_PRESENCE_EXPIRY_GRACE,
   RICH_PRESENCE_PROFILE_FIELDS,
   RichPresence,
 } from '../../types/matrix/richPresence';
@@ -19,6 +20,9 @@ const REFRESH_INTERVAL = 3 * 60 * 1000;
 // delays past 2^31-1 ms, which a bogus timestamp would turn into a refetch
 // loop; anything beyond this is left to the heartbeat.
 const MAX_SONG_END_DELAY = 6 * 60 * 60 * 1000;
+
+// setTimeout's ceiling; a longer delay would fire immediately.
+const MAX_TIMEOUT_DELAY = 2_147_483_647;
 
 // Opening a big member list mounts hundreds of rows at once; cap the number of
 // profile requests in flight and back off when the server rate-limits us.
@@ -120,6 +124,7 @@ const startSubscription = (
   let active = true;
   let updateVersion = 0;
   let songEndTimer: ReturnType<typeof setTimeout> | undefined;
+  let expiryTimer: ReturnType<typeof setTimeout> | undefined;
 
   // The rich presence fields as last seen. MSC4429 profile updates are
   // partial (an absent field is unchanged, a null one was removed), so they
@@ -142,13 +147,24 @@ const startSubscription = (
 
   // Re-fetch when the current media track reaches its end time, so the next
   // song shows up promptly instead of at the next heartbeat.
+  //
+  // Also hide the activity once its expiry passes, even if the publisher
+  // crashed and no profile update ever arrives. Re-parsing the same fields
+  // then yields nothing.
   function apply() {
     const presence = getProfileRichPresence(fields);
     setRichPresence(presence);
+
     clearTimeout(songEndTimer);
     const delay = songEndDelay(presence);
     if (delay !== undefined) {
       songEndTimer = setTimeout(loadProfile, delay);
+    }
+
+    clearTimeout(expiryTimer);
+    if (presence?.expiresAt !== undefined) {
+      const expiresIn = presence.expiresAt + RICH_PRESENCE_EXPIRY_GRACE - Date.now() + 1;
+      expiryTimer = setTimeout(apply, Math.min(Math.max(expiresIn, 0), MAX_TIMEOUT_DELAY));
     }
   }
 
@@ -193,6 +209,7 @@ const startSubscription = (
     active = false;
     clearInterval(heartbeat);
     clearTimeout(songEndTimer);
+    clearTimeout(expiryTimer);
     mx.removeListener(ClientEvent.UserProfileUpdate, handleProfileUpdate);
   };
 };

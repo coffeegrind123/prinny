@@ -4,7 +4,11 @@ import { useMatrixClient } from './useMatrixClient';
 import { useSetting } from '../state/hooks/settings';
 import { settingsAtom } from '../state/settings';
 import { richPresenceBridgeStatusAtom } from '../state/richPresenceBridge';
-import { MSC4320_RPC } from '../../types/matrix/richPresence';
+import {
+  MSC4320_RPC,
+  RICH_PRESENCE_EXPIRES_AT,
+  RICH_PRESENCE_TTL,
+} from '../../types/matrix/richPresence';
 import {
   isMediaPayload,
   mapDiscordActivity,
@@ -18,6 +22,10 @@ import { isTauriDesktop } from '../utils/platform';
 // Minimum interval between profile writes. Discord-RPC clients can fire
 // SET_ACTIVITY on every progress tick; coalesce to avoid hammering the HS.
 const MIN_WRITE_INTERVAL = 5000;
+
+// How often an unchanged activity is re-written to push its expiry forward.
+// Well inside RICH_PRESENCE_TTL, so a reader never sees a live activity lapse.
+const EXPIRY_REFRESH_INTERVAL = 60 * 1000;
 
 /** Longest a failing write waits before being tried again. */
 const MAX_WRITE_BACKOFF = 5 * 60 * 1000;
@@ -90,15 +98,29 @@ export const useRichPresencePublisher = () => {
     const tick = async () => {
       if (stopped || inFlight || writesUnsupported) return;
       if (Date.now() < retryWritesAt) return;
-      if (sameActivityPayload(pending, lastWritten)) return;
+      if (
+        sameActivityPayload(pending, lastWritten) &&
+        (!pending || Date.now() - lastWriteAt < EXPIRY_REFRESH_INTERVAL)
+      ) {
+        return;
+      }
+      // Captured so an activity that changes during the request is written next.
+      const writing = pending;
       inFlight = true;
       try {
-        if (pending) {
-          await mx.setExtendedProfileProperty(MSC4320_RPC, pending);
+        if (writing) {
+          await mx.setExtendedProfileProperty(MSC4320_RPC, {
+            ...writing,
+            [RICH_PRESENCE_EXPIRES_AT]: Date.now() + RICH_PRESENCE_TTL,
+          });
         } else {
           await mx.deleteExtendedProfileProperty(MSC4320_RPC);
         }
-        lastWritten = pending;
+        // The cleanup's delete may have raced this write and landed first.
+        if (stopped && writing) {
+          await mx.deleteExtendedProfileProperty(MSC4320_RPC);
+        }
+        lastWritten = writing;
         lastWriteAt = Date.now();
         writeFailures = 0;
         retryWritesAt = 0;
