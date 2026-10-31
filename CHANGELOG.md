@@ -9,6 +9,15 @@ User-facing changes per commit. Most recent at the top.
 - `c0b98b7` Fixed **certificate checks that could trust revoked emSign certificates** in the desktop and Android apps — updated the Rust TLS libraries `rustls-webpki` to 0.103.16 and `webpki-roots`/`webpki-root-certs` to 1.0.11 (RUSTSEC-2026-0381, 0382, 0383).
 - `a7f8e9b` Fixed **a way for a crafted message to slip formatting past the HTML filter** — updated `sanitize-html` to 2.18.1 (from upstream Cinny). A `<noscript>` block could end early and let what followed through; 2.18.1 also caps a deeply nested `<iframe>` input that could crash the filter, and drops the flagged `deepmerge` dependency.
 - `7a0be22` Improved **featured communities in Explore** — three featured rooms and spaces that had moved (stickers & emojis, video games, free software) now point to their new addresses (from upstream Cinny).
+- `fa0e133` Fixed **"Verify Manually" with a recovery key silently replacing your cross-signing identity** — if secret storage was missing any cross-signing secret, verifying minted a new identity and overwrote secret storage. All three secrets are now checked first and a reset is refused; "Enable" refuses when the server already has keys (from Sable).
+- `20bc24c` Fixed **"Device verified!" showing when the server had discarded the signature** — after a recovery-key verification the keys the server published are compared, and a superseded recovery key or mismatched device key is reported (from Sable).
+- `d287d80` Fixed **the device verification dialog** — requests that arrived during startup now show, closing a finished emoji check no longer cancels it, and a failed accept or start shows an error instead of spinning forever (from Sable).
+- `d514348` Fixed **a future dependency refresh breaking new encrypted sessions** — `matrix-sdk-crypto-wasm` is pinned to 18.4.0; 18.5+ re-uploads one-time keys every sync (from Sable).
+- `47e4c29` Fixed **encrypted files from some clients and bridges failing with "Mismatched SHA-256 digest"** — padded base64 in the file's key, IV and hash is now accepted (from Sable).
+- `15caa46` Fixed **key backup staying off for the whole session when the app started before the network was up** — backup is checked again after the first sync (from Sable).
+- `d51d9e9` Added **"Verify with Device" for a new login** — asks your other verified devices to start emoji verification, and warns first when this device's clock is too far off for it to work (from Sable).
+- `266ebe7` Fixed **a server "soft logout" (expired session) deleting every room key not in backup** — the app now keeps your encryption keys and shows a "Session expired" screen to sign back in on the same device, by password or single sign-on (from Sable).
+- `9aa2d58` Fixed **"Failed to load" with a Retry that never worked when an old login's encryption store was left behind** — the session now uses its own store and leaves the old one intact (from Sable).
 
 ## 18.10.2026
 
