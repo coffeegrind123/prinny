@@ -5,6 +5,8 @@ import {
   Box,
   Button,
   Chip,
+  Dialog,
+  Header,
   Icon,
   IconButton,
   Icons,
@@ -151,6 +153,63 @@ type InviteCardProps = {
   onNavigate: NavigateHandler;
   hideAvatar: boolean;
 };
+
+// Declining can't be undone (a private room needs a fresh invite), and the
+// button sits right next to Accept, so ask first.
+function useDeclineConfirm(message: string, onConfirm: () => void) {
+  const [open, setOpen] = useState(false);
+  const dialog = open && (
+    <Overlay open backdrop={<OverlayBackdrop />}>
+      <OverlayCenter>
+        <FocusTrap
+          focusTrapOptions={{
+            initialFocus: false,
+            onDeactivate: () => setOpen(false),
+            clickOutsideDeactivates: true,
+            escapeDeactivates: stopPropagation,
+          }}
+        >
+          <Dialog variant="Surface">
+            <Header
+              style={{
+                padding: `0 ${config.space.S200} 0 ${config.space.S400}`,
+                borderBottomWidth: config.borderWidth.B300,
+              }}
+              variant="Surface"
+              size="500"
+            >
+              <Box grow="Yes">
+                <Text size="H4">Decline Invite</Text>
+              </Box>
+              <IconButton size="300" onClick={() => setOpen(false)} radii="300">
+                <Icon src={Icons.Cross} />
+              </IconButton>
+            </Header>
+            <Box style={{ padding: config.space.S400 }} direction="Column" gap="400">
+              <Text priority="400">{message}</Text>
+              <Button
+                variant="Critical"
+                onClick={() => {
+                  setOpen(false);
+                  onConfirm();
+                }}
+              >
+                <Text size="B400">Decline</Text>
+              </Button>
+            </Box>
+          </Dialog>
+        </FocusTrap>
+      </OverlayCenter>
+    </Overlay>
+  );
+  return { ask: () => setOpen(true), dialog };
+}
+
+const declineAllMessage = (count: number) =>
+  count === 1
+    ? 'Are you sure you want to decline this invite?'
+    : `Are you sure you want to decline all ${count} invites?`;
+
 function InviteCard({
   invite,
   compact,
@@ -181,6 +240,11 @@ function InviteCard({
   );
   const [leaveState, leave] = useAsyncCallback<Record<string, never>, MatrixError, []>(
     useCallback(() => mx.leave(invite.roomId), [mx, invite]),
+  );
+
+  const declineConfirm = useDeclineConfirm(
+    `Are you sure you want to decline the invite to ${invite.roomName}?`,
+    leave,
   );
 
   const joining =
@@ -282,7 +346,7 @@ function InviteCard({
           </Box>
           <Box gap="200" shrink="No" alignItems="Center">
             <Button
-              onClick={leave}
+              onClick={declineConfirm.ask}
               size="300"
               variant="Secondary"
               radii="300"
@@ -292,6 +356,7 @@ function InviteCard({
             >
               <Text size="B300">Decline</Text>
             </Button>
+            {declineConfirm.dialog}
             <Button
               onClick={join}
               size="300"
@@ -503,6 +568,7 @@ function UnknownInvites({
   );
 
   const declining = declineAllStatus.status === AsyncStatus.Loading;
+  const declineConfirm = useDeclineConfirm(declineAllMessage(invites.length), declineAll);
 
   return (
     <Box direction="Column" gap="200">
@@ -512,7 +578,7 @@ function UnknownInvites({
           {invites.length > 0 && (
             <Chip
               variant="SurfaceVariant"
-              onClick={declineAll}
+              onClick={declineConfirm.ask}
               before={declining && <Spinner size="50" variant="Secondary" fill="Soft" />}
               disabled={declining}
               radii="Pill"
@@ -520,6 +586,7 @@ function UnknownInvites({
               <Text size="T200">Decline All</Text>
             </Chip>
           )}
+          {declineConfirm.dialog}
         </Box>
       </Box>
       {invites.length > 0 ? (
@@ -598,6 +665,7 @@ function SpamInvites({
   );
 
   const declining = declineAllStatus.status === AsyncStatus.Loading;
+  const declineConfirm = useDeclineConfirm(declineAllMessage(invites.length), declineAll);
   const reporting = reportAllStatus.status === AsyncStatus.Loading;
   const blocking = blockAllStatus.status === AsyncStatus.Loading;
   const loading = blocking || reporting || declining;
@@ -625,7 +693,7 @@ function SpamInvites({
                     variant="Critical"
                     fill="Solid"
                     radii="300"
-                    onClick={declineAll}
+                    onClick={declineConfirm.ask}
                     before={declining && <Spinner size="100" variant="Critical" fill="Solid" />}
                     disabled={loading}
                   >
@@ -633,6 +701,7 @@ function SpamInvites({
                       Decline All
                     </Text>
                   </Button>
+                  {declineConfirm.dialog}
                   {reportRoomSupported && reportAllStatus.status !== AsyncStatus.Success && (
                     <Button
                       size="300"
