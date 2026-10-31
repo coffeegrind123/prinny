@@ -37,6 +37,7 @@ import { withSearchParam } from '../../../pages/pathUtils';
 import { useAccountManagementActions } from '../../../hooks/useAccountManagement';
 import { openWebUrl } from '../../../utils/safeUrl';
 import { verificationClockWarning } from '../../../utils/clockSkew';
+import { useRequestOwnVerification } from '../../../hooks/useRequestOwnVerification';
 
 type VerificationStatusBadgeProps = {
   verificationStatus: VerificationStatus;
@@ -124,28 +125,16 @@ export function VerifyCurrentDeviceTile({
   secretStorageKeyContent,
   hasVerifiedOtherDevice = false,
 }: VerifyCurrentDeviceTileProps) {
-  const mx = useMatrixClient();
   const [learnMore, setLearnMore] = useState(false);
 
   const [manualVerification, setManualVerification] = useState(false);
   const handleCancelVerification = () => setManualVerification(false);
 
-  const [requestState, setRequestState] = useState<AsyncState<VerificationRequest, Error>>({
-    status: AsyncStatus.Idle,
-  });
-  const requestVerification = useAsync<VerificationRequest, Error, []>(
-    useCallback(async () => {
-      const crypto = mx.getCrypto();
-      if (!crypto) throw new Error('Unexpected Error! Crypto object not found.');
-      const clockWarning = await verificationClockWarning(mx);
-      if (clockWarning) throw new Error(clockWarning);
-      return crypto.requestOwnUserVerification();
-    }, [mx]),
-    setRequestState,
-  );
-  const handleExitVerification = useCallback(() => {
-    setRequestState({ status: AsyncStatus.Idle });
-  }, []);
+  const {
+    requestState,
+    request: requestVerification,
+    reset: handleExitVerification,
+  } = useRequestOwnVerification();
   const requesting = requestState.status === AsyncStatus.Loading;
   const canVerifyManually = Boolean(secretStorageKeyId && secretStorageKeyContent);
   const canVerifyWithDevice = hasVerifiedOtherDevice;

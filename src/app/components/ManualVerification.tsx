@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, useCallback, useState } from 'react';
+import { MouseEventHandler, ReactNode, useState } from 'react';
 import {
   Box,
   Text,
@@ -17,10 +17,8 @@ import { stopPropagation } from '../utils/keyboard';
 import { SettingTile } from './setting-tile';
 import { SecretStorageKeyContent } from '../../types/matrix/accountData';
 import { SecretStorageRecoveryKey, SecretStorageRecoveryPassphrase } from './SecretStorage';
-import { useMatrixClient } from '../hooks/useMatrixClient';
-import { AsyncStatus, useAsyncCallback } from '../hooks/useAsyncCallback';
-import { storePrivateKey } from '../../client/secretStorageKeys';
-import { restoreCrossSigningFromSecretStorage } from '../utils/matrix-crypto';
+import { AsyncStatus } from '../hooks/useAsyncCallback';
+import { useVerifyWithRecoveryKey } from '../hooks/useVerifyWithRecoveryKey';
 
 export enum ManualVerificationMethod {
   RecoveryPassphrase = 'passphrase',
@@ -127,8 +125,6 @@ export function ManualVerificationTile({
   description,
   successMessage = 'Device verified!',
 }: ManualVerificationTileProps) {
-  const mx = useMatrixClient();
-
   const hasPassphrase = !!secretStorageKeyContent.passphrase;
   const [method, setMethod] = useState(
     hasPassphrase
@@ -136,27 +132,11 @@ export function ManualVerificationTile({
       : ManualVerificationMethod.RecoveryKey,
   );
 
-  const verifyAndRestoreBackup = useCallback(
-    async (recoveryKey: Uint8Array) => {
-      const crypto = mx.getCrypto();
-      if (!crypto) {
-        throw new Error('Unexpected Error! Crypto object not found.');
-      }
-
-      storePrivateKey(secretStorageKeyId, recoveryKey);
-
-      await restoreCrossSigningFromSecretStorage(mx, crypto);
-      await crypto.bootstrapSecretStorage({});
-
-      await crypto.loadSessionBackupPrivateKeyFromSecretStorage();
-    },
-    [mx, secretStorageKeyId],
-  );
-
-  const [verifyState, handleDecodedRecoveryKey] = useAsyncCallback<void, Error, [Uint8Array]>(
-    verifyAndRestoreBackup,
-  );
-  const verifying = verifyState.status === AsyncStatus.Loading;
+  const {
+    verifyState,
+    verify: handleDecodedRecoveryKey,
+    verifying,
+  } = useVerifyWithRecoveryKey(secretStorageKeyId);
 
   return (
     <Box direction="Column" gap="200">
