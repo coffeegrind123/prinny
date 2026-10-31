@@ -1,5 +1,6 @@
 import { EventType, MatrixClient, ReceiptType } from 'matrix-js-sdk';
 import { getRoomMarkedUnread } from './room';
+import { rememberLocalReadTs, rewindLocalReadTs } from '../state/readMarkers';
 
 /**
  * MSC2867: flag a room unread, or clear the flag.
@@ -60,6 +61,13 @@ export const releaseAutoMarkAsRead = (roomId: string) => {
   autoReadSuppressedRooms.delete(roomId);
 };
 
+/**
+ * The last receipt per room that the server accepted. The SDK adds a local-echo
+ * receipt the moment one is sent, so `getEventReadUpTo()` says "read" even when
+ * the POST failed, and every later call would then be a no-op until a restart.
+ */
+const sentReceipts = new Map<string, string>();
+
 export type MarkAsReadOptions = {
   /**
    * Set by the timeline's own "you are looking at the bottom of this room"
@@ -98,7 +106,14 @@ export async function markAsRead(
   const getLatestValidEvent = () => {
     for (let i = timeline.length - 1; i >= 0; i -= 1) {
       const latestEvent = timeline[i];
-      if (latestEvent.getId() === readEventId) return null;
+      const latestId = latestEvent.getId();
+      if (
+        latestId === readEventId &&
+        (sentReceipts.get(roomId) === latestId ||
+          latestId === room.getEventReadUpTo(mx.getUserId()!, true))
+      ) {
+        return null;
+      }
       if (!latestEvent.isSending()) return latestEvent;
     }
     return null;
@@ -107,10 +122,18 @@ export async function markAsRead(
   const latestEvent = getLatestValidEvent();
   if (latestEvent === null) return;
 
-  await mx.sendReadReceipt(
-    latestEvent,
-    privateReceipt ? ReceiptType.ReadPrivate : ReceiptType.Read,
-  );
+  const eventId = latestEvent.getId()!;
+  try {
+    await mx.sendReadReceipt(
+      latestEvent,
+      privateReceipt ? ReceiptType.ReadPrivate : ReceiptType.Read,
+    );
+    sentReceipts.set(roomId, eventId);
+    rememberLocalReadTs(roomId, latestEvent.getTs());
+  } catch (err) {
+    sentReceipts.delete(roomId);
+    console.warn('[unread] failed to send read receipt', roomId, eventId, err);
+  }
 }
 
 /**
@@ -153,6 +176,8 @@ export async function markAsUnread(mx: MatrixClient, roomId: string, eventId: st
   if (previousEvent && !previousEvent.isSending()) {
     try {
       await mx.sendReadReceipt(previousEvent, ReceiptType.Read);
+      sentReceipts.set(roomId, previousEvent.getId()!);
+      rewindLocalReadTs(roomId, previousEvent.getTs());
     } catch {
       // A homeserver that refuses a backwards receipt must not cost us the
       // flag, which is the half the user actually sees.
