@@ -554,6 +554,22 @@ export const getPrevWordRange = (editor: Editor): BaseRange | undefined => {
   return wordStartPoint && Editor.range(editor, wordStartPoint, cursorPoint);
 };
 
+/**
+ * Whether the cursor is inside a ``` code block that has not been closed yet:
+ * an odd number of fences in the lines up to and including the cursor's. Each
+ * top-level paragraph is one line of the markdown source.
+ */
+export const isInOpenCodeFence = (editor: Editor): boolean => {
+  const { selection } = editor;
+  if (!selection) return false;
+  const [index] = Range.start(selection).path;
+  let fences = 0;
+  for (let i = 0; i <= index && i < editor.children.length; i += 1) {
+    fences += Node.string(editor.children[i]).match(/`{3,}/g)?.length ?? 0;
+  }
+  return fences % 2 === 1;
+};
+
 export const isEmptyEditor = (editor: Editor): boolean => {
   const firstChildren = editor.children[0];
   if (firstChildren && Element.isElement(firstChildren)) {

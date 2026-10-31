@@ -75,6 +75,7 @@ const permittedTagToAttributes = {
   pre: ['data-md', 'class'],
   ol: ['start', 'type', 'data-md'],
   ul: ['data-md'],
+  sub: ['data-md'],
   // `draggable` is here because the allowlist is applied to a tag's attributes
   // *after* its transformer runs, so `transformATag` setting it is not enough
   // on its own — it would be stripped straight back off.

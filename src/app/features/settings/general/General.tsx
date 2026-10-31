@@ -1018,6 +1018,7 @@ function DateAndTime() {
 function Editor() {
   const [enterForNewline, setEnterForNewline] = useSetting(settingsAtom, 'enterForNewline');
   const [scrollOnSend, setScrollOnSend] = useSetting(settingsAtom, 'scrollOnSend');
+  const [discordMarkdown, setDiscordMarkdown] = useSetting(settingsAtom, 'discordMarkdown');
   const [disableSpellcheck, setDisableSpellcheck] = useSetting(settingsAtom, 'disableSpellcheck');
   const [isMarkdown, setIsMarkdown] = useSetting(settingsAtom, 'isMarkdown');
   const [hideReadReceipts, setHideReadReceipts] = useSetting(settingsAtom, 'hideReadReceipts');
@@ -1089,6 +1090,17 @@ function Editor() {
           after={<Switch variant="Primary" value={isMarkdown} onChange={setIsMarkdown} />}
         />
       </SequenceCard>
+      {isMarkdown && (
+        <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+          <SettingTile
+            title="Discord Markdown"
+            description="Write markdown the way Discord reads it: headings stop at ###, a quote needs a space after >, >>> quotes the rest of the message, -# makes small text, * and _ italics skip 2 * 3 and snake_case, and <link> hides the brackets. Enter inside an unclosed ``` block adds a line. Other apps see the result, for example -# arrives as subscript."
+            after={
+              <Switch variant="Primary" value={discordMarkdown} onChange={setDiscordMarkdown} />
+            }
+          />
+        </SequenceCard>
+      )}
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
           title="Don't Send My Read Receipts"

@@ -52,6 +52,7 @@ import {
   customHtmlEqualsPlainText,
   trimCustomHtml,
   isEmptyEditor,
+  isInOpenCodeFence,
   getBeginCommand,
   trimCommand,
   getMentions,
@@ -193,6 +194,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
     const sendKeys =
       keybinds['send-message'] ?? getKeybindDefinition('send-message')?.defaultKeys ?? 'mod+enter';
     const [isMarkdown] = useSetting(settingsAtom, 'isMarkdown');
+    const [discordMarkdown] = useSetting(settingsAtom, 'discordMarkdown');
     const [hideTypingStatus] = useSetting(settingsAtom, 'hideTypingStatus');
     const [galleryUploads] = useSetting(settingsAtom, 'galleryUploads');
     const [legacyUsernameColor] = useSetting(settingsAtom, 'legacyUsernameColor');
@@ -647,6 +649,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
           allowTextFormatting: true,
           allowBlockMarkdown: isMarkdown,
           allowInlineMarkdown: isMarkdown,
+          discordMarkdown,
         }),
       );
       let msgType = MsgType.Text;
@@ -775,6 +778,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
       sendTypingStatus,
       setReplyDraft,
       isMarkdown,
+      discordMarkdown,
       commands,
       applyRelation,
       mapStyleUrl,
@@ -799,7 +803,11 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
     const handleKeyDown: KeyboardEventHandler = useCallback(
       (evt) => {
         if (
-          (isKeyHotkey(sendKeys, evt) || (!enterForNewline && isKeyHotkey('enter', evt))) &&
+          (isKeyHotkey(sendKeys, evt) ||
+            (!enterForNewline &&
+              isKeyHotkey('enter', evt) &&
+              // Discord dialect: Enter inside an unclosed ``` block adds a line.
+              !(isMarkdown && discordMarkdown && isInOpenCodeFence(editor)))) &&
           !isComposing(evt)
         ) {
           evt.preventDefault();
@@ -814,7 +822,17 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
           setReplyDraft(undefined);
         }
       },
-      [submit, setReplyDraft, enterForNewline, autocompleteQuery, isComposing, sendKeys],
+      [
+        submit,
+        setReplyDraft,
+        enterForNewline,
+        autocompleteQuery,
+        isComposing,
+        sendKeys,
+        isMarkdown,
+        discordMarkdown,
+        editor,
+      ],
     );
 
     const handleKeyUp: KeyboardEventHandler = useCallback(

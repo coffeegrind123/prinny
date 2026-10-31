@@ -310,6 +310,9 @@ export interface Settings {
   // Message search understands from:, in:, mentions:, has:, before:, after:, during: and
   // pinned:true. Filters /search cannot express are applied to the results in the client.
   searchOperators: boolean;
+  // Discord's markdown dialect when sending: # to ### headings only, `>>> ` quotes the rest,
+  // `-# ` subtext (sent as <sub>), stricter * and _ italics, <url> links. Changes what others receive.
+  discordMarkdown: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -448,6 +451,7 @@ const defaultSettings: Settings = {
   disableSpellcheck: false,
   extraThemes: false,
   searchOperators: false,
+  discordMarkdown: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

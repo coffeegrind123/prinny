@@ -6,7 +6,9 @@ import { CustomElement } from './slate';
 import {
   canonicalFencedCodeBlocks,
   parseBlockMD,
+  parseBlockMDDiscord,
   parseInlineMD,
+  parseInlineMDDiscord,
   unescapeMarkdownBlockSequences,
   unescapeMarkdownInlineSequences,
 } from '../../plugins/markdown';
@@ -18,6 +20,8 @@ export type OutputOptions = {
   allowTextFormatting?: boolean;
   allowInlineMarkdown?: boolean;
   allowBlockMarkdown?: boolean;
+  /** Discord's markdown dialect (the discordMarkdown setting) instead of ours. */
+  discordMarkdown?: boolean;
 };
 
 const textToCustomHtml = (node: Text, opts: OutputOptions): string => {
@@ -32,7 +36,7 @@ const textToCustomHtml = (node: Text, opts: OutputOptions): string => {
   }
 
   if (opts.allowInlineMarkdown && string === sanitizeText(node.text)) {
-    string = parseInlineMD(string);
+    string = opts.discordMarkdown ? parseInlineMDDiscord(string) : parseInlineMD(string);
   }
 
   return string;
@@ -100,30 +104,49 @@ const ignoreHTMLParseInlineMD = (text: string): string =>
     (match) => match[0],
     (txt) => parseInlineMD(txt),
   ).join('');
+const ignoreHTMLParseInlineMDDiscord = (text: string): string =>
+  findAndReplace(
+    text,
+    HTML_TAG_REG_G,
+    (match) => match[0],
+    (txt) => parseInlineMDDiscord(txt),
+  ).join('');
+
+// The quote markers arrive HTML-escaped; turn them back so the block rules see
+// them. Discord's `>>>` needs all three, and a quote needs the space after it.
+const unescapeQuoteMarker = (line: string, discord?: boolean): string =>
+  discord
+    ? line.replace(
+        /^(\\*)(&gt;&gt;&gt;|&gt;)(?= |$)/,
+        (_m, esc: string, gts: string) => `${esc}${'>'.repeat(gts.length / 4)}`,
+      )
+    : line.replace(/^(\\*)&gt;/, '$1>');
 
 export const toMatrixCustomHTML = (
   node: Descendant | Descendant[],
   opts: OutputOptions,
 ): string => {
   let markdownLines = '';
+  const parseMarkdownLines = (lines: string): string =>
+    opts.discordMarkdown
+      ? parseBlockMDDiscord(lines, ignoreHTMLParseInlineMDDiscord)
+      : parseBlockMD(lines, ignoreHTMLParseInlineMD);
   const parseNode = (n: Descendant, index: number, targetNodes: Descendant[]) => {
     if (opts.allowBlockMarkdown && 'type' in n && n.type === BlockType.Paragraph) {
       const line = toMatrixCustomHTML(n, {
         ...opts,
         allowInlineMarkdown: false,
         allowBlockMarkdown: false,
-      })
-        .replace(/<br\/>$/, '\n')
-        .replace(/^(\\*)&gt;/, '$1>');
+      }).replace(/<br\/>$/, '\n');
 
-      markdownLines += line;
+      markdownLines += unescapeQuoteMarker(line, opts.discordMarkdown);
       if (index === targetNodes.length - 1) {
-        return parseBlockMD(markdownLines, ignoreHTMLParseInlineMD);
+        return parseMarkdownLines(markdownLines);
       }
       return '';
     }
 
-    const parsedMarkdown = parseBlockMD(markdownLines, ignoreHTMLParseInlineMD);
+    const parsedMarkdown = parseMarkdownLines(markdownLines);
     markdownLines = '';
     const isCodeLine = 'type' in n && n.type === BlockType.CodeLine;
     if (isCodeLine) return `${parsedMarkdown}${toMatrixCustomHTML(n, {})}`;

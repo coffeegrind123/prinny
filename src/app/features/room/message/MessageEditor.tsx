@@ -74,6 +74,7 @@ export const MessageEditor = as<'div', MessageEditorProps>(
       keybinds['send-message'] ?? getKeybindDefinition('send-message')?.defaultKeys ?? 'mod+enter';
     const [globalToolbar] = useSetting(settingsAtom, 'editorToolbar');
     const [isMarkdown] = useSetting(settingsAtom, 'isMarkdown');
+    const [discordMarkdown] = useSetting(settingsAtom, 'discordMarkdown');
     const [toolbar, setToolbar] = useState(globalToolbar);
     const isComposing = useComposingCheck();
 
@@ -124,6 +125,7 @@ export const MessageEditor = as<'div', MessageEditorProps>(
             allowTextFormatting: true,
             allowBlockMarkdown: isMarkdown,
             allowInlineMarkdown: isMarkdown,
+            discordMarkdown,
           }),
         );
 
@@ -177,7 +179,7 @@ export const MessageEditor = as<'div', MessageEditorProps>(
         // builds. IContent is the SDK's own general event-content shape and is what
         // the wire format actually expects here.
         return mx.sendMessage(roomId, content as RoomMessageEventContent);
-      }, [mx, editor, roomId, mEvent, isMarkdown, getPrevBodyAndFormattedBody]),
+      }, [mx, editor, roomId, mEvent, isMarkdown, discordMarkdown, getPrevBodyAndFormattedBody]),
     );
 
     const handleSave = useCallback(() => {

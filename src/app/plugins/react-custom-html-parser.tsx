@@ -466,6 +466,15 @@ export const getReactCustomHtmlParser = (
           );
         }
 
+        // Discord's `-# ` subtext: small, dimmed text rather than a subscript.
+        if (name === 'sub' && attribs['data-md'] === '-#') {
+          return (
+            <Text {...props} as="span" size="T200" priority="300">
+              {domToReact(toDOMNodes(children), opts)}
+            </Text>
+          );
+        }
+
         if (name === 'p') {
           return (
             <Text {...props} className={classNames(css.Paragraph, css.MarginSpaced)} size="Inherit">
