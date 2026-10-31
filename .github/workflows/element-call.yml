@@ -87,10 +87,11 @@ jobs:
           repository: element-hq/element-call
           ref: ${{ steps.queue.outputs.upstream }}
           path: ec
-          # Full history (blobs on demand) so `git am --3way` can fall back on
-          # the blobs a patch was made against.
+          # Full history, blobs included, so `git am --3way` can fall back on
+          # the blobs a patch was made against. A blobless clone does not
+          # work: building the fake ancestor does not fetch missing blobs
+          # ("sha1 information is lacking or useless", run 41243867031).
           fetch-depth: 0
-          filter: blob:none
           persist-credentials: false
 
       - name: Setup node (Element Call's version)

@@ -92,8 +92,11 @@ jobs:
               tag, body = json.loads(line)  # gh --jq prints @json strings raw
               if not re.fullmatch(r"v\d+\.\d+\.\d+", tag) or not (cur < key(tag) <= new):
                   continue
-              if re.search(r"secur|vulnerab|\bCVE-|GHSA-", body, re.I):
+              lines = [l.strip() for l in body.splitlines() if re.search(r"secur|vulnerab|\bCVE-|GHSA-", l, re.I)]
+              if lines:
                   hits.append(tag)
+                  with open("security.md", "a") as out:
+                      out.writelines(f"- {tag}: {l[:300]}\n" for l in lines[:10])
           print(" ".join(sorted(hits, key=key)))
           EOF
           )
@@ -144,8 +147,8 @@ jobs:
           repository: element-hq/element-call
           ref: ${{ steps.target.outputs.latest }}
           path: ec
+          # Full history with blobs, for `git am --3way` (see element-call.yml).
           fetch-depth: 0
-          filter: blob:none
           persist-credentials: false
 
       - name: Setup node (Element Call's version)
@@ -206,7 +209,9 @@ jobs:
             echo "The weekly upgrade from \`$CURRENT\` to [\`$LATEST\`](https://github.com/element-hq/element-call/releases/tag/$LATEST) stopped: $what."
             echo
             if [ -n "$SECURITY" ]; then
-              echo "> **The release notes of $SECURITY mention security.** Do this upgrade first."
+              echo "> **The release notes of $SECURITY mention security.** Check the lines below; if any is a fix in Element Call itself, do this upgrade first."
+              echo
+              cat security.md
               echo
             fi
             echo "- Stage: \`$stage\` (am, install, typecheck, test, build, csp)"
