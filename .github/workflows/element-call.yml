@@ -1,0 +1,174 @@
+name: Element Call
+
+# Builds the call widget from source: element-hq/element-call at the tag in
+# element-call/UPSTREAM, with every element-call/patches/*.patch applied by
+# `git am`, built the way upstream builds its embedded npm package. The result
+# is published once per patch queue as a prerelease of this repository, tagged
+# `element-call-<UPSTREAM>-<hash>` (scripts/element-call.mjs computes it), and
+# `npm run build` downloads it from there.
+#
+# A queue that is already published is not rebuilt, so this costs seconds on
+# every push that leaves element-call/ alone.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'element-call/**'
+      - 'scripts/element-call.mjs'
+      - '.github/workflows/element-call.yml'
+  workflow_dispatch:
+    inputs:
+      rebuild:
+        description: 'Build even if this queue is already published (the published build is kept)'
+        type: boolean
+        default: false
+  workflow_call:
+    outputs:
+      tag:
+        description: 'Release tag holding this queue''s build'
+        value: ${{ jobs.build.outputs.tag }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build patched Element Call
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    # Serialised rather than cancelled: a push that touches element-call/ starts
+    # this both directly and from publish-webapp, and the second run must find
+    # the first one's release instead of racing it to create the same tag.
+    concurrency:
+      group: element-call-build
+      cancel-in-progress: false
+    outputs:
+      tag: ${{ steps.queue.outputs.tag }}
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+    steps:
+      - name: Checkout Prinny
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          path: prinny
+          persist-credentials: false
+
+      - name: Read the patch queue
+        id: queue
+        working-directory: prinny
+        run: |
+          set -euo pipefail
+          {
+            echo "tag=$(node scripts/element-call.mjs tag)"
+            echo "version=$(node scripts/element-call.mjs version)"
+            echo "upstream=$(tr -d '[:space:]' < element-call/UPSTREAM)"
+            echo "patches=$(find element-call/patches -name '*.patch' | wc -l)"
+          } >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+
+      - name: Is this queue already published?
+        id: published
+        env:
+          TAG: ${{ steps.queue.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" -R "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' 2>/dev/null \
+               | grep -qx 'element-call-embedded.tar.gz'; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "$TAG is published: https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "$TAG is not published yet"
+          fi
+
+      - name: Checkout element-hq/element-call ${{ steps.queue.outputs.upstream }}
+        if: steps.published.outputs.exists != 'true' || inputs.rebuild
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          repository: element-hq/element-call
+          ref: ${{ steps.queue.outputs.upstream }}
+          path: ec
+          # Full history (blobs on demand) so `git am --3way` can fall back on
+          # the blobs a patch was made against.
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Setup node (Element Call's version)
+        if: steps.published.outputs.exists != 'true' || inputs.rebuild
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version-file: ec/.node-version
+          package-manager-cache: false
+
+      # pnpm comes from EC's own `packageManager` pin through corepack, the
+      # way upstream's build-element-call.yaml gets it.
+      - name: Enable corepack
+        if: steps.published.outputs.exists != 'true' || inputs.rebuild
+        run: |
+          corepack enable
+          cd ec && pnpm --version
+
+      - name: Apply patches, typecheck, test and build
+        if: steps.published.outputs.exists != 'true' || inputs.rebuild
+        env:
+          VITE_APP_VERSION: embedded-v${{ steps.queue.outputs.version }}
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          bash prinny/element-call/build.sh ec logs
+
+      - name: Package
+        if: steps.published.outputs.exists != 'true' || inputs.rebuild
+        run: |
+          set -euo pipefail
+          # Source maps stay out: vite.config.js would drop them anyway.
+          tar -C ec/dist --exclude='*.map' --sort=name --owner=0 --group=0 --numeric-owner \
+            -czf element-call-embedded.tar.gz .
+          sha256sum element-call-embedded.tar.gz | tee element-call-embedded.tar.gz.sha256
+          tar -tzf element-call-embedded.tar.gz | wc -l
+
+      - name: Upload logs and build
+        if: always() && (steps.published.outputs.exists != 'true' || inputs.rebuild)
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: element-call-${{ steps.queue.outputs.tag }}
+          path: |
+            logs/
+            element-call-embedded.tar.gz
+            element-call-embedded.tar.gz.sha256
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Publish
+        if: steps.published.outputs.exists != 'true'
+        env:
+          TAG: ${{ steps.queue.outputs.tag }}
+          UPSTREAM: ${{ steps.queue.outputs.upstream }}
+          PATCHES: ${{ steps.queue.outputs.patches }}
+        run: |
+          set -euo pipefail
+          {
+            echo "Element Call [$UPSTREAM](https://github.com/element-hq/element-call/releases/tag/$UPSTREAM) with the $PATCHES patches in [\`element-call/patches/\`](https://github.com/$GITHUB_REPOSITORY/tree/$GITHUB_SHA/element-call/patches) applied, built by [run $GITHUB_RUN_ID](https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)."
+            echo
+            echo "\`npm run build\` downloads this as \`element-call/dist\`. Not a Prinny release."
+            echo
+            echo '```'
+            git -C ec log --format='%h %s (%an)' "$(cat logs/base)..HEAD"
+            echo '```'
+          } > notes.md
+          # A prerelease that is never "latest": nothing that looks up this
+          # repository's newest release may ever land on a widget build.
+          if ! gh release create "$TAG" element-call-embedded.tar.gz element-call-embedded.tar.gz.sha256 \
+                 -R "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+                 --title "Element Call $UPSTREAM + $PATCHES Prinny patches" \
+                 --notes-file notes.md --prerelease --latest=false; then
+            # Lost a race with another run of the same queue: fine if it won.
+            gh release view "$TAG" -R "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' \
+              | grep -qx 'element-call-embedded.tar.gz'
+          fi
+          echo "Published https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG"

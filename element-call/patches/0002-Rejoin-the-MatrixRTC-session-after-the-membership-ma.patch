@@ -1,0 +1,437 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: blong <belohnung@protonmail.com>
+Date: Fri, 30 Oct 2026 01:00:47 +0100
+Subject: [PATCH 2/5] Rejoin the MatrixRTC session after the membership manager
+ gives up
+
+The membership manager stops after roughly the delayed-leave delay (10s by
+default), by which point the homeserver has also removed our membership. A
+short homeserver outage (e.g. a node drain) left us connected to the SFU but
+invisible to everyone else, with our audio not rendered by the others.
+
+LocalMember now joins again with backoff (1s doubling up to 15s) for up to five
+minutes, resetting once the membership reports Connected, and only then reports
+the MembershipManagerError. GroupCallView no longer turns the first error into
+the connection-lost screen.
+
+Ported to v0.24.0 from largelanguagemeowing/cinny 365deb7c. Upstream
+added a StickyEventsRequiredError branch to the same GroupCallView
+handler since 0.20.1; that branch stays (retrying cannot fix a
+homeserver without sticky events, so LocalMember does not retry it), and
+only the ConnectionLostError fallback goes. The test that pinned that
+fallback is replaced by one asserting the call stays up.
+---
+ src/room/GroupCallView.test.tsx               |  34 +---
+ src/room/GroupCallView.tsx                    |   7 +-
+ .../localMember/LocalMember.test.ts           | 147 ++++++++++++++++++
+ .../CallViewModel/localMember/LocalMember.ts  |  86 +++++++++-
+ 4 files changed, 241 insertions(+), 33 deletions(-)
+
+diff --git a/src/room/GroupCallView.test.tsx b/src/room/GroupCallView.test.tsx
+index a5c3b0d8..474c7736 100644
+--- a/src/room/GroupCallView.test.tsx
++++ b/src/room/GroupCallView.test.tsx
+@@ -30,9 +30,7 @@ import {
+   type MatrixRTCSession,
+ } from "matrix-js-sdk/lib/matrixrtc";
+ import { BrowserRouter } from "react-router-dom";
+-import userEvent, {
+-  PointerEventsCheckLevel,
+-} from "@testing-library/user-event";
++import userEvent from "@testing-library/user-event";
+ import { type RelationsContainer } from "matrix-js-sdk/lib/models/relations-container";
+ import { useState } from "react";
+ import { TooltipProvider } from "@vector-im/compound-web";
+@@ -407,37 +405,19 @@ test("translates wrapped UnsupportedStickyEventsEndpointError to the StickyEvent
+   await screen.findByText("Homeserver does not support Matrix 2.0 calls");
+ });
+ 
+-test("falls back to ConnectionLostError for unrecognised membership manager errors", async () => {
++test("a membership manager error does not drop the call straight away", async () => {
++  // LocalMember rejoins with backoff and only reports the error once that
++  // gives up, so a brief homeserver outage must not show the error screen.
+   const { rtcSession } = createGroupCallView(null, true, {
+     withErrorBoundary: true,
+   });
+-
+   await act(() =>
+     rtcSession.emit(
+       MatrixRTCSessionEvent.MembershipManagerError,
+       new Error("something else broke"),
+     ),
+   );
+-
+-  await screen.findByText("Connection lost");
+-});
+-
+-test("user can reconnect after a membership manager error", async () => {
+-  const user = userEvent.setup();
+-  const { rtcSession } = createGroupCallView(null, true);
+-  await act(() =>
+-    rtcSession.emit(MatrixRTCSessionEvent.MembershipManagerError, undefined),
+-  );
+-  // XXX: Wrapping the following click in act() shouldn't be necessary (the
+-  // async state update should be processed automatically by the waitFor call),
+-  // and yet here we are.
+-  await act(async () =>
+-    user
+-      // With css vitest turned on this test thinks that the button has pointer_events: none;.
+-      // TODO investigate if this is a test setup issue or an actual problem.
+-      .setup({ pointerEventsCheck: PointerEventsCheckLevel.Never })
+-      .click(screen.getByRole("button", { name: "Reconnect" })),
+-  );
+-  // In-call controls should be visible again
+-  await waitFor(() => screen.getByRole("button", { name: "Leave" }));
++  expect(screen.queryByText("Connection lost")).toBeNull();
++  expect(screen.queryByRole("button", { name: "Reconnect" })).toBeNull();
++  screen.getByRole("button", { name: "Leave" });
+ });
+diff --git a/src/room/GroupCallView.tsx b/src/room/GroupCallView.tsx
+index 831ee919..e797bb55 100644
+--- a/src/room/GroupCallView.tsx
++++ b/src/room/GroupCallView.tsx
+@@ -69,7 +69,6 @@ import {
+ import { useLatest } from "../useLatest";
+ import { usePageTitle } from "../usePageTitle";
+ import {
+-  ConnectionLostError,
+   E2EENotSupportedError,
+   ElementCallError,
+   StickyEventsRequiredError,
+@@ -163,8 +162,8 @@ export const GroupCallView: FC<Props> = ({
+     };
+   }, [rtcSession]);
+ 
+-  // TODO move this into the callViewModel LocalMembership.ts
+-  // We might actually not need this at all. Since we get into fatalError on those errors already?
++  // Any other MembershipManagerError is handled in LocalMember.ts, which
++  // rejoins with backoff and only reports the failure once that gives up.
+   useTypedEventEmitter(
+     rtcSession,
+     MatrixRTCSessionEvent.MembershipManagerError,
+@@ -178,8 +177,6 @@ export const GroupCallView: FC<Props> = ({
+         error.cause instanceof UnsupportedStickyEventsEndpointError
+       ) {
+         setExternalError(new StickyEventsRequiredError());
+-      } else {
+-        setExternalError(new ConnectionLostError());
+       }
+     },
+   );
+diff --git a/src/state/CallViewModel/localMember/LocalMember.test.ts b/src/state/CallViewModel/localMember/LocalMember.test.ts
+index 16ffe149..7da42e7a 100644
+--- a/src/state/CallViewModel/localMember/LocalMember.test.ts
++++ b/src/state/CallViewModel/localMember/LocalMember.test.ts
+@@ -7,10 +7,13 @@ Please see LICENSE in the repository root for full details.
+ */
+ 
+ import {
++  MatrixRTCSessionEvent,
++  MembershipManagerEvent,
+   Status as RTCMemberStatus,
+   type LivekitTransportConfig,
+   type MatrixRTCSession,
+ } from "matrix-js-sdk/lib/matrixrtc";
++import { EventEmitter } from "events";
+ import {
+   describe,
+   expect,
+@@ -18,6 +21,7 @@ import {
+   vi,
+   beforeAll,
+   afterAll,
++  afterEach,
+   beforeEach,
+ } from "vitest";
+ import { BehaviorSubject, map, of } from "rxjs";
+@@ -45,6 +49,7 @@ import {
+ import {
+   FailToGetOpenIdToken,
+   MatrixRTCTransportMissingError,
++  MembershipManagerError,
+ } from "../../../utils/errors";
+ import { Epoch, ObservableScope } from "../../ObservableScope";
+ import { constant } from "../../Behavior";
+@@ -146,6 +151,8 @@ describe("LocalMembership", () => {
+     matrixRTCSession: {
+       updateCallIntent: vi.fn().mockReturnValue(Promise.resolve()),
+       leaveRoomSession: vi.fn(),
++      on: vi.fn(),
++      off: vi.fn(),
+     } as unknown as MatrixRTCSession,
+     muteStates: mockMuteStates(),
+     trackProcessorState$: constant({
+@@ -271,6 +278,8 @@ describe("LocalMembership", () => {
+       matrixRTCSession: {
+         updateCallIntent: vi.fn().mockImplementation(reject),
+         leaveRoomSession: vi.fn(),
++        on: vi.fn(),
++        off: vi.fn(),
+       },
+       connectionManager: mockConnectionManager,
+       localTransport$: new BehaviorSubject(aLocalTransport),
+@@ -285,6 +294,144 @@ describe("LocalMembership", () => {
+     scope.end();
+   });
+ 
++  describe("rejoining after the membership manager gives up", () => {
++    function setup(): {
++      scope: ObservableScope;
++      session: EventEmitter;
++      joinMatrixRTC: ReturnType<typeof vi.fn>;
++      localMembership: ReturnType<typeof createLocalMembership$>;
++    } {
++      const scope = new ObservableScope();
++      const session = new EventEmitter();
++      const joinMatrixRTC = vi.fn();
++      const mockConnectionManager = {
++        transports$: constant(new Epoch([])),
++        connectionManagerData$: constant(
++          new Epoch(new ConnectionManagerData()),
++        ),
++      };
++      const localMembership = createLocalMembership$({
++        scope,
++        ...defaultCreateLocalMemberValues,
++        joinMatrixRTC,
++        matrixRTCSession: Object.assign(session, {
++          updateCallIntent: vi.fn().mockResolvedValue(undefined),
++          leaveRoomSession: vi.fn(),
++        }) as unknown as MatrixRTCSession,
++        connectionManager: mockConnectionManager,
++        localTransport$: new BehaviorSubject({
++          advertised$: new BehaviorSubject(aTransport),
++          active$: new BehaviorSubject(aTransportWithSFUConfig),
++        } as LocalTransport),
++      });
++      return { scope, session, joinMatrixRTC, localMembership };
++    }
++
++    function matrixState(
++      localMembership: ReturnType<typeof createLocalMembership$>,
++    ): unknown {
++      const state = localMembership.localMemberState$.value;
++      return typeof state === "object" && "matrix" in state
++        ? state.matrix
++        : state;
++    }
++
++    beforeEach(() => vi.useFakeTimers());
++    afterEach(() => vi.useRealTimers());
++
++    it("joins again with backoff when the membership manager errors", async () => {
++      const { scope, session, joinMatrixRTC, localMembership } = setup();
++      localMembership.requestJoinAndPublish();
++      await vi.advanceTimersByTimeAsync(0);
++      expect(joinMatrixRTC).toHaveBeenCalledTimes(1);
++
++      session.emit(
++        MatrixRTCSessionEvent.MembershipManagerError,
++        new Error("x"),
++      );
++      await vi.advanceTimersByTimeAsync(999);
++      expect(joinMatrixRTC).toHaveBeenCalledTimes(1);
++      await vi.advanceTimersByTimeAsync(1);
++      expect(joinMatrixRTC).toHaveBeenCalledTimes(2);
++
++      // The next failure waits twice as long.
++      session.emit(
++        MatrixRTCSessionEvent.MembershipManagerError,
++        new Error("x"),
++      );
++      await vi.advanceTimersByTimeAsync(1999);
++      expect(joinMatrixRTC).toHaveBeenCalledTimes(2);
++      await vi.advanceTimersByTimeAsync(1);
++      expect(joinMatrixRTC).toHaveBeenCalledTimes(3);
++      scope.end();
++    });
++
++    it("starts the backoff over once the membership is connected again", async () => {
++      const { scope, session, joinMatrixRTC, localMembership } = setup();
++      localMembership.requestJoinAndPublish();
++      await vi.advanceTimersByTimeAsync(0);
++
++      session.emit(
++        MatrixRTCSessionEvent.MembershipManagerError,
++        new Error("x"),
++      );
++      await vi.advanceTimersByTimeAsync(1000);
++      session.emit(
++        MembershipManagerEvent.StatusChanged,
++        RTCMemberStatus.Connecting,
++        RTCMemberStatus.Connected,
++      );
++      session.emit(
++        MatrixRTCSessionEvent.MembershipManagerError,
++        new Error("x"),
++      );
++      await vi.advanceTimersByTimeAsync(1000);
++      expect(joinMatrixRTC).toHaveBeenCalledTimes(3);
++      scope.end();
++    });
++
++    it("reports the error when rejoining keeps failing for too long", async () => {
++      const { scope, session, localMembership } = setup();
++      localMembership.requestJoinAndPublish();
++      await vi.advanceTimersByTimeAsync(0);
++
++      session.emit(
++        MatrixRTCSessionEvent.MembershipManagerError,
++        new Error("x"),
++      );
++      await vi.advanceTimersByTimeAsync(5 * 60_000 + 1);
++      expect(matrixState(localMembership)).not.toBeInstanceOf(
++        MembershipManagerError,
++      );
++      session.emit(
++        MatrixRTCSessionEvent.MembershipManagerError,
++        new Error("x"),
++      );
++      expect(matrixState(localMembership)).toBeInstanceOf(
++        MembershipManagerError,
++      );
++      scope.end();
++    });
++
++    it("stops retrying once the call is left", async () => {
++      const { scope, session, joinMatrixRTC, localMembership } = setup();
++      localMembership.requestJoinAndPublish();
++      await vi.advanceTimersByTimeAsync(0);
++
++      session.emit(
++        MatrixRTCSessionEvent.MembershipManagerError,
++        new Error("x"),
++      );
++      localMembership.requestDisconnect();
++      await vi.advanceTimersByTimeAsync(60_000);
++      expect(joinMatrixRTC).toHaveBeenCalledTimes(1);
++      expect(
++        session.listenerCount(MatrixRTCSessionEvent.MembershipManagerError),
++      ).toBe(0);
++      scope.end();
++    });
++  });
++
+   const aTransport = {
+     livekit_service_url: "a",
+   } as LivekitTransportConfig;
+diff --git a/src/state/CallViewModel/localMember/LocalMember.ts b/src/state/CallViewModel/localMember/LocalMember.ts
+index fcc8ed0a..ca6b085b 100644
+--- a/src/state/CallViewModel/localMember/LocalMember.ts
++++ b/src/state/CallViewModel/localMember/LocalMember.ts
+@@ -15,7 +15,10 @@ import {
+   MediaDeviceFailure,
+ } from "livekit-client";
+ import { observeParticipantEvents } from "@livekit/components-core";
++import { UnsupportedStickyEventsEndpointError } from "matrix-js-sdk";
+ import {
++  MatrixRTCSessionEvent,
++  MembershipManagerEvent,
+   Status as RTCSessionStatus,
+   type LivekitTransport,
+   type LivekitTransportConfig,
+@@ -73,6 +76,12 @@ import { type HomeserverConnected } from "./HomeserverConnected.ts";
+ import { type LocalTransport } from "./LocalTransport.ts";
+ import { areLivekitTransportsEqual } from "../remoteMembers/MatrixLivekitMembers.ts";
+ 
++/** Backoff for rejoining the MatrixRTC session after the membership manager gave up. */
++const MEMBERSHIP_REJOIN_BASE_DELAY_MS = 1_000;
++const MEMBERSHIP_REJOIN_MAX_DELAY_MS = 15_000;
++/** How long to keep trying before telling the user the call is lost. */
++const MEMBERSHIP_REJOIN_TIMEOUT_MS = 5 * 60_000;
++
+ export enum TransportState {
+   /** Not even a transport is available to the LocalMembership */
+   Waiting = "transport_waiting",
+@@ -140,7 +149,7 @@ interface Props {
+   localTransport$: Behavior<LocalTransport>;
+   matrixRTCSession: Pick<
+     MatrixRTCSession,
+-    "updateCallIntent" | "leaveRoomSession"
++    "updateCallIntent" | "leaveRoomSession" | "on" | "off"
+   >;
+   logger: Logger;
+ }
+@@ -629,7 +638,82 @@ export const createLocalMembership$ = ({
+           setMatrixError(new MembershipManagerError(error));
+       }
+ 
++      // The membership manager gives up after about the delayed-leave delay,
++      // and by then the homeserver has removed our membership as well. If the
++      // homeserver was only briefly unavailable (e.g. a node drain), we are
++      // still in the SFU but invisible to everyone else. Keep trying to join
++      // again with backoff, and only report the error if it stays down.
++      let rejoinCancelled = false;
++      let rejoinTimer: ReturnType<typeof setTimeout> | undefined;
++      let rejoinAttempts = 0;
++      let rejoinStartedAt: number | undefined;
++      const onMembershipManagerError = (error: unknown): void => {
++        // A homeserver without sticky events cannot be fixed by retrying;
++        // GroupCallView shows StickyEventsRequiredError for it.
++        if (
++          error instanceof Error &&
++          error.cause instanceof UnsupportedStickyEventsEndpointError
++        ) {
++          return;
++        }
++        rejoinStartedAt ??= Date.now();
++        if (Date.now() - rejoinStartedAt > MEMBERSHIP_REJOIN_TIMEOUT_MS) {
++          logger.error("Giving up rejoining the MatrixRTC session", error);
++          setMatrixError(
++            new MembershipManagerError(
++              error instanceof Error ? error : new Error(String(error)),
++            ),
++          );
++          return;
++        }
++        const delay = Math.min(
++          MEMBERSHIP_REJOIN_BASE_DELAY_MS * 2 ** rejoinAttempts++,
++          MEMBERSHIP_REJOIN_MAX_DELAY_MS,
++        );
++        logger.warn(
++          `Membership manager failed, rejoining the MatrixRTC session in ${delay}ms (attempt ${rejoinAttempts})`,
++          error,
++        );
++        clearTimeout(rejoinTimer);
++        rejoinTimer = setTimeout(() => {
++          if (rejoinCancelled) return;
++          try {
++            // Throws or errors again via the event if the homeserver is
++            // still unreachable, which schedules the next attempt.
++            joinMatrixRTC(transport);
++          } catch (e) {
++            onMembershipManagerError(e);
++          }
++        }, delay);
++      };
++      const onMembershipStatusChanged = (
++        _old: RTCSessionStatus,
++        status: RTCSessionStatus,
++      ): void => {
++        if (status !== RTCSessionStatus.Connected) return;
++        rejoinAttempts = 0;
++        rejoinStartedAt = undefined;
++      };
++      matrixRTCSession.on(
++        MatrixRTCSessionEvent.MembershipManagerError,
++        onMembershipManagerError,
++      );
++      matrixRTCSession.on(
++        MembershipManagerEvent.StatusChanged,
++        onMembershipStatusChanged,
++      );
++
+       return Promise.resolve(async (): Promise<void> => {
++        rejoinCancelled = true;
++        clearTimeout(rejoinTimer);
++        matrixRTCSession.off(
++          MatrixRTCSessionEvent.MembershipManagerError,
++          onMembershipManagerError,
++        );
++        matrixRTCSession.off(
++          MembershipManagerEvent.StatusChanged,
++          onMembershipStatusChanged,
++        );
+         try {
+           // TODO Update matrixRTCSession to allow udpating the transport without leaving the session!
+           await matrixRTCSession.leaveRoomSession(1000);

@@ -1,0 +1,74 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: blong <belohnung@protonmail.com>
+Date: Fri, 30 Oct 2026 01:38:26 +0100
+Subject: [PATCH 3/5] Clear probablyLeft after a rejoin replaces the membership
+ manager
+
+The rejoin creates a fresh MembershipManager that starts with probablyLeft=false
+and only emits ProbablyLeft on a change, so HomeserverConnected kept the stale
+true and the call showed 'Reconnecting...' forever while media worked. Re-read
+the flag on membership status changes too.
+
+Ported to v0.24.0 from largelanguagemeowing/cinny d744488d; applied
+unchanged.
+---
+ .../localMember/HomeserverConnected.test.ts       | 15 +++++++++++++++
+ .../localMember/HomeserverConnected.ts            | 12 +++++++++---
+ 2 files changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/src/state/CallViewModel/localMember/HomeserverConnected.test.ts b/src/state/CallViewModel/localMember/HomeserverConnected.test.ts
+index 4b6bde98..0fb1c669 100644
+--- a/src/state/CallViewModel/localMember/HomeserverConnected.test.ts
++++ b/src/state/CallViewModel/localMember/HomeserverConnected.test.ts
+@@ -175,6 +175,21 @@ describe("createHomeserverConnected$", () => {
+     expect(hsConnected.combined$.value).toEqual([true, null]);
+   });
+ 
++  it("recovers when a rejoin replaces the manager and probablyLeft clears without a ProbablyLeft event", () => {
++    const hsConnected = createHomeserverConnected$(scope, client, session, 0);
++    client.setSyncState(SyncState.Syncing);
++    session.setMembershipStatus(Status.Connected);
++    session.setProbablyLeft(true);
++    expect(hsConnected.combined$.value).toEqual([false, "probablyLeft"]);
++
++    // A fresh MembershipManager starts with probablyLeft=false and only emits
++    // ProbablyLeft on a change, so all we get is the status moving on.
++    session.probablyLeft = false;
++    session.setMembershipStatus(Status.Connecting);
++    session.setMembershipStatus(Status.Connected);
++    expect(hsConnected.combined$.value).toEqual([true, null]);
++  });
++
+   it("composite sequence reflects each individual failure reason", () => {
+     const hsConnected = createHomeserverConnected$(scope, client, session, 0);
+ 
+diff --git a/src/state/CallViewModel/localMember/HomeserverConnected.ts b/src/state/CallViewModel/localMember/HomeserverConnected.ts
+index 45e9f6cb..fc93d5db 100644
+--- a/src/state/CallViewModel/localMember/HomeserverConnected.ts
++++ b/src/state/CallViewModel/localMember/HomeserverConnected.ts
+@@ -23,6 +23,7 @@ import {
+   of,
+   delay,
+   combineLatest,
++  merge,
+ } from "rxjs";
+ import { logger as rootLogger } from "matrix-js-sdk/lib/logger";
+ 
+@@ -103,9 +104,14 @@ export function createHomeserverConnected$(
+   //
+   // If that is not the case we certainly still have a valid membership on the matrix network
+   // independet if the sync currently works.
+-  const certainlyConnected$ = fromEvent(
+-    matrixRTCSession,
+-    MembershipManagerEvent.ProbablyLeft,
++  //
++  // A rejoin after the membership manager gave up creates a fresh manager that
++  // starts with probablyLeft=false, so it never emits ProbablyLeft(false) to
++  // clear the old flag. Re-read it on status changes too, or we would stay
++  // "probablyLeft" (and show the reconnecting toast) forever.
++  const certainlyConnected$ = merge(
++    fromEvent(matrixRTCSession, MembershipManagerEvent.ProbablyLeft),
++    fromEvent(matrixRTCSession, MembershipManagerEvent.StatusChanged),
+   ).pipe(
+     startWith(null),
+     map(() => matrixRTCSession.probablyLeft !== true),

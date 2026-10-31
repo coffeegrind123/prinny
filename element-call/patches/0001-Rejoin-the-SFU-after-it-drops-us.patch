@@ -1,0 +1,567 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: blong <belohnung@protonmail.com>
+Date: Fri, 30 Oct 2026 00:04:43 +0100
+Subject: [PATCH 1/5] Rejoin the SFU after it drops us
+
+When the SFU restarts or loses the room, livekit-client's resume gets a 404
+and gives up, and nothing reconnected afterwards. The local Connection now
+watches for an unexpected Disconnected, fetches a fresh JWT (which makes the
+JWT service recreate the room) and reconnects with backoff for about a minute
+before surfacing an error. The Publisher republishes mic and camera once the
+room is rejoined, as LiveKit stops local tracks on disconnect.
+
+Ported to v0.24.0 from largelanguagemeowing/cinny e3953586 (with its
+formatting follow-up 7b00e18a). doOpenIdAndJWTFromUrl gained a logger
+parameter upstream; the rest applied by context.
+---
+ .../CallViewModel/CallViewModelTestUtils.ts   |   1 +
+ .../localMember/LocalTransport.test.ts        |   4 +
+ .../localMember/LocalTransport.ts             |  34 +++--
+ .../CallViewModel/localMember/Publisher.ts    |  55 ++++++--
+ .../remoteMembers/Connection.test.ts          | 122 ++++++++++++++++++
+ .../CallViewModel/remoteMembers/Connection.ts |  86 ++++++++++++
+ .../remoteMembers/ConnectionFactory.ts        |   4 +
+ .../remoteMembers/ConnectionManager.ts        |   7 +-
+ 8 files changed, 287 insertions(+), 26 deletions(-)
+
+diff --git a/src/state/CallViewModel/CallViewModelTestUtils.ts b/src/state/CallViewModel/CallViewModelTestUtils.ts
+index 2e1525c0..240e6a8d 100644
+--- a/src/state/CallViewModel/CallViewModelTestUtils.ts
++++ b/src/state/CallViewModel/CallViewModelTestUtils.ts
+@@ -213,6 +213,7 @@ export function withCallViewModel(mode: MatrixRTCMode) {
+           active$: constant({
+             transport: exampleTransport,
+             sfuConfig: exampleSfuConfig,
++            refreshSFUConfig: () => Promise.resolve(exampleSfuConfig),
+           }),
+           advertised$: constant(exampleTransport),
+         },
+diff --git a/src/state/CallViewModel/localMember/LocalTransport.test.ts b/src/state/CallViewModel/localMember/LocalTransport.test.ts
+index 89cb831d..210732a4 100644
+--- a/src/state/CallViewModel/localMember/LocalTransport.test.ts
++++ b/src/state/CallViewModel/localMember/LocalTransport.test.ts
+@@ -175,6 +175,7 @@ describe("LocalTransport", () => {
+     };
+     expect(advertised$.value).toStrictEqual(expectedTransport);
+     expect(active$.value).toStrictEqual({
++      refreshSFUConfig: expect.any(Function),
+       transport: expectedTransport,
+       sfuConfig: {
+         jwt: "jwt",
+@@ -359,6 +360,7 @@ describe("LocalTransport", () => {
+       };
+       expect(advertised$.value).toStrictEqual(expectedTransport);
+       expect(active$.value).toStrictEqual({
++        refreshSFUConfig: expect.any(Function),
+         transport: expectedTransport,
+         sfuConfig: {
+           jwt: "e30=.eyJzdWIiOiJAbWU6ZXhhbXBsZS5vcmc6QUJDREVGIiwidmlkZW8iOnsicm9vbSI6IiFleGFtcGxlX3Jvb21faWQifX0=.e30=",
+@@ -377,6 +379,7 @@ describe("LocalTransport", () => {
+       expect(advertised$.value).toBe(null);
+       await flushPromises();
+       expect(active$.value).toStrictEqual({
++        refreshSFUConfig: expect.any(Function),
+         transport: {
+           livekit_service_url: "https://lk.example.org",
+           type: "livekit",
+@@ -406,6 +409,7 @@ describe("LocalTransport", () => {
+       };
+       expect(advertised$.value).toStrictEqual(expectedTransport);
+       expect(active$.value).toStrictEqual({
++        refreshSFUConfig: expect.any(Function),
+         transport: expectedTransport,
+         sfuConfig: {
+           jwt: "e30=.eyJzdWIiOiJAbWU6ZXhhbXBsZS5vcmc6QUJDREVGIiwidmlkZW8iOnsicm9vbSI6IiFleGFtcGxlX3Jvb21faWQifX0=.e30=",
+diff --git a/src/state/CallViewModel/localMember/LocalTransport.ts b/src/state/CallViewModel/localMember/LocalTransport.ts
+index 1a6dddc1..1a1280fe 100644
+--- a/src/state/CallViewModel/localMember/LocalTransport.ts
++++ b/src/state/CallViewModel/localMember/LocalTransport.ts
+@@ -95,6 +95,12 @@ export enum JwtEndpointVersion {
+ export interface LocalTransportWithSFUConfig {
+   transport: LivekitTransportConfig;
+   sfuConfig: SFUConfig;
++  /**
++   * Fetches a fresh SFU config with the same identity parameters as `sfuConfig`.
++   * Used to rejoin after the SFU drops us: the JWT service creates the LiveKit
++   * room as a side effect, which a stale token would not do.
++   */
++  refreshSFUConfig: () => Promise<SFUConfig>;
+ }
+ 
+ export function isLocalTransportWithSFUConfig(
+@@ -313,21 +319,23 @@ async function doOpenIdAndJWTFromUrl(
+   delayId?: string,
+   logger?: Logger,
+ ): Promise<LocalTransportWithSFUConfig> {
+-  const sfuConfig = await getSFUConfigWithOpenID(
+-    client,
+-    membership,
+-    transport.livekit_service_url,
+-    roomId,
+-    {
+-      forceJwtEndpoint: forceJwtEndpoint,
+-      delayEndpointBaseUrl: client.baseUrl,
+-      delayId,
+-    },
+-    logger,
+-  );
++  const fetchSFUConfig = (): Promise<SFUConfig> =>
++    getSFUConfigWithOpenID(
++      client,
++      membership,
++      transport.livekit_service_url,
++      roomId,
++      {
++        forceJwtEndpoint: forceJwtEndpoint,
++        delayEndpointBaseUrl: client.baseUrl,
++        delayId,
++      },
++      logger,
++    );
+   return {
+     transport,
+-    sfuConfig,
++    sfuConfig: await fetchSFUConfig(),
++    refreshSFUConfig: fetchSFUConfig,
+   };
+ }
+ 
+diff --git a/src/state/CallViewModel/localMember/Publisher.ts b/src/state/CallViewModel/localMember/Publisher.ts
+index 0d5f263a..01ecd547 100644
+--- a/src/state/CallViewModel/localMember/Publisher.ts
++++ b/src/state/CallViewModel/localMember/Publisher.ts
+@@ -11,6 +11,7 @@ import {
+   LocalVideoTrack,
+   ParticipantEvent,
+   type Room as LivekitRoom,
++  RoomEvent,
+   Track,
+ } from "livekit-client";
+ import {
+@@ -82,6 +83,34 @@ export class Publisher {
+       ParticipantEvent.LocalTrackPublished,
+       this.onLocalTrackPublished.bind(this),
+     );
++
++    this.republishTracksAfterRejoin(room);
++  }
++
++  /**
++   * LiveKit stops and drops our local tracks when it gives up on a session.
++   * When the connection then rejoins the room, bring mic and camera back
++   * according to the current mute state, as the initial setup does.
++   */
++  private republishTracksAfterRejoin(room: LivekitRoom): void {
++    let dropped = false;
++    const onDisconnected = (): void => {
++      dropped = true;
++    };
++    const onConnected = (): void => {
++      if (!dropped) return;
++      dropped = false;
++      this.logger.info("Rejoined the room, republishing local tracks");
++      this.enableTracksForMuteState().catch((e) =>
++        this.logger.error("Failed to republish tracks after rejoining", e),
++      );
++    };
++    room.on(RoomEvent.Disconnected, onDisconnected);
++    room.on(RoomEvent.Connected, onConnected);
++    this.scope.onEnd(() => {
++      room.off(RoomEvent.Disconnected, onDisconnected);
++      room.off(RoomEvent.Connected, onConnected);
++    });
+   }
+ 
+   public async destroy(): Promise<void> {
+@@ -171,22 +200,28 @@ export class Publisher {
+    */
+   public async createAndSetupTracks(): Promise<void> {
+     this.logger.debug("createAndSetupTracks called");
+-    const lkRoom = this.connection.livekitRoom;
+     // Observe mute state changes and update LiveKit microphone/camera states accordingly
+     this.observeMuteStates();
+ 
+-    // Check if audio and/or video is enabled. We only create tracks if enabled,
+-    // because it could prompt for permission, and we don't want to do that unnecessarily.
++    await this.enableTracksForMuteState();
++  }
++
++  /**
++   * Starts the tracks that the mute state asks for. We only create tracks if
++   * enabled, because it could prompt for permission, and we don't want to do
++   * that unnecessarily.
++   *
++   * We don't await the creation, because livekit could block until the tracks
++   * are fully published, and not only that they are created.
++   * We are using the `ParticipantEvent.LocalTrackPublished` to be notified
++   * when tracks are actually published, and at that point
++   * we can pause upstream if needed (depending on if startPublishing has been called).
++   */
++  private enableTracksForMuteState(): Promise<void> {
++    const lkRoom = this.connection.livekitRoom;
+     const audio = this.muteStates.audio.enabled$.value;
+     const video = this.muteStates.video.enabled$.value;
+ 
+-    // We don't await the creation, because livekit could block until the tracks
+-    // are fully published, and not only that they are created.
+-    // We don't have control on that, localParticipant creates and publishes the tracks
+-    // asap.
+-    // We are using the `ParticipantEvent.LocalTrackPublished` to be notified
+-    // when tracks are actually published, and at that point
+-    // we can pause upstream if needed (depending on if startPublishing has been called).
+     if (audio && video) {
+       // Enable both at once in order to have a single permission prompt!
+       void lkRoom.localParticipant.enableCameraAndMicrophone();
+diff --git a/src/state/CallViewModel/remoteMembers/Connection.test.ts b/src/state/CallViewModel/remoteMembers/Connection.test.ts
+index 72329585..e6d57dd8 100644
+--- a/src/state/CallViewModel/remoteMembers/Connection.test.ts
++++ b/src/state/CallViewModel/remoteMembers/Connection.test.ts
+@@ -17,6 +17,7 @@ import {
+   vi,
+ } from "vitest";
+ import {
++  DisconnectReason,
+   type LocalParticipant,
+   type RemoteParticipant,
+   type Room as LivekitRoom,
+@@ -618,3 +619,124 @@ describe("remote participants", () => {
+ //   });
+ // });
+ // });
++
++describe("Rejoining after the SFU drops us", () => {
++  const refreshedConfig = {
++    url: "wss://matrix-rtc.m.localhost/livekit/sfu",
++    jwt: testJWTToken,
++    livekitAlias: "alias",
++    livekitIdentity: "@me:example.org:ABCDEF",
++  };
++
++  function setupLocalConnection(
++    refreshSFUConfig: () => Promise<typeof refreshedConfig>,
++  ): Connection {
++    setupTest();
++    const connection = setupRemoteConnectionWithRefresh(refreshSFUConfig);
++    return connection;
++  }
++
++  function setupRemoteConnectionWithRefresh(
++    refreshSFUConfig: () => Promise<typeof refreshedConfig>,
++  ): Connection {
++    fakeLivekitRoom.connect.mockImplementation(async (): Promise<void> => {
++      fakeLivekitRoom.state = LivekitConnectionState.Connected;
++      fakeLivekitRoom.emit(
++        RoomEvent.ConnectionStateChanged,
++        fakeLivekitRoom.state,
++      );
++    });
++    return new Connection(
++      {
++        client,
++        roomId: ROOM_ID,
++        transport: livekitFocus,
++        scope: testScope,
++        ownMembershipIdentity: ownMemberMock,
++        livekitRoomFactory: () => fakeLivekitRoom,
++        existingSFUConfig: refreshedConfig,
++        refreshSFUConfig,
++      },
++      logger,
++    );
++  }
++
++  function drop(reason?: DisconnectReason): void {
++    fakeLivekitRoom.state = LivekitConnectionState.Disconnected;
++    fakeLivekitRoom.emit(RoomEvent.Disconnected, reason);
++  }
++
++  it("fetches a fresh token and reconnects", async () => {
++    vi.useFakeTimers();
++    const refresh = vi.fn().mockResolvedValue(refreshedConfig);
++    const connection = setupLocalConnection(refresh);
++    await connection.start();
++    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(1);
++
++    drop(DisconnectReason.UNKNOWN_REASON);
++    await vi.advanceTimersByTimeAsync(0);
++
++    expect(refresh).toHaveBeenCalledTimes(1);
++    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(2);
++  });
++
++  it("backs off and retries when the first attempts fail", async () => {
++    vi.useFakeTimers();
++    const refresh = vi
++      .fn()
++      .mockRejectedValueOnce(new Error("jwt service down"))
++      .mockRejectedValueOnce(new Error("jwt service down"))
++      .mockResolvedValue(refreshedConfig);
++    const connection = setupLocalConnection(refresh);
++    await connection.start();
++
++    drop(DisconnectReason.SERVER_SHUTDOWN);
++    await vi.advanceTimersByTimeAsync(0);
++    expect(refresh).toHaveBeenCalledTimes(1);
++    await vi.advanceTimersByTimeAsync(1000);
++    expect(refresh).toHaveBeenCalledTimes(2);
++    await vi.advanceTimersByTimeAsync(2000);
++    expect(refresh).toHaveBeenCalledTimes(3);
++    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(2);
++  });
++
++  it("does not rejoin after a deliberate disconnect", async () => {
++    vi.useFakeTimers();
++    const refresh = vi.fn().mockResolvedValue(refreshedConfig);
++    const connection = setupLocalConnection(refresh);
++    await connection.start();
++
++    drop(DisconnectReason.CLIENT_INITIATED);
++    await vi.advanceTimersByTimeAsync(60_000);
++
++    expect(refresh).not.toHaveBeenCalled();
++    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(1);
++  });
++
++  it("does not rejoin after the connection was stopped", async () => {
++    vi.useFakeTimers();
++    const refresh = vi.fn().mockResolvedValue(refreshedConfig);
++    const connection = setupLocalConnection(refresh);
++    await connection.start();
++    await connection.stop();
++
++    drop(DisconnectReason.UNKNOWN_REASON);
++    await vi.advanceTimersByTimeAsync(60_000);
++
++    expect(refresh).not.toHaveBeenCalled();
++  });
++
++  it("gives up with an error after the retry limit", async () => {
++    vi.useFakeTimers();
++    const refresh = vi.fn().mockRejectedValue(new Error("gone"));
++    const connection = setupLocalConnection(refresh);
++    await connection.start();
++
++    drop(DisconnectReason.UNKNOWN_REASON);
++    await vi.advanceTimersByTimeAsync(120_000);
++
++    expect(refresh).toHaveBeenCalledTimes(7);
++    expect(connection.state$.getValue()).toBeInstanceOf(ElementCallError);
++    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(1);
++  });
++});
+diff --git a/src/state/CallViewModel/remoteMembers/Connection.ts b/src/state/CallViewModel/remoteMembers/Connection.ts
+index 013bd96c..55c8a211 100644
+--- a/src/state/CallViewModel/remoteMembers/Connection.ts
++++ b/src/state/CallViewModel/remoteMembers/Connection.ts
+@@ -13,8 +13,10 @@ import {
+ import {
+   ConnectionError,
+   ConnectionErrorReason,
++  DisconnectReason,
+   type RemoteParticipant,
+   type Room as LivekitRoom,
++  RoomEvent,
+ } from "livekit-client";
+ import { type LivekitTransportConfig } from "matrix-js-sdk/lib/matrixrtc";
+ import { BehaviorSubject, map } from "rxjs";
+@@ -30,6 +32,7 @@ import { type Behavior } from "../../Behavior.ts";
+ import { type ObservableScope } from "../../ObservableScope.ts";
+ import {
+   ElementCallError,
++  FailToStartLivekitConnection,
+   InsufficientCapacityError,
+   LivekitConnectionError,
+   PeerConnectionTimeoutError,
+@@ -38,12 +41,38 @@ import {
+ } from "../../../utils/errors.ts";
+ import { type JwtEndpointVersion } from "../localMember/LocalTransport.ts";
+ 
++/**
++ * How long to wait before each attempt to rejoin after the SFU drops us.
++ * The first attempt is immediate, since a restarted SFU is usually back at once.
++ * About a minute in total, then the failure is surfaced.
++ */
++const REJOIN_DELAYS_MS = [0, 1000, 2000, 4000, 8000, 16000, 30000];
++
++/**
++ * Disconnects that mean we must not rejoin: we asked for it, were removed on
++ * purpose, or another device took over our identity (rejoining would just
++ * fight it).
++ */
++const FINAL_DISCONNECT_REASONS: ReadonlySet<DisconnectReason> = new Set([
++  DisconnectReason.CLIENT_INITIATED,
++  DisconnectReason.DUPLICATE_IDENTITY,
++  DisconnectReason.PARTICIPANT_REMOVED,
++  DisconnectReason.USER_REJECTED,
++  DisconnectReason.USER_UNAVAILABLE,
++]);
++
+ export interface ConnectionOpts {
+   /**
+    * For the local transport we already do know the jwt token and url. We can reuse it.
+    * On top the local transport will send additional data to the jwt server to use delayed event delegation.
+    */
+   existingSFUConfig?: SFUConfig;
++  /**
++   * Fetches a fresh SFU config with the same identity as `existingSFUConfig`.
++   * Needed to rejoin after the SFU drops us, as the JWT service creates the
++   * LiveKit room when it issues a token.
++   */
++  refreshSFUConfig?: () => Promise<SFUConfig>;
+   /**
+    * For local connections that use the oldest member pattern. here we have not prefetched the sfuConfig
+    * and hence we need to let the connection do the jwt token fetching.
+@@ -142,6 +171,9 @@ export class Connection {
+   private readonly logger: Logger;
+   private readonly ownMembershipIdentity: CallMembershipIdentityParts;
+   private readonly existingSFUConfig?: SFUConfig;
++  private readonly refreshSFUConfig?: () => Promise<SFUConfig>;
++  private watchingForDrops = false;
++  private rejoining = false;
+   /**
+    * Creates a new connection to a matrix RTC LiveKit backend.
+    *
+@@ -152,6 +184,7 @@ export class Connection {
+   public constructor(opts: ConnectionOpts, logger: Logger) {
+     this.ownMembershipIdentity = opts.ownMembershipIdentity;
+     this.existingSFUConfig = opts.existingSFUConfig;
++    this.refreshSFUConfig = opts.refreshSFUConfig;
+     this.roomId = opts.roomId;
+     this.logger = logger.getChild(
+       "[Connection " + opts.transport.livekit_service_url + "]",
+@@ -263,6 +296,7 @@ export class Connection {
+       }
+       // If we were stopped while connecting, don't proceed to update state.
+       if (this.stopped) return;
++      this.watchForDrops();
+     } catch (error) {
+       this.logger.debug(`Failed to connect to LiveKit room: ${error}`);
+       this._state$.next(
+@@ -277,6 +311,58 @@ export class Connection {
+     }
+   }
+ 
++  /**
++   * Rejoins the LiveKit room if the SFU drops us after we were connected.
++   *
++   * LiveKit first tries to resume the session itself. That fails for good when
++   * the SFU restarted or the room is gone (the resume gets a 404), and we would
++   * otherwise stay disconnected for the rest of the call.
++   */
++  private watchForDrops(): void {
++    if (this.watchingForDrops) return;
++    this.watchingForDrops = true;
++    const onDisconnected = (reason?: DisconnectReason): void => {
++      if (this.stopped || this.rejoining) return;
++      if (reason !== undefined && FINAL_DISCONNECT_REASONS.has(reason)) return;
++      this.logger.warn(`Dropped by the SFU (reason ${reason}), rejoining`);
++      void this.rejoin();
++    };
++    this.livekitRoom.on(RoomEvent.Disconnected, onDisconnected);
++    this.scope.onEnd(() =>
++      this.livekitRoom.off(RoomEvent.Disconnected, onDisconnected),
++    );
++  }
++
++  private async rejoin(): Promise<void> {
++    this.rejoining = true;
++    try {
++      for (const [attempt, delay] of REJOIN_DELAYS_MS.entries()) {
++        if (delay > 0) {
++          await new Promise((resolve) => setTimeout(resolve, delay));
++        }
++        if (this.stopped) return;
++        try {
++          const { url, jwt, livekitAlias } = await (this.refreshSFUConfig?.() ??
++            this.getSFUConfigForRemoteConnection());
++          if (this.stopped) return;
++          this._livekitAlias = livekitAlias;
++          await this.livekitRoom.connect(url, jwt);
++          this.logger.info(`Rejoined after ${attempt + 1} attempt(s)`);
++          return;
++        } catch (e) {
++          this.logger.warn(`Rejoin attempt ${attempt + 1} failed`, e);
++        }
++      }
++      if (!this.stopped) {
++        this._state$.next(
++          new FailToStartLivekitConnection("Could not rejoin the call"),
++        );
++      }
++    } finally {
++      this.rejoining = false;
++    }
++  }
++
+   protected async getSFUConfigForRemoteConnection(): Promise<SFUConfig> {
+     // This will only be called for sfu's where we do not publish ourselves.
+     // For the local connection we will use the existingJwtTokenData
+diff --git a/src/state/CallViewModel/remoteMembers/ConnectionFactory.ts b/src/state/CallViewModel/remoteMembers/ConnectionFactory.ts
+index 30ff37f3..870ee800 100644
+--- a/src/state/CallViewModel/remoteMembers/ConnectionFactory.ts
++++ b/src/state/CallViewModel/remoteMembers/ConnectionFactory.ts
+@@ -48,6 +48,7 @@ export interface ConnectionFactory {
+     ownMembershipIdentity: CallMembershipIdentityParts,
+     logger: Logger,
+     sfuConfig?: SFUConfig,
++    refreshSFUConfig?: () => Promise<SFUConfig>,
+   ): Connection;
+ }
+ 
+@@ -99,6 +100,7 @@ export class ECConnectionFactory implements ConnectionFactory {
+    * @param ownMembershipIdentity required to connect (using the jwt service) with the SFU.
+    * @param logger The logger instance to use for this connection.
+    * @param sfuConfig optional config in case we already have a token for this connection.
++   * @param refreshSFUConfig optional way to get a fresh token when rejoining after a drop.
+    * @returns
+    */
+   public createConnection(
+@@ -107,10 +109,12 @@ export class ECConnectionFactory implements ConnectionFactory {
+     ownMembershipIdentity: CallMembershipIdentityParts,
+     logger: Logger,
+     sfuConfig?: SFUConfig,
++    refreshSFUConfig?: () => Promise<SFUConfig>,
+   ): Connection {
+     return new Connection(
+       {
+         existingSFUConfig: sfuConfig,
++        refreshSFUConfig,
+         roomId: this.roomId,
+         transport,
+         client: this.client,
+diff --git a/src/state/CallViewModel/remoteMembers/ConnectionManager.ts b/src/state/CallViewModel/remoteMembers/ConnectionManager.ts
+index 727f68bc..ebd63468 100644
+--- a/src/state/CallViewModel/remoteMembers/ConnectionManager.ts
++++ b/src/state/CallViewModel/remoteMembers/ConnectionManager.ts
+@@ -172,7 +172,7 @@ export function createConnectionManager$({
+                   transport.transport.livekit_service_url,
+                   transport.sfuConfig,
+                 ],
+-                data: undefined,
++                data: transport.refreshSFUConfig,
+               };
+             } else {
+               yield {
+@@ -180,12 +180,12 @@ export function createConnectionManager$({
+                   transport.livekit_service_url,
+                   undefined as SFUConfig | undefined,
+                 ],
+-                data: undefined,
++                data: undefined as (() => Promise<SFUConfig>) | undefined,
+               };
+             }
+           }
+         },
+-        (scope, _data$, serviceUrl, sfuConfig) => {
++        (scope, data$, serviceUrl, sfuConfig) => {
+           const connection = connectionFactory.createConnection(
+             scope,
+             {
+@@ -197,6 +197,7 @@ export function createConnectionManager$({
+             // TODO: This whole optional SFUConfig parameter is not particularly elegant.
+             // I would like it if connections always fetched the SFUConfig by themselves.
+             sfuConfig,
++            data$.value,
+           );
+           // Start the connection immediately
+           // Use connection state to track connection progress

@@ -1,0 +1,99 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: blong <belohnung@protonmail.com>
+Date: Mon, 26 Oct 2026 19:31:34 +0100
+Subject: [PATCH 4/5] Recover calls faster after an app restart
+
+Wait 30s before auto-leaving when everyone else has gone, and shorten the
+delayed leave to 6s with a 2s keep-alive so stale memberships expire sooner.
+
+Ported to v0.24.0 from largelanguagemeowing/cinny 4f2a6140. The
+allOthersLeft$ pipeline is unchanged upstream since 0.20.1 and the
+embedded config.json still ships 4000/18000; the hunks moved but apply
+as written. The two auto-leave marble tests moved to new line numbers.
+---
+ .../CallViewModel/CallNotificationLifecycle.ts  | 17 +++++++++++++----
+ src/state/CallViewModel/CallViewModel.test.ts   |  4 ++--
+ vite-embedded.config.ts                         |  4 ++--
+ 3 files changed, 17 insertions(+), 8 deletions(-)
+
+diff --git a/src/state/CallViewModel/CallNotificationLifecycle.ts b/src/state/CallViewModel/CallNotificationLifecycle.ts
+index 59930fd6..8f569d07 100644
+--- a/src/state/CallViewModel/CallNotificationLifecycle.ts
++++ b/src/state/CallViewModel/CallNotificationLifecycle.ts
+@@ -13,6 +13,7 @@ import {
+   type RTCCallIntent,
+ } from "matrix-js-sdk/lib/matrixrtc";
+ import {
++  distinctUntilChanged,
+   filter,
+   fromEvent,
+   map,
+@@ -39,6 +40,9 @@ import { type Behavior } from "../Behavior";
+ import { type Epoch, type ObservableScope } from "../ObservableScope";
+ import { type RoomMemberMap } from "./remoteMembers/MatrixMemberMetadata";
+ 
++/** How long everyone else must stay gone before an auto-leave call ends. */
++export const ALL_OTHERS_LEFT_GRACE_MS = 30_000;
++
+ export type AutoLeaveReason = "allOthersLeft" | "timeout" | "decline";
+ 
+ export interface RingAttempt {
+@@ -171,12 +175,17 @@ export function createCallNotificationLifecycle$({
+       scope.share,
+     );
+ 
++  // Someone else's membership vanishing is not proof they left: an app that is
++  // closed without hanging up keeps its membership until the server fires its
++  // delayed leave event, and is usually reopened soon after. Only give up on the
++  // call once everyone else has stayed gone for a grace period.
+   const allOthersLeft$ = memberships$.pipe(
++    map(({ value }) => value.some((m) => m.userId !== localUser.userId)),
++    distinctUntilChanged(),
+     pairwise(),
+-    filter(
+-      ([{ value: prev }, { value: current }]) =>
+-        current.every((m) => m.userId === localUser.userId) &&
+-        prev.some((m) => m.userId !== localUser.userId),
++    // switchMap drops a pending timer as soon as someone else shows up again.
++    switchMap(([prev, current]) =>
++      prev && !current ? timer(ALL_OTHERS_LEFT_GRACE_MS) : EMPTY,
+     ),
+     map(() => {}),
+   );
+diff --git a/src/state/CallViewModel/CallViewModel.test.ts b/src/state/CallViewModel/CallViewModel.test.ts
+index 7933039f..8974464e 100644
+--- a/src/state/CallViewModel/CallViewModel.test.ts
++++ b/src/state/CallViewModel/CallViewModel.test.ts
+@@ -1424,7 +1424,7 @@ describe.each([
+           rtcMembers$: rtcMemberJoinLeave$(behavior),
+         },
+         (vm) => {
+-          expectObservable(vm.autoLeave$).toBe("------a", {
++          expectObservable(vm.autoLeave$).toBe("------ 30s a", {
+             a: "allOthersLeft",
+           });
+         },
+@@ -1490,7 +1490,7 @@ describe.each([
+           }),
+         },
+         (vm) => {
+-          expectObservable(vm.autoLeave$).toBe("------a", {
++          expectObservable(vm.autoLeave$).toBe("------ 30s a", {
+             a: "allOthersLeft",
+           });
+         },
+diff --git a/vite-embedded.config.ts b/vite-embedded.config.ts
+index 27a42fbb..02d312e8 100644
+--- a/vite-embedded.config.ts
++++ b/vite-embedded.config.ts
+@@ -27,8 +27,8 @@ export default defineConfig((env) =>
+             data: {
+               matrix_rtc_session: {
+                 wait_for_key_rotation_ms: 5000,
+-                delayed_leave_event_restart_ms: 4000,
+-                delayed_leave_event_delay_ms: 18000,
++                delayed_leave_event_restart_ms: 2000,
++                delayed_leave_event_delay_ms: 6000,
+               },
+             },
+           },

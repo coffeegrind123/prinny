@@ -8,3 +8,7 @@ devAssets
 
 # Claude Code session state — local scratch, not project files.
 .claude/
+
+# Element Call build fetched by scripts/element-call.mjs (element-call/dist is
+# covered by `dist` above).
+element-call/dist.partial

@@ -1,0 +1,4 @@
+# The Element Call patch queue must reach `git am` byte for byte, and the
+# queue hash (scripts/element-call.mjs) must not depend on the checkout.
+element-call/patches/*.patch -text
+element-call/build.sh text eol=lf
