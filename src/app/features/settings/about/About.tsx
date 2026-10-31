@@ -265,23 +265,19 @@ export function About({ requestClose }: AboutProps) {
                         <Text size="T300">
                           The{' '}
                           <a
-                            href="https://github.com/mozilla/twemoji-colr"
+                            href="https://github.com/TCOTC/twemoji-colr"
                             target="_blank"
                             rel="noreferrer noopener"
                           >
                             twemoji-colr
                           </a>{' '}
-                          font is ©{' '}
-                          <a href="https://mozilla.org/" target="_blank" rel="noreferrer noopener">
-                            Mozilla Foundation
-                          </a>{' '}
-                          used under the terms of{' '}
+                          font uses Twemoji artwork under the terms of{' '}
                           <a
-                            href="http://www.apache.org/licenses/LICENSE-2.0"
+                            href="https://creativecommons.org/licenses/by/4.0/"
                             target="_blank"
                             rel="noreferrer noopener"
                           >
-                            Apache 2.0
+                            CC-BY 4.0
                           </a>
                           .
                         </Text>
@@ -290,7 +286,7 @@ export function About({ requestClose }: AboutProps) {
                         <Text size="T300">
                           The{' '}
                           <a
-                            href="https://twemoji.twitter.com"
+                            href="https://github.com/jdecked/twemoji"
                             target="_blank"
                             rel="noreferrer noopener"
                           >
@@ -298,7 +294,7 @@ export function About({ requestClose }: AboutProps) {
                           </a>{' '}
                           emoji art is ©{' '}
                           <a
-                            href="https://twemoji.twitter.com"
+                            href="https://github.com/jdecked/twemoji"
                             target="_blank"
                             rel="noreferrer noopener"
                           >
