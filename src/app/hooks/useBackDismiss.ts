@@ -151,3 +151,15 @@ export function useBackDismiss(onBack: () => BackDismissResult): void {
     };
   }, []);
 }
+
+/**
+ * useBackDismiss for a panel whose close never needs to step back in place:
+ * render it next to the panel, under the same condition that shows it.
+ */
+export function BackDismiss({ onClose }: { onClose: () => void }): null {
+  useBackDismiss(() => {
+    onClose();
+    return 'closed';
+  });
+  return null;
+}

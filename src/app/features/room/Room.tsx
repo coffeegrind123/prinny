@@ -32,6 +32,7 @@ import { useIsRoomBackdrop } from '../../hooks/useRoomBackdrop';
 import { ResizeHandle } from '../../components/resize-handle';
 import { useResizablePane } from '../../hooks/useResizablePane';
 import { DmCallSplit } from './DmCallSplit';
+import { BackDismiss } from '../../hooks/useBackDismiss';
 
 export function Room() {
   const { eventId } = useParams();
@@ -71,6 +72,7 @@ export function Room() {
 
   const [threadView, setThreadView] = useAtom(threadViewAtom);
   const closeThread = useCallback(() => setThreadView(undefined), [setThreadView]);
+  const closeSearch = useCallback(() => setSearchOpen(false), [setSearchOpen]);
   // A thread belonging to a room you have navigated away from must not stay on
   // screen over the new one.
   const openThreadRootId = threadView?.roomId === room.roomId ? threadView.rootId : undefined;
@@ -122,6 +124,9 @@ export function Room() {
         phone-width timeline would leave neither usable. */}
       {openThreadRootId && screenSize !== ScreenSize.Desktop && (
         <Box style={{ position: 'absolute', inset: 0, zIndex: 11 }}>
+          {/* Full-screen here, so Android Back must close it rather than
+            pop the room route underneath. */}
+          <BackDismiss onClose={closeThread} />
           <ThreadView
             key={openThreadRootId}
             room={room}
@@ -132,6 +137,7 @@ export function Room() {
       )}
       {searchOpen && screenSize !== ScreenSize.Desktop && (
         <Box style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
+          <BackDismiss onClose={closeSearch} />
           {/*
           Same component the desktop side panel uses, rendered
           full-screen. There used to be a second, messages-only search
@@ -146,7 +152,7 @@ export function Room() {
             room={room}
             members={members}
             overlay
-            onClose={() => setSearchOpen(false)}
+            onClose={closeSearch}
           />
         </Box>
       )}
