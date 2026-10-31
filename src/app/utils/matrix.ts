@@ -129,12 +129,32 @@ export const encryptFile = async (
   };
 };
 
+// Event content is untrusted, so a missing field passes through for the library's own
+// "Invalid info" error instead of throwing a TypeError here.
+const stripBase64Padding = <T>(value: T): T =>
+  (typeof value === 'string' ? value.replace(/=+$/, '') : value) as T;
+
+// browser-encrypt-attachment compares the ciphertext digest as *unpadded* base64 with a plain
+// string compare, so a sender that pads `hashes.sha256` fails with "Mismatched SHA-256 digest"
+// and the file never opens. The spec says unpadded, but padded values are seen in the wild,
+// and a padded JWK `k` can also be refused by importKey.
+const normalizeEncInfo = (encInfo: EncryptedAttachmentInfo): EncryptedAttachmentInfo => ({
+  ...encInfo,
+  iv: stripBase64Padding(encInfo.iv),
+  key: encInfo.key && { ...encInfo.key, k: stripBase64Padding(encInfo.key.k) },
+  hashes:
+    encInfo.hashes &&
+    Object.fromEntries(
+      Object.entries(encInfo.hashes).map(([name, hash]) => [name, stripBase64Padding(hash)]),
+    ),
+});
+
 export const decryptFile = async (
   dataBuffer: ArrayBuffer,
   type: string,
   encInfo: EncryptedAttachmentInfo,
 ): Promise<Blob> => {
-  const dataArray = await decryptAttachment(dataBuffer, encInfo);
+  const dataArray = await decryptAttachment(dataBuffer, normalizeEncInfo(encInfo));
   const blob = new Blob([dataArray], { type });
   return blob;
 };
