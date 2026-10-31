@@ -16,6 +16,10 @@ COPY . /src/
 # repo calls it. Safe here because the checkout is throwaway -- it rewrites
 # files in place, which is why it is NOT wired into `npm run build`.
 RUN node scripts/rebrand.mjs
+# Shown in About; the build context has no .git to read it from.
+#   docker build --build-arg APP_COMMIT=$(git rev-parse --short HEAD) .
+ARG APP_COMMIT=
+ENV APP_COMMIT=$APP_COMMIT
 ENV NODE_OPTIONS=--max_old_space_size=4096
 RUN npm run build
 

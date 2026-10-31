@@ -10,8 +10,25 @@ import { VitePWA } from 'vite-plugin-pwa';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 import buildConfig from './build.config';
 import { readableCssIdentifiers } from './scripts/vite-readable-css.mjs';
+
+// Short hash of the commit this bundle was built from, shown in About. The
+// Docker build context has no .git, so the Dockerfile passes APP_COMMIT in.
+const appCommit = (() => {
+  if (process.env.APP_COMMIT) return process.env.APP_COMMIT;
+  try {
+    return execSync('git rev-parse --short HEAD', {
+      cwd: path.dirname(fileURLToPath(import.meta.url)),
+      stdio: ['ignore', 'pipe', 'ignore'],
+    })
+      .toString()
+      .trim();
+  } catch {
+    return '';
+  }
+})();
 
 const copyFiles = {
   targets: [
@@ -112,6 +129,9 @@ export default defineConfig(({ command }) => {
   return {
     appType: 'spa',
     publicDir: false,
+    define: {
+      __APP_COMMIT__: JSON.stringify(appCommit),
+    },
     base: buildConfig.base,
     resolve: {
       // Bare `folds` resolves to our shim (src/folds/index.ts), which re-exports

@@ -109,7 +109,10 @@ export function About({ requestClose }: AboutProps) {
                     <Box direction="Column" gap="100">
                       <Box gap="100" alignItems="End">
                         <Text size="H3">Prinny Client</Text>
-                        <Text size="T200">v{version}</Text>
+                        <Text size="T200">
+                          v{version}
+                          {__APP_COMMIT__ && ` (${__APP_COMMIT__})`}
+                        </Text>
                       </Box>
                       <Text>A Matrix chat client that actually feels native.</Text>
                     </Box>
