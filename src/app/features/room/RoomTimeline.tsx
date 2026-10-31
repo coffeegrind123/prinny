@@ -2474,6 +2474,15 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   // parseable transcript ([time] <sender> body, with reply context quoted).
   // Falls back to native copy when the selection is not a transcript-shaped
   // span of messages.
+  // Item indexes that drew a row in the latest render pass. The copy handler
+  // walks every item between the selection's endpoints, and the timeline holds
+  // events that never draw: edits (`m.replace`), reactions, and redacted
+  // messages. An edit is an `m.room.message` that survives redaction of the
+  // message it edits, so a deleted-then-copied message came back as its
+  // `* new text` edit body. Copying only what was drawn keeps the transcript
+  // identical to what the reader selected.
+  const drawnItemsRef = useRef<Set<number>>(new Set());
+
   const handleCopy = useCallback<ClipboardEventHandler<HTMLDivElement>>(
     (evt) => {
       // Never hijack copy from the in-message (Slate) message editor.
@@ -2547,14 +2556,8 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         const mEvent =
           eventTimeline &&
           getTimelineEvent(eventTimeline, getTimelineRelativeIndex(item, baseIndex));
-        // Match eventRenderer's visibility rules: never copy content the
-        // timeline hides (ignored senders, redacted-with-hidden-events).
-        const visible =
-          mEvent &&
-          eventTimeline &&
-          !(mEvent.getSender() && ignoredUsersSet.has(mEvent.getSender() ?? '')) &&
-          !(mEvent.isRedacted() && !showHiddenEvents);
-        if (visible && mEvent && eventTimeline) {
+        // Never copy content the timeline hides — see `drawnItemsRef`.
+        if (mEvent && eventTimeline && drawnItemsRef.current.has(item)) {
           const line = eventToTranscriptLine(
             room,
             mEvent,
@@ -2569,7 +2572,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       evt.clipboardData.setData('text/plain', transcript.join('\n'));
       evt.preventDefault();
     },
-    [room, ignoredUsersSet, showHiddenEvents, hour24Clock],
+    [room, hour24Clock],
   );
 
   let prevEvent: MatrixEvent | undefined;
@@ -2716,6 +2719,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   const renderedRows = getItems()
     .map(eventRenderer)
     .filter((row): row is RenderedTimelineRow => row !== undefined);
+  drawnItemsRef.current = new Set(renderedRows.map((row) => row.item));
   const timelineRows = groupMembership
     ? groupMembershipRuns(
         renderedRows,
