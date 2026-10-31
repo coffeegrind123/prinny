@@ -1318,6 +1318,10 @@ function Messages() {
   const [urlPreview, setUrlPreview] = useSetting(settingsAtom, 'urlPreview');
   const [encUrlPreview, setEncUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
   const [showHiddenEvents, setShowHiddenEvents] = useSetting(settingsAtom, 'showHiddenEvents');
+  const [dimSendingBodyOnly, setDimSendingBodyOnly] = useSetting(
+    settingsAtom,
+    'dimSendingBodyOnly',
+  );
 
   return (
     <Box direction="Column" gap="100">
@@ -1421,6 +1425,15 @@ function Messages() {
           title="Show Hidden Events"
           after={
             <Switch variant="Primary" value={showHiddenEvents} onChange={setShowHiddenEvents} />
+          }
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Fade Only the Text While Sending"
+          description="A message on its way fades just its content; the name, time and sending clock stay at full strength. Off fades the whole message."
+          after={
+            <Switch variant="Primary" value={dimSendingBodyOnly} onChange={setDimSendingBodyOnly} />
           }
         />
       </SequenceCard>

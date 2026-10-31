@@ -1156,6 +1156,7 @@ export const Message = as<'div', MessageProps>(
     const [readReceiptStyle] = useSetting(settingsAtom, 'readReceiptStyle');
     const [replyOnDoubleClick] = useSetting(settingsAtom, 'replyOnDoubleClick');
     const [showHiddenEvents] = useSetting(settingsAtom, 'showHiddenEvents');
+    const [dimSendingBodyOnly] = useSetting(settingsAtom, 'dimSendingBodyOnly');
     const elementReceipts = useElementReadReceipts(
       room,
       readReceiptStyle === 'element' && !hideOthersReadReceipts,
@@ -1618,7 +1619,15 @@ export const Message = as<'div', MessageProps>(
            */
           <MessageTrailingContext.Provider value={inlineReceiptsJSX || null}>
             <Box gap="200" alignItems="End" style={{ maxWidth: '100%' }}>
-              <Box style={{ minWidth: 0 }}>{children}</Box>
+              <Box
+                className={classNames(
+                  dimSendingBodyOnly && css.MessageBodyFade,
+                  dimSendingBodyOnly && isSending && css.MessageSending,
+                )}
+                style={{ minWidth: 0 }}
+              >
+                {children}
+              </Box>
               {!textLikeContent && receiptsJSX}
             </Box>
           </MessageTrailingContext.Provider>
@@ -1768,7 +1777,7 @@ export const Message = as<'div', MessageProps>(
         className={classNames(css.MessageBase, className, {
           [css.MessageBaseBubbleCollapsed]: messageLayout === MessageLayout.Bubble && collapse,
           [css.MessageReplyHighlight]: repliedToMe,
-          [css.MessageSending]: isSending,
+          [css.MessageSending]: isSending && !dimSendingBodyOnly,
         })}
         tabIndex={0}
         space={messageSpacing}

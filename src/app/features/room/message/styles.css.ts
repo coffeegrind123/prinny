@@ -14,6 +14,12 @@ export const MessageSending = style({
   opacity: config.opacity.Disabled,
 });
 
+// `dimSendingBodyOnly`: the same fade on the content alone, which needs its own
+// transition since the row's does not reach it.
+export const MessageBodyFade = style({
+  transition: 'opacity 200ms ease-out',
+});
+
 /**
  * The amber a row is washed with when it replies to you.
  *

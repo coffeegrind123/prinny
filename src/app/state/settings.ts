@@ -254,6 +254,9 @@ export interface Settings {
   // Full-page verify (or set up recovery) step on an unverified device, with a skip that leaves
   // a banner behind.
   verifyAfterSignIn: boolean;
+  // While a message is sending, fade only its content, leaving the sender, time and the sending
+  // clock at full strength. Off fades the whole row.
+  dimSendingBodyOnly: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -373,6 +376,7 @@ const defaultSettings: Settings = {
   onlySignedDevices: false,
   askBeforeBackupRestore: false,
   verifyAfterSignIn: false,
+  dimSendingBodyOnly: false,
 };
 
 /** Settings that existed under a different shape in an older build. */
