@@ -4,6 +4,8 @@ import { RoomNavItem } from './RoomNavItem';
 import { SortableNavItem } from './styles.css';
 import { RoomNotificationMode } from '../../hooks/useRoomsNotificationPreferences';
 
+export type RoomDropPosition = 'before' | 'after';
+
 type SortableRoomNavItemProps = {
   room: Room;
   selected: boolean;
@@ -13,7 +15,12 @@ type SortableRoomNavItemProps = {
   direct?: boolean;
   parentId: string;
   canReorder: boolean;
-  onReorder: (parentId: string, fromRoomId: string, toRoomId: string) => void;
+  onReorder: (
+    parentId: string,
+    fromRoomId: string,
+    toRoomId: string,
+    position: RoomDropPosition,
+  ) => void;
 };
 
 type DragPayload = { roomId: string; parentId: string };
@@ -21,6 +28,27 @@ type DragPayload = { roomId: string; parentId: string };
 // Module-level slot for the active drag, readable during dragover (dataTransfer
 // is not readable in dragover in all browsers).
 let activeDrag: DragPayload | null = null;
+
+// The nav list is virtualized, so the drag source can unmount mid-drag and its
+// dragend never fires. Clear the active drag from window-level listeners too.
+// `drop` is bubble phase, so it runs after the target's React handler has read
+// `activeDrag`; `pointerdown` never fires during a native drag and precedes
+// any new one.
+const ACTIVE_DRAG_END_EVENTS = ['drop', 'dragend', 'pointerdown'] as const;
+const clearActiveDrag = () => {
+  activeDrag = null;
+  ACTIVE_DRAG_END_EVENTS.forEach((type) => window.removeEventListener(type, clearActiveDrag));
+};
+const setActiveDrag = (payload: DragPayload) => {
+  clearActiveDrag();
+  activeDrag = payload;
+  ACTIVE_DRAG_END_EVENTS.forEach((type) => window.addEventListener(type, clearActiveDrag));
+};
+
+const getDropPosition = (e: React.DragEvent<HTMLElement>): RoomDropPosition => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  return e.clientY < rect.top + rect.height / 2 ? 'before' : 'after';
+};
 
 export function SortableRoomNavItem({
   room,
@@ -34,48 +62,52 @@ export function SortableRoomNavItem({
   onReorder,
 }: SortableRoomNavItemProps) {
   const [dragging, setDragging] = useState(false);
-  const [dropTarget, setDropTarget] = useState(false);
+  const [dropPosition, setDropPosition] = useState<RoomDropPosition>();
+
+  const isValidDropTarget = () =>
+    !!activeDrag && activeDrag.parentId === parentId && activeDrag.roomId !== room.roomId;
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    const payload: DragPayload = { roomId: room.roomId, parentId };
-    activeDrag = payload;
+    setActiveDrag({ roomId: room.roomId, parentId });
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', room.roomId);
     setDragging(true);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    if (!activeDrag) return;
-    if (activeDrag.parentId !== parentId || activeDrag.roomId === room.roomId) return;
+    if (!isValidDropTarget()) {
+      setDropPosition(undefined);
+      return;
+    }
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-    setDropTarget(true);
+    setDropPosition(getDropPosition(e));
   };
 
-  const handleDragLeave = () => {
-    setDropTarget(false);
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    // dragleave also fires when crossing into our own children; ignore those.
+    if (e.relatedTarget instanceof Node && e.currentTarget.contains(e.relatedTarget)) return;
+    setDropPosition(undefined);
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    setDropPosition(undefined);
+    if (!activeDrag || !isValidDropTarget()) return;
     e.preventDefault();
-    setDropTarget(false);
-    if (activeDrag && activeDrag.parentId === parentId && activeDrag.roomId !== room.roomId) {
-      onReorder(parentId, activeDrag.roomId, room.roomId);
-    }
-    activeDrag = null;
+    onReorder(parentId, activeDrag.roomId, room.roomId, getDropPosition(e));
   };
 
   const handleDragEnd = () => {
     setDragging(false);
-    setDropTarget(false);
-    activeDrag = null;
+    setDropPosition(undefined);
+    clearActiveDrag();
   };
 
   return (
     <div
       className={SortableNavItem}
       data-dragging={dragging}
-      data-drop-target={dropTarget ? 'before' : undefined}
+      data-drop-target={dropPosition}
       draggable={canReorder}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}

@@ -66,6 +66,15 @@ export const SortableNavItem = style({
       zIndex: 2,
       borderTop: `${config.borderWidth.B300} solid ${color.Success.Main}`,
     },
+    '&[data-drop-target=after]::after': {
+      content: '',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      zIndex: 2,
+      borderBottom: `${config.borderWidth.B300} solid ${color.Success.Main}`,
+    },
   },
 });
 

@@ -40,7 +40,11 @@ import {
 } from '../../../hooks/router/useSelectedSpace';
 import { useSpace } from '../../../hooks/useSpace';
 import { VirtualTile } from '../../../components/virtualizer';
-import { RoomNavCategoryButton, SortableRoomNavItem } from '../../../features/room-nav';
+import {
+  RoomDropPosition,
+  RoomNavCategoryButton,
+  SortableRoomNavItem,
+} from '../../../features/room-nav';
 import { makeNavCategoryId } from '../../../state/closedNavCategories';
 import { roomToUnreadAtom } from '../../../state/room/roomToUnread';
 import { useCategoryHandler } from '../../../hooks/useCategoryHandler';
@@ -546,7 +550,12 @@ export function Space() {
 
   const [reorderState, handleReorder] = useAsyncCallback(
     useCallback(
-      async (parentId: string, fromRoomId: string, toRoomId: string) => {
+      async (
+        parentId: string,
+        fromRoomId: string,
+        toRoomId: string,
+        position: RoomDropPosition,
+      ) => {
         const sectionRooms = hierarchy.filter(
           (item) => !('space' in item) && item.parentId === parentId,
         );
@@ -554,7 +563,9 @@ export function Space() {
         const filtered = orderedRoomIds.filter((roomId) => roomId !== fromRoomId);
         const toIndex = filtered.indexOf(toRoomId);
         if (toIndex === -1) return;
-        filtered.splice(toIndex, 0, fromRoomId);
+        const insertIndex = position === 'after' ? toIndex + 1 : toIndex;
+        if (orderedRoomIds.indexOf(fromRoomId) === insertIndex) return;
+        filtered.splice(insertIndex, 0, fromRoomId);
 
         if (sortMode === 'custom') {
           reorderRoom(parentId, filtered);
