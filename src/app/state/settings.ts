@@ -257,6 +257,9 @@ export interface Settings {
   // While a message is sending, fade only its content, leaving the sender, time and the sending
   // clock at full strength. Off fades the whole row.
   dimSendingBodyOnly: boolean;
+  // In the call you are in, highlight who is speaking and tag screen sharers LIVE in the room
+  // list's member rows. Off keeps the plain list.
+  callNavActivity: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -377,6 +380,7 @@ const defaultSettings: Settings = {
   askBeforeBackupRestore: false,
   verifyAfterSignIn: false,
   dimSendingBodyOnly: false,
+  callNavActivity: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

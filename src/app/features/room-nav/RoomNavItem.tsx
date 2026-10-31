@@ -77,6 +77,7 @@ import { InviteUserPrompt } from '../../components/invite-user-prompt';
 import { useRoomName } from '../../hooks/useRoomMeta';
 import { useCallMembers, useCallSession } from '../../hooks/useCall';
 import { useCallEmbed, useCallStart } from '../../hooks/useCallEmbed';
+import { useCallParticipantActivity } from '../../hooks/useCallSpeakers';
 import { callChatAtom } from '../../state/callEmbed';
 import { useCallPreferencesAtom } from '../../state/hooks/callPreferences';
 import { useAutoDiscoveryInfo } from '../../hooks/useAutoDiscoveryInfo';
@@ -360,6 +361,13 @@ function CallNavItemMembers({ room, members }: CallNavItemMembersProps) {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const openUserProfile = useOpenUserRoomProfile();
+  const [callNavActivity] = useSetting(settingsAtom, 'callNavActivity');
+  const callEmbed = useCallEmbed();
+  // Only the call this client has joined exposes its tiles, so other rooms'
+  // calls have no activity to show.
+  const { speakers, screenSharers } = useCallParticipantActivity(
+    callNavActivity && callEmbed?.roomId === room.roomId ? callEmbed : undefined,
+  );
 
   return (
     <Box
@@ -381,6 +389,14 @@ function CallNavItemMembers({ room, members }: CallNavItemMembersProps) {
             key={callMember.memberId}
             as="button"
             className={css.CallNavItemMember}
+            aria-label={[
+              name,
+              speakers.has(userId) && 'speaking',
+              screenSharers.has(userId) && 'sharing screen',
+            ]
+              .filter(Boolean)
+              .join(', ')}
+            data-speaking={speakers.has(userId)}
             alignItems="Center"
             gap="200"
             shrink="No"
@@ -394,7 +410,7 @@ function CallNavItemMembers({ room, members }: CallNavItemMembersProps) {
               )
             }
           >
-            <Avatar size="200" radii="400">
+            <Avatar className={css.CallNavItemMemberAvatar} size="200" radii="400">
               <UserAvatar
                 userId={userId}
                 src={avatarUrl}
@@ -402,9 +418,16 @@ function CallNavItemMembers({ room, members }: CallNavItemMembersProps) {
                 renderFallback={() => <Icon size="50" src={Icons.User} filled />}
               />
             </Avatar>
-            <Text size="T300" priority="300" truncate>
+            <Text size="T300" priority={speakers.has(userId) ? '500' : '300'} truncate>
               {name}
             </Text>
+            {screenSharers.has(userId) && (
+              <Box shrink="No" style={{ marginLeft: 'auto' }} title="Sharing screen">
+                <Badge size="300" variant="Critical" fill="Solid" radii="300">
+                  <Text size="L400">LIVE</Text>
+                </Badge>
+              </Box>
+            )}
           </Box>
         );
       })}

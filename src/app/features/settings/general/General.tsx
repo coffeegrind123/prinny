@@ -1471,6 +1471,7 @@ function ForkFeatures() {
     'autoJoinSpaceRooms',
   );
   const [autoEmbedHosts, setAutoEmbedHosts] = useSetting(settingsAtom, 'mediaAutoEmbedHosts');
+  const [callNavActivity, setCallNavActivity] = useSetting(settingsAtom, 'callNavActivity');
 
   const handleAutoEmbedHostsChange: ChangeEventHandler<HTMLInputElement> = (evt) => {
     // Normalising here rather than at match time means a pasted URL or a stray
@@ -1613,6 +1614,15 @@ function ForkFeatures() {
           after={
             <Switch variant="Primary" value={autoJoinSpaceRooms} onChange={setAutoJoinSpaceRooms} />
           }
+        />
+      </SequenceCard>
+
+      <Text size="L400">Calls</Text>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Call Activity in Room List"
+          description="In the call you have joined, ring the avatar of whoever is speaking and tag screen sharers LIVE in the room list."
+          after={<Switch variant="Primary" value={callNavActivity} onChange={setCallNavActivity} />}
         />
       </SequenceCard>
     </Box>

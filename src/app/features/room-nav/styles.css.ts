@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { DefaultReset, color, config, toRem } from 'folds';
 
 export const CategoryButton = style({
@@ -33,7 +33,14 @@ export const CategoryLabel = style({
   minWidth: 0,
 });
 
+export const CallNavItemMemberAvatar = style({
+  flexShrink: 0,
+  outline: '2px solid transparent',
+  outlineOffset: '2px',
+});
+
 export const CallNavItemMember = style({
+  minWidth: 0,
   width: '100%',
   border: 'none',
   background: 'transparent',
@@ -47,7 +54,14 @@ export const CallNavItemMember = style({
     '&:hover': {
       backgroundColor: color.Background.ContainerHover,
     },
+    '&[data-speaking=true]': {
+      color: color.Background.OnContainer,
+    },
   },
+});
+
+globalStyle(`${CallNavItemMember}[data-speaking=true] ${CallNavItemMemberAvatar}`, {
+  outlineColor: color.Success.Main,
 });
 
 export const SortableNavItem = style({
