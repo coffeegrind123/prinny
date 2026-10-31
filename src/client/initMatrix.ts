@@ -41,7 +41,53 @@ const legacyCryptoStoreExists = async (): Promise<boolean> => {
   return databases.some((db) => db.name === 'crypto-store');
 };
 
+const DEFAULT_CRYPTO_DB_PREFIX = 'matrix-js-sdk';
+const RUST_CRYPTO_DB_SUFFIXES = ['::matrix-sdk-crypto', '::matrix-sdk-crypto-meta'];
+const CRYPTO_PREFIX_STORAGE_KEY = 'app.prinny.cryptoDatabasePrefix';
+
+const deviceCryptoPrefix = (deviceId: string) => `${DEFAULT_CRYPTO_DB_PREFIX}:${deviceId}`;
+
+// The wasm OlmMachine refuses to open a store created for another device with this message.
+const isStoreAccountMismatch = (err: unknown): boolean =>
+  String(err instanceof Error ? err.message : err).includes(
+    "the account in the store doesn't match the account in the constructor",
+  );
+
+const cryptoPrefixByClient = new WeakMap<MatrixClient, string>();
+
+/**
+ * Which rust crypto database a session uses.
+ *
+ * Normally the SDK default. A store left behind by an earlier login (a logout or the splash
+ * "Logout" whose database delete was blocked by another open tab, or never awaited before the
+ * reload) holds a different device's account, and the OlmMachine refuses it. Then this session
+ * moves to a device-scoped database and remembers that, so later loads open it directly.
+ */
+const sessionCryptoPrefix = (session: Session): string | undefined => {
+  const stored = localStorage.getItem(CRYPTO_PREFIX_STORAGE_KEY);
+  return stored === deviceCryptoPrefix(session.deviceId) ? stored : undefined;
+};
+
 export const initClient = async (session: Session): Promise<MatrixClient> => {
+  const cryptoDatabasePrefix = sessionCryptoPrefix(session);
+  try {
+    return await createClientWithCrypto(session, cryptoDatabasePrefix);
+  } catch (err) {
+    if (cryptoDatabasePrefix || !isStoreAccountMismatch(err)) throw err;
+
+    // Nothing is deleted from the stale crypto store: its keys belong to the other device and
+    // stay recoverable. Its sync cache does go, since it may be another account's rooms.
+    console.warn('[crypto] crypto store belongs to another device; using a device-scoped one', err);
+    const prefix = deviceCryptoPrefix(session.deviceId);
+    localStorage.setItem(CRYPTO_PREFIX_STORAGE_KEY, prefix);
+    return createClientWithCrypto(session, prefix);
+  }
+};
+
+const createClientWithCrypto = async (
+  session: Session,
+  cryptoDatabasePrefix: string | undefined,
+): Promise<MatrixClient> => {
   const indexedDBStore = new IndexedDBStore({
     indexedDB: global.indexedDB,
     localStorage: global.localStorage,
@@ -81,9 +127,12 @@ export const initClient = async (session: Session): Promise<MatrixClient> => {
    * for everyone, to paper over a store with nothing in it.
    */
   const LEGACY_CRYPTO_DB_NAME = 'crypto-store';
-  const legacyCryptoStore = (await legacyCryptoStoreExists())
-    ? new IndexedDBCryptoStore(global.indexedDB, LEGACY_CRYPTO_DB_NAME)
-    : undefined;
+  // A device-scoped store means the default one held another device's account; the legacy
+  // libolm store predates both and is migrated only into the default one.
+  const legacyCryptoStore =
+    !cryptoDatabasePrefix && (await legacyCryptoStoreExists())
+      ? new IndexedDBCryptoStore(global.indexedDB, LEGACY_CRYPTO_DB_NAME)
+      : undefined;
 
   const mx = createClient({
     baseUrl: session.baseUrl,
@@ -110,7 +159,16 @@ export const initClient = async (session: Session): Promise<MatrixClient> => {
   indexedDBStore.on('degraded', reportClientStorageError);
 
   await indexedDBStore.startup();
-  await mx.initRustCrypto();
+  try {
+    await mx.initRustCrypto({ cryptoDatabasePrefix });
+  } catch (err) {
+    if (isStoreAccountMismatch(err)) {
+      mx.stopClient();
+      await indexedDBStore.deleteAllData();
+    }
+    throw err;
+  }
+  if (cryptoDatabasePrefix) cryptoPrefixByClient.set(mx, cryptoDatabasePrefix);
 
   // Apply the user's device-isolation preference. The crypto store holds this
   // only in memory, so we re-apply it on every client init from localStorage.
@@ -211,6 +269,30 @@ export const clearCacheAndReload = async (mx: MatrixClient) => {
   window.location.reload();
 };
 
+const deleteDatabase = (name: string): Promise<void> =>
+  new Promise((resolve) => {
+    const req = window.indexedDB.deleteDatabase(name);
+    req.onsuccess = () => resolve();
+    req.onerror = () => resolve();
+    // A connection still open in this page (the store handle of the attempt that hit the
+    // mismatch) blocks the delete until the reload that follows closes it; don't wait for that.
+    req.onblocked = () => resolve();
+  });
+
+/**
+ * Delete this client's sync and crypto stores, including a device-scoped crypto store and the
+ * stale default one it was moved away from.
+ */
+export const clearClientStores = async (mx: MatrixClient): Promise<void> => {
+  const cryptoDatabasePrefix = cryptoPrefixByClient.get(mx);
+  await mx.clearStores({ cryptoDatabasePrefix });
+  if (cryptoDatabasePrefix) {
+    await Promise.all(
+      RUST_CRYPTO_DB_SUFFIXES.map((suffix) => deleteDatabase(DEFAULT_CRYPTO_DB_PREFIX + suffix)),
+    );
+  }
+};
+
 export const logoutClient = async (mx: MatrixClient) => {
   pushSessionToSW();
   mx.stopClient();
@@ -219,7 +301,7 @@ export const logoutClient = async (mx: MatrixClient) => {
   } catch {
     // ignore if failed to logout
   }
-  await mx.clearStores();
+  await clearClientStores(mx);
   window.localStorage.clear();
   window.location.reload();
 };

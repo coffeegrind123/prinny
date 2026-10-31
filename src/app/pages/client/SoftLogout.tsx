@@ -8,7 +8,7 @@ import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { getPasswordFlow, getSSOFlow, getTokenFlow } from '../../hooks/useParsedLoginFlows';
 import { CustomLoginResponse, login, LoginError } from '../auth/login/loginUtil';
 import { setFallbackSession } from '../../state/sessions';
-import { logoutClient } from '../../../client/initMatrix';
+import { clearClientStores, logoutClient } from '../../../client/initMatrix';
 
 const LOGIN_TOKEN_PARAM = 'loginToken';
 
@@ -72,7 +72,7 @@ export function SoftLogout({ mx }: SoftLogoutProps) {
         // The stores belong to this device. If the server handed out a different one, the old
         // device is gone after all, and its crypto store can't be reused by the new device.
         if (response.device_id !== deviceId) {
-          await mx.clearStores();
+          await clearClientStores(mx);
         }
 
         setFallbackSession(response.access_token, response.device_id, response.user_id, baseUrl);

@@ -18,6 +18,7 @@ import { FocusTrap } from 'focus-trap-react';
 import { MouseEventHandler, ReactNode, useCallback, useEffect, useState } from 'react';
 import {
   clearCacheAndReload,
+  clearClientStores,
   clearLoginData,
   initClient,
   logoutClient,
@@ -150,7 +151,7 @@ const useLogoutListener = (mx?: MatrixClient): boolean => {
         return;
       }
 
-      await mx?.clearStores();
+      if (mx) await clearClientStores(mx);
       window.localStorage.clear();
       window.location.reload();
     };

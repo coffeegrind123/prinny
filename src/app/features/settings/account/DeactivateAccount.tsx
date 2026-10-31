@@ -26,6 +26,7 @@ import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { ActionUIA, ActionUIAFlowsLoader } from '../../../components/ActionUIA';
 import { stopPropagation } from '../../../utils/keyboard';
+import { clearClientStores } from '../../../../client/initMatrix';
 
 /**
  * Account deactivation.
@@ -52,7 +53,7 @@ function DeactivateDialog({ requestClose }: { requestClose: () => void }) {
           // The session is gone server-side; drop the local one too rather than
           // leaving a client running against a dead account.
           mx.stopClient();
-          mx.clearStores();
+          await clearClientStores(mx);
           window.localStorage.clear();
           window.location.reload();
         } catch (e) {
