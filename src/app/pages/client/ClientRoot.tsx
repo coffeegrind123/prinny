@@ -34,6 +34,7 @@ import { MatrixClientProvider } from '../../hooks/useMatrixClient';
 import { SpecVersions } from './SpecVersions';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { useSyncState } from '../../hooks/useSyncState';
+import { useSyncRecovery } from '../../hooks/useSyncRecovery';
 import { stopPropagation } from '../../utils/keyboard';
 import { StorageStatus } from './StorageStatus';
 import { SyncStatus } from './SyncStatus';
@@ -226,6 +227,7 @@ export function ClientRoot({ children }: ClientRootProps) {
 
   useUnifiedPush(mx);
   useWebPush(mx);
+  useSyncRecovery(mx);
 
   if (mx && softLoggedOut) {
     return <SoftLogout mx={mx} />;
