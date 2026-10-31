@@ -108,6 +108,7 @@ User-facing changes per commit. Most recent at the top.
 - `738e490` Added **search operators** (off by default) — `from:`, `in:`, `mentions:`, `has:`, `before:`/`after:`/`during:` and `pinned:true` in message search (from meow).
 - `375cdd6` Added **an optional Discord-style markdown** (off by default) — `###` headings, `>>>` quotes, `-#` small text, `<url>` links; incoming `-#` text shows small and dim for everyone (from meow).
 - `e51f73a` `c532584` Removed **12 source files and a hook nothing used any more** (from meow).
+- `a7288f4` `a13d641` `867170a` Added **a from-source build of the call widget with Prinny's own fixes**, not switched on yet — Element Call `v0.24.0` (the version calls use today) plus five patches in `element-call/patches`: rejoin the call server after it drops you, rejoin the call after a short homeserver outage instead of showing "Connection lost", stop "Reconnecting…" sticking after that rejoin, wait 30 s before ending a call everyone else left (so a restarted app can come back), and let sound packs replace the call's own sounds (from meow). CI builds it on every change, and a weekly check tries each new Element Call release and opens an `element-call-upgrade` issue when the patches no longer apply.
 
 ## 18.10.2026
 
