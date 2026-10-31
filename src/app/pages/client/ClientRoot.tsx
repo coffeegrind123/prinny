@@ -12,11 +12,13 @@ import {
   RectCords,
   Spinner,
   Text,
+  toRem,
 } from 'folds';
 import { HttpApiEvent, HttpApiEventHandlerMap, MatrixClient } from 'matrix-js-sdk';
 import { FocusTrap } from 'focus-trap-react';
 import { MouseEventHandler, ReactNode, useCallback, useEffect, useState } from 'react';
 import {
+  CLEAR_CACHE_BLOCKED_MESSAGE,
   clearCacheAndReload,
   clearClientStores,
   clearLoginData,
@@ -56,6 +58,7 @@ function ClientRootLoading() {
 
 function ClientRootOptions({ mx }: { mx?: MatrixClient }) {
   const [menuAnchor, setMenuAnchor] = useState<RectCords>();
+  const [clearCacheBlocked, setClearCacheBlocked] = useState(false);
 
   const handleToggle: MouseEventHandler<HTMLButtonElement> = (evt) => {
     const cords = evt.currentTarget.getBoundingClientRect();
@@ -97,11 +100,23 @@ function ClientRootOptions({ mx }: { mx?: MatrixClient }) {
             <Menu>
               <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
                 {mx && (
-                  <MenuItem onClick={() => clearCacheAndReload(mx)} size="300" radii="300">
+                  <MenuItem
+                    onClick={() => clearCacheAndReload(mx, () => setClearCacheBlocked(true))}
+                    size="300"
+                    radii="300"
+                  >
                     <Text as="span" size="T300" truncate>
                       Clear Cache and Reload
                     </Text>
                   </MenuItem>
+                )}
+                {clearCacheBlocked && (
+                  <Text
+                    size="T200"
+                    style={{ maxWidth: toRem(240), padding: `0 ${config.space.S200}` }}
+                  >
+                    {CLEAR_CACHE_BLOCKED_MESSAGE}
+                  </Text>
                 )}
                 <MenuItem
                   onClick={() => {

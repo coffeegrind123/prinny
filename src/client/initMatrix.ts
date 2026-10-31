@@ -74,14 +74,18 @@ const createSyncStore = (): IndexedDBStore =>
 /**
  * Delete the sync cache database and nothing else. It only holds what the server sends again on
  * the next sync; the crypto stores beside it hold this device's keys and are never touched.
- * Rejects when another tab keeps the database open, rather than waiting for it to close.
+ * When another tab keeps the database open, this rejects, or with `onBlocked` reports it and
+ * keeps waiting for that tab to close.
  */
-const deleteSyncStoreDatabase = (): Promise<void> =>
+const deleteSyncStoreDatabase = (onBlocked?: () => void): Promise<void> =>
   new Promise((resolve, reject) => {
     const req = global.indexedDB.deleteDatabase(SYNC_STORE_DB_NAME);
     req.onsuccess = () => resolve();
     req.onerror = () => reject(req.error ?? new Error(`Could not delete ${SYNC_STORE_DB_NAME}`));
-    req.onblocked = () => reject(new Error(`${SYNC_STORE_DB_NAME} is open in another tab`));
+    req.onblocked = () => {
+      if (onBlocked) onBlocked();
+      else reject(new Error(`${SYNC_STORE_DB_NAME} is open in another tab`));
+    };
   });
 
 /**
@@ -327,11 +331,39 @@ const deleteSyncStoreOnMemoryFallback = async (mx: MatrixClient): Promise<void> 
   });
 };
 
-export const clearCacheAndReload = async (mx: MatrixClient) => {
+const CLEAR_CACHE_BLOCKED_AFTER_MS = 5000;
+
+export const CLEAR_CACHE_BLOCKED_MESSAGE =
+  'Another Prinny tab or window still has the cache open. Close it and the cache clears and ' +
+  'reloads; reloading this one first waits for it too.';
+
+/**
+ * `onBlocked` runs when another tab or window keeps the cache open. The delete stays queued
+ * until that one closes, and the reload follows it then. The SDK only logs a blocked delete and
+ * its promise never settles, so without this the button did nothing, silently, for as long as
+ * the other tab stayed open.
+ */
+export const clearCacheAndReload = async (mx: MatrixClient, onBlocked?: () => void) => {
   mx.stopClient();
   clearNavToActivePathStore(mx.getSafeUserId());
-  await mx.store.deleteAllData();
-  await deleteSyncStoreOnMemoryFallback(mx);
+
+  let reported = false;
+  const reportBlocked = () => {
+    if (reported) return;
+    reported = true;
+    onBlocked?.();
+  };
+  const blockedTimer = window.setTimeout(reportBlocked, CLEAR_CACHE_BLOCKED_AFTER_MS);
+  try {
+    await mx.store.deleteAllData();
+    if (!(mx.store instanceof IndexedDBStore)) {
+      await deleteSyncStoreDatabase(reportBlocked).catch((err) => {
+        console.warn('[storage] could not delete the sync cache database', err);
+      });
+    }
+  } finally {
+    window.clearTimeout(blockedTimer);
+  }
   window.location.reload();
 };
 

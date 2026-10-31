@@ -11,12 +11,13 @@ import {
   config,
   toRem,
 } from 'folds';
+import { useState } from 'react';
 import { Page, PageContent, PageContentCenter, PageHeader } from '../../../components/page';
 import { SequenceCard } from '../../../components/sequence-card';
 import { SequenceCardStyle } from '../styles.css';
 import { SettingTile } from '../../../components/setting-tile';
 import PrinnySVG from '../../../../../public/res/svg/prinny.svg';
-import { clearCacheAndReload } from '../../../../client/initMatrix';
+import { CLEAR_CACHE_BLOCKED_MESSAGE, clearCacheAndReload } from '../../../../client/initMatrix';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { useUpdateCheck } from '../../../hooks/useUpdateCheck';
 import { useIsAndroid } from '../../../hooks/useIsAndroid';
@@ -73,6 +74,7 @@ export function About({ requestClose }: AboutProps) {
    * control, one that looks like it works.
    */
   const androidSelfUpdates = useIsAndroid();
+  const [clearCacheBlocked, setClearCacheBlocked] = useState(false);
 
   return (
     <Page>
@@ -170,7 +172,7 @@ export function About({ requestClose }: AboutProps) {
                       description="Clear all your locally stored data and reload from server."
                       after={
                         <Button
-                          onClick={() => clearCacheAndReload(mx)}
+                          onClick={() => clearCacheAndReload(mx, () => setClearCacheBlocked(true))}
                           variant="Secondary"
                           fill="Soft"
                           size="300"
@@ -181,6 +183,11 @@ export function About({ requestClose }: AboutProps) {
                         </Button>
                       }
                     />
+                    {clearCacheBlocked && (
+                      <Text size="T200" style={{ color: color.Critical.Main }}>
+                        {CLEAR_CACHE_BLOCKED_MESSAGE}
+                      </Text>
+                    )}
                   </SequenceCard>
                 </Box>
                 <Box direction="Column" gap="100">
