@@ -1,10 +1,11 @@
 import { MouseEventHandler, useCallback, useState } from 'react';
 import { useAtom } from 'jotai';
-import { CryptoApi, KeyBackupInfo } from 'matrix-js-sdk/lib/crypto-api';
+import { CryptoApi, KeyBackupInfo, KeyBackupRestoreResult } from 'matrix-js-sdk/lib/crypto-api';
 import {
   Badge,
   Box,
   Button,
+  Chip,
   color,
   config,
   Icon,
@@ -29,6 +30,15 @@ import {
   useKeyBackupTrust,
 } from '../hooks/useKeyBackup';
 import { stopPropagation } from '../utils/keyboard';
+import { useMatrixClient } from '../hooks/useMatrixClient';
+import { useBackupRestored } from '../state/backupRestored';
+import { restoreKeyBackupAndRecord } from '../utils/backupRestore';
+import { backupAdvice } from '../utils/backupAdvice';
+import { ManualVerificationTile } from './ManualVerification';
+import {
+  useSecretStorageDefaultKeyId,
+  useSecretStorageKeyContent,
+} from '../hooks/useSecretStorage';
 import { useRestoreBackupOnVerification } from '../hooks/useRestoreBackupOnVerification';
 
 type BackupStatusProps = {
@@ -43,7 +53,7 @@ function BackupStatus({ enabled }: BackupStatusProps) {
         size="L400"
         style={{ color: enabled ? color.Success.Main : color.Critical.Main }}
       >
-        {enabled ? 'Connected' : 'Disconnected'}
+        {enabled ? 'Backing up' : 'Not backing up'}
       </Text>
     </Box>
   );
@@ -98,43 +108,130 @@ function BackupProgress({ total, downloaded }: BackupProgressProps) {
   );
 }
 
-type BackupTrustInfoProps = {
-  crypto: CryptoApi;
-  backupInfo: KeyBackupInfo;
-};
-function BackupTrustInfo({ crypto, backupInfo }: BackupTrustInfoProps) {
-  const trust = useKeyBackupTrust(crypto, backupInfo);
+/** Offers the recovery key when this device cannot open the backup and so cannot restore it. */
+function UnlockBackup() {
+  const keyId = useSecretStorageDefaultKeyId();
+  const keyContent = useSecretStorageKeyContent(keyId ?? '');
+  const [open, setOpen] = useState(false);
 
-  if (!trust) return null;
+  if (!keyId || !keyContent) {
+    return (
+      <Text size="T200">
+        Verify this device from another device that is signed in to receive the key.
+      </Text>
+    );
+  }
+
+  if (!open) {
+    return (
+      <Box>
+        <Button
+          size="300"
+          variant="Secondary"
+          fill="Soft"
+          radii="300"
+          onClick={() => setOpen(true)}
+        >
+          <Text as="span" size="B300">
+            Enter recovery key
+          </Text>
+        </Button>
+      </Box>
+    );
+  }
 
   return (
-    <Box direction="Column">
-      {trust.matchesDecryptionKey ? (
-        <Text size="T200" style={{ color: color.Success.Main }}>
-          <b>Backup has trusted decryption key.</b>
-        </Text>
-      ) : (
-        <Text size="T200" style={{ color: color.Critical.Main }}>
-          <b>Backup does not have trusted decryption key!</b>
-        </Text>
-      )}
-      {trust.trusted ? (
-        <Text size="T200" style={{ color: color.Success.Main }}>
-          <b>Backup has trusted by signature.</b>
-        </Text>
-      ) : (
-        <Text size="T200" style={{ color: color.Critical.Main }}>
-          <b>Backup does not have trusted signature!</b>
-        </Text>
-      )}
-    </Box>
+    <ManualVerificationTile
+      secretStorageKeyId={keyId}
+      secretStorageKeyContent={keyContent}
+      title="Unlock backup"
+      description="Enter your recovery key or passphrase."
+      successMessage="Backup unlocked. Older messages will restore in the background."
+      options={
+        <Chip
+          type="button"
+          variant="Secondary"
+          fill="Soft"
+          radii="Pill"
+          onClick={() => setOpen(false)}
+        >
+          <Icon size="100" src={Icons.Cross} />
+        </Chip>
+      }
+    />
   );
 }
+
+type BackupAdviceSectionProps = {
+  crypto: CryptoApi;
+  backupInfo: KeyBackupInfo;
+  busy: boolean;
+  onRestore: () => void;
+};
+/**
+ * Says what the backup needs, and shows the Restore button only when pressing it would help:
+ * the device can open the backup and has not restored it yet.
+ */
+function BackupAdviceSection({ crypto, backupInfo, busy, onRestore }: BackupAdviceSectionProps) {
+  const mx = useMatrixClient();
+  const trust = useKeyBackupTrust(crypto, backupInfo);
+  const restored = useBackupRestored(
+    mx.getSafeUserId(),
+    mx.getDeviceId() ?? undefined,
+    backupInfo.version,
+  );
+  const advice = backupAdvice(backupInfo, trust, restored);
+
+  if (advice.kind === 'locked') {
+    return (
+      <Box direction="Column" gap="200">
+        <Text size="T200">
+          This device cannot open your backup yet, so it cannot restore older messages. It needs
+          your recovery key.
+        </Text>
+        <UnlockBackup />
+      </Box>
+    );
+  }
+
+  if (advice.kind === 'restore') {
+    return (
+      <Box alignItems="Center" gap="300">
+        <Box grow="Yes">
+          <Text size="T200">
+            Your backup has {advice.keys} message {advice.keys === 1 ? 'key' : 'keys'} this device
+            has not restored. Restore them to read older messages here.
+          </Text>
+        </Box>
+        <Box shrink="No">
+          <Button
+            size="300"
+            variant="Success"
+            radii="300"
+            aria-disabled={busy}
+            onClick={busy ? undefined : onRestore}
+            before={<Icon size="100" src={Icons.Download} />}
+          >
+            <Text size="B300">Restore older messages</Text>
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
+
+  return null;
+}
+
+const restoreSummary = ({ imported }: KeyBackupRestoreResult): string =>
+  imported === 0
+    ? 'Nothing new to restore: this device already had every key in the backup.'
+    : `Restored ${imported} message ${imported === 1 ? 'key' : 'keys'}. Older messages will now open.`;
 
 type BackupRestoreTileProps = {
   crypto: CryptoApi;
 };
 export function BackupRestoreTile({ crypto }: BackupRestoreTileProps) {
+  const mx = useMatrixClient();
   const [restoreProgress, setRestoreProgress] = useAtom(backupRestoreProgressAtom);
   const restoring =
     restoreProgress.status === BackupProgressStatus.Fetching ||
@@ -150,20 +247,19 @@ export function BackupRestoreTile({ crypto }: BackupRestoreTileProps) {
     setMenuCords(evt.currentTarget.getBoundingClientRect());
   };
 
-  const [restoreState, restoreBackup] = useAsyncCallback<void, Error, []>(
-    useCallback(async () => {
-      await crypto.restoreKeyBackup({
-        progressCallback(progress) {
-          setRestoreProgress(progress);
-        },
-      });
-    }, [crypto, setRestoreProgress]),
+  const [restoreState, restoreBackup] = useAsyncCallback<KeyBackupRestoreResult, Error, []>(
+    useCallback(
+      () =>
+        restoreKeyBackupAndRecord(
+          crypto,
+          mx.getSafeUserId(),
+          mx.getDeviceId() ?? undefined,
+          setRestoreProgress,
+        ),
+      [crypto, mx, setRestoreProgress],
+    ),
   );
-
-  const handleRestore = () => {
-    setMenuCords(undefined);
-    restoreBackup();
-  };
+  const busy = restoreState.status === AsyncStatus.Loading || restoring;
 
   return (
     <InfoCard
@@ -194,6 +290,9 @@ export function BackupRestoreTile({ crypto }: BackupRestoreTileProps) {
               <FocusTrap
                 focusTrapOptions={{
                   initialFocus: false,
+                  // The menu only shows details, so nothing in it can take focus. Without a
+                  // fallback the trap throws as soon as it opens.
+                  fallbackFocus: '[data-backup-details-menu]',
                   onDeactivate: () => setMenuCords(undefined),
                   clickOutsideDeactivates: true,
                   isKeyForward: (evt: KeyboardEvent) =>
@@ -204,39 +303,23 @@ export function BackupRestoreTile({ crypto }: BackupRestoreTileProps) {
                 }}
               >
                 <Menu
+                  data-backup-details-menu
+                  tabIndex={-1}
                   style={{
                     padding: config.space.S100,
                   }}
                 >
-                  <Box direction="Column" gap="100">
-                    <Box direction="Column" gap="200">
-                      <InfoCard
-                        variant="SurfaceVariant"
-                        title="Backup Details"
-                        description={
-                          <>
-                            <span>Version: {backupInfo?.version ?? 'NIL'}</span>
-                            <br />
-                            <span>Keys: {backupInfo?.count ?? 'NIL'}</span>
-                          </>
-                        }
-                      />
-                    </Box>
-                    <Button
-                      size="300"
-                      variant="Success"
-                      radii="300"
-                      aria-disabled={restoreState.status === AsyncStatus.Loading || restoring}
-                      onClick={
-                        restoreState.status === AsyncStatus.Loading || restoring
-                          ? undefined
-                          : handleRestore
-                      }
-                      before={<Icon size="100" src={Icons.Download} />}
-                    >
-                      <Text size="B300">Restore Backup</Text>
-                    </Button>
-                  </Box>
+                  <InfoCard
+                    variant="SurfaceVariant"
+                    title="Backup Details"
+                    description={
+                      <>
+                        <span>Version: {backupInfo?.version ?? '-'}</span>
+                        <br />
+                        <span>Keys: {backupInfo?.count ?? '-'}</span>
+                      </>
+                    }
+                  />
                 </Menu>
               </FocusTrap>
             }
@@ -249,13 +332,21 @@ export function BackupRestoreTile({ crypto }: BackupRestoreTileProps) {
           <b>{syncFailure}</b>
         </Text>
       )}
-      {!backupEnabled && backupInfo === null && (
-        <Text size="T200" style={{ color: color.Critical.Main }}>
-          <b>No backup present on server!</b>
+      {backupInfo === null && (
+        <Text size="T200">
+          There is no backup on the server, so your messages are only on your devices.
         </Text>
       )}
-      {!syncFailure && !backupEnabled && backupInfo && (
-        <BackupTrustInfo crypto={crypto} backupInfo={backupInfo} />
+      {backupInfo && (
+        <BackupAdviceSection
+          crypto={crypto}
+          backupInfo={backupInfo}
+          busy={busy}
+          // The failure is shown below, so the rethrown rejection would only add console noise.
+          onRestore={() => {
+            restoreBackup().catch(() => undefined);
+          }}
+        />
       )}
       {restoreState.status === AsyncStatus.Loading && !restoring && <BackupProgressFetching />}
       {restoreProgress.status === BackupProgressStatus.Fetching && <BackupProgressFetching />}
@@ -264,6 +355,11 @@ export function BackupRestoreTile({ crypto }: BackupRestoreTileProps) {
           total={restoreProgress.data.total}
           downloaded={restoreProgress.data.downloaded}
         />
+      )}
+      {restoreState.status === AsyncStatus.Success && (
+        <Text size="T200" style={{ color: color.Success.Main }}>
+          <b>{restoreSummary(restoreState.data)}</b>
+        </Text>
       )}
       {restoreState.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>

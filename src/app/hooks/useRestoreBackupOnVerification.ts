@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { backupRestoreProgressAtom } from '../state/backupRestore';
 import { useMatrixClient } from './useMatrixClient';
 import { useKeyBackupDecryptionKeyCached } from './useKeyBackup';
+import { restoreKeyBackupAndRecord } from '../utils/backupRestore';
 
 export const useRestoreBackupOnVerification = () => {
   const setRestoreProgress = useSetAtom(backupRestoreProgressAtom);
@@ -14,11 +15,12 @@ export const useRestoreBackupOnVerification = () => {
       const crypto = mx.getCrypto();
       if (!crypto) return;
 
-      crypto.restoreKeyBackup({
-        progressCallback(progress) {
-          setRestoreProgress(progress);
-        },
-      });
+      restoreKeyBackupAndRecord(
+        crypto,
+        mx.getSafeUserId(),
+        mx.getDeviceId() ?? undefined,
+        setRestoreProgress,
+      ).catch((err) => console.error('[backup] automatic restore failed', err));
     }, [mx, setRestoreProgress]),
   );
 };

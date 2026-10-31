@@ -115,11 +115,17 @@ type ManualVerificationTileProps = {
   secretStorageKeyId: string;
   secretStorageKeyContent: SecretStorageKeyContent;
   options?: ReactNode;
+  title?: string;
+  description?: string;
+  successMessage?: string;
 };
 export function ManualVerificationTile({
   secretStorageKeyId,
   secretStorageKeyContent,
   options,
+  title = 'Verify Manually',
+  description,
+  successMessage = 'Device verified!',
 }: ManualVerificationTileProps) {
   const mx = useMatrixClient();
 
@@ -155,8 +161,10 @@ export function ManualVerificationTile({
   return (
     <Box direction="Column" gap="200">
       <SettingTile
-        title="Verify Manually"
-        description={hasPassphrase ? 'Select a verification method.' : 'Provide recovery key.'}
+        title={title}
+        description={
+          description ?? (hasPassphrase ? 'Select a verification method.' : 'Provide recovery key.')
+        }
         after={
           <Box alignItems="Center" gap="200">
             {hasPassphrase && (
@@ -168,7 +176,7 @@ export function ManualVerificationTile({
       />
       {verifyState.status === AsyncStatus.Success ? (
         <Text size="T200" style={{ color: color.Success.Main }}>
-          <b>Device verified!</b>
+          <b>{successMessage}</b>
         </Text>
       ) : (
         <Box direction="Column" gap="100">
