@@ -101,7 +101,6 @@ export const UserHeroStatus = style({
 
 /** Shared by the profile card and the settings preview, which are one layout. */
 export const Biography = style({
-  whiteSpace: 'pre-wrap',
   overflowWrap: 'anywhere',
 });
 export const UserAvatarContainer = style({
