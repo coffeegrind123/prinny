@@ -1,4 +1,4 @@
-import { useEffect, KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { useEffect, useMemo, KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { Editor } from 'slate';
 import { Avatar, Icon, Icons, MenuItem, Text } from 'folds';
 import { MatrixClient, Room, RoomMember } from 'matrix-js-sdk';
@@ -12,6 +12,7 @@ import {
   UseAsyncSearchOptions,
   useAsyncSearch,
 } from '../../../hooks/useAsyncSearch';
+import { normalize } from '../../../utils/AsyncSearch';
 import { clickFocusedAutocompleteItem, onTabPress } from '../../../utils/keyboard';
 import { createMentionElement, moveCursor, replaceWithElement, safeFocusEditor } from '../utils';
 import { getMxIdLocalPart, getMxIdServer, isUserId } from '../../../utils/matrix';
@@ -94,11 +95,18 @@ export function UserMentionAutocomplete({
   const roomId: string = room.roomId!;
   const roomAliasOrId = room.getCanonicalAlias() || roomId;
   const members = useRoomMembers(mx, roomId);
+  // Filtered before searching: filtering the first 20 results afterwards let
+  // left or banned matches crowd mentionable ones out of the list.
+  const mentionableMembers = useMemo(() => members.filter(withAllowedMembership), [members]);
 
-  const [result, search, resetSearch] = useAsyncSearch(members, getRoomMemberStr, SEARCH_OPTIONS);
-  const autoCompleteMembers = (result ? result.items.slice(0, 20) : members.slice(0, 20)).filter(
-    withAllowedMembership,
+  const [result, search, resetSearch] = useAsyncSearch(
+    mentionableMembers,
+    getRoomMemberStr,
+    SEARCH_OPTIONS,
   );
+  // The search is async, so `result` can still be for the previous query.
+  const matchingResult = result?.query === normalize(query.text) ? result.items : undefined;
+  const autoCompleteMembers = (matchingResult ?? mentionableMembers).slice(0, 20);
 
   useEffect(() => {
     if (query.text) search(query.text);
