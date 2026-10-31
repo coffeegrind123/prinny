@@ -35,7 +35,7 @@ import { useThrottle } from '../../hooks/useThrottle';
 import { addRecentEmoji } from '../../plugins/recent-emoji';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { ImagePack, ImageUsage, PackImageReader } from '../../plugins/custom-emoji';
-import { getEmoticonSearchStr } from '../../plugins/utils';
+import { emojiSearchKey, getEmoticonSearchStr } from '../../plugins/utils';
 import {
   SearchInput,
   EmojiBoardTabs,
@@ -668,7 +668,7 @@ export function EmojiBoard({
   const handleOnChange: ChangeEventHandler<HTMLInputElement> = useDebounce(
     useCallback(
       (evt) => {
-        const term = evt.target.value;
+        const term = emojiSearchKey(evt.target.value);
         if (term) search(term);
         else resetSearch();
       },
