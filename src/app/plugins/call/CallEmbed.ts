@@ -26,6 +26,7 @@ import {
 import { CallControl } from './CallControl';
 import { CallControlState } from './CallControlState';
 import { protectFrameFromParentDrag } from './protectFrameFromParentDrag';
+import { version as elementCallVersion } from '@element-hq/element-call-embedded/package.json';
 
 export class CallEmbed {
   private mx: MatrixClient;
@@ -107,6 +108,11 @@ export class CallEmbed {
       lang: 'en-EN',
       theme: themeKind,
       header: 'none',
+      // index.html keeps its name across Element Call upgrades while the hashed
+      // assets it points at change, and /public/ is served without a
+      // Cache-Control header. A URL per widget version means no cache can hand
+      // out an old index.html that loads assets which no longer exist.
+      v: elementCallVersion,
     });
 
     if (!room.isCallRoom() && CallEmbed.startingCall(intent)) {
