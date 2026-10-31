@@ -3,8 +3,8 @@ import { mDirectAtom } from '../../state/mDirectList';
 import { roomToParentsAtom } from '../../state/room/roomToParents';
 import { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MatrixEventEvent, RoomEvent, RoomEventHandlerMap } from 'matrix-js-sdk';
-import { roomToUnreadAtom, unreadEqual, unreadInfoToUnread } from '../../state/room/roomToUnread';
+import { MatrixEvent, MatrixEventEvent, Room, RoomEvent, RoomEventHandlerMap } from 'matrix-js-sdk';
+import { roomToUnreadAtom } from '../../state/room/roomToUnread';
 import LogoSVG from '../../../../public/res/svg/prinny.svg';
 import LogoUnreadSVG from '../../../../public/res/svg/prinny-unread.svg';
 import LogoHighlightSVG from '../../../../public/res/svg/prinny-highlight.svg';
@@ -30,13 +30,8 @@ import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { getInboxInvitesPath } from '../pathUtils';
 import { useRoomNavigate } from '../../hooks/useRoomNavigate';
 import { useWindowFocusedRef } from '../../hooks/useWindowFocused';
-import {
-  getMemberDisplayName,
-  getNotificationType,
-  getUnreadInfo,
-  isNotificationEvent,
-} from '../../utils/room';
-import { NotificationType, UnreadInfo } from '../../../types/matrix/room';
+import { getMemberDisplayName, getNotificationType, isNotificationEvent } from '../../utils/room';
+import { NotificationType } from '../../../types/matrix/room';
 import { useSpaceAutoJoinGlobal } from '../../hooks/useSpaceAutoJoinGlobal';
 import { RichPresencePublisher } from '../../hooks/useRichPresencePublisher';
 import { getMxIdLocalPart, mxcUrlToHttp } from '../../utils/matrix';
@@ -228,9 +223,16 @@ function InviteNotifications() {
   );
 }
 
+// Bounds for the per-event notification bookkeeping below. A thousand ids is
+// well past any one catch-up sync; five hundred parked ciphertexts covers a
+// burst of messages whose keys are late.
+const MAX_SEEN_NOTIFICATION_EVENTS = 1000;
+const MAX_PENDING_NOTIFICATION_EVENTS = 500;
+
 function MessageNotifications() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const unreadCacheRef = useRef<Map<string, UnreadInfo>>(new Map());
+  const seenEventsRef = useRef<Set<string>>(new Set());
+  const pendingEventsRef = useRef<Map<MatrixEvent, Room>>(new Map());
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const [showNotifications] = useSetting(settingsAtom, 'showNotifications');
@@ -324,17 +326,6 @@ function MessageNotifications() {
       const eventId = mEvent.getId();
       if (!sender || !eventId || sender === mx.getUserId()) return;
 
-      const unreadInfo = getUnreadInfo(room);
-      const cachedUnreadInfo = unreadCacheRef.current.get(room.roomId);
-      unreadCacheRef.current.set(room.roomId, unreadInfo);
-      if (unreadInfo.total === 0) return;
-      if (
-        cachedUnreadInfo &&
-        unreadEqual(unreadInfoToUnread(cachedUnreadInfo), unreadInfoToUnread(unreadInfo))
-      ) {
-        return;
-      }
-
       const senderMember = room.getMember(sender);
       const avatarMxc =
         senderMember?.getMxcAvatarUrl() ??
@@ -418,6 +409,62 @@ function MessageNotifications() {
       }
     };
 
+    // Decided per event from its push actions rather than by diffing the
+    // room's unread counts: two messages in one sync batch leave the counts
+    // equal between the two timeline events, so the second was never
+    // announced, and counts cannot tell a mention-only or silent push rule
+    // from an ordinary one.
+    const processEvent = (mEvent: MatrixEvent, room: Room) => {
+      // Focus is read from the Tauri window when available: document.hasFocus()
+      // can report false inside a WebView while the window is plainly in front
+      // of the user, which is how OS toasts ended up firing at someone already
+      // looking at the app.
+      const focused = windowFocusedRef.current;
+      if (focused && (selectedRoomId === room.roomId || notificationSelected)) return;
+      if (
+        room.isSpaceRoom() ||
+        !isNotificationEvent(mEvent) ||
+        getNotificationType(mx, room.roomId) === NotificationType.Mute
+      ) {
+        return;
+      }
+
+      const sender = mEvent.getSender();
+      const eventId = mEvent.getId();
+      const userId = mx.getUserId();
+      if (!sender || !eventId || !userId || sender === userId) return;
+      if (seenEventsRef.current.has(eventId)) return;
+      if (room.hasUserReadEvent(userId, eventId)) return;
+
+      // The Timeline event fires before decryption completes, and push rules
+      // evaluated on the ciphertext cannot see a mention. Park the event until
+      // Decrypted; a failure stays parked so a late room key still announces
+      // it. Bounded so a room full of undecryptable history cannot grow it.
+      if (mEvent.getType() === 'm.room.encrypted' || mEvent.isDecryptionFailure()) {
+        pendingEventsRef.current.set(mEvent, room);
+        if (pendingEventsRef.current.size > MAX_PENDING_NOTIFICATION_EVENTS) {
+          const oldest = pendingEventsRef.current.keys().next().value;
+          if (oldest) pendingEventsRef.current.delete(oldest);
+        }
+        return;
+      }
+
+      const actions = mx.getPushActionsForEvent(mEvent, true);
+      if (!actions?.notify) return;
+
+      seenEventsRef.current.add(eventId);
+      if (seenEventsRef.current.size > MAX_SEEN_NOTIFICATION_EVENTS) {
+        const oldest = seenEventsRef.current.values().next().value;
+        if (oldest) seenEventsRef.current.delete(oldest);
+      }
+
+      // An OS toast is for when you are NOT looking at the app. While the
+      // window has focus the unread badge and the sound already tell you,
+      // so a toast on top of that is pure noise — even for another room.
+      if (!windowFocusedRef.current) sendNotif(mEvent, room);
+      if (notificationSound && actions.tweaks?.sound) playSound();
+    };
+
     const handleTimelineEvent: RoomEventHandlerMap[RoomEvent.Timeline] = (
       mEvent,
       room,
@@ -426,44 +473,25 @@ function MessageNotifications() {
       data,
     ) => {
       if (mx.getSyncState() !== 'SYNCING') return;
-      // Focus is read from the Tauri window when available: document.hasFocus()
-      // can report false inside a WebView while the window is plainly in front
-      // of the user, which is how OS toasts ended up firing at someone already
-      // looking at the app.
-      const focused = windowFocusedRef.current;
-      if (focused && (selectedRoomId === room?.roomId || notificationSelected)) return;
-      if (
-        !room ||
-        !data.liveEvent ||
-        room.isSpaceRoom() ||
-        !isNotificationEvent(mEvent) ||
-        getNotificationType(mx, room.roomId) === NotificationType.Mute
-      ) {
-        return;
+      if (!room || !data.liveEvent || toStartOfTimeline || removed) return;
+      processEvent(mEvent, room);
+      if (pendingEventsRef.current.has(mEvent)) {
+        mx.decryptEventIfNeeded(mEvent).catch(() => undefined);
       }
-      if (mEvent.getSender() === mx.getUserId()) return;
-
-      // For encrypted messages, the Timeline event fires before decryption
-      // completes. Wait for the Decrypted event to get the real content.
-      if ((mEvent as any).isEncrypted?.()) {
-        const onDecrypted = () => {
-          mEvent.off?.(MatrixEventEvent.Decrypted, onDecrypted);
-          // An OS toast is for when you are NOT looking at the app. While the
-          // window has focus the unread badge and the sound already tell you,
-          // so a toast on top of that is pure noise — even for another room.
-          if (!windowFocusedRef.current) sendNotif(mEvent, room);
-          if (notificationSound) playSound();
-        };
-        mEvent.on?.(MatrixEventEvent.Decrypted, onDecrypted);
-        return;
-      }
-
-      if (!windowFocusedRef.current) sendNotif(mEvent, room);
-      if (notificationSound) playSound();
     };
+
+    const handleDecrypted = (mEvent: MatrixEvent, error?: Error) => {
+      const room = pendingEventsRef.current.get(mEvent);
+      if (!room || error || mEvent.isDecryptionFailure()) return;
+      pendingEventsRef.current.delete(mEvent);
+      processEvent(mEvent, room);
+    };
+
     mx.on(RoomEvent.Timeline, handleTimelineEvent);
+    mx.on(MatrixEventEvent.Decrypted, handleDecrypted);
     return () => {
       mx.removeListener(RoomEvent.Timeline, handleTimelineEvent);
+      mx.removeListener(MatrixEventEvent.Decrypted, handleDecrypted);
     };
   }, [
     mx,

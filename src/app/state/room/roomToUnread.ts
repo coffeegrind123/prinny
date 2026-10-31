@@ -4,6 +4,7 @@ import {
   IRoomTimelineData,
   MatrixClient,
   MatrixEvent,
+  MatrixEventEvent,
   Room,
   RoomEvent,
   SyncState,
@@ -248,6 +249,36 @@ export const useBindRoomToUnreadAtom = (mx: MatrixClient, unreadAtom: typeof roo
     mx.on(RoomEvent.Timeline, handleTimelineEvent);
     return () => {
       mx.removeListener(RoomEvent.Timeline, handleTimelineEvent);
+    };
+  }, [mx, setUnreadAtom]);
+
+  useEffect(() => {
+    // The Timeline event of an encrypted message arrives before decryption,
+    // when the counts cannot know it mentions us; the SDK corrects them
+    // before re-emitting Decrypted. Without this refresh a mention badge in
+    // an E2EE room waited for the next unrelated event to appear.
+    const handleDecrypted = (event: MatrixEvent, error?: Error) => {
+      if (error || event.isDecryptionFailure() || !isNotificationEvent(event)) return;
+      const room = mx.getRoom(event.getRoomId());
+      const userId = mx.getUserId();
+      const eventId = event.getId();
+      if (
+        !room ||
+        !userId ||
+        !eventId ||
+        room.isSpaceRoom() ||
+        room.getMyMembership() !== Membership.Join ||
+        event.getSender() === userId ||
+        getNotificationType(mx, room.roomId) === NotificationType.Mute ||
+        room.hasUserReadEvent(userId, eventId)
+      ) {
+        return;
+      }
+      setUnreadAtom({ type: 'PUT', unreadInfo: getUnreadInfo(room) });
+    };
+    mx.on(MatrixEventEvent.Decrypted, handleDecrypted);
+    return () => {
+      mx.removeListener(MatrixEventEvent.Decrypted, handleDecrypted);
     };
   }, [mx, setUnreadAtom]);
 
