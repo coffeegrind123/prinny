@@ -26,6 +26,8 @@ import {
 import { CallControl } from './CallControl';
 import { CallControlState } from './CallControlState';
 import { protectFrameFromParentDrag } from './protectFrameFromParentDrag';
+import { getCallWidgetSoundOverrides } from '../../sound/soundPacks';
+import { getSettings } from '../../state/settings';
 
 export class CallEmbed {
   private mx: MatrixClient;
@@ -116,6 +118,13 @@ export class CallEmbed {
 
     if (!room.isCallRoom() && CallEmbed.startingCall(intent)) {
       params.append('sendNotificationType', CallEmbed.dmCall(intent) ? 'ring' : 'notification');
+    }
+
+    // The selected sound pack's versions of the widget's own sounds (ringing,
+    // join, leave, decline, timeout). Read at call start, like the rest of the URL.
+    const soundOverrides = getCallWidgetSoundOverrides(getSettings().soundPack);
+    if (Object.keys(soundOverrides).length > 0) {
+      params.append('soundOverrides', JSON.stringify(soundOverrides));
     }
 
     const widgetUrl = new URL(
