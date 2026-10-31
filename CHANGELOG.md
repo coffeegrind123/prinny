@@ -18,6 +18,21 @@ User-facing changes per commit. Most recent at the top.
 - `d51d9e9` Added **"Verify with Device" for a new login** — asks your other verified devices to start emoji verification, and warns first when this device's clock is too far off for it to work (from Sable).
 - `266ebe7` Fixed **a server "soft logout" (expired session) deleting every room key not in backup** — the app now keeps your encryption keys and shows a "Session expired" screen to sign back in on the same device, by password or single sign-on (from Sable).
 - `9aa2d58` Fixed **"Failed to load" with a Retry that never worked when an old login's encryption store was left behind** — the session now uses its own store and leaves the old one intact (from Sable).
+- `40b9eaf` Added **finding an emoji by pasting the emoji itself into the emoji board's search** — handy with a system emoji picker: paste 👍 to react with it. Skin tones and the invisible variation characters some pickers add are ignored, so ❤️ and ❤ both find the red heart.
+- `349973e` Added **a shield beside the time on encrypted messages whose sender can't be confirmed** — red when the sending session isn't verified by its owner, grey for keys restored from backup and similar cases, with a plain explanation on hover (from meow).
+- `917f74f` Improved **the logout warnings** — the dialog now says when recovery isn't set up, keys aren't backed up or are still uploading (with how many), or this is your only device (from meow).
+- `57dbbc2` Fixed **the key backup tile always offering Restore** — it now shows whether there's no backup, it's locked (enter your recovery key), a restore is needed, or all is well, and reports how many keys a restore brought back (from meow).
+- `ddd61a7` Improved **recovery key setup** — Done stays disabled until you confirm you saved the key, the dialog can't be closed by accident while the key is shown, and the downloaded file is named after your account (from meow).
+- `15dd875` Added **turning the server key backup off and on**, and a backup checkbox (on by default) when setting up recovery. The choice is recorded the way Element does, so Element won't quietly recreate it (from meow).
+- `a529aa5` `2334c0c` Fixed **the "Only verified sessions" description** — it claimed sending fails on any unverified session; it actually leaves those sessions out, and only fails when someone you verified changes identity (from meow).
+- `8bb3f1e` Fixed **invalid page structure in settings rows** that held block content (from meow).
+- `6bb435a` Added **an option to be asked before restoring your key backup** (Settings, off by default) — "Not now" skips the bulk import; individual keys are still fetched when a message needs one (from meow).
+- `9e70fff` Fixed **"Verify with Device" never appearing on a new login** — it was checking a trust state a not-yet-verified device can't have.
+- `53d64ce` `c4ee406` Added **an optional "Verify this device" step after sign-in** (Settings, off by default) — verify with another device or your recovery key, or set up recovery; skipping leaves a banner to come back to it (from meow).
+- `b88e1ea` Fixed **"Failed to load" on every launch when the local message cache was unreadable** — the app now clears just that cache and retries, and as a last resort runs without one and says so. Encryption keys are never touched, so logging out is no longer the only way out (from meow and Sable).
+- `1aaf46d` Fixed **Clear Cache silently doing nothing while another Prinny tab or window was open** — it now says which is blocking it, and finishes once that tab closes (from meow).
+- `1e791fa` Fixed **the "Connecting…" banner staying up to 30 seconds after the connection was already working**, and added a detail line to the connecting and connection-lost banners showing what it's doing and the last error (from meow).
+- `8e7e79f` Fixed **messages arriving a minute or two late after waking the laptop or reopening the Android app** — a stalled connection is restarted right away (from Sable).
 
 ## 18.10.2026
 
