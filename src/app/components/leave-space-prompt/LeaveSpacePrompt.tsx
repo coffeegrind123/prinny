@@ -24,6 +24,7 @@ import { stopPropagation } from '../../utils/keyboard';
 import { getSpaceChildren } from '../../utils/room';
 import { Membership } from '../../../types/matrix/room';
 import { rateLimitedActions } from '../../utils/matrix';
+import { leaveRoomExplicitly, markRoomsLeft } from '../../state/leftRooms';
 
 type LeaveSpacePromptProps = {
   roomId: string;
@@ -47,12 +48,15 @@ export function LeaveSpacePrompt({ roomId, onDone, onCancel }: LeaveSpacePromptP
             if (!room || room.isSpaceRoom()) return false;
             return room.getMyMembership() === Membership.Join;
           });
+          // One account-data write for the whole batch; each leave below then
+          // finds its mark already present.
+          await markRoomsLeft(mx, [...childIds, roomId]);
           await rateLimitedActions(childIds, async (childId) => {
-            await mx.leave(childId);
+            await leaveRoomExplicitly(mx, childId);
           });
         }
       }
-      await mx.leave(roomId);
+      await leaveRoomExplicitly(mx, roomId);
     }, [mx, roomId, leaveRooms]),
   );
 

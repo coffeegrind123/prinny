@@ -28,6 +28,7 @@ import { Membership, StateEvent } from '../../types/matrix/room';
 import { getStateEvent } from '../utils/room';
 import { splitWithSpace } from '../utils/common';
 import { createRoomEncryptionState } from '../components/create-room';
+import { leaveRoomExplicitly } from '../state/leftRooms';
 
 export const SHRUG = '¯\\_(ツ)_/¯';
 export const TABLEFLIP = '(╯°□°)╯︵ ┻━┻';
@@ -268,12 +269,12 @@ export const useCommands = (mx: MatrixClient, room: Room): CommandRecord => {
         description: 'Leave current room.',
         exe: async (payload) => {
           if (payload.trim() === '') {
-            mx.leave(room.roomId);
+            leaveRoomExplicitly(mx, room.roomId);
             return;
           }
           const rawIds = splitWithSpace(payload);
           const roomIds = rawIds.filter((id) => isRoomId(id));
-          roomIds.map((id) => mx.leave(id));
+          roomIds.forEach((id) => leaveRoomExplicitly(mx, id));
         },
       },
       [Command.Invite]: {

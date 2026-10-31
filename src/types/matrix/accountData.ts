@@ -8,6 +8,8 @@ export enum AccountDataEvent {
   PrinnyRoomOrder = 'app.prinny.room_order',
   PrinnyGifFavorites = 'app.prinny.gif_favorites',
   PrinnyEmojiMashups = 'app.prinny.emoji_mashups',
+  /** Rooms the user left, which space auto-join must not join again. */
+  PrinnyLeftRooms = 'app.prinny.left_rooms',
 
   /**
    * MSC4356, stable since Matrix 1.18. Content is

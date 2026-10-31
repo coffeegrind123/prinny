@@ -11,6 +11,7 @@ declare module 'matrix-js-sdk' {
     'app.prinny.room_order': unknown;
     'app.prinny.gif_favorites': unknown;
     'app.prinny.emoji_mashups': unknown;
+    'app.prinny.left_rooms': unknown;
   }
 
   interface StateEvents {

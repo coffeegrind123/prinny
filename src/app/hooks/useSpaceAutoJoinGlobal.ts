@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { RoomEvent } from 'matrix-js-sdk';
 import { useAtomValue } from 'jotai';
 import { useMatrixClient } from './useMatrixClient';
 import { useForceUpdate } from './useForceUpdate';
@@ -18,6 +19,7 @@ import {
 } from '../../types/matrix/room';
 import { getStateEvent, getStateEvents, isValidChild } from '../utils/room';
 import { isRoomId, rateLimitedActions } from '../utils/matrix';
+import { markRoomsLeft, unmarkRoomsLeft, useLeftRooms } from '../state/leftRooms';
 
 type RoomToJoin = {
   roomId: string;
@@ -46,6 +48,10 @@ type RoomToJoin = {
  * hammer the homeserver with duplicate join requests. Rooms that fail to join
  * (e.g. invite-only) stay attempted and can still be joined manually from the
  * lobby.
+ *
+ * Rooms the user left are never joined back: every leave is recorded in
+ * `app.prinny.left_rooms` account data (see `state/leftRooms.ts`), so this
+ * holds across restarts and devices, and the mark is dropped on a rejoin.
  */
 export const useSpaceAutoJoinGlobal = () => {
   const mx = useMatrixClient();
@@ -55,8 +61,33 @@ export const useSpaceAutoJoinGlobal = () => {
   const roomToParents = useAtomValue(roomToParentsAtom);
   const orphanSpaces = useOrphanSpaces(mx, allRoomsAtom, roomToParents);
   const [sidebarItems] = useSidebarItems(orphanSpaces);
+  const leftRooms = useLeftRooms();
   const attemptedRef = useRef<Set<string>>(new Set());
   const [updateCount, forceUpdate] = useForceUpdate();
+
+  const leftRoomsRef = useRef(leftRooms);
+  leftRoomsRef.current = leftRooms;
+
+  // Record every leave, not only those made through our own prompts: a room
+  // left on another client, or a kick, must not be auto-joined back either.
+  // The account-data mark arrives a sync later, so the room also goes into
+  // attemptedRef at once, before the leave re-renders the room list and
+  // re-runs the scan below.
+  useEffect(() => {
+    const handleMembership = (room: { roomId: string }, membership: string, prev?: string) => {
+      const marked = leftRoomsRef.current.has(room.roomId);
+      if (prev === Membership.Join && membership === Membership.Leave) {
+        attemptedRef.current.add(room.roomId);
+        if (!marked) markRoomsLeft(mx, [room.roomId]).catch(() => undefined);
+      } else if (membership === Membership.Join && prev !== Membership.Join && marked) {
+        unmarkRoomsLeft(mx, [room.roomId]).catch(() => undefined);
+      }
+    };
+    mx.on(RoomEvent.MyMembership, handleMembership);
+    return () => {
+      mx.removeListener(RoomEvent.MyMembership, handleMembership);
+    };
+  }, [mx]);
 
   // Re-scan when SpaceAutoJoin or m.space.child events arrive.
   useStateEventCallback(
@@ -139,6 +170,8 @@ export const useSpaceAutoJoinGlobal = () => {
         const joined = childRoom?.getMyMembership() === Membership.Join;
         const isSpace = childRoom?.isSpaceRoom() || spaceRooms.has(childId);
 
+        if (!joined && leftRooms.has(childId)) return;
+
         if (isSpace) {
           // Skip pinned subspaces entirely: don't join them and don't recurse
           // into them, leaving them for the user to manage manually.
@@ -177,5 +210,5 @@ export const useSpaceAutoJoinGlobal = () => {
         // Users can still join manually via the lobby Join button.
       }
     });
-  }, [mx, autoJoinSpaces, spaceRooms, pinnedSpaces]);
+  }, [mx, autoJoinSpaces, spaceRooms, pinnedSpaces, leftRooms]);
 };

@@ -19,6 +19,7 @@ import {
 import { MatrixError } from 'matrix-js-sdk';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
+import { leaveRoomExplicitly } from '../../state/leftRooms';
 import { stopPropagation } from '../../utils/keyboard';
 
 type LeaveRoomPromptProps = {
@@ -31,7 +32,7 @@ export function LeaveRoomPrompt({ roomId, onDone, onCancel }: LeaveRoomPromptPro
 
   const [leaveState, leaveRoom] = useAsyncCallback<undefined, MatrixError, []>(
     useCallback(async () => {
-      mx.leave(roomId);
+      await leaveRoomExplicitly(mx, roomId);
     }, [mx, roomId]),
   );
 
