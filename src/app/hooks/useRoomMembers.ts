@@ -17,11 +17,19 @@ export const useRoomMembers = (mx: MatrixClient, roomId: string): RoomMember[] =
 
     if (room) {
       setMembers(room.getMembers());
-      room.loadMembersIfNeeded().then(() => {
-        loadingMembers = false;
-        if (disposed) return;
-        updateMemberList();
-      });
+      // Settled either way: a rejected `/members` used to leave
+      // `loadingMembers` set, so the list ignored every later membership
+      // event until the room changed.
+      room
+        .loadMembersIfNeeded()
+        .catch((err) => {
+          console.warn('[members] loading the member list failed', roomId, err);
+        })
+        .then(() => {
+          loadingMembers = false;
+          if (disposed) return;
+          updateMemberList();
+        });
     }
 
     mx.on(RoomMemberEvent.Membership, updateMemberList);
