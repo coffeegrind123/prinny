@@ -53,6 +53,7 @@ import { isVoiceMessageContent } from '../../utils/voice-message';
 import { MATRIX_GIF_PROPERTY_NAME } from '../../../types/matrix/common';
 import { IdleDetector } from '../../hooks/useIdleDetector';
 import { ChosenPresenceRestore } from '../../hooks/useChosenPresenceRestore';
+import { DebugHandle } from '../../hooks/useDebugHandle';
 
 function SystemEmojiFeature() {
   const [twitterEmoji] = useSetting(settingsAtom, 'twitterEmoji');
@@ -670,6 +671,7 @@ export function ClientNonUIFeatures({ children }: ClientNonUIFeaturesProps) {
       <RichPresencePublisher />
       <IdleDetector />
       <ChosenPresenceRestore />
+      <DebugHandle />
       {children}
     </>
   );
