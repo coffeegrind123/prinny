@@ -1,6 +1,8 @@
 import { ComponentProps, CSSProperties, MutableRefObject, ReactNode } from 'react';
 import { Box, Header, Line, Scroll, Text, as } from 'folds';
 import classNames from 'classnames';
+import { useAtomValue } from 'jotai';
+import { callFullscreenAtom } from '../../state/callEmbed';
 import { ContainerColor } from '../../styles/ContainerColor.css';
 import * as css from './style.css';
 import { ScreenSize, useScreenSizeContext } from '../../hooks/useScreenSize';
@@ -31,6 +33,7 @@ type PageRootProps = {
 
 export function PageRoot({ nav, children, resizableNav, collapsibleNav }: PageRootProps) {
   const screenSize = useScreenSizeContext();
+  const callFullscreen = useAtomValue(callFullscreenAtom);
 
   // `position: relative` provides the containing block for the
   // `position: absolute` swipe layers (MobileSwipeBack, and the
@@ -42,10 +45,11 @@ export function PageRoot({ nav, children, resizableNav, collapsibleNav }: PageRo
       className={ContainerColor({ variant: 'Background' })}
       style={{ position: 'relative' }}
     >
-      {nav}
+      <div style={{ display: callFullscreen ? 'none' : 'contents' }}>{nav}</div>
       {/* Mobile has no divider at all: the nav is the whole screen there, so
           there are never two columns to split. */}
       {screenSize !== ScreenSize.Mobile &&
+        !callFullscreen &&
         (resizableNav ? (
           <ResizeHandle
             paneId="navPane"

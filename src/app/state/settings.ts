@@ -266,6 +266,9 @@ export interface Settings {
   // Show the current call as a "Voice Connected" panel at the bottom of the room list instead of
   // the bar under the layout, with occupied call rooms and the space call badge in green.
   callVoicePanel: boolean;
+  // In-call redesign: grouped controls with a wide end button, invite and fullscreen, a black
+  // call background, header and controls that fade when idle, and a call-specific header.
+  callControlsRedesign: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -389,6 +392,7 @@ const defaultSettings: Settings = {
   callNavActivity: false,
   dmCallSplit: false,
   callVoicePanel: false,
+  callControlsRedesign: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

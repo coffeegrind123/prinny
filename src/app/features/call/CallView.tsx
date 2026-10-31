@@ -1,6 +1,11 @@
 import { RefObject, useRef } from 'react';
 import { Badge, Box, color, Header, Scroll, Text, toRem } from 'folds';
-import { useCallEmbed, useCallJoined, useCallEmbedPlacementSync } from '../../hooks/useCallEmbed';
+import {
+  useCallEmbed,
+  useCallJoined,
+  useCallEmbedPlacementSync,
+  useCallIdle,
+} from '../../hooks/useCallEmbed';
 import { ContainerColor } from '../../styles/ContainerColor.css';
 import { PrescreenControls } from './PrescreenControls';
 import { usePowerLevelsContext } from '../../hooks/usePowerLevels';
@@ -15,6 +20,8 @@ import * as css from './styles.css';
 import { CallControls } from './CallControls';
 import { useLivekitSupport } from '../../hooks/useLivekitSupport';
 import { webRTCSupported } from '../../utils/rtc';
+import { useSetting } from '../../state/hooks/settings';
+import { settingsAtom } from '../../state/settings';
 
 function LivekitServerMissingMessage() {
   return (
@@ -159,11 +166,13 @@ export function CallView() {
   const callJoined = useCallJoined(callEmbed);
 
   const currentJoined = callEmbed?.roomId === room.roomId && callJoined;
+  const [redesign] = useSetting(settingsAtom, 'callControlsRedesign');
+  useCallIdle(redesign && currentJoined ? callEmbed : undefined);
 
   return (
     <Box
       className={ContainerColor({ variant: 'Surface' })}
-      style={{ minWidth: toRem(280) }}
+      style={{ minWidth: toRem(280), background: redesign ? '#000' : undefined }}
       grow="Yes"
     >
       {!currentJoined && <CallPrescreen />}

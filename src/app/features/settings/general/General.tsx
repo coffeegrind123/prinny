@@ -1474,6 +1474,10 @@ function ForkFeatures() {
   const [callNavActivity, setCallNavActivity] = useSetting(settingsAtom, 'callNavActivity');
   const [dmCallSplit, setDmCallSplit] = useSetting(settingsAtom, 'dmCallSplit');
   const [callVoicePanel, setCallVoicePanel] = useSetting(settingsAtom, 'callVoicePanel');
+  const [callControlsRedesign, setCallControlsRedesign] = useSetting(
+    settingsAtom,
+    'callControlsRedesign',
+  );
 
   const handleAutoEmbedHostsChange: ChangeEventHandler<HTMLInputElement> = (evt) => {
     // Normalising here rather than at match time means a pasted URL or a stray
@@ -1635,6 +1639,17 @@ function ForkFeatures() {
           title="Voice Panel in Room List"
           description="Show the current call at the bottom of the room list, with its controls, instead of in a bar under the window. Call rooms with people in them turn green."
           after={<Switch variant="Primary" value={callVoicePanel} onChange={setCallVoicePanel} />}
+        />
+        <SettingTile
+          title="Redesigned Call Controls"
+          description="Grouped call buttons with invite and full screen, a black call background, a header that names who is sharing their screen, and controls that fade after a few idle seconds."
+          after={
+            <Switch
+              variant="Primary"
+              value={callControlsRedesign}
+              onChange={setCallControlsRedesign}
+            />
+          }
         />
       </SequenceCard>
     </Box>

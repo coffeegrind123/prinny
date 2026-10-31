@@ -1,5 +1,5 @@
-import { MouseEventHandler, forwardRef, useState } from 'react';
-import { useAtom, useSetAtom } from 'jotai';
+import { MouseEventHandler, forwardRef, useEffect, useState } from 'react';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { FocusTrap } from 'focus-trap-react';
 import {
   Box,
@@ -38,10 +38,13 @@ import { useSpaceOptionally } from '../../hooks/useSpace';
 import { getHomeSearchPath, getSpaceSearchPath, withSearchParam } from '../../pages/pathUtils';
 import {
   getCanonicalAliasOrRoomId,
+  getMxIdLocalPart,
   guessDmRoomUserId,
   isRoomAlias,
   mxcUrlToHttp,
 } from '../../utils/matrix';
+import { getMemberAvatarMxc, getMemberDisplayName } from '../../utils/room';
+import { UserAvatar } from '../../components/user-avatar';
 import { useUserPresence } from '../../hooks/useUserPresence';
 import { PresenceBadge } from '../../components/presence';
 import { roomSearchFocusRequestAtom, roomSearchOpenAtom } from '../../state/roomSearch';
@@ -85,6 +88,9 @@ import { useCallEmbed, useCallStart, useCallStartPreferences } from '../../hooks
 import { useLivekitSupport } from '../../hooks/useLivekitSupport';
 import { webRTCSupported } from '../../utils/rtc';
 import { UnencryptedBadge, useUnencryptedWarning } from '../../components/unencrypted-indicator';
+import { callChatAtom, callIdleAtom } from '../../state/callEmbed';
+import { useCallParticipantActivity } from '../../hooks/useCallSpeakers';
+import { CallEmbed } from '../../plugins/call/CallEmbed';
 
 type RoomMenuProps = {
   room: Room;
@@ -477,6 +483,59 @@ function CallButton({
   );
 }
 
+const SCREEN_SHARE_VIDEO = '[data-video-fit][data-id$=":screen-share"] video';
+
+/** Resolution of the shared screen, read from the call's video element (e.g. "720p"). */
+function useStreamQuality(embed?: CallEmbed): string | undefined {
+  const [quality, setQuality] = useState<string>();
+
+  useEffect(() => {
+    if (!embed) {
+      setQuality(undefined);
+      return undefined;
+    }
+    // videoHeight changes without any DOM mutation, so poll rather than observe.
+    const update = () => {
+      const video = embed.document?.querySelector<HTMLVideoElement>(SCREEN_SHARE_VIDEO);
+      const height = video?.videoHeight;
+      setQuality(height ? `${height}p` : undefined);
+    };
+    update();
+    const timer = setInterval(update, 2000);
+    return () => clearInterval(timer);
+  }, [embed]);
+
+  return quality;
+}
+
+function CallChatToggleButton() {
+  const [chat, setChat] = useAtom(callChatAtom);
+
+  return (
+    <TooltipProvider
+      position="Bottom"
+      offset={4}
+      tooltip={
+        <Tooltip>
+          <Text>{chat ? 'Close Chat' : 'Open Chat'}</Text>
+        </Tooltip>
+      }
+    >
+      {(triggerRef) => (
+        <IconButton
+          fill="None"
+          ref={triggerRef}
+          onClick={() => setChat(!chat)}
+          aria-pressed={chat}
+          aria-label="Toggle chat"
+        >
+          <Icon size="400" src={Icons.Message} filled={chat} />
+        </IconButton>
+      )}
+    </TooltipProvider>
+  );
+}
+
 export function RoomViewHeader({ callView }: { callView?: boolean }) {
   const navigate = useNavigate();
   const mx = useMatrixClient();
@@ -498,6 +557,23 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
   const [menuAnchor, setMenuAnchor] = useState<RectCords>();
   const [pinMenuAnchor, setPinMenuAnchor] = useState<RectCords>();
   const direct = useIsDirectRoom();
+
+  const [callRedesign] = useSetting(settingsAtom, 'callControlsRedesign');
+  const redesignedCall = !!callView && callRedesign;
+  const callIdle = useAtomValue(callIdleAtom);
+  const embed = useCallEmbed();
+  const { screenSharers } = useCallParticipantActivity(
+    redesignedCall && embed?.roomId === room.roomId ? embed : undefined,
+  );
+  const [sharerId] = Array.from(screenSharers);
+  const sharerName = sharerId
+    ? (getMemberDisplayName(room, sharerId) ?? getMxIdLocalPart(sharerId) ?? sharerId)
+    : undefined;
+  const sharerAvatarMxc = sharerId ? getMemberAvatarMxc(room, sharerId) : undefined;
+  const sharerAvatarUrl = sharerAvatarMxc
+    ? (mxcUrlToHttp(mx, sharerAvatarMxc, useAuthentication, 48, 48, 'crop') ?? undefined)
+    : undefined;
+  const streamQuality = useStreamQuality(sharerId ? embed : undefined);
 
   const pinnedEvents = useRoomPinnedEvents(room);
   const avatarMxc = useRoomAvatar(room, direct);
@@ -575,6 +651,16 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
   return (
     <PageHeader
       className={ContainerColor({ variant: 'Surface' })}
+      style={
+        redesignedCall
+          ? {
+              background: '#000',
+              opacity: callIdle ? 0 : 1,
+              pointerEvents: callIdle ? 'none' : undefined,
+              transition: 'opacity 0.3s ease',
+            }
+          : undefined
+      }
       balance={screenSize === ScreenSize.Mobile}
     >
       <Box grow="Yes" gap="300">
@@ -590,7 +676,8 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
           </BackRouteHandler>
         )}
         <Box grow="Yes" alignItems="Center" gap="300">
-          {screenSize !== ScreenSize.Mobile && (
+          {redesignedCall && <Icon size="300" src={Icons.VolumeHigh} />}
+          {!redesignedCall && screenSize !== ScreenSize.Mobile && (
             <Avatar size="300">
               <RoomAvatar
                 roomId={room.roomId}
@@ -611,12 +698,30 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
                   size="300"
                 />
               )}
-              <Text size={topic ? 'H5' : 'H3'} truncate>
+              <Text size={topic && !redesignedCall ? 'H5' : 'H3'} truncate>
                 {name}
               </Text>
               {unencrypted && <UnencryptedBadge />}
+              {redesignedCall && sharerName && (
+                <>
+                  <Text size="H3" priority="300">
+                    •
+                  </Text>
+                  <Avatar size="200" radii="Pill">
+                    <UserAvatar
+                      userId={sharerId}
+                      src={sharerAvatarUrl}
+                      alt={sharerName}
+                      renderFallback={() => <Icon size="50" src={Icons.User} filled />}
+                    />
+                  </Avatar>
+                  <Text size="H5" truncate>
+                    {sharerName}&apos;s Screen
+                  </Text>
+                </>
+              )}
             </Box>
-            {topic && (
+            {topic && !redesignedCall && (
               <UseStateProvider initial={false}>
                 {(viewTopic, setViewTopic) => (
                   <>
@@ -716,66 +821,88 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
               )}
             </TooltipProvider>
           )}
-          <TooltipProvider
-            position="Bottom"
-            offset={4}
-            tooltip={
-              <Tooltip>
-                <Text>Pinned Messages</Text>
-              </Tooltip>
-            }
-          >
-            {(triggerRef) => (
-              <IconButton
-                fill="None"
-                style={{ position: 'relative' }}
-                onClick={handleOpenPinMenu}
-                ref={triggerRef}
-                aria-pressed={!!pinMenuAnchor}
+          {/* Pins and a new call do not apply inside the redesigned call view. */}
+          {!redesignedCall && (
+            <>
+              <TooltipProvider
+                position="Bottom"
+                offset={4}
+                tooltip={
+                  <Tooltip>
+                    <Text>Pinned Messages</Text>
+                  </Tooltip>
+                }
               >
-                {pinnedEvents.length > 0 && (
-                  <Badge
-                    style={{
-                      position: 'absolute',
-                      left: toRem(3),
-                      top: toRem(3),
-                    }}
-                    variant="Secondary"
-                    size="400"
-                    fill="Solid"
-                    radii="Pill"
+                {(triggerRef) => (
+                  <IconButton
+                    fill="None"
+                    style={{ position: 'relative' }}
+                    onClick={handleOpenPinMenu}
+                    ref={triggerRef}
+                    aria-pressed={!!pinMenuAnchor}
                   >
-                    <Text as="span" size="L400">
-                      {pinnedEvents.length}
-                    </Text>
-                  </Badge>
+                    {pinnedEvents.length > 0 && (
+                      <Badge
+                        style={{
+                          position: 'absolute',
+                          left: toRem(3),
+                          top: toRem(3),
+                        }}
+                        variant="Secondary"
+                        size="400"
+                        fill="Solid"
+                        radii="Pill"
+                      >
+                        <Text as="span" size="L400">
+                          {pinnedEvents.length}
+                        </Text>
+                      </Badge>
+                    )}
+                    <Icon size="400" src={Icons.Pin} filled={!!pinMenuAnchor} />
+                  </IconButton>
                 )}
-                <Icon size="400" src={Icons.Pin} filled={!!pinMenuAnchor} />
-              </IconButton>
-            )}
-          </TooltipProvider>
-          <PopOut
-            anchor={pinMenuAnchor}
-            position="Bottom"
-            content={
-              <FocusTrap
-                focusTrapOptions={{
-                  initialFocus: false,
-                  returnFocusOnDeactivate: false,
-                  onDeactivate: () => setPinMenuAnchor(undefined),
-                  clickOutsideDeactivates: true,
-                  isKeyForward: (evt: KeyboardEvent) => evt.key === 'ArrowDown',
-                  isKeyBackward: (evt: KeyboardEvent) => evt.key === 'ArrowUp',
-                  escapeDeactivates: stopPropagation,
-                }}
-              >
-                <RoomPinMenu room={room} requestClose={() => setPinMenuAnchor(undefined)} />
-              </FocusTrap>
-            }
-          />
-          {!room.isCallRoom() && rtcSupported && (
+              </TooltipProvider>
+              <PopOut
+                anchor={pinMenuAnchor}
+                position="Bottom"
+                content={
+                  <FocusTrap
+                    focusTrapOptions={{
+                      initialFocus: false,
+                      returnFocusOnDeactivate: false,
+                      onDeactivate: () => setPinMenuAnchor(undefined),
+                      clickOutsideDeactivates: true,
+                      isKeyForward: (evt: KeyboardEvent) => evt.key === 'ArrowDown',
+                      isKeyBackward: (evt: KeyboardEvent) => evt.key === 'ArrowUp',
+                      escapeDeactivates: stopPropagation,
+                    }}
+                  >
+                    <RoomPinMenu room={room} requestClose={() => setPinMenuAnchor(undefined)} />
+                  </FocusTrap>
+                }
+              />
+            </>
+          )}
+          {!redesignedCall && !room.isCallRoom() && rtcSupported && (
             <CallButton livekitSupported={livekitSupported} hasCallPermission={hasCallPermission} />
           )}
+          {redesignedCall && sharerName && (
+            <Box alignItems="Center">
+              {streamQuality && (
+                <Badge variant="Primary" fill="Solid" radii="300" size="400">
+                  <Text as="span" size="L400">
+                    {streamQuality}
+                  </Text>
+                </Badge>
+              )}
+              <Badge variant="Critical" fill="Solid" radii="300" size="400">
+                <Text as="span" size="L400">
+                  LIVE
+                </Text>
+              </Badge>
+            </Box>
+          )}
+          {redesignedCall && <CallChatToggleButton />}
           {screenSize === ScreenSize.Desktop && (
             <TooltipProvider
               position="Bottom"

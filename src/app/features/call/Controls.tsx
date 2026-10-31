@@ -10,11 +10,15 @@ export function ControlDivider() {
   );
 }
 
+const offVariant = (critical?: boolean) => (critical ? 'Critical' : 'Warning');
+
 type MicrophoneButtonProps = {
   enabled: boolean;
   onToggle: () => Promise<unknown>;
+  /** Show the off state as critical rather than a warning. */
+  critical?: boolean;
 };
-export function MicrophoneButton({ enabled, onToggle }: MicrophoneButtonProps) {
+export function MicrophoneButton({ enabled, onToggle, critical }: MicrophoneButtonProps) {
   const [micState, toggleMic] = useAsyncCallback(onToggle);
   const loading = micState.status === AsyncStatus.Loading;
 
@@ -31,7 +35,7 @@ export function MicrophoneButton({ enabled, onToggle }: MicrophoneButtonProps) {
       {(anchorRef) => (
         <IconButton
           ref={anchorRef}
-          variant={enabled ? 'Surface' : 'Warning'}
+          variant={enabled ? 'Surface' : offVariant(critical)}
           fill="Soft"
           radii="400"
           size="400"
@@ -49,8 +53,10 @@ export function MicrophoneButton({ enabled, onToggle }: MicrophoneButtonProps) {
 type SoundButtonProps = {
   enabled: boolean;
   onToggle: () => void;
+  /** Show the off state as critical rather than a warning. */
+  critical?: boolean;
 };
-export function SoundButton({ enabled, onToggle }: SoundButtonProps) {
+export function SoundButton({ enabled, onToggle, critical }: SoundButtonProps) {
   return (
     <TooltipProvider
       position="Top"
@@ -64,7 +70,7 @@ export function SoundButton({ enabled, onToggle }: SoundButtonProps) {
       {(anchorRef) => (
         <IconButton
           ref={anchorRef}
-          variant={enabled ? 'Surface' : 'Warning'}
+          variant={enabled ? 'Surface' : offVariant(critical)}
           fill="Soft"
           radii="400"
           size="400"
