@@ -66,6 +66,7 @@ const HTTP_SCHEME_REG = /^https?:\/\//i;
 // `<pre>` covers the block form (`<pre><code>`), `<code>` the inline one. Both
 // are matched lazily so consecutive blocks stay separate regions.
 const HTML_CODE_REG = /<pre[\s\S]*?<\/pre\s*>|<code[\s\S]*?<\/code\s*>/gi;
+const HTML_CODE_SPLIT_REG = /(<pre[\s\S]*?<\/pre\s*>|<code[\s\S]*?<\/code\s*>)/gi;
 
 const HTML_TAG_REG = /<[^>]*>/g;
 
@@ -132,6 +133,40 @@ const anchorHrefs = (formattedBody: string): string[] => {
 };
 
 /**
+ * A link written as `<https://…>` opts out of its preview, the convention
+ * Discord users bring with them. The brackets survive in the plain body; in the
+ * formatted body they are either escaped text around the link (our composer)
+ * or consumed by a markdown autolink, leaving a bare anchor (Element), which
+ * is why the plain body's wrapped links also veto matching anchors.
+ */
+const WRAPPED_BODY_URL_REG = /<(https?:\/\/[^\s<>]+)>/g;
+const WRAPPED_HTML_URL_REG = /&lt;((?:<a\s[^>]*>)?(https?:\/\/[^\s<>]+?)(?:<\/a\s*>)?)&gt;/gi;
+
+const wrappedUrls = (body: string, formattedBody: string): Set<string> => {
+  const urls = new Set<string>();
+  Array.from(body.matchAll(WRAPPED_BODY_URL_REG)).forEach((m) => urls.add(m[1]));
+  Array.from(formattedBody.matchAll(WRAPPED_HTML_URL_REG)).forEach((m) =>
+    urls.add(decodeHtmlEntities(m[2])),
+  );
+  return urls;
+};
+
+/**
+ * The brackets did their job by suppressing the preview; drop them from the
+ * displayed text. Code regions keep them, being shown literally.
+ */
+export const unwrapOptOutUrls = (body: string): string => body.replace(WRAPPED_BODY_URL_REG, '$1');
+
+export const unwrapOptOutUrlsHtml = (html: string): string => {
+  if (!html.includes('&lt;')) return html;
+  // Split on the code regions; with the capture group they land at odd indices.
+  return html
+    .split(HTML_CODE_SPLIT_REG)
+    .map((part, i) => (i % 2 === 1 ? part : part.replace(WRAPPED_HTML_URL_REG, '$1')))
+    .join('');
+};
+
+/**
  * True when a body-scanned URL is the damaged twin of a link we already have
  * from an anchor, rather than a distinct link of its own:
  *
@@ -154,13 +189,15 @@ export const extractPreviewUrls = (body: string, formattedBody?: string): string
       ? splitHtmlCode(trimReplyFromFormattedBody(formattedBody))
       : { withoutCode: '', codeText: '' };
 
+  const optedOut = wrappedUrls(body, withoutCode);
   const hrefs = typeof formattedBody === 'string' ? anchorHrefs(withoutCode) : [];
-  const bodyUrls = stripMarkdownCode(body).match(URL_REG) ?? [];
+  const bodyUrls = stripMarkdownCode(body).replace(WRAPPED_BODY_URL_REG, ' ').match(URL_REG) ?? [];
 
-  const urls = [...hrefs];
+  const urls = hrefs.filter((href) => !optedOut.has(href));
   bodyUrls.forEach((bodyUrl) => {
     // The formatting says this one was code, even where the body does not.
     if (codeText.includes(bodyUrl)) return;
+    if (optedOut.has(bodyUrl)) return;
     if (!supersededByAnchor(bodyUrl, hrefs)) urls.push(bodyUrl);
   });
 
