@@ -86,6 +86,28 @@ User-facing changes per commit. Most recent at the top.
 - `3c52df7` Added **"Away when idle" and "Pause read receipts when idle"** (Settings › General › Presence, both off by default) (from meow).
 - `8ef7f96` Added **a profile menu with an Online / Away / Invisible picker** in the top bar (Settings › General › Layout, off by default) — and Invisible now actually sticks instead of being undone by the next sync (from meow).
 - `5c390fa` Added **`window.mx` and `unreadDebug(roomId)` in the browser console** when developer tools are on (from meow).
+- `727c05e` Fixed **the app crashing at startup on older Android WebViews** (Chrome before 119) (from Sable).
+- `a6abf1e` Fixed **Android Back leaving the room while a thread or search was open** — it now closes the panel (from Sable).
+- `00a4206` `7f7266d` Fixed **a white or black band above the Android keyboard** — the window now uses the theme's background colour (from Sable).
+- `c1fa18b` Fixed **Back looping on the preview of a space you haven't joined** — it goes Home (from Sable).
+- `639f28c` Fixed **a second DM being created with someone you already had one with** — the existing one is found and reused (from Sable).
+- `f2ba985` Fixed **read rooms showing unread badges again after closing the app** — the local cache is saved when the app is hidden or closed (from Sable).
+- `65c0fb6` Fixed **new emoji falling back to the system font** — Twemoji updated to 17.0.3 (from meow).
+- `f9b7b05` Improved **the search-ranking notice** — it names the server software that limits relevance search instead of blaming Matrix, and match counts read `~N` (from meow).
+- `8b7a9d0` Fixed **a stale web app after a deploy with the Docker image** — app files are cached for good, everything else is rechecked, and the security headers apply everywhere (from meow).
+- `28398bd` Fixed **a typo in the password prompt** (from Sable).
+- `e0f034d` Added **the build commit next to the version in About** (from meow).
+- `2db8f73` Added **Copy Image to the menu of image messages** (from meow).
+- `b5bc736` Improved **video playback** — your volume is remembered between videos and sessions (from meow).
+- `b4028b7` Added **a From/To date range to Export Chat** (from meow).
+- `c2741a9` `1b868f8` Added **an optional system-wide shortcut to show or hide Prinny** (Settings › Keybinds › Desktop, off until you set one) (from Sable).
+- `2c25754` Added **a choice of GIF provider: Klipy, Tenor or Giphy** — Tenor and Giphy need an API key in `config.json` (from Sable).
+- `30a563a` Added **sound packs** — ICQ, ICQ classic, Skype and Skype classic for message, invite and call sounds, with a preview button; the default sounds are unchanged (from meow).
+- `a7dc3ce` Added **22 extra dark themes** behind "More themes"; online presence stays green on all of them (from meow).
+- `5bf503a` `d6dcd6d` `84214c7` `ff7defd` `9714950` `aecbcfd` Added **optional settings, all off by default**: show every message's time, red mention badges, unread pills in the space bar, collapsible emoji groups, a compact room list, and turning spellcheck off (from Sable and meow).
+- `738e490` Added **search operators** (off by default) — `from:`, `in:`, `mentions:`, `has:`, `before:`/`after:`/`during:` and `pinned:true` in message search (from meow).
+- `375cdd6` Added **an optional Discord-style markdown** (off by default) — `###` headings, `>>>` quotes, `-#` small text, `<url>` links; incoming `-#` text shows small and dim for everyone (from meow).
+- `e51f73a` `c532584` Removed **12 source files and a hook nothing used any more** (from meow).
 
 ## 18.10.2026
 
