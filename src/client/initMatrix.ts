@@ -3,6 +3,7 @@ import {
   MatrixClient,
   IndexedDBStore,
   IndexedDBCryptoStore,
+  MemoryStore,
   ClientEvent,
   SyncState,
 } from 'matrix-js-sdk';
@@ -15,7 +16,11 @@ import { cryptoCallbacks } from './secretStorageKeys';
 import { clearNavToActivePathStore } from '../app/state/navToActivePath';
 import { getSettings } from '../app/state/settings';
 import { pushSessionToSW } from '../sw-session';
-import { reportClientStorageError, resetClientStorageError } from './storageStatus';
+import {
+  reportClientStorageError,
+  reportSyncCacheUnavailable,
+  resetClientStorageError,
+} from './storageStatus';
 import { isTauri } from '../app/utils/desktop-notifications';
 import { USER_PROFILE_FIELDS } from '../types/matrix/profile';
 import { isPrivateHost } from '../app/utils/safeUrl';
@@ -55,6 +60,61 @@ const isStoreAccountMismatch = (err: unknown): boolean =>
 
 const cryptoPrefixByClient = new WeakMap<MatrixClient, string>();
 
+const SYNC_STORE_NAME = 'web-sync-store';
+// IndexedDBStore prefixes the name it is given; this is the database it actually opens.
+const SYNC_STORE_DB_NAME = `matrix-js-sdk:${SYNC_STORE_NAME}`;
+
+const createSyncStore = (): IndexedDBStore =>
+  new IndexedDBStore({
+    indexedDB: global.indexedDB,
+    localStorage: global.localStorage,
+    dbName: SYNC_STORE_NAME,
+  });
+
+/**
+ * Delete the sync cache database and nothing else. It only holds what the server sends again on
+ * the next sync; the crypto stores beside it hold this device's keys and are never touched.
+ * Rejects when another tab keeps the database open, rather than waiting for it to close.
+ */
+const deleteSyncStoreDatabase = (): Promise<void> =>
+  new Promise((resolve, reject) => {
+    const req = global.indexedDB.deleteDatabase(SYNC_STORE_DB_NAME);
+    req.onsuccess = () => resolve();
+    req.onerror = () => reject(req.error ?? new Error(`Could not delete ${SYNC_STORE_DB_NAME}`));
+    req.onblocked = () => reject(new Error(`${SYNC_STORE_DB_NAME} is open in another tab`));
+  });
+
+/**
+ * Open the sync cache. `startup()` reads the cached sync without the SDK's degrade-to-memory
+ * fallback, so an unreadable row ("selectQuery failed for sync", or a row that reads back as
+ * null) used to fail every launch, and the only way out was Logout, which deletes the keys.
+ * Rebuild the cache once; if that fails too, run on memory and say so.
+ */
+const startSyncStore = async (mx: MatrixClient, store: IndexedDBStore): Promise<void> => {
+  try {
+    await store.startup();
+    return;
+  } catch (err) {
+    console.error('[storage] sync cache is unreadable; rebuilding it from the server', err);
+  }
+
+  let current = store;
+  try {
+    // Our own connection would block the delete.
+    await current.destroy();
+    await deleteSyncStoreDatabase();
+    current = createSyncStore();
+    current.on('degraded', reportClientStorageError);
+    mx.store = current;
+    await current.startup();
+  } catch (err) {
+    console.error('[storage] sync cache still unusable; running without it', err);
+    await current.destroy().catch(() => undefined);
+    mx.store = new MemoryStore({ localStorage: global.localStorage });
+    reportSyncCacheUnavailable(err instanceof Error ? err : new Error(String(err)));
+  }
+};
+
 /**
  * Which rust crypto database a session uses.
  *
@@ -88,11 +148,7 @@ const createClientWithCrypto = async (
   session: Session,
   cryptoDatabasePrefix: string | undefined,
 ): Promise<MatrixClient> => {
-  const indexedDBStore = new IndexedDBStore({
-    indexedDB: global.indexedDB,
-    localStorage: global.localStorage,
-    dbName: 'web-sync-store',
-  });
+  const indexedDBStore = createSyncStore();
 
   /**
    * The libolm crypto store, handed to the SDK ONLY when one actually exists.
@@ -158,13 +214,13 @@ const createClientWithCrypto = async (
   resetClientStorageError();
   indexedDBStore.on('degraded', reportClientStorageError);
 
-  await indexedDBStore.startup();
+  await startSyncStore(mx, indexedDBStore);
   try {
     await mx.initRustCrypto({ cryptoDatabasePrefix });
   } catch (err) {
     if (isStoreAccountMismatch(err)) {
       mx.stopClient();
-      await indexedDBStore.deleteAllData();
+      await mx.store.deleteAllData();
     }
     throw err;
   }
@@ -262,10 +318,20 @@ export const startClient = async (mx: MatrixClient) => {
   });
 };
 
+// A MemoryStore's deleteAllData() never reaches IndexedDB, so the database it stood in for is
+// deleted directly; otherwise the next load would open the same cache again.
+const deleteSyncStoreOnMemoryFallback = async (mx: MatrixClient): Promise<void> => {
+  if (mx.store instanceof IndexedDBStore) return;
+  await deleteSyncStoreDatabase().catch((err) => {
+    console.warn('[storage] could not delete the sync cache database', err);
+  });
+};
+
 export const clearCacheAndReload = async (mx: MatrixClient) => {
   mx.stopClient();
   clearNavToActivePathStore(mx.getSafeUserId());
   await mx.store.deleteAllData();
+  await deleteSyncStoreOnMemoryFallback(mx);
   window.location.reload();
 };
 
@@ -286,6 +352,7 @@ const deleteDatabase = (name: string): Promise<void> =>
 export const clearClientStores = async (mx: MatrixClient): Promise<void> => {
   const cryptoDatabasePrefix = cryptoPrefixByClient.get(mx);
   await mx.clearStores({ cryptoDatabasePrefix });
+  await deleteSyncStoreOnMemoryFallback(mx);
   if (cryptoDatabasePrefix) {
     await Promise.all(
       RUST_CRYPTO_DB_SUFFIXES.map((suffix) => deleteDatabase(DEFAULT_CRYPTO_DB_PREFIX + suffix)),

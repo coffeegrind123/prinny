@@ -1,5 +1,5 @@
 import { Box, config, Line, Text } from 'folds';
-import { useClientStorageError } from '../../../client/storageStatus';
+import { ClientStorageProblem, useClientStorageError } from '../../../client/storageStatus';
 import { ContainerColor } from '../../styles/ContainerColor.css';
 
 export function StorageStatus() {
@@ -16,8 +16,12 @@ export function StorageStatus() {
         justifyContent="Center"
       >
         <Text size="L400" align="Center">
-          Local storage failed. Free disk space, then reload Cinny. Do not send messages until this
-          is fixed.
+          {storageError.problem === ClientStorageProblem.SyncCacheUnavailable
+            ? 'The local message cache could not be opened, so this session runs without it. ' +
+              'Your encryption keys are untouched and rooms load from the server. Reload to try ' +
+              'the cache again, or use Clear Cache & Reload to rebuild it.'
+            : 'Local storage failed. Free disk space, then reload Cinny. Do not send messages ' +
+              'until this is fixed.'}
         </Text>
       </Box>
       <Line variant="Critical" size="300" />
