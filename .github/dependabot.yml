@@ -32,6 +32,13 @@ updates:
       time: '01:00'
       timezone: 'Europe/Helsinki'
     open-pull-requests-limit: 10
+    ignore:
+      # Not ours to bump: the call widget is built from element-hq/element-call
+      # at element-call/UPSTREAM plus our patches, and element-call-upgrade.yml
+      # moves that tag. The npm package stays pinned only as the explicit
+      # PRINNY_ELEMENT_CALL=npm offline opt-out, and a Dependabot bump of it
+      # would read as an Element Call upgrade without being one.
+      - dependency-name: '@element-hq/element-call-embedded'
 
   - package-ecosystem: github-actions
     directory: /
