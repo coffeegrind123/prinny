@@ -69,8 +69,9 @@ function makeUIAAction<T>(
 
 type SetupVerificationProps = {
   onComplete: (recoveryKey: string) => void;
+  reset?: boolean;
 };
-function SetupVerification({ onComplete }: SetupVerificationProps) {
+function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
   const mx = useMatrixClient();
   const alive = useAlive();
 
@@ -139,6 +140,15 @@ function SetupVerification({ onComplete }: SetupVerificationProps) {
         const crypto = mx.getCrypto();
         if (!crypto) throw new Error('Unexpected Error! Crypto module not found!');
 
+        // "Enable" is offered whenever the master key account data isn't in the local store,
+        // which is also true before it has synced. Setting up again would replace a working
+        // identity and its secret storage, so only the explicit reset path may do that.
+        if (!reset && (await crypto.userHasCrossSigningKeys(mx.getSafeUserId(), true))) {
+          throw new Error(
+            'This account already has device verification set up. Verify with your recovery key or another device instead.',
+          );
+        }
+
         const recoveryKeyData = await crypto.createRecoveryKeyFromPassphrase(passphrase);
         if (!recoveryKeyData.encodedPrivateKey) {
           throw new Error('Unexpected Error! Failed to create recovery key.');
@@ -159,7 +169,7 @@ function SetupVerification({ onComplete }: SetupVerificationProps) {
 
         onComplete(recoveryKeyData.encodedPrivateKey);
       },
-      [mx, onComplete, authUploadDeviceSigningKeys],
+      [mx, onComplete, authUploadDeviceSigningKeys, reset],
     ),
   );
 
@@ -347,7 +357,7 @@ export const DeviceVerificationReset = forwardRef<HTMLDivElement, DeviceVerifica
                 recoveryKey ? (
                   <RecoveryKeyDisplay recoveryKey={recoveryKey} />
                 ) : (
-                  <SetupVerification onComplete={setRecoveryKey} />
+                  <SetupVerification onComplete={setRecoveryKey} reset />
                 )
               }
             </UseStateProvider>

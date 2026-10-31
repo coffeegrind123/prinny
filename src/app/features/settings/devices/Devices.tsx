@@ -24,7 +24,7 @@ import {
   useSecretStorageDefaultKeyId,
   useSecretStorageKeyContent,
 } from '../../../hooks/useSecretStorage';
-import { useCrossSigningActive } from '../../../hooks/useCrossSigning';
+import { CrossSigningStatus, useCrossSigningStatus } from '../../../hooks/useCrossSigning';
 import { BackupRestoreTile } from '../../../components/BackupRestore';
 
 function DevicesPlaceholder() {
@@ -42,7 +42,8 @@ type DevicesProps = {
 export function Devices({ requestClose }: DevicesProps) {
   const mx = useMatrixClient();
   const crypto = mx.getCrypto();
-  const crossSigningActive = useCrossSigningActive();
+  const crossSigningStatus = useCrossSigningStatus();
+  const crossSigningActive = crossSigningStatus === CrossSigningStatus.Active;
   const [devices, refreshDeviceList] = useDeviceList();
 
   const [currentDevice, otherDevices] = useSplitCurrentDevice(devices);
@@ -98,7 +99,10 @@ export function Devices({ requestClose }: DevicesProps) {
                       description="To verify device identity and grant access to encrypted messages."
                       after={
                         <>
-                          <EnableVerification visible={!crossSigningActive} />
+                          <EnableVerification
+                            visible={!crossSigningActive}
+                            loading={crossSigningStatus === CrossSigningStatus.Unknown}
+                          />
                           {crossSigningActive && (
                             <Box gap="200" alignItems="Center">
                               <VerificationStatusBadge
