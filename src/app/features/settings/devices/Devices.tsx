@@ -18,6 +18,7 @@ import {
 import {
   useDeviceVerificationStatus,
   useUnverifiedDeviceCount,
+  useVerifiedDeviceCount,
   VerificationStatus,
 } from '../../../hooks/useDeviceVerificationStatus';
 import {
@@ -54,6 +55,7 @@ export function Devices({ requestClose }: DevicesProps) {
   );
 
   const otherDevicesId = useDeviceIds(otherDevices);
+  const verifiedDeviceCount = useVerifiedDeviceCount(crypto, mx.getSafeUserId(), otherDevicesId);
   const unverifiedDeviceCount = useUnverifiedDeviceCount(
     crypto,
     mx.getSafeUserId(),
@@ -135,12 +137,11 @@ export function Devices({ requestClose }: DevicesProps) {
                         {crypto && <DeviceKeyDetails crypto={crypto} />}
                       </DeviceTile>
                       {crossSigningActive &&
-                        verificationStatus === VerificationStatus.Unverified &&
-                        defaultSecretStorageKeyId &&
-                        defaultSecretStorageKeyContent && (
+                        verificationStatus === VerificationStatus.Unverified && (
                           <VerifyCurrentDeviceTile
                             secretStorageKeyId={defaultSecretStorageKeyId}
                             secretStorageKeyContent={defaultSecretStorageKeyContent}
+                            hasVerifiedOtherDevice={(verifiedDeviceCount ?? 0) > 0}
                           />
                         )}
                       {crypto && verificationStatus === VerificationStatus.Verified && (

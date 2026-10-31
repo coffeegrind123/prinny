@@ -62,12 +62,13 @@ export const useDeviceVerificationStatus = (
   return verificationStatus;
 };
 
-export const useUnverifiedDeviceCount = (
+const useDeviceCountByVerification = (
   crypto: CryptoApi | undefined,
   userId: string,
   devices: string[],
+  verified: boolean,
 ): number | undefined => {
-  const [unverifiedCount, setUnverifiedCount] = useState<number>();
+  const [deviceCount, setDeviceCount] = useState<number>();
   const alive = useAlive();
 
   const updateCount = useCallback(async () => {
@@ -77,15 +78,15 @@ export const useUnverifiedDeviceCount = (
       const result = await Promise.allSettled(promises);
       const settledResult = fulfilledPromiseSettledResult(result);
       settledResult.forEach((status) => {
-        if (status === false) {
+        if (status === verified) {
           count += 1;
         }
       });
     }
     if (alive()) {
-      setUnverifiedCount(count);
+      setDeviceCount(count);
     }
-  }, [crypto, userId, devices, alive]);
+  }, [crypto, userId, devices, alive, verified]);
 
   useDeviceListChange(
     useCallback(
@@ -102,5 +103,17 @@ export const useUnverifiedDeviceCount = (
     updateCount();
   }, [updateCount]);
 
-  return unverifiedCount;
+  return deviceCount;
 };
+
+export const useUnverifiedDeviceCount = (
+  crypto: CryptoApi | undefined,
+  userId: string,
+  devices: string[],
+): number | undefined => useDeviceCountByVerification(crypto, userId, devices, false);
+
+export const useVerifiedDeviceCount = (
+  crypto: CryptoApi | undefined,
+  userId: string,
+  devices: string[],
+): number | undefined => useDeviceCountByVerification(crypto, userId, devices, true);
