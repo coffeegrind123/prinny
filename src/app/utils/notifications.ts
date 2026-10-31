@@ -1,4 +1,4 @@
-import { EventType, MatrixClient, ReceiptType } from 'matrix-js-sdk';
+import { EventType, MatrixClient, MatrixEvent, ReceiptType, Room } from 'matrix-js-sdk';
 import { getRoomMarkedUnread } from './room';
 import { rememberLocalReadTs, rewindLocalReadTs } from '../state/readMarkers';
 
@@ -68,6 +68,35 @@ export const releaseAutoMarkAsRead = (roomId: string) => {
  */
 const sentReceipts = new Map<string, string>();
 
+/**
+ * Should `m.fully_read` move to `target`? Element and Element X draw their
+ * unread line and Jump to Unread from it, so a marker left behind by our
+ * receipts shows our users a stale position there.
+ *
+ * Never backwards: when the current marker is later than the target (another
+ * client moved it, or our live timeline is behind), it stays. A marker we
+ * cannot place at all is assumed to be older, the usual case after a restart.
+ */
+const shouldAdvanceFullyRead = (room: Room, target: MatrixEvent): boolean => {
+  const markerId = room
+    .getAccountData(EventType.FullyRead)
+    ?.getContent<{ event_id?: string }>()?.event_id;
+  if (!markerId) return true;
+
+  const targetId = target.getId();
+  if (markerId === targetId) return false;
+
+  const timeline = room.getLiveTimeline().getEvents();
+  for (let i = timeline.length - 1; i >= 0; i -= 1) {
+    const eventId = timeline[i].getId();
+    if (eventId === targetId) return true;
+    if (eventId === markerId) return false;
+  }
+
+  const marker = room.findEventById(markerId);
+  return !marker || marker.getTs() <= target.getTs();
+};
+
 export type MarkAsReadOptions = {
   /**
    * Set by the timeline's own "you are looking at the bottom of this room"
@@ -124,10 +153,18 @@ export async function markAsRead(
 
   const eventId = latestEvent.getId()!;
   try {
-    await mx.sendReadReceipt(
-      latestEvent,
-      privateReceipt ? ReceiptType.ReadPrivate : ReceiptType.Read,
-    );
+    // One /read_markers call moves the receipt and m.fully_read together; the
+    // private receipt goes in its own slot, so hidden receipts stay hidden.
+    if (!shouldAdvanceFullyRead(room, latestEvent)) {
+      await mx.sendReadReceipt(
+        latestEvent,
+        privateReceipt ? ReceiptType.ReadPrivate : ReceiptType.Read,
+      );
+    } else if (privateReceipt) {
+      await mx.setRoomReadMarkers(roomId, eventId, undefined, latestEvent);
+    } else {
+      await mx.setRoomReadMarkers(roomId, eventId, latestEvent);
+    }
     sentReceipts.set(roomId, eventId);
     rememberLocalReadTs(roomId, latestEvent.getTs());
   } catch (err) {
