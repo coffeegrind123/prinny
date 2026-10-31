@@ -59,6 +59,7 @@ import {
   getEventEdits,
   getMemberAvatarMxc,
   getMemberDisplayName,
+  redactEventOptimistically,
 } from '../../../utils/room';
 import { getMxIdLocalPart, mxcUrlToHttp } from '../../../utils/matrix';
 import { markAsUnread } from '../../../utils/notifications';
@@ -574,7 +575,7 @@ export function MessageDeletePrompt({
   const [deleteState, deleteMessage] = useAsyncCallback(
     useCallback(
       (eventId: string, reason?: string) =>
-        mx.redactEvent(room.roomId, eventId, undefined, reason ? { reason } : undefined),
+        redactEventOptimistically(mx, room, eventId, reason ? { reason } : undefined),
       [mx, room],
     ),
   );
@@ -1226,11 +1227,11 @@ export const Message = as<'div', MessageProps>(
           setDeleteOpen(true);
           return;
         }
-        mx.redactEvent(room.roomId, id).catch((err) => {
+        redactEventOptimistically(mx, room, id).catch((err) => {
           console.error('[shift-options] instant redactEvent failed:', err);
         });
       },
-      [mx, room.roomId, mEvent],
+      [mx, room, mEvent],
     );
 
     /**

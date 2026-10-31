@@ -2,7 +2,12 @@ import { useCallback, useEffect } from 'react';
 import { MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { useForceUpdate } from '../../../hooks/useForceUpdate';
-import { getEventReactions, getReactionContent, matchingReactionKey } from '../../../utils/room';
+import {
+  getEventReactions,
+  getReactionContent,
+  matchingReactionKey,
+  redactEventOptimistically,
+} from '../../../utils/room';
 import { factoryEventSentBy } from '../../../utils/matrix';
 import { MessageEvent } from '../../../../types/matrix/room';
 
@@ -81,7 +86,11 @@ export const useMediaReaction = (room: Room, eventId: string): MediaReaction => 
 
       if (existing && existing.isRelation() && !existing.isRedacted()) {
         const existingId = existing.getId();
-        if (existingId) mx.redactEvent(room.roomId, existingId);
+        if (existingId) {
+          redactEventOptimistically(mx, room, existingId).catch((err) => {
+            console.warn('[gallery] removing a reaction failed', err);
+          });
+        }
         return;
       }
       mx.sendEvent(

@@ -89,6 +89,7 @@ import {
   matchingReactionKey,
   isMembershipChanged,
   reactionOrEditEvent,
+  redactEventOptimistically,
   roomHaveNotification,
   roomHaveUnread,
 } from '../../utils/room';
@@ -1703,7 +1704,9 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       const myReaction = reactions.find(factoryEventSentBy(mx.getUserId()!));
 
       if (myReaction && !!myReaction?.isRelation()) {
-        mx.redactEvent(room.roomId, myReaction.getId()!);
+        redactEventOptimistically(mx, room, myReaction.getId()!).catch((err) => {
+          console.warn('[timeline] removing a reaction failed', err);
+        });
         return;
       }
       const rShortcode =

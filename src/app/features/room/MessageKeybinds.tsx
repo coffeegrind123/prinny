@@ -10,7 +10,7 @@ import { useRoomPinnedEvents } from '../../hooks/useRoomPinnedEvents';
 import { copyToClipboard } from '../../utils/dom';
 import { markAsUnread } from '../../utils/notifications';
 import { MessageEvent, StateEvent } from '../../../types/matrix/room';
-import { canEditEvent, getEditedEvent } from '../../utils/room';
+import { canEditEvent, getEditedEvent, redactEventOptimistically } from '../../utils/room';
 import { isEmptyEditor } from '../../components/editor/utils';
 import { hasMessageActionListener, requestMessageAction } from '../../state/messageAction';
 
@@ -124,7 +124,7 @@ export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props)
       // the right-click menu.
       // eslint-disable-next-line no-alert
       if (!window.confirm('Delete this message?')) return;
-      mx.redactEvent(room.roomId, id).catch((err) => {
+      redactEventOptimistically(mx, room, id).catch((err) => {
         console.error('[keybind] redactEvent failed:', err);
       });
     }),
@@ -300,7 +300,7 @@ export function MessageKeybinds({ room, onSetEditId, editor, canDelete }: Props)
       const target = getLatestDeletableEvt(room, userId, canDelete);
       const id = target?.getId();
       if (!id) return false;
-      mx.redactEvent(room.roomId, id).catch((err) => {
+      redactEventOptimistically(mx, room, id).catch((err) => {
         console.error('[keybind] delete-last-message redactEvent failed:', err);
       });
       return undefined;

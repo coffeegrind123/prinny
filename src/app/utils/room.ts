@@ -766,3 +766,35 @@ export const guessPerfectParent = (
 
   return perfectParent;
 };
+
+/**
+ * Redact and show it at once. We run with the SDK's chronological pending-event
+ * ordering, whose `addPendingEvent` never marks the target locally redacted
+ * (only the detached ordering does), so a delete or an un-react stayed on
+ * screen until the server's echo came back through sync. Mark the target with
+ * the local echo of the redaction now, and undo it if the request fails.
+ */
+export const redactEventOptimistically = (
+  mx: MatrixClient,
+  room: Room,
+  eventId: string,
+  opts?: { reason?: string },
+) => {
+  const txnId = mx.makeTxnId();
+  const request = mx.redactEvent(room.roomId, eventId, txnId, opts);
+  const target = room.findEventById(eventId);
+  // `sendCompleteEvent` adds the local echo synchronously, under this id.
+  const redaction = room.findEventById(`~${room.roomId}:${txnId}`);
+  if (!target || !redaction || target.isRedacted()) return request;
+
+  target.markLocallyRedacted(redaction);
+  return request.catch(async (err) => {
+    target.unmarkLocallyRedacted();
+    // Marking a reaction redacted removed it from its annotation counts.
+    const relatesTo = target.getRelation()?.event_id;
+    if (relatesTo && target.getType() === EventType.Reaction) {
+      await getEventReactions(room.getUnfilteredTimelineSet(), relatesTo)?.addEvent(target);
+    }
+    throw err;
+  });
+};
