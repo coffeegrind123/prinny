@@ -28,7 +28,7 @@ import { AsyncState, AsyncStatus, useAsync } from '../../../hooks/useAsyncCallba
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { DeviceVerification } from '../../../components/DeviceVerification';
 import {
-  DeviceVerificationReset,
+  DeviceVerificationResetOverlay,
   DeviceVerificationSetup,
 } from '../../../components/DeviceVerificationSetup';
 import { stopPropagation } from '../../../utils/keyboard';
@@ -404,21 +404,7 @@ export function DeviceVerificationOptions() {
           </FocusTrap>
         }
       />
-      {reset && (
-        <Overlay open backdrop={<OverlayBackdrop />}>
-          <OverlayCenter>
-            <FocusTrap
-              focusTrapOptions={{
-                initialFocus: false,
-                clickOutsideDeactivates: false,
-                escapeDeactivates: false,
-              }}
-            >
-              <DeviceVerificationReset onCancel={handleCancelReset} />
-            </FocusTrap>
-          </OverlayCenter>
-        </Overlay>
-      )}
+      {reset && <DeviceVerificationResetOverlay onCancel={handleCancelReset} />}
     </>
   );
 }

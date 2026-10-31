@@ -56,8 +56,8 @@ export function ManualVerificationMethodSwitcher({
         onClick={handleMenu}
       >
         <Text as="span" size="B300">
-          {value === ManualVerificationMethod.RecoveryPassphrase && 'Recovery Passphrase'}
-          {value === ManualVerificationMethod.RecoveryKey && 'Recovery Key'}
+          {value === ManualVerificationMethod.RecoveryPassphrase && 'Recovery passphrase'}
+          {value === ManualVerificationMethod.RecoveryKey && 'Recovery key'}
         </Text>
       </Chip>
       <PopOut
@@ -88,7 +88,7 @@ export function ManualVerificationMethodSwitcher({
                   onClick={() => handleSelect(ManualVerificationMethod.RecoveryPassphrase)}
                 >
                   <Box grow="Yes">
-                    <Text size="T300">Recovery Passphrase</Text>
+                    <Text size="T300">Recovery passphrase</Text>
                   </Box>
                 </MenuItem>
                 <MenuItem
@@ -99,7 +99,7 @@ export function ManualVerificationMethodSwitcher({
                   onClick={() => handleSelect(ManualVerificationMethod.RecoveryKey)}
                 >
                   <Box grow="Yes">
-                    <Text size="T300">Recovery Key</Text>
+                    <Text size="T300">Recovery key</Text>
                   </Box>
                 </MenuItem>
               </Box>

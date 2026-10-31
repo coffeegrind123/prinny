@@ -1,24 +1,30 @@
-import { FormEventHandler, forwardRef, useCallback, useState } from 'react';
+import { FormEventHandler, KeyboardEvent, forwardRef, useCallback, useState } from 'react';
 import {
   Dialog,
   Header,
   Box,
+  Overlay,
+  OverlayBackdrop,
+  OverlayCenter,
   Text,
   IconButton,
   Icon,
   Icons,
   config,
   Button,
+  Checkbox,
   Chip,
   color,
   Spinner,
 } from 'folds';
 import FileSaver from '../utils/save-file';
+import { FocusTrap } from 'focus-trap-react';
 import to from '../utils/await-to';
 import { AuthDict, IAuthData, MatrixError, UIAuthCallback } from 'matrix-js-sdk';
 import { PasswordInput } from './password-input';
 import { ContainerColor } from '../styles/ContainerColor.css';
 import { copyToClipboard } from '../utils/dom';
+import { recoveryKeyFilename } from '../utils/recoveryKeyFile';
 import { AsyncStatus, useAsyncCallback } from '../hooks/useAsyncCallback';
 import { clearSecretStorageKeys } from '../../client/secretStorageKeys';
 import { ActionUIA, ActionUIAFlowsLoader } from './ActionUIA';
@@ -192,19 +198,22 @@ function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
   return (
     <Box as="form" onSubmit={handleSubmit} direction="Column" gap="400">
       <Text size="T300">
-        Generate a <b>Recovery Key</b> for verifying identity if you do not have access to other
-        devices. Additionally, setup a passphrase as a memorable alternative.
+        A <b>recovery key</b> lets you verify this account when no other device is signed in. It is
+        the only way back into your encrypted messages if you lose every device.
       </Text>
       <Box direction="Column" gap="100">
-        <Text size="L400">Passphrase (Optional)</Text>
+        <Text size="L400">Passphrase (optional)</Text>
         <PasswordInput name="passphraseInput" size="400" readOnly={loading} />
+        <Text size="T200" priority="300">
+          A passphrase is a memorable way to produce the same key. It is not your login password.
+        </Text>
       </Box>
       <Button
         type="submit"
         disabled={loading}
         before={loading && <Spinner size="200" variant="Primary" fill="Solid" />}
       >
-        <Text size="B400">Continue</Text>
+        <Text size="B400">Create recovery key</Text>
       </Button>
       {setupState.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
@@ -236,19 +245,24 @@ function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
 
 type RecoveryKeyDisplayProps = {
   recoveryKey: string;
+  onDone: () => void;
 };
-function RecoveryKeyDisplay({ recoveryKey }: RecoveryKeyDisplayProps) {
+export function RecoveryKeyDisplay({ recoveryKey, onDone }: RecoveryKeyDisplayProps) {
+  const mx = useMatrixClient();
   const [show, setShow] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   const handleCopy = () => {
     copyToClipboard(recoveryKey);
+    setCopied(true);
   };
 
   const handleDownload = () => {
     const blob = new Blob([recoveryKey], {
       type: 'text/plain;charset=us-ascii',
     });
-    FileSaver.saveAs(blob, 'recovery-key.txt');
+    FileSaver.saveAs(blob, recoveryKeyFilename(mx.getSafeUserId()));
   };
 
   const safeToDisplayKey = show ? recoveryKey : recoveryKey.replace(/[^\s]/g, '*');
@@ -256,11 +270,12 @@ function RecoveryKeyDisplay({ recoveryKey }: RecoveryKeyDisplayProps) {
   return (
     <Box direction="Column" gap="400">
       <Text size="T300">
-        Store the Recovery Key in a safe place for future use, as you will need it to verify your
-        identity if you do not have access to other devices.
+        Save this key before you continue. It is shown once, and neither Prinny nor your homeserver
+        can recover it. If you lose it and every signed-in device, your encrypted messages stay
+        locked.
       </Text>
       <Box direction="Column" gap="100">
-        <Text size="L400">Recovery Key</Text>
+        <Text size="L400">Recovery key</Text>
         <Box
           className={ContainerColor({ variant: 'SurfaceVariant' })}
           style={{
@@ -281,12 +296,33 @@ function RecoveryKeyDisplay({ recoveryKey }: RecoveryKeyDisplayProps) {
       </Box>
       <Box direction="Column" gap="200">
         <Button onClick={handleCopy}>
-          <Text size="B400">Copy</Text>
+          <Text size="B400">{copied ? 'Copied' : 'Copy key'}</Text>
         </Button>
         <Button onClick={handleDownload} fill="Soft">
-          <Text size="B400">Download</Text>
+          <Text size="B400">Download as file</Text>
         </Button>
       </Box>
+      <Box
+        alignItems="Center"
+        gap="200"
+        role="checkbox"
+        aria-checked={saved}
+        tabIndex={0}
+        style={{ cursor: 'pointer' }}
+        onClick={() => setSaved((v) => !v)}
+        onKeyDown={(evt: KeyboardEvent) => {
+          if (evt.key === ' ') {
+            evt.preventDefault();
+            setSaved((v) => !v);
+          }
+        }}
+      >
+        <Checkbox size="300" variant="Primary" checked={saved} readOnly tabIndex={-1} />
+        <Text size="T300">I have saved my recovery key somewhere safe.</Text>
+      </Box>
+      <Button variant="Primary" disabled={!saved} onClick={onDone}>
+        <Text size="B400">Done</Text>
+      </Button>
     </Box>
   );
 }
@@ -309,15 +345,18 @@ export const DeviceVerificationSetup = forwardRef<HTMLDivElement, DeviceVerifica
           size="500"
         >
           <Box grow="Yes">
-            <Text size="H4">Setup Device Verification</Text>
+            <Text size="H4">Set up recovery</Text>
           </Box>
-          <IconButton size="300" radii="300" onClick={onCancel}>
-            <Icon src={Icons.Cross} />
-          </IconButton>
+          {/* Once a key exists it must be saved first, so only Done closes the dialog. */}
+          {!recoveryKey && (
+            <IconButton size="300" radii="300" onClick={onCancel}>
+              <Icon src={Icons.Cross} />
+            </IconButton>
+          )}
         </Header>
         <Box style={{ padding: config.space.S400 }} direction="Column" gap="400">
           {recoveryKey ? (
-            <RecoveryKeyDisplay recoveryKey={recoveryKey} />
+            <RecoveryKeyDisplay recoveryKey={recoveryKey} onDone={onCancel} />
           ) : (
             <SetupVerification onComplete={setRecoveryKey} />
           )}
@@ -344,18 +383,20 @@ export const DeviceVerificationReset = forwardRef<HTMLDivElement, DeviceVerifica
           size="500"
         >
           <Box grow="Yes">
-            <Text size="H4">Reset Device Verification</Text>
+            <Text size="H4">Reset encryption identity</Text>
           </Box>
-          <IconButton size="300" radii="300" onClick={onCancel}>
-            <Icon src={Icons.Cross} />
-          </IconButton>
+          {!reset && (
+            <IconButton size="300" radii="300" onClick={onCancel}>
+              <Icon src={Icons.Cross} />
+            </IconButton>
+          )}
         </Header>
         {reset ? (
           <Box style={{ padding: config.space.S400 }} direction="Column" gap="400">
             <UseStateProvider initial={undefined}>
               {(recoveryKey: string | undefined, setRecoveryKey) =>
                 recoveryKey ? (
-                  <RecoveryKeyDisplay recoveryKey={recoveryKey} />
+                  <RecoveryKeyDisplay recoveryKey={recoveryKey} onDone={onCancel} />
                 ) : (
                   <SetupVerification onComplete={setRecoveryKey} reset />
                 )
@@ -364,18 +405,27 @@ export const DeviceVerificationReset = forwardRef<HTMLDivElement, DeviceVerifica
           </Box>
         ) : (
           <Box style={{ padding: config.space.S400 }} direction="Column" gap="400">
-            <Box direction="Column" gap="200">
-              <Text size="H1">✋🧑‍🚒🤚</Text>
-              <Text size="T300">Resetting device verification is permanent.</Text>
+            <Box direction="Column" gap="300">
               <Text size="T300">
-                Anyone you have verified with will see security alerts and your encryption backup
-                will be lost. You almost certainly do not want to do this, unless you have lost{' '}
-                <b>Recovery Key</b> or <b>Recovery Passphrase</b> and every device you can verify
+                This creates a new encryption identity and a new recovery key. It cannot be undone.
+                Only do it if you have lost your recovery key and have no signed-in device to verify
                 from.
+              </Text>
+              <Text as="div" size="T300">
+                <ul style={{ margin: 0, paddingLeft: '1.25rem', display: 'grid', gap: '0.5rem' }}>
+                  <li>
+                    Your current key backup is deleted, so messages that only exist there stay
+                    locked.
+                  </li>
+                  <li>
+                    Everyone who verified you sees a security warning, which is how they can tell
+                    your identity changed.
+                  </li>
+                </ul>
               </Text>
             </Box>
             <Button variant="Critical" onClick={() => setReset(true)}>
-              <Text size="B400">Reset</Text>
+              <Text size="B400">Reset encryption identity</Text>
             </Button>
           </Box>
         )}
@@ -383,3 +433,22 @@ export const DeviceVerificationReset = forwardRef<HTMLDivElement, DeviceVerifica
     );
   },
 );
+
+/** The reset dialog on its own layer; only its buttons close it, never a stray click or Escape. */
+export function DeviceVerificationResetOverlay({ onCancel }: DeviceVerificationResetProps) {
+  return (
+    <Overlay open backdrop={<OverlayBackdrop />}>
+      <OverlayCenter>
+        <FocusTrap
+          focusTrapOptions={{
+            initialFocus: false,
+            clickOutsideDeactivates: false,
+            escapeDeactivates: false,
+          }}
+        >
+          <DeviceVerificationReset onCancel={onCancel} />
+        </FocusTrap>
+      </OverlayCenter>
+    </Overlay>
+  );
+}
