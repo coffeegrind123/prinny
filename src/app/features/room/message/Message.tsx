@@ -61,7 +61,8 @@ import {
   getMemberDisplayName,
   redactEventOptimistically,
 } from '../../../utils/room';
-import { getMxIdLocalPart, mxcUrlToHttp } from '../../../utils/matrix';
+import { downloadMedia, getMxIdLocalPart, mxcUrlToHttp } from '../../../utils/matrix';
+import { clipboardCanHoldImages, copyImageBlob } from '../../../utils/copyImage';
 import { markAsUnread } from '../../../utils/notifications';
 import { getWebhookIdentity } from '../../../utils/webhook';
 import { ForwardPrompt } from './ForwardPrompt';
@@ -423,6 +424,43 @@ export const MessageCopyLinkItem = as<
     </MenuItem>
   );
 });
+
+/**
+ * Copy the image that was right-clicked. The message menu replaces the
+ * browser's own, so without this an image in the timeline could only be copied
+ * from the full-screen viewer. Fetched with downloadMedia, like the viewer
+ * does, because authenticated media only renders through the service worker.
+ */
+function MessageCopyImageItem({ src, onClose }: { src: string; onClose: () => void }) {
+  const [state, copy] = useAsyncCallback(
+    useCallback(async () => {
+      await copyImageBlob(await downloadMedia(src));
+      onClose();
+    }, [src, onClose]),
+  );
+  const copying = state.status === AsyncStatus.Loading;
+
+  return (
+    <>
+      <MenuItem
+        size="300"
+        after={<Icon size="100" src={Icons.Photo} />}
+        radii="300"
+        disabled={copying}
+        onClick={copy}
+      >
+        <Text className={css.MessageMenuItemText} as="span" size="T300" truncate>
+          {copying ? 'Copying Image…' : 'Copy Image'}
+        </Text>
+      </MenuItem>
+      {state.status === AsyncStatus.Error && (
+        <Text size="T200" role="alert" style={{ padding: `0 ${config.space.S200}` }}>
+          Could not copy the image.
+        </Text>
+      )}
+    </>
+  );
+}
 
 export const MessageEditHistoryItem = as<
   'button',
@@ -1169,6 +1207,8 @@ export const Message = as<'div', MessageProps>(
     const { hoverProps } = useHover({ onHoverChange: setHover });
     const { focusWithinProps } = useFocusWithin({ onFocusWithinChange: setHover });
     const [menuAnchor, setMenuAnchor] = useState<RectCords>();
+    // The <img> a right-click landed on, offered as Copy Image in the menu.
+    const [menuImageSrc, setMenuImageSrc] = useState<string>();
     const [emojiBoardAnchor, setEmojiBoardAnchor] = useState<RectCords>();
 
     // Publish hover state to the module-level ref so keybinds bound at
@@ -1708,6 +1748,8 @@ export const Message = as<'div', MessageProps>(
       if (evt.altKey || !window.getSelection()?.isCollapsed || edit) return;
       const tag = (evt.target as any).tagName;
       if (typeof tag === 'string' && tag.toLowerCase() === 'a') return;
+      const image = evt.target instanceof HTMLImageElement ? evt.target : undefined;
+      setMenuImageSrc(image?.currentSrc || image?.src || undefined);
       evt.preventDefault();
       setMenuAnchor({
         x: evt.clientX,
@@ -1749,6 +1791,7 @@ export const Message = as<'div', MessageProps>(
     );
 
     const handleOpenMenu: MouseEventHandler<HTMLButtonElement> = (evt) => {
+      setMenuImageSrc(undefined);
       const target = evt.currentTarget.parentElement?.parentElement ?? evt.currentTarget;
       setMenuAnchor(target.getBoundingClientRect());
     };
@@ -2028,6 +2071,13 @@ export const Message = as<'div', MessageProps>(
                                 mEvent={mEvent}
                                 onClose={closeMenu}
                               />
+                              {menuImageSrc && clipboardCanHoldImages() && (
+                                <MessageCopyImageItem
+                                  key={menuImageSrc}
+                                  src={menuImageSrc}
+                                  onClose={closeMenu}
+                                />
+                              )}
                               <MessageCopyLinkItem
                                 room={room}
                                 mEvent={mEvent}
