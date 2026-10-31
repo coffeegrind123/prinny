@@ -25,6 +25,11 @@ import { PasswordInput } from './password-input';
 import { ContainerColor } from '../styles/ContainerColor.css';
 import { copyToClipboard } from '../utils/dom';
 import { recoveryKeyFilename } from '../utils/recoveryKeyFile';
+import {
+  deleteAllKeyBackups,
+  keyBackupWanted,
+  recordKeyBackupChoice,
+} from '../utils/keyBackupPreference';
 import { AsyncStatus, useAsyncCallback } from '../hooks/useAsyncCallback';
 import { clearSecretStorageKeys } from '../../client/secretStorageKeys';
 import { ActionUIA, ActionUIAFlowsLoader } from './ActionUIA';
@@ -82,6 +87,8 @@ function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
   const alive = useAlive();
 
   const [uiaAction, setUIAAction] = useState<UIAAction<void>>();
+  // Starts from the account's recorded choice, so an opt-out made in Element is kept.
+  const [backUp, setBackUp] = useState(() => keyBackupWanted(mx));
   const [nextAuthData, setNextAuthData] = useState<IAuthData | null>(); // null means no next action.
 
   const handleAction = useCallback(
@@ -140,9 +147,9 @@ function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
     [alive, resetUIA],
   );
 
-  const [setupState, setup] = useAsyncCallback<void, Error, [string | undefined]>(
+  const [setupState, setup] = useAsyncCallback<void, Error, [string | undefined, boolean]>(
     useCallback(
-      async (passphrase) => {
+      async (passphrase, withBackup) => {
         const crypto = mx.getCrypto();
         if (!crypto) throw new Error('Unexpected Error! Crypto module not found!');
 
@@ -171,7 +178,14 @@ function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
           setupNewCrossSigning: true,
         });
 
-        await crypto.resetKeyBackup();
+        if (withBackup) {
+          await crypto.resetKeyBackup();
+        } else {
+          // A backup left from before cannot be opened with the new key, so remove it rather
+          // than leave one that shows as locked forever.
+          await deleteAllKeyBackups(crypto);
+        }
+        await recordKeyBackupChoice(mx, withBackup);
 
         onComplete(recoveryKeyData.encodedPrivateKey);
       },
@@ -192,7 +206,7 @@ function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
       passphrase = passphraseInput.value;
     }
 
-    setup(passphrase);
+    setup(passphrase, backUp);
   };
 
   return (
@@ -207,6 +221,31 @@ function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
         <Text size="T200" priority="300">
           A passphrase is a memorable way to produce the same key. It is not your login password.
         </Text>
+      </Box>
+      <Box
+        alignItems="Start"
+        gap="200"
+        role="checkbox"
+        aria-checked={backUp}
+        tabIndex={0}
+        style={{ cursor: 'pointer' }}
+        onClick={() => !loading && setBackUp((v) => !v)}
+        onKeyDown={(evt: KeyboardEvent) => {
+          if (evt.key === ' ') {
+            evt.preventDefault();
+            if (!loading) setBackUp((v) => !v);
+          }
+        }}
+      >
+        <Checkbox size="300" variant="Primary" checked={backUp} readOnly tabIndex={-1} />
+        <Box direction="Column" gap="100">
+          <Text size="T300">Back up my message keys to my homeserver</Text>
+          <Text size="T200" priority="300">
+            Lets you read older messages after signing in on a new device. The backup is encrypted,
+            so your homeserver cannot read it. Without it, signing out or losing your devices can
+            lose messages unless you export a key file.
+          </Text>
+        </Box>
       </Box>
       <Button
         type="submit"

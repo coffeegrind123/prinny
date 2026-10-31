@@ -27,6 +27,11 @@ export enum AccountDataEvent {
   CrossSigningSelf = 'm.cross_signing.self',
   CrossSigningUser = 'm.cross_signing.user',
   MegolmBackupV1 = 'm.megolm_backup.v1',
+
+  /** MSC4287: whether the user wants a server key backup. Element reads this first. */
+  KeyBackup = 'm.key_backup',
+  /** MSC4287's unstable key, with the opposite sense; Element still writes both. */
+  KeyBackupDisabledUnstable = 'm.org.matrix.custom.backup_disabled',
 }
 
 export type MDirectContent = Record<string, string[]>;

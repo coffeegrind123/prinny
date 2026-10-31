@@ -101,6 +101,12 @@ export const useKeyBackupSync = (): [number, string | undefined] => {
   return [remaining, failure];
 };
 
+// Turning the backup on or off from the settings does not always raise a status event (deleting a
+// backup this device was not using does not), so the code that does it announces the change.
+const infoChangedListeners = new Set<() => void>();
+export const notifyKeyBackupInfoChanged = (): void =>
+  infoChangedListeners.forEach((listener) => listener());
+
 export const useKeyBackupInfo = (crypto: CryptoApi): KeyBackupInfo | undefined | null => {
   const alive = useAlive();
   const [info, setInfo] = useState<KeyBackupInfo | null>();
@@ -115,6 +121,13 @@ export const useKeyBackupInfo = (crypto: CryptoApi): KeyBackupInfo | undefined |
 
   useEffect(() => {
     fetchInfo();
+  }, [fetchInfo]);
+
+  useEffect(() => {
+    infoChangedListeners.add(fetchInfo);
+    return () => {
+      infoChangedListeners.delete(fetchInfo);
+    };
   }, [fetchInfo]);
 
   useKeyBackupStatusChange(fetchInfo);
