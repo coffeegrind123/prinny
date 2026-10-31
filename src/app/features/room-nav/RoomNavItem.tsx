@@ -88,6 +88,7 @@ import { StateEvent } from '../../../types/matrix/room';
 import { webRTCSupported } from '../../utils/rtc';
 import { useRoomFavourite, useToggleRoomFavourite } from '../../hooks/useRoomFavourites';
 import { mDirectAtom } from '../../state/mDirectList';
+import { UnencryptedIcon, useUnencryptedWarning } from '../../components/unencrypted-indicator';
 import * as css from './styles.css';
 
 type RoomNavItemMenuProps = {
@@ -450,6 +451,7 @@ export function RoomNavItem({
   );
 
   const roomName = useRoomName(room);
+  const unencrypted = useUnencryptedWarning(room);
 
   const dmUserId = direct ? guessDmRoomUserId(room, mx.getSafeUserId()) : undefined;
   const dmUserPresence = useUserPresence(dmUserId ?? '');
@@ -650,6 +652,7 @@ export function RoomNavItem({
               </Text>
               {dmStatusJSX}
             </Box>
+            {unencrypted && <UnencryptedIcon />}
             {pinnable && pinned && !optionsVisible && (
               <Icon size="50" src={Icons.Pin} filled aria-label="Pinned" />
             )}

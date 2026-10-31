@@ -84,6 +84,7 @@ import { RoomSettingsPage } from '../../state/roomSettings';
 import { useCallEmbed, useCallStart } from '../../hooks/useCallEmbed';
 import { useLivekitSupport } from '../../hooks/useLivekitSupport';
 import { webRTCSupported } from '../../utils/rtc';
+import { UnencryptedBadge, useUnencryptedWarning } from '../../components/unencrypted-indicator';
 
 type RoomMenuProps = {
   room: Room;
@@ -500,6 +501,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
   const pinnedEvents = useRoomPinnedEvents(room);
   const avatarMxc = useRoomAvatar(room, direct);
   const name = useRoomName(room);
+  const unencrypted = useUnencryptedWarning(room);
   const topic = useRoomTopic(room);
   const canEditTopic = permissions.stateEvent(StateEvent.RoomTopic, mx.getSafeUserId());
   const handleTopicChange = (newTopic: string) =>
@@ -611,6 +613,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
               <Text size={topic ? 'H5' : 'H3'} truncate>
                 {name}
               </Text>
+              {unencrypted && <UnencryptedBadge />}
             </Box>
             {topic && (
               <UseStateProvider initial={false}>
