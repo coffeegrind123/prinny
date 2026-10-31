@@ -51,6 +51,7 @@ import { TypingIndicator } from '../../components/typing-indicator';
 import { stopPropagation } from '../../utils/keyboard';
 import { getMatrixToRoom } from '../../plugins/matrix-to';
 import {
+  addRoomIdToMDirect,
   getCanonicalAliasOrRoomId,
   getMxIdLocalPart,
   guessDmRoomUserId,
@@ -86,6 +87,7 @@ import { AvatarPresence, PresenceBadge, PresenceStatus } from '../../components/
 import { StateEvent } from '../../../types/matrix/room';
 import { webRTCSupported } from '../../utils/rtc';
 import { useRoomFavourite, useToggleRoomFavourite } from '../../hooks/useRoomFavourites';
+import { mDirectAtom } from '../../state/mDirectList';
 import * as css from './styles.css';
 
 type RoomNavItemMenuProps = {
@@ -149,6 +151,16 @@ const RoomNavItemMenu = forwardRef<HTMLDivElement, RoomNavItemMenuProps>(
 
     const handleRoomSettings = () => {
       openRoomSettings(room.roomId, space?.roomId);
+      requestClose();
+    };
+
+    // For a DM some other client created without flagging it in m.direct, so
+    // it shows up under Rooms instead of Chats.
+    const mDirects = useAtomValue(mDirectAtom);
+    const handleMarkAsDirect = () => {
+      addRoomIdToMDirect(mx, room.roomId, guessDmRoomUserId(room, mx.getSafeUserId())).catch(
+        () => undefined,
+      );
       requestClose();
     };
 
@@ -274,6 +286,18 @@ const RoomNavItemMenu = forwardRef<HTMLDivElement, RoomNavItemMenuProps>(
               Room Settings
             </Text>
           </MenuItem>
+          {!mDirects.has(room.roomId) && (
+            <MenuItem
+              onClick={handleMarkAsDirect}
+              size="300"
+              after={<Icon size="100" src={Icons.User} />}
+              radii="300"
+            >
+              <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
+                Mark as Direct
+              </Text>
+            </MenuItem>
+          )}
         </Box>
         <Line variant="Surface" size="300" />
         <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
