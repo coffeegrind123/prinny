@@ -162,7 +162,9 @@ export function ThreadView({ room, rootId, onClose }: ThreadViewProps) {
   const [hour24Clock] = useSetting(settingsAtom, 'hour24Clock');
   const [dateFormatString] = useSetting(settingsAtom, 'dateFormatString');
   const [mediaAutoLoad] = useSetting(settingsAtom, 'mediaAutoLoad');
-  const [urlPreview] = useSetting(settingsAtom, 'urlPreview');
+  const [globalUrlPreview] = useSetting(settingsAtom, 'urlPreview');
+  const [encUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
+  const urlPreview = room.hasEncryptionStateEvent() ? encUrlPreview : globalUrlPreview;
   const [mathsEnabled] = useSetting(settingsAtom, 'renderMaths');
   const renderMaths = useKatex(mathsEnabled);
   const useAuthentication = useMediaAuthentication();

@@ -272,7 +272,9 @@ export const RoomPinMenu = forwardRef<HTMLDivElement, RoomPinMenuProps>(
     const sortedPinnedEvent = useMemo(() => Array.from(pinnedEvents).reverse(), [pinnedEvents]);
     const useAuthentication = useMediaAuthentication();
     const [mediaAutoLoad] = useSetting(settingsAtom, 'mediaAutoLoad');
-    const [urlPreview] = useSetting(settingsAtom, 'urlPreview');
+    const [globalUrlPreview] = useSetting(settingsAtom, 'urlPreview');
+    const [encUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
+    const urlPreview = room.hasEncryptionStateEvent() ? encUrlPreview : globalUrlPreview;
 
     const direct = useIsDirectRoom();
     const [legacyUsernameColor] = useSetting(settingsAtom, 'legacyUsernameColor');
