@@ -14,13 +14,14 @@ export function SettingTile({ title, description, before, after, children }: Set
     <Box alignItems="Center" gap="300">
       {before && <Box shrink="No">{before}</Box>}
       <Box grow="Yes" direction="Column" gap="100">
+        {/* div, not p: titles and descriptions may hold blocks, and a p cannot contain those. */}
         {title && (
-          <Text className={BreakWord} size="T300">
+          <Text as="div" className={BreakWord} size="T300">
             {title}
           </Text>
         )}
         {description && (
-          <Text className={BreakWord} size="T200" priority="300">
+          <Text as="div" className={BreakWord} size="T200" priority="300">
             {description}
           </Text>
         )}
