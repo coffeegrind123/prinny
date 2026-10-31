@@ -40,6 +40,7 @@ import { getFallbackSession } from '../../state/sessions';
 import { AutoDiscovery } from './AutoDiscovery';
 import { useUnifiedPush } from '../../hooks/useUnifiedPush';
 import { useWebPush } from '../../hooks/useWebPush';
+import { SoftLogout } from './SoftLogout';
 
 function ClientRootLoading() {
   return (
@@ -127,10 +128,28 @@ function ClientRootOptions({ mx }: { mx?: MatrixClient }) {
   );
 }
 
-const useLogoutListener = (mx?: MatrixClient) => {
+/**
+ * The SDK raises SessionLoggedOut for every M_UNKNOWN_TOKEN, soft logouts included. Only a hard
+ * logout means the device is gone; on a soft one (`soft_logout: true`, e.g. an expired session
+ * lifetime) the device and its keys are still valid, so keep the stores and ask the user to sign
+ * in again instead of wiping every room key that isn't in backup.
+ */
+const useLogoutListener = (mx?: MatrixClient): boolean => {
+  const [softLoggedOut, setSoftLoggedOut] = useState(false);
+
   useEffect(() => {
-    const handleLogout: HttpApiEventHandlerMap[HttpApiEvent.SessionLoggedOut] = async () => {
+    let handled = false;
+    const handleLogout: HttpApiEventHandlerMap[HttpApiEvent.SessionLoggedOut] = async (error) => {
+      // Every in-flight request that hits the dead token emits this again.
+      if (handled) return;
+      handled = true;
       mx?.stopClient();
+
+      if (error.data?.soft_logout === true) {
+        setSoftLoggedOut(true);
+        return;
+      }
+
       await mx?.clearStores();
       window.localStorage.clear();
       window.location.reload();
@@ -141,6 +160,8 @@ const useLogoutListener = (mx?: MatrixClient) => {
       mx?.removeListener(HttpApiEvent.SessionLoggedOut, handleLogout);
     };
   }, [mx]);
+
+  return softLoggedOut;
 };
 
 type ClientRootProps = {
@@ -164,7 +185,7 @@ export function ClientRoot({ children }: ClientRootProps) {
     useCallback((m) => startClient(m), []),
   );
 
-  useLogoutListener(mx);
+  const softLoggedOut = useLogoutListener(mx);
 
   useEffect(() => {
     if (loadState.status === AsyncStatus.Idle) {
@@ -189,6 +210,10 @@ export function ClientRoot({ children }: ClientRootProps) {
 
   useUnifiedPush(mx);
   useWebPush(mx);
+
+  if (mx && softLoggedOut) {
+    return <SoftLogout mx={mx} />;
+  }
 
   return (
     <AutoDiscovery userId={userId!} baseUrl={baseUrl!}>
