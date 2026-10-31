@@ -281,6 +281,9 @@ export interface Settings {
   // Show each message's own time in the gutter of grouped messages, not only on hover. Compact
   // layout already times every row.
   showAllTimestamps: boolean;
+  // OS-wide shortcut that shows or hides the desktop window, as a global-hotkey accelerator
+  // ("Control+Alt+KeyP"). Empty is off. Desktop only.
+  toggleWindowShortcut: string;
 }
 
 const defaultSettings: Settings = {
@@ -409,6 +412,7 @@ const defaultSettings: Settings = {
   idlePausesReadReceipts: false,
   presencePicker: false,
   showAllTimestamps: false,
+  toggleWindowShortcut: '',
 };
 
 /** Settings that existed under a different shape in an older build. */

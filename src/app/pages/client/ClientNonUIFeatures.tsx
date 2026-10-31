@@ -25,6 +25,7 @@ import { settingsAtom } from '../../state/settings';
 import { allInvitesAtom } from '../../state/room-list/inviteList';
 import { usePreviousValue } from '../../hooks/usePreviousValue';
 import { useSystemTray } from '../../hooks/useSystemTray';
+import { useToggleWindowShortcut } from '../../hooks/useToggleWindowShortcut';
 import { useContentProtection } from '../../hooks/useContentProtection';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { getInboxInvitesPath } from '../pathUtils';
@@ -81,6 +82,7 @@ function PageZoomFeature() {
 
 function SystemTray() {
   useSystemTray();
+  useToggleWindowShortcut();
   useContentProtection();
   return null;
 }

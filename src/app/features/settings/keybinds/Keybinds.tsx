@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import { Box, Button, color, config, Icon, IconButton, Icons, Scroll, Switch, Text } from 'folds';
 import { Page, PageContent, PageContentCenter, PageHeader } from '../../../components/page';
 import { SequenceCard } from '../../../components/sequence-card';
@@ -12,6 +13,12 @@ import {
 } from '../../../state/keybinds';
 import { formatKeyComboSplit } from '../../../utils/key-display';
 import { SettingTile } from '../../../components/setting-tile';
+import { useTauriDesktop } from '../../../hooks/useTauriDesktop';
+import {
+  acceleratorLabels,
+  eventToAccelerator,
+  toggleWindowShortcutErrorAtom,
+} from '../../../hooks/useToggleWindowShortcut';
 
 /**
  * A pointer gesture, which is on or off rather than bound to anything.
@@ -152,11 +159,95 @@ function KeybindCapture({ currentKey, onCapture }: KeybindCaptureProps) {
   );
 }
 
+/**
+ * The OS-wide show/hide shortcut. Recorded from the physical key (event.code)
+ * because the shell's hook matches physical keys, and kept apart from the
+ * in-app keybinds: it fires in every app, so it needs a modifier.
+ */
+function ToggleWindowShortcutTile() {
+  const [shortcut, setShortcut] = useSetting(settingsAtom, 'toggleWindowShortcut');
+  const error = useAtomValue(toggleWindowShortcutErrorAtom);
+  const [capturing, setCapturing] = useState(false);
+
+  useEffect(() => {
+    if (!capturing) return undefined;
+    const handler = (event: KeyboardEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.key === 'Escape' && !event.ctrlKey && !event.altKey && !event.metaKey) {
+        setCapturing(false);
+        return;
+      }
+      const accelerator = eventToAccelerator(event);
+      if (accelerator) {
+        setShortcut(accelerator);
+        setCapturing(false);
+      }
+    };
+    window.addEventListener('keydown', handler, true);
+    return () => window.removeEventListener('keydown', handler, true);
+  }, [capturing, setShortcut]);
+
+  let label: ReactNode;
+  if (capturing) {
+    label = (
+      <Text size="T200" style={{ color: color.Primary.Main, fontStyle: 'italic' }}>
+        Press keys...
+      </Text>
+    );
+  } else if (shortcut) {
+    label = <KeyCombo keys={acceleratorLabels(shortcut)} />;
+  } else {
+    label = <Text size="T200">Off</Text>;
+  }
+
+  return (
+    <SettingTile
+      title="Show or Hide Prinny"
+      description={
+        error && shortcut
+          ? `Could not use this shortcut: ${error}`
+          : 'Works from any app. Needs Ctrl, Alt or Super, or an F key on its own.'
+      }
+      after={
+        <Box gap="100" alignItems="Center">
+          <Box
+            as="button"
+            onClick={() => setCapturing(true)}
+            style={{
+              cursor: 'pointer',
+              padding: config.space.S100,
+              borderRadius: '6px',
+              border: capturing ? `2px solid ${color.Primary.Main}` : `2px solid transparent`,
+              backgroundColor: capturing ? color.Primary.Container : 'transparent',
+              color: 'inherit',
+            }}
+          >
+            {label}
+          </Box>
+          {shortcut && (
+            <Button
+              size="300"
+              variant="Secondary"
+              fill="None"
+              radii="Pill"
+              onClick={() => setShortcut('')}
+            >
+              <Text size="T200">Clear</Text>
+            </Button>
+          )}
+        </Box>
+      }
+    />
+  );
+}
+
 type KeybindsProps = {
   requestClose: () => void;
 };
 export function Keybinds({ requestClose }: KeybindsProps) {
   const [keybinds, setKeybinds] = useSetting(settingsAtom, 'keybinds');
+  const desktop = useTauriDesktop();
 
   const handleCapture = useCallback(
     (id: string, keyString: string) => {
@@ -211,6 +302,19 @@ export function Keybinds({ requestClose }: KeybindsProps) {
           <PageContent>
             <PageContentCenter>
               <Box direction="Column" gap="700">
+                {desktop && (
+                  <Box direction="Column" gap="100">
+                    <Text size="L400">Desktop</Text>
+                    <SequenceCard
+                      className={SequenceCardStyle}
+                      variant="SurfaceVariant"
+                      direction="Column"
+                      gap="400"
+                    >
+                      <ToggleWindowShortcutTile />
+                    </SequenceCard>
+                  </Box>
+                )}
                 {KEYBIND_CATEGORY_ORDER.map((cat) => {
                   const items = KEYBIND_DEFINITIONS.filter((d) => d.category === cat);
                   if (items.length === 0) return null;
