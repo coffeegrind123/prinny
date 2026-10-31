@@ -1,4 +1,11 @@
-import { createClient, MatrixClient, IndexedDBStore, IndexedDBCryptoStore } from 'matrix-js-sdk';
+import {
+  createClient,
+  MatrixClient,
+  IndexedDBStore,
+  IndexedDBCryptoStore,
+  ClientEvent,
+  SyncState,
+} from 'matrix-js-sdk';
 import {
   AllDevicesIsolationMode,
   OnlySignedDevicesIsolationMode,
@@ -167,7 +174,25 @@ const registerHomeserverOriginWithShell = async (baseUrl: string): Promise<void>
   }
 };
 
+// The SDK checks the server's key backup once, from the RustCrypto constructor, before the
+// client starts. If that request fails (autostart at login, before the network is up) nothing
+// retries it, so backup upload and restore stay off for the whole session. Check again once
+// the first sync has gone through.
+const recheckKeyBackupAfterInitialSync = (mx: MatrixClient): void => {
+  const onSync = (state: SyncState) => {
+    if (state !== SyncState.Prepared && state !== SyncState.Syncing) return;
+    mx.removeListener(ClientEvent.Sync, onSync);
+    mx.getCrypto()
+      ?.checkKeyBackupAndEnable()
+      .catch((err) => {
+        console.warn('[crypto] key backup re-check after initial sync failed:', err);
+      });
+  };
+  mx.on(ClientEvent.Sync, onSync);
+};
+
 export const startClient = async (mx: MatrixClient) => {
+  recheckKeyBackupAfterInitialSync(mx);
   await mx.startClient({
     lazyLoadMembers: true,
     // MSC4133 extended profile fields, delivered through /sync per MSC4429.
