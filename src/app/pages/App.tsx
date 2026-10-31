@@ -13,6 +13,7 @@ import { ScreenSizeProvider, useScreenSize } from '../hooks/useScreenSize';
 import { useCompositionEndTracking } from '../hooks/useComposingCheck';
 import { useGlobalDropListener, useTauriDragDropListener } from '../hooks/useFileDrop';
 import { useKeyboardInset } from '../hooks/useKeyboardInset';
+import { useAndroidWindowBackground } from '../hooks/useAndroidWindowBackground';
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ function App() {
   useGlobalDropListener();
   useTauriDragDropListener();
   useKeyboardInset();
+  useAndroidWindowBackground();
 
   const portalContainer = document.getElementById('portalContainer') ?? undefined;
 
