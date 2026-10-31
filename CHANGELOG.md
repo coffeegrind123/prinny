@@ -112,6 +112,8 @@ User-facing changes per commit. Most recent at the top.
 - `de96ac1` Improved **calls** — the call widget is now Prinny's own build of Element Call `v0.24.0` with the five call fixes above, instead of the stock package: calls rejoin by themselves after the call server or homeserver drops out, and a one-to-one call now waits 30 s after the other side drops before it ends, so they can come back after restarting the app. Builds fail loudly if the patched widget is missing rather than quietly shipping without it.
 - `7b4339f` Added **sound pack call sounds** — Skype, Skype (classic) and ICQ 7 now also replace the ringing you hear while calling someone, and (Skype packs) the join, leave, declined and no-answer sounds inside the call (from meow).
 - `4f268ea` `3367b72` Fixed **the weekly Element Call upgrade check** stopping at the first patch even where a 3-way merge would apply it (it now clones Element Call with full history), and quoting the release-note lines behind a `[security]` flag; the webapp no longer publishes the fetch marker `public/element-call/.prinny-queue`.
+- `77c52b3` Fixed **Element and Element X showing a stale unread line for Prinny users** — marking a room read now also moves the fully-read marker those apps use for the "new messages" line and Jump to Unread; a room you marked unread stays unread (from Sable).
+- `3af5c88` Fixed **profile changes failing silently** — a banner, bio, pronouns or time zone that doesn't save now shows an error under the field, and you can retry without uploading the banner again (from Sable).
 
 ## 18.10.2026
 
