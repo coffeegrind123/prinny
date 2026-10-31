@@ -25,6 +25,7 @@ import { isTauri } from '../app/utils/desktop-notifications';
 import { USER_PROFILE_FIELDS } from '../types/matrix/profile';
 import { isPrivateHost } from '../app/utils/safeUrl';
 import { compactServerAcls } from './compactServerAcl';
+import { disposeSyncStorePersistence, installSyncStorePersistence } from './syncStorePersistence';
 
 type Session = {
   baseUrl: string;
@@ -224,6 +225,7 @@ const createClientWithCrypto = async (
     await mx.initRustCrypto({ cryptoDatabasePrefix });
   } catch (err) {
     if (isStoreAccountMismatch(err)) {
+      disposeSyncStorePersistence(mx);
       mx.stopClient();
       await mx.store.deleteAllData();
     }
@@ -322,6 +324,7 @@ export const startClient = async (mx: MatrixClient) => {
     // than erroring.
     unstableMSC4429SyncUserProfileFields: USER_PROFILE_FIELDS,
   });
+  installSyncStorePersistence(mx);
 };
 
 // A MemoryStore's deleteAllData() never reaches IndexedDB, so the database it stood in for is
@@ -346,6 +349,7 @@ export const CLEAR_CACHE_BLOCKED_MESSAGE =
  * the other tab stayed open.
  */
 export const clearCacheAndReload = async (mx: MatrixClient, onBlocked?: () => void) => {
+  disposeSyncStorePersistence(mx);
   mx.stopClient();
   clearNavToActivePathStore(mx.getSafeUserId());
 
@@ -384,6 +388,7 @@ const deleteDatabase = (name: string): Promise<void> =>
  * stale default one it was moved away from.
  */
 export const clearClientStores = async (mx: MatrixClient): Promise<void> => {
+  disposeSyncStorePersistence(mx);
   const cryptoDatabasePrefix = cryptoPrefixByClient.get(mx);
   await mx.clearStores({ cryptoDatabasePrefix });
   await deleteSyncStoreOnMemoryFallback(mx);
