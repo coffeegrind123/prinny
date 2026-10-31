@@ -1,0 +1,345 @@
+name: Element Call upgrade
+
+# Weekly: is there a newer stable Element Call than element-call/UPSTREAM? If
+# so, apply the patch queue to it and build it exactly as element-call.yml
+# does (element-call/build.sh).
+#
+#   clean    publish the build, commit the UPSTREAM bump to main plus its
+#            CHANGELOG bullet (two commits, never amended), close any open
+#            upgrade issue, and start publish-webapp: a push made with
+#            GITHUB_TOKEN triggers no workflows on its own.
+#   failed   open, or update, the ONE open issue labelled element-call-upgrade
+#            with the version, the stage, the failing patch and the log. Never
+#            a second issue. The run fails too, so it is red in Actions.
+#
+# Nothing here falls back: until someone fixes the queue, the app keeps the
+# Element Call it already ships.
+
+on:
+  schedule:
+    - cron: '23 4 * * 1' # Mondays 04:23 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Try the upgrade but commit, publish and file nothing'
+        type: boolean
+        default: false
+      version:
+        description: 'Try this tag instead of the latest stable release (e.g. v0.28.0)'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: element-call-upgrade
+  cancel-in-progress: false
+
+env:
+  LABEL: element-call-upgrade
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+  DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
+
+jobs:
+  upgrade:
+    name: Try the latest Element Call
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      issues: write
+      actions: write
+    steps:
+      - name: Checkout Prinny
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: main
+          path: prinny
+
+      - name: Find the latest stable release
+        id: target
+        env:
+          REQUESTED: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          current=$(tr -d '[:space:]' < prinny/element-call/UPSTREAM)
+          if [ -n "${REQUESTED:-}" ]; then
+            latest=$REQUESTED
+          else
+            # releases/latest is the newest non-draft, non-prerelease release.
+            latest=$(gh api repos/element-hq/element-call/releases/latest --jq .tag_name)
+          fi
+          if ! [[ "$latest" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::not a stable release tag: '$latest'"
+            exit 1
+          fi
+          newest=$(printf '%s\n%s\n' "$current" "$latest" | sort -V | tail -1)
+          if [ "$latest" != "$current" ] && [ "$newest" = "$latest" ]; then newer=true; else newer=false; fi
+
+          # Do any release notes between the two mention a security fix?
+          gh api --paginate repos/element-hq/element-call/releases \
+            --jq '.[] | select(.draft | not) | select(.prerelease | not) | [.tag_name, (.body // "")] | @json' \
+            > releases.jsonl
+          security=$(python3 - "$current" "$latest" <<'EOF'
+          import json, re, sys
+          def key(t):
+              return tuple(int(x) for x in t.lstrip("v").split("."))
+          cur, new = key(sys.argv[1]), key(sys.argv[2])
+          hits = []
+          for line in open("releases.jsonl"):
+              tag, body = json.loads(line)  # gh --jq prints @json strings raw
+              if not re.fullmatch(r"v\d+\.\d+\.\d+", tag) or not (cur < key(tag) <= new):
+                  continue
+              if re.search(r"secur|vulnerab|\bCVE-|GHSA-", body, re.I):
+                  hits.append(tag)
+          print(" ".join(sorted(hits, key=key)))
+          EOF
+          )
+
+          {
+            echo "current=$current"
+            echo "latest=$latest"
+            echo "newer=$newer"
+            echo "security=$security"
+          } >> "$GITHUB_OUTPUT"
+          echo "UPSTREAM $current, latest stable $latest, newer=$newer, security notes in: ${security:-none}"
+
+      - name: Up to date
+        if: steps.target.outputs.newer != 'true'
+        env:
+          CURRENT: ${{ steps.target.outputs.current }}
+        run: |
+          set -euo pipefail
+          echo "element-call/UPSTREAM ($CURRENT) is the latest stable release."
+          [ "$DRY_RUN" = true ] && exit 0
+          if [ "$(gh api "repos/$GITHUB_REPOSITORY" --jq .has_issues)" != true ]; then exit 0; fi
+          # An upgrade done by hand leaves the issue open; close it.
+          for n in $(gh issue list -R "$GITHUB_REPOSITORY" -l "$LABEL" -s open --json number --jq '.[].number'); do
+            gh issue close "$n" -R "$GITHUB_REPOSITORY" \
+              -c "element-call/UPSTREAM is $CURRENT, the latest stable release. Closing."
+          done
+
+      - name: Point the queue at ${{ steps.target.outputs.latest }}
+        if: steps.target.outputs.newer == 'true'
+        id: queue
+        working-directory: prinny
+        env:
+          LATEST: ${{ steps.target.outputs.latest }}
+        run: |
+          set -euo pipefail
+          echo "$LATEST" > element-call/UPSTREAM
+          {
+            echo "tag=$(node scripts/element-call.mjs tag)"
+            echo "version=$(node scripts/element-call.mjs version)"
+            echo "patches=$(find element-call/patches -name '*.patch' | wc -l)"
+          } >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+
+      - name: Checkout element-hq/element-call ${{ steps.target.outputs.latest }}
+        if: steps.target.outputs.newer == 'true'
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          repository: element-hq/element-call
+          ref: ${{ steps.target.outputs.latest }}
+          path: ec
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Setup node (Element Call's version)
+        if: steps.target.outputs.newer == 'true'
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version-file: ec/.node-version
+          package-manager-cache: false
+
+      - name: Apply patches, typecheck, test and build
+        if: steps.target.outputs.newer == 'true'
+        id: build
+        continue-on-error: true
+        env:
+          VITE_APP_VERSION: embedded-v${{ steps.queue.outputs.version }}
+        run: |
+          # A Node without corepack (it left Node in v25) fails here, inside
+          # the logged build, rather than as an unexplained red step.
+          corepack enable || npm install -g corepack && corepack enable
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          mkdir -p logs
+          (cd ec && pnpm --version) > logs/pnpm.log 2>&1 || true
+          bash prinny/element-call/build.sh ec logs
+
+      - name: Upload logs
+        if: always() && steps.target.outputs.newer == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: element-call-upgrade-${{ steps.target.outputs.latest }}
+          path: logs/
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: File the failure
+        if: steps.target.outputs.newer == 'true' && steps.build.outcome == 'failure'
+        env:
+          CURRENT: ${{ steps.target.outputs.current }}
+          LATEST: ${{ steps.target.outputs.latest }}
+          SECURITY: ${{ steps.target.outputs.security }}
+        run: |
+          set -euo pipefail
+          stage=$(cat logs/stage 2>/dev/null || echo unknown)
+          patch=$(cat logs/patch 2>/dev/null || true)
+          run_url="https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
+          if [ "$stage" = am ]; then
+            what="\`$patch\` does not apply"
+          else
+            what="the patched build fails at \`$stage\`"
+          fi
+          title="Element Call $LATEST: $what"
+          if [ -n "$SECURITY" ]; then
+            title="[security] $title"
+          fi
+
+          {
+            echo "The weekly upgrade from \`$CURRENT\` to [\`$LATEST\`](https://github.com/element-hq/element-call/releases/tag/$LATEST) stopped: $what."
+            echo
+            if [ -n "$SECURITY" ]; then
+              echo "> **The release notes of $SECURITY mention security.** Do this upgrade first."
+              echo
+            fi
+            echo "- Stage: \`$stage\` (am, install, typecheck, test, build, csp)"
+            [ -n "$patch" ] && echo "- Patch: \`element-call/patches/$patch\`"
+            echo "- Run: $run_url (logs are in its artifact)"
+            echo
+            echo "The app keeps shipping Element Call \`$CURRENT\` until this is fixed. How to do the upgrade by hand: the \"Element Call patch queue\" section of prinny-client's CLAUDE.md."
+            echo
+            echo "<details><summary><code>$stage</code> output (last 300 lines)</summary>"
+            echo
+            echo '```'
+            tail -n 300 "logs/$stage.log" 2>/dev/null | cut -c1-400 | head -c 50000 || echo "(no log)"
+            echo '```'
+            echo
+            echo "</details>"
+            echo
+            echo "_Updated by the Element Call upgrade workflow, $(date -u +'%Y-%m-%d %H:%M UTC')._"
+          } > issue.md
+          cat issue.md
+
+          if [ "$DRY_RUN" = true ]; then
+            echo "::warning::dry run: not filing \"$title\""
+            exit 1
+          fi
+          if [ "$(gh api "repos/$GITHUB_REPOSITORY" --jq .has_issues)" != true ]; then
+            echo "::error::Issues are disabled on $GITHUB_REPOSITORY, so the upgrade failure cannot be filed: $title"
+            exit 1
+          fi
+
+          gh label create "$LABEL" -R "$GITHUB_REPOSITORY" --color B60205 \
+            --description 'Element Call patch queue does not apply to a new release' 2>/dev/null || true
+
+          existing=$(gh issue list -R "$GITHUB_REPOSITORY" -l "$LABEL" -s open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" -R "$GITHUB_REPOSITORY" --title "$title" --body-file issue.md
+            echo "Updated issue #$existing"
+          else
+            gh issue create -R "$GITHUB_REPOSITORY" -l "$LABEL" --title "$title" --body-file issue.md
+          fi
+          exit 1
+
+      - name: Package and publish ${{ steps.queue.outputs.tag }}
+        if: steps.target.outputs.newer == 'true' && steps.build.outcome == 'success' && env.DRY_RUN != 'true'
+        env:
+          TAG: ${{ steps.queue.outputs.tag }}
+          LATEST: ${{ steps.target.outputs.latest }}
+          PATCHES: ${{ steps.queue.outputs.patches }}
+        run: |
+          set -euo pipefail
+          tar -C ec/dist --exclude='*.map' --sort=name --owner=0 --group=0 --numeric-owner \
+            -czf element-call-embedded.tar.gz .
+          sha256sum element-call-embedded.tar.gz | tee element-call-embedded.tar.gz.sha256
+          {
+            echo "Element Call [$LATEST](https://github.com/element-hq/element-call/releases/tag/$LATEST) with the $PATCHES patches in \`element-call/patches/\` applied, built by the upgrade workflow ([run $GITHUB_RUN_ID](https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID))."
+            echo
+            echo "\`npm run build\` downloads this as \`element-call/dist\`. Not a Prinny release."
+          } > notes.md
+          if gh release view "$TAG" -R "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "$TAG already published"
+          else
+            gh release create "$TAG" element-call-embedded.tar.gz element-call-embedded.tar.gz.sha256 \
+              -R "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+              --title "Element Call $LATEST + $PATCHES Prinny patches" \
+              --notes-file notes.md --prerelease --latest=false
+          fi
+
+      - name: Commit the bump and its changelog
+        if: steps.target.outputs.newer == 'true' && steps.build.outcome == 'success' && env.DRY_RUN != 'true'
+        working-directory: prinny
+        env:
+          CURRENT: ${{ steps.target.outputs.current }}
+          LATEST: ${{ steps.target.outputs.latest }}
+          PATCHES: ${{ steps.queue.outputs.patches }}
+          SECURITY: ${{ steps.target.outputs.security }}
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+          # 1. The code change on its own.
+          git add element-call/UPSTREAM
+          {
+            echo "Update Element Call to $LATEST"
+            echo
+            echo "The weekly upgrade check found Element Call $LATEST (we had"
+            echo "$CURRENT). All $PATCHES patches in element-call/patches applied"
+            echo "with git am, and the patched widget typechecked, passed the"
+            echo "patches' unit tests and built (run $GITHUB_RUN_ID)."
+            if [ -n "$SECURITY" ]; then
+              echo
+              echo "Release notes mentioning security: $SECURITY."
+            fi
+          } > ../msg.txt
+          git commit -q -F ../msg.txt
+          sha=$(git rev-parse --short=7 HEAD)
+
+          # 2. The CHANGELOG bullet in a later commit citing it (never --amend:
+          # the bullet must cite a SHA that still exists).
+          SHA=$sha python3 - <<'EOF'
+          import os, re, subprocess
+          path = "CHANGELOG.md"
+          text = open(path, encoding="utf-8").read()
+          today = subprocess.check_output(["date", "+%d.%m.%Y"], env={**os.environ, "TZ": "Europe/Helsinki"}, text=True).strip()
+          sec = f" (its release notes mention security fixes: {os.environ['SECURITY']})" if os.environ.get("SECURITY") else ""
+          bullet = (f"- `{os.environ['SHA']}` Improved **calls: Element Call updated to {os.environ['LATEST']}** "
+                    f"(from {os.environ['CURRENT']}){sec}, with Prinny's {os.environ['PATCHES']} call patches "
+                    f"in `element-call/patches` reapplied.")
+          lines = text.split("\n")
+          heads = [i for i, l in enumerate(lines) if l.startswith("## ")]
+          if heads and lines[heads[0]].strip() == f"## {today}":
+              end = heads[1] if len(heads) > 1 else len(lines)
+              while end > heads[0] + 1 and lines[end - 1].strip() == "":
+                  end -= 1
+              lines.insert(end, bullet)
+          else:
+              at = heads[0] if heads else len(lines)
+              lines[at:at] = [f"## {today}", "", bullet, ""]
+          open(path, "w", encoding="utf-8").write("\n".join(lines))
+          EOF
+          git add CHANGELOG.md
+          git commit -q -m "Changelog for $sha"
+          git log --oneline -2
+          git push origin HEAD:main
+
+      - name: Close the upgrade issue and start the release
+        if: steps.target.outputs.newer == 'true' && steps.build.outcome == 'success' && env.DRY_RUN != 'true'
+        env:
+          LATEST: ${{ steps.target.outputs.latest }}
+        run: |
+          set -euo pipefail
+          if [ "$(gh api "repos/$GITHUB_REPOSITORY" --jq .has_issues)" = true ]; then
+            for n in $(gh issue list -R "$GITHUB_REPOSITORY" -l "$LABEL" -s open --json number --jq '.[].number'); do
+              gh issue close "$n" -R "$GITHUB_REPOSITORY" -c "Upgraded to $LATEST by run $GITHUB_RUN_ID. Closing."
+            done
+          fi
+          gh workflow run publish-webapp.yml -R "$GITHUB_REPOSITORY" --ref main
