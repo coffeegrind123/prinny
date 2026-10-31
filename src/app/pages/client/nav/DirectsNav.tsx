@@ -99,6 +99,7 @@ export function DirectsNavList({ scrollRef }: DirectsNavListProps) {
 
   const virtualizer = useVirtualizer({
     count: sortedDirects.length,
+    getItemKey: (index) => sortedDirects[index] ?? index,
     // Resolved through state rather than read off the ref directly: the
     // scroll container is an ANCESTOR of this list, so its ref is still
     // null while this component's layout effects run. See useScrollElement.
@@ -137,7 +138,7 @@ export function DirectsNavList({ scrollRef }: DirectsNavListProps) {
             <VirtualTile
               virtualItem={vItem}
               scrollMargin={scrollMargin}
-              key={vItem.index}
+              key={roomId}
               ref={virtualizer.measureElement}
             >
               <RoomNavItem

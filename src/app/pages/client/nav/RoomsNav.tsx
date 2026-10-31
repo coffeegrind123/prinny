@@ -211,6 +211,7 @@ export function RoomsNavList({ base, scrollRef }: RoomsNavListProps) {
 
   const virtualizer = useVirtualizer({
     count: sortedRooms.length,
+    getItemKey: (index) => sortedRooms[index] ?? index,
     // Resolved through state rather than read off the ref directly: the
     // scroll container is an ANCESTOR of this list, so its ref is still
     // null while this component's layout effects run. See useScrollElement.
@@ -247,7 +248,7 @@ export function RoomsNavList({ base, scrollRef }: RoomsNavListProps) {
             <VirtualTile
               virtualItem={vItem}
               scrollMargin={scrollMargin}
-              key={vItem.index}
+              key={roomId}
               ref={virtualizer.measureElement}
             >
               <RoomNavItem

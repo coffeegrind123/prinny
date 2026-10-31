@@ -595,8 +595,18 @@ export function Space() {
     ),
   );
 
+  // Key rows by what they show, not by position: the list re-sorts, and an
+  // open context menu or a drag in progress must stay with its room. A room
+  // can sit under several parents, so the parent is part of the key.
+  const getHierarchyKey = (index: number): string => {
+    const item = hierarchy[index];
+    if (!item) return `i${index}`;
+    return 'space' in item ? `s:${item.roomId}` : `r:${item.parentId}:${item.roomId}`;
+  };
+
   const virtualizer = useVirtualizer({
     count: hierarchy.length,
+    getItemKey: getHierarchyKey,
     getScrollElement: () => scrollRef.current,
     estimateSize: () => 0,
     overscan: 10,
@@ -671,7 +681,7 @@ export function Space() {
                 return (
                   <VirtualTile
                     virtualItem={vItem}
-                    key={vItem.index}
+                    key={getHierarchyKey(vItem.index)}
                     ref={virtualizer.measureElement}
                   >
                     <div style={{ paddingTop: vItem.index === 0 ? undefined : config.space.S400 }}>
@@ -690,7 +700,11 @@ export function Space() {
               }
 
               return (
-                <VirtualTile virtualItem={vItem} key={vItem.index} ref={virtualizer.measureElement}>
+                <VirtualTile
+                  virtualItem={vItem}
+                  key={getHierarchyKey(vItem.index)}
+                  ref={virtualizer.measureElement}
+                >
                   {(() => {
                     const item = hierarchy[vItem.index];
                     const parentId = item && !('space' in item) ? item.parentId : space.roomId;
