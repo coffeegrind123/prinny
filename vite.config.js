@@ -71,7 +71,12 @@ const copyFiles = {
       // devtools is open. Production maps are stripped from our own bundle
       // (`build.sourcemap: false`); excluding them here applies the same rule to
       // vendored code instead of exempting it.
-      src: [`${elementCall.dir}/**/*`, `!${elementCall.dir}/**/*.map`],
+      // .prinny-queue is scripts/element-call.mjs's marker, not part of the widget.
+      src: [
+        `${elementCall.dir}/**/*`,
+        `!${elementCall.dir}/**/*.map`,
+        `!${elementCall.dir}/.prinny-queue`,
+      ],
       dest: 'public/element-call',
       rename: { stripBase: elementCall.stripBase },
     },
