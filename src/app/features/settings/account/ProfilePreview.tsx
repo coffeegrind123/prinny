@@ -8,8 +8,8 @@ import { useUserPresence } from '../../../hooks/useUserPresence';
 import { useUserRichPresence } from '../../../hooks/useUserRichPresence';
 import { UserRichPresence } from '../../../components/user-profile/UserRichPresence';
 import { UserHero, UserHeroName } from '../../../components/user-profile/UserHero';
-import * as profileCss from '../../../components/user-profile/styles.css';
 import * as css from './ProfilePreview.css';
+import { UserBiography } from '../../../components/user-profile/UserBiography';
 
 type ProfilePreviewProps = {
   profile: UserProfile;
@@ -59,14 +59,7 @@ export function ProfilePreview({ profile, bannerMxc, userId, requestEdit }: Prof
         />
         <Box direction="Column" gap="500" style={{ padding: config.space.S400 }}>
           <UserHeroName displayName={displayName} userId={userId} pronouns={pronouns} />
-          {biography && (
-            <Box direction="Column" gap="100">
-              <Text size="L400">About Me</Text>
-              <Text className={profileCss.Biography} size="T300" priority="300">
-                {biography}
-              </Text>
-            </Box>
-          )}
+          {biography && <UserBiography biography={biography} />}
           {richPresence && <UserRichPresence presence={richPresence} />}
           <Button variant="Primary" fill="Soft" radii="300" onClick={requestEdit}>
             <Text size="B300">Edit Profile</Text>

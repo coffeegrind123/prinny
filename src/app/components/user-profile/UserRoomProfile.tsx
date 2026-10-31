@@ -1,6 +1,5 @@
-import { Box, config, Text } from 'folds';
+import { Box, config } from 'folds';
 import { UserHero, UserHeroName } from './UserHero';
-import * as css from './styles.css';
 import { mxcUrlToHttp } from '../../utils/matrix';
 import { getMemberAvatarMxc, getMemberDisplayName } from '../../utils/room';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
@@ -29,6 +28,7 @@ import {
   getProfileTimezone,
 } from '../../../types/matrix/profile';
 import { DirectMessageComposer } from './DirectMessageComposer';
+import { UserBiography } from './UserBiography';
 
 type UserRoomProfileProps = {
   userId: string;
@@ -109,14 +109,7 @@ export function UserRoomProfile({ userId }: UserRoomProfileProps) {
             )}
           </Box>
         </Box>
-        {biography && (
-          <Box direction="Column" gap="100">
-            <Text size="L400">About Me</Text>
-            <Text className={css.Biography} size="T300" priority="300">
-              {biography}
-            </Text>
-          </Box>
-        )}
+        {biography && <UserBiography biography={biography} />}
         {richPresence && <UserRichPresence presence={richPresence} />}
         {ignored && <IgnoredUserAlert />}
         {member && membership === Membership.Ban && (
