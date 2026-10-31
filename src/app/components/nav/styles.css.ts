@@ -18,6 +18,10 @@ export const NavCategoryHeader = style({
     '[data-nav-collapsed] &': {
       display: 'none',
     },
+    // The compactRoomList setting; ThemeManager puts the class on <body>.
+    '.compact-room-list &': {
+      height: toRem(28),
+    },
   },
 });
 
@@ -63,6 +67,9 @@ const NavItemBase = style({
   minHeight: toRem(36),
 
   selectors: {
+    '.compact-room-list &': {
+      minHeight: toRem(32),
+    },
     '&:hover, &:focus-visible': {
       backgroundColor: ContainerHover,
     },
@@ -122,6 +129,9 @@ export const NavItemContent = style({
   fontWeight: config.fontWeight.W500,
 
   selectors: {
+    '.compact-room-list &': {
+      paddingRight: config.space.S200,
+    },
     '&:hover': {
       textDecoration: 'unset',
     },

@@ -32,6 +32,7 @@ export function AuthRouteThemeManager({ children }: { children: ReactNode }) {
   const activeTheme = useActiveTheme();
   const [monochromeMode] = useSetting(settingsAtom, 'monochromeMode');
   const [lowAnimationMode] = useSetting(settingsAtom, 'lowAnimationMode');
+  const [compactRoomList] = useSetting(settingsAtom, 'compactRoomList');
 
   useEffect(() => {
     document.body.className = '';
@@ -45,12 +46,16 @@ export function AuthRouteThemeManager({ children }: { children: ReactNode }) {
       document.body.classList.add('low-animation-mode');
     }
 
+    if (compactRoomList) {
+      document.body.classList.add('compact-room-list');
+    }
+
     if (monochromeMode) {
       document.body.style.filter = 'grayscale(1)';
     } else {
       document.body.style.filter = '';
     }
-  }, [activeTheme, monochromeMode, lowAnimationMode]);
+  }, [activeTheme, monochromeMode, lowAnimationMode, compactRoomList]);
 
   return <ThemeContextProvider value={activeTheme}>{children}</ThemeContextProvider>;
 }

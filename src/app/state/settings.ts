@@ -299,6 +299,8 @@ export interface Settings {
   // Emoji and sticker group headings become full-width buttons with the group's icon that
   // collapse and expand the group.
   collapsibleEmojiGroups: boolean;
+  // Denser room list: shorter rows and category headers (body class compact-room-list).
+  compactRoomList: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -433,6 +435,7 @@ const defaultSettings: Settings = {
   redMentionBadges: false,
   spaceUnreadPill: false,
   collapsibleEmojiGroups: false,
+  compactRoomList: false,
 };
 
 /** Settings that existed under a different shape in an older build. */
