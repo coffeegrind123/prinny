@@ -3,6 +3,7 @@ import {
   NotificationContentMode,
 } from '../utils/desktop-notifications';
 import { atom } from 'jotai';
+import type { GifProviderId } from '../utils/klipy';
 
 const STORAGE_KEY = 'settings';
 export type DateFormat =
@@ -284,6 +285,9 @@ export interface Settings {
   // OS-wide shortcut that shows or hides the desktop window, as a global-hotkey accelerator
   // ("Control+Alt+KeyP"). Empty is off. Desktop only.
   toggleWindowShortcut: string;
+  // Which service the GIF picker searches. Tenor and Giphy need an API key in config.json or the
+  // build; without one the picker stays on Klipy.
+  gifProvider: GifProviderId;
 }
 
 const defaultSettings: Settings = {
@@ -413,6 +417,7 @@ const defaultSettings: Settings = {
   presencePicker: false,
   showAllTimestamps: false,
   toggleWindowShortcut: '',
+  gifProvider: 'klipy',
 };
 
 /** Settings that existed under a different shape in an older build. */

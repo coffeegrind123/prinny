@@ -18,7 +18,10 @@ import {
   useIntersectionObserver,
 } from '../../hooks/useIntersectionObserver';
 import { useKlipyGifs } from '../../hooks/useKlipyGifs';
-import { getGifPreview, isGifVideo } from '../../utils/klipy';
+import { GIF_PROVIDERS, getGifPreview, isGifVideo, resolveGifSource } from '../../utils/klipy';
+import { useSetting } from '../../state/hooks/settings';
+import { settingsAtom } from '../../state/settings';
+import { useClientConfig } from '../../hooks/useClientConfig';
 import { mobileOrTablet } from '../../utils/user-agent';
 import * as css from './components/styles.css';
 import { preventScrollWithArrowKey } from '../../utils/keyboard';
@@ -268,7 +271,19 @@ const CATEGORIES: { id: Category; label: string }[] = [
 ];
 
 export function GifPicker({ onGifSelect, requestClose }: GifPickerProps) {
-  const { gifs, status, error, query, hasMore, loadMore, search, resetSearch } = useKlipyGifs();
+  const [gifProvider] = useSetting(settingsAtom, 'gifProvider');
+  const { gifApiKeys } = useClientConfig();
+  const source = useMemo(
+    () => resolveGifSource(gifProvider, gifApiKeys),
+    [gifProvider, gifApiKeys],
+  );
+  const { gifs, status, error, query, hasMore, loadMore, search, resetSearch } =
+    useKlipyGifs(source);
+  // Tenor and Giphy ask to be named where their search is offered.
+  const providerPlaceholder =
+    source.id === 'klipy'
+      ? 'Search GIFs'
+      : `Search ${GIF_PROVIDERS.find((p) => p.id === source.id)?.label ?? 'GIFs'}`;
   const favorites = useGifFavorites();
   const toggleFavorite = useToggleGifFavorite();
 
@@ -374,7 +389,7 @@ export function GifPicker({ onGifSelect, requestClose }: GifPickerProps) {
         <Input
           variant="SurfaceVariant"
           size="400"
-          placeholder={isFavouritesTab ? 'Search favourites' : 'Search GIFs'}
+          placeholder={isFavouritesTab ? 'Search favourites' : providerPlaceholder}
           maxLength={50}
           after={<Icon src={Icons.Search} size="50" />}
           onChange={handleSearchChange}

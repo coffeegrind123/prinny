@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { fetchTrendingGifs, KlipyGif, searchGifs } from '../utils/klipy';
+import { fetchTrendingGifs, GifSource, KlipyGif, searchGifs } from '../utils/klipy';
 
 export type GifFetchStatus = 'idle' | 'loading' | 'success' | 'error';
 
@@ -19,7 +19,7 @@ export type UseKlipyGifs = {
 
 // A hook that fetches trending GIFs by default and switches to search results
 // when a query is provided. Supports cursor-based pagination via loadMore().
-export const useKlipyGifs = (): UseKlipyGifs => {
+export const useKlipyGifs = (source: GifSource): UseKlipyGifs => {
   const [gifs, setGifs] = useState<KlipyGif[]>([]);
   const [status, setStatus] = useState<GifFetchStatus>('idle');
   const [error, setError] = useState<string | undefined>();
@@ -28,6 +28,10 @@ export const useKlipyGifs = (): UseKlipyGifs => {
   const queryRef = useRef<string>('');
   const nextCursorRef = useRef<string | undefined>(undefined);
   const abortRef = useRef<AbortController | undefined>(undefined);
+  // Read at request time. The provider is chosen in Settings, a separate
+  // dialog, so it does not change under an open picker.
+  const sourceRef = useRef(source);
+  sourceRef.current = source;
 
   const run = useCallback(async (query: string, pos: string | undefined, append: boolean) => {
     abortRef.current?.abort();
@@ -38,8 +42,8 @@ export const useKlipyGifs = (): UseKlipyGifs => {
 
     try {
       const page = query
-        ? await searchGifs(query, pos, controller.signal)
-        : await fetchTrendingGifs(pos, controller.signal);
+        ? await searchGifs(sourceRef.current, query, pos, controller.signal)
+        : await fetchTrendingGifs(sourceRef.current, pos, controller.signal);
       if (controller.signal.aborted) return;
 
       nextCursorRef.current = page.next;

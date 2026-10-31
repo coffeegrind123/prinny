@@ -1,4 +1,4 @@
-// Klipy GIF API client.
+// GIF search: Klipy by default, Tenor or Giphy when a key is configured.
 // Klipy is a free GIF API service: https://docs.klipy.com
 //
 // The key is a free-tier, client-side key — it identifies the app, not the
@@ -44,12 +44,47 @@ type KlipyResponse = {
   next?: string;
 };
 
-const doRequest = async (url: URL, signal?: AbortSignal): Promise<KlipyResponse> => {
+export type GifProviderId = 'klipy' | 'tenor' | 'giphy';
+
+/**
+ * Keys for the providers that ship without one. Tenor and Giphy each need a
+ * key of their own, from `gifApiKeys` in config.json or the VITE_TENOR_API_KEY /
+ * VITE_GIPHY_API_KEY build variables; without one the provider is unavailable.
+ */
+export type GifApiKeys = { tenor?: string; giphy?: string };
+
+export const GIF_PROVIDERS: { id: GifProviderId; label: string; host: string }[] = [
+  { id: 'klipy', label: 'Klipy', host: 'klipy.com' },
+  { id: 'tenor', label: 'Tenor', host: 'tenor.googleapis.com' },
+  { id: 'giphy', label: 'Giphy', host: 'giphy.com' },
+];
+
+export type GifSource = { id: GifProviderId; key: string };
+
+export const gifProviderKey = (id: GifProviderId, keys?: GifApiKeys): string | undefined => {
+  if (id === 'klipy') return KLIPY_API_KEY;
+  if (id === 'tenor') return keys?.tenor || import.meta.env.VITE_TENOR_API_KEY || undefined;
+  return keys?.giphy || import.meta.env.VITE_GIPHY_API_KEY || undefined;
+};
+
+/** The chosen provider, or Klipy when the chosen one has no key. */
+export const resolveGifSource = (id: GifProviderId, keys?: GifApiKeys): GifSource => {
+  const key = gifProviderKey(id, keys);
+  return key ? { id, key } : { id: 'klipy', key: KLIPY_API_KEY };
+};
+
+// Klipy's v2 API is Tenor's v2 API, so both share a request and a shape.
+const TENOR_STYLE_BASE: Record<'klipy' | 'tenor', string> = {
+  klipy: KLIPY_BASE_URL,
+  tenor: 'https://tenor.googleapis.com/v2',
+};
+
+const doRequest = async (url: URL, signal?: AbortSignal): Promise<unknown> => {
   const resp = await fetch(url, { signal });
   if (!resp.ok) {
-    throw new Error(`Klipy request failed: HTTP ${resp.status}`);
+    throw new Error(`GIF request failed: HTTP ${resp.status}`);
   }
-  return (await resp.json()) as KlipyResponse;
+  return resp.json();
 };
 
 export type KlipyPage = {
@@ -57,30 +92,84 @@ export type KlipyPage = {
   next: string | undefined;
 };
 
-export const fetchTrendingGifs = async (pos?: string, signal?: AbortSignal): Promise<KlipyPage> => {
-  const url = new URL(`${KLIPY_BASE_URL}/featured`);
-  url.searchParams.set('key', KLIPY_API_KEY);
-  url.searchParams.set('limit', '40');
-  url.searchParams.set('media_filter', MEDIA_FILTER);
-  if (pos) url.searchParams.set('pos', pos);
-  const data = await doRequest(url, signal);
-  return { gifs: data.results ?? [], next: data.next };
+const PAGE_SIZE = 40;
+
+type GiphyRendition = { mp4?: string; mp4_size?: string; width?: string; height?: string };
+type GiphyResponse = {
+  data?: {
+    id: string;
+    title?: string;
+    url?: string;
+    images?: { original?: GiphyRendition; fixed_width?: GiphyRendition };
+  }[];
+  pagination?: { total_count?: number; count?: number; offset?: number };
 };
 
-export const searchGifs = async (
+const giphyFormat = (r?: GiphyRendition): KlipyMediaFormat | undefined => {
+  if (!r?.mp4) return undefined;
+  const width = Number(r.width);
+  const height = Number(r.height);
+  const size = Number(r.mp4_size);
+  return {
+    url: r.mp4,
+    dims: width > 0 && height > 0 ? [width, height] : undefined,
+    size: size > 0 ? size : undefined,
+  };
+};
+
+/** Giphy in the Tenor shape the picker and favourites already store. */
+const fromGiphy = (data: GiphyResponse): KlipyPage => {
+  const gifs = (data.data ?? []).map((item): KlipyGif => ({
+    id: `giphy:${item.id}`,
+    title: item.title ?? '',
+    itemurl: item.url,
+    media_formats: {
+      mp4: giphyFormat(item.images?.original),
+      tinymp4: giphyFormat(item.images?.fixed_width),
+    },
+  }));
+  const { offset = 0, count = 0, total_count: total = 0 } = data.pagination ?? {};
+  const nextOffset = offset + count;
+  return { gifs, next: count > 0 && nextOffset < total ? String(nextOffset) : undefined };
+};
+
+const fetchPage = async (
+  source: GifSource,
+  query: string,
+  pos: string | undefined,
+  signal?: AbortSignal,
+): Promise<KlipyPage> => {
+  if (source.id === 'giphy') {
+    const url = new URL(`https://api.giphy.com/v1/gifs/${query ? 'search' : 'trending'}`);
+    url.searchParams.set('api_key', source.key);
+    if (query) url.searchParams.set('q', query);
+    url.searchParams.set('limit', String(PAGE_SIZE));
+    if (pos) url.searchParams.set('offset', pos);
+    return fromGiphy((await doRequest(url, signal)) as GiphyResponse);
+  }
+
+  const url = new URL(`${TENOR_STYLE_BASE[source.id]}/${query ? 'search' : 'featured'}`);
+  url.searchParams.set('key', source.key);
+  if (query) url.searchParams.set('q', query);
+  url.searchParams.set('limit', String(PAGE_SIZE));
+  url.searchParams.set('media_filter', MEDIA_FILTER);
+  if (pos) url.searchParams.set('pos', pos);
+  const data = (await doRequest(url, signal)) as KlipyResponse;
+  return { gifs: data.results ?? [], next: data.next || undefined };
+};
+
+export const fetchTrendingGifs = (
+  source: GifSource,
+  pos?: string,
+  signal?: AbortSignal,
+): Promise<KlipyPage> => fetchPage(source, '', pos, signal);
+
+export const searchGifs = (
+  source: GifSource,
   query: string,
   pos?: string,
   signal?: AbortSignal,
-): Promise<KlipyPage> => {
-  const url = new URL(`${KLIPY_BASE_URL}/search`);
-  url.searchParams.set('key', KLIPY_API_KEY);
-  url.searchParams.set('q', query);
-  url.searchParams.set('limit', '40');
-  url.searchParams.set('media_filter', MEDIA_FILTER);
-  if (pos) url.searchParams.set('pos', pos);
-  const data = await doRequest(url, signal);
-  return { gifs: data.results ?? [], next: data.next };
-};
+): Promise<KlipyPage> => fetchPage(source, query, pos, signal);
 
 // Old saved favourites can still contain GIF-only formats, so retain those as
 // fallbacks even though new API requests only load MP4s.

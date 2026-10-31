@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+import type { GifApiKeys } from '../utils/klipy';
 
 export type HashRouterConfig = {
   enabled?: boolean;
@@ -45,6 +46,11 @@ export type ClientConfig = {
   // Whoever serves this URL sees an IP and a viewport for every map drawn, so
   // maps stay off until the user turns them on even when this is set.
   mapStyleUrl?: string;
+
+  // API keys for the optional GIF providers (Settings → General → GIF
+  // Provider). Klipy ships with a key; Tenor and Giphy are offered only when
+  // a key is set here or at build time (VITE_TENOR_API_KEY / VITE_GIPHY_API_KEY).
+  gifApiKeys?: GifApiKeys;
 };
 
 const ClientConfigContext = createContext<ClientConfig | null>(null);

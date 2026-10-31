@@ -59,6 +59,13 @@ import {
 } from '../../../hooks/useTheme';
 import { stopPropagation } from '../../../utils/keyboard';
 import { PIPED_INSTANCES } from '../../../utils/piped';
+import {
+  GIF_PROVIDERS,
+  GifProviderId,
+  gifProviderKey,
+  resolveGifSource,
+} from '../../../utils/klipy';
+import { useClientConfig } from '../../../hooks/useClientConfig';
 import { useMessageLayoutItems } from '../../../hooks/useMessageLayout';
 import { useMessageSpacingItems } from '../../../hooks/useMessageSpacing';
 import { useDateFormatItems } from '../../../hooks/useDateFormat';
@@ -740,6 +747,81 @@ function SelectDefaultInboxTab() {
                     <Text size="T300">{item.label}</Text>
                   </MenuItem>
                 ))}
+              </Box>
+            </Menu>
+          </FocusTrap>
+        }
+      />
+    </>
+  );
+}
+
+function SelectGifProvider() {
+  const [gifProvider, setGifProvider] = useSetting(settingsAtom, 'gifProvider');
+  const { gifApiKeys } = useClientConfig();
+  const [menuCords, setMenuCords] = useState<RectCords>();
+
+  const handleMenu: MouseEventHandler<HTMLButtonElement> = (evt) => {
+    setMenuCords(evt.currentTarget.getBoundingClientRect());
+  };
+
+  const handleSelect = (id: GifProviderId) => {
+    setGifProvider(id);
+    setMenuCords(undefined);
+  };
+
+  // What the picker really uses: a provider without a key falls back to Klipy.
+  const active = resolveGifSource(gifProvider, gifApiKeys).id;
+  const current = GIF_PROVIDERS.find((item) => item.id === active) ?? GIF_PROVIDERS[0];
+
+  return (
+    <>
+      <Button
+        size="300"
+        variant="Secondary"
+        outlined
+        fill="Soft"
+        radii="300"
+        after={<Icon size="300" src={Icons.ChevronBottom} />}
+        onClick={handleMenu}
+      >
+        <Text size="T300">{current.label}</Text>
+      </Button>
+      <PopOut
+        anchor={menuCords}
+        offset={5}
+        position="Bottom"
+        align="End"
+        content={
+          <FocusTrap
+            focusTrapOptions={{
+              initialFocus: false,
+              onDeactivate: () => setMenuCords(undefined),
+              clickOutsideDeactivates: true,
+              isKeyForward: (evt: KeyboardEvent) =>
+                evt.key === 'ArrowDown' || evt.key === 'ArrowRight',
+              isKeyBackward: (evt: KeyboardEvent) =>
+                evt.key === 'ArrowUp' || evt.key === 'ArrowLeft',
+              escapeDeactivates: stopPropagation,
+            }}
+          >
+            <Menu>
+              <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
+                {GIF_PROVIDERS.map((item) => {
+                  const hasKey = !!gifProviderKey(item.id, gifApiKeys);
+                  return (
+                    <MenuItem
+                      key={item.id}
+                      size="300"
+                      variant={active === item.id ? 'Primary' : 'Surface'}
+                      radii="300"
+                      disabled={!hasKey}
+                      onClick={() => handleSelect(item.id)}
+                    >
+                      <Text size="T300">{hasKey ? item.label : `${item.label} (no API key)`}</Text>
+                    </MenuItem>
+                  );
+                })}
               </Box>
             </Menu>
           </FocusTrap>
@@ -1470,6 +1552,10 @@ function ForkFeatures() {
   const [presencePicker, setPresencePicker] = useSetting(settingsAtom, 'presencePicker');
   const [roomsPseudoSpace, setRoomsPseudoSpace] = useSetting(settingsAtom, 'roomsPseudoSpace');
   const [gifPicker, setGifPicker] = useSetting(settingsAtom, 'gifPicker');
+  const [gifProvider] = useSetting(settingsAtom, 'gifProvider');
+  const { gifApiKeys } = useClientConfig();
+  const gifProviderId = resolveGifSource(gifProvider, gifApiKeys).id;
+  const gifProviderHost = GIF_PROVIDERS.find((p) => p.id === gifProviderId)?.host ?? 'klipy.com';
   const [emojiMashup, setEmojiMashup] = useSetting(settingsAtom, 'emojiMashup');
   const [lowAnimationMode, setLowAnimationMode] = useSetting(settingsAtom, 'lowAnimationMode');
   const [showRichPresence, setShowRichPresence] = useSetting(settingsAtom, 'showRichPresence');
@@ -1581,9 +1667,16 @@ function ForkFeatures() {
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
           title="GIF Picker"
-          description="Add a GIF tab to the emoji board. Searches are sent to klipy.com, which sees your IP and your query."
+          description={`Add a GIF tab to the emoji board. Searches are sent to ${gifProviderHost}, which sees your IP and your query.`}
           after={<Switch variant="Primary" value={gifPicker} onChange={setGifPicker} />}
         />
+        {gifPicker && (
+          <SettingTile
+            title="GIF Provider"
+            description="Tenor and Giphy are offered when this deployment has an API key for them."
+            after={<SelectGifProvider />}
+          />
+        )}
       </SequenceCard>
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
