@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 
 export type Pan = {
   translateX: number;
@@ -20,7 +20,17 @@ export const usePan = (active: boolean) => {
     setCursor(active ? 'grab' : 'initial');
   }, [active]);
 
+  // Detaches the drag in progress, if any.
+  const stopDragRef = useRef<(() => void) | undefined>(undefined);
+
   const handleMouseMove = (evt: MouseEvent) => {
+    // Primary button no longer held: the mouseup was lost (released over an
+    // iframe or outside the window), and the image would otherwise keep
+    // following the pointer with no button down.
+    if (evt.buttons % 2 === 0) {
+      stopDragRef.current?.();
+      return;
+    }
     evt.preventDefault();
     evt.stopPropagation();
 
@@ -35,10 +45,7 @@ export const usePan = (active: boolean) => {
 
   const handleMouseUp = (evt: MouseEvent) => {
     evt.preventDefault();
-    setCursor('grab');
-
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
+    stopDragRef.current?.();
   };
 
   const handleMouseDown: MouseEventHandler<HTMLElement> = (evt) => {
@@ -48,11 +55,21 @@ export const usePan = (active: boolean) => {
     // before it could open a context menu.
     if (evt.button !== 0) return;
     evt.preventDefault();
+    stopDragRef.current?.();
     setCursor('grabbing');
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
+    stopDragRef.current = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      stopDragRef.current = undefined;
+      setCursor('grab');
+    };
   };
+
+  // A viewer closed mid-drag must not leave document listeners behind.
+  useEffect(() => () => stopDragRef.current?.(), []);
 
   useEffect(() => {
     if (!active) setPan(INITIAL_PAN);
