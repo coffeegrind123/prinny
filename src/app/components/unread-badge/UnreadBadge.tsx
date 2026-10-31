@@ -1,6 +1,8 @@
 import { CSSProperties, ReactNode } from 'react';
 import { Box, Badge, toRem, Text } from 'folds';
 import { millify } from '../../plugins/millify';
+import { useSetting } from '../../state/hooks/settings';
+import { settingsAtom } from '../../state/settings';
 
 type UnreadBadgeProps = {
   highlight?: boolean;
@@ -18,9 +20,12 @@ export function UnreadBadgeCenter({ children }: { children: ReactNode }) {
 }
 
 export function UnreadBadge({ highlight, count }: UnreadBadgeProps) {
+  const [redMentionBadges] = useSetting(settingsAtom, 'redMentionBadges');
+  const highlightVariant = redMentionBadges ? 'Critical' : 'Success';
+
   return (
     <Badge
-      variant={highlight ? 'Success' : 'Secondary'}
+      variant={highlight ? highlightVariant : 'Secondary'}
       size={count > 0 ? '400' : '200'}
       fill="Solid"
       radii="Pill"

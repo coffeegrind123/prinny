@@ -291,6 +291,8 @@ export interface Settings {
   // Message, invite and incoming-call sounds, by pack folder in public/sound-packs. 'default' is
   // the app's own sounds; a pack that no longer exists falls back to them.
   soundPack: string;
+  // Mention and highlight badges in red (Critical) instead of green.
+  redMentionBadges: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -422,6 +424,7 @@ const defaultSettings: Settings = {
   toggleWindowShortcut: '',
   gifProvider: 'klipy',
   soundPack: 'default',
+  redMentionBadges: false,
 };
 
 /** Settings that existed under a different shape in an older build. */
