@@ -7,6 +7,7 @@ import { ScreenSize, useScreenSizeContext } from '../../hooks/useScreenSize';
 import { ResizeHandle } from '../resize-handle';
 import { useResizablePane } from '../../hooks/useResizablePane';
 import { NavCollapsedProvider } from '../nav/NavCollapsed';
+import { CallVoicePanelRenderer } from '../../pages/CallStatusRenderer';
 
 type PageRootProps = {
   nav: ReactNode;
@@ -103,6 +104,9 @@ export function PageNav({
       <NavCollapsedProvider collapsed={collapsed}>
         <Box grow="Yes" direction="Column">
           {children}
+          {/* Room lists only: the settings dialogs' navs are sized, and the
+              collapsed rail has no width for the panel. */}
+          {!size && !collapsed && <CallVoicePanelRenderer />}
         </Box>
       </NavCollapsedProvider>
     </Box>

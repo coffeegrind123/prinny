@@ -6,12 +6,18 @@ import { CallEmbed, useCallControlState } from '../../plugins/call';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { callEmbedAtom } from '../../state/callEmbed';
 
+// The voice panel marks a muted mic or deafened sound as critical, the bar as a warning.
+const offVariant = (panel?: boolean) => (panel ? 'Critical' : 'Warning');
+const panelStyle = (panel?: boolean) => (panel ? { width: '100%' } : undefined);
+
 type MicrophoneButtonProps = {
   enabled: boolean;
   onToggle: () => Promise<unknown>;
   disabled?: boolean;
+  /** Equal-width button for the voice panel row. */
+  panel?: boolean;
 };
-function MicrophoneButton({ enabled, onToggle, disabled }: MicrophoneButtonProps) {
+function MicrophoneButton({ enabled, onToggle, disabled, panel }: MicrophoneButtonProps) {
   const [micState, toggleMic] = useAsyncCallback(onToggle);
   const loading = micState.status === AsyncStatus.Loading;
 
@@ -27,10 +33,11 @@ function MicrophoneButton({ enabled, onToggle, disabled }: MicrophoneButtonProps
       {(anchorRef) => (
         <IconButton
           ref={anchorRef}
-          variant={enabled ? 'Surface' : 'Warning'}
+          variant={enabled ? 'Surface' : offVariant(panel)}
           fill="Soft"
           radii="300"
           size="300"
+          style={panelStyle(panel)}
           onClick={toggleMic}
           outlined
           disabled={disabled || loading}
@@ -46,8 +53,10 @@ type SoundButtonProps = {
   enabled: boolean;
   onToggle: () => void;
   disabled?: boolean;
+  /** Equal-width button for the voice panel row. */
+  panel?: boolean;
 };
-function SoundButton({ enabled, onToggle, disabled }: SoundButtonProps) {
+function SoundButton({ enabled, onToggle, disabled, panel }: SoundButtonProps) {
   return (
     <TooltipProvider
       position="Top"
@@ -60,10 +69,11 @@ function SoundButton({ enabled, onToggle, disabled }: SoundButtonProps) {
       {(anchorRef) => (
         <IconButton
           ref={anchorRef}
-          variant={enabled ? 'Surface' : 'Warning'}
+          variant={enabled ? 'Surface' : offVariant(panel)}
           fill="Soft"
           radii="300"
           size="300"
+          style={panelStyle(panel)}
           onClick={() => onToggle()}
           outlined
           disabled={disabled}
@@ -83,8 +93,10 @@ type VideoButtonProps = {
   enabled: boolean;
   onToggle: () => Promise<unknown>;
   disabled?: boolean;
+  /** Equal-width button for the voice panel row. */
+  panel?: boolean;
 };
-function VideoButton({ enabled, onToggle, disabled }: VideoButtonProps) {
+function VideoButton({ enabled, onToggle, disabled, panel }: VideoButtonProps) {
   const [videoState, toggleVideo] = useAsyncCallback(onToggle);
   const loading = videoState.status === AsyncStatus.Loading;
 
@@ -104,6 +116,7 @@ function VideoButton({ enabled, onToggle, disabled }: VideoButtonProps) {
           fill="Soft"
           radii="300"
           size="300"
+          style={panelStyle(panel)}
           onClick={toggleVideo}
           outlined
           disabled={disabled || loading}
@@ -123,8 +136,10 @@ type ScreenShareButtonProps = {
   enabled: boolean;
   onToggle: () => void;
   disabled?: boolean;
+  /** Equal-width button for the voice panel row. */
+  panel?: boolean;
 };
-function ScreenShareButton({ enabled, onToggle, disabled }: ScreenShareButtonProps) {
+function ScreenShareButton({ enabled, onToggle, disabled, panel }: ScreenShareButtonProps) {
   return (
     <TooltipProvider
       position="Top"
@@ -141,6 +156,7 @@ function ScreenShareButton({ enabled, onToggle, disabled }: ScreenShareButtonPro
           fill="Soft"
           radii="300"
           size="300"
+          style={panelStyle(panel)}
           onClick={onToggle}
           outlined
           disabled={disabled}
@@ -152,24 +168,9 @@ function ScreenShareButton({ enabled, onToggle, disabled }: ScreenShareButtonPro
   );
 }
 
-export function CallControl({
-  callEmbed,
-  compact,
-  callJoined,
-}: {
-  callEmbed: CallEmbed;
-  compact: boolean;
-  callJoined: boolean;
-}) {
-  const { microphone, video, sound, screenshare } = useCallControlState(callEmbed.control);
+/** Before the call is joined there is nothing to hang up: just drop the embed. */
+function useCallHangup(callEmbed: CallEmbed, callJoined: boolean): [boolean, () => void] {
   const setCallEmbed = useSetAtom(callEmbedAtom);
-
-  const handleMicrophoneToggle = useCallback(
-    () => callEmbed.control.toggleMicrophone(),
-    [callEmbed],
-  );
-  const handleVideoToggle = useCallback(() => callEmbed.control.toggleVideo(), [callEmbed]);
-
   const [hangupState, hangup] = useAsyncCallback(
     useCallback(() => callEmbed.hangup(), [callEmbed]),
   );
@@ -183,6 +184,28 @@ export function CallControl({
     }
     hangup();
   };
+
+  return [exiting, handleHangup];
+}
+
+export function CallControl({
+  callEmbed,
+  compact,
+  callJoined,
+}: {
+  callEmbed: CallEmbed;
+  compact: boolean;
+  callJoined: boolean;
+}) {
+  const { microphone, video, sound, screenshare } = useCallControlState(callEmbed.control);
+
+  const handleMicrophoneToggle = useCallback(
+    () => callEmbed.control.toggleMicrophone(),
+    [callEmbed],
+  );
+  const handleVideoToggle = useCallback(() => callEmbed.control.toggleVideo(), [callEmbed]);
+
+  const [exiting, handleHangup] = useCallHangup(callEmbed, callJoined);
 
   return (
     <Box shrink="No" alignItems="Center" gap="300">
@@ -229,6 +252,95 @@ export function CallControl({
           </Text>
         )}
       </Chip>
+    </Box>
+  );
+}
+
+export function CallHangupButton({
+  callEmbed,
+  callJoined,
+}: {
+  callEmbed: CallEmbed;
+  callJoined: boolean;
+}) {
+  const [exiting, handleHangup] = useCallHangup(callEmbed, callJoined);
+
+  return (
+    <TooltipProvider
+      position="Top"
+      tooltip={
+        <Tooltip>
+          <Text size="T200">Disconnect</Text>
+        </Tooltip>
+      }
+    >
+      {(anchorRef) => (
+        <IconButton
+          ref={anchorRef}
+          variant="Critical"
+          fill="None"
+          radii="300"
+          size="300"
+          onClick={handleHangup}
+          disabled={exiting}
+          aria-label="Disconnect"
+        >
+          {exiting ? (
+            <Spinner variant="Critical" fill="Soft" size="50" />
+          ) : (
+            <Icon size="100" src={Icons.PhoneDown} filled />
+          )}
+        </IconButton>
+      )}
+    </TooltipProvider>
+  );
+}
+
+/** Row of equal-width call buttons for the voice panel. */
+export function CallPanelControls({
+  callEmbed,
+  callJoined,
+}: {
+  callEmbed: CallEmbed;
+  callJoined: boolean;
+}) {
+  const { microphone, video, sound, screenshare } = useCallControlState(callEmbed.control);
+
+  const handleMicrophoneToggle = useCallback(
+    () => callEmbed.control.toggleMicrophone(),
+    [callEmbed],
+  );
+  const handleVideoToggle = useCallback(() => callEmbed.control.toggleVideo(), [callEmbed]);
+
+  return (
+    <Box grow="Yes" gap="100">
+      <Box grow="Yes">
+        <MicrophoneButton
+          enabled={microphone}
+          onToggle={handleMicrophoneToggle}
+          disabled={!callJoined}
+          panel
+        />
+      </Box>
+      <Box grow="Yes">
+        <SoundButton
+          enabled={sound}
+          onToggle={() => callEmbed.control.toggleSound()}
+          disabled={!callJoined}
+          panel
+        />
+      </Box>
+      <Box grow="Yes">
+        <VideoButton enabled={video} onToggle={handleVideoToggle} disabled={!callJoined} panel />
+      </Box>
+      <Box grow="Yes">
+        <ScreenShareButton
+          enabled={screenshare}
+          onToggle={() => callEmbed.control.toggleScreenshare()}
+          disabled={!callJoined}
+          panel
+        />
+      </Box>
     </Box>
   );
 }

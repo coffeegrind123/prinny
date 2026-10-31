@@ -14,8 +14,10 @@ import { useRoomNavigate } from '../../hooks/useRoomNavigate';
 
 type CallRoomNameProps = {
   room: Room;
+  /** Plain text link for the voice panel instead of a chip. */
+  plain?: boolean;
 };
-export function CallRoomName({ room }: CallRoomNameProps) {
+export function CallRoomName({ room, plain }: CallRoomNameProps) {
   const mx = useMatrixClient();
   const name = useRoomName(room);
   const roomToParents = useAtomValue(roomToParentsAtom);
@@ -32,6 +34,39 @@ export function CallRoomName({ room }: CallRoomNameProps) {
 
   const { navigateRoom } = useRoomNavigate();
 
+  const label = (
+    <>
+      {name}
+      {!dm && perfectOrphanParent && (
+        <Text as="span" size="T200" priority="300">
+          {' •'} <b>{getRoom(perfectOrphanParent)?.name ?? perfectOrphanParent}</b>
+        </Text>
+      )}
+    </>
+  );
+
+  if (plain) {
+    return (
+      <Text
+        as="button"
+        type="button"
+        size="T200"
+        priority="300"
+        truncate
+        style={{
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          textAlign: 'left',
+          cursor: 'pointer',
+        }}
+        onClick={() => navigateRoom(room.roomId)}
+      >
+        {label}
+      </Text>
+    );
+  }
+
   return (
     <Chip
       variant="Background"
@@ -46,12 +81,7 @@ export function CallRoomName({ room }: CallRoomNameProps) {
       onClick={() => navigateRoom(room.roomId)}
     >
       <Text size="L400" truncate>
-        {name}
-        {!dm && perfectOrphanParent && (
-          <Text as="span" size="T200" priority="300">
-            {' •'} <b>{getRoom(perfectOrphanParent)?.name ?? perfectOrphanParent}</b>
-          </Text>
-        )}
+        {label}
       </Text>
     </Chip>
   );

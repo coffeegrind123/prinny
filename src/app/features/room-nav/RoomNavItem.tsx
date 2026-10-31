@@ -9,6 +9,7 @@ import {
   Text,
   Menu,
   MenuItem,
+  color,
   config,
   PopOut,
   toRem,
@@ -516,6 +517,8 @@ export function RoomNavItem({
   const optionsVisible = !collapsed && (hover || !!menuAnchor);
   const callSession = useCallSession(room);
   const callMembers = useCallMembers(callSession);
+  const [callVoicePanel] = useSetting(settingsAtom, 'callVoicePanel');
+  const occupiedCallRoom = callVoicePanel && room.isCallRoom() && callMembers.length > 0;
   const startCall = useCallStart(direct);
   const callEmbed = useCallEmbed();
   const callPref = useAtomValue(useCallPreferencesAtom());
@@ -567,10 +570,12 @@ export function RoomNavItem({
         />
       ) : (
         <RoomIcon
-          style={{
-            opacity: unread ? config.opacity.P500 : config.opacity.P300,
-          }}
-          filled={selected}
+          style={
+            occupiedCallRoom
+              ? { color: color.Success.Main }
+              : { opacity: unread ? config.opacity.P500 : config.opacity.P300 }
+          }
+          filled={selected || occupiedCallRoom}
           size="100"
           joinRule={room.getJoinRule()}
           roomType={room.getType()}
@@ -670,7 +675,13 @@ export function RoomNavItem({
               {avatarJSX}
             </AvatarPresence>
             <Box as="span" grow="Yes" direction="Column">
-              <Text priority={unread ? '500' : '300'} as="span" size="Inherit" truncate>
+              <Text
+                priority={unread ? '500' : '300'}
+                as="span"
+                size="Inherit"
+                style={occupiedCallRoom ? { color: color.Success.Main } : undefined}
+                truncate
+              >
                 {roomName}
               </Text>
               {dmStatusJSX}

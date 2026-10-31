@@ -198,3 +198,28 @@ export const useCallEmbedPlacementSync = (
     useCallback(() => containerViewRef.current, [containerViewRef]),
   );
 };
+
+/** Human-readable step the call is on while it connects, for the voice panel. */
+export const useCallConnectionStatus = (embed: CallEmbed): string => {
+  const [status, setStatus] = useState('Loading call…');
+
+  useEffect(() => {
+    setStatus('Loading call…');
+    const disposers = [
+      embed.onPreparing(() => setStatus('Preparing the call…')),
+      embed.onReady(() => setStatus('Call ready, requesting permissions…')),
+      embed.onCapabilitiesNotified(() => setStatus('Joining the call…')),
+      embed.onPreparingError((error: unknown) =>
+        setStatus(`Failed to prepare: ${error instanceof Error ? error.message : String(error)}`),
+      ),
+    ];
+    const onLoad = () => setStatus((prev) => (prev === 'Loading call…' ? 'Starting call…' : prev));
+    embed.iframe.addEventListener('load', onLoad);
+    return () => {
+      disposers.forEach((dispose) => dispose());
+      embed.iframe.removeEventListener('load', onLoad);
+    };
+  }, [embed]);
+
+  return status;
+};

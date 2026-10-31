@@ -1473,6 +1473,7 @@ function ForkFeatures() {
   const [autoEmbedHosts, setAutoEmbedHosts] = useSetting(settingsAtom, 'mediaAutoEmbedHosts');
   const [callNavActivity, setCallNavActivity] = useSetting(settingsAtom, 'callNavActivity');
   const [dmCallSplit, setDmCallSplit] = useSetting(settingsAtom, 'dmCallSplit');
+  const [callVoicePanel, setCallVoicePanel] = useSetting(settingsAtom, 'callVoicePanel');
 
   const handleAutoEmbedHostsChange: ChangeEventHandler<HTMLInputElement> = (evt) => {
     // Normalising here rather than at match time means a pasted URL or a stray
@@ -1629,6 +1630,11 @@ function ForkFeatures() {
           title="Keep Chat Open in DM Calls"
           description="In a direct message, show the call above the conversation with a draggable divider instead of replacing it."
           after={<Switch variant="Primary" value={dmCallSplit} onChange={setDmCallSplit} />}
+        />
+        <SettingTile
+          title="Voice Panel in Room List"
+          description="Show the current call at the bottom of the room list, with its controls, instead of in a bar under the window. Call rooms with people in them turn green."
+          after={<Switch variant="Primary" value={callVoicePanel} onChange={setCallVoicePanel} />}
         />
       </SequenceCard>
     </Box>

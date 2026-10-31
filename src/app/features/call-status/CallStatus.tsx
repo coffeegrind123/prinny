@@ -1,16 +1,16 @@
-import { Box, Spinner } from 'folds';
+import { Box, color, Icon, Icons, Spinner, Text } from 'folds';
 import classNames from 'classnames';
 import { LiveChip } from './LiveChip';
 import * as css from './styles.css';
 import { CallRoomName } from './CallRoomName';
-import { CallControl } from './CallControl';
+import { CallControl, CallHangupButton, CallPanelControls } from './CallControl';
 import { ContainerColor } from '../../styles/ContainerColor.css';
 import { useCallMembers, useCallSession } from '../../hooks/useCall';
 import { ScreenSize, useScreenSize } from '../../hooks/useScreenSize';
 import { MemberGlance } from './MemberGlance';
 import { StatusDivider } from './components';
 import { CallEmbed } from '../../plugins/call/CallEmbed';
-import { useCallJoined } from '../../hooks/useCallEmbed';
+import { useCallConnectionStatus, useCallJoined } from '../../hooks/useCallEmbed';
 import { useCallSpeakers } from '../../hooks/useCallSpeakers';
 import { MemberSpeaking } from './MemberSpeaking';
 
@@ -75,6 +75,40 @@ export function CallStatus({ callEmbed }: CallStatusProps) {
         )}
         <CallControl callJoined={callJoined} compact={compact} callEmbed={callEmbed} />
       </Box>
+    </Box>
+  );
+}
+
+/** "Voice Connected" panel for the bottom of the room list. */
+export function CallVoicePanel({ callEmbed }: CallStatusProps) {
+  const { room } = callEmbed;
+  const callJoined = useCallJoined(callEmbed);
+  const connectionStatus = useCallConnectionStatus(callEmbed);
+
+  return (
+    <Box
+      className={classNames(css.CallStatus, ContainerColor({ variant: 'Background' }))}
+      shrink="No"
+      direction="Column"
+      gap="200"
+    >
+      <Box alignItems="Center" gap="200">
+        {callJoined ? (
+          <Icon size="200" src={Icons.VolumeHigh} filled style={{ color: color.Success.Main }} />
+        ) : (
+          <Spinner variant="Secondary" size="200" />
+        )}
+        <Box grow="Yes" direction="Column" style={{ minWidth: 0 }}>
+          <Text size="T300" style={{ color: color.Success.Main }} truncate>
+            {callJoined ? 'Voice Connected' : connectionStatus}
+          </Text>
+          <CallRoomName room={room} plain />
+        </Box>
+        <Box shrink="No">
+          <CallHangupButton callEmbed={callEmbed} callJoined={callJoined} />
+        </Box>
+      </Box>
+      <CallPanelControls callJoined={callJoined} callEmbed={callEmbed} />
     </Box>
   );
 }

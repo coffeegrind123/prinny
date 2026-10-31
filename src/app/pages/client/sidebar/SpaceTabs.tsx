@@ -450,6 +450,7 @@ function SpaceTab({
   const dropType = dropState?.type;
 
   const hasCall = useSpaceHasCall(space);
+  const [callVoicePanel] = useSetting(settingsAtom, 'callVoicePanel');
   const currentCallInSpace =
     !!activeCallRoomId && getSpaceChildren(space).includes(activeCallRoomId);
 
@@ -518,12 +519,12 @@ function SpaceTab({
             >
               <Badge
                 aria-label={currentCallInSpace ? 'Current call' : 'Call in progress'}
-                variant={currentCallInSpace ? 'Success' : 'Secondary'}
+                variant={currentCallInSpace || callVoicePanel ? 'Success' : 'Secondary'}
                 fill="Solid"
                 radii="Pill"
-                size={folder ? '200' : '300'}
+                size={callVoicePanel ? (folder ? '300' : '400') : folder ? '200' : '300'}
               >
-                <Icon size="50" src={Icons.VolumeHigh} />
+                <Icon size="50" src={Icons.VolumeHigh} filled={callVoicePanel} />
               </Badge>
             </div>
           )}

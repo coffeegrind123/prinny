@@ -263,6 +263,9 @@ export interface Settings {
   // In a DM with a call, show the call above the chat with a draggable divider instead of
   // replacing the chat. Call rooms and group rooms keep the full call view.
   dmCallSplit: boolean;
+  // Show the current call as a "Voice Connected" panel at the bottom of the room list instead of
+  // the bar under the layout, with occupied call rooms and the space call badge in green.
+  callVoicePanel: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -385,6 +388,7 @@ const defaultSettings: Settings = {
   dimSendingBodyOnly: false,
   callNavActivity: false,
   dmCallSplit: false,
+  callVoicePanel: false,
 };
 
 /** Settings that existed under a different shape in an older build. */
