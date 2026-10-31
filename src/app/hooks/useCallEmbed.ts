@@ -1,12 +1,21 @@
-import { createContext, RefObject, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  RefObject,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { MatrixClient, Room } from 'matrix-js-sdk';
-import { useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   CallEmbed,
   ElementCallThemeKind,
   ElementWidgetActions,
   useClientWidgetApiEvent,
 } from '../plugins/call';
+import { CallControlEvent } from '../plugins/call/CallControl';
 import { useMatrixClient } from './useMatrixClient';
 import { ThemeKind, useTheme } from './useTheme';
 import { callEmbedAtom } from '../state/callEmbed';
@@ -14,6 +23,7 @@ import { useResizeObserver } from './useResizeObserver';
 import { CallControlState } from '../plugins/call/CallControlState';
 import { useCallMembersChange, useCallSession } from './useCall';
 import { CallPreferences } from '../state/callPreferences';
+import { useCallPreferencesAtom } from '../state/hooks/callPreferences';
 
 const CallEmbedContext = createContext<CallEmbed | undefined>(undefined);
 
@@ -107,6 +117,37 @@ export const useCallMemberSoundSync = (embed: CallEmbed) => {
   useCallMembersChange(
     callSession,
     useCallback(() => embed.control.applySound(), [embed]),
+  );
+};
+
+/**
+ * Remember mic/sound toggles the user makes in a call, so the next call starts the same way.
+ * Only user toggles count: state reported by the call widget itself (joins, reconnects) must
+ * never overwrite the saved preference.
+ */
+export const useCallPreferenceSync = (embed: CallEmbed) => {
+  const prefAtom = useCallPreferencesAtom();
+  const [pref, setPref] = useAtom(prefAtom);
+  const prefRef = useRef(pref);
+  prefRef.current = pref;
+
+  useEffect(() => {
+    const onToggle = (change: Partial<Pick<CallPreferences, 'microphone' | 'sound'>>) => {
+      setPref({ ...prefRef.current, ...change });
+    };
+    embed.control.on(CallControlEvent.UserToggle, onToggle);
+    return () => {
+      embed.control.off(CallControlEvent.UserToggle, onToggle);
+    };
+  }, [embed, setPref]);
+};
+
+/** Preferences for starting a call: remembered mic/sound state, with the given video choice. */
+export const useCallStartPreferences = (): ((video: boolean) => CallPreferences) => {
+  const pref = useAtomValue(useCallPreferencesAtom());
+  return useCallback(
+    (video: boolean) => ({ microphone: pref.microphone, video, sound: pref.sound }),
+    [pref],
   );
 };
 

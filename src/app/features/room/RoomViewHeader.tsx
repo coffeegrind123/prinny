@@ -81,7 +81,7 @@ import { useRoomPermissions } from '../../hooks/useRoomPermissions';
 import { InviteUserPrompt } from '../../components/invite-user-prompt';
 import { ContainerColor } from '../../styles/ContainerColor.css';
 import { RoomSettingsPage } from '../../state/roomSettings';
-import { useCallEmbed, useCallStart } from '../../hooks/useCallEmbed';
+import { useCallEmbed, useCallStart, useCallStartPreferences } from '../../hooks/useCallEmbed';
 import { useLivekitSupport } from '../../hooks/useLivekitSupport';
 import { webRTCSupported } from '../../utils/rtc';
 import { UnencryptedBadge, useUnencryptedWarning } from '../../components/unencrypted-indicator';
@@ -402,6 +402,7 @@ function CallButton({
 
   const callEmbed = useCallEmbed();
   const startCall = useCallStart(direct);
+  const startPreferences = useCallStartPreferences();
   const callStarted = callEmbed && callEmbed.roomId === room.roomId;
   const inAnotherCall = callEmbed && !callStarted;
 
@@ -419,11 +420,11 @@ function CallButton({
 
   const startVoice = () => {
     if (disabled) return;
-    startCall(room, { microphone: true, video: false, sound: true });
+    startCall(room, startPreferences(false));
   };
   const startVideo = () => {
     if (disabled) return;
-    startCall(room, { microphone: true, video: true, sound: true });
+    startCall(room, startPreferences(true));
   };
 
   return (

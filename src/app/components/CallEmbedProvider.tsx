@@ -32,6 +32,8 @@ import {
   useCallJoined,
   useCallThemeSync,
   useCallMemberSoundSync,
+  useCallPreferenceSync,
+  useCallStartPreferences,
   useCallStart,
 } from '../hooks/useCallEmbed';
 import { callChatAtom, callEmbedAtom } from '../state/callEmbed';
@@ -234,6 +236,7 @@ function IncomingCallListener({ callEmbed, joined }: IncomingCallListenerProps) 
   const [callInfo, setCallInfo] = useState<IncomingCallInfo>();
   const dm = callInfo ? directs.has(callInfo.room.roomId) : false;
   const startCall = useCallStart(dm);
+  const startPreferences = useCallStartPreferences();
 
   const handleTimelineEvent: EventTimelineSetHandlerMap[RoomEvent.Timeline] = useCallback(
     async (event, room, toStartOfTimeline, removed, data) => {
@@ -333,11 +336,11 @@ function IncomingCallListener({ callEmbed, joined }: IncomingCallListenerProps) 
 
   const handleAnswer = useCallback(
     (room: Room, video: boolean) => {
-      startCall(room, { microphone: true, video, sound: true });
+      startCall(room, startPreferences(video));
       setCallInfo(undefined);
       navigateRoom(room.roomId);
     },
-    [startCall, navigateRoom],
+    [startCall, startPreferences, navigateRoom],
   );
 
   if (callInfo && callEmbed?.roomId === callInfo.room.roomId) {
@@ -358,6 +361,7 @@ function CallUtils({ embed }: { embed: CallEmbed }) {
   const setCallEmbed = useSetAtom(callEmbedAtom);
 
   useCallMemberSoundSync(embed);
+  useCallPreferenceSync(embed);
   useCallThemeSync(embed);
   useCallHangupEvent(
     embed,
