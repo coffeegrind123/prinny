@@ -225,6 +225,24 @@ function ProfileAvatar({ profile, userId }: ProfileProps) {
   );
 }
 
+/**
+ * A failed profile write used to reject into nothing: Save stopped spinning and
+ * the field silently kept the unsaved value. Shown under the field instead, with
+ * the error logged, and the field left as it was so Save can simply be retried.
+ */
+function ProfileSaveError({ message }: { message?: string }) {
+  if (!message) return null;
+  return (
+    <Text role="alert" size="T200" style={{ color: color.Critical.Main }}>
+      {message}
+    </Text>
+  );
+}
+
+const logSaveError = (field: string, err: unknown) => {
+  console.error(`[profile] failed to save ${field}`, err);
+};
+
 type ProfileBannerProps = {
   bannerMxc?: string;
   onBannerChange: (bannerMxc: string | undefined) => void;
@@ -244,7 +262,15 @@ function ProfileBanner({ bannerMxc, onBannerChange }: ProfileBannerProps) {
     () => (croppedFile ? createUploadAtom(croppedFile) : undefined),
     [croppedFile],
   );
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string>();
+  // Uploaded to the media repo but not yet on the profile, because that write
+  // failed. Kept so a retry does not have to upload the image again.
+  const [unsavedMxc, setUnsavedMxc] = useState<string>();
+
   const handlePickedFile = useCallback(async (file: File) => {
+    setSaveError(undefined);
+    setUnsavedMxc(undefined);
     // The cropper re-encodes to a single still frame, so an animated banner is
     // uploaded untouched and is expected to already be cropped to 3:1.
     if (await blobIsAnimated(file).catch(() => undefined)) {
@@ -255,19 +281,62 @@ function ProfileBanner({ bannerMxc, onBannerChange }: ProfileBannerProps) {
   }, []);
   const pickFile = useFilePicker(handlePickedFile, false);
 
-  const handleUploaded = useCallback(
-    async (upload: UploadSuccess) => {
-      await mx.setExtendedProfileProperty(MSC4427_BANNER, upload.mxc);
-      onBannerChange(upload.mxc);
-      setImageFile(undefined);
-      setCroppedFile(undefined);
+  const saveBanner = useCallback(
+    async (mxc: string | undefined): Promise<boolean> => {
+      setSaving(true);
+      setSaveError(undefined);
+      try {
+        if (mxc) {
+          await mx.setExtendedProfileProperty(MSC4427_BANNER, mxc);
+        } else {
+          await mx.deleteExtendedProfileProperty(MSC4427_BANNER);
+        }
+      } catch (err) {
+        logSaveError('banner', err);
+        setSaveError(
+          mxc
+            ? 'Could not save your banner. Try again.'
+            : 'Could not remove your banner. Try again.',
+        );
+        return false;
+      } finally {
+        setSaving(false);
+      }
+      onBannerChange(mxc);
+      return true;
     },
     [mx, onBannerChange],
   );
 
-  const handleRemove = async () => {
-    await mx.deleteExtendedProfileProperty(MSC4427_BANNER);
-    onBannerChange(undefined);
+  const clearStaged = useCallback(() => {
+    setImageFile(undefined);
+    setCroppedFile(undefined);
+    setUnsavedMxc(undefined);
+  }, []);
+
+  const handleSaved = useCallback(
+    async (mxc: string) => {
+      if (await saveBanner(mxc)) {
+        clearStaged();
+        return;
+      }
+      setUnsavedMxc(mxc);
+    },
+    [saveBanner, clearStaged],
+  );
+
+  const handleUploaded = useCallback(
+    (upload: UploadSuccess) => handleSaved(upload.mxc),
+    [handleSaved],
+  );
+
+  const handleDiscard = () => {
+    clearStaged();
+    setSaveError(undefined);
+  };
+
+  const handleRemove = () => {
+    saveBanner(undefined);
   };
 
   return (
@@ -300,7 +369,31 @@ function ProfileBanner({ bannerMxc, onBannerChange }: ProfileBannerProps) {
             </Box>
           )}
         </Box>
-        {uploadAtom ? (
+        {unsavedMxc ? (
+          <Box gap="200">
+            <Button
+              size="300"
+              variant="Success"
+              fill="Solid"
+              radii="300"
+              disabled={saving}
+              onClick={() => handleSaved(unsavedMxc)}
+            >
+              {saving && <Spinner variant="Success" fill="Solid" size="100" />}
+              <Text size="B300">Save</Text>
+            </Button>
+            <Button
+              size="300"
+              variant="Secondary"
+              fill="None"
+              radii="300"
+              disabled={saving}
+              onClick={handleDiscard}
+            >
+              <Text size="B300">Discard</Text>
+            </Button>
+          </Box>
+        ) : uploadAtom ? (
           <CompactUploadCardRenderer
             uploadAtom={uploadAtom}
             onRemove={() => {
@@ -321,12 +414,20 @@ function ProfileBanner({ bannerMxc, onBannerChange }: ProfileBannerProps) {
               <Text size="B300">{bannerUrl ? 'Change' : 'Upload'}</Text>
             </Button>
             {bannerUrl && (
-              <Button size="300" variant="Critical" fill="None" radii="300" onClick={handleRemove}>
+              <Button
+                size="300"
+                variant="Critical"
+                fill="None"
+                radii="300"
+                disabled={saving}
+                onClick={handleRemove}
+              >
                 <Text size="B300">Remove</Text>
               </Button>
             )}
           </Box>
         )}
+        <ProfileSaveError message={saveError} />
       </Box>
       {imageFileUrl && (
         <Overlay open backdrop={<OverlayBackdrop />}>
@@ -464,6 +565,7 @@ function ProfilePronouns({ profile }: { profile: UserProfile }) {
   const currentValue = current.map((pronoun) => pronoun.summary).join(', ');
   const [value, setValue] = useState(currentValue);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => setValue(currentValue), [currentValue]);
 
@@ -475,6 +577,7 @@ function ProfilePronouns({ profile }: { profile: UserProfile }) {
       .filter(Boolean)
       .map((summary) => ({ summary, language: 'en' }));
     setSaving(true);
+    setError(undefined);
     try {
       await mx.setExtendedProfileProperty(
         MSC4247_PRONOUNS,
@@ -484,6 +587,9 @@ function ProfilePronouns({ profile }: { profile: UserProfile }) {
           ...(grammaticalGender ? { grammatical_gender: grammaticalGender } : {}),
         })),
       );
+    } catch (err) {
+      logSaveError('pronouns', err);
+      setError('Could not save your pronouns. Try again.');
     } finally {
       setSaving(false);
     }
@@ -499,7 +605,7 @@ function ProfilePronouns({ profile }: { profile: UserProfile }) {
       description="Separate multiple pronoun sets with commas."
     >
       <Box as="form" onSubmit={handleSubmit} gap="200" grow="Yes">
-        <Box grow="Yes" direction="Column">
+        <Box grow="Yes" direction="Column" gap="100">
           <Input
             aria-label="Pronouns"
             value={value}
@@ -510,6 +616,7 @@ function ProfilePronouns({ profile }: { profile: UserProfile }) {
             variant="Secondary"
             radii="300"
           />
+          <ProfileSaveError message={error} />
         </Box>
         <Button
           type="submit"
@@ -539,6 +646,7 @@ function ProfileTimezone({ profile }: { profile: UserProfile }) {
   const currentValue = getProfileTimezone(profile.extended) ?? '';
   const [value, setValue] = useState(currentValue);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => setValue(currentValue), [currentValue]);
 
@@ -570,6 +678,7 @@ function ProfileTimezone({ profile }: { profile: UserProfile }) {
     event.preventDefault();
     if (!valid) return;
     setSaving(true);
+    setError(undefined);
     try {
       // DELETE rather than a null write, matching the banner and biography
       // tiles. Setting null leaves the key present with a null value, which
@@ -579,6 +688,9 @@ function ProfileTimezone({ profile }: { profile: UserProfile }) {
       } else {
         await mx.setExtendedProfileProperty(M_TIMEZONE, trimmed);
       }
+    } catch (err) {
+      logSaveError('time zone', err);
+      setError('Could not save your time zone. Try again.');
     } finally {
       setSaving(false);
     }
@@ -622,6 +734,7 @@ function ProfileTimezone({ profile }: { profile: UserProfile }) {
               Not a time zone this device knows. Pick one from the list.
             </Text>
           )}
+          <ProfileSaveError message={error} />
         </Box>
         <Button
           type="button"
@@ -722,12 +835,14 @@ function ProfileBiography({ profile }: { profile: UserProfile }) {
   const currentValue = getProfileBiography(profile.extended) ?? '';
   const [value, setValue] = useState(currentValue);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => setValue(currentValue), [currentValue]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     setSaving(true);
+    setError(undefined);
     try {
       if (value.trim()) {
         await mx.setExtendedProfileProperty(MSC4440_BIOGRAPHY, {
@@ -736,6 +851,9 @@ function ProfileBiography({ profile }: { profile: UserProfile }) {
       } else {
         await mx.deleteExtendedProfileProperty(MSC4440_BIOGRAPHY);
       }
+    } catch (err) {
+      logSaveError('biography', err);
+      setError('Could not save your biography. Try again.');
     } finally {
       setSaving(false);
     }
@@ -762,6 +880,7 @@ function ProfileBiography({ profile }: { profile: UserProfile }) {
           variant="Secondary"
           radii="300"
         />
+        <ProfileSaveError message={error} />
         <Box justifyContent="End" alignItems="Center" gap="200">
           <Text size="T200" priority="300">
             {value.length} / 1024
