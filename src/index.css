@@ -24,7 +24,9 @@
 }
 
 .dark-theme,
-.butter-theme {
+.butter-theme,
+/* Every extra theme (src/app/themes/extra) */
+.on-dark-variables {
   --tc-link: hsl(213deg 100% 80%);
 
   --mx-uc-1: hsl(208, 100%, 75%);
@@ -37,6 +39,12 @@
   --mx-uc-8: hsl(94, 100%, 80%);
 
   --font-secondary: 'Inter Variable', var(--font-emoji), sans-serif;
+}
+
+/* Online presence keeps the Dark theme's green on the extra themes, whose
+   own Success colour can be a different hue entirely. */
+.on-dark-variables .prinny-presence-online {
+  background-color: #85e0ba;
 }
 
 html {

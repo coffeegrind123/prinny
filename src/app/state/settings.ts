@@ -304,6 +304,9 @@ export interface Settings {
   // Turn off the browser's spellcheck in the composer and every other text field (they inherit
   // <body spellcheck>).
   disableSpellcheck: boolean;
+  // Offer the extra dark themes (src/app/themes/extra) in the theme pickers. Off hides them, and
+  // a selected one falls back to the default theme.
+  extraThemes: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -440,6 +443,7 @@ const defaultSettings: Settings = {
   collapsibleEmojiGroups: false,
   compactRoomList: false,
   disableSpellcheck: false,
+  extraThemes: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

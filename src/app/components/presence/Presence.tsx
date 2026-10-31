@@ -52,6 +52,9 @@ export function PresenceBadge({ presence, status, size }: PresenceBadgeProps) {
           size={size}
           variant={PresenceToColor[presence]}
           fill={presence === Presence.Offline ? 'Soft' : 'Solid'}
+          // Styled only under the extra themes (index.css); the built-in ones
+          // keep their own Success colour.
+          className={presence === Presence.Online ? 'prinny-presence-online' : undefined}
           radii="Pill"
         />
       )}

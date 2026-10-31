@@ -80,19 +80,26 @@ type ThemeSelectorProps = {
 };
 const ThemeSelector = as<'div', ThemeSelectorProps>(
   ({ themeNames, themes, selected, onSelect, ...props }, ref) => (
-    <Menu {...props} ref={ref}>
-      <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
-        {themes.map((theme) => (
-          <MenuItem
-            key={theme.id}
-            size="300"
-            variant={theme.id === selected.id ? 'Primary' : 'Surface'}
-            radii="300"
-            onClick={() => onSelect(theme)}
-          >
-            <Text size="T300">{themeNames[theme.id] ?? theme.id}</Text>
-          </MenuItem>
-        ))}
+    // Scrolls once More Themes makes the list taller than the screen.
+    <Menu {...props} ref={ref} style={{ maxHeight: '75vh', display: 'flex' }}>
+      <Box grow="Yes">
+        <Scroll size="0" hideTrack visibility="Hover">
+          <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
+            {themes.map((theme) => (
+              <MenuItem
+                key={theme.id}
+                size="300"
+                variant={theme.id === selected.id ? 'Primary' : 'Surface'}
+                radii="300"
+                onClick={() => onSelect(theme)}
+              >
+                <Text size="T300" truncate>
+                  {themeNames[theme.id] ?? theme.id}
+                </Text>
+              </MenuItem>
+            ))}
+          </Box>
+        </Scroll>
       </Box>
     </Menu>
   ),
@@ -403,6 +410,7 @@ function Appearance() {
   const [systemTheme, setSystemTheme] = useSetting(settingsAtom, 'useSystemTheme');
   const [monochromeMode, setMonochromeMode] = useSetting(settingsAtom, 'monochromeMode');
   const [twitterEmoji, setTwitterEmoji] = useSetting(settingsAtom, 'twitterEmoji');
+  const [extraThemes, setExtraThemes] = useSetting(settingsAtom, 'extraThemes');
   const [compactRoomList, setCompactRoomList] = useSetting(settingsAtom, 'compactRoomList');
   const [collapsibleEmojiGroups, setCollapsibleEmojiGroups] = useSetting(
     settingsAtom,
@@ -447,6 +455,14 @@ function Appearance() {
         <SettingTile
           title="Twitter Emoji"
           after={<Switch variant="Primary" value={twitterEmoji} onChange={setTwitterEmoji} />}
+        />
+      </SequenceCard>
+
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="More Themes"
+          description="Add 22 more dark themes to the theme lists: Ayu, Catppuccin, Dracula, Everforest, Gruvbox, Kanagawa, Nord, Rosé Pine, Tokyo Night, OLED Midnight and Catthode."
+          after={<Switch variant="Primary" value={extraThemes} onChange={setExtraThemes} />}
         />
       </SequenceCard>
 
