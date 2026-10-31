@@ -10,11 +10,19 @@ Ported to v0.24.0 from largelanguagemeowing/cinny 4f2a6140. The
 allOthersLeft$ pipeline is unchanged upstream since 0.20.1 and the
 embedded config.json still ships 4000/18000; the hunks moved but apply
 as written. The two auto-leave marble tests moved to new line numbers.
+
+Rebased onto v0.26.1: upstream replaced the flat
+delayed_leave_event_restart_ms / delayed_leave_event_delay_ms keys with
+matrix_rtc_session.delayed_leave { delay_ms, restart_ms } plus a
+delegated_delayed_leave used when the SFU or homeserver can send the
+leave for us (61eeb817). The old keys would now be ignored, so the
+override moves to delayed_leave. delegated_delayed_leave keeps upstream's
+default: there the SFU sends the leave as soon as we drop off LiveKit.
 ---
  .../CallViewModel/CallNotificationLifecycle.ts  | 17 +++++++++++++----
  src/state/CallViewModel/CallViewModel.test.ts   |  4 ++--
- vite-embedded.config.ts                         |  4 ++--
- 3 files changed, 17 insertions(+), 8 deletions(-)
+ vite-embedded.config.ts                         |  6 ++++++
+ 3 files changed, 21 insertions(+), 6 deletions(-)
 
 diff --git a/src/state/CallViewModel/CallNotificationLifecycle.ts b/src/state/CallViewModel/CallNotificationLifecycle.ts
 index 59930fd6..8f569d07 100644
@@ -61,10 +69,10 @@ index 59930fd6..8f569d07 100644
      map(() => {}),
    );
 diff --git a/src/state/CallViewModel/CallViewModel.test.ts b/src/state/CallViewModel/CallViewModel.test.ts
-index 7933039f..8974464e 100644
+index c7783d15..044118b8 100644
 --- a/src/state/CallViewModel/CallViewModel.test.ts
 +++ b/src/state/CallViewModel/CallViewModel.test.ts
-@@ -1424,7 +1424,7 @@ describe.each([
+@@ -1421,7 +1421,7 @@ describe.each(modes)("CallViewModel (%s mode)", (mode) => {
            rtcMembers$: rtcMemberJoinLeave$(behavior),
          },
          (vm) => {
@@ -73,7 +81,7 @@ index 7933039f..8974464e 100644
              a: "allOthersLeft",
            });
          },
-@@ -1490,7 +1490,7 @@ describe.each([
+@@ -1487,7 +1487,7 @@ describe.each(modes)("CallViewModel (%s mode)", (mode) => {
            }),
          },
          (vm) => {
@@ -83,17 +91,19 @@ index 7933039f..8974464e 100644
            });
          },
 diff --git a/vite-embedded.config.ts b/vite-embedded.config.ts
-index 27a42fbb..02d312e8 100644
+index 228d2cf8..2fcd73e8 100644
 --- a/vite-embedded.config.ts
 +++ b/vite-embedded.config.ts
-@@ -27,8 +27,8 @@ export default defineConfig((env) =>
+@@ -27,6 +27,12 @@ export default defineConfig((env) =>
              data: {
                matrix_rtc_session: {
                  wait_for_key_rotation_ms: 5000,
--                delayed_leave_event_restart_ms: 4000,
--                delayed_leave_event_delay_ms: 18000,
-+                delayed_leave_event_restart_ms: 2000,
-+                delayed_leave_event_delay_ms: 6000,
++                // Without delegation, our membership is only removed once the
++                // homeserver's delayed leave fires; keep that short so a closed
++                // or restarted app is not left in the call for long. With
++                // delegation the SFU sends the leave when we drop off LiveKit,
++                // so upstream's delegated_delayed_leave default stays.
++                delayed_leave: { delay_ms: 6000, restart_ms: 2000 },
                },
              },
            },

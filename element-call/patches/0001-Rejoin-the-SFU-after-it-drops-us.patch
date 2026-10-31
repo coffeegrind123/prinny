@@ -13,19 +13,25 @@ room is rejoined, as LiveKit stops local tracks on disconnect.
 Ported to v0.24.0 from largelanguagemeowing/cinny e3953586 (with its
 formatting follow-up 7b00e18a). doOpenIdAndJWTFromUrl gained a logger
 parameter upstream; the rest applied by context.
+
+Rebased onto v0.26.1: upstream dropped JwtEndpointVersion and the
+delayed-leave parameters from the JWT request (5cfe7ea4, cff8766a), so
+the refresh closure now passes { matrixRTCMode } and ConnectionOpts no
+longer carries forceJwtEndpoint. Upstream still has no rejoin after a
+final Disconnected.
 ---
  .../CallViewModel/CallViewModelTestUtils.ts   |   1 +
  .../localMember/LocalTransport.test.ts        |   4 +
- .../localMember/LocalTransport.ts             |  34 +++--
+ .../localMember/LocalTransport.ts             |  26 ++--
  .../CallViewModel/localMember/Publisher.ts    |  55 ++++++--
  .../remoteMembers/Connection.test.ts          | 122 ++++++++++++++++++
- .../CallViewModel/remoteMembers/Connection.ts |  86 ++++++++++++
+ .../CallViewModel/remoteMembers/Connection.ts |  85 ++++++++++++
  .../remoteMembers/ConnectionFactory.ts        |   4 +
  .../remoteMembers/ConnectionManager.ts        |   7 +-
- 8 files changed, 287 insertions(+), 26 deletions(-)
+ 8 files changed, 282 insertions(+), 22 deletions(-)
 
 diff --git a/src/state/CallViewModel/CallViewModelTestUtils.ts b/src/state/CallViewModel/CallViewModelTestUtils.ts
-index 2e1525c0..240e6a8d 100644
+index 5a3fa337..f76a23e8 100644
 --- a/src/state/CallViewModel/CallViewModelTestUtils.ts
 +++ b/src/state/CallViewModel/CallViewModelTestUtils.ts
 @@ -213,6 +213,7 @@ export function withCallViewModel(mode: MatrixRTCMode) {
@@ -37,10 +43,10 @@ index 2e1525c0..240e6a8d 100644
            advertised$: constant(exampleTransport),
          },
 diff --git a/src/state/CallViewModel/localMember/LocalTransport.test.ts b/src/state/CallViewModel/localMember/LocalTransport.test.ts
-index 89cb831d..210732a4 100644
+index a77c7a16..6222f416 100644
 --- a/src/state/CallViewModel/localMember/LocalTransport.test.ts
 +++ b/src/state/CallViewModel/localMember/LocalTransport.test.ts
-@@ -175,6 +175,7 @@ describe("LocalTransport", () => {
+@@ -158,6 +158,7 @@ describe("LocalTransport", () => {
      };
      expect(advertised$.value).toStrictEqual(expectedTransport);
      expect(active$.value).toStrictEqual({
@@ -48,7 +54,7 @@ index 89cb831d..210732a4 100644
        transport: expectedTransport,
        sfuConfig: {
          jwt: "jwt",
-@@ -359,6 +360,7 @@ describe("LocalTransport", () => {
+@@ -218,6 +219,7 @@ describe("LocalTransport", () => {
        };
        expect(advertised$.value).toStrictEqual(expectedTransport);
        expect(active$.value).toStrictEqual({
@@ -56,7 +62,7 @@ index 89cb831d..210732a4 100644
          transport: expectedTransport,
          sfuConfig: {
            jwt: "e30=.eyJzdWIiOiJAbWU6ZXhhbXBsZS5vcmc6QUJDREVGIiwidmlkZW8iOnsicm9vbSI6IiFleGFtcGxlX3Jvb21faWQifX0=.e30=",
-@@ -377,6 +379,7 @@ describe("LocalTransport", () => {
+@@ -236,6 +238,7 @@ describe("LocalTransport", () => {
        expect(advertised$.value).toBe(null);
        await flushPromises();
        expect(active$.value).toStrictEqual({
@@ -64,7 +70,7 @@ index 89cb831d..210732a4 100644
          transport: {
            livekit_service_url: "https://lk.example.org",
            type: "livekit",
-@@ -406,6 +409,7 @@ describe("LocalTransport", () => {
+@@ -265,6 +268,7 @@ describe("LocalTransport", () => {
        };
        expect(advertised$.value).toStrictEqual(expectedTransport);
        expect(active$.value).toStrictEqual({
@@ -73,10 +79,10 @@ index 89cb831d..210732a4 100644
          sfuConfig: {
            jwt: "e30=.eyJzdWIiOiJAbWU6ZXhhbXBsZS5vcmc6QUJDREVGIiwidmlkZW8iOnsicm9vbSI6IiFleGFtcGxlX3Jvb21faWQifX0=.e30=",
 diff --git a/src/state/CallViewModel/localMember/LocalTransport.ts b/src/state/CallViewModel/localMember/LocalTransport.ts
-index 1a6dddc1..1a1280fe 100644
+index c5aa3959..33eae22d 100644
 --- a/src/state/CallViewModel/localMember/LocalTransport.ts
 +++ b/src/state/CallViewModel/localMember/LocalTransport.ts
-@@ -95,6 +95,12 @@ export enum JwtEndpointVersion {
+@@ -71,6 +71,12 @@ interface Props {
  export interface LocalTransportWithSFUConfig {
    transport: LivekitTransportConfig;
    sfuConfig: SFUConfig;
@@ -89,8 +95,8 @@ index 1a6dddc1..1a1280fe 100644
  }
  
  export function isLocalTransportWithSFUConfig(
-@@ -313,21 +319,23 @@ async function doOpenIdAndJWTFromUrl(
-   delayId?: string,
+@@ -200,17 +206,19 @@ async function doOpenIdAndJWTFromUrl(
+   client: Pick<MatrixClient, "_unstable_getRTCTransports"> & OpenIDClientParts,
    logger?: Logger,
  ): Promise<LocalTransportWithSFUConfig> {
 -  const sfuConfig = await getSFUConfigWithOpenID(
@@ -98,11 +104,7 @@ index 1a6dddc1..1a1280fe 100644
 -    membership,
 -    transport.livekit_service_url,
 -    roomId,
--    {
--      forceJwtEndpoint: forceJwtEndpoint,
--      delayEndpointBaseUrl: client.baseUrl,
--      delayId,
--    },
+-    { matrixRTCMode },
 -    logger,
 -  );
 +  const fetchSFUConfig = (): Promise<SFUConfig> =>
@@ -111,11 +113,7 @@ index 1a6dddc1..1a1280fe 100644
 +      membership,
 +      transport.livekit_service_url,
 +      roomId,
-+      {
-+        forceJwtEndpoint: forceJwtEndpoint,
-+        delayEndpointBaseUrl: client.baseUrl,
-+        delayId,
-+      },
++      { matrixRTCMode },
 +      logger,
 +    );
    return {
@@ -127,7 +125,7 @@ index 1a6dddc1..1a1280fe 100644
  }
  
 diff --git a/src/state/CallViewModel/localMember/Publisher.ts b/src/state/CallViewModel/localMember/Publisher.ts
-index 0d5f263a..01ecd547 100644
+index 5353a98d..13d68734 100644
 --- a/src/state/CallViewModel/localMember/Publisher.ts
 +++ b/src/state/CallViewModel/localMember/Publisher.ts
 @@ -11,6 +11,7 @@ import {
@@ -138,7 +136,7 @@ index 0d5f263a..01ecd547 100644
    Track,
  } from "livekit-client";
  import {
-@@ -82,6 +83,34 @@ export class Publisher {
+@@ -84,6 +85,34 @@ export class Publisher {
        ParticipantEvent.LocalTrackPublished,
        this.onLocalTrackPublished.bind(this),
      );
@@ -173,7 +171,7 @@ index 0d5f263a..01ecd547 100644
    }
  
    public async destroy(): Promise<void> {
-@@ -171,22 +200,28 @@ export class Publisher {
+@@ -173,22 +202,28 @@ export class Publisher {
     */
    public async createAndSetupTracks(): Promise<void> {
      this.logger.debug("createAndSetupTracks called");
@@ -213,7 +211,7 @@ index 0d5f263a..01ecd547 100644
        // Enable both at once in order to have a single permission prompt!
        void lkRoom.localParticipant.enableCameraAndMicrophone();
 diff --git a/src/state/CallViewModel/remoteMembers/Connection.test.ts b/src/state/CallViewModel/remoteMembers/Connection.test.ts
-index 72329585..e6d57dd8 100644
+index f226b778..445e3c45 100644
 --- a/src/state/CallViewModel/remoteMembers/Connection.test.ts
 +++ b/src/state/CallViewModel/remoteMembers/Connection.test.ts
 @@ -17,6 +17,7 @@ import {
@@ -223,8 +221,8 @@ index 72329585..e6d57dd8 100644
 +  DisconnectReason,
    type LocalParticipant,
    type RemoteParticipant,
-   type Room as LivekitRoom,
-@@ -618,3 +619,124 @@ describe("remote participants", () => {
+   type RemoteTrack,
+@@ -740,3 +741,124 @@ describe("remote track logging", () => {
  //   });
  // });
  // });
@@ -350,21 +348,18 @@ index 72329585..e6d57dd8 100644
 +  });
 +});
 diff --git a/src/state/CallViewModel/remoteMembers/Connection.ts b/src/state/CallViewModel/remoteMembers/Connection.ts
-index 013bd96c..55c8a211 100644
+index 7889f900..bfa7aa0e 100644
 --- a/src/state/CallViewModel/remoteMembers/Connection.ts
 +++ b/src/state/CallViewModel/remoteMembers/Connection.ts
-@@ -13,8 +13,10 @@ import {
+@@ -13,6 +13,7 @@ import {
  import {
    ConnectionError,
    ConnectionErrorReason,
 +  DisconnectReason,
+   type Participant,
    type RemoteParticipant,
-   type Room as LivekitRoom,
-+  RoomEvent,
- } from "livekit-client";
- import { type LivekitTransportConfig } from "matrix-js-sdk/lib/matrixrtc";
- import { BehaviorSubject, map } from "rxjs";
-@@ -30,6 +32,7 @@ import { type Behavior } from "../../Behavior.ts";
+   type RemoteTrackPublication,
+@@ -36,6 +37,7 @@ import { type Behavior } from "../../Behavior.ts";
  import { type ObservableScope } from "../../ObservableScope.ts";
  import {
    ElementCallError,
@@ -372,9 +367,9 @@ index 013bd96c..55c8a211 100644
    InsufficientCapacityError,
    LivekitConnectionError,
    PeerConnectionTimeoutError,
-@@ -38,12 +41,38 @@ import {
+@@ -43,12 +45,38 @@ import {
+   UnknownCallError,
  } from "../../../utils/errors.ts";
- import { type JwtEndpointVersion } from "../localMember/LocalTransport.ts";
  
 +/**
 + * How long to wait before each attempt to rejoin after the SFU drops us.
@@ -408,10 +403,10 @@ index 013bd96c..55c8a211 100644
 +   * LiveKit room when it issues a token.
 +   */
 +  refreshSFUConfig?: () => Promise<SFUConfig>;
-   /**
-    * For local connections that use the oldest member pattern. here we have not prefetched the sfuConfig
-    * and hence we need to let the connection do the jwt token fetching.
-@@ -142,6 +171,9 @@ export class Connection {
+   /** The identity parts to use on this connection */
+   ownMembershipIdentity: CallMembershipIdentityParts;
+   /** The media transport to connect to. */
+@@ -142,6 +170,9 @@ export class Connection {
    private readonly logger: Logger;
    private readonly ownMembershipIdentity: CallMembershipIdentityParts;
    private readonly existingSFUConfig?: SFUConfig;
@@ -421,7 +416,7 @@ index 013bd96c..55c8a211 100644
    /**
     * Creates a new connection to a matrix RTC LiveKit backend.
     *
-@@ -152,6 +184,7 @@ export class Connection {
+@@ -152,6 +183,7 @@ export class Connection {
    public constructor(opts: ConnectionOpts, logger: Logger) {
      this.ownMembershipIdentity = opts.ownMembershipIdentity;
      this.existingSFUConfig = opts.existingSFUConfig;
@@ -429,15 +424,15 @@ index 013bd96c..55c8a211 100644
      this.roomId = opts.roomId;
      this.logger = logger.getChild(
        "[Connection " + opts.transport.livekit_service_url + "]",
-@@ -263,6 +296,7 @@ export class Connection {
+@@ -372,6 +404,7 @@ export class Connection {
        }
        // If we were stopped while connecting, don't proceed to update state.
        if (this.stopped) return;
 +      this.watchForDrops();
      } catch (error) {
-       this.logger.debug(`Failed to connect to LiveKit room: ${error}`);
-       this._state$.next(
-@@ -277,6 +311,58 @@ export class Connection {
+       if (this.stopped) {
+         // stop() was called while we were connecting, which makes the pending
+@@ -395,6 +428,58 @@ export class Connection {
      }
    }
  
@@ -530,10 +525,10 @@ index 30ff37f3..870ee800 100644
          transport,
          client: this.client,
 diff --git a/src/state/CallViewModel/remoteMembers/ConnectionManager.ts b/src/state/CallViewModel/remoteMembers/ConnectionManager.ts
-index 727f68bc..ebd63468 100644
+index 5ebd2ce6..c11f5611 100644
 --- a/src/state/CallViewModel/remoteMembers/ConnectionManager.ts
 +++ b/src/state/CallViewModel/remoteMembers/ConnectionManager.ts
-@@ -172,7 +172,7 @@ export function createConnectionManager$({
+@@ -177,7 +177,7 @@ export function createConnectionManager$({
                    transport.transport.livekit_service_url,
                    transport.sfuConfig,
                  ],
@@ -542,7 +537,7 @@ index 727f68bc..ebd63468 100644
                };
              } else {
                yield {
-@@ -180,12 +180,12 @@ export function createConnectionManager$({
+@@ -185,12 +185,12 @@ export function createConnectionManager$({
                    transport.livekit_service_url,
                    undefined as SFUConfig | undefined,
                  ],
@@ -557,7 +552,7 @@ index 727f68bc..ebd63468 100644
            const connection = connectionFactory.createConnection(
              scope,
              {
-@@ -197,6 +197,7 @@ export function createConnectionManager$({
+@@ -202,6 +202,7 @@ export function createConnectionManager$({
              // TODO: This whole optional SFUConfig parameter is not particularly elegant.
              // I would like it if connections always fetched the SFUConfig by themselves.
              sfuConfig,

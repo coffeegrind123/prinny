@@ -25,10 +25,10 @@ client does not have.
  4 files changed, 75 insertions(+), 10 deletions(-)
 
 diff --git a/src/UrlParams.test.ts b/src/UrlParams.test.ts
-index 3a61a76b..3fe4f6d4 100644
+index 65be8ae8..bdcb29ef 100644
 --- a/src/UrlParams.test.ts
 +++ b/src/UrlParams.test.ts
-@@ -394,6 +394,27 @@ describe("UrlParams", () => {
+@@ -442,6 +442,27 @@ describe("UrlParams", () => {
      });
    });
  
@@ -57,10 +57,10 @@ index 3a61a76b..3fe4f6d4 100644
      it("uses header if provided", () => {
        expect(computeUrlParams("?header=app_bar&hideHeader=true").header).toBe(
 diff --git a/src/UrlParams.ts b/src/UrlParams.ts
-index 805cab71..1205113e 100644
+index 7c32c15f..cd13dfc5 100644
 --- a/src/UrlParams.ts
 +++ b/src/UrlParams.ts
-@@ -251,6 +251,14 @@ export interface UrlConfiguration {
+@@ -262,6 +262,14 @@ export interface UrlConfiguration {
    noiseSuppression?: boolean;
  
    callIntent?: RTCCallIntent;
@@ -75,7 +75,7 @@ index 805cab71..1205113e 100644
  }
  
  // If you need to add a new flag to this interface, prefer a name that describes
-@@ -314,6 +322,22 @@ class ParamParser {
+@@ -325,6 +333,22 @@ class ParamParser {
    }
  }
  
@@ -98,7 +98,7 @@ index 805cab71..1205113e 100644
  let urlParamCache: {
    search?: string;
    hash?: string;
-@@ -498,6 +522,7 @@ export const computeUrlParams = (search = "", hash = ""): UrlParams => {
+@@ -569,6 +593,7 @@ export const computeUrlParams = (search = "", hash = ""): UrlParams => {
      autoLeaveWhenOthersLeft: parser.getFlag("autoLeave"),
      noiseSuppression: parser.getFlagParam("noiseSuppression", true),
      echoCancellation: parser.getFlagParam("echoCancellation", true),
