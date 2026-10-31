@@ -74,6 +74,18 @@ User-facing changes per commit. Most recent at the top.
 - `3f06bbd` Added **"Keep chat open in DM calls"** (Settings › General › Calls, off by default) — the call sits above the chat with a draggable divider (from meow).
 - `0003171` Added **"Voice panel in room list"** (Settings › General › Calls, off by default) — a Voice Connected panel with connection progress and controls at the bottom of the room list; rooms with an active call turn green (from meow).
 - `c78fcad` Added **"Redesigned call controls"** (Settings › General › Calls, off by default) — grouped controls, invite, a fullscreen that hides the rest of the app, controls that fade when idle, and a header showing who is sharing their screen (from meow).
+- `b5c23ba` Improved **profile loading in busy rooms** — each person's profile is fetched once and shared, and one that failed isn't retried for 5 minutes (from meow).
+- `9307b7f` Improved **memory use in large rooms** — server access lists keep one copy of each server name (from meow).
+- `6a629aa` Improved **member lists with rich presence shown** — one request and timer per person instead of one per place they appear, with backoff when the server is busy (from meow).
+- `bab2a18` Improved **the GIF picker's performance** — only GIFs near what you can see play (from meow).
+- `b864662` `b08e02d` Fixed **long bios and profile cards being cut off at the screen edge** — bios collapse to 6 lines with Show more, and the card opens on the side with room for it (from meow).
+- `b3d043e` Fixed **animated profile banners being uploaded as a still image** — animated GIF, WebP and APNG banners skip the cropper (from meow).
+- `2abdef1` Added **formatting in profile bios** — bios render markdown, sanitised the same way as messages (from meow).
+- `3dbfe12` Fixed **"Playing…" staying on your profile after the app closed or crashed** — shared activity now expires a few minutes after it stops being refreshed (from meow).
+- `0d96018` Fixed **your status message being lost when your presence changed** (from meow).
+- `3c52df7` Added **"Away when idle" and "Pause read receipts when idle"** (Settings › General › Presence, both off by default) (from meow).
+- `8ef7f96` Added **a profile menu with an Online / Away / Invisible picker** in the top bar (Settings › General › Layout, off by default) — and Invisible now actually sticks instead of being undone by the next sync (from meow).
+- `5c390fa` Added **`window.mx` and `unreadDebug(roomId)` in the browser console** when developer tools are on (from meow).
 
 ## 18.10.2026
 
