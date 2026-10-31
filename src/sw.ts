@@ -187,7 +187,7 @@ interface MatrixPushNotification {
   sender_display_name?: string;
   room_name?: string;
   room_alias?: string;
-  content?: { body?: string; msgtype?: string };
+  content?: { body?: string; msgtype?: string; formatted_body?: string };
   counts?: { unread?: number; missed_calls?: number };
 }
 
@@ -220,6 +220,67 @@ const asText = (value: unknown): string | undefined => {
   // eslint-disable-next-line no-control-regex
   const clean = value.replace(/[\u0000-\u001f\u007f]/g, ' ').trim();
   return clean.length === 0 ? undefined : clean.slice(0, MAX_NOTIFICATION_TEXT);
+};
+
+const SPOILER_PLACEHOLDER = '[spoiler]';
+const HTML_TAG_REG = /<(\/?)([a-zA-Z0-9-]+)([^>]*)>/g;
+const BLOCK_TAGS = new Set(['p', 'div', 'li', 'blockquote']);
+
+/**
+ * The message body with spoilered text replaced by `[spoiler]`, the rule the
+ * in-app path applies with `redactSpoilers` in utils/room.ts; the OS keeps
+ * notification text, so a spoiler would otherwise be revealed there. A worker
+ * has no DOMParser, so the formatted body's tags are walked by hand (as in the
+ * Android receiver), counting nested elements of the spoiler's own name so a
+ * pill inside it does not end it early; an unclosed spoiler hides the rest.
+ * Without a formatted spoiler the markdown `||x||` syntax is the only signal.
+ */
+const redactSpoilers = (body: string, formatted: unknown): string => {
+  if (typeof formatted !== 'string' || !formatted.includes('data-mx-spoiler')) {
+    return body.replace(/\|\|[\s\S]+?\|\|/g, SPOILER_PLACEHOLDER);
+  }
+
+  let out = '';
+  let hiddenTag: string | undefined;
+  let hiddenDepth = 0;
+  let pos = 0;
+  Array.from(formatted.matchAll(HTML_TAG_REG)).forEach((match) => {
+    const start = match.index ?? 0;
+    if (!hiddenTag) out += formatted.slice(pos, start);
+    pos = start + match[0].length;
+    const closing = match[1] === '/';
+    const name = match[2].toLowerCase();
+    const attrs = match[3];
+
+    if (hiddenTag) {
+      if (name === hiddenTag) {
+        if (closing) hiddenDepth -= 1;
+        else if (!attrs.endsWith('/')) hiddenDepth += 1;
+        if (hiddenDepth === 0) hiddenTag = undefined;
+      }
+      return;
+    }
+
+    if (!closing && name === 'mx-reply') {
+      hiddenTag = name;
+      hiddenDepth = 1;
+    } else if (!closing && attrs.includes('data-mx-spoiler')) {
+      out += SPOILER_PLACEHOLDER;
+      hiddenTag = name;
+      hiddenDepth = 1;
+    } else if (name === 'br' || (closing && BLOCK_TAGS.has(name))) {
+      out += '\n';
+    }
+  });
+  if (!hiddenTag) out += formatted.slice(pos);
+
+  return out
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&');
 };
 
 // Notification artwork, resolved against the worker's own scope.
@@ -269,8 +330,13 @@ async function handlePush(event: PushEvent) {
   const sender = asText(notif.sender_display_name) ?? asText(notif.sender);
   const title =
     roomName ?? asText(notif.room_alias) ?? sender ?? asText(payload.title) ?? 'New message';
+  const contentBody = notif.content?.body;
   const body =
-    asText(notif.content?.body) ??
+    asText(
+      typeof contentBody === 'string'
+        ? redactSpoilers(contentBody, notif.content?.formatted_body)
+        : undefined,
+    ) ??
     asText(payload.body) ??
     (sender && roomName ? `${sender}: …` : 'You have a new message');
 
