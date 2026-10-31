@@ -1318,6 +1318,7 @@ function Messages() {
   const [urlPreview, setUrlPreview] = useSetting(settingsAtom, 'urlPreview');
   const [encUrlPreview, setEncUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
   const [showHiddenEvents, setShowHiddenEvents] = useSetting(settingsAtom, 'showHiddenEvents');
+  const [showAllTimestamps, setShowAllTimestamps] = useSetting(settingsAtom, 'showAllTimestamps');
   const [dimSendingBodyOnly, setDimSendingBodyOnly] = useSetting(
     settingsAtom,
     'dimSendingBodyOnly',
@@ -1434,6 +1435,15 @@ function Messages() {
           description="A message on its way fades just its content; the name, time and sending clock stay at full strength. Off fades the whole message."
           after={
             <Switch variant="Primary" value={dimSendingBodyOnly} onChange={setDimSendingBodyOnly} />
+          }
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Show All Timestamps"
+          description="Show the time beside every message in a group, not only the first one. Compact layout already does."
+          after={
+            <Switch variant="Primary" value={showAllTimestamps} onChange={setShowAllTimestamps} />
           }
         />
       </SequenceCard>

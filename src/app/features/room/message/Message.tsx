@@ -1157,6 +1157,7 @@ export const Message = as<'div', MessageProps>(
     const [replyOnDoubleClick] = useSetting(settingsAtom, 'replyOnDoubleClick');
     const [showHiddenEvents] = useSetting(settingsAtom, 'showHiddenEvents');
     const [dimSendingBodyOnly] = useSetting(settingsAtom, 'dimSendingBodyOnly');
+    const [showAllTimestamps] = useSetting(settingsAtom, 'showAllTimestamps');
     const elementReceipts = useElementReadReceipts(
       room,
       readReceiptStyle === 'element' && !hideOthersReadReceipts,
@@ -1390,7 +1391,8 @@ export const Message = as<'div', MessageProps>(
     /**
      * A collapsed message shows no time of its own — the one in the group
      * header is the first message's — and its avatar slot is empty for the same
-     * reason. Hovering fills that slot with this message's own time.
+     * reason. Hovering fills that slot with this message's own time, as does
+     * the Show All Timestamps setting, permanently.
      *
      * Compact layout is excluded because it already puts a timestamp at the
      * start of every row, collapsed or not; there is nothing missing to
@@ -1398,7 +1400,7 @@ export const Message = as<'div', MessageProps>(
      */
     const gutterTimeJSX = collapse &&
       messageLayout !== MessageLayout.Compact &&
-      (hover || !!menuAnchor) && (
+      (hover || !!menuAnchor || showAllTimestamps) && (
         // The wrapper carries the positioning and the line box; Time keeps its
         // own smaller type. Putting both on one element would pit
         // `line-height: inherit` against the size token folds sets on the very

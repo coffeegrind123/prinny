@@ -278,6 +278,9 @@ export interface Settings {
   // Clicking your profile in the top bar opens a menu with your card, an Online / Away /
   // Invisible picker, Edit Profile and Copy User ID. Needs `topBarProfile`.
   presencePicker: boolean;
+  // Show each message's own time in the gutter of grouped messages, not only on hover. Compact
+  // layout already times every row.
+  showAllTimestamps: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -405,6 +408,7 @@ const defaultSettings: Settings = {
   idleAway: false,
   idlePausesReadReceipts: false,
   presencePicker: false,
+  showAllTimestamps: false,
 };
 
 /** Settings that existed under a different shape in an older build. */
