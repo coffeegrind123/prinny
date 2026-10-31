@@ -50,6 +50,7 @@ import { MatrixLinkHandler } from '../../components/MatrixLinkHandler';
 import { BotStartLinkHandler } from '../../components/BotStartLinkHandler';
 import { ShareTargetHandler } from '../../features/share/ShareTargetHandler';
 import { isVoiceMessageContent } from '../../utils/voice-message';
+import { MATRIX_GIF_PROPERTY_NAME } from '../../../types/matrix/common';
 
 function SystemEmojiFeature() {
   const [twitterEmoji] = useSetting(settingsAtom, 'twitterEmoji');
@@ -354,7 +355,13 @@ function MessageNotifications() {
       } else if (msgtype === 'm.image') {
         notificationBody = rawBody ? `📷 ${rawBody}` : 'Sent an image';
       } else if (msgtype === 'm.video') {
-        notificationBody = rawBody ? `🎬 ${rawBody}` : 'Sent a video';
+        // A GIF is sent as a looping video whose body is just a filename, so
+        // it is named for what the user sees rather than "🎬 tenor.mp4".
+        if (content?.[MATRIX_GIF_PROPERTY_NAME] === true) {
+          notificationBody = 'Sent a GIF';
+        } else {
+          notificationBody = rawBody ? `🎬 ${rawBody}` : 'Sent a video';
+        }
       } else if (msgtype === 'm.audio') {
         // A voice message's body is the literal string "Voice message", so the
         // generic audio path would announce "🎵 Voice message" — say what it
