@@ -111,9 +111,3 @@ export const useUnverifiedDeviceCount = (
   userId: string,
   devices: string[],
 ): number | undefined => useDeviceCountByVerification(crypto, userId, devices, false);
-
-export const useVerifiedDeviceCount = (
-  crypto: CryptoApi | undefined,
-  userId: string,
-  devices: string[],
-): number | undefined => useDeviceCountByVerification(crypto, userId, devices, true);

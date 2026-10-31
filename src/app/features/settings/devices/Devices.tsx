@@ -7,6 +7,7 @@ import { useDeviceIds, useDeviceList, useSplitCurrentDevice } from '../../../hoo
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { LocalBackup } from './LocalBackup';
 import { OnlyVerifiedDevicesTile } from './OnlyVerifiedDevices';
+import { useOtherVerifiedDevices } from '../../../hooks/useOtherVerifiedDevices';
 import { AskBeforeBackupRestoreTile } from './AskBeforeBackupRestore';
 import { DeviceLogoutBtn, DeviceKeyDetails, DeviceTile, DeviceTilePlaceholder } from './DeviceTile';
 import { OtherDevices } from './OtherDevices';
@@ -19,7 +20,6 @@ import {
 import {
   useDeviceVerificationStatus,
   useUnverifiedDeviceCount,
-  useVerifiedDeviceCount,
   VerificationStatus,
 } from '../../../hooks/useDeviceVerificationStatus';
 import {
@@ -56,7 +56,7 @@ export function Devices({ requestClose }: DevicesProps) {
   );
 
   const otherDevicesId = useDeviceIds(otherDevices);
-  const verifiedDeviceCount = useVerifiedDeviceCount(crypto, mx.getSafeUserId(), otherDevicesId);
+  const otherVerifiedDevices = useOtherVerifiedDevices();
   const unverifiedDeviceCount = useUnverifiedDeviceCount(
     crypto,
     mx.getSafeUserId(),
@@ -143,7 +143,7 @@ export function Devices({ requestClose }: DevicesProps) {
                           <VerifyCurrentDeviceTile
                             secretStorageKeyId={defaultSecretStorageKeyId}
                             secretStorageKeyContent={defaultSecretStorageKeyContent}
-                            hasVerifiedOtherDevice={(verifiedDeviceCount ?? 0) > 0}
+                            hasVerifiedOtherDevice={otherVerifiedDevices === 'available'}
                           />
                         )}
                       {crypto && verificationStatus === VerificationStatus.Verified && (
