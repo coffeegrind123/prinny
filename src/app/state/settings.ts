@@ -260,6 +260,9 @@ export interface Settings {
   // In the call you are in, highlight who is speaking and tag screen sharers LIVE in the room
   // list's member rows. Off keeps the plain list.
   callNavActivity: boolean;
+  // In a DM with a call, show the call above the chat with a draggable divider instead of
+  // replacing the chat. Call rooms and group rooms keep the full call view.
+  dmCallSplit: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -381,6 +384,7 @@ const defaultSettings: Settings = {
   verifyAfterSignIn: false,
   dimSendingBodyOnly: false,
   callNavActivity: false,
+  dmCallSplit: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

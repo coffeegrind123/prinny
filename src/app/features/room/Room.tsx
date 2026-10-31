@@ -11,7 +11,7 @@ import { ScreenSize, useScreenSizeContext } from '../../hooks/useScreenSize';
 import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
 import { PowerLevelsContextProvider, usePowerLevels } from '../../hooks/usePowerLevels';
-import { useRoom } from '../../hooks/useRoom';
+import { useIsDirectRoom, useRoom } from '../../hooks/useRoom';
 import { useKeyDown } from '../../hooks/useKeyDown';
 import { markAsRead } from '../../utils/notifications';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
@@ -31,6 +31,7 @@ import { useCallMembers, useCallSession } from '../../hooks/useCall';
 import { useIsRoomBackdrop } from '../../hooks/useRoomBackdrop';
 import { ResizeHandle } from '../../components/resize-handle';
 import { useResizablePane } from '../../hooks/useResizablePane';
+import { DmCallSplit } from './DmCallSplit';
 
 export function Room() {
   const { eventId } = useParams();
@@ -43,6 +44,8 @@ export function Room() {
 
   const [isDrawer] = useSetting(settingsAtom, 'isPeopleDrawer');
   const [hideReadReceipts] = useSetting(settingsAtom, 'hideReadReceipts');
+  const [dmCallSplit] = useSetting(settingsAtom, 'dmCallSplit');
+  const direct = useIsDirectRoom();
   const [searchOpen, setSearchOpen] = useAtom(roomSearchOpenAtom);
   const screenSize = useScreenSizeContext();
 
@@ -101,17 +104,61 @@ export function Room() {
   );
 
   const callView = callEmbed?.roomId === room.roomId || room.isCallRoom() || callMembers.length > 0;
+  // In a DM the call can sit above the chat instead of replacing it.
+  const dmSplit = dmCallSplit && callView && direct && !room.isCallRoom();
+  const roomCallView = callView && !dmSplit;
 
   // The member drawer reads its own pane; the thread panel has no component of
   // its own to hang a width on, so it is applied here.
   const threadPane = useResizablePane('threadPane');
+
+  const chatPane = (
+    <>
+      <Box grow="Yes">
+        <RoomView eventId={eventId} />
+      </Box>
+      {/* On anything narrower than desktop the thread takes over the
+        room, matching how search behaves — a 360px panel beside a
+        phone-width timeline would leave neither usable. */}
+      {openThreadRootId && screenSize !== ScreenSize.Desktop && (
+        <Box style={{ position: 'absolute', inset: 0, zIndex: 11 }}>
+          <ThreadView
+            key={openThreadRootId}
+            room={room}
+            rootId={openThreadRootId}
+            onClose={closeThread}
+          />
+        </Box>
+      )}
+      {searchOpen && screenSize !== ScreenSize.Desktop && (
+        <Box style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
+          {/*
+          Same component the desktop side panel uses, rendered
+          full-screen. There used to be a second, messages-only search
+          view here, so the toolbar's search button led somewhere
+          different depending purely on window width. Both were driven
+          by the same hooks (useMessageSearch / useClientRoomSearch /
+          SearchResultGroup), so collapsing onto this one costs no
+          capability and gains people search on mobile.
+        */}
+          <MembersDrawer
+            key={room.roomId}
+            room={room}
+            members={members}
+            overlay
+            onClose={() => setSearchOpen(false)}
+          />
+        </Box>
+      )}
+    </>
+  );
 
   return (
     <PowerLevelsContextProvider value={powerLevels}>
       <ChatEffects />
       <MobileSwipeBack>
         <Box grow="Yes">
-          {callView && (screenSize === ScreenSize.Desktop || !chat) && (
+          {roomCallView && (screenSize === ScreenSize.Desktop || !chat) && (
             <Box grow="Yes" direction="Column">
               <RoomViewHeader callView />
               <Box grow="Yes">
@@ -119,51 +166,22 @@ export function Room() {
               </Box>
             </Box>
           )}
-          {!callView && (
-            <Box grow="Yes" direction="Column" style={{ position: 'relative' }}>
+          {!roomCallView && (
+            <Box
+              grow="Yes"
+              direction="Column"
+              // The call iframe is placed from CallView's offsets; a positioned
+              // ancestor here would shift it, so the split carries its own.
+              style={dmSplit ? undefined : { position: 'relative' }}
+            >
               <RoomViewHeader />
               <RoomKnocksBar room={room} />
               <LiveLocationBanner room={room} />
-              <Box grow="Yes">
-                <RoomView eventId={eventId} />
-              </Box>
-              {/* On anything narrower than desktop the thread takes over the
-                room, matching how search behaves — a 360px panel beside a
-                phone-width timeline would leave neither usable. */}
-              {openThreadRootId && screenSize !== ScreenSize.Desktop && (
-                <Box style={{ position: 'absolute', inset: 0, zIndex: 11 }}>
-                  <ThreadView
-                    key={openThreadRootId}
-                    room={room}
-                    rootId={openThreadRootId}
-                    onClose={closeThread}
-                  />
-                </Box>
-              )}
-              {searchOpen && screenSize !== ScreenSize.Desktop && (
-                <Box style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
-                  {/*
-                  Same component the desktop side panel uses, rendered
-                  full-screen. There used to be a second, messages-only search
-                  view here, so the toolbar's search button led somewhere
-                  different depending purely on window width. Both were driven
-                  by the same hooks (useMessageSearch / useClientRoomSearch /
-                  SearchResultGroup), so collapsing onto this one costs no
-                  capability and gains people search on mobile.
-                */}
-                  <MembersDrawer
-                    key={room.roomId}
-                    room={room}
-                    members={members}
-                    overlay
-                    onClose={() => setSearchOpen(false)}
-                  />
-                </Box>
-              )}
+              {dmSplit ? <DmCallSplit call={<CallView />} chat={chatPane} /> : chatPane}
             </Box>
           )}
 
-          {callView && chat && (
+          {roomCallView && chat && (
             <>
               {screenSize === ScreenSize.Desktop && (
                 <ResizeHandle paneId="callChatPane" side="After" label="call chat" />
@@ -174,7 +192,7 @@ export function Room() {
           {/* A thread takes the side panel when one is open, in preference to
             the member list — both cannot share the space, and the thread is
             what the user just asked for. */}
-          {!callView && screenSize === ScreenSize.Desktop && openThreadRootId && (
+          {!roomCallView && screenSize === ScreenSize.Desktop && openThreadRootId && (
             <>
               <ResizeHandle paneId="threadPane" side="After" label="thread panel" />
               <Box shrink="No" style={threadPane.style}>
@@ -187,7 +205,7 @@ export function Room() {
               </Box>
             </>
           )}
-          {!callView && screenSize === ScreenSize.Desktop && !openThreadRootId && isDrawer && (
+          {!roomCallView && screenSize === ScreenSize.Desktop && !openThreadRootId && isDrawer && (
             <>
               <ResizeHandle paneId="membersPane" side="After" label="member list" />
               <MembersDrawer key={room.roomId} room={room} members={members} />

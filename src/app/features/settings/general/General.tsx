@@ -1472,6 +1472,7 @@ function ForkFeatures() {
   );
   const [autoEmbedHosts, setAutoEmbedHosts] = useSetting(settingsAtom, 'mediaAutoEmbedHosts');
   const [callNavActivity, setCallNavActivity] = useSetting(settingsAtom, 'callNavActivity');
+  const [dmCallSplit, setDmCallSplit] = useSetting(settingsAtom, 'dmCallSplit');
 
   const handleAutoEmbedHostsChange: ChangeEventHandler<HTMLInputElement> = (evt) => {
     // Normalising here rather than at match time means a pasted URL or a stray
@@ -1623,6 +1624,11 @@ function ForkFeatures() {
           title="Call Activity in Room List"
           description="In the call you have joined, ring the avatar of whoever is speaking and tag screen sharers LIVE in the room list."
           after={<Switch variant="Primary" value={callNavActivity} onChange={setCallNavActivity} />}
+        />
+        <SettingTile
+          title="Keep Chat Open in DM Calls"
+          description="In a direct message, show the call above the conversation with a draggable divider instead of replacing it."
+          after={<Switch variant="Primary" value={dmCallSplit} onChange={setDmCallSplit} />}
         />
       </SequenceCard>
     </Box>
