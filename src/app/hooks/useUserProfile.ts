@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ClientEvent, UserEvent, UserEventHandlerMap } from 'matrix-js-sdk';
+import { ClientEvent, MatrixClient, UserEvent, UserEventHandlerMap } from 'matrix-js-sdk';
 import { useMatrixClient } from './useMatrixClient';
 
 export type UserProfile = {
@@ -18,6 +18,63 @@ export type UserProfile = {
   /** False until the first profile fetch settles, either way. */
   loaded: boolean;
 };
+
+type FetchedProfile = Omit<UserProfile, 'loaded'>;
+
+// Every message and member row asks for its sender's profile. Share one request
+// per user and remember failures for a while, so an unreachable homeserver costs
+// one request instead of one per row and per remount.
+const PROFILE_FAILURE_TTL_MS = 5 * 60 * 1000;
+const profileFailures = new Map<string, number>();
+const profileRequests = new Map<string, Promise<FetchedProfile>>();
+
+const hasRecentProfileFailure = (userId: string): boolean => {
+  const failedAt = profileFailures.get(userId);
+  if (failedAt === undefined) {
+    return false;
+  }
+  if (Date.now() - failedAt < PROFILE_FAILURE_TTL_MS) {
+    return true;
+  }
+  profileFailures.delete(userId);
+  return false;
+};
+
+const requestProfile = async (mx: MatrixClient, userId: string): Promise<FetchedProfile> => {
+  try {
+    const info = await mx.getExtendedProfile(userId);
+    return {
+      avatarUrl: typeof info.avatar_url === 'string' ? info.avatar_url : undefined,
+      displayName: typeof info.displayname === 'string' ? info.displayname : undefined,
+      extended: info,
+    };
+  } catch {
+    // The extended-profile endpoint is unstable and absent on most
+    // homeservers, where this rejects. Falling back to the plain profile
+    // API matters: the name and avatar come from the same response, so
+    // treating the failure as "no profile" would blank out every user on a
+    // server that simply has not implemented MSC4133.
+    const info = await mx.getProfileInfo(userId);
+    return { avatarUrl: info.avatar_url, displayName: info.displayname, extended: {} };
+  }
+};
+
+const fetchProfile = (mx: MatrixClient, userId: string): Promise<FetchedProfile> => {
+  const pending = profileRequests.get(userId);
+  if (pending) {
+    return pending;
+  }
+
+  const request = requestProfile(mx, userId)
+    .catch((err) => {
+      profileFailures.set(userId, Date.now());
+      throw err;
+    })
+    .finally(() => profileRequests.delete(userId));
+  profileRequests.set(userId, request);
+  return request;
+};
+
 export const useUserProfile = (userId: string): UserProfile => {
   const mx = useMatrixClient();
 
@@ -58,32 +115,14 @@ export const useUserProfile = (userId: string): UserProfile => {
       }));
     };
 
-    mx.getExtendedProfile(userId).then(
-      (info) =>
-        setProfile({
-          avatarUrl: typeof info.avatar_url === 'string' ? info.avatar_url : undefined,
-          displayName: typeof info.displayname === 'string' ? info.displayname : undefined,
-          extended: info,
-          loaded: true,
-        }),
-      () => {
-        // The extended-profile endpoint is unstable and absent on most
-        // homeservers, where this rejects. Falling back to the plain profile
-        // API matters: the name and avatar come from the same response, so
-        // treating the failure as "no profile" would blank out every user on a
-        // server that simply has not implemented MSC4133.
-        mx.getProfileInfo(userId).then(
-          (info) =>
-            setProfile({
-              avatarUrl: info.avatar_url,
-              displayName: info.displayname,
-              extended: {},
-              loaded: true,
-            }),
-          () => setProfile((current) => ({ ...current, loaded: true })),
-        );
-      },
-    );
+    if (hasRecentProfileFailure(userId)) {
+      setProfile((current) => ({ ...current, loaded: true }));
+    } else {
+      fetchProfile(mx, userId).then(
+        (fetched) => setProfile({ ...fetched, loaded: true }),
+        () => setProfile((current) => ({ ...current, loaded: true })),
+      );
+    }
 
     mx.on(ClientEvent.UserProfileUpdate, onProfileUpdate);
     user?.on(UserEvent.AvatarUrl, onAvatarChange);
