@@ -114,6 +114,7 @@ User-facing changes per commit. Most recent at the top.
 - `4f268ea` `3367b72` Fixed **the weekly Element Call upgrade check** stopping at the first patch even where a 3-way merge would apply it (it now clones Element Call with full history), and quoting the release-note lines behind a `[security]` flag; the webapp no longer publishes the fetch marker `public/element-call/.prinny-queue`.
 - `77c52b3` Fixed **Element and Element X showing a stale unread line for Prinny users** — marking a room read now also moves the fully-read marker those apps use for the "new messages" line and Jump to Unread; a room you marked unread stays unread (from Sable).
 - `3af5c88` Fixed **profile changes failing silently** — a banner, bio, pronouns or time zone that doesn't save now shows an error under the field, and you can retry without uploading the banner again (from Sable).
+- `a93ce16` Improved **calls: now on Element Call 0.26.1** (from 0.24.0), with all five Prinny call fixes carried over — rejoining after the call server or homeserver drops you, clearing a stuck "Reconnecting…", leaving a closed app's call membership after 6 s instead of 18 s, and sound-pack call sounds. 0.26 also lets the call server end your membership the moment you drop when it supports it, and rings for up to 90 s instead of 30 s.
 
 ## 18.10.2026
 
