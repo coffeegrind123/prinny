@@ -250,6 +250,9 @@ export interface Settings {
   // Ask before importing the whole server key backup instead of restoring it as soon as this
   // device can open it.
   askBeforeBackupRestore: boolean;
+  // Full-page verify (or set up recovery) step on an unverified device, with a skip that leaves
+  // a banner behind.
+  verifyAfterSignIn: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -368,6 +371,7 @@ const defaultSettings: Settings = {
   autoJoinSpaceRooms: false,
   onlySignedDevices: false,
   askBeforeBackupRestore: false,
+  verifyAfterSignIn: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

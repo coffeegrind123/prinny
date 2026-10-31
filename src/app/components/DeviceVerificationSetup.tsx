@@ -82,7 +82,7 @@ type SetupVerificationProps = {
   onComplete: (recoveryKey: string) => void;
   reset?: boolean;
 };
-function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
+export function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
   const mx = useMatrixClient();
   const alive = useAlive();
 

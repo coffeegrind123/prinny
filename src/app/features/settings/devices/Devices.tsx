@@ -9,6 +9,7 @@ import { LocalBackup } from './LocalBackup';
 import { OnlyVerifiedDevicesTile } from './OnlyVerifiedDevices';
 import { useOtherVerifiedDevices } from '../../../hooks/useOtherVerifiedDevices';
 import { AskBeforeBackupRestoreTile } from './AskBeforeBackupRestore';
+import { VerifyAfterSignInTile } from './VerifyAfterSignIn';
 import { DeviceLogoutBtn, DeviceKeyDetails, DeviceTile, DeviceTilePlaceholder } from './DeviceTile';
 import { OtherDevices } from './OtherDevices';
 import {
@@ -120,6 +121,7 @@ export function Devices({ requestClose }: DevicesProps) {
                     />
                     <OnlyVerifiedDevicesTile />
                     <AskBeforeBackupRestoreTile />
+                    <VerifyAfterSignInTile />
                   </SequenceCard>
                 </Box>
                 <Box direction="Column" gap="100">
