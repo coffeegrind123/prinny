@@ -52,6 +52,9 @@ export function ExportPrompt({ room, requestClose }: ExportPromptProps) {
   // A phone exporting a busy room in full is how you get the tab killed rather
   // than a file, so the default range is small and deliberately visible.
   const [limit, setLimit] = useState(mobileOrTablet() ? 500 : 2000);
+  // yyyy-mm-dd from <input type="date">, empty for no bound. Whole local days.
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
   const [includeAttachments, setIncludeAttachments] = useState(false);
   const [progress, setProgress] = useState<string>();
   const [skipped, setSkipped] = useState(0);
@@ -66,6 +69,8 @@ export function ExportPrompt({ room, requestClose }: ExportPromptProps) {
       const result = await exportChat(mx, room, {
         format,
         limit,
+        since: fromDate ? new Date(`${fromDate}T00:00:00`).getTime() : undefined,
+        until: toDate ? new Date(`${toDate}T23:59:59.999`).getTime() : undefined,
         includeAttachments,
         maxAttachmentBytes: MAX_ATTACHMENT_MB * 1024 * 1024,
         useAuthentication,
@@ -82,7 +87,7 @@ export function ExportPrompt({ room, requestClose }: ExportPromptProps) {
       // cancel the save before it starts.
       setTimeout(() => URL.revokeObjectURL(url), 30000);
       setProgress(undefined);
-    }, [mx, room, format, limit, includeAttachments, useAuthentication]),
+    }, [mx, room, format, limit, fromDate, toDate, includeAttachments, useAuthentication]),
   );
 
   const exporting = state.status === AsyncStatus.Loading;
@@ -145,6 +150,41 @@ export function ExportPrompt({ room, requestClose }: ExportPromptProps) {
                     </Box>
 
                     <Box direction="Column" gap="100">
+                      <Text size="L400">Date range</Text>
+                      <Box gap="200" alignItems="Center" wrap="Wrap">
+                        <Box grow="Yes" direction="Column" gap="100">
+                          <Text size="T200">From</Text>
+                          <Input
+                            value={fromDate}
+                            max={toDate || undefined}
+                            onChange={(evt) => setFromDate(evt.currentTarget.value)}
+                            type="date"
+                            variant="Background"
+                            size="400"
+                            radii="300"
+                            disabled={exporting}
+                          />
+                        </Box>
+                        <Box grow="Yes" direction="Column" gap="100">
+                          <Text size="T200">To</Text>
+                          <Input
+                            value={toDate}
+                            min={fromDate || undefined}
+                            onChange={(evt) => setToDate(evt.currentTarget.value)}
+                            type="date"
+                            variant="Background"
+                            size="400"
+                            radii="300"
+                            disabled={exporting}
+                          />
+                        </Box>
+                      </Box>
+                      <Text size="T200" priority="300">
+                        Both days included. Leave either empty for no limit on that side.
+                      </Text>
+                    </Box>
+
+                    <Box direction="Column" gap="100">
                       <Text size="L400">Number of recent messages</Text>
                       <Input
                         value={String(limit)}
@@ -159,8 +199,8 @@ export function ExportPrompt({ room, requestClose }: ExportPromptProps) {
                         disabled={exporting}
                       />
                       <Text size="T200" priority="300">
-                        Counted backwards from the latest message. Large exports take a while and
-                        are held in memory until the file is written.
+                        Counted backwards from the latest message in the range. Large exports take a
+                        while and are held in memory until the file is written.
                       </Text>
                     </Box>
 

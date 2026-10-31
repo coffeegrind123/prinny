@@ -19,6 +19,10 @@ export type ExportOptions = {
   format: ExportFormat;
   /** Hard cap on messages fetched. */
   limit: number;
+  /** Oldest timestamp (ms) to include; unbounded when absent. */
+  since?: number;
+  /** Newest timestamp (ms) to include; unbounded when absent. */
+  until?: number;
   includeAttachments: boolean;
   /** Attachments larger than this are listed but not bundled. */
   maxAttachmentBytes: number;
@@ -120,8 +124,21 @@ const fetchHistory = async (
     const chunk = res.chunk ?? [];
     if (chunk.length === 0) break;
 
+    // Backwards paging: events newer than `until` are passed over until the
+    // range starts, and the first page reaching past `since` is the last one.
+    const inRange = chunk.filter((raw) => {
+      const ts = raw.origin_server_ts ?? 0;
+      return (
+        (options.until === undefined || ts <= options.until) &&
+        (options.since === undefined || ts >= options.since)
+      );
+    });
+    const reachedStart =
+      options.since !== undefined &&
+      chunk.some((raw) => (raw.origin_server_ts ?? Infinity) < (options.since as number));
+
     await Promise.all(
-      chunk.map(async (raw) => {
+      inRange.map(async (raw) => {
         const mEvent = new MatrixEvent(raw);
         // See decryptAllTimelineEvent: a redacted event still reports
         // isEncrypted(), and retrying it only produces a decryption error.
@@ -134,6 +151,7 @@ const fetchHistory = async (
 
     options.onProgress('Fetching messages', events.length);
 
+    if (reachedStart) break;
     if (!res.end || res.end === from) break;
     from = res.end ?? null;
   }
