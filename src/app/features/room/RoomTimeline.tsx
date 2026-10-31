@@ -149,7 +149,7 @@ import { useAccessiblePowerTagColors, useGetMemberPowerTag } from '../../hooks/u
 import { useTheme } from '../../hooks/useTheme';
 import { useRoomCreatorsTag } from '../../hooks/useRoomCreatorsTag';
 import { usePowerLevelTags } from '../../hooks/usePowerLevelTags';
-import { eventToTranscriptLine } from '../../utils/copyTranscript';
+import { eventToTranscriptLine, TranscriptForm } from '../../utils/copyTranscript';
 
 const TimelineFloat = as<'div', css.TimelineFloatVariants>(
   ({ position, className, ...props }, ref) => (
@@ -2620,6 +2620,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             mEvent,
             eventTimeline.getTimelineSet(),
             hour24Clock,
+            itemFrom === itemTo ? TranscriptForm.BodyOnly : TranscriptForm.Line,
           );
           if (line) transcript.push(line);
         }

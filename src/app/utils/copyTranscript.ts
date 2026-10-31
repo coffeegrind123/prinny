@@ -102,14 +102,23 @@ const getReplyContextLine = (
  * Renders one timeline event as a transcript block. Returns undefined for
  * events that are not messages.
  */
+export enum TranscriptForm {
+  /** `[time] <sender> body`, with the reply context above it. */
+  Line,
+  /** The body alone: copying one whole message wants what it says, nothing more. */
+  BodyOnly,
+}
+
 export const eventToTranscriptLine = (
   room: Room,
   mEvent: MatrixEvent,
   timelineSet?: EventTimelineSet,
   hour24Clock = true,
+  form = TranscriptForm.Line,
 ): string | undefined => {
   const parsed = getTranscriptEventBody(mEvent, timelineSet);
   if (!parsed) return undefined;
+  if (form === TranscriptForm.BodyOnly) return `${parsed.prefix}${parsed.body}`;
 
   const senderId = mEvent.getSender() ?? '';
   const sender = getMemberDisplayName(room, senderId) ?? getMxIdLocalPart(senderId) ?? senderId;
