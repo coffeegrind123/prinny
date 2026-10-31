@@ -490,7 +490,11 @@ function MessageNotifications() {
       // window has focus the unread badge and the sound already tell you,
       // so a toast on top of that is pure noise — even for another room.
       if (!windowFocusedRef.current) sendNotif(mEvent, room);
-      if (notificationSound && actions.tweaks?.sound) playSound();
+      // Sound follows the app's own Notification Sound setting, as it always has,
+      // not the rule's `sound` tweak: the default group-room rule carries none,
+      // so honouring it would silently mute most rooms for everyone. The rules
+      // still decide whether the event notifies at all.
+      if (notificationSound) playSound();
     };
 
     const handleTimelineEvent: RoomEventHandlerMap[RoomEvent.Timeline] = (
