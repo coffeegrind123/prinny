@@ -24,6 +24,7 @@ import {
 import { isTauri } from '../app/utils/desktop-notifications';
 import { USER_PROFILE_FIELDS } from '../types/matrix/profile';
 import { isPrivateHost } from '../app/utils/safeUrl';
+import { compactServerAcls } from './compactServerAcl';
 
 type Session = {
   baseUrl: string;
@@ -311,6 +312,7 @@ const recheckKeyBackupAfterInitialSync = (mx: MatrixClient): void => {
 
 export const startClient = async (mx: MatrixClient) => {
   recheckKeyBackupAfterInitialSync(mx);
+  compactServerAcls(mx);
   await mx.startClient({
     lazyLoadMembers: true,
     // MSC4133 extended profile fields, delivered through /sync per MSC4429.
