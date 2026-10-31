@@ -21,7 +21,7 @@ import { MessageSearchParams, useMessageSearch } from './useMessageSearch';
 import { SearchResultGroup } from './SearchResultGroup';
 import { SearchInput } from './SearchInput';
 import { SearchFilters } from './SearchFilters';
-import { SearchErrorNotice, SearchNotice } from './SearchNotice';
+import { RankOrderNotice, SearchErrorNotice, SearchNotice } from './SearchNotice';
 import { VirtualTile } from '../../components/virtualizer';
 import {
   SearchProgressBar,
@@ -302,13 +302,7 @@ export function MessageSearch({
       )}
 
       {msgSearchParams.term && rankOrder && (
-        <SearchNotice variant="SurfaceVariant">
-          <Text size="T300">Sorting by relevance shows a limited set of results.</Text>
-          <Text size="T200" priority="300">
-            Homeservers cannot paginate relevance-ranked search. Switch to Recent to load every
-            match.
-          </Text>
-        </SearchNotice>
+        <RankOrderNotice exhausted={status === 'success' && !hasNextPage} />
       )}
 
       {msgSearchParams.term && groups.length === 0 && status === 'success' && (
@@ -334,7 +328,8 @@ export function MessageSearch({
               <Text size="H5">{`Results for "${msgSearchParams.term}"`}</Text>
               {typeof totalCount === 'number' && (
                 <Text size="T200" priority="300">
-                  {`${formatCount(totalCount)} ${totalCount === 1 ? 'match' : 'matches'}`}
+                  {/* The spec only promises an approximate count. */}
+                  {`~${formatCount(totalCount)} ${totalCount === 1 ? 'match' : 'matches'}`}
                 </Text>
               )}
               {!searching && !loadingMore && (
