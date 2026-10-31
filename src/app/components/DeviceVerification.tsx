@@ -4,7 +4,7 @@ import {
   VerificationRequest,
   Verifier,
 } from 'matrix-js-sdk/lib/crypto-api';
-import { CSSProperties, useCallback, useEffect, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { VerificationMethod } from 'matrix-js-sdk/lib/types';
 import {
   Box,
@@ -29,6 +29,7 @@ import {
   useVerifierShowSas,
 } from '../hooks/useVerificationRequest';
 import { AsyncStatus, useAsyncCallback } from '../hooks/useAsyncCallback';
+import { useMatrixClient } from '../hooks/useMatrixClient';
 import { ContainerColor } from '../styles/ContainerColor.css';
 
 const DialogHeaderStyles: CSSProperties = {
@@ -73,12 +74,16 @@ type VerificationAcceptProps = {
   onAccept: () => Promise<void>;
 };
 function VerificationAccept({ onAccept }: VerificationAcceptProps) {
-  const [acceptState, accept] = useAsyncCallback(onAccept);
+  const [acceptState, accept] = useAsyncCallback<void, Error, []>(onAccept);
 
   const accepting = acceptState.status === AsyncStatus.Loading;
   return (
     <Box direction="Column" gap="400">
-      <Text>Click accept to start the verification process.</Text>
+      <Text>
+        {acceptState.status === AsyncStatus.Error
+          ? acceptState.error.message
+          : 'Click accept to start the verification process.'}
+      </Text>
       <Button
         variant="Primary"
         fill="Solid"
@@ -105,13 +110,21 @@ type VerificationStartProps = {
   onStart: () => Promise<void>;
 };
 function AutoVerificationStart({ onStart }: VerificationStartProps) {
+  const [error, setError] = useState<Error>();
+
   useEffect(() => {
-    onStart();
+    onStart().catch((reason: unknown) => {
+      setError(reason instanceof Error ? reason : new Error(String(reason)));
+    });
   }, [onStart]);
 
   return (
     <Box direction="Column" gap="400">
-      <WaitingMessage message="Starting verification using emoji comparison..." />
+      {error ? (
+        <Text size="T300">{error.message}</Text>
+      ) : (
+        <WaitingMessage message="Starting verification using emoji comparison..." />
+      )}
     </Box>
   );
 }
@@ -175,16 +188,29 @@ function CompareEmoji({ sasData }: { sasData: ShowSasCallbacks }) {
 type SasVerificationProps = {
   verifier: Verifier;
   onCancel: () => void;
+  onVerified: () => void;
 };
-function SasVerification({ verifier, onCancel }: SasVerificationProps) {
+function SasVerification({ verifier, onCancel, onVerified }: SasVerificationProps) {
   const [sasData, setSasData] = useState<ShowSasCallbacks>();
 
   useVerifierShowSas(verifier, setSasData);
   useVerifierCancel(verifier, onCancel);
 
+  // The request can stay in Started for a while after the verifier has finished, which left
+  // the emoji screen up, and its X then cancelled a completed verification. Failures arrive as
+  // the verifier's Cancel event, so the rejection itself needs no handling.
   useEffect(() => {
-    verifier.verify();
-  }, [verifier]);
+    let active = true;
+    verifier
+      .verify()
+      .then(() => {
+        if (active) onVerified();
+      })
+      .catch(() => undefined);
+    return () => {
+      active = false;
+    };
+  }, [verifier, onVerified]);
 
   if (sasData) {
     return <CompareEmoji sasData={sasData} />;
@@ -233,13 +259,31 @@ type DeviceVerificationProps = {
 };
 export function DeviceVerification({ request, onExit }: DeviceVerificationProps) {
   const phase = useVerificationRequestPhase(request);
+  const [verified, setVerified] = useState(false);
+  const verifiedRef = useRef(false);
+
+  useEffect(() => {
+    verifiedRef.current = false;
+    setVerified(false);
+  }, [request]);
+
+  const handleVerified = useCallback(() => {
+    verifiedRef.current = true;
+    setVerified(true);
+  }, []);
 
   const handleCancel = useCallback(() => {
-    if (request.phase !== VerificationPhase.Done && request.phase !== VerificationPhase.Cancelled) {
-      request.cancel();
+    if (
+      !verifiedRef.current &&
+      request.phase !== VerificationPhase.Done &&
+      request.phase !== VerificationPhase.Cancelled
+    ) {
+      request.cancel().catch(() => undefined);
     }
     onExit();
   }, [request, onExit]);
+
+  const done = verified || phase === VerificationPhase.Done;
 
   const handleAccept = useCallback(() => request.accept(), [request]);
   const handleStart = useCallback(async () => {
@@ -279,16 +323,21 @@ export function DeviceVerification({ request, onExit }: DeviceVerificationProps)
                   <VerificationWaitStart />
                 ))}
               {phase === VerificationPhase.Started &&
+                !done &&
                 (request.verifier ? (
-                  <SasVerification verifier={request.verifier} onCancel={handleCancel} />
+                  <SasVerification
+                    verifier={request.verifier}
+                    onCancel={handleCancel}
+                    onVerified={handleVerified}
+                  />
                 ) : (
                   <VerificationUnexpected
                     message="Unexpected Error! Verification is started but verifier is missing."
                     onClose={handleCancel}
                   />
                 ))}
-              {phase === VerificationPhase.Done && <VerificationDone onExit={onExit} />}
-              {phase === VerificationPhase.Cancelled && (
+              {done && <VerificationDone onExit={onExit} />}
+              {!done && phase === VerificationPhase.Cancelled && (
                 <VerificationCanceled onClose={handleCancel} />
               )}
             </Box>
@@ -300,9 +349,36 @@ export function DeviceVerification({ request, onExit }: DeviceVerificationProps)
 }
 
 export function ReceiveSelfDeviceVerification() {
+  const mx = useMatrixClient();
   const [request, setRequest] = useState<VerificationRequest>();
 
-  useVerificationRequestReceived(setRequest);
+  // Only a live request from another of our devices may take over the dialog; a settled one,
+  // or one this device sent, would otherwise replace a newer request on screen.
+  useVerificationRequestReceived(
+    useCallback((received: VerificationRequest) => {
+      if (!received.isSelfVerification || received.initiatedByMe || !received.pending) return;
+      setRequest(received);
+    }, []),
+  );
+
+  // This component mounts only after the first sync and the server config load, so a request
+  // delivered in the first sync batch fired VerificationRequestReceived before anyone listened.
+  useEffect(() => {
+    const crypto = mx.getCrypto();
+    if (!mx.clientRunning || !crypto) return;
+
+    try {
+      const pending = crypto
+        .getVerificationRequestsToDeviceInProgress(mx.getSafeUserId())
+        .find(
+          (candidate) =>
+            candidate.isSelfVerification && !candidate.initiatedByMe && candidate.pending,
+        );
+      if (pending) setRequest(pending);
+    } catch {
+      // The OlmMachine can be freed between the clientRunning check and this call.
+    }
+  }, [mx]);
 
   const handleExit = useCallback(() => {
     setRequest(undefined);
