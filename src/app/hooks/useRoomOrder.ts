@@ -26,26 +26,35 @@ export const makeRoomOrderContent = (
   };
 };
 
+// Each write is composed from account data as it stands when the write runs,
+// and setAccountData resolves only once its sync echo has landed, so queued
+// writes never build on content an earlier one is about to replace.
+let writeQueue: Promise<unknown> = Promise.resolve();
+
+const updateRoomOrder = (
+  mx: MatrixClient,
+  partial: () => Partial<RoomOrderContent>,
+): Promise<unknown> => {
+  writeQueue = writeQueue
+    .catch(() => undefined)
+    .then(() =>
+      mx.setAccountData(AccountDataEvent.PrinnyRoomOrder, makeRoomOrderContent(mx, partial())),
+    );
+  return writeQueue;
+};
+
 /**
  * Writes the selected sort mode for a space to account data.
  */
-export const setRoomSortMode = (mx: MatrixClient, spaceId: string, sortMode: RoomSortMode) => {
-  const content = makeRoomOrderContent(mx, {
-    sortModes: { [spaceId]: sortMode },
-  });
-  mx.setAccountData(AccountDataEvent.PrinnyRoomOrder, content);
-};
+export const setRoomSortMode = (mx: MatrixClient, spaceId: string, sortMode: RoomSortMode) =>
+  updateRoomOrder(mx, () => ({ sortModes: { [spaceId]: sortMode } }));
 
 /**
  * Writes a manually ordered list of child roomIds for a parent space to account
  * data. Rooms not present in the list are appended after, sorted by activity.
  */
-export const setRoomOrder = (mx: MatrixClient, parentSpaceId: string, orderedRoomIds: string[]) => {
-  const content = makeRoomOrderContent(mx, {
-    orders: { [parentSpaceId]: orderedRoomIds },
-  });
-  mx.setAccountData(AccountDataEvent.PrinnyRoomOrder, content);
-};
+export const setRoomOrder = (mx: MatrixClient, parentSpaceId: string, orderedRoomIds: string[]) =>
+  updateRoomOrder(mx, () => ({ orders: { [parentSpaceId]: orderedRoomIds } }));
 
 /**
  * Reactively returns the per-user room order content, updating when the
@@ -80,8 +89,12 @@ export const useReorderRoom = (
   const mx = useMatrixClient();
   return useCallback(
     (parentSpaceId: string, orderedRoomIds: string[]) => {
-      setRoomOrder(mx, parentSpaceId, orderedRoomIds);
-      setRoomSortMode(mx, spaceId, 'custom');
+      // One write: two back-to-back ones would each start from the same base
+      // content, and the later one would drop the earlier one's change.
+      updateRoomOrder(mx, () => ({
+        orders: { [parentSpaceId]: orderedRoomIds },
+        sortModes: { [spaceId]: 'custom' },
+      })).catch(() => undefined);
     },
     [mx, spaceId],
   );

@@ -104,7 +104,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
   const sortMode = useRoomSortMode(room.roomId);
 
   const handleSortChange = (mode: RoomSortMode) => {
-    setRoomSortMode(mx, room.roomId, mode);
+    setRoomSortMode(mx, room.roomId, mode).catch(() => undefined);
     requestClose();
   };
 
