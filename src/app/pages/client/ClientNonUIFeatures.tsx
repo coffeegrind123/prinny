@@ -196,8 +196,16 @@ function InviteNotifications() {
           body: `You have ${count} new invitation request.`,
           silent: true,
         });
-        noti.onclick = () => {
-          if (!window.closed) navigate(getInboxInvitesPath());
+        noti.onclick = (event) => {
+          // Browsers disagree on whether a click focuses the notification's
+          // tab (the spec says it should; many do not), so the app could
+          // navigate in a tab left behind others. Cancel the default and
+          // focus explicitly so every browser behaves the same.
+          event.preventDefault();
+          if (!window.closed) {
+            window.focus();
+            navigate(getInboxInvitesPath());
+          }
           noti.close();
         };
       }
@@ -308,11 +316,16 @@ function MessageNotifications() {
           // which is what a tag is for.
           tag: roomId,
         });
-        noti.onclick = () => {
+        noti.onclick = (event) => {
+          // Same focus handling as the invite notification above.
+          event.preventDefault();
           // Open the message itself. This used to land on the inbox, which is
           // the one place the user did not ask to be — the Tauri path above has
           // always carried roomId/eventId through to the native toast.
-          if (!window.closed) navigateRoom(roomId, eventId);
+          if (!window.closed) {
+            window.focus();
+            navigateRoom(roomId, eventId);
+          }
           noti.close();
         };
       }
