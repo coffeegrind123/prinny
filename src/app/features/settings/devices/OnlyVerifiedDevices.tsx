@@ -39,7 +39,7 @@ export function OnlyVerifiedDevicesTile() {
   return (
     <SettingTile
       title="Only Verified Sessions"
-      description="Only share message encryption keys with cross-signed sessions. Messages from unverified sessions won't decrypt. Sending will fail if any participant has an unverified session."
+      description="Only share message encryption keys with sessions their owners have verified, and only decrypt messages sent from those. Unverified sessions are left out rather than stopping the send; sending fails only when someone you have verified changes their identity."
       after={<Switch variant="Primary" value={onlySignedDevices} onChange={handleChange} />}
     />
   );
