@@ -247,6 +247,9 @@ export interface Settings {
   // Only share message keys with cross-signed sessions. Off by default because
   // it breaks sending to anyone who has an unverified session of their own.
   onlySignedDevices: boolean;
+  // Ask before importing the whole server key backup instead of restoring it as soon as this
+  // device can open it.
+  askBeforeBackupRestore: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -364,6 +367,7 @@ const defaultSettings: Settings = {
 
   autoJoinSpaceRooms: false,
   onlySignedDevices: false,
+  askBeforeBackupRestore: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

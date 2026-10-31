@@ -48,6 +48,9 @@ import {
   useSecretStorageKeyContent,
 } from '../hooks/useSecretStorage';
 import { useRestoreBackupOnVerification } from '../hooks/useRestoreBackupOnVerification';
+import { useSetting } from '../state/hooks/settings';
+import { settingsAtom } from '../state/settings';
+import { RestoreBackupPrompt } from './RestoreBackupPrompt';
 
 type BackupStatusProps = {
   enabled: boolean;
@@ -531,8 +534,14 @@ export function BackupRestoreTile({ crypto }: BackupRestoreTileProps) {
   );
 }
 
-export function AutoRestoreBackupOnVerification() {
+function AutoRestore() {
   useRestoreBackupOnVerification();
 
   return null;
+}
+
+export function AutoRestoreBackupOnVerification() {
+  const [askBeforeRestore] = useSetting(settingsAtom, 'askBeforeBackupRestore');
+
+  return askBeforeRestore ? <RestoreBackupPrompt /> : <AutoRestore />;
 }

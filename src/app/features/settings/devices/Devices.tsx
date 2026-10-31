@@ -7,6 +7,7 @@ import { useDeviceIds, useDeviceList, useSplitCurrentDevice } from '../../../hoo
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { LocalBackup } from './LocalBackup';
 import { OnlyVerifiedDevicesTile } from './OnlyVerifiedDevices';
+import { AskBeforeBackupRestoreTile } from './AskBeforeBackupRestore';
 import { DeviceLogoutBtn, DeviceKeyDetails, DeviceTile, DeviceTilePlaceholder } from './DeviceTile';
 import { OtherDevices } from './OtherDevices';
 import {
@@ -118,6 +119,7 @@ export function Devices({ requestClose }: DevicesProps) {
                       }
                     />
                     <OnlyVerifiedDevicesTile />
+                    <AskBeforeBackupRestoreTile />
                   </SequenceCard>
                 </Box>
                 <Box direction="Column" gap="100">
