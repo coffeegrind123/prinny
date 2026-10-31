@@ -117,6 +117,7 @@ import { roomIdToReplyDraftAtomFamily } from '../../state/room/roomInputDrafts';
 import { usePowerLevelsContext } from '../../hooks/usePowerLevels';
 import { GetContentCallback, MessageEvent, StateEvent } from '../../../types/matrix/room';
 import { useDocumentFocusChange } from '../../hooks/useDocumentFocusChange';
+import { isUserActive } from '../../state/idle';
 import { RenderMessageContent } from '../../components/RenderMessageContent';
 import { Image } from '../../components/media';
 import { ImageViewer } from '../../components/image-viewer';
@@ -1069,7 +1070,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         if (atBottomRef.current) {
           if (
             !isBackdrop &&
-            document.hasFocus() &&
+            isUserActive() &&
             (!unreadInfo || mEvt.getSender() === mx.getUserId())
           ) {
             // Check if the document is in focus (user is actively viewing the app),
@@ -1080,7 +1081,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
             );
           }
 
-          if (!document.hasFocus() && !unreadInfo) {
+          if (!isUserActive() && !unreadInfo) {
             setUnreadInfo(getRoomUnreadInfo(room));
           }
 
@@ -1154,7 +1155,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           setTimeline(getInitialTimeline(room));
           scrollToBottomRef.current.count += 1;
           scrollToBottomRef.current.smooth = false;
-          if (!isBackdrop && document.hasFocus()) {
+          if (!isBackdrop && isUserActive()) {
             requestAnimationFrame(() =>
               markAsRead(mx, mEvt.getRoomId()!, hideReadReceipts, { auto: true }),
             );
@@ -1443,7 +1444,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         if (targetEntry?.isIntersecting && atLiveEndRef.current) {
           atBottomRef.current = true;
           setAtBottom(true);
-          if (document.hasFocus()) {
+          if (isUserActive()) {
             tryAutoMarkAsRead();
           }
         }

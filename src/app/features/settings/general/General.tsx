@@ -1462,6 +1462,11 @@ function ForkFeatures() {
   const [emojiMashup, setEmojiMashup] = useSetting(settingsAtom, 'emojiMashup');
   const [lowAnimationMode, setLowAnimationMode] = useSetting(settingsAtom, 'lowAnimationMode');
   const [showRichPresence, setShowRichPresence] = useSetting(settingsAtom, 'showRichPresence');
+  const [idleAway, setIdleAway] = useSetting(settingsAtom, 'idleAway');
+  const [idlePausesReadReceipts, setIdlePausesReadReceipts] = useSetting(
+    settingsAtom,
+    'idlePausesReadReceipts',
+  );
   const [emojiShortcodeReplace, setEmojiShortcodeReplace] = useSetting(
     settingsAtom,
     'emojiShortcodeReplace',
@@ -1593,6 +1598,26 @@ function ForkFeatures() {
           description="Show what other people are listening to or playing, when they publish it."
           after={
             <Switch variant="Primary" value={showRichPresence} onChange={setShowRichPresence} />
+          }
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Away When Idle"
+          description="Show as away after 5 minutes without mouse, keyboard or touch input in Prinny, and online again when you return. A presence you set yourself is left alone."
+          after={<Switch variant="Primary" value={idleAway} onChange={setIdleAway} />}
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Pause Read Receipts When Idle"
+          description="After the same 5 minutes, stop marking new messages as read until you return, even if Prinny is still open on that room."
+          after={
+            <Switch
+              variant="Primary"
+              value={idlePausesReadReceipts}
+              onChange={setIdlePausesReadReceipts}
+            />
           }
         />
       </SequenceCard>

@@ -269,6 +269,12 @@ export interface Settings {
   // In-call redesign: grouped controls with a wide end button, invite and fullscreen, a black
   // call background, header and controls that fade when idle, and a call-specific header.
   callControlsRedesign: boolean;
+  // Show as away after five minutes without input in the app, and back online on the next input.
+  // Never overrides a presence the user set themselves.
+  idleAway: boolean;
+  // While idle (same five minutes), treat new messages as unseen: no read receipts, and the unread
+  // marker stays. Independent of idleAway.
+  idlePausesReadReceipts: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -393,6 +399,8 @@ const defaultSettings: Settings = {
   dmCallSplit: false,
   callVoicePanel: false,
   callControlsRedesign: false,
+  idleAway: false,
+  idlePausesReadReceipts: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

@@ -1,4 +1,4 @@
-import { MatrixClient } from 'matrix-js-sdk';
+import { MatrixClient, SetPresence } from 'matrix-js-sdk';
 import { AccountDataEvent } from '../../types/matrix/accountData';
 import { getAccountData } from '../utils/room';
 import { useAccountData } from '../hooks/useAccountData';
@@ -30,6 +30,24 @@ export const sendPresence = (
   presence: Presence,
   statusMsg: string = getRememberedStatus(mx),
 ): Promise<void> => mx.setPresence({ presence, status_msg: statusMsg });
+
+const SYNC_PRESENCE: Record<Presence, SetPresence | undefined> = {
+  // Left unset, /sync marks the user online, which is what online wants.
+  [Presence.Online]: undefined,
+  [Presence.Unavailable]: SetPresence.Unavailable,
+  [Presence.Offline]: SetPresence.Offline,
+};
+
+/**
+ * Sets the user's presence so that it sticks. A PUT /presence on its own is
+ * undone by the next /sync, which (with no `set_presence`) tells the server
+ * the user is online again; so the sync loop is switched to send the same
+ * state from now on.
+ */
+export const applyOwnPresence = (mx: MatrixClient, presence: Presence): Promise<void> => {
+  mx.setSyncPresence(SYNC_PRESENCE[presence]);
+  return sendPresence(mx, presence);
+};
 
 /** Stores the status message and applies it to the current presence. */
 export const saveStatusMessage = async (
