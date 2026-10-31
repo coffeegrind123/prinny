@@ -1,4 +1,5 @@
 /* eslint-disable import/first */
+import './promiseCompat';
 import { createRoot } from 'react-dom/client';
 import { enableMapSet } from 'immer';
 import '@fontsource-variable/inter';
