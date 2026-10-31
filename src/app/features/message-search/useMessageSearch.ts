@@ -89,10 +89,12 @@ export type MessageSearchParams = {
   order?: string;
   rooms?: string[];
   senders?: string[];
+  /** Only events with a URL (the has:link search operator). */
+  containsUrl?: boolean;
 };
 export const useMessageSearch = (params: MessageSearchParams) => {
   const mx = useMatrixClient();
-  const { term, order, rooms, senders } = params;
+  const { term, order, rooms, senders, containsUrl } = params;
 
   // `signal` is TanStack Query's per-fetch AbortSignal. Consuming it is what
   // makes the query cancellable: query-core aborts it as soon as the query
@@ -120,6 +122,7 @@ export const useMessageSearch = (params: MessageSearchParams) => {
               limit,
               rooms,
               senders,
+              ...(containsUrl ? { contains_url: true } : {}),
             },
             include_state: false,
             order_by: order as SearchOrderBy.Recent,
@@ -137,7 +140,7 @@ export const useMessageSearch = (params: MessageSearchParams) => {
       );
       return parseSearchResult(r);
     },
-    [mx, term, order, rooms, senders],
+    [mx, term, order, rooms, senders, containsUrl],
   );
 
   return searchMessages;

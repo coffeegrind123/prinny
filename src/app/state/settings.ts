@@ -307,6 +307,9 @@ export interface Settings {
   // Offer the extra dark themes (src/app/themes/extra) in the theme pickers. Off hides them, and
   // a selected one falls back to the default theme.
   extraThemes: boolean;
+  // Message search understands from:, in:, mentions:, has:, before:, after:, during: and
+  // pinned:true. Filters /search cannot express are applied to the results in the client.
+  searchOperators: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -444,6 +447,7 @@ const defaultSettings: Settings = {
   compactRoomList: false,
   disableSpellcheck: false,
   extraThemes: false,
+  searchOperators: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

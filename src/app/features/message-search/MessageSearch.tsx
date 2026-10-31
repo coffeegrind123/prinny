@@ -18,6 +18,15 @@ import { useRooms } from '../../state/hooks/roomList';
 import { allRoomsAtom } from '../../state/room-list/roomList';
 import { mDirectAtom } from '../../state/mDirectList';
 import { MessageSearchParams, useMessageSearch } from './useMessageSearch';
+import {
+  makeResultFilter,
+  parseSearchQuery,
+  resolveSearchQuery,
+  ResolvedSearch,
+  SearchLookup,
+} from './searchQuery';
+import { getStateEvent } from '../../utils/room';
+import { StateEvent } from '../../../types/matrix/room';
 import { SearchResultGroup } from './SearchResultGroup';
 import { SearchInput } from './SearchInput';
 import { SearchFilters } from './SearchFilters';
@@ -31,6 +40,34 @@ import {
   formatSearchDuration,
   useSearchTimer,
 } from './SearchProgress';
+
+// Twenty results a page: up to 200 searched before an all-filtered-out result
+// is reported as no results.
+const MAX_FILTERED_PAGES = 10;
+
+/** What the search operators could not use, and the one thing /search cannot do. */
+function SearchOperatorNotice({ query }: { query: ResolvedSearch }) {
+  const problems = [
+    ...query.unresolved.map(({ operator, value }) => `${operator}:${value} matched nothing`),
+    ...query.invalid.map((token) => `${token.raw} is not understood`),
+  ];
+  if (query.text && problems.length === 0) return null;
+
+  return (
+    <SearchNotice variant="SurfaceVariant">
+      {!query.text && (
+        <Text size="T300">
+          Add a word to search for. Homeservers cannot search by filters alone.
+        </Text>
+      )}
+      {problems.length > 0 && (
+        <Text size="T200" priority="300">
+          {problems.join('; ')}.
+        </Text>
+      )}
+    </SearchNotice>
+  );
+}
 
 const useSearchPathSearchParams = (searchParams: URLSearchParams): _SearchPathSearchParams =>
   useMemo(
@@ -91,17 +128,59 @@ export function MessageSearch({
     return undefined;
   }, [searchPathSearchParams.senders]);
 
+  const [searchOperators] = useSetting(settingsAtom, 'searchOperators');
+  const isGlobal = searchPathSearchParams.global === 'true';
+  const scopeRooms = searchParamRooms ?? (isGlobal ? undefined : rooms);
+
+  // The term split into free text and operators, with names resolved to ids.
+  // Undefined when the setting is off or the term has no operators at all.
+  const resolvedQuery: ResolvedSearch | undefined = useMemo(() => {
+    const { term } = searchPathSearchParams;
+    if (!searchOperators || !term) return undefined;
+    const parsed = parseSearchQuery(term);
+    if (parsed.tokens.every((token) => token.kind === 'text')) return undefined;
+
+    const lookup: SearchLookup = {
+      rooms: allRooms.map((roomId) => ({ roomId, name: mx.getRoom(roomId)?.name ?? roomId })),
+      users: [],
+    };
+    // Members are only gathered when a from: or mentions: needs them: on a
+    // global search that is every room's member list.
+    if (parsed.from.length > 0 || parsed.mentions.length > 0) {
+      const seen = new Map<string, string>();
+      (scopeRooms ?? allRooms).forEach((roomId) => {
+        mx.getRoom(roomId)
+          ?.getJoinedMembers()
+          .forEach((member) => {
+            if (!seen.has(member.userId)) seen.set(member.userId, member.name);
+          });
+      });
+      lookup.users = Array.from(seen, ([userId, name]) => ({ userId, name }));
+    }
+
+    return resolveSearchQuery(parsed, lookup, scopeRooms);
+  }, [searchOperators, searchPathSearchParams, allRooms, scopeRooms, mx]);
+
   const msgSearchParams: MessageSearchParams = useMemo(() => {
-    const isGlobal = searchPathSearchParams.global === 'true';
-    const defaultRooms = isGlobal ? undefined : rooms;
+    if (resolvedQuery) {
+      return {
+        term: resolvedQuery.text || undefined,
+        order: searchPathSearchParams.order ?? SearchOrderBy.Recent,
+        // An in: that matched nothing is an empty list, which searches no room
+        // rather than every room.
+        rooms: resolvedQuery.rooms,
+        senders: resolvedQuery.senders ?? searchParamsSenders ?? senders,
+        containsUrl: resolvedQuery.has.includes('link'),
+      };
+    }
 
     return {
       term: searchPathSearchParams.term,
       order: searchPathSearchParams.order ?? SearchOrderBy.Recent,
-      rooms: searchParamRooms ?? defaultRooms,
+      rooms: scopeRooms,
       senders: searchParamsSenders ?? senders,
     };
-  }, [searchPathSearchParams, searchParamRooms, searchParamsSenders, rooms, senders]);
+  }, [resolvedQuery, searchPathSearchParams, scopeRooms, searchParamsSenders, senders]);
 
   const searchMessages = useMessageSearch(msgSearchParams);
 
@@ -113,13 +192,36 @@ export function MessageSearch({
       msgSearchParams.order,
       msgSearchParams.rooms,
       msgSearchParams.senders,
+      msgSearchParams.containsUrl,
     ],
     queryFn: ({ pageParam, signal }) => searchMessages(pageParam, signal),
     initialPageParam: '',
     getNextPageParam: (lastPage) => lastPage.nextToken,
   });
 
-  const groups = useMemo(() => data?.pages.flatMap((result) => result.groups) ?? [], [data]);
+  const resultFilter = useMemo(() => {
+    if (!resolvedQuery?.needsClientFilter) return undefined;
+    const pinned = new Map<string, ReadonlySet<string>>();
+    const getPinned = (roomId: string): ReadonlySet<string> => {
+      let ids = pinned.get(roomId);
+      if (!ids) {
+        const room = mx.getRoom(roomId);
+        const content = room && getStateEvent(room, StateEvent.RoomPinnedEvents)?.getContent();
+        ids = new Set(Array.isArray(content?.pinned) ? (content.pinned as string[]) : []);
+        pinned.set(roomId, ids);
+      }
+      return ids;
+    };
+    return makeResultFilter(resolvedQuery, getPinned);
+  }, [resolvedQuery, mx]);
+
+  const groups = useMemo(() => {
+    const all = data?.pages.flatMap((result) => result.groups) ?? [];
+    if (!resultFilter) return all;
+    return all
+      .map((group) => ({ ...group, items: group.items.filter((item) => resultFilter(item.event)) }))
+      .filter((group) => group.items.length > 0);
+  }, [data, resultFilter]);
   const highlights = useMemo(() => {
     const mixed = data?.pages.flatMap((result) => result.highlights);
     return Array.from(new Set(mixed));
@@ -239,6 +341,23 @@ export function MessageSearch({
     }
   }, [lastVItemIndex, lastGroupIndex, fetchNextPage, isFetchingNextPage, hasNextPage]);
 
+  // Client-side filters can empty whole pages, and an empty list has no last
+  // row to trigger the next page. Keep paging for a while before saying none.
+  const filteredPages = data?.pages.length ?? 0;
+  useEffect(() => {
+    if (!resultFilter || groups.length > 0 || status !== 'success') return;
+    if (!hasNextPage || isFetchingNextPage || filteredPages >= MAX_FILTERED_PAGES) return;
+    fetchNextPage();
+  }, [
+    resultFilter,
+    groups.length,
+    status,
+    hasNextPage,
+    isFetchingNextPage,
+    filteredPages,
+    fetchNextPage,
+  ]);
+
   return (
     <Box direction="Column" gap="700">
       <ScrollTopContainer scrollRef={scrollRef} anchorRef={scrollTopAnchorRef}>
@@ -300,6 +419,8 @@ export function MessageSearch({
           </PageHeroSection>
         </PageHeroEmpty>
       )}
+
+      {resolvedQuery && <SearchOperatorNotice query={resolvedQuery} />}
 
       {msgSearchParams.term && rankOrder && (
         <RankOrderNotice exhausted={status === 'success' && !hasNextPage} />

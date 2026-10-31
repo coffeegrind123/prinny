@@ -1474,6 +1474,7 @@ function Messages() {
   const [encUrlPreview, setEncUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
   const [showHiddenEvents, setShowHiddenEvents] = useSetting(settingsAtom, 'showHiddenEvents');
   const [showAllTimestamps, setShowAllTimestamps] = useSetting(settingsAtom, 'showAllTimestamps');
+  const [searchOperators, setSearchOperators] = useSetting(settingsAtom, 'searchOperators');
   const [dimSendingBodyOnly, setDimSendingBodyOnly] = useSetting(
     settingsAtom,
     'dimSendingBodyOnly',
@@ -1600,6 +1601,13 @@ function Messages() {
           after={
             <Switch variant="Primary" value={showAllTimestamps} onChange={setShowAllTimestamps} />
           }
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Search Operators"
+          description="Narrow message search with from:name, in:room, mentions:name, has:link/image/video/audio/file, before:, after: and during: (YYYY-MM-DD, today, yesterday), and pinned:true."
+          after={<Switch variant="Primary" value={searchOperators} onChange={setSearchOperators} />}
         />
       </SequenceCard>
     </Box>
