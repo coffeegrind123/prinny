@@ -30,7 +30,12 @@ import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { getInboxInvitesPath } from '../pathUtils';
 import { useRoomNavigate } from '../../hooks/useRoomNavigate';
 import { useWindowFocusedRef } from '../../hooks/useWindowFocused';
-import { getMemberDisplayName, getNotificationType, isNotificationEvent } from '../../utils/room';
+import {
+  getMemberDisplayName,
+  getNotificationType,
+  isNotificationEvent,
+  redactSpoilers,
+} from '../../utils/room';
 import { NotificationType } from '../../../types/matrix/room';
 import { useSpaceAutoJoinGlobal } from '../../hooks/useSpaceAutoJoinGlobal';
 import { RichPresencePublisher } from '../../hooks/useRichPresencePublisher';
@@ -335,9 +340,12 @@ function MessageNotifications() {
       const content = (mEvent as any).content ?? mEvent.getContent();
       const msgtype: string | undefined = content?.msgtype;
       let rawBody: string = typeof content?.body === 'string' ? content.body : '';
+      let bodyContent = content ?? {};
       if (!rawBody && content?.['m.new_content']?.body) {
         rawBody = content['m.new_content'].body;
+        bodyContent = content['m.new_content'];
       }
+      rawBody = redactSpoilers(bodyContent, rawBody);
 
       // Title is sender name (like Discord), body is just the message
       let notificationBody: string;

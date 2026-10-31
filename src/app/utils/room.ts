@@ -400,6 +400,31 @@ export const parseReplyFormattedBody = (
   return `<mx-reply><blockquote>${replyToLink}${userLink}<br />${formattedBody}</blockquote></mx-reply>`;
 };
 
+const SPOILER_PLACEHOLDER = '[spoiler]';
+
+/**
+ * A notification body with spoilered text replaced by `[spoiler]`. OS
+ * notifications show plain text, so without this a spoiler is revealed in the
+ * toast and kept in the notification history. The formatted body's spoiler
+ * spans are authoritative when present; otherwise the markdown `||x||` syntax
+ * is the only signal. DOMParser documents are inert, so parsing the remote
+ * HTML here runs no script and loads nothing.
+ */
+export const redactSpoilers = (content: Record<string, unknown>, body: string): string => {
+  const formatted = content.formatted_body;
+  if (typeof formatted === 'string' && formatted.includes('data-mx-spoiler')) {
+    const doc = new DOMParser().parseFromString(formatted, 'text/html');
+    doc.querySelectorAll('mx-reply').forEach((el) => el.remove());
+    doc.querySelectorAll('[data-mx-spoiler]').forEach((el) => {
+      el.textContent = SPOILER_PLACEHOLDER;
+    });
+    doc.querySelectorAll('br').forEach((el) => el.replaceWith('\n'));
+    doc.querySelectorAll('p, div, li, blockquote').forEach((el) => el.append('\n'));
+    return (doc.body.textContent ?? '').trim();
+  }
+  return body.replace(/\|\|[\s\S]+?\|\|/g, SPOILER_PLACEHOLDER);
+};
+
 export const getMemberDisplayName = (room: Room, userId: string): string | undefined => {
   const member = room.getMember(userId);
   const name = member?.rawDisplayName;
