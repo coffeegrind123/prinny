@@ -1,5 +1,21 @@
-import { useCallback } from 'react';
-import { Box, Text, Switch, Button, color, Spinner } from 'folds';
+import { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import {
+  Box,
+  Text,
+  Switch,
+  Button,
+  color,
+  config,
+  Icon,
+  IconButton,
+  Icons,
+  Menu,
+  MenuItem,
+  PopOut,
+  RectCords,
+  Spinner,
+} from 'folds';
+import { FocusTrap } from 'focus-trap-react';
 import { IPusherRequest } from 'matrix-js-sdk';
 import { SequenceCard } from '../../../components/sequence-card';
 import { SequenceCardStyle } from '../styles.css';
@@ -11,6 +27,99 @@ import { useEmailNotifications } from '../../../hooks/useEmailNotifications';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { requestNotificationPermission } from '../../../utils/desktop-notifications';
+import { stopPropagation } from '../../../utils/keyboard';
+import { DEFAULT_SOUND_PACK, SOUND_PACKS, getSoundUrl } from '../../../sound/soundPacks';
+
+function SelectSoundPack({ disabled }: { disabled?: boolean }) {
+  const [soundPack, setSoundPack] = useSetting(settingsAtom, 'soundPack');
+  const [menuCords, setMenuCords] = useState<RectCords>();
+  const previewRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleMenu: MouseEventHandler<HTMLButtonElement> = (evt) => {
+    setMenuCords(evt.currentTarget.getBoundingClientRect());
+  };
+
+  // A pack that was removed reads as the default, which is what plays.
+  const current =
+    SOUND_PACKS.find((pack) => pack.id === soundPack) ??
+    SOUND_PACKS.find((pack) => pack.id === DEFAULT_SOUND_PACK);
+
+  const preview = (id: string) => {
+    previewRef.current?.pause();
+    const audio = new Audio(getSoundUrl(id, 'message'));
+    previewRef.current = audio;
+    audio.play().catch(() => undefined);
+  };
+
+  const handleSelect = (id: string) => {
+    setSoundPack(id);
+    setMenuCords(undefined);
+    preview(id);
+  };
+
+  return (
+    <Box gap="100" alignItems="Center">
+      <IconButton
+        size="300"
+        radii="300"
+        variant="Secondary"
+        disabled={disabled}
+        aria-label="Play the message sound"
+        onClick={() => preview(current?.id ?? DEFAULT_SOUND_PACK)}
+      >
+        <Icon size="100" src={Icons.Play} />
+      </IconButton>
+      <Button
+        size="300"
+        variant="Secondary"
+        outlined
+        fill="Soft"
+        radii="300"
+        disabled={disabled}
+        after={<Icon size="300" src={Icons.ChevronBottom} />}
+        onClick={handleMenu}
+      >
+        <Text size="T300">{current?.label ?? 'Default'}</Text>
+      </Button>
+      <PopOut
+        anchor={menuCords}
+        offset={5}
+        position="Bottom"
+        align="End"
+        content={
+          <FocusTrap
+            focusTrapOptions={{
+              initialFocus: false,
+              onDeactivate: () => setMenuCords(undefined),
+              clickOutsideDeactivates: true,
+              isKeyForward: (evt: KeyboardEvent) =>
+                evt.key === 'ArrowDown' || evt.key === 'ArrowRight',
+              isKeyBackward: (evt: KeyboardEvent) =>
+                evt.key === 'ArrowUp' || evt.key === 'ArrowLeft',
+              escapeDeactivates: stopPropagation,
+            }}
+          >
+            <Menu>
+              <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
+                {SOUND_PACKS.map((pack) => (
+                  <MenuItem
+                    key={pack.id}
+                    size="300"
+                    variant={current?.id === pack.id ? 'Primary' : 'Surface'}
+                    radii="300"
+                    onClick={() => handleSelect(pack.id)}
+                  >
+                    <Text size="T300">{pack.label}</Text>
+                  </MenuItem>
+                ))}
+              </Box>
+            </Menu>
+          </FocusTrap>
+        }
+      />
+    </Box>
+  );
+}
 
 function EmailNotification() {
   const mx = useMatrixClient();
@@ -148,6 +257,11 @@ export function SystemNotification() {
           title="Notification Sound"
           description="Play sound when new message arrive."
           after={<Switch value={isNotificationSounds} onChange={setIsNotificationSounds} />}
+        />
+        <SettingTile
+          title="Sound Pack"
+          description="Sounds for new messages, invites and incoming calls."
+          after={<SelectSoundPack disabled={!isNotificationSounds} />}
         />
       </SequenceCard>
       <SequenceCard

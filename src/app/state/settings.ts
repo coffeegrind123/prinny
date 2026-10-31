@@ -288,6 +288,9 @@ export interface Settings {
   // Which service the GIF picker searches. Tenor and Giphy need an API key in config.json or the
   // build; without one the picker stays on Klipy.
   gifProvider: GifProviderId;
+  // Message, invite and incoming-call sounds, by pack folder in public/sound-packs. 'default' is
+  // the app's own sounds; a pack that no longer exists falls back to them.
+  soundPack: string;
 }
 
 const defaultSettings: Settings = {
@@ -418,6 +421,7 @@ const defaultSettings: Settings = {
   showAllTimestamps: false,
   toggleWindowShortcut: '',
   gifProvider: 'klipy',
+  soundPack: 'default',
 };
 
 /** Settings that existed under a different shape in an older build. */

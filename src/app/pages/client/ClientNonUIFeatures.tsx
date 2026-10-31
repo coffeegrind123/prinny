@@ -8,8 +8,7 @@ import { roomToUnreadAtom } from '../../state/room/roomToUnread';
 import LogoSVG from '../../../../public/res/svg/prinny.svg';
 import LogoUnreadSVG from '../../../../public/res/svg/prinny-unread.svg';
 import LogoHighlightSVG from '../../../../public/res/svg/prinny-highlight.svg';
-import NotificationSound from '../../../../public/sound/notification.ogg';
-import InviteSound from '../../../../public/sound/invite.ogg';
+import { getSoundUrl } from '../../sound/soundPacks';
 import { setFavicon } from '../../utils/dom';
 import { renderFaviconWithBadge } from '../../utils/favicon-badge';
 import {
@@ -163,6 +162,7 @@ function InviteNotifications() {
   const navigate = useNavigate();
   const [showNotifications] = useSetting(settingsAtom, 'showNotifications');
   const [notificationSound] = useSetting(settingsAtom, 'isNotificationSounds');
+  const [soundPack] = useSetting(settingsAtom, 'soundPack');
 
   const notify = useCallback(
     (count: number) => {
@@ -236,9 +236,7 @@ function InviteNotifications() {
   }, [mx, invites, perviousInviteLen, showNotifications, notificationSound, notify, playSound]);
 
   return (
-    <audio ref={audioRef} style={{ display: 'none' }}>
-      <source src={InviteSound} type="audio/ogg" />
-    </audio>
+    <audio ref={audioRef} src={getSoundUrl(soundPack, 'invite')} style={{ display: 'none' }} />
   );
 }
 
@@ -256,6 +254,7 @@ function MessageNotifications() {
   const useAuthentication = useMediaAuthentication();
   const [showNotifications] = useSetting(settingsAtom, 'showNotifications');
   const [notificationSound] = useSetting(settingsAtom, 'isNotificationSounds');
+  const [soundPack] = useSetting(settingsAtom, 'soundPack');
   const [notificationContentMode] = useSetting(settingsAtom, 'notificationContentMode');
 
   const { navigateRoom } = useRoomNavigate();
@@ -635,9 +634,7 @@ function MessageNotifications() {
   }, [navigateRoom]);
 
   return (
-    <audio ref={audioRef} style={{ display: 'none' }}>
-      <source src={NotificationSound} type="audio/ogg" />
-    </audio>
+    <audio ref={audioRef} src={getSoundUrl(soundPack, 'message')} style={{ display: 'none' }} />
   );
 }
 
