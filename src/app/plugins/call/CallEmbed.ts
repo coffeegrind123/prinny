@@ -25,6 +25,7 @@ import {
 } from './types';
 import { CallControl } from './CallControl';
 import { CallControlState } from './CallControlState';
+import { protectFrameFromParentDrag } from './protectFrameFromParentDrag';
 
 export class CallEmbed {
   private mx: MatrixClient;
@@ -200,6 +201,7 @@ export class CallEmbed {
       widget.getCompleteUrl({ currentUserId: mx.getSafeUserId() }),
     );
     container.append(iframe);
+    this.disposables.push(protectFrameFromParentDrag(iframe.ownerDocument, iframe));
 
     const callWidgetDriver: WidgetDriver = new CallWidgetDriver(mx, room.roomId);
     const call: ClientWidgetApi = new ClientWidgetApi(widget, iframe, callWidgetDriver);
