@@ -53,6 +53,16 @@ User-facing changes per commit. Most recent at the top.
 - `c301637` Added **a "Fade only the text while sending" setting** (Settings › General › Messages, off by default) (from meow).
 - `6cbfefc` Added **description lists in messages** (`<dl>`, `<dt>`, `<dd>`) (from Sable).
 - `c6efb80` Fixed **a zoomed image following the pointer after the mouse was released outside the window** (from meow).
+- `dfaba98` Fixed **space auto-join rejoining rooms you had left** — leaves are remembered (across your devices) and forgotten again when you rejoin a room yourself (from meow).
+- `6f15fa7` Fixed **dragged rooms snapping back, or a space losing its custom order** — room-order changes are saved one at a time, as a single write (from meow).
+- `1ebdd2d` Fixed **menus, hover and drags jumping to a different room when the room list re-sorts** (from meow).
+- `def9530` Fixed **dragging a room always inserting it above the target** — it drops above or below depending on where you let go (from meow).
+- `2ca6c43` Added **a confirmation before Decline and Decline All on invites** (from meow).
+- `eb21756` Improved **the "following the conversation" line** — it includes you, unless you hide your read receipts (from meow).
+- `52ada26` Added **Mark as Direct to the room menu** — moves a DM another client never flagged into Chats (from meow).
+- `bbb3b0e` Added **an "Unencrypted" warning on private rooms and DMs** — an icon in the room list and a badge in the room header; public rooms are left alone (from meow).
+- `a070e92` Fixed **call speaker detection stopping after someone joined late, the layout changed or the call reloaded** — and screen sharers are tracked too (from meow).
+- `0dbb134` Added **a "Call activity in room list" setting** (Settings › General › Calls, off by default) — a speaking ring and LIVE tag on call members in the room list (from meow).
 
 ## 18.10.2026
 
