@@ -7,6 +7,8 @@ User-facing changes per commit. Most recent at the top.
 - `d8cd1dd` Fixed **deleted messages reappearing when you copy a stretch of the timeline**. Copy picked up edits the timeline never shows, so a message that was edited and then deleted came back as its `* new text` edit, and every edited message added a stray `* …` line. Copy now includes only the messages actually drawn on screen.
 - `fbbc487` Added **inline playback for linked `.mkv` videos** — Matroska links now embed a player like `.mp4`/`.webm` do (plays in the Windows app, Chrome and Firefox 145+). Where a linked video can't be played, the card shows an "Open it" link instead of a dead player.
 - `c0b98b7` Fixed **certificate checks that could trust revoked emSign certificates** in the desktop and Android apps — updated the Rust TLS libraries `rustls-webpki` to 0.103.16 and `webpki-roots`/`webpki-root-certs` to 1.0.11 (RUSTSEC-2026-0381, 0382, 0383).
+- `a7f8e9b` Fixed **a way for a crafted message to slip formatting past the HTML filter** — updated `sanitize-html` to 2.18.1 (from upstream Cinny). A `<noscript>` block could end early and let what followed through; 2.18.1 also caps a deeply nested `<iframe>` input that could crash the filter, and drops the flagged `deepmerge` dependency.
+- `7a0be22` Improved **featured communities in Explore** — three featured rooms and spaces that had moved (stickers & emojis, video games, free software) now point to their new addresses (from upstream Cinny).
 
 ## 18.10.2026
 

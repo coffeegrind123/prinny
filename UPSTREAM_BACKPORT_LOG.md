@@ -3,8 +3,8 @@
 Tracks upstream `cinnyapp/cinny` commits cherry-picked into our fork (`coffeegrind123/prinny`, branch `main`).
 
 **Fork base:** `6a05ff5` (v4.11.1-era)
-**Last sync:** 2026-10-18 (upstream `dev` @ `eff1f48e`; ancestry recorded with `git merge -s ours`)
-**Start from:** `eff1f48e` — next time, fetch upstream and check commits AFTER this one
+**Last sync:** 2026-10-31 (upstream `dev` @ `7170a0fc`; ancestry recorded with `git merge -s ours`)
+**Start from:** `7170a0fc` — next time, fetch upstream and check commits AFTER this one
 
 > **2026-08-10:** Second sync. Same shape as the first: cherry-picked the
 > meaningful commits, then `git merge upstream/dev -X ours` to bring the
@@ -138,7 +138,18 @@ Range: `8967c138..upstream/dev` (`eff1f48e`) — 2 commits. Nothing to apply.
 | SHA        | Status | Description                                                             | Notes |
 | ---------- | ------ | ----------------------------------------------------------------------- | ----- |
 | `8788f0cf` | `[-]`  | fix(deps): update dependency i18next-http-backend 2.5.2 to 4.0.3 (#3127) | Already satisfied — our `e4bba77` took 4.0.3 the same day for the incomplete URL check advisory |
-| `eff1f48e` | `[-]`  | chore(deps): bump actions/setup-node from 7.0.0 to 7.1.0 (#3128)          | CI dep — **START HERE next sync** |
+| `eff1f48e` | `[-]`  | chore(deps): bump actions/setup-node from 7.0.0 to 7.1.0 (#3128)          | CI dep |
+
+### 2026-10-31 sync session
+
+Range: `eff1f48e..upstream/dev` (`7170a0fc`) — 4 commits.
+
+| SHA        | Status | Description                                                              | Notes |
+| ---------- | ------ | ------------------------------------------------------------------------ | ----- |
+| `14e490c8` | `[x]`  | fix(deps): update dependency sanitize-html v2.17.7 to v2.18.1 (#3133)    | Our `a7f8e9b`. **Security:** we list `noscript` in `nonTextTags`, so GHSA-x3q4-9hxx-gx8m applies — verified 2.18.1 drops a `<noscript>` region that 2.17.7 let leak. Also removes `deepmerge` (GHSA-gcqx-w48m-w2h4) |
+| `1e6412ed` | `[-]`  | chore: Release v4.12.8 (#3135)                                           | Release/version stamp |
+| `e58468ca` | `[-]`  | chore: fix typo in CONTRIBUTING.md (#3138)                               | Docs — we removed CONTRIBUTING |
+| `7170a0fc` | `[~]`  | chore: update existing community alias and add server (#3130)            | Our `7a0be22`: took the three alias renames; not the `servers` list, ours is empty on purpose (`publicServersUrl`) — **START HERE next sync** |
 
 ---
 
@@ -146,8 +157,8 @@ Range: `8967c138..upstream/dev` (`eff1f48e`) — 2 commits. Nothing to apply.
 
 ### Cumulative
 
-- **Backported:** 24 commits
-- **Skipped:** 66 commits (CI/deps, release stamps, docs)
+- **Backported:** 26 commits
+- **Skipped:** 68 commits (CI/deps, release stamps, docs)
 
 ### 2026-05-15 session
 
@@ -196,6 +207,12 @@ because stale older `@types` are still hoisted there. Only `npm ci` gives a
 truthful answer. Worth fixing as its own piece of work — do not let a green
 typecheck from a dirty tree convince you it is already fixed.
 
+### 2026-10-31 session
+
+- **Backported:** 2 commits (1 security dep bump, 1 config alias update — partial)
+- **Skipped:** 2 commits (1 release stamp, 1 docs)
+- **History:** recorded with `git merge -s ours upstream/dev`
+
 ## Process (reference for future syncs)
 
 ```bash
@@ -203,7 +220,7 @@ typecheck from a dirty tree convince you it is already fixed.
 git fetch upstream --tags
 
 # 2. Check what's new since last sync (start from the "START HERE" marker above)
-git log --oneline eff1f48e..upstream/dev --reverse --no-merges
+git log --oneline 7170a0fc..upstream/dev --reverse --no-merges
 
 # 3. Filter out noise (chore, CI deps, docs)
 # 4. Cherry-pick meaningful commits oldest-first
