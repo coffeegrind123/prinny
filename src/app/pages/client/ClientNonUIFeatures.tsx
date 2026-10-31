@@ -79,6 +79,18 @@ function PageZoomFeature() {
   return null;
 }
 
+// Editable elements without their own spellcheck attribute inherit it from
+// <body>, so this one switch covers the composer and every input.
+function SpellcheckFeature() {
+  const [disableSpellcheck] = useSetting(settingsAtom, 'disableSpellcheck');
+
+  useEffect(() => {
+    document.body.spellcheck = !disableSpellcheck;
+  }, [disableSpellcheck]);
+
+  return null;
+}
+
 function SystemTray() {
   useSystemTray();
   useToggleWindowShortcut();
@@ -657,6 +669,7 @@ export function ClientNonUIFeatures({ children }: ClientNonUIFeaturesProps) {
     <>
       <SystemEmojiFeature />
       <PageZoomFeature />
+      <SpellcheckFeature />
       <FaviconUpdater />
       <TaskbarBadgeUpdater />
       <SystemTray />

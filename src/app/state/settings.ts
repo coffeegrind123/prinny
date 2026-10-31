@@ -301,6 +301,9 @@ export interface Settings {
   collapsibleEmojiGroups: boolean;
   // Denser room list: shorter rows and category headers (body class compact-room-list).
   compactRoomList: boolean;
+  // Turn off the browser's spellcheck in the composer and every other text field (they inherit
+  // <body spellcheck>).
+  disableSpellcheck: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -436,6 +439,7 @@ const defaultSettings: Settings = {
   spaceUnreadPill: false,
   collapsibleEmojiGroups: false,
   compactRoomList: false,
+  disableSpellcheck: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

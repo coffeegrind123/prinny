@@ -1002,6 +1002,7 @@ function DateAndTime() {
 function Editor() {
   const [enterForNewline, setEnterForNewline] = useSetting(settingsAtom, 'enterForNewline');
   const [scrollOnSend, setScrollOnSend] = useSetting(settingsAtom, 'scrollOnSend');
+  const [disableSpellcheck, setDisableSpellcheck] = useSetting(settingsAtom, 'disableSpellcheck');
   const [isMarkdown, setIsMarkdown] = useSetting(settingsAtom, 'isMarkdown');
   const [hideReadReceipts, setHideReadReceipts] = useSetting(settingsAtom, 'hideReadReceipts');
   const [hideTypingStatus, setHideTypingStatus] = useSetting(settingsAtom, 'hideTypingStatus');
@@ -1055,6 +1056,15 @@ function Editor() {
           title="Scroll to Bottom on Send"
           description="When you send a message while scrolled up, jump back down to the live timeline so your message comes into view."
           after={<Switch variant="Primary" value={scrollOnSend} onChange={setScrollOnSend} />}
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Disable Spellcheck"
+          description="Stop underlining misspelled words in the message box and other text fields."
+          after={
+            <Switch variant="Primary" value={disableSpellcheck} onChange={setDisableSpellcheck} />
+          }
         />
       </SequenceCard>
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
