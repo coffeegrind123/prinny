@@ -39,6 +39,20 @@ User-facing changes per commit. Most recent at the top.
 - `7e5a598` Fixed **clicking a browser notification not bringing the Prinny tab forward** (from meow).
 - `182f423` `3a2aad1` Fixed **push gateways that send the notification as text getting no notification on Android (it even cleared the existing one) or a generic "New message" on the web** — both shapes are now read (from Sable).
 - `4a55ff3` Fixed **link previews loading in encrypted rooms from search, pinned messages, the inbox and threads** when previews in encrypted rooms are turned off — those views now follow the setting (from meow).
+- `6bada4c` Fixed **the timeline endlessly re-requesting older messages** in some rooms — a request that brings nothing new now stops, with a notice above the timeline, and results arriving after you jumped elsewhere are dropped (from meow).
+- `458e912` Fixed **rooms you had read coming back as unread after a restart**, and a single failed read receipt stopping later ones from being sent until restart (from meow).
+- `8231208` Fixed **a stale "new messages" line and Jump to Unread showing in rooms you had already read** — new messages arriving while you sit at the bottom of a read room are now marked read (from meow).
+- `06e00f8` Fixed **the member list freezing after one failed load** — it keeps updating (from Sable).
+- `d67fb59` Improved **opening rooms with more than 1000 members** — the full member list is only downloaded where it's shown (member list, room settings, lobby, knock requests); @-mentions search the user directory instead (from Sable).
+- `a269e5b` Fixed **jump-to-bottom stopping a few pixels short** (from Sable).
+- `935dddc` Improved **deleting a message or removing a reaction** — it disappears at once instead of after the server answers, and comes back if the delete fails (from Sable).
+- `3e94038` Fixed **copying one whole message putting the time and sender on the clipboard** — you get just its text; copying several messages still gives a transcript (from meow).
+- `8d813df` Fixed **the @-mention list coming up short or showing the previous search's results** — people who left or were banned are filtered out before the list is cut (from Sable).
+- `68bb488` Improved **sending the first message in a large encrypted room** — encryption is prepared while you type, so Send doesn't wait (from Sable).
+- `4a25caa` Added **writing a link as `<https://…>` to skip its preview card** — the angle brackets are hidden when shown (from meow).
+- `c301637` Added **a "Fade only the text while sending" setting** (Settings › General › Messages, off by default) (from meow).
+- `6cbfefc` Added **description lists in messages** (`<dl>`, `<dt>`, `<dd>`) (from Sable).
+- `c6efb80` Fixed **a zoomed image following the pointer after the mouse was released outside the window** (from meow).
 
 ## 18.10.2026
 
