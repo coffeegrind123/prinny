@@ -245,7 +245,8 @@ export interface Settings {
   // the sync traffic that follows.
   autoJoinSpaceRooms: boolean;
   // Only share message keys with cross-signed sessions. Off by default because
-  // it breaks sending to anyone who has an unverified session of their own.
+  // unverified sessions of other people then cannot read what you send; sending
+  // itself fails only when someone you verified changes identity.
   onlySignedDevices: boolean;
   // Ask before importing the whole server key backup instead of restoring it as soon as this
   // device can open it.
