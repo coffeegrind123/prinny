@@ -108,8 +108,24 @@ export const useCallJoined = (embed?: CallEmbed): boolean => {
 };
 
 export const useCallHangupEvent = (embed: CallEmbed, callback: () => void) => {
-  useClientWidgetApiEvent(embed.call, ElementWidgetActions.HangupCall, callback);
-  useClientWidgetApiEvent(embed.call, ElementWidgetActions.Close, callback);
+  // A hangup or close the widget asks for ends the call with no other trace;
+  // log which one it was so an unexpected drop can be told apart from a click.
+  const onHangup = useCallback(
+    (evt: CustomEvent) => {
+      console.info('[call] widget requested hangup', evt.detail);
+      callback();
+    },
+    [callback],
+  );
+  const onClose = useCallback(
+    (evt: CustomEvent) => {
+      console.info('[call] widget requested close', evt.detail);
+      callback();
+    },
+    [callback],
+  );
+  useClientWidgetApiEvent(embed.call, ElementWidgetActions.HangupCall, onHangup);
+  useClientWidgetApiEvent(embed.call, ElementWidgetActions.Close, onClose);
 };
 
 export const useCallMemberSoundSync = (embed: CallEmbed) => {
