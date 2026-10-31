@@ -275,6 +275,9 @@ export interface Settings {
   // While idle (same five minutes), treat new messages as unseen: no read receipts, and the unread
   // marker stays. Independent of idleAway.
   idlePausesReadReceipts: boolean;
+  // Clicking your profile in the top bar opens a menu with your card, an Online / Away /
+  // Invisible picker, Edit Profile and Copy User ID. Needs `topBarProfile`.
+  presencePicker: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -401,6 +404,7 @@ const defaultSettings: Settings = {
   callControlsRedesign: false,
   idleAway: false,
   idlePausesReadReceipts: false,
+  presencePicker: false,
 };
 
 /** Settings that existed under a different shape in an older build. */

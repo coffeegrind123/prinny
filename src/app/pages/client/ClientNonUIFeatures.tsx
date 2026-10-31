@@ -52,6 +52,7 @@ import { ShareTargetHandler } from '../../features/share/ShareTargetHandler';
 import { isVoiceMessageContent } from '../../utils/voice-message';
 import { MATRIX_GIF_PROPERTY_NAME } from '../../../types/matrix/common';
 import { IdleDetector } from '../../hooks/useIdleDetector';
+import { ChosenPresenceRestore } from '../../hooks/useChosenPresenceRestore';
 
 function SystemEmojiFeature() {
   const [twitterEmoji] = useSetting(settingsAtom, 'twitterEmoji');
@@ -668,6 +669,7 @@ export function ClientNonUIFeatures({ children }: ClientNonUIFeaturesProps) {
       <SpaceAutoJoinFeature />
       <RichPresencePublisher />
       <IdleDetector />
+      <ChosenPresenceRestore />
       {children}
     </>
   );

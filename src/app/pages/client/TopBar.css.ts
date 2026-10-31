@@ -17,3 +17,20 @@ export const ProfileText = style({
   minWidth: 0,
   flexGrow: 1,
 });
+
+export const ProfileButton = style({
+  minWidth: 0,
+  padding: config.space.S100,
+  background: 'none',
+  border: 'none',
+  color: 'inherit',
+  font: 'inherit',
+  textAlign: 'left',
+  cursor: 'pointer',
+  borderRadius: config.radii.R300,
+  selectors: {
+    '&:hover, &[aria-expanded=true]': {
+      backgroundColor: 'rgba(128, 128, 128, 0.15)',
+    },
+  },
+});

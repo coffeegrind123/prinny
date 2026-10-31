@@ -7,14 +7,24 @@ import { Presence, useUserPresence } from '../hooks/useUserPresence';
 export type OwnPresenceContent = {
   /** The status message the user last saved, kept across presence changes. */
   status?: string;
+  /** The presence picked in the profile menu; absent means online. */
+  presence?: Presence;
 };
+
+const PRESENCE_VALUES: readonly string[] = Object.values(Presence);
 
 const parseContent = (content: unknown): OwnPresenceContent => {
   if (typeof content !== 'object' || content === null) {
     return {};
   }
-  const { status } = content as Record<string, unknown>;
-  return { status: typeof status === 'string' ? status : undefined };
+  const { status, presence } = content as Record<string, unknown>;
+  return {
+    status: typeof status === 'string' ? status : undefined,
+    presence:
+      typeof presence === 'string' && PRESENCE_VALUES.includes(presence)
+        ? (presence as Presence)
+        : undefined,
+  };
 };
 
 const getContent = (mx: MatrixClient): OwnPresenceContent =>
@@ -57,6 +67,20 @@ export const saveStatusMessage = async (
 ): Promise<void> => {
   await mx.setAccountData(AccountDataEvent.PrinnyPresence, { ...getContent(mx), status });
   await sendPresence(mx, presence, status);
+};
+
+export const getChosenPresence = (mx: MatrixClient): Presence =>
+  getContent(mx).presence ?? Presence.Online;
+
+/** Applies a presence picked by the user and remembers it for the next start. */
+export const saveChosenPresence = async (mx: MatrixClient, presence: Presence): Promise<void> => {
+  await applyOwnPresence(mx, presence);
+  await mx.setAccountData(AccountDataEvent.PrinnyPresence, { ...getContent(mx), presence });
+};
+
+export const useChosenPresence = (): Presence => {
+  const event = useAccountData(AccountDataEvent.PrinnyPresence);
+  return parseContent(event?.getContent()).presence ?? Presence.Online;
 };
 
 /** The user's own status: what the server reports, else the remembered message. */

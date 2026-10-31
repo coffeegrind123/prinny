@@ -1457,6 +1457,7 @@ function ForkFeatures() {
   const [dmRailButtons, setDmRailButtons] = useSetting(settingsAtom, 'dmRailButtons');
   const [topBar, setTopBar] = useSetting(settingsAtom, 'topBar');
   const [topBarProfile, setTopBarProfile] = useSetting(settingsAtom, 'topBarProfile');
+  const [presencePicker, setPresencePicker] = useSetting(settingsAtom, 'presencePicker');
   const [roomsPseudoSpace, setRoomsPseudoSpace] = useSetting(settingsAtom, 'roomsPseudoSpace');
   const [gifPicker, setGifPicker] = useSetting(settingsAtom, 'gifPicker');
   const [emojiMashup, setEmojiMashup] = useSetting(settingsAtom, 'emojiMashup');
@@ -1531,6 +1532,20 @@ function ForkFeatures() {
               disabled={!topBar}
               value={topBarProfile}
               onChange={setTopBarProfile}
+            />
+          }
+        />
+      </SequenceCard>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Profile Menu"
+          description="Click your profile in the top bar for your card, an Online / Away / Invisible picker, Edit Profile and Copy User ID. Needs profile controls in the top bar."
+          after={
+            <Switch
+              variant="Primary"
+              disabled={!topBar || !topBarProfile}
+              value={presencePicker}
+              onChange={setPresencePicker}
             />
           }
         />
