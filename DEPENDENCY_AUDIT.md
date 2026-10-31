@@ -356,3 +356,10 @@ bots are allowed to move the pins. See §1.
    clear today only because the two root causes (`@babel/core`, `esbuild`) are
    overridden. Re-check when vanilla-extract publishes a release that unpins
    them.
+8. `@matrix-org/matrix-sdk-crypto-wasm` is pinned to **18.4.0** in `overrides`
+   (31.10.2026). With 18.5.0+, matrix-js-sdk below 42.4.0 reports a zero
+   one-time-key count on nearly every sync, so the account republishes 50 OTKs
+   per sync and new Olm sessions break (matrix-js-sdk#5501, fixed by #5503 in
+   42.4.0). js-sdk 42.2.0 asks for `^18.4.0`, so without the pin a lockfile
+   refresh pulls the bad wasm. Drop the override in the same change that moves
+   js-sdk to 42.4.0 or later.
