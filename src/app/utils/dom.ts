@@ -193,7 +193,7 @@ export const getScrollInfo = (target: HTMLElement): ScrollInfo => ({
 
 export const scrollToBottom = (scrollEl: HTMLElement, behavior?: 'auto' | 'instant' | 'smooth') => {
   scrollEl.scrollTo({
-    top: Math.round(scrollEl.scrollHeight - scrollEl.offsetHeight),
+    top: Math.round(scrollEl.scrollHeight - scrollEl.clientHeight),
     behavior,
   });
 };
