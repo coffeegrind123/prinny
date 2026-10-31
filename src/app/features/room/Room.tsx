@@ -15,7 +15,7 @@ import { useRoom } from '../../hooks/useRoom';
 import { useKeyDown } from '../../hooks/useKeyDown';
 import { markAsRead } from '../../utils/notifications';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
-import { useRoomMembers } from '../../hooks/useRoomMembers';
+import { RosterLoad, useRoomMembers } from '../../hooks/useRoomMembers';
 import { CallView } from '../call/CallView';
 import { RoomViewHeader } from './RoomViewHeader';
 import { RoomKnocksBar } from './RoomKnocksBar';
@@ -75,7 +75,12 @@ export function Room() {
     if (threadView && threadView.roomId !== room.roomId) setThreadView(undefined);
   }, [room.roomId, threadView, setThreadView]);
   const powerLevels = usePowerLevels(room);
-  const members = useRoomMembers(mx, room.roomId);
+  // Only the member drawer lists everyone, so only it pays for the full roster.
+  const members = useRoomMembers(
+    mx,
+    room.roomId,
+    isDrawer || searchOpen ? RosterLoad.Full : RosterLoad.LazyIfLarge,
+  );
   const chat = useAtomValue(callChatAtom);
 
   // This listener is on `window`, so a backdrop room mounted behind the room

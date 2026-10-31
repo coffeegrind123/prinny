@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Avatar, Box, Button, Icon, Icons, Spinner, Text, color, config } from 'folds';
 import { KnownMembership } from 'matrix-js-sdk/lib/types';
-import { Room } from 'matrix-js-sdk';
+import { JoinRule, Room } from 'matrix-js-sdk';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
-import { useRoomMembers } from '../../hooks/useRoomMembers';
+import { RosterLoad, useRoomMembers } from '../../hooks/useRoomMembers';
 import { usePowerLevelsContext } from '../../hooks/usePowerLevels';
 import { useRoomPermissions } from '../../hooks/useRoomPermissions';
 import { useRoomCreators } from '../../hooks/useRoomCreators';
@@ -31,7 +31,6 @@ type RoomKnocksBarProps = {
 export function RoomKnocksBar({ room }: RoomKnocksBarProps) {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
-  const members = useRoomMembers(mx, room.roomId);
   const powerLevels = usePowerLevelsContext();
   const creators = useRoomCreators(room);
   const permissions = useRoomPermissions(creators, powerLevels);
@@ -39,6 +38,16 @@ export function RoomKnocksBar({ room }: RoomKnocksBarProps) {
 
   const canInvite = permissions.action('invite', userId);
   const canKick = permissions.action('kick', userId);
+  // A knock made before the cached sync window is only in the full roster,
+  // which in a large room is worth fetching only where knocking is allowed and
+  // for someone who can answer it.
+  const joinRule: string = room.getJoinRule();
+  const knockable = joinRule === JoinRule.Knock || joinRule === 'knock_restricted';
+  const members = useRoomMembers(
+    mx,
+    room.roomId,
+    knockable && (canInvite || canKick) ? RosterLoad.Full : RosterLoad.LazyIfLarge,
+  );
 
   const [dismissed, setDismissed] = useState<string[]>([]);
 
