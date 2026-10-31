@@ -89,6 +89,8 @@ import {
   matchingReactionKey,
   isMembershipChanged,
   reactionOrEditEvent,
+  roomHaveNotification,
+  roomHaveUnread,
 } from '../../utils/room';
 import { useSetting } from '../../state/hooks/settings';
 import { MessageLayout, settingsAtom } from '../../state/settings';
@@ -671,8 +673,15 @@ const getEmptyTimeline = () => ({
  * looked at, and drifts further from it every time anything stops the receipt
  * advancing. A room now opens on the newest message, and this is only used to
  * draw the "new messages" divider and to offer Jump to Unread.
+ *
+ * Only while the room is unread. A read room still has a receipt, often on an
+ * event followed by ones that cannot notify (reactions, state, a receipt the
+ * server never echoed), and taking it then drew a stale divider, offered Jump
+ * to Unread in a read room and, because the live-event path only marks read
+ * while this is unset, stopped new arrivals being marked read at the bottom.
  */
 const getRoomUnreadInfo = (room: Room) => {
+  if (!roomHaveNotification(room) && !roomHaveUnread(room.client, room)) return undefined;
   const readUptoEventId = room.getEventReadUpTo(room.client.getUserId() ?? '');
   if (!readUptoEventId) return undefined;
   const evtTimeline = getEventTimeline(room, readUptoEventId);
