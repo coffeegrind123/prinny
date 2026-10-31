@@ -58,6 +58,7 @@ import {
   MSC4440_BIOGRAPHY,
   ProfilePronoun,
 } from '../../../../types/matrix/profile';
+import { blobIsAnimated } from '../../../utils/animatedMedia';
 import { ProfilePreview } from './ProfilePreview';
 import * as previewCss from './ProfilePreview.css';
 import { useUserPresence } from '../../../hooks/useUserPresence';
@@ -242,7 +243,16 @@ function ProfileBanner({ bannerMxc, onBannerChange }: ProfileBannerProps) {
     () => (croppedFile ? createUploadAtom(croppedFile) : undefined),
     [croppedFile],
   );
-  const pickFile = useFilePicker(setImageFile, false);
+  const handlePickedFile = useCallback(async (file: File) => {
+    // The cropper re-encodes to a single still frame, so an animated banner is
+    // uploaded untouched and is expected to already be cropped to 3:1.
+    if (await blobIsAnimated(file).catch(() => undefined)) {
+      setCroppedFile(file);
+      return;
+    }
+    setImageFile(file);
+  }, []);
+  const pickFile = useFilePicker(handlePickedFile, false);
 
   const handleUploaded = useCallback(
     async (upload: UploadSuccess) => {
