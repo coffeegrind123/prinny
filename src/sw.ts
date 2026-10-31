@@ -252,7 +252,17 @@ async function handlePush(event: PushEvent) {
   }
   if (typeof payload !== 'object' || payload === null) payload = {};
 
-  const rawNotif = payload.notification ?? payload;
+  let rawNotif = payload.notification ?? payload;
+  // Some gateways and distributors deliver `notification` as a JSON-encoded
+  // string rather than an object; without decoding it every push from them
+  // became the generic "New message".
+  if (typeof rawNotif === 'string') {
+    try {
+      rawNotif = JSON.parse(rawNotif);
+    } catch {
+      rawNotif = {};
+    }
+  }
   const notif: MatrixPushNotification =
     typeof rawNotif === 'object' && rawNotif !== null ? rawNotif : {};
   const roomName = asText(notif.room_name);
