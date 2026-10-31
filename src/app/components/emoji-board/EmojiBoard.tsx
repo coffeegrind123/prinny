@@ -20,7 +20,7 @@ import { isKeyHotkey } from '../../utils/is-hotkey';
 import { Room } from 'matrix-js-sdk';
 import { atom, PrimitiveAtom, useAtom, useSetAtom } from 'jotai';
 import { defaultRangeExtractor, Range, useVirtualizer } from '@tanstack/react-virtual';
-import { IEmoji } from '../../plugins/emoji';
+import { EmojiGroupId, IEmoji } from '../../plugins/emoji';
 import { useEmojiGroupLabels } from './useEmojiGroupLabels';
 import { useEmojiGroupIcons } from './useEmojiGroupIcons';
 import { preventScrollWithArrowKey, stopPropagation } from '../../utils/keyboard';
@@ -607,6 +607,18 @@ export function EmojiBoard({
   const mx = useMatrixClient();
   const [gifPicker] = useSetting(settingsAtom, 'gifPicker');
   const [emojiMashup] = useSetting(settingsAtom, 'emojiMashup');
+  const [collapsibleEmojiGroups] = useSetting(settingsAtom, 'collapsibleEmojiGroups');
+  // Per board instance: a fresh board starts with every group open.
+  const [collapsedGroupIds, setCollapsedGroupIds] = useState<Set<string>>(() => new Set());
+  const emojiGroupIcons = useEmojiGroupIcons();
+  const toggleGroupCollapsed = useCallback((groupId: string) => {
+    setCollapsedGroupIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(groupId)) next.delete(groupId);
+      else next.add(groupId);
+      return next;
+    });
+  }, []);
 
   // Boards opened for a single purpose — the reaction picker, the gallery —
   // pass no `onTabChange` and so have no tab state of their own. They still
@@ -692,6 +704,7 @@ export function EmojiBoard({
 
     const pushGroup = (groupId: string, label: string, items: RowItem[]) => {
       list.push({ kind: 'label', groupId, label });
+      if (collapsibleEmojiGroups && collapsedGroupIds.has(groupId)) return;
       for (let i = 0; i < items.length; i += perRow) {
         list.push({ kind: 'items', groupId, items: items.slice(i, i + perRow) });
       }
@@ -710,7 +723,7 @@ export function EmojiBoard({
     groups.forEach((group) => pushGroup(group.id, group.name, group.items));
 
     return list;
-  }, [groups, perRow, searchedItems]);
+  }, [groups, perRow, searchedItems, collapsibleEmojiGroups, collapsedGroupIds]);
 
   /**
    * Which rows are headings, and which heading is currently pinned.
@@ -992,6 +1005,8 @@ export function EmojiBoard({
   );
 
   const handleScrollToGroup = (groupId: string) => {
+    // Jumping to a collapsed group means wanting to see it.
+    if (collapsedGroupIds.has(groupId)) toggleGroupCollapsed(groupId);
     const rowIndex = rows.findIndex((row) => row.kind === 'label' && row.groupId === groupId);
     if (rowIndex < 0) return;
     virtualizer.scrollToIndex(rowIndex, { align: 'start' });
@@ -1120,7 +1135,21 @@ export function EmojiBoard({
 
                   const content =
                     row.kind === 'label' ? (
-                      <EmojiGroupLabelRow id={row.groupId} label={row.label} />
+                      <EmojiGroupLabelRow
+                        id={row.groupId}
+                        label={row.label}
+                        onToggleCollapsed={
+                          collapsibleEmojiGroups && row.groupId !== SEARCH_GROUP_ID
+                            ? toggleGroupCollapsed
+                            : undefined
+                        }
+                        collapsed={collapsedGroupIds.has(row.groupId)}
+                        icon={
+                          row.groupId === RECENT_GROUP_ID
+                            ? Icons.RecentClock
+                            : emojiGroupIcons[row.groupId as EmojiGroupId]
+                        }
+                      />
                     ) : (
                       <EmojiItemRow groupId={row.groupId}>
                         {row.items.map((item, col) =>

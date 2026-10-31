@@ -1,4 +1,4 @@
-import { as, Box, Text } from 'folds';
+import { as, Box, Icon, IconSrc, Icons, Text } from 'folds';
 import { ReactNode } from 'react';
 import classNames from 'classnames';
 import * as css from './styles.css';
@@ -46,8 +46,12 @@ export const EmojiGroupLabelRow = as<
   {
     id: string;
     label: string;
+    /** Given, the heading is a button that collapses or expands its group. */
+    onToggleCollapsed?: (id: string) => void;
+    collapsed?: boolean;
+    icon?: IconSrc;
   }
->(({ className, id, label, ...props }, ref) => (
+>(({ className, id, label, onToggleCollapsed, collapsed, icon, ...props }, ref) => (
   <Box
     data-group-id={id}
     className={classNames(css.EmojiGroupLabelRow, className)}
@@ -56,9 +60,25 @@ export const EmojiGroupLabelRow = as<
     {...props}
     ref={ref}
   >
-    <Text id={`EmojiGroup-${id}-label`} as="label" className={css.EmojiGroupLabel} size="O400">
-      {label}
-    </Text>
+    {onToggleCollapsed ? (
+      <Text
+        id={`EmojiGroup-${id}-label`}
+        as="button"
+        type="button"
+        aria-expanded={!collapsed}
+        className={css.EmojiGroupLabelButton}
+        size="O400"
+        onClick={() => onToggleCollapsed(id)}
+      >
+        {icon && <Icon size="100" src={icon} />}
+        <span style={{ flexGrow: 1 }}>{label}</span>
+        <Icon size="100" src={collapsed ? Icons.ChevronRight : Icons.ChevronBottom} />
+      </Text>
+    ) : (
+      <Text id={`EmojiGroup-${id}-label`} as="label" className={css.EmojiGroupLabel} size="O400">
+        {label}
+      </Text>
+    )}
   </Box>
 ));
 

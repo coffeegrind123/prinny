@@ -128,6 +128,25 @@ export const EmojiGroupLabelRow = style({
   backgroundColor: color.Surface.Container,
 });
 
+// The heading as a collapse toggle (collapsibleEmojiGroups): full width, so the
+// whole strip is the target, with the group's icon and a chevron.
+export const EmojiGroupLabelButton = style([
+  DefaultReset,
+  FocusOutline,
+  {
+    display: 'flex',
+    alignItems: 'center',
+    gap: config.space.S100,
+    width: '100%',
+    padding: `${config.space.S100} ${config.space.S200}`,
+    borderRadius: config.radii.R300,
+    backgroundColor: color.SurfaceVariant.Container,
+    color: color.SurfaceVariant.OnContainer,
+    textAlign: 'left',
+    cursor: 'pointer',
+  },
+]);
+
 export const EmojiItemRow = style([
   DefaultReset,
   {

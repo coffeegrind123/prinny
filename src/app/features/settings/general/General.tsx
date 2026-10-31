@@ -403,6 +403,10 @@ function Appearance() {
   const [systemTheme, setSystemTheme] = useSetting(settingsAtom, 'useSystemTheme');
   const [monochromeMode, setMonochromeMode] = useSetting(settingsAtom, 'monochromeMode');
   const [twitterEmoji, setTwitterEmoji] = useSetting(settingsAtom, 'twitterEmoji');
+  const [collapsibleEmojiGroups, setCollapsibleEmojiGroups] = useSetting(
+    settingsAtom,
+    'collapsibleEmojiGroups',
+  );
   const [spaceUnreadPill, setSpaceUnreadPill] = useSetting(settingsAtom, 'spaceUnreadPill');
   const [redMentionBadges, setRedMentionBadges] = useSetting(settingsAtom, 'redMentionBadges');
 
@@ -442,6 +446,20 @@ function Appearance() {
         <SettingTile
           title="Twitter Emoji"
           after={<Switch variant="Primary" value={twitterEmoji} onChange={setTwitterEmoji} />}
+        />
+      </SequenceCard>
+
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Collapsible Emoji Groups"
+          description="Emoji and sticker group headings show the group's icon, and clicking one collapses or expands the group."
+          after={
+            <Switch
+              variant="Primary"
+              value={collapsibleEmojiGroups}
+              onChange={setCollapsibleEmojiGroups}
+            />
+          }
         />
       </SequenceCard>
 

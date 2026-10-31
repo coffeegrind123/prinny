@@ -296,6 +296,9 @@ export interface Settings {
   // Space rail: a plain unread space gets a pill on its left edge instead of a badge, and only
   // mentions get a count badge, in the bottom-right corner, showing the mention total.
   spaceUnreadPill: boolean;
+  // Emoji and sticker group headings become full-width buttons with the group's icon that
+  // collapse and expand the group.
+  collapsibleEmojiGroups: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -429,6 +432,7 @@ const defaultSettings: Settings = {
   soundPack: 'default',
   redMentionBadges: false,
   spaceUnreadPill: false,
+  collapsibleEmojiGroups: false,
 };
 
 /** Settings that existed under a different shape in an older build. */
