@@ -1,6 +1,7 @@
 import { ReactNode, useCallback } from 'react';
 import { useSetAtom } from 'jotai';
 import { IContent, MsgType } from 'matrix-js-sdk';
+import { DecryptionFailureCode } from 'matrix-js-sdk/lib/crypto-api';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { Opts } from 'linkifyjs';
 import { Box, Chip, Icon, Icons, Text, config } from 'folds';
@@ -69,6 +70,8 @@ type RenderMessageContentProps = {
    */
   roomId?: string;
   eventId?: string;
+  /** Why the SDK could not decrypt the event, shown on an `m.bad.encrypted` placeholder. */
+  decryptionFailureCode?: DecryptionFailureCode | null;
 };
 export function RenderMessageContent({
   displayName,
@@ -85,6 +88,7 @@ export function RenderMessageContent({
   renderLocationMap,
   roomId,
   eventId,
+  decryptionFailureCode,
 }: RenderMessageContentProps) {
   const [autoEmbedHosts] = useSetting(settingsAtom, 'mediaAutoEmbedHosts');
   const [mediaFeedViewer] = useSetting(settingsAtom, 'mediaFeedViewer');
@@ -390,7 +394,7 @@ export function RenderMessageContent({
   }
 
   if (msgType === 'm.bad.encrypted') {
-    return <MBadEncrypted />;
+    return <MBadEncrypted failureCode={decryptionFailureCode} />;
   }
 
   // Effect messages (confetti and friends) are ordinary text wearing a custom

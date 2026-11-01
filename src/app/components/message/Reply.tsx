@@ -167,7 +167,11 @@ export const Reply = as<'div', ReplyProps>(
         >
           {replyEvent !== undefined ? (
             <Text size="T300" truncate>
-              {badEncryption ? <MessageBadEncryptedContent /> : bodyJSX}
+              {badEncryption ? (
+                <MessageBadEncryptedContent failureCode={replyEvent?.decryptionFailureReason} />
+              ) : (
+                bodyJSX
+              )}
             </Text>
           ) : (
             <LinePlaceholder

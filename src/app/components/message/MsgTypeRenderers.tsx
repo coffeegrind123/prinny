@@ -1,6 +1,7 @@
 import { CSSProperties, ReactNode } from 'react';
 import { Box, Chip, Icon, Icons, Text, toRem } from 'folds';
 import { IContent } from 'matrix-js-sdk';
+import { DecryptionFailureCode } from 'matrix-js-sdk/lib/crypto-api';
 import { isJumboEmoji } from '../../utils/regex';
 import { extractPreviewUrls } from '../../utils/messageUrls';
 import { trimReplyFromBody } from '../../utils/room';
@@ -51,10 +52,10 @@ const ATTACHMENT_COLUMN: CSSProperties = {
   minWidth: 0,
 };
 
-export function MBadEncrypted() {
+export function MBadEncrypted({ failureCode }: { failureCode?: DecryptionFailureCode | null }) {
   return (
     <Text>
-      <MessageBadEncryptedContent />
+      <MessageBadEncryptedContent failureCode={failureCode} />
     </Text>
   );
 }

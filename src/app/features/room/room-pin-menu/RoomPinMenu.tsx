@@ -328,6 +328,7 @@ export const RoomPinMenu = forwardRef<HTMLDivElement, RoomPinMenuProps>(
             <RenderMessageContent
               displayName={displayName}
               msgType={event.getContent().msgtype ?? ''}
+              decryptionFailureCode={event.decryptionFailureReason}
               ts={event.getTs()}
               getContent={getContent}
               edited={!!event.replacingEvent()}
@@ -384,6 +385,7 @@ export const RoomPinMenu = forwardRef<HTMLDivElement, RoomPinMenuProps>(
                     <RenderMessageContent
                       displayName={displayName}
                       msgType={mEvent.getContent().msgtype ?? ''}
+                      decryptionFailureCode={mEvent.decryptionFailureReason}
                       ts={mEvent.getTs()}
                       edited={!!editedEvent || !!mEvent.replacingEvent()}
                       getContent={getContent}

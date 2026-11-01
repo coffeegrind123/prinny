@@ -130,6 +130,7 @@ function ThreadMessage({
           <RenderMessageContent
             displayName={displayName}
             msgType={mEvent.getContent().msgtype ?? ''}
+            decryptionFailureCode={mEvent.decryptionFailureReason}
             ts={mEvent.getTs()}
             getContent={getContent}
             mediaAutoLoad={mediaAutoLoad}

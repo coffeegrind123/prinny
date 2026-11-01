@@ -1872,6 +1872,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
               <RenderMessageContent
                 displayName={senderDisplayName}
                 msgType={mEvent.getContent().msgtype ?? ''}
+                decryptionFailureCode={mEvent.decryptionFailureReason}
                 ts={mEvent.getTs()}
                 edited={!!editedEvent}
                 getContent={getContent}
@@ -1994,6 +1995,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
                     <RenderMessageContent
                       displayName={senderDisplayName}
                       msgType={mEvent.getContent().msgtype ?? ''}
+                      decryptionFailureCode={mEvent.decryptionFailureReason}
                       ts={mEvent.getTs()}
                       edited={!!editedEvent}
                       getContent={getContent}
