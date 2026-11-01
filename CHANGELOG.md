@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 01.11.2026
+
+- `bed8857` Improved **error messages everywhere** — failures now show the server's own sentence instead of raw `MatrixError: [400] … (https://…/_matrix/…)` text. If the server sends no explanation, you get a plain one based on the error code or status (for example "You don't have permission to do that."). Rate limits say how many seconds to wait, connection failures say the server couldn't be reached, and a proxy's HTML error page is never shown. Covers settings, room settings, invites, joins, verification, backup, uploads, search, and room/space/DM creation, plus the password/SSO/email sign-in prompts that showed `M_FORBIDDEN: …`. Also fixed failed uploads showing `MatrixError: MatrixError: …`.
+
 ## 31.10.2026
 
 - `d8cd1dd` Fixed **deleted messages reappearing when you copy a stretch of the timeline**. Copy picked up edits the timeline never shows, so a message that was edited and then deleted came back as its `* new text` edit, and every edited message added a stray `* …` line. Copy now includes only the messages actually drawn on screen.
