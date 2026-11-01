@@ -25,6 +25,7 @@ import { getSpaceChildren } from '../../utils/room';
 import { Membership } from '../../../types/matrix/room';
 import { rateLimitedActions } from '../../utils/matrix';
 import { leaveRoomExplicitly, markRoomsLeft } from '../../state/leftRooms';
+import { errorMessage } from '../../utils/errorMessage';
 
 type LeaveSpacePromptProps = {
   roomId: string;
@@ -116,7 +117,7 @@ export function LeaveSpacePrompt({ roomId, onDone, onCancel }: LeaveSpacePromptP
                 </Box>
                 {leaveState.status === AsyncStatus.Error && (
                   <Text style={{ color: color.Critical.Main }} size="T300">
-                    Failed to leave space! {leaveState.error.message}
+                    Failed to leave space! {errorMessage(leaveState.error)}
                   </Text>
                 )}
               </Box>

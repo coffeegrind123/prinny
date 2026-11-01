@@ -23,6 +23,7 @@ import { useAlive } from '../hooks/useAlive';
 import { SequenceCard } from './sequence-card';
 import { TextViewerContent } from './text-viewer';
 import { useTextAreaCodeEditor } from '../hooks/useTextAreaCodeEditor';
+import { errorMessage } from '../utils/errorMessage';
 
 const EDITOR_INTENT_SPACE_COUNT = 2;
 
@@ -159,7 +160,7 @@ function AccountDataEdit({
 
         {submitState.status === AsyncStatus.Error && (
           <Text size="T200" style={{ color: color.Critical.Main }}>
-            <b>{submitState.error.message}</b>
+            <b>{errorMessage(submitState.error)}</b>
           </Text>
         )}
       </Box>

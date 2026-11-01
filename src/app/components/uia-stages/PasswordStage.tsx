@@ -4,6 +4,7 @@ import { AuthType } from 'matrix-js-sdk';
 import { StageComponentProps } from './types';
 import { ErrorCode } from '../../cs-errorcode';
 import { PasswordInput } from '../password-input';
+import { errorMessage } from '../../utils/errorMessage';
 
 export function PasswordStage({
   stageData,
@@ -71,7 +72,7 @@ export function PasswordStage({
                   <b>
                     {errorCode === ErrorCode.M_FORBIDDEN
                       ? 'Invalid Password!'
-                      : `${errorCode}: ${error}`}
+                      : errorMessage({ errcode: errorCode, error })}
                   </b>
                 </Text>
               </Box>

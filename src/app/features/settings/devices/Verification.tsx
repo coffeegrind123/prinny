@@ -38,6 +38,7 @@ import { useAccountManagementActions } from '../../../hooks/useAccountManagement
 import { openWebUrl } from '../../../utils/safeUrl';
 import { verificationClockWarning } from '../../../utils/clockSkew';
 import { useRequestOwnVerification } from '../../../hooks/useRequestOwnVerification';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type VerificationStatusBadgeProps = {
   verificationStatus: VerificationStatus;
@@ -191,7 +192,7 @@ export function VerifyCurrentDeviceTile({
           <LearnStartVerificationFromOtherDevice canVerifyManually={canVerifyManually} />
         )}
         {requestState.status === AsyncStatus.Error && (
-          <Text size="T200">{requestState.error.message}</Text>
+          <Text size="T200">{errorMessage(requestState.error)}</Text>
         )}
         {requestState.status === AsyncStatus.Success && (
           <DeviceVerification request={requestState.data} onExit={handleExitVerification} />
@@ -265,7 +266,7 @@ export function VerifyOtherDeviceTile({ crypto, deviceId }: VerifyOtherDeviceTil
       }
     >
       {requestState.status === AsyncStatus.Error && (
-        <Text size="T200">{requestState.error.message}</Text>
+        <Text size="T200">{errorMessage(requestState.error)}</Text>
       )}
       {requestState.status === AsyncStatus.Success && (
         <DeviceVerification request={requestState.data} onExit={handleExit} />

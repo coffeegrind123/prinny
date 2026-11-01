@@ -45,6 +45,7 @@ import { getMxIdServer } from '../../../utils/matrix';
 import { stopPropagation } from '../../../utils/keyboard';
 import { ScreenSize, useScreenSizeContext } from '../../../hooks/useScreenSize';
 import { BackRouteHandler } from '../../../components/BackRouteHandler';
+import { errorMessage } from '../../../utils/errorMessage';
 
 const useServerSearchParams = (searchParams: URLSearchParams): ExploreServerPathSearchParams =>
   useMemo(
@@ -582,7 +583,7 @@ export function PublicRooms() {
                   {error && (
                     <Box direction="Column" className={css.PublicRoomsError} gap="200">
                       <Text size="L400">{error.name}</Text>
-                      <Text size="T300">{error.message}</Text>
+                      <Text size="T300">{errorMessage(error)}</Text>
                     </Box>
                   )}
                   {data &&

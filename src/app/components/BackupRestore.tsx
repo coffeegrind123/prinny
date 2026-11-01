@@ -51,6 +51,7 @@ import { useRestoreBackupOnVerification } from '../hooks/useRestoreBackupOnVerif
 import { useSetting } from '../state/hooks/settings';
 import { settingsAtom } from '../state/settings';
 import { RestoreBackupPrompt } from './RestoreBackupPrompt';
+import { errorMessage } from '../utils/errorMessage';
 
 type BackupStatusProps = {
   enabled: boolean;
@@ -286,7 +287,7 @@ function TurnOffBackupDialog({ crypto, onClose }: { crypto: CryptoApi; onClose: 
               </Box>
               {state.status === AsyncStatus.Error && (
                 <Text size="T300" style={{ color: color.Critical.Main }}>
-                  <b>{state.error.message}</b>
+                  <b>{errorMessage(state.error)}</b>
                 </Text>
               )}
               <Box direction="Column" gap="200">
@@ -354,7 +355,7 @@ function TurnOnBackup({ crypto }: { crypto: CryptoApi }) {
       </Box>
       {state.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
-          <b>{state.error.message}</b>
+          <b>{errorMessage(state.error)}</b>
         </Text>
       )}
     </Box>
@@ -527,7 +528,7 @@ export function BackupRestoreTile({ crypto }: BackupRestoreTileProps) {
       )}
       {restoreState.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
-          <b>{restoreState.error.message}</b>
+          <b>{errorMessage(restoreState.error)}</b>
         </Text>
       )}
     </InfoCard>

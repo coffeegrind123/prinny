@@ -26,6 +26,7 @@ import {
   useBackupRestoreDeclined,
 } from '../state/backupRestored';
 import { restoreKeyBackupAndRecord } from '../utils/backupRestore';
+import { errorMessage } from '../utils/errorMessage';
 
 function Prompt({ crypto }: { crypto: CryptoApi }) {
   const mx = useMatrixClient();
@@ -96,7 +97,7 @@ function Prompt({ crypto }: { crypto: CryptoApi }) {
               </Box>
               {restoreState.status === AsyncStatus.Error && (
                 <Text size="T300" style={{ color: color.Critical.Main }}>
-                  <b>{restoreState.error.message}</b>
+                  <b>{errorMessage(restoreState.error)}</b>
                 </Text>
               )}
               <Box direction="Column" gap="200">

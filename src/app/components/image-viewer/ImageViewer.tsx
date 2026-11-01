@@ -9,6 +9,7 @@ import { downloadMedia } from '../../utils/matrix';
 import { clipboardCanHoldImages, copyImageBlob } from '../../utils/copyImage';
 import { ScreenSize, useScreenSizeContext } from '../../hooks/useScreenSize';
 import { webUrlOrUndefined } from '../../utils/safeUrl';
+import { errorMessage } from '../../utils/errorMessage';
 
 /** Roughly the menu's footprint, used only to keep it inside the viewport. */
 const MENU_WIDTH = 200;
@@ -73,8 +74,7 @@ export const ImageViewer = as<'div', ImageViewerProps>(
       };
     }, [menuPos, closeMenu]);
 
-    const reportFailure = (err: unknown, fallback: string) =>
-      setError(err instanceof Error ? err.message : fallback);
+    const reportFailure = (err: unknown, fallback: string) => setError(errorMessage(err, fallback));
 
     /**
      * Fetches the bytes the way the rest of the app does.

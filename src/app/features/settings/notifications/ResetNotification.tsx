@@ -31,6 +31,7 @@ import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { getNotificationModeActions, NotificationMode } from '../../../hooks/useNotificationMode';
 import { stopPropagation } from '../../../utils/keyboard';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type DefaultRuleActions = {
   kind: PushRuleKind;
@@ -176,7 +177,7 @@ function ResetPrompt({ onDone, onCancel }: ResetPromptProps) {
                 </Text>
                 {resetState.status === AsyncStatus.Error && (
                   <Text style={{ color: color.Critical.Main }} size="T300">
-                    Failed to reset notifications! {resetState.error.message}
+                    Failed to reset notifications! {errorMessage(resetState.error)}
                   </Text>
                 )}
               </Box>

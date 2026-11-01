@@ -6,6 +6,7 @@ import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { getUploadContentName, TUploadContent } from '../../utils/matrix';
 import { bytesToSize, getFileTypeIcon } from '../../utils/common';
 import { useMediaConfig } from '../../hooks/useMediaConfig';
+import { errorMessage } from '../../utils/errorMessage';
 
 type CompactUploadCardRendererProps = {
   isEncrypted?: boolean;
@@ -91,7 +92,7 @@ export function CompactUploadCardRenderer({
           )}
           {upload.status === UploadStatus.Error && (
             <UploadCardError>
-              <Text size="T200">{upload.error.message}</Text>
+              <Text size="T200">{errorMessage(upload.error)}</Text>
             </UploadCardError>
           )}
           {upload.status === UploadStatus.Idle && fileSizeExceeded && (

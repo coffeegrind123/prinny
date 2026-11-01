@@ -2,6 +2,7 @@ import { Box, Button, color, config, Dialog, Header, Icon, IconButton, Icons, Te
 import { useCallback, useEffect, useState } from 'react';
 import { StageComponentProps } from './types';
 import { isWebUrl } from '../../utils/safeUrl';
+import { errorMessage } from '../../utils/errorMessage';
 
 export function SSOStage({
   ssoRedirectURL,
@@ -86,7 +87,7 @@ export function SSOStage({
           <Box alignItems="Center" gap="100" style={{ color: color.Critical.Main }}>
             <Icon size="50" src={Icons.Warning} filled />
             <Text size="T200">
-              <b>{`${errorCode}: ${error}`}</b>
+              <b>{errorMessage({ errcode: errorCode, error })}</b>
             </Text>
           </Box>
         )}

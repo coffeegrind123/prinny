@@ -4,6 +4,7 @@ import { MatrixError } from 'matrix-js-sdk';
 import { ContainerColor } from '../../styles/ContainerColor.css';
 import { useServerSoftware } from '../../hooks/useServerSoftware';
 import { useRankOrderTruncated } from './useMessageSearch';
+import { errorMessage } from '../../utils/errorMessage';
 
 type NoticeVariant = 'Warning' | 'Critical' | 'SurfaceVariant';
 
@@ -74,9 +75,8 @@ const describeSearchError = (error: Error): string => {
     if (typeof message === 'string' && message.toLowerCase().includes('search is disabled')) {
       return 'Message search is disabled on this homeserver.';
     }
-    if (typeof message === 'string') return message;
   }
-  return error.message;
+  return errorMessage(error);
 };
 
 type SearchErrorNoticeProps = {

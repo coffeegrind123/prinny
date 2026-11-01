@@ -69,6 +69,7 @@ import { useIgnoredUsers } from '../../../hooks/useIgnoredUsers';
 import { useReportRoomSupported } from '../../../hooks/useReportRoomSupported';
 import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
+import { errorMessage } from '../../../utils/errorMessage';
 
 const COMPACT_CARD_WIDTH = 548;
 
@@ -335,12 +336,12 @@ function InviteCard({
             </Box>
             {joinState.status === AsyncStatus.Error && (
               <Text size="T200" style={{ color: color.Critical.Main }}>
-                {joinState.error.message}
+                {errorMessage(joinState.error)}
               </Text>
             )}
             {leaveState.status === AsyncStatus.Error && (
               <Text size="T200" style={{ color: color.Critical.Main }}>
-                {leaveState.error.message}
+                {errorMessage(leaveState.error)}
               </Text>
             )}
           </Box>

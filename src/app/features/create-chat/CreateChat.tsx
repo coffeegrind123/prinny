@@ -7,11 +7,10 @@ import { SequenceCard } from '../../components/sequence-card';
 import { addRoomIdToMDirect, isUserId } from '../../utils/matrix';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
-import { ErrorCode } from '../../cs-errorcode';
-import { millisecondsToMinutes } from '../../utils/common';
 import { createRoomEncryptionState } from '../../components/create-room';
 import { useAlive } from '../../hooks/useAlive';
 import { getDirectRoomPath } from '../../pages/pathUtils';
+import { errorMessage } from '../../utils/errorMessage';
 
 type CreateChatProps = {
   defaultUserId?: string;
@@ -123,13 +122,7 @@ export function CreateChat({ defaultUserId }: CreateChatProps) {
         <Box style={{ color: color.Critical.Main }} alignItems="Center" gap="200">
           <Icon src={Icons.Warning} filled size="100" />
           <Text size="T300" style={{ color: color.Critical.Main }}>
-            <b>
-              {error instanceof MatrixError && error.name === ErrorCode.M_LIMIT_EXCEEDED
-                ? `Server rate-limited your request for ${millisecondsToMinutes(
-                    (error.data.retry_after_ms as number | undefined) ?? 0,
-                  )} minutes!`
-                : error.message}
-            </b>
+            <b>{errorMessage(error)}</b>
           </Text>
         </Box>
       )}

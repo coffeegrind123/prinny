@@ -42,6 +42,7 @@ import { CutoutCard } from '../cutout-card';
 import { SettingTile } from '../setting-tile';
 import { Membership } from '../../../types/matrix/room';
 import { useRoom } from '../../hooks/useRoom';
+import { errorMessage } from '../../utils/errorMessage';
 
 type MutualRoomsData = {
   rooms: Room[];
@@ -432,7 +433,7 @@ export function OptionsChip({
                   size="T200"
                   style={{ padding: config.space.S100, color: color.Critical.Main }}
                 >
-                  {moderationState.error.message}
+                  {errorMessage(moderationState.error)}
                 </Text>
               )}
             </div>

@@ -24,6 +24,7 @@ import { CallControlState } from '../plugins/call/CallControlState';
 import { useCallMembersChange, useCallSession } from './useCall';
 import { CallPreferences } from '../state/callPreferences';
 import { useCallPreferencesAtom } from '../state/hooks/callPreferences';
+import { errorMessage } from '../utils/errorMessage';
 
 const CallEmbedContext = createContext<CallEmbed | undefined>(undefined);
 
@@ -210,7 +211,7 @@ export const useCallConnectionStatus = (embed: CallEmbed): string => {
       embed.onReady(() => setStatus('Call ready, requesting permissions…')),
       embed.onCapabilitiesNotified(() => setStatus('Joining the call…')),
       embed.onPreparingError((error: unknown) =>
-        setStatus(`Failed to prepare: ${error instanceof Error ? error.message : String(error)}`),
+        setStatus(`Failed to prepare: ${errorMessage(error)}`),
       ),
     ];
     const onLoad = () => setStatus((prev) => (prev === 'Loading call…' ? 'Starting call…' : prev));

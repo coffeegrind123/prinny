@@ -43,6 +43,7 @@ import { replaceSpaceWithDash, suffixRename } from '../../utils/common';
 import { getFileNameWithoutExt } from '../../utils/mimeTypes';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { downloadImagePackZip } from '../../utils/imagePackZip';
+import { errorMessage } from '../../utils/errorMessage';
 
 export type ImagePackContentProps = {
   imagePack: ImagePack;
@@ -159,7 +160,7 @@ export const ImagePackContent = as<'div', ImagePackContentProps>(
             setImportLink('');
           }
         } catch (err) {
-          setImportError(err instanceof Error ? err.message : 'Import failed.');
+          setImportError(errorMessage(err, 'Import failed.'));
         } finally {
           setImporting(false);
           setImportProgress(null);

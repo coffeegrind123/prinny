@@ -110,6 +110,7 @@ import {
 } from '../../../hooks/useMemberPowerTag';
 import { useRoomCreatorsTag } from '../../../hooks/useRoomCreatorsTag';
 import { useRoomCreators } from '../../../hooks/useRoomCreators';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type RoomNotificationsGroup = {
   roomId: string;
@@ -951,7 +952,7 @@ export function Notifications({ title = 'Notification Messages', before }: Notif
                     gap="200"
                   >
                     <Text size="L400">{(timelineState.error as Error).name}</Text>
-                    <Text size="T300">{(timelineState.error as Error).message}</Text>
+                    <Text size="T300">{errorMessage(timelineState.error)}</Text>
                   </Box>
                 )}
               </Box>

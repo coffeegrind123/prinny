@@ -22,6 +22,7 @@ import { useTextAreaCodeEditor } from '../../../hooks/useTextAreaCodeEditor';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { syntaxErrorPosition } from '../../../utils/dom';
 import { Cursor } from '../../../plugins/text-area';
+import { errorMessage } from '../../../utils/errorMessage';
 
 const EDITOR_INTENT_SPACE_COUNT = 2;
 
@@ -162,7 +163,7 @@ export function SendRoomEvent({ type, stateKey, requestClose }: SendRoomEventPro
 
             {submitState.status === AsyncStatus.Error && (
               <Text size="T200" style={{ color: color.Critical.Main }}>
-                <b>{submitState.error.message}</b>
+                <b>{errorMessage(submitState.error)}</b>
               </Text>
             )}
           </Box>

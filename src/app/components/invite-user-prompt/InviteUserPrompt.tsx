@@ -42,6 +42,7 @@ import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { BreakWord } from '../../styles/Text.css';
 import { useAlive } from '../../hooks/useAlive';
+import { errorMessage } from '../../utils/errorMessage';
 
 const SEARCH_OPTIONS: UseAsyncSearchOptions = {
   limit: 1000,
@@ -271,7 +272,7 @@ export function InviteUserPrompt({ room, requestClose }: InviteUserProps) {
                 </Box>
                 {inviteState.status === AsyncStatus.Error && (
                   <Text size="T200" style={{ color: color.Critical.Main }} className={BreakWord}>
-                    <b>{inviteState.error.message}</b>
+                    <b>{errorMessage(inviteState.error)}</b>
                   </Text>
                 )}
                 <Button

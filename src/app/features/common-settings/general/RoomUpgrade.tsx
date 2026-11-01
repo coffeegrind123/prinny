@@ -16,7 +16,7 @@ import {
   Icons,
 } from 'folds';
 import { FocusTrap } from 'focus-trap-react';
-import { MatrixError, Method } from 'matrix-js-sdk';
+import { Method } from 'matrix-js-sdk';
 import { RoomTombstoneEventContent } from 'matrix-js-sdk/lib/types';
 import { SequenceCard } from '../../../components/sequence-card';
 import { SequenceCardStyle } from '../../room-settings/styles.css';
@@ -39,6 +39,7 @@ import { useAlive } from '../../../hooks/useAlive';
 import { creatorsSupported } from '../../../utils/matrix';
 import { useRoomCreators } from '../../../hooks/useRoomCreators';
 import { BreakWord } from '../../../styles/Text.css';
+import { errorMessage } from '../../../utils/errorMessage';
 
 function RoomUpgradeDialog({ requestClose }: { requestClose: () => void }) {
   const mx = useMatrixClient();
@@ -139,7 +140,7 @@ function RoomUpgradeDialog({ requestClose }: { requestClose: () => void }) {
               </Box>
               {upgradeState.status === AsyncStatus.Error && (
                 <Text className={BreakWord} style={{ color: color.Critical.Main }} size="T200">
-                  {(upgradeState.error as MatrixError).message}
+                  {errorMessage(upgradeState.error)}
                 </Text>
               )}
               <Button

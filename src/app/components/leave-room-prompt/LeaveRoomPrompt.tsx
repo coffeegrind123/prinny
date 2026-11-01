@@ -21,6 +21,7 @@ import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { leaveRoomExplicitly } from '../../state/leftRooms';
 import { stopPropagation } from '../../utils/keyboard';
+import { errorMessage } from '../../utils/errorMessage';
 
 type LeaveRoomPromptProps = {
   roomId: string;
@@ -78,7 +79,7 @@ export function LeaveRoomPrompt({ roomId, onDone, onCancel }: LeaveRoomPromptPro
                 <Text priority="400">Are you sure you want to leave this room?</Text>
                 {leaveState.status === AsyncStatus.Error && (
                   <Text style={{ color: color.Critical.Main }} size="T300">
-                    Failed to leave room! {leaveState.error.message}
+                    Failed to leave room! {errorMessage(leaveState.error)}
                   </Text>
                 )}
               </Box>

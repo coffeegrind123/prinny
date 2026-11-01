@@ -11,6 +11,7 @@ import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { decryptMegolmKeyFile, encryptMegolmKeyFile } from '../../../../util/cryptE2ERoomKeys';
 import { useAlive } from '../../../hooks/useAlive';
 import { useFilePicker } from '../../../hooks/useFilePicker';
+import { errorMessage } from '../../../utils/errorMessage';
 
 function ExportKeys() {
   const mx = useMatrixClient();
@@ -113,7 +114,7 @@ function ExportKeys() {
         </Box>
         {exportState.status === AsyncStatus.Error && (
           <Text size="T200" style={{ color: color.Critical.Main }}>
-            <b>{exportState.error.message}</b>
+            <b>{errorMessage(exportState.error)}</b>
           </Text>
         )}
       </Box>
@@ -237,7 +238,7 @@ function ImportKeys({ file, onDone }: ImportKeysProps) {
         </Box>
         {decryptState.status === AsyncStatus.Error && (
           <Text size="T200" style={{ color: color.Critical.Main }}>
-            <b>{decryptState.error.message}</b>
+            <b>{errorMessage(decryptState.error)}</b>
           </Text>
         )}
       </Box>

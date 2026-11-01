@@ -59,6 +59,7 @@ import { filesToUploadItems } from '../../utils/uploadItems';
 import { SharePayload, readSharedFile, shareText } from '../../utils/share-target';
 import { BlockType } from '../../components/editor/types';
 import { ParagraphElement } from '../../components/editor/slate';
+import { errorMessage } from '../../utils/errorMessage';
 
 const SEARCH_OPTS: UseAsyncSearchOptions = {
   limit: 1000,
@@ -396,7 +397,7 @@ export function SharePrompt({ payload, requestClose }: SharePromptProps) {
 
                   {stageState.status === AsyncStatus.Error && (
                     <Text size="T200" style={{ color: color.Critical.Main }}>
-                      {stageState.error.message}
+                      {errorMessage(stageState.error)}
                     </Text>
                   )}
 

@@ -31,6 +31,7 @@ import { usePowerLevels } from '../../../hooks/usePowerLevels';
 import { useTextAreaCodeEditor } from '../../../hooks/useTextAreaCodeEditor';
 import { useRoomCreators } from '../../../hooks/useRoomCreators';
 import { useRoomPermissions } from '../../../hooks/useRoomPermissions';
+import { errorMessage } from '../../../utils/errorMessage';
 
 const EDITOR_INTENT_SPACE_COUNT = 2;
 
@@ -157,7 +158,7 @@ function StateEventEdit({ type, stateKey, content, requestClose }: StateEventEdi
 
         {submitState.status === AsyncStatus.Error && (
           <Text size="T200" style={{ color: color.Critical.Main }}>
-            <b>{submitState.error.message}</b>
+            <b>{errorMessage(submitState.error)}</b>
           </Text>
         )}
       </Box>

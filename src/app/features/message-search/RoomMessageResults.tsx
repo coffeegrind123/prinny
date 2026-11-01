@@ -19,6 +19,7 @@ import {
   formatSearchDuration,
   useSearchTimer,
 } from './SearchProgress';
+import { errorMessage } from '../../utils/errorMessage';
 
 // Upper bound on pages the "keep looking" loop below will pull on its own.
 //
@@ -294,7 +295,7 @@ export function RoomMessageResults({
           gap="200"
         >
           <Text size="L400">{error.name}</Text>
-          <Text size="T300">{error.message}</Text>
+          <Text size="T300">{errorMessage(error)}</Text>
         </Box>
       )}
     </Box>

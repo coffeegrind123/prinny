@@ -31,6 +31,7 @@ import { getToday, getYesterday, timeDayMonthYear, timeHourMinute } from '../../
 import { DatePicker, TimePicker } from '../../../components/time-date';
 import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type JumpToTimeProps = {
   onCancel: () => void;
@@ -232,7 +233,7 @@ export function JumpToTime({ onCancel, onSubmit }: JumpToTimeProps) {
               </Box>
               {timestampState.status === AsyncStatus.Error && (
                 <Text style={{ color: color.Critical.Main }} size="T300">
-                  {timestampState.error.message}
+                  {errorMessage(timestampState.error)}
                 </Text>
               )}
               <Button

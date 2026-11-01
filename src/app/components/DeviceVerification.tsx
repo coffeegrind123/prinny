@@ -31,6 +31,7 @@ import {
 import { AsyncStatus, useAsyncCallback } from '../hooks/useAsyncCallback';
 import { useMatrixClient } from '../hooks/useMatrixClient';
 import { ContainerColor } from '../styles/ContainerColor.css';
+import { errorMessage } from '../utils/errorMessage';
 
 const DialogHeaderStyles: CSSProperties = {
   padding: `0 ${config.space.S200} 0 ${config.space.S400}`,
@@ -81,7 +82,7 @@ function VerificationAccept({ onAccept }: VerificationAcceptProps) {
     <Box direction="Column" gap="400">
       <Text>
         {acceptState.status === AsyncStatus.Error
-          ? acceptState.error.message
+          ? errorMessage(acceptState.error)
           : 'Click accept to start the verification process.'}
       </Text>
       <Button
@@ -121,7 +122,7 @@ function AutoVerificationStart({ onStart }: VerificationStartProps) {
   return (
     <Box direction="Column" gap="400">
       {error ? (
-        <Text size="T300">{error.message}</Text>
+        <Text size="T300">{errorMessage(error)}</Text>
       ) : (
         <WaitingMessage message="Starting verification using emoji comparison..." />
       )}

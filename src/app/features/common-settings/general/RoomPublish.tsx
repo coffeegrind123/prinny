@@ -1,5 +1,5 @@
 import { Box, color, Spinner, Switch, Text } from 'folds';
-import { JoinRule, MatrixError } from 'matrix-js-sdk';
+import { JoinRule } from 'matrix-js-sdk';
 import { RoomJoinRulesEventContent } from 'matrix-js-sdk/lib/types';
 import { SequenceCard } from '../../../components/sequence-card';
 import { SequenceCardStyle } from '../../room-settings/styles.css';
@@ -12,6 +12,7 @@ import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { useStateEvent } from '../../../hooks/useStateEvent';
 import { ExtendedJoinRules } from '../../../components/JoinRulesSwitcher';
 import { RoomPermissionsAPI } from '../../../hooks/useRoomPermissions';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type RoomPublishProps = {
   permissions: RoomPermissionsAPI;
@@ -66,13 +67,13 @@ export function RoomPublish({ permissions }: RoomPublishProps) {
       >
         {visibilityState.status === AsyncStatus.Error && (
           <Text style={{ color: color.Critical.Main }} size="T200">
-            {(visibilityState.error as MatrixError).message}
+            {errorMessage(visibilityState.error)}
           </Text>
         )}
 
         {toggleState.status === AsyncStatus.Error && (
           <Text style={{ color: color.Critical.Main }} size="T200">
-            {(toggleState.error as MatrixError).message}
+            {errorMessage(toggleState.error)}
           </Text>
         )}
       </SettingTile>

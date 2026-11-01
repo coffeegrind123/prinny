@@ -24,6 +24,7 @@ import { useAlive } from '../../../hooks/useAlive';
 import { useMapStyleUrl } from '../../../hooks/useMapStyleUrl';
 import { MapView } from '../../../components/map';
 import { LIVE_SHARE_DURATIONS, useLiveLocationShare } from './LiveLocationBanner';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type Position = { latitude: number; longitude: number };
 
@@ -257,7 +258,7 @@ export function LocationPicker({ room, threadRootId, requestClose }: LocationPic
                             .catch((e: Error) => {
                               if (!alive()) return;
                               setStartingLive(false);
-                              setLiveError(e.message || 'Could not start sharing.');
+                              setLiveError(errorMessage(e, 'Could not start sharing.'));
                             });
                         }}
                       >

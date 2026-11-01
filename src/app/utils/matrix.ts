@@ -198,9 +198,14 @@ export const uploadContent = async (
     if (mxc) onSuccess(mxc);
     else onError(new MatrixError(data));
   } catch (e: any) {
+    // Re-wrapping a MatrixError would bake its "MatrixError: [413] … (url)"
+    // message into the new one's text and lose its status and errcode.
+    if (e instanceof MatrixError) {
+      onError(e);
+      return;
+    }
     const error = typeof e?.message === 'string' ? e.message : undefined;
-    const errcode = typeof e?.name === 'string' ? e.message : undefined;
-    onError(new MatrixError({ error, errcode }));
+    onError(new MatrixError({ error }));
   }
 };
 

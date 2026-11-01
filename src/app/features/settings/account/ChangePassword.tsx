@@ -8,6 +8,7 @@ import { PasswordInput } from '../../../components/password-input';
 import { ConfirmPasswordMatch } from '../../../components/ConfirmPasswordMatch';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
+import { errorMessage } from '../../../utils/errorMessage';
 
 /**
  * Change the account password.
@@ -134,7 +135,7 @@ export function ChangePassword() {
 
                 {state.status === AsyncStatus.Error && (
                   <Text size="T200" style={{ color: color.Critical.Main }}>
-                    {state.error.message || 'Could not change your password.'}
+                    {errorMessage(state.error, 'Could not change your password.')}
                   </Text>
                 )}
                 {done && state.status === AsyncStatus.Success && (

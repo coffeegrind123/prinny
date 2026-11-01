@@ -36,6 +36,7 @@ import { ActionUIA, ActionUIAFlowsLoader } from './ActionUIA';
 import { useMatrixClient } from '../hooks/useMatrixClient';
 import { useAlive } from '../hooks/useAlive';
 import { UseStateProvider } from './UseStateProvider';
+import { errorMessage } from '../utils/errorMessage';
 
 type UIACallback<T> = (
   authDict: AuthDict | null,
@@ -256,7 +257,7 @@ export function SetupVerification({ onComplete, reset }: SetupVerificationProps)
       </Button>
       {setupState.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
-          <b>{setupState.error ? setupState.error.message : 'Unexpected Error!'}</b>
+          <b>{errorMessage(setupState.error, 'Unexpected Error!')}</b>
         </Text>
       )}
       {nextAuthData !== null && uiaAction && (

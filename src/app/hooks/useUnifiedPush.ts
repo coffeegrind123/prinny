@@ -14,6 +14,7 @@ import {
   startForegroundService,
   stopForegroundService,
 } from '../utils/mobile-push';
+import { errorMessage } from '../utils/errorMessage';
 
 const UP_APP_ID = 'in.prinny.app.unifiedpush';
 
@@ -200,10 +201,7 @@ export async function registerMatrixPusher(
     );
     // Returned as well as logged. A console message inside a WebView on a phone
     // is not evidence anyone can reach; the diagnostics panel shows this.
-    const detail =
-      (err as { data?: { error?: string } })?.data?.error ??
-      (err as { message?: string })?.message ??
-      String(err);
+    const detail = errorMessage(err, String(err));
     return { ok: false, gateway, reason: detail };
   }
 }

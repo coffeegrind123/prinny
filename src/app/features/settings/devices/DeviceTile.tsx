@@ -29,6 +29,7 @@ import { LogoutDialog } from '../../../components/LogoutDialog';
 import { stopPropagation } from '../../../utils/keyboard';
 import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
+import { errorMessage } from '../../../utils/errorMessage';
 
 export function DeviceTilePlaceholder() {
   return (
@@ -186,7 +187,7 @@ function DeviceRename({ device, onCancel, onRename, refreshDeviceList }: DeviceR
       </Box>
       {renameState.status === AsyncStatus.Error ? (
         <Text size="T200" style={{ color: color.Critical.Main }}>
-          {renameState.error.message}
+          {errorMessage(renameState.error)}
         </Text>
       ) : (
         <Text size="T200">Device names are visible to public.</Text>

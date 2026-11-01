@@ -9,6 +9,7 @@ import {
 import { AsyncStatus, useAsyncCallback } from '../hooks/useAsyncCallback';
 import { useMatrixClient } from '../hooks/useMatrixClient';
 import { useAlive } from '../hooks/useAlive';
+import { errorMessage } from '../utils/errorMessage';
 
 type SecretStorageRecoveryPassphraseProps = {
   processing?: boolean;
@@ -106,7 +107,7 @@ export function SecretStorageRecoveryPassphrase({
       </Box>
       {driveKeyState.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
-          <b>{driveKeyState.error.message}</b>
+          <b>{errorMessage(driveKeyState.error)}</b>
         </Text>
       )}
     </Box>
@@ -196,7 +197,7 @@ export function SecretStorageRecoveryKey({
       </Box>
       {driveKeyState.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
-          <b>{driveKeyState.error.message}</b>
+          <b>{errorMessage(driveKeyState.error)}</b>
         </Text>
       )}
     </Box>

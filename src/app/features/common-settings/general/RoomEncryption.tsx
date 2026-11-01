@@ -16,7 +16,6 @@ import {
   Text,
 } from 'folds';
 import { useCallback, useState } from 'react';
-import { MatrixError } from 'matrix-js-sdk';
 import { FocusTrap } from 'focus-trap-react';
 import { SequenceCard } from '../../../components/sequence-card';
 import { SequenceCardStyle } from '../../room-settings/styles.css';
@@ -28,6 +27,7 @@ import { useRoom } from '../../../hooks/useRoom';
 import { useStateEvent } from '../../../hooks/useStateEvent';
 import { stopPropagation } from '../../../utils/keyboard';
 import { RoomPermissionsAPI } from '../../../hooks/useRoomPermissions';
+import { errorMessage } from '../../../utils/errorMessage';
 
 const ROOM_ENC_ALGO = 'm.megolm.v1.aes-sha2';
 
@@ -97,7 +97,7 @@ export function RoomEncryption({ permissions }: RoomEncryptionProps) {
       >
         {enableState.status === AsyncStatus.Error && (
           <Text style={{ color: color.Critical.Main }} size="T200">
-            {(enableState.error as MatrixError).message}
+            {errorMessage(enableState.error)}
           </Text>
         )}
         {prompt && (

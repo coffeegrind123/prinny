@@ -16,11 +16,11 @@ import {
 } from 'folds';
 import classNames from 'classnames';
 import Linkify from 'linkify-react';
-import { MatrixError } from 'matrix-js-sdk';
 import * as css from './style.css';
 import { LINKIFY_OPTS, scaleSystemEmoji } from '../../plugins/react-custom-html-parser';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { useAlive } from '../../hooks/useAlive';
+import { errorMessage } from '../../utils/errorMessage';
 
 export const RoomTopicViewer = as<
   'div',
@@ -155,7 +155,7 @@ export const RoomTopicViewer = as<
           )}
           {saveState.status === AsyncStatus.Error && (
             <Text size="T200" style={{ color: color.Critical.Main }}>
-              {(saveState.error as MatrixError).message}
+              {errorMessage(saveState.error)}
             </Text>
           )}
         </Box>

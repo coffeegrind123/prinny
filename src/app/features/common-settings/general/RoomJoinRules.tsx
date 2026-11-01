@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { color, Text } from 'folds';
-import { JoinRule, MatrixError, RestrictedAllowType } from 'matrix-js-sdk';
+import { JoinRule, RestrictedAllowType } from 'matrix-js-sdk';
 import { RoomJoinRulesEventContent } from 'matrix-js-sdk/lib/types';
 import { useAtomValue } from 'jotai';
 import {
@@ -31,6 +31,7 @@ import {
   restrictedSupported,
 } from '../../../utils/matrix';
 import { RoomPermissionsAPI } from '../../../hooks/useRoomPermissions';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type RestrictedRoomAllowContent = {
   room_id: string;
@@ -152,7 +153,7 @@ export function RoomJoinRules({ permissions }: RoomJoinRulesProps) {
       >
         {submitState.status === AsyncStatus.Error && (
           <Text style={{ color: color.Critical.Main }} size="T200">
-            {(submitState.error as MatrixError).message}
+            {errorMessage(submitState.error)}
           </Text>
         )}
       </SettingTile>

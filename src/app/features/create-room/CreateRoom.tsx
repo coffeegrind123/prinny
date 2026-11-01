@@ -23,11 +23,10 @@ import {
   restrictedSupported,
 } from '../../utils/matrix';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
-import { millisecondsToMinutes, replaceSpaceWithDash } from '../../utils/common';
+import { replaceSpaceWithDash } from '../../utils/common';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { useCapabilities } from '../../hooks/useCapabilities';
 import { useAlive } from '../../hooks/useAlive';
-import { ErrorCode } from '../../cs-errorcode';
 import {
   AdditionalCreatorInput,
   createRoom,
@@ -42,6 +41,7 @@ import {
 import { RoomType } from '../../../types/matrix/room';
 import { CreateRoomTypeSelector } from '../../components/create-room/CreateRoomTypeSelector';
 import { getRoomIconSrc } from '../../utils/room';
+import { errorMessage } from '../../utils/errorMessage';
 
 const getCreateRoomAccessToIcon = (access: CreateRoomAccess, type?: CreateRoomType) => {
   const isVoiceRoom = type === CreateRoomType.VoiceRoom;
@@ -314,13 +314,7 @@ export function CreateRoomForm({
         <Box style={{ color: color.Critical.Main }} alignItems="Center" gap="200">
           <Icon src={Icons.Warning} filled size="100" />
           <Text size="T300" style={{ color: color.Critical.Main }}>
-            <b>
-              {error instanceof MatrixError && error.name === ErrorCode.M_LIMIT_EXCEEDED
-                ? `Server rate-limited your request for ${millisecondsToMinutes(
-                    (error.data.retry_after_ms as number | undefined) ?? 0,
-                  )} minutes!`
-                : error.message}
-            </b>
+            <b>{errorMessage(error)}</b>
           </Text>
         </Box>
       )}

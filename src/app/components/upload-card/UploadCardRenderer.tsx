@@ -12,6 +12,7 @@ import {
 } from '../../state/room/roomInputDrafts';
 import { useObjectURL } from '../../hooks/useObjectURL';
 import { useMediaConfig } from '../../hooks/useMediaConfig';
+import { errorMessage } from '../../utils/errorMessage';
 
 type PreviewImageProps = {
   fileItem: TUploadItem;
@@ -189,7 +190,7 @@ export function UploadCardRenderer({
           )}
           {upload.status === UploadStatus.Error && (
             <UploadCardError>
-              <Text size="T200">{upload.error.message}</Text>
+              <Text size="T200">{errorMessage(upload.error)}</Text>
             </UploadCardError>
           )}
           {upload.status === UploadStatus.Idle && fileSizeExceeded && (

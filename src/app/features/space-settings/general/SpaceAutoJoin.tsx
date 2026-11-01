@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { Box, color, Spinner, Switch, Text } from 'folds';
-import { MatrixError } from 'matrix-js-sdk';
 import { SequenceCard } from '../../../components/sequence-card';
 import { SequenceCardStyle } from '../../room-settings/styles.css';
 import { SettingTile } from '../../../components/setting-tile';
@@ -10,6 +9,7 @@ import { SpaceAutoJoinContent, StateEvent } from '../../../../types/matrix/room'
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { useStateEvent } from '../../../hooks/useStateEvent';
 import { RoomPermissionsAPI } from '../../../hooks/useRoomPermissions';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type SpaceAutoJoinProps = {
   permissions: RoomPermissionsAPI;
@@ -52,7 +52,7 @@ export function SpaceAutoJoin({ permissions }: SpaceAutoJoinProps) {
       >
         {toggleState.status === AsyncStatus.Error && (
           <Text style={{ color: color.Critical.Main }} size="T200">
-            {(toggleState.error as MatrixError).message}
+            {errorMessage(toggleState.error)}
           </Text>
         )}
       </SettingTile>

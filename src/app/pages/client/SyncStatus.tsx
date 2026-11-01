@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Box, config, Line, Text } from 'folds';
 import { useSyncState } from '../../hooks/useSyncState';
 import { ContainerColor } from '../../styles/ContainerColor.css';
+import { errorMessage } from '../../utils/errorMessage';
 
 type StateData = {
   current: SyncState | null;
@@ -37,7 +38,7 @@ function SyncDetail({ mx, state, since }: { mx: MatrixClient; state: SyncState; 
   parts.push(`${Math.max(0, Math.round((now - since) / 1000))}s`);
   const error = mx.getSyncStateData()?.error as (Error & { httpStatus?: number }) | undefined;
   if (error) {
-    parts.push(`last error: ${error.httpStatus ?? ''} ${error.message || error.name}`.trim());
+    parts.push(`last error: ${error.httpStatus ?? ''} ${errorMessage(error, error.name)}`.trim());
   }
 
   return <Text size="T200">{parts.join(' · ')}</Text>;

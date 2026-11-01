@@ -93,6 +93,7 @@ import { BreakWord } from '../../../styles/Text.css';
 import { InviteUserPrompt } from '../../../components/invite-user-prompt';
 import { useCallEmbed } from '../../../hooks/useCallEmbed';
 import { ASCIILexicalTable, orderKeys } from '../../../utils/ASCIILexicalTable';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type SpaceMenuProps = {
   room: Room;
@@ -415,7 +416,7 @@ export function SpaceTombstone({ roomId, replacementRoomId }: SpaceTombstoneProp
         <Text size="T200">This space has been replaced and is no longer active.</Text>
         {joinState.status === AsyncStatus.Error && (
           <Text className={BreakWord} style={{ color: color.Critical.Main }} size="T200">
-            {(joinState.error as any)?.message ?? 'Failed to join replacement space!'}
+            {errorMessage(joinState.error, 'Failed to join replacement space!')}
           </Text>
         )}
       </Box>

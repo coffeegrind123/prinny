@@ -33,6 +33,7 @@ import { useElementSizeObserver } from '../../hooks/useElementSizeObserver';
 import { getRoomAvatarUrl, getStateEvent } from '../../utils/room';
 import { useStateEventCallback } from '../../hooks/useStateEventCallback';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
+import { errorMessage } from '../../utils/errorMessage';
 
 type GridColumnCount = '1' | '2' | '3';
 const getGridColumnCount = (gridWidth: number): GridColumnCount => {
@@ -298,7 +299,7 @@ export const RoomCard = as<'div', RoomCardProps>(
             </Button>
             <ErrorDialog
               title="Join Error"
-              message={joinState.error.message || 'Failed to join. Unknown Error.'}
+              message={errorMessage(joinState.error, 'Failed to join. Unknown Error.')}
             >
               {(openError) => (
                 <Button

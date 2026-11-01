@@ -40,6 +40,7 @@ import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { useAlive } from '../../../hooks/useAlive';
 import { useRoomCreators } from '../../../hooks/useRoomCreators';
 import { useRoomPermissions } from '../../../hooks/useRoomPermissions';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type CreatePackTileProps = {
   packs: ImagePack[];
@@ -116,7 +117,7 @@ function CreatePackTile({ packs, roomId }: CreatePackTileProps) {
             />
             {addState.status === AsyncStatus.Error && (
               <Text style={{ color: color.Critical.Main }} size="T300">
-                {addState.error.message}
+                {errorMessage(addState.error)}
               </Text>
             )}
           </Box>

@@ -8,6 +8,7 @@ import {
   sanitizeCallbackAnswer,
   type CallbackAnswerContent,
 } from '../../types/matrix/bot';
+import { errorMessage } from '../utils/errorMessage';
 
 export type BotCallbackAnswer = Omit<CallbackAnswerContent, 'm.relates_to'>;
 
@@ -158,7 +159,7 @@ export const useBotCallback = (room: Room, mEvent: MatrixEvent): BotCallbackStat
         })
         .catch((err: unknown) => {
           settle();
-          setError(err instanceof Error ? err.message : 'Could not send');
+          setError(errorMessage(err, 'Could not send'));
         });
     },
     [mx, room.roomId, mEvent, settle],

@@ -43,6 +43,7 @@ import { getPowerTagIconSrc, useGetMemberPowerTag } from '../../hooks/useMemberP
 import { useRoomCreators } from '../../hooks/useRoomCreators';
 import { useRoomPermissions } from '../../hooks/useRoomPermissions';
 import { useMemberPowerCompare } from '../../hooks/useMemberPowerCompare';
+import { errorMessage } from '../../utils/errorMessage';
 
 type SelfDemoteAlertProps = {
   power: number;
@@ -245,7 +246,7 @@ export function PowerChip({ userId }: { userId: string }) {
                   <CutoutCard style={{ padding: config.space.S200 }} variant="Critical">
                     <Text size="L400">Error: {powerState.error.name}</Text>
                     <Text className={BreakWord} size="T200">
-                      {powerState.error.message}
+                      {errorMessage(powerState.error)}
                     </Text>
                   </CutoutCard>
                 )}

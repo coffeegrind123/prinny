@@ -11,6 +11,7 @@ import { useKeyBackupStatusChange, useKeyBackupSync } from '../hooks/useKeyBacku
 import { useAlive } from '../hooks/useAlive';
 import { useDeviceList } from '../hooks/useDeviceList';
 import { logoutRisks } from '../utils/logoutRisks';
+import { errorMessage } from '../utils/errorMessage';
 
 /**
  * Like useKeyBackupStatus, but undefined until the first answer, so the dialog does not flash
@@ -97,7 +98,7 @@ export const LogoutDialog = forwardRef<HTMLDivElement, LogoutDialogProps>(
           <Text priority="400">You’re about to log out. Are you sure?</Text>
           {logoutState.status === AsyncStatus.Error && (
             <Text style={{ color: color.Critical.Main }} size="T300">
-              Failed to logout! {logoutState.error.message}
+              Failed to logout! {errorMessage(logoutState.error)}
             </Text>
           )}
           <Box direction="Column" gap="200">

@@ -45,6 +45,7 @@ import { AutoDiscovery } from './AutoDiscovery';
 import { useUnifiedPush } from '../../hooks/useUnifiedPush';
 import { useWebPush } from '../../hooks/useWebPush';
 import { SoftLogout } from './SoftLogout';
+import { errorMessage } from '../../utils/errorMessage';
 
 function ClientRootLoading() {
   return (
@@ -251,10 +252,10 @@ export function ClientRoot({ children }: ClientRootProps) {
               <Dialog>
                 <Box direction="Column" gap="400" style={{ padding: config.space.S400 }}>
                   {loadState.status === AsyncStatus.Error && (
-                    <Text>{`Failed to load. ${loadState.error.message}`}</Text>
+                    <Text>{`Failed to load. ${errorMessage(loadState.error)}`}</Text>
                   )}
                   {startState.status === AsyncStatus.Error && (
-                    <Text>{`Failed to start. ${startState.error.message}`}</Text>
+                    <Text>{`Failed to start. ${errorMessage(startState.error)}`}</Text>
                   )}
                   <Button variant="Critical" onClick={mx ? () => startMatrix(mx) : loadMatrix}>
                     <Text as="span" size="B400">

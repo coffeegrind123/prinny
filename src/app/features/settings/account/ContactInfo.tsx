@@ -7,6 +7,7 @@ import { SettingTile } from '../../../components/setting-tile';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { ActionUIA, ActionUIAFlowsLoader } from '../../../components/ActionUIA';
+import { errorMessage } from '../../../utils/errorMessage';
 
 const randomClientSecret = (): string => {
   const bytes = new Uint8Array(16);
@@ -133,7 +134,7 @@ function AddEmail({ onAdded }: AddEmailProps) {
 
       {requestState.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
-          {requestState.error.message || 'Could not send the verification email.'}
+          {errorMessage(requestState.error, 'Could not send the verification email.')}
         </Text>
       )}
 
@@ -144,8 +145,10 @@ function AddEmail({ onAdded }: AddEmailProps) {
           </Text>
           {addState.status === AsyncStatus.Error && (
             <Text size="T200" style={{ color: color.Critical.Main }}>
-              {addState.error.message ||
-                'Could not add the address. If you have not clicked the link yet, do that first.'}
+              {errorMessage(
+                addState.error,
+                'Could not add the address. If you have not clicked the link yet, do that first.',
+              )}
             </Text>
           )}
           {authData && (
@@ -271,7 +274,7 @@ export function ContactInformation() {
 
             {removeState.status === AsyncStatus.Error && (
               <Text size="T200" style={{ color: color.Critical.Main }}>
-                {removeState.error.message || 'Could not remove that address.'}
+                {errorMessage(removeState.error, 'Could not remove that address.')}
               </Text>
             )}
           </Box>

@@ -15,7 +15,7 @@ import { FormEventHandler, useCallback, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import Linkify from 'linkify-react';
 import classNames from 'classnames';
-import { JoinRule, MatrixError } from 'matrix-js-sdk';
+import { JoinRule } from 'matrix-js-sdk';
 import { SequenceCard } from '../../../components/sequence-card';
 import { SequenceCardStyle } from '../../room-settings/styles.css';
 import { useRoom } from '../../../hooks/useRoom';
@@ -40,6 +40,7 @@ import { useFilePicker } from '../../../hooks/useFilePicker';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { useAlive } from '../../../hooks/useAlive';
 import { RoomPermissionsAPI } from '../../../hooks/useRoomPermissions';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type RoomProfileEditProps = {
   canEditAvatar: boolean;
@@ -231,7 +232,7 @@ export function RoomProfileEdit({
       </Box>
       {submitState.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
-          {(submitState.error as MatrixError).message}
+          {errorMessage(submitState.error)}
         </Text>
       )}
       <Box gap="300">

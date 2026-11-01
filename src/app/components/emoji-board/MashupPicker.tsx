@@ -20,6 +20,7 @@ import {
   mashupShortcode,
 } from '../../plugins/emoji-kitchen';
 import { useMashupUpload } from './useMashupUpload';
+import { errorMessage } from '../../utils/errorMessage';
 
 const RECENT_GROUP_ID = 'mashup_recent';
 const RESULT_GROUP_ID = 'mashup_results';
@@ -177,9 +178,7 @@ export function MashupPicker({ previewAtom, onMashupSelect, requestClose }: Mash
         onMashupSelect(mxc, shortcode);
         requestClose();
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'That mashup could not be uploaded. Try again.',
-        );
+        setError(errorMessage(err, 'That mashup could not be uploaded. Try again.'));
       } finally {
         setBusyShortcode(undefined);
       }

@@ -19,6 +19,7 @@ import { SecretStorageKeyContent } from '../../types/matrix/accountData';
 import { SecretStorageRecoveryKey, SecretStorageRecoveryPassphrase } from './SecretStorage';
 import { AsyncStatus } from '../hooks/useAsyncCallback';
 import { useVerifyWithRecoveryKey } from '../hooks/useVerifyWithRecoveryKey';
+import { errorMessage } from '../utils/errorMessage';
 
 export enum ManualVerificationMethod {
   RecoveryPassphrase = 'passphrase',
@@ -178,7 +179,7 @@ export function ManualVerificationTile({
             )}
           {verifyState.status === AsyncStatus.Error && (
             <Text size="T200" style={{ color: color.Critical.Main }}>
-              <b>{verifyState.error.message}</b>
+              <b>{errorMessage(verifyState.error)}</b>
             </Text>
           )}
         </Box>

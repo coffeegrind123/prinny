@@ -29,6 +29,7 @@ import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
 import { dismissGate, GateKind, gateKind, justVerified, shouldShowGate } from './verificationGate';
 import { useVerificationGateState } from './useVerificationGateState';
+import { errorMessage } from '../../utils/errorMessage';
 
 type View = 'choose' | 'device' | 'key' | 'skip';
 
@@ -275,7 +276,7 @@ function DeviceView({
       {requestState.status === AsyncStatus.Error && (
         <Box direction="Column" gap="200">
           <Text size="T300" style={{ color: color.Critical.Main }}>
-            Could not start verification: {requestState.error.message}
+            Could not start verification: {errorMessage(requestState.error)}
           </Text>
           <Box>
             <Button
@@ -353,7 +354,7 @@ function KeyView({
       )}
       {verifyState.status === AsyncStatus.Error && (
         <Text size="T300" style={{ color: color.Critical.Main }}>
-          <b>{verifyState.error.message}</b>
+          <b>{errorMessage(verifyState.error)}</b>
         </Text>
       )}
       <Box gap="200" wrap="Wrap">

@@ -33,6 +33,7 @@ import { useAlive } from '../../../hooks/useAlive';
 import { StateEvent } from '../../../../types/matrix/room';
 import { RoomPermissionsAPI } from '../../../hooks/useRoomPermissions';
 import { getMxIdServer } from '../../../utils/matrix';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type RoomPublishedAddressesProps = {
   permissions: RoomPermissionsAPI;
@@ -120,7 +121,7 @@ export function RoomPublishedAddresses({ permissions }: RoomPublishedAddressesPr
 
             {mainState.status === AsyncStatus.Error && (
               <Text size="T200" style={{ color: color.Critical.Main }}>
-                {(mainState.error as MatrixError).message}
+                {errorMessage(mainState.error)}
               </Text>
             )}
           </Box>
@@ -191,7 +192,7 @@ function LocalAddressInput({ addLocalAlias }: { addLocalAlias: (alias: string) =
         <Text style={{ color: color.Critical.Main }} size="T200">
           {(addState.error as MatrixError).httpStatus === 409
             ? 'Address is already in use!'
-            : (addState.error as MatrixError).message}
+            : errorMessage(addState.error)}
         </Text>
       )}
     </Box>
@@ -352,7 +353,7 @@ function LocalAddressesList({
       })}
       {error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
-          {error.message}
+          {errorMessage(error)}
         </Text>
       )}
     </Box>
@@ -424,7 +425,7 @@ export function RoomLocalAddresses({ permissions }: { permissions: RoomPermissio
           {localAliasesState.status === AsyncStatus.Error && (
             <Box gap="100">
               <Text size="T200" style={{ color: color.Critical.Main }}>
-                {localAliasesState.error.message}
+                {errorMessage(localAliasesState.error)}
               </Text>
             </Box>
           )}

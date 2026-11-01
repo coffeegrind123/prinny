@@ -4,6 +4,7 @@ import { AuthType, MatrixError } from 'matrix-js-sdk';
 import { StageComponentProps } from './types';
 import { AsyncState, AsyncStatus } from '../../hooks/useAsyncCallback';
 import { RequestEmailTokenCallback, RequestEmailTokenResponse } from '../../hooks/types';
+import { errorMessage } from '../../utils/errorMessage';
 
 function EmailErrorDialog({
   title,
@@ -123,12 +124,8 @@ export function EmailStageDialog({
   if (emailTokenState.status === AsyncStatus.Error) {
     return (
       <EmailErrorDialog
-        title={emailTokenState.error.errcode ?? 'Verify Email'}
-        message={
-          emailTokenState.error?.data?.error ??
-          emailTokenState.error.message ??
-          'Failed to send verification Email request.'
-        }
+        title="Verify Email"
+        message={errorMessage(emailTokenState.error, 'Failed to send verification Email request.')}
         onRetry={handleEmailSubmit}
         onCancel={onCancel}
       />
@@ -144,7 +141,9 @@ export function EmailStageDialog({
             <Text>{`Please check your email "${emailTokenState.data.email}" and validate before continuing further.`}</Text>
 
             {errorCode && (
-              <Text style={{ color: color.Critical.Main }}>{`${errorCode}: ${error}`}</Text>
+              <Text style={{ color: color.Critical.Main }}>
+                {errorMessage({ errcode: errorCode, error })}
+              </Text>
             )}
           </Box>
           <Button variant="Primary" onClick={() => handleSubmit(emailTokenState.data.result.sid)}>

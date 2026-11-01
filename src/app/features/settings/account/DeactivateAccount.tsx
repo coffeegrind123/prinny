@@ -27,6 +27,7 @@ import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { ActionUIA, ActionUIAFlowsLoader } from '../../../components/ActionUIA';
 import { stopPropagation } from '../../../utils/keyboard';
 import { clearClientStores } from '../../../../client/initMatrix';
+import { errorMessage } from '../../../utils/errorMessage';
 
 /**
  * Account deactivation.
@@ -146,7 +147,7 @@ function DeactivateDialog({ requestClose }: { requestClose: () => void }) {
 
               {state.status === AsyncStatus.Error && (
                 <Text size="T200" style={{ color: color.Critical.Main }}>
-                  {state.error.message || 'Could not deactivate the account.'}
+                  {errorMessage(state.error, 'Could not deactivate the account.')}
                 </Text>
               )}
 

@@ -16,6 +16,7 @@ import { withSearchParam } from '../../../pages/pathUtils';
 import { useAccountManagementActions } from '../../../hooks/useAccountManagement';
 import { SettingTile } from '../../../components/setting-tile';
 import { openWebUrl } from '../../../utils/safeUrl';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type OtherDevicesProps = {
   devices: IMyDevice[];
@@ -193,7 +194,7 @@ export function OtherDevices({ devices, refreshDeviceList, showVerification }: O
             <Box grow="Yes" direction="Column">
               {deleteError ? (
                 <Text size="T200">
-                  <b>Failed to logout devices! Please try again. {deleteError.message}</b>
+                  <b>Failed to logout devices! Please try again. {errorMessage(deleteError)}</b>
                 </Text>
               ) : (
                 <Text size="T200">

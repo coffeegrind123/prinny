@@ -9,6 +9,7 @@ import { createRoomEncryptionState } from '../create-room';
 import { getHomeRoomPath } from '../../pages/pathUtils';
 import { useCloseUserRoomProfile } from '../../state/hooks/userRoomProfile';
 import { BreakWord } from '../../styles/Text.css';
+import { errorMessage } from '../../utils/errorMessage';
 
 type DirectMessageComposerProps = {
   userId: string;
@@ -93,7 +94,7 @@ export function DirectMessageComposer({ userId }: DirectMessageComposerProps) {
       </Box>
       {sendState.status === AsyncStatus.Error && (
         <Text className={BreakWord} size="T200" style={{ color: color.Critical.Main }}>
-          {sendState.error.message}
+          {errorMessage(sendState.error)}
         </Text>
       )}
     </Box>
