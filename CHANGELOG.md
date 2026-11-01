@@ -4,6 +4,7 @@ User-facing changes per commit. Most recent at the top.
 
 ## 01.11.2026
 
+- `b9a9a66` Improved **"Unable to decrypt message"** — it now says why, for example "The sender's device never sent this device the key.", "The sender only shares keys with verified devices, and this device isn't verified." or "Sent before this device signed in, and there's no key backup to restore it from." Hover it for the exact failure code. Shown in the timeline, threads, pinned messages, the inbox and reply previews.
 - `bed8857` Improved **error messages everywhere** — failures now show the server's own sentence instead of raw `MatrixError: [400] … (https://…/_matrix/…)` text. If the server sends no explanation, you get a plain one based on the error code or status (for example "You don't have permission to do that."). Rate limits say how many seconds to wait, connection failures say the server couldn't be reached, and a proxy's HTML error page is never shown. Covers settings, room settings, invites, joins, verification, backup, uploads, search, and room/space/DM creation, plus the password/SSO/email sign-in prompts that showed `M_FORBIDDEN: …`. Also fixed failed uploads showing `MatrixError: MatrixError: …`.
 
 ## 31.10.2026
