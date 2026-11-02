@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/dist-js-1-t5gZ4t.js","assets/core-CGI43Uw5.js","assets/rolldown-runtime-B0Z9INg1.js","assets/platform-BoyXxqzj.js","assets/preload-helper-Czpn1I53.js","assets/event-DWBRSZIL.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/dist-js-B6QkXkzt.js","assets/core-uRF3kb1E.js","assets/rolldown-runtime-B0Z9INg1.js","assets/platform-Ctt9y-M6.js","assets/preload-helper-Czpn1I53.js","assets/event-BBpJxlM4.js"])))=>i.map(i=>d[i]);
 import { t as e } from "./preload-helper-Czpn1I53.js";
 let i, f, T, p, D, l, c, E, m, o, _, C;
 let __tla = (async ()=>{
@@ -7,7 +7,7 @@ let __tla = (async ()=>{
         if (n) return t;
         n = !0;
         try {
-            i() && (t = await e(()=>import(`./dist-js-1-t5gZ4t.js`).then(async (m)=>{
+            i() && (t = await e(()=>import(`./dist-js-B6QkXkzt.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }), __vite__mapDeps([0,1,2])));
@@ -25,7 +25,7 @@ let __tla = (async ()=>{
             a = !0;
             try {
                 let { getTauriPlatform: t } = await e(async ()=>{
-                    let { getTauriPlatform: e } = await import(`./platform-BoyXxqzj.js`).then(async (m)=>{
+                    let { getTauriPlatform: e } = await import(`./platform-Ctt9y-M6.js`).then(async (m)=>{
                         await m.__tla;
                         return m;
                     }).then((e)=>e.a);
@@ -46,7 +46,7 @@ let __tla = (async ()=>{
     c = async function() {
         if (i()) try {
             let { getTauriPlatform: t } = await e(async ()=>{
-                let { getTauriPlatform: e } = await import(`./platform-BoyXxqzj.js`).then(async (m)=>{
+                let { getTauriPlatform: e } = await import(`./platform-Ctt9y-M6.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }).then((e)=>e.a);
@@ -85,7 +85,7 @@ let __tla = (async ()=>{
     async function d() {
         if (i()) try {
             let { invoke: t } = await e(async ()=>{
-                let { invoke: e } = await import(`./core-CGI43Uw5.js`).then(async (m)=>{
+                let { invoke: e } = await import(`./core-uRF3kb1E.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }).then((e)=>e.a);
@@ -167,7 +167,7 @@ let __tla = (async ()=>{
         if (!i && x.has(t)) return x.get(t);
         try {
             let { invoke: a } = await e(async ()=>{
-                let { invoke: e } = await import(`./core-CGI43Uw5.js`).then(async (m)=>{
+                let { invoke: e } = await import(`./core-uRF3kb1E.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }).then((e)=>e.a);
@@ -188,7 +188,7 @@ let __tla = (async ()=>{
     async function w(t, n, r, i, a) {
         try {
             let { invoke: o } = await e(async ()=>{
-                let { invoke: e } = await import(`./core-CGI43Uw5.js`).then(async (m)=>{
+                let { invoke: e } = await import(`./core-uRF3kb1E.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }).then((e)=>e.a);
@@ -213,7 +213,7 @@ let __tla = (async ()=>{
             let t;
             c && s ? t = await C(s, n?.iconAuthHeader, n?.iconHomeserver) : s && !s.startsWith(`data:`) && (t = s);
             let { getTauriPlatform: i } = await e(async ()=>{
-                let { getTauriPlatform: e } = await import(`./platform-BoyXxqzj.js`).then(async (m)=>{
+                let { getTauriPlatform: e } = await import(`./platform-Ctt9y-M6.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }).then((e)=>e.a);
@@ -224,7 +224,7 @@ let __tla = (async ()=>{
             if (l === `android` && await w(a, o, t, n?.roomId, n?.eventId)) return;
             if (l === `windows`) try {
                 let { invoke: r } = await e(async ()=>{
-                    let { invoke: e } = await import(`./core-CGI43Uw5.js`).then(async (m)=>{
+                    let { invoke: e } = await import(`./core-uRF3kb1E.js`).then(async (m)=>{
                         await m.__tla;
                         return m;
                     }).then((e)=>e.a);
@@ -283,7 +283,7 @@ let __tla = (async ()=>{
         }
         try {
             let { listen: r } = await e(async ()=>{
-                let { listen: e } = await import(`./event-DWBRSZIL.js`).then(async (m)=>{
+                let { listen: e } = await import(`./event-BBpJxlM4.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }).then((e)=>e.i);
@@ -300,7 +300,7 @@ let __tla = (async ()=>{
         }
         try {
             let { addPluginListener: r, invoke: i } = await e(async ()=>{
-                let { addPluginListener: e, invoke: t } = await import(`./core-CGI43Uw5.js`).then(async (m)=>{
+                let { addPluginListener: e, invoke: t } = await import(`./core-uRF3kb1E.js`).then(async (m)=>{
                     await m.__tla;
                     return m;
                 }).then((e)=>e.a);
