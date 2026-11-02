@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 02.11.2026
+
+- `7e6e048` Fixed **text typing in backwards after picking an emoji with the arrow keys** — typing `:cry`, arrowing down to `:sob:` and pressing Enter or Tab left the caret stuck at the start of the message, so everything typed next came out reversed. The composer now tells the editor it has focus again when the autocomplete menu closes (`safeFocusEditor` in `editor/utils.ts`)
+
 ## 01.11.2026
 
 - `b9a9a66` Improved **"Unable to decrypt message"** — it now says why, for example "The sender's device never sent this device the key.", "The sender only shares keys with verified devices, and this device isn't verified." or "Sent before this device signed in, and there's no key backup to restore it from." Hover it for the exact failure code. Shown in the timeline, threads, pinned messages, the inbox and reply previews.
