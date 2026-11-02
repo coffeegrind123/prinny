@@ -8,6 +8,7 @@ User-facing changes per commit. Most recent at the top.
 - `cf83e1b` Fixed **the `/` menu offering commands from bots that have left the room** — they no longer answer, so their commands and menu button are gone; the BOT badge on their old messages stays
 - `7fcc41f` Fixed **bot quick-reply buttons disappearing** after a long conversation or a reload, and a dismissed keyboard coming back — the latest keyboard is remembered per room (by reference only, so an encrypted message's buttons never reach the server in plain text), and closing it or using a one-time keyboard now holds on all your devices
 - `fc7d53a` Fixed **webhook messages showing under the wrong name** — two webhooks posting within two minutes were grouped under the first one's name, and replies, notifications, pins and threads showed the bot account instead of "CI" or "Deploy". Also added **support for per-message profiles from bridges** (Matrix proposal MSC4144, used by mautrix bridges, Sable and gomuks): those messages now show the relayed person's name and picture with a VIA badge that names the real account
+- `385f50c` Fixed **"Block all incoming invites" not working on servers that follow the final Matrix spec** — it only wrote the older proposal's setting (MSC4155); it now also writes the merged one (MSC4380), turning it off no longer wipes invite lists made in other apps, and the description no longer claims people you share a room with get through (they don't)
 
 ## 02.11.2026
 
