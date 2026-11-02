@@ -2,6 +2,13 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 03.11.2026
+
+- `79c3f04` Fixed **the space "Auto Join Rooms" toggle doing nothing**, and made auto-join a choice — Settings › General › Spaces now offers Off / Spaces that ask / All spaces, and each space's menu adds Default / Always / Never for that space. Before, turning the setting on joined every space whatever its admins chose. The choice now follows your account to every device; a device that never saw it keeps your old on/off switch until you pick
+- `cf83e1b` Fixed **the `/` menu offering commands from bots that have left the room** — they no longer answer, so their commands and menu button are gone; the BOT badge on their old messages stays
+- `7fcc41f` Fixed **bot quick-reply buttons disappearing** after a long conversation or a reload, and a dismissed keyboard coming back — the latest keyboard is remembered per room (by reference only, so an encrypted message's buttons never reach the server in plain text), and closing it or using a one-time keyboard now holds on all your devices
+- `fc7d53a` Fixed **webhook messages showing under the wrong name** — two webhooks posting within two minutes were grouped under the first one's name, and replies, notifications, pins and threads showed the bot account instead of "CI" or "Deploy". Also added **support for per-message profiles from bridges** (Matrix proposal MSC4144, used by mautrix bridges, Sable and gomuks): those messages now show the relayed person's name and picture with a VIA badge that names the real account
+
 ## 02.11.2026
 
 - `7e6e048` Fixed **text typing in backwards after picking an emoji with the arrow keys** — typing `:cry`, arrowing down to `:sob:` and pressing Enter or Tab left the caret stuck at the start of the message, so everything typed next came out reversed. The composer now tells the editor it has focus again when the autocomplete menu closes (`safeFocusEditor` in `editor/utils.ts`)
