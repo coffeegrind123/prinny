@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Icon, IconButton, Icons } from 'folds';
 import { Editor, Transforms } from 'slate';
 import { Room } from 'matrix-js-sdk';
-import { useRoomBots } from '../../hooks/useBotInfo';
+import { useJoinedRoomBots } from '../../hooks/useBotInfo';
 import { safeFocusEditor } from '../../components/editor';
 import { UrlConfirmDialog } from '../../components/UrlConfirmDialog';
 import type { MenuButton } from '../../../types/matrix/bot';
@@ -26,7 +26,7 @@ type BotMenuButtonProps = {
  * exactly the clutter the composer's left edge was cleared of.
  */
 export function BotMenuButton({ room, editor }: BotMenuButtonProps) {
-  const bots = useRoomBots(room);
+  const bots = useJoinedRoomBots(room);
   const [confirmingUrl, setConfirmingUrl] = useState<string | null>(null);
 
   const menu = useMemo<MenuButton | null>(() => {

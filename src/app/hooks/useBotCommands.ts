@@ -1,6 +1,6 @@
 import { Room } from 'matrix-js-sdk';
 import { useMemo } from 'react';
-import { useRoomBots } from './useBotInfo';
+import { useJoinedRoomBots } from './useBotInfo';
 import { getMemberDisplayName } from '../utils/room';
 import { getMxIdLocalPart } from '../utils/matrix';
 
@@ -31,7 +31,7 @@ export type BotCommandEntry = {
  * time by republishing its `app.prinny.bot.info`.
  */
 export const useBotCommands = (room: Room, builtInNames: string[]): BotCommandEntry[] => {
-  const bots = useRoomBots(room);
+  const bots = useJoinedRoomBots(room);
 
   return useMemo(() => {
     const builtIn = new Set(builtInNames);

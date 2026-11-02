@@ -4,6 +4,7 @@ import { subscribeToStateEvents } from './useStateEventCallback';
 import { getStateEvents } from '../utils/room';
 import { MessageEvent, StateEvent } from '../../types/matrix/room';
 import { sanitizeBotInfo, type BotInfo } from '../../types/matrix/bot';
+import { withoutDepartedBots } from '../utils/botPresence';
 
 /** Bots that have advertised themselves in a room, keyed by MXID. */
 export type RoomBots = Map<string, BotInfo>;
@@ -68,7 +69,10 @@ const sameBots = (a: RoomBots, b: RoomBots): boolean => {
 };
 
 type BotsStore = {
+  /** Every bot that advertised, joined or not: badges on their old messages. */
   snapshot: RoomBots;
+  /** Only those still joined: what the `/` menu and bot menu may offer. */
+  joined: RoomBots;
   subscribers: Set<() => void>;
   detach?: () => void;
 };
@@ -89,12 +93,17 @@ type BotsStore = {
  */
 const storeByRoom = new WeakMap<Room, BotsStore>();
 
+const joinedBots = (room: Room, bots: RoomBots): RoomBots =>
+  withoutDepartedBots(bots, (userId) => room.getMember(userId)?.membership);
+
 const getStore = (room: Room): BotsStore => {
   const existing = storeByRoom.get(room);
   if (existing) return existing;
 
+  const snapshot = collectBots(room);
   const store: BotsStore = {
-    snapshot: collectBots(room),
+    snapshot,
+    joined: joinedBots(room, snapshot),
     subscribers: new Set(),
   };
   storeByRoom.set(room, store);
@@ -103,8 +112,12 @@ const getStore = (room: Room): BotsStore => {
 
 const refresh = (room: Room, store: BotsStore): void => {
   const next = collectBots(room);
-  if (sameBots(store.snapshot, next)) return;
-  store.snapshot = next;
+  const nextJoined = joinedBots(room, next);
+  const sameAll = sameBots(store.snapshot, next);
+  const sameJoined = sameBots(store.joined, nextJoined);
+  if (sameAll && sameJoined) return;
+  if (!sameAll) store.snapshot = next;
+  if (!sameJoined) store.joined = nextJoined;
   store.subscribers.forEach((notify) => notify());
 };
 
@@ -121,8 +134,17 @@ const subscribeToBots = (room: Room, onChange: () => void): (() => void) => {
     };
     const handleStateEvent = (event: MatrixEvent) => {
       if (event.getRoomId() !== room.roomId) return;
-      if (event.getType() !== StateEvent.BotInfo) return;
-      refresh(room, store);
+      const type = event.getType();
+      if (type === StateEvent.BotInfo) {
+        refresh(room, store);
+        return;
+      }
+      // A bot leaving or rejoining changes the joined list. Other members'
+      // churn cannot, and is far more common, so it never triggers a rescan.
+      const stateKey = event.getStateKey();
+      if (type === StateEvent.RoomMember && stateKey && store.snapshot.has(stateKey)) {
+        refresh(room, store);
+      }
     };
 
     room.on(RoomEvent.Timeline, handleTimeline);
@@ -156,6 +178,17 @@ const subscribeToBots = (room: Room, onChange: () => void): (() => void) => {
 export const useRoomBots = (room: Room): RoomBots => {
   const subscribe = useCallback((onChange: () => void) => subscribeToBots(room, onChange), [room]);
   const getSnapshot = useCallback(() => getStore(room).snapshot, [room]);
+
+  return useSyncExternalStore(subscribe, getSnapshot);
+};
+
+/**
+ * Bots advertising in this room that are still joined. Use this for anything
+ * that offers a bot's commands: one that left will not answer them.
+ */
+export const useJoinedRoomBots = (room: Room): RoomBots => {
+  const subscribe = useCallback((onChange: () => void) => subscribeToBots(room, onChange), [room]);
+  const getSnapshot = useCallback(() => getStore(room).joined, [room]);
 
   return useSyncExternalStore(subscribe, getSnapshot);
 };
