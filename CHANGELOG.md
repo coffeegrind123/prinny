@@ -6,6 +6,7 @@ User-facing changes per commit. Most recent at the top.
 
 - `7e6e048` Fixed **text typing in backwards after picking an emoji with the arrow keys** — typing `:cry`, arrowing down to `:sob:` and pressing Enter or Tab left the caret stuck at the start of the message, so everything typed next came out reversed. The composer now tells the editor it has focus again when the autocomplete menu closes (`safeFocusEditor` in `editor/utils.ts`)
 - `f82e21d` `5269f5e` Fixed **a crash-on-extract flaw in the desktop updater's zip handling** (RUSTSEC-2026-0429) — updated `tauri-plugin-updater` to 2.14.1, which brings Tauri itself to 2.12.
+- `b7dabe7` Added **private notes on people's profiles**, like Discord's. Click "Note" on someone's profile card to write one; Enter or clicking away saves, Escape discards. Only you can see it, and it follows you to your other devices. Notes are encrypted with a key kept in your secret storage, so the first time you may be asked for your recovery key; if you have no recovery key set up, notes are saved unencrypted and the editor says so. Uses the Matrix proposals for profile notes (MSC4441) and encrypted account data (MSC4483), so notes written in Voyage show up here and the other way round
 
 ## 01.11.2026
 
