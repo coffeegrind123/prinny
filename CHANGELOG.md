@@ -5,6 +5,7 @@ User-facing changes per commit. Most recent at the top.
 ## 02.11.2026
 
 - `7e6e048` Fixed **text typing in backwards after picking an emoji with the arrow keys** — typing `:cry`, arrowing down to `:sob:` and pressing Enter or Tab left the caret stuck at the start of the message, so everything typed next came out reversed. The composer now tells the editor it has focus again when the autocomplete menu closes (`safeFocusEditor` in `editor/utils.ts`)
+- `f82e21d` `5269f5e` Fixed **a crash-on-extract flaw in the desktop updater's zip handling** (RUSTSEC-2026-0429) — updated `tauri-plugin-updater` to 2.14.1, which brings Tauri itself to 2.12.
 
 ## 01.11.2026
 
