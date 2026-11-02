@@ -46,6 +46,7 @@ import { UserAvatar } from '../../../components/user-avatar';
 import { nameInitials } from '../../../utils/common';
 import { getMemberAvatarMxc, getMemberDisplayName } from '../../../utils/room';
 import { getMxIdLocalPart, mxcUrlToHttp } from '../../../utils/matrix';
+import { contentForDisplay, getPerMessageProfile } from '../../../utils/perMessageProfile';
 import colorMXID from '../../../../util/colorMXID';
 
 type ThreadMessageProps = {
@@ -81,11 +82,15 @@ function ThreadMessage({
   const useAuthentication = useMediaAuthentication();
 
   const senderId = mEvent.getSender() ?? '';
+  const profile = getPerMessageProfile(mEvent.getContent());
   const displayName =
-    getMemberDisplayName(room, senderId) ?? getMxIdLocalPart(senderId) ?? senderId;
-  const avatarMxc = getMemberAvatarMxc(room, senderId);
+    profile?.displayname ??
+    getMemberDisplayName(room, senderId) ??
+    getMxIdLocalPart(senderId) ??
+    senderId;
+  const avatarMxc = profile ? profile.avatarUrl : getMemberAvatarMxc(room, senderId);
 
-  const getContent = (() => mEvent.getContent()) as never;
+  const getContent = (() => contentForDisplay(mEvent.getContent())) as never;
 
   return (
     <MessageBase space="300">

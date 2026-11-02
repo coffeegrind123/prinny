@@ -135,6 +135,11 @@ import { PollContent } from '../../components/message/content/PollContent';
 import { BotKeyboard } from '../../components/message/content/BotKeyboard';
 import { BotContentKey, sanitizeReplyMarkup } from '../../../types/matrix/bot';
 import { botDisplayContent } from '../../utils/bot';
+import {
+  getPerMessageProfile,
+  profileGroupKey,
+  stripProfileFallback,
+} from '../../utils/perMessageProfile';
 import { MapView } from '../../components/map';
 import { useMapStyleUrl, useMapsEnabled } from '../../hooks/useMapStyleUrl';
 import { ThreadSummary } from './thread/ThreadSummary';
@@ -1780,12 +1785,18 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
           ? sanitizeReplyMarkup(rawContent[BotContentKey.ReplyMarkup])
           : null;
         const showBotKeyboard = botMarkup !== null && !mEvent.isRedacted();
-        const getContent = (() =>
-          botDisplayContent(rawContent, showBotKeyboard)) as GetContentCallback;
+        const profile = getPerMessageProfile(rawContent);
+        const getContent = (() => {
+          const content = botDisplayContent(rawContent, showBotKeyboard);
+          return profile ? stripProfileFallback(content, profile) : content;
+        }) as GetContentCallback;
 
         const senderId = mEvent.getSender() ?? '';
         const senderDisplayName =
-          getMemberDisplayName(room, senderId) ?? getMxIdLocalPart(senderId) ?? senderId;
+          profile?.displayname ??
+          getMemberDisplayName(room, senderId) ??
+          getMxIdLocalPart(senderId) ??
+          senderId;
 
         return (
           <Message
@@ -1984,13 +1995,20 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
                   );
                 if (mEvent.getType() === MessageEvent.RoomMessage) {
                   const editedEvent = getEditedEvent(mEventId, mEvent, timelineSet);
+                  const decryptedContent =
+                    editedEvent?.getContent()['m.new_content'] ?? mEvent.getContent();
+                  const profile = getPerMessageProfile(decryptedContent);
                   const getContent = (() =>
-                    editedEvent?.getContent()['m.new_content'] ??
-                    mEvent.getContent()) as GetContentCallback;
+                    profile
+                      ? stripProfileFallback(decryptedContent, profile)
+                      : decryptedContent) as GetContentCallback;
 
                   const senderId = mEvent.getSender() ?? '';
                   const senderDisplayName =
-                    getMemberDisplayName(room, senderId) ?? getMxIdLocalPart(senderId) ?? senderId;
+                    profile?.displayname ??
+                    getMemberDisplayName(room, senderId) ??
+                    getMxIdLocalPart(senderId) ??
+                    senderId;
                   return (
                     <RenderMessageContent
                       displayName={senderDisplayName}
@@ -2700,6 +2718,9 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       prevEvent !== undefined &&
       prevEvent.getSender() === eventSender &&
       prevEvent.getType() === mEvent.getType() &&
+      // One account posting as several webhook or bridge identities must not
+      // fold them under the first one's name.
+      profileGroupKey(prevEvent.getContent()) === profileGroupKey(mEvent.getContent()) &&
       minuteDifference(prevEvent.getTs(), mEvent.getTs()) < 2;
 
     // An uncollapsed message starts a new group and therefore heads it. A

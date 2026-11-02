@@ -53,6 +53,7 @@ import { isVoiceMessageContent } from '../../utils/voice-message';
 import { MATRIX_GIF_PROPERTY_NAME } from '../../../types/matrix/common';
 import { IdleDetector } from '../../hooks/useIdleDetector';
 import { ChosenPresenceRestore } from '../../hooks/useChosenPresenceRestore';
+import { contentForDisplay, getPerMessageProfile } from '../../utils/perMessageProfile';
 import { DebugHandle } from '../../hooks/useDebugHandle';
 
 function SystemEmojiFeature() {
@@ -366,8 +367,13 @@ function MessageNotifications() {
         senderMember?.getMxcAvatarUrl() ??
         room.getAvatarFallbackMember()?.getMxcAvatarUrl() ??
         room.getMxcAvatarUrl();
-      const username = getMemberDisplayName(room, sender) ?? getMxIdLocalPart(sender) ?? sender;
-      const content = (mEvent as any).content ?? mEvent.getContent();
+      const rawContent = (mEvent as any).content ?? mEvent.getContent();
+      const username =
+        getPerMessageProfile(rawContent ?? {})?.displayname ??
+        getMemberDisplayName(room, sender) ??
+        getMxIdLocalPart(sender) ??
+        sender;
+      const content = rawContent ? contentForDisplay(rawContent) : rawContent;
       const msgtype: string | undefined = content?.msgtype;
       let rawBody: string = typeof content?.body === 'string' ? content.body : '';
       let bodyContent = content ?? {};

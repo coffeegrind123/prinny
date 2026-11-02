@@ -23,6 +23,7 @@ import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { useRoomEvent } from '../../hooks/useRoomEvent';
 import colorMXID from '../../../util/colorMXID';
+import { contentForDisplay, getPerMessageProfile } from '../../utils/perMessageProfile';
 import { GetMemberPowerTag } from '../../hooks/useMemberPowerTag';
 
 type ReplyLayoutProps = {
@@ -98,7 +99,11 @@ export const Reply = as<'div', ReplyProps>(
     );
     const replyEvent = useRoomEvent(room, replyEventId, getFromLocalTimeline);
 
-    const { body, formatted_body: formattedBody } = replyEvent?.getContent() ?? {};
+    const replyContent = replyEvent ? contentForDisplay(replyEvent.getContent()) : undefined;
+    const { body, formatted_body: formattedBody } = replyContent ?? {};
+    const profileName = replyEvent
+      ? getPerMessageProfile(replyEvent.getContent())?.displayname
+      : undefined;
     const sender = replyEvent?.getSender();
     const powerTag = sender ? getMemberPowerTag?.(sender) : undefined;
     const tagColor = powerTag?.color ? accessibleTagColors?.get(powerTag.color) : undefined;
@@ -158,7 +163,9 @@ export const Reply = as<'div', ReplyProps>(
           username={
             sender && (
               <Text size="T300" truncate>
-                <b>{getMemberDisplayName(room, sender) ?? getMxIdLocalPart(sender)}</b>
+                <b>
+                  {profileName ?? getMemberDisplayName(room, sender) ?? getMxIdLocalPart(sender)}
+                </b>
               </Text>
             )
           }

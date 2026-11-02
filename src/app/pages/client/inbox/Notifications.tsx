@@ -110,6 +110,7 @@ import {
 } from '../../../hooks/useMemberPowerTag';
 import { useRoomCreatorsTag } from '../../../hooks/useRoomCreatorsTag';
 import { useRoomCreators } from '../../../hooks/useRoomCreators';
+import { contentForDisplay, getPerMessageProfile } from '../../../utils/perMessageProfile';
 import { errorMessage } from '../../../utils/errorMessage';
 
 type RoomNotificationsGroup = {
@@ -599,12 +600,16 @@ function RoomNotificationsGroupComp({
         {notifications.map((notification) => {
           const { event } = notification;
 
+          const profile = getPerMessageProfile(event.content);
           const displayName =
+            profile?.displayname ??
             getMemberDisplayName(room, event.sender) ??
             getMxIdLocalPart(event.sender) ??
             event.sender;
-          const senderAvatarMxc = getMemberAvatarMxc(room, event.sender);
-          const getContent = (() => event.content) as GetContentCallback;
+          const senderAvatarMxc = profile
+            ? profile.avatarUrl
+            : getMemberAvatarMxc(room, event.sender);
+          const getContent = (() => contentForDisplay(event.content)) as GetContentCallback;
 
           const relation = event.content['m.relates_to'];
           const replyEventId = relation?.['m.in_reply_to']?.event_id;

@@ -85,6 +85,7 @@ import {
   useAccessiblePowerTagColors,
   useGetMemberPowerTag,
 } from '../../../hooks/useMemberPowerTag';
+import { contentForDisplay, getPerMessageProfile } from '../../../utils/perMessageProfile';
 import { useRoomCreatorsTag } from '../../../hooks/useRoomCreatorsTag';
 
 type PinnedMessageProps = {
@@ -175,9 +176,14 @@ function PinnedMessage({
     );
 
   const sender = pinnedEvent.getSender()!;
-  const displayName = getMemberDisplayName(room, sender) ?? getMxIdLocalPart(sender) ?? sender;
-  const senderAvatarMxc = getMemberAvatarMxc(room, sender);
-  const getContent = (() => pinnedEvent.getContent()) as GetContentCallback;
+  const profile = getPerMessageProfile(pinnedEvent.getContent());
+  const displayName =
+    profile?.displayname ??
+    getMemberDisplayName(room, sender) ??
+    getMxIdLocalPart(sender) ??
+    sender;
+  const senderAvatarMxc = profile ? profile.avatarUrl : getMemberAvatarMxc(room, sender);
+  const getContent = (() => contentForDisplay(pinnedEvent.getContent())) as GetContentCallback;
 
   const memberPowerTag = getMemberPowerTag(sender);
   const tagColor = memberPowerTag?.color

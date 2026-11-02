@@ -64,7 +64,8 @@ import {
 import { downloadMedia, getMxIdLocalPart, mxcUrlToHttp } from '../../../utils/matrix';
 import { clipboardCanHoldImages, copyImageBlob } from '../../../utils/copyImage';
 import { markAsUnread } from '../../../utils/notifications';
-import { getWebhookIdentity } from '../../../utils/webhook';
+import { getPerMessageProfile } from '../../../utils/perMessageProfile';
+import { useMediaSrc } from '../../../hooks/useMediaSrc';
 import { ForwardPrompt } from './ForwardPrompt';
 import { EditHistoryPrompt } from './EditHistoryPrompt';
 import {
@@ -1315,23 +1316,30 @@ export const Message = as<'div', MessageProps>(
     }, [mEvent, edit]);
 
     /**
-     * A webhook posts under a name of its own — "CI", "Deploy", "Alerts" — and
-     * the message is attributed to that rather than to the bot account that
-     * relayed it. Without this every integration in a room reads as one sender,
-     * which is the whole reason Discord webhooks carry a username at all.
+     * A per-message profile (MSC4144, or our older webhook key): one account
+     * posting as "CI", "Deploy", "Alerts", or a bridge relaying several people.
+     * The message is attributed to that name rather than to the account that
+     * sent it.
      *
-     * Self-asserted, and labelled as such by the WEBHOOK badge beside it. The
-     * account underneath is unchanged: it still owns the avatar (unless the
-     * webhook supplied an `mxc://` one), and the full mxid still appears on
-     * hover.
+     * Self-asserted, so it is always marked: WEBHOOK for our webhooks, VIA for
+     * anything else, whose tooltip names the real account. Clicking the name
+     * still opens the real account's profile.
      */
-    const webhookIdentity = getWebhookIdentity(mEvent);
-    const senderDisplayName =
-      webhookIdentity?.username ??
-      getMemberDisplayName(room, senderId) ??
-      getMxIdLocalPart(senderId) ??
-      senderId;
-    const senderAvatarMxc = webhookIdentity?.avatarUrl ?? getMemberAvatarMxc(room, senderId);
+    const profile = getPerMessageProfile(mEvent.getContent());
+    const accountDisplayName =
+      getMemberDisplayName(room, senderId) ?? getMxIdLocalPart(senderId) ?? senderId;
+    const senderDisplayName = profile?.displayname ?? accountDisplayName;
+    // A profile with no avatar of its own gets the generated default from its
+    // own name (MSC4144), not the account's picture.
+    const senderAvatarMxc = profile ? profile.avatarUrl : getMemberAvatarMxc(room, senderId);
+    const profileAvatarFile = profile?.avatarFile;
+    const { src: profileAvatarFileSrc } = useMediaSrc(
+      profileAvatarFile?.url ?? '',
+      'image/*',
+      profileAvatarFile,
+      undefined,
+      !!profileAvatarFile,
+    );
     const senderPresence = useUserPresence(senderId);
 
     // Local echo status. Sends were fire-and-forget: a message that never
@@ -1391,10 +1399,17 @@ export const Message = as<'div', MessageProps>(
                 <UsernameBold>{senderDisplayName}</UsernameBold>
               </Text>
             </Username>
-            {webhookIdentity ? (
-              <Badge as="span" size="400" variant="Secondary" fill="Soft" radii="300">
+            {profile ? (
+              <Badge
+                as="span"
+                size="400"
+                variant="Secondary"
+                fill="Soft"
+                radii="300"
+                title={`Sent by ${accountDisplayName} (${senderId})`}
+              >
                 <Text as="span" size="L400">
-                  WEBHOOK
+                  {profile.isWebhook ? 'WEBHOOK' : 'VIA'}
                 </Text>
               </Badge>
             ) : (
@@ -1539,7 +1554,7 @@ export const Message = as<'div', MessageProps>(
                 senderAvatarMxc
                   ? (mxcUrlToHttp(mx, senderAvatarMxc, useAuthentication, 48, 48, 'crop') ??
                     undefined)
-                  : undefined
+                  : profileAvatarFileSrc
               }
               alt={senderDisplayName}
               renderFallback={() => <Icon size="200" src={Icons.User} filled />}
