@@ -72,7 +72,7 @@ import { LeaveSpacePrompt } from '../../../components/leave-space-prompt';
 import { copyToClipboard } from '../../../utils/dom';
 import { useClosedNavCategoriesAtom } from '../../../state/hooks/closedNavCategories';
 import { useStateEvent } from '../../../hooks/useStateEvent';
-import { Membership, StateEvent } from '../../../../types/matrix/room';
+import { Membership, SpaceAutoJoinContent, StateEvent } from '../../../../types/matrix/room';
 import { stopPropagation } from '../../../utils/keyboard';
 import { getMatrixToRoom } from '../../../plugins/matrix-to';
 import { getViaServers } from '../../../plugins/via-servers';
@@ -94,6 +94,8 @@ import { InviteUserPrompt } from '../../../components/invite-user-prompt';
 import { useCallEmbed } from '../../../hooks/useCallEmbed';
 import { ASCIILexicalTable, orderKeys } from '../../../utils/ASCIILexicalTable';
 import { errorMessage } from '../../../utils/errorMessage';
+import { setSpaceAutoJoin, useAutoJoinPrefs } from '../../../state/autoJoin';
+import { autoJoinsSpace } from '../../../utils/spaceAutoJoin';
 
 type SpaceMenuProps = {
   room: Room;
@@ -110,6 +112,24 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
 
   const handleSortChange = (mode: RoomSortMode) => {
     setRoomSortMode(mx, room.roomId, mode).catch(() => undefined);
+    requestClose();
+  };
+
+  const autoJoinPrefs = useAutoJoinPrefs();
+  const autoJoinEvent = useStateEvent(room, StateEvent.SpaceAutoJoin);
+  const spaceRequestsAutoJoin =
+    autoJoinEvent?.getContent<SpaceAutoJoinContent>().auto_join === true;
+  const autoJoinChoice = autoJoinPrefs.spaces[room.roomId];
+  const autoJoinByDefault = autoJoinsSpace(
+    { ...autoJoinPrefs, spaces: {} },
+    room.roomId,
+    spaceRequestsAutoJoin,
+  );
+
+  const handleAutoJoinChange = (choice: boolean | undefined) => {
+    setSpaceAutoJoin(mx, room.roomId, choice, autoJoinPrefs.mode).catch((e) => {
+      console.warn('[auto-join] could not save the choice for', room.roomId, e);
+    });
     requestClose();
   };
 
@@ -234,6 +254,35 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
             Custom
           </Text>
         </MenuItem>
+      </Box>
+      <Line variant="Surface" size="300" />
+      <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
+        <Text size="L400">Auto-join rooms</Text>
+        {(
+          [
+            [undefined, `Default (${autoJoinByDefault ? 'on' : 'off'})`],
+            [true, 'Always'],
+            [false, 'Never'],
+          ] as const
+        ).map(([choice, label]) => (
+          <MenuItem
+            key={label}
+            onClick={() => handleAutoJoinChange(choice)}
+            size="300"
+            after={
+              <Icon
+                size="100"
+                src={Icons.Check}
+                style={{ visibility: autoJoinChoice === choice ? 'visible' : 'hidden' }}
+              />
+            }
+            radii="300"
+          >
+            <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
+              {label}
+            </Text>
+          </MenuItem>
+        ))}
       </Box>
       <Line variant="Surface" size="300" />
       <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>

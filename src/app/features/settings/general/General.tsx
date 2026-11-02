@@ -3,6 +3,7 @@ import {
   FormEventHandler,
   KeyboardEventHandler,
   MouseEventHandler,
+  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -24,6 +25,7 @@ import {
   PopOut,
   RectCords,
   Scroll,
+  Spinner,
   Switch,
   Text,
   toRem,
@@ -71,6 +73,11 @@ import { useMessageSpacingItems } from '../../../hooks/useMessageSpacing';
 import { useDateFormatItems } from '../../../hooks/useDateFormat';
 import { SequenceCardStyle } from '../styles.css';
 import { normalizeAutoEmbedHost } from '../../../utils/mediaAutoEmbed';
+import { AutoJoinMode } from '../../../utils/spaceAutoJoin';
+import { setAutoJoinMode, useAutoJoinPrefs } from '../../../state/autoJoin';
+import { useMatrixClient } from '../../../hooks/useMatrixClient';
+import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
+import { errorMessage } from '../../../utils/errorMessage';
 
 type ThemeSelectorProps = {
   themeNames: Record<string, string>;
@@ -816,6 +823,94 @@ function SelectDefaultInboxTab() {
         }
       />
     </>
+  );
+}
+
+const AUTO_JOIN_ITEMS: { mode: AutoJoinMode; label: string }[] = [
+  { mode: AutoJoinMode.Off, label: 'Off' },
+  { mode: AutoJoinMode.Requested, label: 'Spaces that ask' },
+  { mode: AutoJoinMode.All, label: 'All spaces' },
+];
+
+function SelectAutoJoinMode() {
+  const mx = useMatrixClient();
+  const prefs = useAutoJoinPrefs();
+  const [menuCords, setMenuCords] = useState<RectCords>();
+  const [saveState, save] = useAsyncCallback(
+    useCallback((mode: AutoJoinMode) => setAutoJoinMode(mx, mode), [mx]),
+  );
+
+  const handleMenu: MouseEventHandler<HTMLButtonElement> = (evt) => {
+    setMenuCords(evt.currentTarget.getBoundingClientRect());
+  };
+
+  const handleSelect = (mode: AutoJoinMode) => {
+    setMenuCords(undefined);
+    if (mode !== prefs.mode) {
+      save(mode);
+    }
+  };
+
+  const current = AUTO_JOIN_ITEMS.find((item) => item.mode === prefs.mode) ?? AUTO_JOIN_ITEMS[0];
+  const saving = saveState.status === AsyncStatus.Loading;
+
+  return (
+    <Box direction="Column" alignItems="End" gap="100">
+      <Button
+        size="300"
+        variant="Secondary"
+        outlined
+        fill="Soft"
+        radii="300"
+        disabled={saving}
+        before={saving && <Spinner size="100" variant="Secondary" />}
+        after={<Icon size="300" src={Icons.ChevronBottom} />}
+        onClick={handleMenu}
+      >
+        <Text size="T300">{current.label}</Text>
+      </Button>
+      {saveState.status === AsyncStatus.Error && (
+        <Text size="T200" style={{ color: color.Critical.Main }}>
+          {errorMessage(saveState.error)}
+        </Text>
+      )}
+      <PopOut
+        anchor={menuCords}
+        offset={5}
+        position="Bottom"
+        align="End"
+        content={
+          <FocusTrap
+            focusTrapOptions={{
+              initialFocus: false,
+              onDeactivate: () => setMenuCords(undefined),
+              clickOutsideDeactivates: true,
+              isKeyForward: (evt: KeyboardEvent) =>
+                evt.key === 'ArrowDown' || evt.key === 'ArrowRight',
+              isKeyBackward: (evt: KeyboardEvent) =>
+                evt.key === 'ArrowUp' || evt.key === 'ArrowLeft',
+              escapeDeactivates: stopPropagation,
+            }}
+          >
+            <Menu>
+              <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
+                {AUTO_JOIN_ITEMS.map((item) => (
+                  <MenuItem
+                    key={item.mode}
+                    size="300"
+                    variant={prefs.mode === item.mode ? 'Primary' : 'Surface'}
+                    radii="300"
+                    onClick={() => handleSelect(item.mode)}
+                  >
+                    <Text size="T300">{item.label}</Text>
+                  </MenuItem>
+                ))}
+              </Box>
+            </Menu>
+          </FocusTrap>
+        }
+      />
+    </Box>
   );
 }
 
@@ -1661,10 +1756,6 @@ function ForkFeatures() {
     settingsAtom,
     'emojiShortcodeReplace',
   );
-  const [autoJoinSpaceRooms, setAutoJoinSpaceRooms] = useSetting(
-    settingsAtom,
-    'autoJoinSpaceRooms',
-  );
   const [autoEmbedHosts, setAutoEmbedHosts] = useSetting(settingsAtom, 'mediaAutoEmbedHosts');
   const [callNavActivity, setCallNavActivity] = useSetting(settingsAtom, 'callNavActivity');
   const [dmCallSplit, setDmCallSplit] = useSetting(settingsAtom, 'dmCallSplit');
@@ -1852,10 +1943,8 @@ function ForkFeatures() {
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
           title="Auto Join Space Rooms"
-          description="Join every room a space lists, including rooms added later. A large space means many joins."
-          after={
-            <Switch variant="Primary" value={autoJoinSpaceRooms} onChange={setAutoJoinSpaceRooms} />
-          }
+          description="Join the rooms a space lists, including rooms added later: in every space, or only in spaces whose admins ask for it. A large space means many joins. Choose per space from its menu. Applies on all your devices."
+          after={<SelectAutoJoinMode />}
         />
       </SequenceCard>
 

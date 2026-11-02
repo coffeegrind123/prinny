@@ -10,6 +10,8 @@ export enum AccountDataEvent {
   PrinnyEmojiMashups = 'app.prinny.emoji_mashups',
   /** Rooms the user left, which space auto-join must not join again. */
   PrinnyLeftRooms = 'app.prinny.left_rooms',
+  /** Whether this account auto-joins space rooms: a mode plus per-space choices. */
+  PrinnyAutoJoin = 'app.prinny.auto_join',
   /** The user's own status message (and chosen presence), kept across presence changes. */
   PrinnyPresence = 'app.prinny.presence',
 

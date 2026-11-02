@@ -4,8 +4,6 @@ import { useAtomValue } from 'jotai';
 import { useMatrixClient } from './useMatrixClient';
 import { useForceUpdate } from './useForceUpdate';
 import { useStateEventCallback } from './useStateEventCallback';
-import { useSetting } from '../state/hooks/settings';
-import { settingsAtom } from '../state/settings';
 import { allRoomsAtom } from '../state/room-list/roomList';
 import { spaceRoomsAtom } from '../state/spaceRooms';
 import { useOrphanSpaces, useSpaces } from '../state/hooks/roomList';
@@ -20,6 +18,8 @@ import {
 import { getStateEvent, getStateEvents, isValidChild } from '../utils/room';
 import { isRoomId, rateLimitedActions } from '../utils/matrix';
 import { markRoomsLeft, unmarkRoomsLeft, useLeftRooms } from '../state/leftRooms';
+import { useAutoJoinPrefs } from '../state/autoJoin';
+import { autoJoinsSpace } from '../utils/spaceAutoJoin';
 
 type RoomToJoin = {
   roomId: string;
@@ -27,9 +27,10 @@ type RoomToJoin = {
 };
 
 /**
- * Globally auto-joins the child rooms (and subspaces) of every space that has
- * auto-join enabled, whether via the per-space `app.prinny.space.auto_join`
- * state event or the user-wide "Auto Join Space Rooms" setting.
+ * Globally auto-joins the child rooms (and subspaces) of every space the
+ * user's auto-join preference selects (see `utils/spaceAutoJoin.ts`): all
+ * spaces, only those whose `app.prinny.space.auto_join` state event asks, or
+ * none, with per-space choices on top.
  *
  * Unlike the old lobby-only hook, this runs as soon as the auto-join data is
  * received from the server, without the user having to open the space lobby.
@@ -55,7 +56,7 @@ type RoomToJoin = {
  */
 export const useSpaceAutoJoinGlobal = () => {
   const mx = useMatrixClient();
-  const [autoJoinSpaceRooms] = useSetting(settingsAtom, 'autoJoinSpaceRooms');
+  const autoJoinPrefs = useAutoJoinPrefs();
   const spaces = useSpaces(mx, allRoomsAtom);
   const spaceRooms = useAtomValue(spaceRoomsAtom);
   const roomToParents = useAtomValue(roomToParentsAtom);
@@ -103,34 +104,25 @@ export const useSpaceAutoJoinGlobal = () => {
     ),
   );
 
-  // Entry-point spaces whose children should be auto-joined: those with the
-  // per-space auto-join event set, or all spaces when the user-wide setting
-  // is on.
+  // Entry-point spaces whose children should be auto-joined. The space's own
+  // event only counts in "requested" mode: it can never arm auto-join by
+  // itself, because anyone with state power in a space could then make every
+  // member's client join rooms of their choosing via attacker-supplied `via`.
   const autoJoinSpaces = useMemo(() => {
     const set = new Set<string>();
     spaces.forEach((spaceId) => {
       const room = mx.getRoom(spaceId);
       if (!room) return;
-      // The LOCAL setting is now required. Previously the remote state event
-      // alone armed auto-join, so anyone with state-send power in a space (power
-      // level 50 by default) could make every member's client silently join
-      // rooms of their choosing, on servers of their choosing, via attacker-
-      // supplied `via` entries - and it overrode this setting, which defaults to
-      // false. Joining a room changes the user's exposure (profile disclosure,
-      // content delivery, federation with the named servers), so it stays a
-      // local decision; the room's event may only opt IN to a choice the user
-      // already made, never make it for them.
-      if (!autoJoinSpaceRooms) return;
-      set.add(spaceId);
       const evt = getStateEvent(room, StateEvent.SpaceAutoJoin);
-      if (evt?.getContent<SpaceAutoJoinContent>().auto_join === true) {
+      const requested = evt?.getContent<SpaceAutoJoinContent>().auto_join === true;
+      if (autoJoinsSpace(autoJoinPrefs, spaceId, requested)) {
         set.add(spaceId);
       }
     });
     return set;
     // updateCount triggers recompute when state events arrive
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mx, spaces, autoJoinSpaceRooms, updateCount]);
+  }, [mx, spaces, autoJoinPrefs, updateCount]);
 
   // Spaces visible in the sidebar (pinned). Pinned subspaces are skipped so
   // the user can manage them manually.
@@ -176,6 +168,8 @@ export const useSpaceAutoJoinGlobal = () => {
           // Skip pinned subspaces entirely: don't join them and don't recurse
           // into them, leaving them for the user to manage manually.
           if (pinnedSpaces.has(childId)) return;
+          // "Never" on a subspace holds even under a parent that auto-joins.
+          if (autoJoinPrefs.spaces[childId] === false) return;
 
           if (joined) {
             // Recurse into joined, non-pinned subspaces so their children
@@ -210,5 +204,5 @@ export const useSpaceAutoJoinGlobal = () => {
         // Users can still join manually via the lobby Join button.
       }
     });
-  }, [mx, autoJoinSpaces, spaceRooms, pinnedSpaces, leftRooms]);
+  }, [mx, autoJoinSpaces, autoJoinPrefs, spaceRooms, pinnedSpaces, leftRooms]);
 };
