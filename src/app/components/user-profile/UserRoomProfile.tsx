@@ -29,6 +29,7 @@ import {
 } from '../../../types/matrix/profile';
 import { DirectMessageComposer } from './DirectMessageComposer';
 import { UserBiography } from './UserBiography';
+import { UserNote } from './UserNote';
 
 type UserRoomProfileProps = {
   userId: string;
@@ -111,6 +112,7 @@ export function UserRoomProfile({ userId }: UserRoomProfileProps) {
         </Box>
         {biography && <UserBiography biography={biography} />}
         {richPresence && <UserRichPresence presence={richPresence} />}
+        {userId !== myUserId && <UserNote userId={userId} />}
         {ignored && <IgnoredUserAlert />}
         {member && membership === Membership.Ban && (
           <UserBanAlert

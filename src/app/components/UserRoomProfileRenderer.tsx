@@ -2,6 +2,7 @@ import { Align, Menu, PopOut, Position, RectCords, toRem } from 'folds';
 import { FocusTrap } from 'focus-trap-react';
 import { useCloseUserRoomProfile, useUserRoomProfileState } from '../state/hooks/userRoomProfile';
 import { UserRoomProfile } from './user-profile';
+import { isProfileNoteEditor } from './user-profile/UserNote';
 import { UserRoomProfileState } from '../state/userRoomProfile';
 import { useAllJoinedRoomsSet, useGetRoom } from '../hooks/useGetRoom';
 import { stopPropagation } from '../utils/keyboard';
@@ -70,7 +71,9 @@ function UserRoomProfileContextMenu({ state }: { state: UserRoomProfileState }) 
             initialFocus: false,
             onDeactivate: close,
             clickOutsideDeactivates: true,
-            escapeDeactivates: stopPropagation,
+            // Escape in the note editor discards the edit; it must not close the card.
+            escapeDeactivates: (evt: KeyboardEvent) =>
+              isProfileNoteEditor(evt.target) ? false : stopPropagation(evt),
           }}
         >
           <Menu style={{ width: toRem(340) }}>
