@@ -1,5 +1,6 @@
 import { BasePoint, BaseRange, Editor, Element, Node, Point, Range, Text, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
+import { IS_FOCUSED } from 'slate-dom';
 import { BlockType, MarkType } from './types';
 import {
   CommandElement,
@@ -350,13 +351,32 @@ export const restoreDomCaretIfMissing = (editor: Editor): boolean => {
 const FOCUS_RENDER_RETRIES = 5;
 
 /**
- * Focus the editor's DOM node and point the browser's selection at
- * `editor.selection`, skipping if it is already the active element.
+ * Focus the editor's DOM node, point the browser's selection at
+ * `editor.selection`, and tell slate the editor is focused.
  *
- * The same three steps `DOMEditor.focus` takes, minus its bail-outs. Slate's
- * `IS_FOCUSED` is not set here on purpose: `Editable`'s own `onFocus` handler
- * sets it from the focus event this raises, so the React tree learns about it
- * through the same path as a click.
+ * The same three steps `DOMEditor.focus` takes, minus its bail-outs.
+ *
+ * `IS_FOCUSED` is set here, as `DOMEditor.focus` does, not left to
+ * `Editable`'s `onFocus`, because that handler never runs for a focus made
+ * while React is committing. React turns its event system off for the length
+ * of a commit (react-dom sets `_enabled = false` before the mutation phase,
+ * and `dispatchEvent` does nothing while it is off): the browser moves focus,
+ * and React drops the event. Closing an autocomplete menu is that case. The
+ * menu's FocusTrap calls `onPostDeactivate` from its unmount, inside the
+ * commit, and `requestClose` refocuses the composer from there.
+ *
+ * Slate then believes it is unfocused for good. Its layout effect skips
+ * writing the selection into the DOM while `IS_FOCUSED` is unset, typing
+ * raises no `selectionchange` to correct it, and every character goes in at
+ * the DOM caret the removed `:cry` text node left behind: offset 0 of the
+ * leaf. Measured against the real composer: `:cry`, ArrowDown to `:sob:`,
+ * Enter, then "xyz" gave "zyx😭 ", with the model at [0,2]@1 and the DOM caret
+ * at the leaf span @0 throughout. Picking without arrowing never moved focus
+ * out of the composer, so it was unaffected.
+ *
+ * That is also why an editor that is already the active element is not
+ * skipped unless slate agrees it is focused: the swallowed event leaves
+ * exactly that state behind.
  */
 const focusEditorDOM = (
   editor: Editor,
@@ -367,12 +387,13 @@ const focusEditorDOM = (
   const root = el.getRootNode();
   const activeElement =
     root instanceof Document || root instanceof ShadowRoot ? root.activeElement : null;
-  if (activeElement === el) return;
+  const alreadyFocused = activeElement === el;
+  if (alreadyFocused && IS_FOCUSED.get(editor)) return;
 
   // A retry that finds the reader typing somewhere else has lost its claim to
   // focus. The element this was first called from is exempt: it is the popup
   // being closed, which may not have unmounted yet.
-  if (retriesLeft < FOCUS_RENDER_RETRIES && editableActiveElement()) {
+  if (!alreadyFocused && retriesLeft < FOCUS_RENDER_RETRIES && editableActiveElement()) {
     if (activeElement !== focusedBefore) return;
   }
 
@@ -419,7 +440,8 @@ const focusEditorDOM = (
       domSelection?.addRange(domRange);
     }
   }
-  el.focus({ preventScroll: true });
+  IS_FOCUSED.set(editor, true);
+  if (!alreadyFocused) el.focus({ preventScroll: true });
 };
 
 /**
@@ -499,6 +521,9 @@ export const safeFocusEditor = (editor: Editor) => {
   }
   try {
     const el = ReactEditor.toDOMNode(editor as ReactEditor, editor);
+    // Closing an autocomplete menu reaches this mid-commit (see
+    // `focusEditorDOM`), and slate's `onFocus` does not hear a focus made then.
+    IS_FOCUSED.set(editor, true);
     el.focus({ preventScroll: true });
   } catch {
     // editor DOM node is gone — nothing more we can do
