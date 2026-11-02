@@ -8,12 +8,20 @@ import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
 import { isTauri } from '../../../utils/desktop-notifications';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
+import { useAccountDataCallback } from '../../../hooks/useAccountDataCallback';
+import {
+  INVITE_CONFIG_MSC4155,
+  INVITE_CONFIG_STABLE,
+  INVITE_CONFIG_UNSTABLE,
+  blocksAllInvites,
+  inviteBlockingWrites,
+} from '../../../utils/inviteBlocking';
 
-// MSC4155: invites the server should reject on your behalf. Element only
-// implements the "block everything" case and so does this — the per-user and
-// per-server lists need a management UI of their own to be any use, and a
-// half-built one that silently drops entries is worse than none.
-const INVITE_RULES_TYPE = 'org.matrix.msc4155.invite_permission_config';
+// Invites the server rejects on your behalf: MSC4380 (merged) plus the older
+// MSC4155 form, see utils/inviteBlocking.ts. Only "block everything" is
+// offered; MSC4155's per-user and per-server lists need a management UI of
+// their own, and entries made in another client are kept untouched.
+const INVITE_CONFIG_TYPES = [INVITE_CONFIG_STABLE, INVITE_CONFIG_UNSTABLE, INVITE_CONFIG_MSC4155];
 
 // MSC4278: whether the client should load media and avatars from rooms you
 // have not joined. Off means a stranger cannot make your client fetch anything
@@ -34,10 +42,13 @@ export function PrivacySettings() {
   // settings follow the account, so another client changing them must not leave
   // this one showing something else.
   const readSettings = useCallback(() => {
-    const invite = mx.getAccountData(INVITE_RULES_TYPE as never)?.getContent<{
-      blocked_users?: string[];
-    }>();
-    setBlockInvites(Array.isArray(invite?.blocked_users) && invite.blocked_users.includes('*'));
+    setBlockInvites(
+      blocksAllInvites(
+        Object.fromEntries(
+          INVITE_CONFIG_TYPES.map((type) => [type, mx.getAccountData(type as never)?.getContent()]),
+        ),
+      ),
+    );
 
     const media = mx.getAccountData(MEDIA_PREVIEW_TYPE as never)?.getContent<{
       media_previews?: MediaPreviewValue;
@@ -51,10 +62,24 @@ export function PrivacySettings() {
     readSettings();
   }, [readSettings]);
 
-  const [saveState, save] = useAsyncCallback<void, Error, [string, object]>(
+  useAccountDataCallback(
+    mx,
     useCallback(
-      async (type, content) => {
-        await mx.setAccountData(type as never, content as never);
+      (event) => {
+        const type = event.getType();
+        if (INVITE_CONFIG_TYPES.includes(type) || type === MEDIA_PREVIEW_TYPE) readSettings();
+      },
+      [readSettings],
+    ),
+  );
+
+  const [saveState, save] = useAsyncCallback<void, Error, [Record<string, object>]>(
+    useCallback(
+      async (writes) => {
+        // Stable first: a server that knows it decides by it.
+        for (const [type, content] of Object.entries(writes)) {
+          await mx.setAccountData(type as never, content as never);
+        }
         readSettings();
       },
       [mx, readSettings],
@@ -66,10 +91,12 @@ export function PrivacySettings() {
   const setMedia = (
     next: Partial<{ media_previews: MediaPreviewValue; invite_avatars: 'on' | 'off' }>,
   ) =>
-    save(MEDIA_PREVIEW_TYPE, {
-      media_previews: mediaPreviews,
-      invite_avatars: inviteAvatars,
-      ...next,
+    save({
+      [MEDIA_PREVIEW_TYPE]: {
+        media_previews: mediaPreviews,
+        invite_avatars: inviteAvatars,
+        ...next,
+      },
     });
 
   return (
@@ -100,14 +127,19 @@ export function PrivacySettings() {
       >
         <SettingTile
           title="Block all incoming invites"
-          description="Your server rejects room invites before they reach you. People who already share a room with you are unaffected. Requires server support (MSC4155)."
+          description="Your server rejects every room invite before it reaches you, including from people you already share a room with. Requires server support (MSC4380, or the older MSC4155)."
           after={
             <Switch
               variant="Primary"
               value={blockInvites}
               disabled={saving}
               onChange={(value) =>
-                save(INVITE_RULES_TYPE, value ? { blocked_users: ['*'] } : { blocked_users: [] })
+                save(
+                  inviteBlockingWrites(
+                    value,
+                    mx.getAccountData(INVITE_CONFIG_MSC4155 as never)?.getContent(),
+                  ),
+                )
               }
             />
           }
