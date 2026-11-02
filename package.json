@@ -17,6 +17,7 @@
     "check:prettier": "prettier --check .",
     "fix:prettier": "prettier --write .",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "check:csp": "node scripts/check-csp.mjs"
   },
   "keywords": [],
@@ -121,7 +122,8 @@
     "vite": "8.2.1",
     "vite-plugin-pwa": "1.3.0",
     "vite-plugin-static-copy": "4.1.1",
-    "vite-plugin-top-level-await": "1.6.0"
+    "vite-plugin-top-level-await": "1.6.0",
+    "vitest": "5.0.5"
   },
   "overrides": {
     "@babel/core": "$@babel/core",
