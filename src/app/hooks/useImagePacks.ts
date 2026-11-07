@@ -1,14 +1,16 @@
 import { Room } from 'matrix-js-sdk';
 import { useCallback, useMemo, useState } from 'react';
 import { AccountDataEvent } from '../../types/matrix/accountData';
-import { StateEvent } from '../../types/matrix/room';
 import {
   getGlobalImagePacks,
+  getPackRoomsRefs,
   getRoomImagePack,
   getRoomImagePacks,
   getUserImagePack,
   ImagePack,
   ImageUsage,
+  isPackRoomsType,
+  isRoomPackType,
 } from '../plugins/custom-emoji';
 import { useMatrixClient } from './useMatrixClient';
 import { useAccountDataCallback } from './useAccountDataCallback';
@@ -42,7 +44,7 @@ export const useGlobalImagePacks = (): ImagePack[] => {
     mx,
     useCallback(
       (mEvent) => {
-        if (mEvent.getType() === AccountDataEvent.PoniesEmoteRooms) {
+        if (isPackRoomsType(mEvent.getType())) {
           setGlobalPacks(getGlobalImagePacks(mx));
         }
       },
@@ -57,17 +59,17 @@ export const useGlobalImagePacks = (): ImagePack[] => {
         const eventType = mEvent.getType();
         const roomId = mEvent.getRoomId();
         const stateKey = mEvent.getStateKey();
-        if (eventType === StateEvent.PoniesRoomEmotes && roomId && typeof stateKey === 'string') {
-          const global = !!globalPacks.find(
-            (pack) =>
-              pack.address && pack.address.roomId === roomId && pack.address.stateKey === stateKey,
-          );
-          if (global) {
+        if (isRoomPackType(eventType) && roomId && typeof stateKey === 'string') {
+          // Checked against the references, not the packs already shown: a pack
+          // enabled before it existed (or created under the other name) must
+          // appear as soon as its event arrives.
+          const refs = getPackRoomsRefs(mx)[roomId];
+          if (refs && stateKey in refs) {
             setGlobalPacks(getGlobalImagePacks(mx));
           }
         }
       },
-      [mx, globalPacks],
+      [mx],
     ),
   );
 
@@ -84,7 +86,7 @@ export const useRoomImagePack = (room: Room, stateKey: string): ImagePack | unde
       (mEvent) => {
         if (
           mEvent.getRoomId() === room.roomId &&
-          mEvent.getType() === StateEvent.PoniesRoomEmotes &&
+          isRoomPackType(mEvent.getType()) &&
           mEvent.getStateKey() === stateKey
         ) {
           setRoomPack(getRoomImagePack(room, stateKey));
@@ -105,10 +107,7 @@ export const useRoomImagePacks = (room: Room): ImagePack[] => {
     mx,
     useCallback(
       (mEvent) => {
-        if (
-          mEvent.getRoomId() === room.roomId &&
-          mEvent.getType() === StateEvent.PoniesRoomEmotes
-        ) {
+        if (mEvent.getRoomId() === room.roomId && isRoomPackType(mEvent.getType())) {
           setRoomPacks(getRoomImagePacks(room));
         }
       },
@@ -129,7 +128,7 @@ export const useRoomsImagePacks = (rooms: Room[]) => {
       (mEvent) => {
         if (
           rooms.find((room) => room.roomId === mEvent.getRoomId()) &&
-          mEvent.getType() === StateEvent.PoniesRoomEmotes
+          isRoomPackType(mEvent.getType())
         ) {
           setRoomPacks(rooms.flatMap(getRoomImagePacks));
         }

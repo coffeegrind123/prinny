@@ -114,7 +114,7 @@ const useGroups = (
     });
 
     imagePacks.forEach((pack) => {
-      let label = pack.meta.name;
+      let label = pack.name;
       if (!label) label = isUserId(pack.id) ? 'Personal Set' : mx.getRoom(pack.id)?.name;
 
       g.push({
@@ -155,7 +155,7 @@ const useGroups = (
     if (tab !== EmojiBoardTab.Sticker) return g;
 
     imagePacks.forEach((pack) => {
-      let label = pack.meta.name;
+      let label = pack.name;
       if (!label) label = isUserId(pack.id) ? 'Personal Set' : mx.getRoom(pack.id)?.name;
 
       g.push({
@@ -241,7 +241,7 @@ function EmojiSidebar({ activeGroupAtom, packs, onScrollToGroup }: EmojiSidebarP
         <SidebarStack>
           <SidebarDivider />
           {packs.map((pack) => {
-            let label = pack.meta.name;
+            let label = pack.name;
             if (!label) label = isUserId(pack.id) ? 'Personal Set' : mx.getRoom(pack.id)?.name;
 
             const url =
@@ -304,7 +304,7 @@ function StickerSidebar({ activeGroupAtom, packs, onScrollToGroup }: StickerSide
     <Sidebar>
       <SidebarStack>
         {packs.map((pack) => {
-          let label = pack.meta.name;
+          let label = pack.name;
           if (!label) label = isUserId(pack.id) ? 'Personal Set' : mx.getRoom(pack.id)?.name;
 
           const url =

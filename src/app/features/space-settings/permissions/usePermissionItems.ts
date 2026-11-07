@@ -128,9 +128,16 @@ export const usePermissionGroups = (): PermissionGroup[] => {
         {
           location: {
             state: true,
-            key: StateEvent.PoniesRoomEmotes,
+            key: StateEvent.RoomImagePack,
           },
           name: 'Manage Emojis & Stickers',
+        },
+        {
+          location: {
+            state: true,
+            key: StateEvent.PoniesRoomEmotes,
+          },
+          name: 'Manage Emojis & Stickers (older apps)',
         },
         {
           location: {

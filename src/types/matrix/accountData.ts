@@ -26,6 +26,8 @@ export enum AccountDataEvent {
 
   PoniesUserEmotes = 'im.ponies.user_emotes',
   PoniesEmoteRooms = 'im.ponies.emote_rooms',
+  /** Matrix v1.19 (MSC2545): stable name of `im.ponies.emote_rooms`, same shape. */
+  ImagePackRooms = 'm.image_pack.rooms',
 
   SecretStorageDefaultKey = 'm.secret_storage.default_key',
 

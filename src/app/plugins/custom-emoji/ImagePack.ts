@@ -5,6 +5,16 @@ import { PackImagesReader } from './PackImagesReader';
 import { PackMetaReader } from './PackMetaReader';
 import { ImageUsage, PackContent } from './types';
 
+/**
+ * What the spec says to show for a room pack without its own `display_name`
+ * or `avatar_url`: the room's. Kept apart from `meta`, which is what gets
+ * written back on edit, so the room's name is never saved into the pack.
+ */
+export type PackFallback = {
+  name?: string;
+  avatarUrl?: string;
+};
+
 export class ImagePack {
   public readonly id: string;
 
@@ -20,8 +30,17 @@ export class ImagePack {
 
   private stickerMemo: PackImageReader[] | undefined;
 
-  constructor(id: string, content: PackContent, address: PackAddress | undefined) {
+  private readonly fallback: PackFallback;
+
+  constructor(
+    id: string,
+    content: PackContent,
+    address: PackAddress | undefined,
+    fallback: PackFallback = {},
+  ) {
     this.id = id;
+
+    this.fallback = fallback;
 
     this.address = address;
 
@@ -31,7 +50,7 @@ export class ImagePack {
     this.images = new PackImagesReader(content.images ?? {});
   }
 
-  static fromMatrixEvent(id: string, matrixEvent: MatrixEvent) {
+  static fromMatrixEvent(id: string, matrixEvent: MatrixEvent, fallback?: PackFallback) {
     const roomId = matrixEvent.getRoomId();
     const stateKey = matrixEvent.getStateKey();
 
@@ -40,7 +59,7 @@ export class ImagePack {
 
     const content = matrixEvent.getContent<PackContent>();
 
-    const imagePack: ImagePack = new ImagePack(id, content, address);
+    const imagePack: ImagePack = new ImagePack(id, content, address, fallback);
 
     return imagePack;
   }
@@ -68,8 +87,14 @@ export class ImagePack {
     return images;
   }
 
+  /** The name to show: the pack's own, else its room's. */
+  get name(): string | undefined {
+    return this.meta.name ?? this.fallback.name;
+  }
+
   public getAvatarUrl(usage: ImageUsage): string | undefined {
     if (this.meta.avatar) return this.meta.avatar;
+    if (this.fallback.avatarUrl) return this.fallback.avatarUrl;
     const images = this.getImages(usage);
     const firstImage = images[0];
     if (firstImage) return firstImage.url;

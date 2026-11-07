@@ -39,6 +39,8 @@ export enum StateEvent {
   SpaceParent = 'm.space.parent',
 
   PoniesRoomEmotes = 'im.ponies.room_emotes',
+  /** Matrix v1.19 (MSC2545): stable name of `im.ponies.room_emotes`, same shape. */
+  RoomImagePack = 'm.room.image_pack',
   PowerLevelTags = 'in.cinny.room.power_level_tags',
 
   /**

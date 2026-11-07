@@ -8,6 +8,7 @@ declare module 'matrix-js-sdk' {
     'io.element.recent_emoji': unknown;
     'im.ponies.user_emotes': unknown;
     'im.ponies.emote_rooms': unknown;
+    'm.image_pack.rooms': unknown;
     'app.prinny.room_order': unknown;
     'app.prinny.gif_favorites': unknown;
     'app.prinny.emoji_mashups': unknown;
@@ -18,6 +19,7 @@ declare module 'matrix-js-sdk' {
 
   interface StateEvents {
     'im.ponies.room_emotes': unknown;
+    'm.room.image_pack': unknown;
     'in.cinny.room.power_level_tags': unknown;
   }
 }

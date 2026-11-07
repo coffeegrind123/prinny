@@ -24,6 +24,8 @@ import {
   PackImageReader,
   packMetaEqual,
   PackMetaReader,
+  toShortcode,
+  uniqueShortcode,
 } from '../../plugins/custom-emoji';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
@@ -216,15 +218,22 @@ export const ImagePackContent = as<'div', ImagePackContentProps>(
             ...animatedImageInfo(await blobIsAnimated(data.file)),
           },
         };
-        const image = PackImageReader.fromPackImage(
-          getFileNameWithoutExt(getUploadContentName(data.file)),
-          packImage,
-        );
-        if (!image) return;
         handleUploadRemove(data.file);
-        setUploadedImages((imgs) => [image, ...imgs]);
+        // The shortcode comes from the file name, made to fit the spec grammar
+        // (a name like "Cat Wave (1).png" would otherwise keep its spaces and
+        // brackets) and made unique against everything in the pack, including
+        // uploads that finished a moment earlier — hence inside the updater.
+        const base = toShortcode(getFileNameWithoutExt(getUploadContentName(data.file)));
+        setUploadedImages((imgs) => {
+          const shortcode = uniqueShortcode(
+            base,
+            (s) => hasImageWithShortcode(s) || imgs.some((img) => img.shortcode === s),
+          );
+          const image = PackImageReader.fromPackImage(shortcode, packImage);
+          return image ? [image, ...imgs] : imgs;
+        });
       },
-      [handleUploadRemove],
+      [handleUploadRemove, hasImageWithShortcode],
     );
 
     const handleImageEdit = (shortcode: string) => {
@@ -257,7 +266,7 @@ export const ImagePackContent = as<'div', ImagePackContentProps>(
       const saveImage =
         shortcode !== image.shortcode && hasImageWithShortcode(image.shortcode)
           ? new PackImageReader(
-              suffixRename(image.shortcode, hasImageWithShortcode),
+              uniqueShortcode(image.shortcode, hasImageWithShortcode),
               image.url,
               image.content,
             )

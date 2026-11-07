@@ -24,6 +24,7 @@ import {
   PackAddress,
   packAddressEqual,
   PackContent,
+  sendRoomImagePack,
 } from '../../../plugins/custom-emoji';
 import { useRoom } from '../../../hooks/useRoom';
 import { useRoomImagePacks } from '../../../hooks/useImagePacks';
@@ -58,7 +59,7 @@ function CreatePackTile({ packs, roomId }: CreatePackTileProps) {
             display_name: name,
           },
         };
-        await mx.sendStateEvent(roomId, StateEvent.PoniesRoomEmotes as any, content, stateKey);
+        await sendRoomImagePack(mx, roomId, stateKey, content);
       },
       [mx, roomId],
     ),
@@ -149,7 +150,9 @@ export function RoomPacks({ onViewPack }: RoomPacksProps) {
   const creators = useRoomCreators(room);
 
   const permissions = useRoomPermissions(creators, powerLevels);
-  const canEdit = permissions.stateEvent(StateEvent.PoniesRoomEmotes, mx.getSafeUserId());
+  const canEdit =
+    permissions.stateEvent(StateEvent.RoomImagePack, mx.getSafeUserId()) ||
+    permissions.stateEvent(StateEvent.PoniesRoomEmotes, mx.getSafeUserId());
 
   const unfilteredPacks = useRoomImagePacks(room);
   const packs = useMemo(() => unfilteredPacks.filter((pack) => !pack.deleted), [unfilteredPacks]);
@@ -161,8 +164,7 @@ export function RoomPacks({ onViewPack }: RoomPacksProps) {
     useCallback(async () => {
       for (let i = 0; i < removedPacks.length; i += 1) {
         const addr = removedPacks[i];
-        // eslint-disable-next-line no-await-in-loop
-        await mx.sendStateEvent(room.roomId, StateEvent.PoniesRoomEmotes as any, {}, addr.stateKey);
+        await sendRoomImagePack(mx, room.roomId, addr.stateKey, {});
       }
     }, [mx, room, removedPacks]),
   );
@@ -204,7 +206,7 @@ export function RoomPacks({ onViewPack }: RoomPacksProps) {
         <SettingTile
           title={
             <span style={{ textDecoration: removed ? 'line-through' : undefined }}>
-              {pack.meta.name ?? 'Unknown'}
+              {pack.name ?? 'Unknown'}
             </span>
           }
           description={<span className={LineClamp2}>{pack.meta.attribution}</span>}
@@ -266,6 +268,14 @@ export function RoomPacks({ onViewPack }: RoomPacksProps) {
     <>
       <Box direction="Column" gap="100">
         <Text size="L400">Sets</Text>
+        {room.hasEncryptionStateEvent() && (
+          // Matrix spec, image packs security considerations: pack state is
+          // never end-to-end encrypted, so its media is visible to servers.
+          <Text size="T200" priority="300">
+            Messages in this room are encrypted, but its emoji and sticker sets are not: the images
+            can be seen by the homeservers of everyone in the room.
+          </Text>
+        )}
         {canEdit && <CreatePackTile roomId={room.roomId} packs={packs} />}
         {packs.map(renderPack)}
         {packs.length === 0 && (

@@ -1,9 +1,15 @@
 import { FormEventHandler, ReactNode, useMemo, useState } from 'react';
-import { Badge, Box, Button, Chip, Icon, Icons, Input, Text } from 'folds';
+import { Badge, Box, Button, Chip, Icon, Icons, Input, Text, color } from 'folds';
 import { UsageSwitcher, useUsageStr } from './UsageSwitcher';
 import { mxcUrlToHttp } from '../../utils/matrix';
 import * as css from './style.css';
-import { ImageUsage, imageUsageEqual, PackImageReader } from '../../plugins/custom-emoji';
+import {
+  ImageUsage,
+  imageUsageEqual,
+  isValidShortcode,
+  PackImageReader,
+  toShortcode,
+} from '../../plugins/custom-emoji';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { SettingTile } from '../setting-tile';
 import { useObjectURL } from '../../hooks/useObjectURL';
@@ -124,6 +130,9 @@ export function ImageTileEdit({
   const defaultUsage = image.usage ?? packUsage;
 
   const [unsavedUsage, setUnsavedUsages] = useState(defaultUsage);
+  // Matrix spec shortcode grammar. Images that already break it still show
+  // (and can be deleted); saving an edit requires a valid one.
+  const [shortcodeError, setShortcodeError] = useState<string>();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (evt) => {
     evt.preventDefault();
@@ -138,6 +147,14 @@ export function ImageTileEdit({
     const usage = unsavedUsage;
 
     if (!shortcode) return;
+
+    if (!isValidShortcode(shortcode)) {
+      setShortcodeError(
+        `Only letters, digits, - and _ (up to 100). Try "${toShortcode(shortcode)}".`,
+      );
+      return;
+    }
+    setShortcodeError(undefined);
 
     if (
       shortcode === image.shortcode &&
@@ -179,6 +196,7 @@ export function ImageTileEdit({
             radii="0"
             required
             autoFocus
+            aria-invalid={!!shortcodeError}
           />
           <Input
             before={<Text size="L400">Body:</Text>}
@@ -189,6 +207,11 @@ export function ImageTileEdit({
             radii="0"
           />
         </Box>
+        {shortcodeError && (
+          <Text size="T200" style={{ color: color.Critical.Main }}>
+            {shortcodeError}
+          </Text>
+        )}
         <Box gap="200">
           <Box shrink="No" direction="Column">
             <UsageSwitcher usage={unsavedUsage} onChange={setUnsavedUsages} canEdit />

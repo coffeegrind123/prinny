@@ -3,7 +3,7 @@ import { Room } from 'matrix-js-sdk';
 import { usePowerLevels } from '../../hooks/usePowerLevels';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { ImagePackContent } from './ImagePackContent';
-import { ImagePack, PackContent } from '../../plugins/custom-emoji';
+import { ImagePack, PackContent, sendRoomImagePack } from '../../plugins/custom-emoji';
 import { StateEvent } from '../../../types/matrix/room';
 import { useRoomImagePack } from '../../hooks/useImagePacks';
 import { randomStr } from '../../utils/common';
@@ -22,7 +22,10 @@ export function RoomImagePack({ room, stateKey }: RoomImagePackProps) {
   const creators = useRoomCreators(room);
 
   const permissions = useRoomPermissions(creators, powerLevels);
-  const canEditImagePack = permissions.stateEvent(StateEvent.PoniesRoomEmotes, userId);
+  // Either name will do: the save writes both and succeeds if one lands.
+  const canEditImagePack =
+    permissions.stateEvent(StateEvent.RoomImagePack, userId) ||
+    permissions.stateEvent(StateEvent.PoniesRoomEmotes, userId);
 
   const fallbackPack = useMemo(() => {
     const fakePackId = randomStr(4);
@@ -42,12 +45,7 @@ export function RoomImagePack({ room, stateKey }: RoomImagePackProps) {
       const { address } = imagePack;
       if (!address) return;
 
-      await mx.sendStateEvent(
-        address.roomId,
-        StateEvent.PoniesRoomEmotes,
-        packContent,
-        address.stateKey,
-      );
+      await sendRoomImagePack(mx, address.roomId, address.stateKey, packContent);
     },
     [mx, imagePack],
   );
