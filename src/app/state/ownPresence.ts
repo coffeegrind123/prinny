@@ -183,13 +183,24 @@ export const setShareStatus = async (
 export const getChosenPresence = (mx: MatrixClient): Presence =>
   getContent(mx).presence ?? Presence.Online;
 
-/** Applies a presence picked by the user and remembers it for the next start. */
+/**
+ * Applies a presence picked by the user and remembers it for the next start.
+ *
+ * Each step runs whatever happened to the one before. A refused presence
+ * update (a 429 is common when the picker is used twice quickly) used to
+ * abort the rest, so going invisible left a shared status on the public
+ * profile and the choice was forgotten. The first failure is still reported.
+ */
 export const saveChosenPresence = async (mx: MatrixClient, presence: Presence): Promise<void> => {
-  await applyOwnPresence(mx, presence);
   const content: OwnPresenceContent = { ...getContent(mx), presence };
-  await mx.setAccountData(AccountDataEvent.PrinnyPresence, content);
-  await publishProfileStatus(mx, content, presence);
-  await writePersistentPresence(mx, { presence });
+  const results = await Promise.allSettled([
+    applyOwnPresence(mx, presence),
+    mx.setAccountData(AccountDataEvent.PrinnyPresence, content),
+    publishProfileStatus(mx, content, presence),
+    writePersistentPresence(mx, { presence }),
+  ]);
+  const failure = results.find((r): r is PromiseRejectedResult => r.status === 'rejected');
+  if (failure) throw failure.reason;
 };
 
 export const useShareStatus = (): boolean => {
