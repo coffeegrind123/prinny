@@ -81,6 +81,18 @@ const copyFiles = {
       rename: { stripBase: elementCall.stripBase },
     },
     {
+      // Element Call fetches config.json next to itself and only falls back to
+      // its defaults on an error status. Since 0.28 its embedded build ships
+      // none, and a host with SPA routing answers the missing file with
+      // index.html and a 200: Tauri's asset resolver does exactly that, so the
+      // widget failed to parse the HTML and never started (desktop and
+      // Android). An empty config means "use the defaults", which include our
+      // delayed-leave override (patch 0004), on every host.
+      src: 'element-call/config.json',
+      dest: 'public/element-call',
+      rename: { stripBase: true },
+    },
+    {
       src: 'node_modules/pdfjs-dist/build/pdf.worker.min.mjs',
       dest: '',
       rename: { stripBase: true, name: 'pdf.worker.min.js' },
