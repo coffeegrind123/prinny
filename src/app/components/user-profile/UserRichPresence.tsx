@@ -172,9 +172,11 @@ export function UserRichPresence({ presence }: UserRichPresenceProps) {
           </Text>
           {presence.type === 'media' ? (
             <>
-              <Text size="T300" priority="300" truncate title={presence.artist}>
-                {presence.artist}
-              </Text>
+              {presence.artist && (
+                <Text size="T300" priority="300" truncate title={presence.artist}>
+                  {presence.artist}
+                </Text>
+              )}
               {presence.album && (
                 <Text size="T200" priority="300" truncate title={presence.album}>
                   {presence.album}

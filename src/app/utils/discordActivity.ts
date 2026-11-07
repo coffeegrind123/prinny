@@ -3,7 +3,12 @@
 // MSC4320 rich-presence profile field value. Pure and side-effect-free so it
 // can be unit-tested, and so the Rust side never has to understand the schema:
 // it forwards the activity object verbatim and this decides what it means.
-import { MSC4320_RPC_ACTIVITY, MSC4320_RPC_MEDIA } from '../../types/matrix/richPresence';
+import {
+  MSC4320_RPC_ACTIVITY,
+  MSC4320_RPC_MEDIA,
+  MSC4544_RPC_ACTIVITY,
+  MSC4544_RPC_MUSIC,
+} from '../../types/matrix/richPresence';
 
 /**
  * A Discord RPC activity, as sent by a client over the local pipe. Every field
@@ -119,4 +124,41 @@ export const sameActivityPayload = (
 ): boolean => {
   if (a === null || b === null) return a === b;
   return JSON.stringify(a) === JSON.stringify(b);
+};
+
+/**
+ * What identifies "the same activity" across updates, so its MSC4544 entry
+ * keeps one `id` while a track's progress or a game's details change, and
+ * gets a new one when the track or game does.
+ */
+export const activityIdentity = (p: ActivityPayload): string =>
+  isMediaPayload(p) ? `music\0${p.track}\0${p.artist}` : `activity\0${p.name}`;
+
+/**
+ * The same activity as one MSC4544 entry (unstable names, as Extera writes
+ * them). `expiry` is absolute ms. Field mapping: `player` → `player_name`,
+ * `cover_art` → `cover_url`, `image` → `large_icon_url`, and our progress
+ * (length in s, end in ms) → absolute `since`/`until`.
+ */
+export const toMsc4544Entry = (
+  p: ActivityPayload,
+  id: string,
+  expiry: number,
+): Record<string, unknown> => {
+  if (isMediaPayload(p)) {
+    const entry: Record<string, unknown> = { id, type: MSC4544_RPC_MUSIC, expiry, track: p.track };
+    if (p.artist) entry.artist = p.artist;
+    if (p.album) entry.album = p.album;
+    if (p.player) entry.player_name = p.player;
+    if (p.cover_art) entry.cover_url = p.cover_art;
+    if (p.progress) {
+      const until = p.progress.time_complete;
+      entry.progress = { since: until - p.progress.length * 1000, until };
+    }
+    return entry;
+  }
+  const entry: Record<string, unknown> = { id, type: MSC4544_RPC_ACTIVITY, expiry, name: p.name };
+  if (p.details) entry.details = p.details;
+  if (p.image) entry.large_icon_url = p.image;
+  return entry;
 };

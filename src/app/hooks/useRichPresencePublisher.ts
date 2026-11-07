@@ -5,14 +5,18 @@ import { useSetting } from '../state/hooks/settings';
 import { settingsAtom } from '../state/settings';
 import { richPresenceBridgeStatusAtom } from '../state/richPresenceBridge';
 import {
+  MEOW_RICH_PRESENCE_EXPIRES_AT,
   MSC4320_RPC,
+  MSC4544_RPC,
   RICH_PRESENCE_EXPIRES_AT,
   RICH_PRESENCE_TTL,
 } from '../../types/matrix/richPresence';
 import {
+  activityIdentity,
   isMediaPayload,
   mapDiscordActivity,
   sameActivityPayload,
+  toMsc4544Entry,
   withCoverArt,
   type ActivityPayload,
   type DiscordRichPresenceActivity,
@@ -87,6 +91,9 @@ export const useRichPresencePublisher = () => {
     let writeFailures = 0;
     let retryWritesAt = 0;
     let writesUnsupported = false;
+    // MSC4544 entry id: kept while the same track/game continues.
+    let entryIdentity: string | undefined;
+    let entryId = '';
 
     // Cover-art resolution: turn an external image URL into an MXC via the
     // homeserver's preview_url endpoint. Deduped by URL so a repeated cover
@@ -108,17 +115,34 @@ export const useRichPresencePublisher = () => {
       const writing = pending;
       inFlight = true;
       try {
+        // Written twice, one after the other (MSC4544 asks for serialised
+        // writes): the MSC4320 object our clients and meow's read, with both
+        // forks' expiry keys so each hides the other's stale activity, and
+        // the MSC4544 array Extera and Zam read. An absent activity is a
+        // DELETE of both; MSC4544 forbids PUTting an empty array.
         if (writing) {
+          const expiresAt = Date.now() + RICH_PRESENCE_TTL;
+          const identity = activityIdentity(writing);
+          if (identity !== entryIdentity) {
+            entryIdentity = identity;
+            entryId = crypto.randomUUID();
+          }
           await mx.setExtendedProfileProperty(MSC4320_RPC, {
             ...writing,
-            [RICH_PRESENCE_EXPIRES_AT]: Date.now() + RICH_PRESENCE_TTL,
+            [RICH_PRESENCE_EXPIRES_AT]: expiresAt,
+            [MEOW_RICH_PRESENCE_EXPIRES_AT]: expiresAt,
           });
+          await mx.setExtendedProfileProperty(MSC4544_RPC, [
+            toMsc4544Entry(writing, entryId, expiresAt),
+          ]);
         } else {
           await mx.deleteExtendedProfileProperty(MSC4320_RPC);
+          await mx.deleteExtendedProfileProperty(MSC4544_RPC);
         }
         // The cleanup's delete may have raced this write and landed first.
         if (stopped && writing) {
           await mx.deleteExtendedProfileProperty(MSC4320_RPC);
+          await mx.deleteExtendedProfileProperty(MSC4544_RPC);
         }
         lastWritten = writing;
         lastWriteAt = Date.now();
@@ -252,6 +276,7 @@ export const useRichPresencePublisher = () => {
       unlisten?.();
       // Leave no stale presence behind when disabling or tearing down.
       mx.deleteExtendedProfileProperty(MSC4320_RPC).catch(() => undefined);
+      mx.deleteExtendedProfileProperty(MSC4544_RPC).catch(() => undefined);
       if (started) {
         import('@tauri-apps/api/core')
           .then(({ invoke }) => invoke('stop_rich_presence_bridge'))

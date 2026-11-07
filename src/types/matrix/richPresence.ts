@@ -6,7 +6,21 @@ export const M_RPC = 'm.rpc';
 export const M_RPC_MEDIA = 'm.rpc.media';
 export const M_RPC_ACTIVITY = 'm.rpc.activity';
 
-export const RICH_PRESENCE_PROFILE_FIELDS = [MSC4320_RPC, M_RPC];
+/**
+ * MSC4544 (Extera, Zam): the same idea as a profile-field ARRAY of up to four
+ * entries, each with its own absolute `expiry`. Its stable name is also
+ * `m.rpc`; an array there is MSC4544 and an object is MSC4320, which is why
+ * the MSC4320 parser rejects arrays. Extera writes the unstable prefix into
+ * the entry types too (`xyz.extera.msc4544.rpc.activity`), Zam reads both.
+ */
+export const MSC4544_RPC = 'xyz.extera.msc4544.rpc';
+export const MSC4544_RPC_ACTIVITY = `${MSC4544_RPC}.activity`;
+export const MSC4544_RPC_MUSIC = `${MSC4544_RPC}.music`;
+const M_RPC_MUSIC = 'm.rpc.music';
+/** MSC4544: at most this many entries are stored at once. */
+export const MSC4544_MAX_ENTRIES = 4;
+
+export const RICH_PRESENCE_PROFILE_FIELDS = [MSC4320_RPC, M_RPC, MSC4544_RPC];
 
 /**
  * Extension field inside the rich presence object: absolute Unix ms after
@@ -17,7 +31,7 @@ export const RICH_PRESENCE_PROFILE_FIELDS = [MSC4320_RPC, M_RPC];
 export const RICH_PRESENCE_EXPIRES_AT = 'app.prinny.expires_at';
 // The meow fork publishes the same object with its own expiry key; honouring
 // it hides their stale activity too.
-const MEOW_RICH_PRESENCE_EXPIRES_AT = 'de.mreow.pinniped.expires_at';
+export const MEOW_RICH_PRESENCE_EXPIRES_AT = 'de.mreow.pinniped.expires_at';
 export const RICH_PRESENCE_TTL = 5 * 60 * 1000;
 // The expiry is set by the publisher's clock and checked against ours, so
 // allow for clocks that disagree before calling an activity stale.
@@ -31,7 +45,8 @@ export type RichPresenceProgress = {
 
 export type MediaRichPresence = {
   type: 'media';
-  artist: string;
+  /** Always set by MSC4320; optional in MSC4544. */
+  artist?: string;
   album?: string;
   track: string;
   progress?: RichPresenceProgress;
@@ -119,7 +134,77 @@ export const parseRichPresence = (value: unknown): RichPresence | undefined => {
   return undefined;
 };
 
+/**
+ * One MSC4544 entry in our model. Entries past their `expiry` MUST NOT be
+ * shown (the reader then refetches; useUserRichPresence schedules it from
+ * `expiresAt`). Buttons are not taken over: the MSC requires a prompt showing
+ * the full URL before following one, and the link dialog shows the host only.
+ */
+const parseMsc4544Entry = (value: unknown, now: number): RichPresence | undefined => {
+  if (!isRecord(value) || typeof value.id !== 'string') return undefined;
+  const expiresAt = optionalNumber(value.expiry);
+  if (expiresAt === undefined || isRichPresenceExpired(expiresAt, now)) return undefined;
+
+  if (value.type === MSC4544_RPC_MUSIC || value.type === M_RPC_MUSIC) {
+    const track = optionalString(value.track);
+    if (!track) return undefined;
+    let progress: RichPresenceProgress | undefined;
+    if (isRecord(value.progress)) {
+      const since = optionalNumber(value.progress.since);
+      const until = optionalNumber(value.progress.until);
+      if (since !== undefined && until !== undefined && until > since) {
+        // Our model: length in seconds, end time in ms (as MSC4320 writes it).
+        progress = { length: Math.round((until - since) / 1000), timeComplete: until };
+      }
+    }
+    return {
+      type: 'media',
+      expiresAt,
+      track,
+      artist: optionalString(value.artist),
+      album: optionalString(value.album),
+      player: optionalString(value.player_name),
+      coverArt: optionalString(value.cover_url),
+      progress,
+    };
+  }
+
+  if (value.type === MSC4544_RPC_ACTIVITY || value.type === M_RPC_ACTIVITY) {
+    const name = optionalString(value.name);
+    if (!name) return undefined;
+    const details = [optionalString(value.details), optionalString(value.state)]
+      .filter((part): part is string => !!part && part !== name)
+      .join(' · ');
+    return {
+      type: 'activity',
+      expiresAt,
+      name,
+      image: optionalString(value.large_icon_url),
+      details: details || undefined,
+    };
+  }
+
+  return undefined;
+};
+
+/** The first displayable entry of an MSC4544 array (it is ordered by the sender). */
+export const parseMsc4544RichPresence = (
+  value: unknown,
+  now = Date.now(),
+): RichPresence | undefined => {
+  if (!Array.isArray(value)) return undefined;
+  for (const entry of value.slice(0, MSC4544_MAX_ENTRIES)) {
+    const parsed = parseMsc4544Entry(entry, now);
+    if (parsed) return parsed;
+  }
+  return undefined;
+};
+
 export const getProfileRichPresence = (
   profile: Record<string, unknown>,
 ): RichPresence | undefined =>
-  parseRichPresence(profile[MSC4320_RPC]) ?? parseRichPresence(profile[M_RPC]);
+  parseRichPresence(profile[MSC4320_RPC]) ??
+  parseMsc4544RichPresence(profile[MSC4544_RPC]) ??
+  // Stable `m.rpc`: an object is MSC4320, an array MSC4544.
+  parseRichPresence(profile[M_RPC]) ??
+  parseMsc4544RichPresence(profile[M_RPC]);
