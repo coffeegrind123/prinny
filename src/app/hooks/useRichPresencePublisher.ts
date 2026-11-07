@@ -149,7 +149,12 @@ export const useRichPresencePublisher = () => {
         writeFailures = 0;
         retryWritesAt = 0;
       } catch (err) {
-        if (isUnsupportedProfileWrite(err)) {
+        // matrix-js-sdk refuses the write itself, with a plain Error and no
+        // status code, when /versions does not advertise MSC4133; ask it.
+        const unsupported =
+          isUnsupportedProfileWrite(err) ||
+          !(await mx.doesServerSupportExtendedProfiles().catch(() => true));
+        if (unsupported) {
           // Said out loud rather than swallowed. The bridge is still listening
           // and still capturing activity, so "nothing is being published" is
           // otherwise indistinguishable from "nothing is playing" — the exact

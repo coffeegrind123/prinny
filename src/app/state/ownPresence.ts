@@ -93,12 +93,28 @@ const isUnsupportedProfileWrite = (err: unknown): boolean => {
   return httpStatus === 404 || httpStatus === 405 || errcode === 'M_UNRECOGNIZED';
 };
 
+/**
+ * Whether the homeserver says it has profile fields (MSC4133). matrix-js-sdk
+ * refuses a profile-field write itself when it does not, with a plain Error
+ * and no status code, so without asking first a server like Conduit read as
+ * "could not update" instead of "not supported".
+ */
+const supportsProfileFields = async (mx: MatrixClient): Promise<boolean> => {
+  try {
+    return await mx.doesServerSupportExtendedProfiles();
+  } catch {
+    // /versions could not be read: let the write itself decide
+    return true;
+  }
+};
+
 export const publishProfileStatus = async (
   mx: MatrixClient,
   content: OwnPresenceContent,
   presence: Presence,
 ): Promise<ProfileStatusResult> => {
   if (!content.share_status) return 'skipped';
+  if (!(await supportsProfileFields(mx))) return 'unsupported';
   const status = buildProfileStatus(content.status ?? '', content.emoji);
   try {
     if (status && presence !== Presence.Offline) {
@@ -172,6 +188,7 @@ export const setShareStatus = async (
   await mx.setAccountData(AccountDataEvent.PrinnyPresence, content);
   if (share) return publishProfileStatus(mx, content, presence);
   // Turning it off takes the field down; publishProfileStatus would skip.
+  if (!(await supportsProfileFields(mx))) return 'unsupported';
   try {
     await mx.deleteExtendedProfileProperty(MSC4426_STATUS);
     return 'removed';
