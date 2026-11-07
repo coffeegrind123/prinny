@@ -892,7 +892,7 @@ function ProfileStatus({ userId }: { userId: string }) {
       </SettingTile>
       <SettingTile
         title="Share status on my profile"
-        description="Also publish your status and emoji on your profile (MSC4426), where other apps show it. Anyone who can look up your profile can read it, even people you share no room with; it is taken down while you are invisible."
+        description="Also publish your status and emoji, and that you are in a call, on your profile (MSC4426), where other apps show them. Anyone who can look up your profile can read them, even people you share no room with; they are taken down while you are invisible."
         after={<Switch variant="Primary" value={shareStatus} onChange={handleShareChange} />}
       />
       {shareResult === 'unsupported' && (

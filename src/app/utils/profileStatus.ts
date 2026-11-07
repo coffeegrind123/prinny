@@ -69,9 +69,9 @@ export const parseProfileStatus = (value: unknown): ProfileStatus | undefined =>
 export const getProfileStatus = (profile: Content): ProfileStatus | undefined =>
   parseProfileStatus(profile[M_STATUS]) ?? parseProfileStatus(profile[MSC4426_STATUS]);
 
-/** Whether a (possibly partial) profile update says anything about the status. */
+/** Whether a (possibly partial) profile update says anything about the status or call. */
 export const touchesProfileStatus = (update: Content): boolean =>
-  M_STATUS in update || MSC4426_STATUS in update;
+  M_STATUS in update || MSC4426_STATUS in update || M_CALL in update || MSC4426_CALL in update;
 
 /** When the user joined the call they are in, in ms, or undefined when not in one. */
 export const getProfileCallJoinedMs = (profile: Content): number | undefined => {
@@ -79,6 +79,26 @@ export const getProfileCallJoinedMs = (profile: Content): number | undefined => 
   if (!isRecord(call)) return undefined;
   const ts = call.call_joined_ts;
   return typeof ts === 'number' && Number.isFinite(ts) && ts > 0 ? ts * 1000 : undefined;
+};
+
+/**
+ * "In a call · 12 min", shown only when there is no status: MSC4426 says
+ * m.status takes precedence when both are set.
+ */
+export const formatCallStatus = (joinedMs: number, now: number = Date.now()): string => {
+  const minutes = Math.floor((now - joinedMs) / 60000);
+  if (minutes < 1) return '📞 In a call';
+  if (minutes < 60) return `📞 In a call · ${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  return `📞 In a call · ${hours} h ${minutes % 60} min`;
+};
+
+/** The one line to show for a profile: its status, else its call, else nothing. */
+export const profileStatusLine = (profile: Content, now?: number): string | undefined => {
+  const status = getProfileStatus(profile);
+  if (status) return formatProfileStatus(status);
+  const joined = getProfileCallJoinedMs(profile);
+  return joined !== undefined ? formatCallStatus(joined, now) : undefined;
 };
 
 /** "🌴 On holiday", for places that show the status as one string. */

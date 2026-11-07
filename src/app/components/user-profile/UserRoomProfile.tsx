@@ -21,7 +21,7 @@ import { CreatorChip } from './CreatorChip';
 import { useUserRichPresence } from '../../hooks/useUserRichPresence';
 import { UserRichPresence } from './UserRichPresence';
 import { useUserProfile } from '../../hooks/useUserProfile';
-import { formatProfileStatus, getProfileStatus } from '../../utils/profileStatus';
+import { profileStatusLine } from '../../utils/profileStatus';
 import {
   getProfileBanner,
   getProfileBiography,
@@ -66,8 +66,7 @@ export function UserRoomProfile({ userId }: UserRoomProfileProps) {
   const presence = useUserPresence(userId);
   const richPresence = useUserRichPresence(userId);
   const profile = useUserProfile(userId);
-  const profileStatus = getProfileStatus(profile.extended);
-  const profileStatusLine = profileStatus ? formatProfileStatus(profileStatus) : undefined;
+  const statusLine = profileStatusLine(profile.extended);
   const pronouns = getProfilePronouns(profile.extended)
     .map((pronoun) => pronoun.summary)
     .join(', ');
@@ -88,7 +87,7 @@ export function UserRoomProfile({ userId }: UserRoomProfileProps) {
         presence={presence && presence.lastActiveTs !== 0 ? presence : undefined}
         // MSC4426 profile status first: it is the one the user chose to publish
         // with an emoji; presence status_msg is the fallback.
-        status={profileStatusLine ?? presence?.status}
+        status={statusLine ?? presence?.status}
       />
       <Box direction="Column" gap="500" style={{ padding: config.space.S400 }}>
         <Box direction="Column" gap="400">

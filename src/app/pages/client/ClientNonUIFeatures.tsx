@@ -53,6 +53,7 @@ import { isVoiceMessageContent } from '../../utils/voice-message';
 import { MATRIX_GIF_PROPERTY_NAME } from '../../../types/matrix/common';
 import { IdleDetector } from '../../hooks/useIdleDetector';
 import { ChosenPresenceRestore } from '../../hooks/useChosenPresenceRestore';
+import { ProfileCallPublisher } from '../../hooks/useProfileCallPublisher';
 import { contentForDisplay, getPerMessageProfile } from '../../utils/perMessageProfile';
 import { DebugHandle } from '../../hooks/useDebugHandle';
 
@@ -689,6 +690,7 @@ export function ClientNonUIFeatures({ children }: ClientNonUIFeaturesProps) {
       <RichPresencePublisher />
       <IdleDetector />
       <ChosenPresenceRestore />
+      <ProfileCallPublisher />
       <DebugHandle />
       {children}
     </>

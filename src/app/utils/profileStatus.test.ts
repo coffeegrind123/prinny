@@ -7,6 +7,8 @@ import {
   PresenceChoice,
   buildProfileStatus,
   formatProfileStatus,
+  formatCallStatus,
+  profileStatusLine,
   getProfileCallJoinedMs,
   getProfileStatus,
   parseProfileStatus,
@@ -125,5 +127,23 @@ describe('persistentPresenceContent', () => {
       status: { extra: 1 },
       other: true,
     });
+  });
+});
+
+describe('call status line', () => {
+  const now = 1_000_000_000_000;
+  it('formats the call duration', () => {
+    expect(formatCallStatus(now - 20_000, now)).toBe('📞 In a call');
+    expect(formatCallStatus(now - 12 * 60_000, now)).toBe('📞 In a call · 12 min');
+    expect(formatCallStatus(now - 75 * 60_000, now)).toBe('📞 In a call · 1 h 15 min');
+  });
+
+  it('prefers the status over the call (MSC4426)', () => {
+    const call = { [MSC4426_CALL]: { call_joined_ts: (now - 5 * 60_000) / 1000 } };
+    expect(profileStatusLine(call, now)).toBe('📞 In a call · 5 min');
+    expect(profileStatusLine({ ...call, [MSC4426_STATUS]: { text: 'x', emoji: '🙂' } }, now)).toBe(
+      '🙂 x',
+    );
+    expect(profileStatusLine({}, now)).toBeUndefined();
   });
 });

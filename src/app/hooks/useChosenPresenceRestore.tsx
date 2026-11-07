@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { applyOwnPresence, useChosenPresence } from '../state/ownPresence';
+import { applyOwnPresence, republishProfileStatus, useChosenPresence } from '../state/ownPresence';
 import { useSetting } from '../state/hooks/settings';
 import { settingsAtom } from '../state/settings';
 import { useMatrixClient } from './useMatrixClient';
@@ -25,6 +25,11 @@ export function ChosenPresenceRestore() {
     if (!enabled) {
       if (wasEnabled.current && chosen !== Presence.Online) {
         applyOwnPresence(mx, Presence.Online).catch(() => undefined);
+        // Invisible took a shared status off the profile; back to online
+        // puts it back (a no-op when sharing is off).
+        if (chosen === Presence.Offline) {
+          republishProfileStatus(mx, Presence.Online).catch(() => undefined);
+        }
       }
       wasEnabled.current = false;
       restored.current = false;

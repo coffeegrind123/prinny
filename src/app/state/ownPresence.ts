@@ -151,6 +151,12 @@ export const saveStatusMessage = async (
   await writePersistentPresence(mx, { statusMsg: status });
 };
 
+/** Re-applies the profile status for `presence` from what is saved. */
+export const republishProfileStatus = (
+  mx: MatrixClient,
+  presence: Presence,
+): Promise<ProfileStatusResult> => publishProfileStatus(mx, getContent(mx), presence);
+
 /** Turns publishing the status on the profile on or off. */
 export const setShareStatus = async (
   mx: MatrixClient,
