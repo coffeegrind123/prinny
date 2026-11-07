@@ -59,10 +59,10 @@
   "developer_mode": {
     "always_show_iphone_earpiece": "Show iPhone earpiece option on all platforms",
     "crypto_version": "Crypto version: {{version}}",
-    "custom_livekit_url": {
-      "current_url": "Currently set to: ",
+    "custom_transport": {
+      "current": "Currently set to: ",
       "from_config": "Currently, no overwrite is set. Url from config is used.",
-      "label": "Custom Livekit-url",
+      "label": "Custom transport JSON",
       "reset": "Reset overwrite",
       "save": "Save",
       "saving": "Saving..."
@@ -106,7 +106,7 @@
     "insufficient_capacity_description": "The server has reached its maximum capacity and you cannot join the call at this time. Try again later, or contact your server admin if the problem persists.",
     "livekit_connection_error": "Failed to connect to Livekit server",
     "livekit_connection_error_description": "An error occurred while connecting to the Livekit server (<1>Reason:</1> <2>{{ reason }}</2>).",
-    "matrix_rtc_transport_missing": "The server is not configured to work with {{brand}}. Please contact your server admin (Domain: {{domain}}, Error Code: {{ errorCode }}).",
+    "matrix_rtc_transport_missing": "The server is not configured to work with {{brand}} and no other call participant provides a usable transport. Please contact your server admin (Domain: {{domain}}, Error Code: {{ errorCode }}).",
     "membership_manager": "Membership Manager Error",
     "membership_manager_description": "The Membership Manager had to shut down. This is caused by many consecutive failed network requests.",
     "no_matrix_2_authorization_service": "The authorization service for your media server (SFU) is out of date.",
@@ -163,6 +163,12 @@
   "login_auth_links_prompt": "Not registered yet?",
   "login_subheading": "To continue to Element",
   "login_title": "Login",
+  "microphone_level": {
+    "label": "Microphone level",
+    "no_device": "No microphone found. Connect one, then try again.",
+    "permission_denied": "Microphone access is blocked. Allow it, then try again.",
+    "value": "{{level}} of {{max}}"
+  },
   "microphone_off": "Microphone off",
   "microphone_on": "Microphone on",
   "mute_microphone_button_label": "Mute microphone",
@@ -215,11 +221,14 @@
       "activating": "Activating…",
       "camera": "Camera",
       "camera_numbered": "Camera {{n}}",
+      "camera_source": "Camera Source",
       "change_device_button": "Change audio device",
       "default": "Default",
       "default_named": "Default <2>({{name}})</2>",
+      "default_named_plain": "Default ({{name}})",
       "handset": "Handset",
       "loudspeaker": "Loudspeaker",
+      "mic_source": "Mic Source",
       "microphone": "Microphone",
       "microphone_numbered": "Microphone {{n}}",
       "speaker": "Speaker",
