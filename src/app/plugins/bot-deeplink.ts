@@ -1,10 +1,16 @@
 /**
  * Bot deep links — Telegram's `https://t.me/bot?start=payload`, for Matrix.
  *
- * Two forms, both accepted:
+ * Three forms, all accepted:
  *
  *     https://prinny.app/bot/@helper:example.org?start=invite_abc
  *     prinny://bot/@helper:example.org?start=invite_abc
+ *     matrix:u/helper:example.org?action=chat&app.prinny.bot.start=invite_abc
+ *
+ * The `matrix:` one is a standard MSC2312 chat link with our payload
+ * parameter, so other clients still open the DM. It counts as a bot link only
+ * with that parameter: a bare chat link can name a person, and following it
+ * must not send them `/start`.
  *
  * The https form is the shareable one and is what a user clicks inside the
  * app or on the web. The `prinny:` form exists because an https link opened
@@ -20,6 +26,7 @@
 // four values have to match what bots build, and a second copy is a second
 // thing to forget to update.
 import {
+  DEEP_LINK_MATRIX_START_PARAM,
   DEEP_LINK_ORIGIN as BOT_LINK_ORIGIN,
   DEEP_LINK_PATH_PREFIX as BOT_LINK_PATH_PREFIX,
   DEEP_LINK_SCHEME as BOT_LINK_SCHEME,
@@ -36,6 +43,26 @@ export type BotDeepLink = {
 
 const MXID_PATTERN = /^@[^\s:]+:[^\s/]+$/;
 
+/** `matrix:u/<user>?action=chat&app.prinny.bot.start=<payload>`, or null. */
+const parseMatrixChatLink = (url: URL): BotDeepLink | null => {
+  // Non-special scheme: everything after `matrix:` up to `?` is the path.
+  const match = /^u\/([^/]+)$/.exec(url.pathname);
+  if (!match) return null;
+  if (url.searchParams.get('action') !== 'chat') return null;
+
+  let userId: string;
+  try {
+    userId = `@${decodeURIComponent(match[1])}`;
+  } catch {
+    return null;
+  }
+  if (!MXID_PATTERN.test(userId)) return null;
+
+  const payload = url.searchParams.get(DEEP_LINK_MATRIX_START_PARAM);
+  if (payload === null || !Limits.DEEP_LINK_PAYLOAD_PATTERN.test(payload)) return null;
+  return { userId, payload };
+};
+
 /**
  * Parse a bot deep link, or return null.
  *
@@ -51,6 +78,8 @@ export const parseBotDeepLink = (link: string): BotDeepLink | null => {
   } catch {
     return null;
   }
+
+  if (url.protocol === 'matrix:') return parseMatrixChatLink(url);
 
   let encodedUserId: string;
   if (url.protocol === BOT_LINK_SCHEME) {

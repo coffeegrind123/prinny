@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useMatrixLinkNavigate } from '../hooks/useMatrixLinkNavigate';
 import { isTauri } from '../utils/desktop-notifications';
+import { parseBotDeepLink } from '../plugins/bot-deeplink';
 
 /**
  * Routes `matrix:` links to the room or user they name, instead of handing them
@@ -32,6 +33,9 @@ export function MatrixLinkHandler() {
 
       const href = anchor.getAttribute('href');
       if (!href) return;
+      // A bot start link is BotStartLinkHandler's. Both listen on the document,
+      // where stopPropagation does not stop the other, so this one stands down.
+      if (parseBotDeepLink(href)) return;
 
       if (navigateMatrixLink(href)) {
         evt.preventDefault();
@@ -57,10 +61,13 @@ export function MatrixLinkHandler() {
         // the pending one has to be drained explicitly — otherwise clicking a
         // matrix: link with the app closed opens it on the wrong screen.
         const current = await getCurrent().catch(() => undefined);
-        current?.forEach((url) => navigateMatrixLink(url));
+        const navigate = (url: string) => {
+          if (!parseBotDeepLink(url)) navigateMatrixLink(url);
+        };
+        current?.forEach(navigate);
 
         const stop = await onOpenUrl((urls) => {
-          urls.forEach((url) => navigateMatrixLink(url));
+          urls.forEach(navigate);
         });
         if (disposed) stop();
         else unlisten = stop;
