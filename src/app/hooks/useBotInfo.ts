@@ -1,10 +1,11 @@
-import { MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk';
+import { EventTimeline, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk';
 import { useCallback, useSyncExternalStore } from 'react';
 import { subscribeToStateEvents } from './useStateEventCallback';
 import { getStateEvents } from '../utils/room';
 import { MessageEvent, StateEvent } from '../../types/matrix/room';
-import { sanitizeBotInfo, type BotInfo } from '../../types/matrix/bot';
-import { withoutDepartedBots } from '../utils/botPresence';
+import { Msc4391, sanitizeBotInfo, type BotInfo } from '../../types/matrix/bot';
+import { hasBotMemberFlag, withoutDepartedBots } from '../utils/botPresence';
+import { collectDescriptions, type BotDescriptions } from '../utils/botInvocation';
 
 /** Bots that have advertised themselves in a room, keyed by MXID. */
 export type RoomBots = Map<string, BotInfo>;
@@ -68,11 +69,38 @@ const sameBots = (a: RoomBots, b: RoomBots): boolean => {
   return true;
 };
 
+/**
+ * MSC4391 command descriptions in the room's state, per sender. Read straight
+ * from state with `getStateEvents`' raw type, since the enum is ours.
+ */
+const collectRoomDescriptions = (room: Room): BotDescriptions =>
+  collectDescriptions(
+    room
+      .getLiveTimeline()
+      .getState(EventTimeline.FORWARDS)
+      ?.getStateEvents(Msc4391.CommandDescription) ?? [],
+  );
+
+/** Same comparison as `sameBots`, for sanitized descriptions. */
+const sameDescriptions = (a: BotDescriptions, b: BotDescriptions): boolean => {
+  if (a === b) return true;
+  if (a.size !== b.size) return false;
+  for (const [userId, list] of a) {
+    const other = b.get(userId);
+    if (!other || JSON.stringify(list) !== JSON.stringify(other)) return false;
+  }
+  return true;
+};
+
 type BotsStore = {
   /** Every bot that advertised, joined or not: badges on their old messages. */
   snapshot: RoomBots;
   /** Only those still joined: what the `/` menu and bot menu may offer. */
   joined: RoomBots;
+  /** MSC4391 descriptions, per sender, joined or not. */
+  descriptions: BotDescriptions;
+  /** MSC4391 descriptions of senders still joined (the proposal hides the rest). */
+  joinedDescriptions: BotDescriptions;
   subscribers: Set<() => void>;
   detach?: () => void;
 };
@@ -93,7 +121,7 @@ type BotsStore = {
  */
 const storeByRoom = new WeakMap<Room, BotsStore>();
 
-const joinedBots = (room: Room, bots: RoomBots): RoomBots =>
+const joinedBots = <T>(room: Room, bots: Map<string, T>): Map<string, T> =>
   withoutDepartedBots(bots, (userId) => room.getMember(userId)?.membership);
 
 const getStore = (room: Room): BotsStore => {
@@ -101,9 +129,12 @@ const getStore = (room: Room): BotsStore => {
   if (existing) return existing;
 
   const snapshot = collectBots(room);
+  const descriptions = collectRoomDescriptions(room);
   const store: BotsStore = {
     snapshot,
     joined: joinedBots(room, snapshot),
+    descriptions,
+    joinedDescriptions: joinedBots(room, descriptions),
     subscribers: new Set(),
   };
   storeByRoom.set(room, store);
@@ -113,11 +144,17 @@ const getStore = (room: Room): BotsStore => {
 const refresh = (room: Room, store: BotsStore): void => {
   const next = collectBots(room);
   const nextJoined = joinedBots(room, next);
+  const nextDescriptions = collectRoomDescriptions(room);
+  const nextJoinedDescriptions = joinedBots(room, nextDescriptions);
   const sameAll = sameBots(store.snapshot, next);
   const sameJoined = sameBots(store.joined, nextJoined);
-  if (sameAll && sameJoined) return;
+  const sameAllDescriptions = sameDescriptions(store.descriptions, nextDescriptions);
+  const sameJoinedDescriptions = sameDescriptions(store.joinedDescriptions, nextJoinedDescriptions);
+  if (sameAll && sameJoined && sameAllDescriptions && sameJoinedDescriptions) return;
   if (!sameAll) store.snapshot = next;
   if (!sameJoined) store.joined = nextJoined;
+  if (!sameAllDescriptions) store.descriptions = nextDescriptions;
+  if (!sameJoinedDescriptions) store.joinedDescriptions = nextJoinedDescriptions;
   store.subscribers.forEach((notify) => notify());
 };
 
@@ -135,14 +172,18 @@ const subscribeToBots = (room: Room, onChange: () => void): (() => void) => {
     const handleStateEvent = (event: MatrixEvent) => {
       if (event.getRoomId() !== room.roomId) return;
       const type = event.getType();
-      if (type === StateEvent.BotInfo) {
+      if (type === StateEvent.BotInfo || type === Msc4391.CommandDescription) {
         refresh(room, store);
         return;
       }
       // A bot leaving or rejoining changes the joined list. Other members'
       // churn cannot, and is far more common, so it never triggers a rescan.
       const stateKey = event.getStateKey();
-      if (type === StateEvent.RoomMember && stateKey && store.snapshot.has(stateKey)) {
+      if (
+        type === StateEvent.RoomMember &&
+        stateKey &&
+        (store.snapshot.has(stateKey) || store.descriptions.has(stateKey))
+      ) {
         refresh(room, store);
       }
     };
@@ -193,6 +234,24 @@ export const useJoinedRoomBots = (room: Room): RoomBots => {
   return useSyncExternalStore(subscribe, getSnapshot);
 };
 
+/**
+ * MSC4391 command descriptions of senders still joined. Commands from a
+ * sender that left are hidden, as the proposal requires.
+ */
+export const useJoinedBotDescriptions = (room: Room): BotDescriptions => {
+  const subscribe = useCallback((onChange: () => void) => subscribeToBots(room, onChange), [room]);
+  const getSnapshot = useCallback(() => getStore(room).joinedDescriptions, [room]);
+
+  return useSyncExternalStore(subscribe, getSnapshot);
+};
+
+const useRoomBotDescriptions = (room: Room): BotDescriptions => {
+  const subscribe = useCallback((onChange: () => void) => subscribeToBots(room, onChange), [room]);
+  const getSnapshot = useCallback(() => getStore(room).descriptions, [room]);
+
+  return useSyncExternalStore(subscribe, getSnapshot);
+};
+
 /** The advertisement for one user in a room, if they published one. */
 export const useBotInfo = (room: Room, userId: string): BotInfo | undefined => {
   const bots = useRoomBots(room);
@@ -202,14 +261,15 @@ export const useBotInfo = (room: Room, userId: string): BotInfo | undefined => {
 /**
  * Whether a user should carry a BOT badge in this room.
  *
- * Two independent signals, either of which is enough: a published
- * advertisement, or a `m.room.member` flag the user set on themselves. Both
- * are self-asserted — this is a hint about how an account behaves, not a
- * verified identity claim, and it should never be presented as one.
+ * Independent signals, any of which is enough: a published advertisement
+ * (`app.prinny.bot.info`, or an MSC4391 command description), or a
+ * `m.room.member` flag the user set on themselves. All are self-asserted —
+ * this is a hint about how an account behaves, not a verified identity claim,
+ * and it should never be presented as one.
  */
 export const useIsBot = (room: Room, userId: string): boolean => {
   const bots = useRoomBots(room);
-  if (bots.has(userId)) return true;
-  const member = room.getMember(userId);
-  return member?.events?.member?.getContent()['app.prinny.bot'] === true;
+  const descriptions = useRoomBotDescriptions(room);
+  if (bots.has(userId) || descriptions.has(userId)) return true;
+  return hasBotMemberFlag(room.getMember(userId)?.events?.member?.getContent());
 };

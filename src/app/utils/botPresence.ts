@@ -10,3 +10,13 @@ export const withoutDepartedBots = <T>(
   bots: Map<string, T>,
   membershipOf: (userId: string) => string | undefined,
 ): Map<string, T> => new Map([...bots].filter(([userId]) => membershipOf(userId) === 'join'));
+
+/**
+ * Member-event keys a user sets on themselves to say they are a bot: ours, and
+ * MSC4015's (`bot`, unstable `dev.nordgedanken.msc4015`). MSC4015 was closed
+ * without being rejected, and some bots set it.
+ */
+const BOT_MEMBER_KEYS = ['app.prinny.bot', 'bot', 'dev.nordgedanken.msc4015'] as const;
+
+export const hasBotMemberFlag = (content: Record<string, unknown> | undefined): boolean =>
+  BOT_MEMBER_KEYS.some((key) => content?.[key] === true);

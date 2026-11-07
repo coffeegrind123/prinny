@@ -123,6 +123,8 @@ import { LocationPicker } from './location/LocationPicker';
 import { useMapStyleUrl } from '../../hooks/useMapStyleUrl';
 import { getMemberDisplayName, getMentionContent, trimReplyFromBody } from '../../utils/room';
 import { CommandAutocomplete } from './CommandAutocomplete';
+import { useBotCommands } from '../../hooks/useBotCommands';
+import { addBotInvocation, findBotCommand } from '../../utils/botInvocation';
 import { Command, SHRUG, TABLEFLIP, UNFLIP, useCommands } from '../../hooks/useCommands';
 import { mobileOrTablet } from '../../utils/user-agent';
 import { useElementSizeObserver } from '../../hooks/useElementSizeObserver';
@@ -200,6 +202,8 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
     const [legacyUsernameColor] = useSetting(settingsAtom, 'legacyUsernameColor');
     const direct = useIsDirectRoom();
     const commands = useCommands(mx, room);
+    const builtInCommandNames = useMemo(() => Object.keys(commands), [commands]);
+    const botCommands = useBotCommands(room, builtInCommandNames);
     // Read once: the answer cannot change for the life of the component, and
     // calling it during render on every keystroke re-parses the user agent.
     const isMobile = useMemo(mobileOrTablet, []);
@@ -751,6 +755,13 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
       const mMentions = getMentionContent(Array.from(mentionData.users), mentionData.room);
       content['m.mentions'] = mMentions;
 
+      // A bot's command keeps its text form; a bot that published an MSC4391
+      // description for it also gets the structured invocation, addressed to it.
+      if (commandName && !isBuiltInCommand) {
+        const botCommand = findBotCommand(botCommands, plainText);
+        if (botCommand) addBotInvocation(content, botCommand);
+      }
+
       // `/html` is the one case where body and formatted body are identical on
       // purpose — the typed text IS the markup — so the usual "they match, skip
       // the HTML" shortcut would throw away the entire point of the command.
@@ -780,6 +791,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
       isMarkdown,
       discordMarkdown,
       commands,
+      botCommands,
       applyRelation,
       mapStyleUrl,
       isMobile,
