@@ -4,6 +4,8 @@ User-facing changes per commit. Most recent at the top.
 
 ## 07.11.2026
 
+- `78b68d1` Fixed **calls not starting in the desktop and Android apps** — with Element Call 0.28 the call hung at Join: the widget asked for its settings file, the app answered with its own start page instead, and the widget never got past that. The file ships with the widget again
+- `2c650ea` Fixed **call buttons greyed out on homeservers that announce their call server the newer way** (MSC4143 `/rtc/transports`, as Synapse's `matrix_rtc` setting does) — Prinny could connect such calls but would not let you start one
 - `6aa934b` `73debcd` Added **activity from games and media players that support MSC4544** (desktop) — with **Publish rich presence** on, such apps can now send what you are doing straight to Prinny, and it shows in your activity alongside the Discord-compatible one. Every app that connects is listed under Settings › Account with its own switch; an app you have not allowed is never published, and **Allow new apps** is off by default
 - `2c67c34` Fixed **"Could not update your profile" on homeservers without profile fields** — turning on **Share status on my profile** on such a server (Conduit, for one) now says the server does not support it, and publishing rich presence there stops retrying in the background
 - `8fc3072` Added **buttons on rich presence from Extera and Zam** (MSC4544) — up to three links like "Watch stream" now show on someone's activity in their profile card. Every click asks first and shows the full address. A button that wants to prove who you are to the site (an OpenID token) says so and what the site learns before asking your homeserver for anything, then shows the finished link before opening it
