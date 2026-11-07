@@ -4,6 +4,7 @@ User-facing changes per commit. Most recent at the top.
 
 ## 07.11.2026
 
+- `5646975` Updated **calls to Element Call 0.28.1** — keeps rejoining a call after the call server or homeserver drops you briefly, and still leaves a call 30 seconds after everyone else has gone
 - `879bd47` Added **rich presence from Extera and Zam** — what someone is playing or listening to in those apps now shows in Prinny (with **Show rich presence** on), and the desktop app's shared Discord activity now shows in theirs too, in both formats (MSC4320 and MSC4544)
 - `8c68d2d` Added **"in a call" status** — when someone in Element or another app is in a call, their profile card and DM row say so ("📞 In a call · 12 min") unless they have a status set; with **Share status on my profile** on, Prinny shares yours the same way while you are in a call (never while invisible). Also fixed a shared status staying hidden after switching the presence picker off while invisible
 - `eeb69fc` Fixed **custom emoji being described by their shortcode** — sent emoji now carry the description the set's author wrote (what screen readers read out), as the Matrix spec asks, and keep their shortcode when the message is edited
