@@ -38,14 +38,14 @@ it). A sticky-events error, or one before any join, still fails at once
 as upstream does. Upstream's test pinning the immediate failure is
 replaced by the retry tests.
 ---
- sdk/src/matrixrtc/LocalMembership.test.ts | 122 ++++++++++++++++++++--
- sdk/src/matrixrtc/LocalMembership.ts      |  99 ++++++++++++++++--
+ sdk/src/matrixrtc/LocalMembership.test.ts | 127 +++++++++++++++++++++-
+ sdk/src/matrixrtc/LocalMembership.ts      |  99 +++++++++++++++--
  src/room/CallView.test.tsx                |  34 ++----
  src/room/CallView.tsx                     |   8 +-
- 4 files changed, 215 insertions(+), 48 deletions(-)
+ 4 files changed, 220 insertions(+), 48 deletions(-)
 
 diff --git a/sdk/src/matrixrtc/LocalMembership.test.ts b/sdk/src/matrixrtc/LocalMembership.test.ts
-index dec11887..742a78e9 100644
+index dec11887..78aba318 100644
 --- a/sdk/src/matrixrtc/LocalMembership.test.ts
 +++ b/sdk/src/matrixrtc/LocalMembership.test.ts
 @@ -5,13 +5,14 @@ SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
@@ -78,7 +78,7 @@ index dec11887..742a78e9 100644
      membershipManagerError$.next(new Error("gave up"));
      const state = membership.state$.value;
      expect(state.kind).toBe("failed");
-@@ -106,6 +105,117 @@ describe("createLocalMembership$", () => {
+@@ -106,6 +105,122 @@ describe("createLocalMembership$", () => {
      expect(membership.state$.value).toBe(state);
    });
  
@@ -86,16 +86,18 @@ index dec11887..742a78e9 100644
 +    beforeEach(() => vi.useFakeTimers());
 +    afterEach(() => vi.useRealTimers());
 +
-+    function joined(): ReturnType<typeof setup> {
++    // The join runs in a reconcile, one microtask after the transport arrives
++    async function joined(): Promise<ReturnType<typeof setup>> {
 +      const s = setup();
 +      s.prepared$.next({ transport, canDelegateDelayedLeave: false });
++      await vi.advanceTimersByTimeAsync(0);
 +      expect(s.joinMatrixRTC).toHaveBeenCalledTimes(1);
 +      return s;
 +    }
 +
 +    it("joins again with backoff, with the same transport and timings", async () => {
 +      const { membership, homeserver, joinMatrixRTC, membershipManagerError$ } =
-+        joined();
++        await joined();
 +
 +      homeserver.disconnectReason$.next("membership");
 +      membershipManagerError$.next(new Error("x"));
@@ -123,7 +125,8 @@ index dec11887..742a78e9 100644
 +    });
 +
 +    it("starts the backoff over once connected again", async () => {
-+      const { homeserver, joinMatrixRTC, membershipManagerError$ } = joined();
++      const { homeserver, joinMatrixRTC, membershipManagerError$ } =
++        await joined();
 +
 +      homeserver.disconnectReason$.next("membership");
 +      membershipManagerError$.next(new Error("x"));
@@ -138,7 +141,7 @@ index dec11887..742a78e9 100644
 +    });
 +
 +    it("joins again when the retried join throws", async () => {
-+      const { joinMatrixRTC, membershipManagerError$ } = joined();
++      const { joinMatrixRTC, membershipManagerError$ } = await joined();
 +      joinMatrixRTC.mockImplementationOnce(() => {
 +        throw new Error("still down");
 +      });
@@ -151,7 +154,7 @@ index dec11887..742a78e9 100644
 +    });
 +
 +    it("reports the failure once joining again has failed for too long", async () => {
-+      const { membership, membershipManagerError$ } = joined();
++      const { membership, membershipManagerError$ } = await joined();
 +
 +      membershipManagerError$.next(new Error("x"));
 +      await vi.advanceTimersByTimeAsync(5 * 60_000 + 1);
@@ -164,8 +167,9 @@ index dec11887..742a78e9 100644
 +        expect(state.error).toBeInstanceOf(MembershipManagerError);
 +    });
 +
-+    it("does not retry a homeserver without sticky events", () => {
-+      const { membership, joinMatrixRTC, membershipManagerError$ } = joined();
++    it("does not retry a homeserver without sticky events", async () => {
++      const { membership, joinMatrixRTC, membershipManagerError$ } =
++        await joined();
 +
 +      membershipManagerError$.next(
 +        new Error("no sticky events", {
@@ -182,7 +186,8 @@ index dec11887..742a78e9 100644
 +    });
 +
 +    it("stops once the call is left", async () => {
-+      const { membership, joinMatrixRTC, membershipManagerError$ } = joined();
++      const { membership, joinMatrixRTC, membershipManagerError$ } =
++        await joined();
 +
 +      membershipManagerError$.next(new Error("x"));
 +      membership.leave();
