@@ -19,202 +19,29 @@ delayed-leave parameters from the JWT request (5cfe7ea4, cff8766a), so
 the refresh closure now passes { matrixRTCMode } and ConnectionOpts no
 longer carries forceJwtEndpoint. Upstream still has no rejoin after a
 final Disconnected.
----
- .../CallViewModel/CallViewModelTestUtils.ts   |   1 +
- .../localMember/LocalTransport.test.ts        |   4 +
- .../localMember/LocalTransport.ts             |  26 ++--
- .../CallViewModel/localMember/Publisher.ts    |  55 ++++++--
- .../remoteMembers/Connection.test.ts          | 122 ++++++++++++++++++
- .../CallViewModel/remoteMembers/Connection.ts |  85 ++++++++++++
- .../remoteMembers/ConnectionFactory.ts        |   4 +
- .../remoteMembers/ConnectionManager.ts        |   7 +-
- 8 files changed, 282 insertions(+), 22 deletions(-)
 
-diff --git a/src/state/CallViewModel/CallViewModelTestUtils.ts b/src/state/CallViewModel/CallViewModelTestUtils.ts
-index 5a3fa337..f76a23e8 100644
---- a/src/state/CallViewModel/CallViewModelTestUtils.ts
-+++ b/src/state/CallViewModel/CallViewModelTestUtils.ts
-@@ -213,6 +213,7 @@ export function withCallViewModel(mode: MatrixRTCMode) {
-           active$: constant({
-             transport: exampleTransport,
-             sfuConfig: exampleSfuConfig,
-+            refreshSFUConfig: () => Promise.resolve(exampleSfuConfig),
-           }),
-           advertised$: constant(exampleTransport),
-         },
-diff --git a/src/state/CallViewModel/localMember/LocalTransport.test.ts b/src/state/CallViewModel/localMember/LocalTransport.test.ts
-index a77c7a16..6222f416 100644
---- a/src/state/CallViewModel/localMember/LocalTransport.test.ts
-+++ b/src/state/CallViewModel/localMember/LocalTransport.test.ts
-@@ -158,6 +158,7 @@ describe("LocalTransport", () => {
-     };
-     expect(advertised$.value).toStrictEqual(expectedTransport);
-     expect(active$.value).toStrictEqual({
-+      refreshSFUConfig: expect.any(Function),
-       transport: expectedTransport,
-       sfuConfig: {
-         jwt: "jwt",
-@@ -218,6 +219,7 @@ describe("LocalTransport", () => {
-       };
-       expect(advertised$.value).toStrictEqual(expectedTransport);
-       expect(active$.value).toStrictEqual({
-+        refreshSFUConfig: expect.any(Function),
-         transport: expectedTransport,
-         sfuConfig: {
-           jwt: "e30=.eyJzdWIiOiJAbWU6ZXhhbXBsZS5vcmc6QUJDREVGIiwidmlkZW8iOnsicm9vbSI6IiFleGFtcGxlX3Jvb21faWQifX0=.e30=",
-@@ -236,6 +238,7 @@ describe("LocalTransport", () => {
-       expect(advertised$.value).toBe(null);
-       await flushPromises();
-       expect(active$.value).toStrictEqual({
-+        refreshSFUConfig: expect.any(Function),
-         transport: {
-           livekit_service_url: "https://lk.example.org",
-           type: "livekit",
-@@ -265,6 +268,7 @@ describe("LocalTransport", () => {
-       };
-       expect(advertised$.value).toStrictEqual(expectedTransport);
-       expect(active$.value).toStrictEqual({
-+        refreshSFUConfig: expect.any(Function),
-         transport: expectedTransport,
-         sfuConfig: {
-           jwt: "e30=.eyJzdWIiOiJAbWU6ZXhhbXBsZS5vcmc6QUJDREVGIiwidmlkZW8iOnsicm9vbSI6IiFleGFtcGxlX3Jvb21faWQifX0=.e30=",
-diff --git a/src/state/CallViewModel/localMember/LocalTransport.ts b/src/state/CallViewModel/localMember/LocalTransport.ts
-index c5aa3959..33eae22d 100644
---- a/src/state/CallViewModel/localMember/LocalTransport.ts
-+++ b/src/state/CallViewModel/localMember/LocalTransport.ts
-@@ -71,6 +71,12 @@ interface Props {
- export interface LocalTransportWithSFUConfig {
-   transport: LivekitTransportConfig;
-   sfuConfig: SFUConfig;
-+  /**
-+   * Fetches a fresh SFU config with the same identity parameters as `sfuConfig`.
-+   * Used to rejoin after the SFU drops us: the JWT service creates the LiveKit
-+   * room as a side effect, which a stale token would not do.
-+   */
-+  refreshSFUConfig: () => Promise<SFUConfig>;
- }
- 
- export function isLocalTransportWithSFUConfig(
-@@ -200,17 +206,19 @@ async function doOpenIdAndJWTFromUrl(
-   client: Pick<MatrixClient, "_unstable_getRTCTransports"> & OpenIDClientParts,
-   logger?: Logger,
- ): Promise<LocalTransportWithSFUConfig> {
--  const sfuConfig = await getSFUConfigWithOpenID(
--    client,
--    membership,
--    transport.livekit_service_url,
--    roomId,
--    { matrixRTCMode },
--    logger,
--  );
-+  const fetchSFUConfig = (): Promise<SFUConfig> =>
-+    getSFUConfigWithOpenID(
-+      client,
-+      membership,
-+      transport.livekit_service_url,
-+      roomId,
-+      { matrixRTCMode },
-+      logger,
-+    );
-   return {
-     transport,
--    sfuConfig,
-+    sfuConfig: await fetchSFUConfig(),
-+    refreshSFUConfig: fetchSFUConfig,
-   };
- }
- 
-diff --git a/src/state/CallViewModel/localMember/Publisher.ts b/src/state/CallViewModel/localMember/Publisher.ts
-index 5353a98d..13d68734 100644
---- a/src/state/CallViewModel/localMember/Publisher.ts
-+++ b/src/state/CallViewModel/localMember/Publisher.ts
-@@ -11,6 +11,7 @@ import {
-   LocalVideoTrack,
-   ParticipantEvent,
-   type Room as LivekitRoom,
-+  RoomEvent,
-   Track,
- } from "livekit-client";
- import {
-@@ -84,6 +85,34 @@ export class Publisher {
-       ParticipantEvent.LocalTrackPublished,
-       this.onLocalTrackPublished.bind(this),
-     );
-+
-+    this.republishTracksAfterRejoin(room);
-+  }
-+
-+  /**
-+   * LiveKit stops and drops our local tracks when it gives up on a session.
-+   * When the connection then rejoins the room, bring mic and camera back
-+   * according to the current mute state, as the initial setup does.
-+   */
-+  private republishTracksAfterRejoin(room: LivekitRoom): void {
-+    let dropped = false;
-+    const onDisconnected = (): void => {
-+      dropped = true;
-+    };
-+    const onConnected = (): void => {
-+      if (!dropped) return;
-+      dropped = false;
-+      this.logger.info("Rejoined the room, republishing local tracks");
-+      this.enableTracksForMuteState().catch((e) =>
-+        this.logger.error("Failed to republish tracks after rejoining", e),
-+      );
-+    };
-+    room.on(RoomEvent.Disconnected, onDisconnected);
-+    room.on(RoomEvent.Connected, onConnected);
-+    this.scope.onEnd(() => {
-+      room.off(RoomEvent.Disconnected, onDisconnected);
-+      room.off(RoomEvent.Connected, onConnected);
-+    });
-   }
- 
-   public async destroy(): Promise<void> {
-@@ -173,22 +202,28 @@ export class Publisher {
-    */
-   public async createAndSetupTracks(): Promise<void> {
-     this.logger.debug("createAndSetupTracks called");
--    const lkRoom = this.connection.livekitRoom;
-     // Observe mute state changes and update LiveKit microphone/camera states accordingly
-     this.observeMuteStates();
- 
--    // Check if audio and/or video is enabled. We only create tracks if enabled,
--    // because it could prompt for permission, and we don't want to do that unnecessarily.
-+    await this.enableTracksForMuteState();
-+  }
-+
-+  /**
-+   * Starts the tracks that the mute state asks for. We only create tracks if
-+   * enabled, because it could prompt for permission, and we don't want to do
-+   * that unnecessarily.
-+   *
-+   * We don't await the creation, because livekit could block until the tracks
-+   * are fully published, and not only that they are created.
-+   * We are using the `ParticipantEvent.LocalTrackPublished` to be notified
-+   * when tracks are actually published, and at that point
-+   * we can pause upstream if needed (depending on if startPublishing has been called).
-+   */
-+  private enableTracksForMuteState(): Promise<void> {
-+    const lkRoom = this.connection.livekitRoom;
-     const audio = this.muteStates.audio.enabled$.value;
-     const video = this.muteStates.video.enabled$.value;
- 
--    // We don't await the creation, because livekit could block until the tracks
--    // are fully published, and not only that they are created.
--    // We don't have control on that, localParticipant creates and publishes the tracks
--    // asap.
--    // We are using the `ParticipantEvent.LocalTrackPublished` to be notified
--    // when tracks are actually published, and at that point
--    // we can pause upstream if needed (depending on if startPublishing has been called).
-     if (audio && video) {
-       // Enable both at once in order to have a single permission prompt!
-       void lkRoom.localParticipant.enableCameraAndMicrophone();
-diff --git a/src/state/CallViewModel/remoteMembers/Connection.test.ts b/src/state/CallViewModel/remoteMembers/Connection.test.ts
-index f226b778..445e3c45 100644
---- a/src/state/CallViewModel/remoteMembers/Connection.test.ts
-+++ b/src/state/CallViewModel/remoteMembers/Connection.test.ts
-@@ -17,6 +17,7 @@ import {
+Rebased onto v0.28.1: the LiveKit code moved into the SDK
+(sdk/src/media-backend/livekit) and Connection now fetches its own token
+through getSFUConfig() (24b6a632), so the refreshSFUConfig closure through
+LocalTransport, ConnectionFactory and ConnectionManager is gone: the rejoin
+calls getSFUConfig() again, which for a ResolvedConnection also publishes the
+fresh token on resolved$. The error state is { state: "error", error } with
+the SDK's FailToStartLivekitConnection. Publisher is now driven by LocalMedia's
+desired map, so the republish restarts it (start() again) instead of reading
+mute states; its test rooms gained an event emitter. Upstream still has no
+rejoin after a final Disconnected.
+---
+ .../media-backend/livekit/Connection.test.ts  | 129 +++++++++++++++++-
+ sdk/src/media-backend/livekit/Connection.ts   |  79 +++++++++++
+ .../media-backend/livekit/Publisher.test.ts   |  98 ++++++++++++-
+ sdk/src/media-backend/livekit/Publisher.ts    |  27 ++++
+ 4 files changed, 327 insertions(+), 6 deletions(-)
+
+diff --git a/sdk/src/media-backend/livekit/Connection.test.ts b/sdk/src/media-backend/livekit/Connection.test.ts
+index 7224cf7c..274cc3c4 100644
+--- a/sdk/src/media-backend/livekit/Connection.test.ts
++++ b/sdk/src/media-backend/livekit/Connection.test.ts
+@@ -16,6 +16,7 @@ import {
    vi,
  } from "vitest";
  import {
@@ -222,50 +49,63 @@ index f226b778..445e3c45 100644
    type LocalParticipant,
    type RemoteParticipant,
    type RemoteTrack,
-@@ -740,3 +741,124 @@ describe("remote track logging", () => {
+@@ -40,8 +41,12 @@ import {
+   type ConnectionOpts,
+ } from "./Connection.ts";
+ import { ObservableScope } from "../../reactive/ObservableScope";
+-import { type ClientGetTokenParts, type ClientOpenIDParts } from "./auth";
+-import { MatrixRTCError } from "../../errors";
++import {
++  type ClientGetTokenParts,
++  type ClientOpenIDParts,
++  type SFUConfig,
++} from "./auth";
++import { FailToStartLivekitConnection, MatrixRTCError } from "../../errors";
+ import { testJWTToken } from "../../utils/test-fixtures";
+ import { ownMemberMock } from "../../utils/test";
+ import { mockRemoteParticipant } from "./test";
+@@ -711,3 +716,123 @@ describe("remote track logging", () => {
  //   });
  // });
  // });
 +
 +describe("Rejoining after the SFU drops us", () => {
-+  const refreshedConfig = {
++  const config: SFUConfig = {
 +    url: "wss://matrix-rtc.m.localhost/livekit/sfu",
 +    jwt: testJWTToken,
 +    livekitAlias: "alias",
 +    livekitIdentity: "@me:example.org:ABCDEF",
 +  };
 +
-+  function setupLocalConnection(
-+    refreshSFUConfig: () => Promise<typeof refreshedConfig>,
-+  ): Connection {
-+    setupTest();
-+    const connection = setupRemoteConnectionWithRefresh(refreshSFUConfig);
-+    return connection;
++  /** Counts the token fetches, which a rejoin repeats to recreate the room. */
++  class CountingConnection extends Connection {
++    public readonly fetches = vi.fn<() => Promise<SFUConfig>>();
++    protected override async getSFUConfig(): Promise<SFUConfig> {
++      return this.fetches();
++    }
 +  }
 +
-+  function setupRemoteConnectionWithRefresh(
-+    refreshSFUConfig: () => Promise<typeof refreshedConfig>,
-+  ): Connection {
++  async function startedConnection(
++    fetches: (mock: CountingConnection["fetches"]) => void = (mock): void => {
++      mock.mockResolvedValue(config);
++    },
++  ): Promise<CountingConnection> {
++    setupTest();
 +    fakeLivekitRoom.connect.mockImplementation(async (): Promise<void> => {
 +      fakeLivekitRoom.state = LivekitConnectionState.Connected;
 +      fakeLivekitRoom.emit(
 +        RoomEvent.ConnectionStateChanged,
 +        fakeLivekitRoom.state,
 +      );
++      return Promise.resolve();
 +    });
-+    return new Connection(
-+      {
-+        client,
-+        roomId: ROOM_ID,
-+        transport: livekitFocus,
-+        scope: testScope,
-+        ownMembershipIdentity: ownMemberMock,
-+        livekitRoomFactory: () => fakeLivekitRoom,
-+        existingSFUConfig: refreshedConfig,
-+        refreshSFUConfig,
-+      },
-+      logger,
-+    );
++    const connection = new CountingConnection(connectionOpts(), logger);
++    // The first fetch is the start's own
++    connection.fetches.mockResolvedValueOnce(config);
++    fetches(connection.fetches);
++    await connection.start();
++    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(1);
++    return connection;
 +  }
 +
 +  function drop(reason?: DisconnectReason): void {
@@ -275,101 +115,102 @@ index f226b778..445e3c45 100644
 +
 +  it("fetches a fresh token and reconnects", async () => {
 +    vi.useFakeTimers();
-+    const refresh = vi.fn().mockResolvedValue(refreshedConfig);
-+    const connection = setupLocalConnection(refresh);
-+    await connection.start();
-+    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(1);
++    const connection = await startedConnection();
 +
 +    drop(DisconnectReason.UNKNOWN_REASON);
 +    await vi.advanceTimersByTimeAsync(0);
 +
-+    expect(refresh).toHaveBeenCalledTimes(1);
++    expect(connection.fetches).toHaveBeenCalledTimes(2);
 +    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(2);
++    expect(connection.state$.getValue()).toEqual({
++      state: "authenticated",
++      livekitState: LivekitConnectionState.Connected,
++    });
 +  });
 +
 +  it("backs off and retries when the first attempts fail", async () => {
 +    vi.useFakeTimers();
-+    const refresh = vi
-+      .fn()
-+      .mockRejectedValueOnce(new Error("jwt service down"))
-+      .mockRejectedValueOnce(new Error("jwt service down"))
-+      .mockResolvedValue(refreshedConfig);
-+    const connection = setupLocalConnection(refresh);
-+    await connection.start();
++    const connection = await startedConnection((mock) => {
++      mock
++        .mockRejectedValueOnce(new Error("jwt service down"))
++        .mockRejectedValueOnce(new Error("jwt service down"))
++        .mockResolvedValue(config);
++    });
 +
 +    drop(DisconnectReason.SERVER_SHUTDOWN);
 +    await vi.advanceTimersByTimeAsync(0);
-+    expect(refresh).toHaveBeenCalledTimes(1);
++    expect(connection.fetches).toHaveBeenCalledTimes(2);
 +    await vi.advanceTimersByTimeAsync(1000);
-+    expect(refresh).toHaveBeenCalledTimes(2);
++    expect(connection.fetches).toHaveBeenCalledTimes(3);
 +    await vi.advanceTimersByTimeAsync(2000);
-+    expect(refresh).toHaveBeenCalledTimes(3);
++    expect(connection.fetches).toHaveBeenCalledTimes(4);
 +    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(2);
 +  });
 +
 +  it("does not rejoin after a deliberate disconnect", async () => {
 +    vi.useFakeTimers();
-+    const refresh = vi.fn().mockResolvedValue(refreshedConfig);
-+    const connection = setupLocalConnection(refresh);
-+    await connection.start();
++    const connection = await startedConnection();
 +
 +    drop(DisconnectReason.CLIENT_INITIATED);
 +    await vi.advanceTimersByTimeAsync(60_000);
 +
-+    expect(refresh).not.toHaveBeenCalled();
++    expect(connection.fetches).toHaveBeenCalledTimes(1);
 +    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(1);
 +  });
 +
 +  it("does not rejoin after the connection was stopped", async () => {
 +    vi.useFakeTimers();
-+    const refresh = vi.fn().mockResolvedValue(refreshedConfig);
-+    const connection = setupLocalConnection(refresh);
-+    await connection.start();
++    const connection = await startedConnection();
 +    await connection.stop();
 +
 +    drop(DisconnectReason.UNKNOWN_REASON);
 +    await vi.advanceTimersByTimeAsync(60_000);
 +
-+    expect(refresh).not.toHaveBeenCalled();
++    expect(connection.fetches).toHaveBeenCalledTimes(1);
++    expect(connection.state$.getValue()).toEqual({ state: "stopped" });
 +  });
 +
 +  it("gives up with an error after the retry limit", async () => {
 +    vi.useFakeTimers();
-+    const refresh = vi.fn().mockRejectedValue(new Error("gone"));
-+    const connection = setupLocalConnection(refresh);
-+    await connection.start();
++    const connection = await startedConnection((mock) => {
++      mock.mockRejectedValue(new Error("gone"));
++    });
 +
 +    drop(DisconnectReason.UNKNOWN_REASON);
 +    await vi.advanceTimersByTimeAsync(120_000);
 +
-+    expect(refresh).toHaveBeenCalledTimes(7);
-+    expect(connection.state$.getValue()).toBeInstanceOf(ElementCallError);
++    // The start's fetch, then seven attempts
++    expect(connection.fetches).toHaveBeenCalledTimes(8);
++    const state = connection.state$.getValue();
++    expect(state.state).toBe("error");
++    if (state.state === "error")
++      expect(state.error).toBeInstanceOf(FailToStartLivekitConnection);
 +    expect(fakeLivekitRoom.connect).toHaveBeenCalledTimes(1);
 +  });
 +});
-diff --git a/src/state/CallViewModel/remoteMembers/Connection.ts b/src/state/CallViewModel/remoteMembers/Connection.ts
-index 7889f900..bfa7aa0e 100644
---- a/src/state/CallViewModel/remoteMembers/Connection.ts
-+++ b/src/state/CallViewModel/remoteMembers/Connection.ts
-@@ -13,6 +13,7 @@ import {
- import {
+diff --git a/sdk/src/media-backend/livekit/Connection.ts b/sdk/src/media-backend/livekit/Connection.ts
+index 1af4427c..0a66e05d 100644
+--- a/sdk/src/media-backend/livekit/Connection.ts
++++ b/sdk/src/media-backend/livekit/Connection.ts
+@@ -14,6 +14,7 @@ import {
    ConnectionError,
    ConnectionErrorReason,
+   type ConnectionState as LivekitConnectionState,
 +  DisconnectReason,
    type Participant,
    type RemoteParticipant,
    type RemoteTrackPublication,
-@@ -36,6 +37,7 @@ import { type Behavior } from "../../Behavior.ts";
- import { type ObservableScope } from "../../ObservableScope.ts";
+@@ -39,6 +40,7 @@ import { type Behavior } from "../../reactive/Behavior";
+ import { type ObservableScope } from "../../reactive/ObservableScope";
  import {
-   ElementCallError,
+   MatrixRTCError,
 +  FailToStartLivekitConnection,
    InsufficientCapacityError,
    LivekitConnectionError,
    PeerConnectionTimeoutError,
-@@ -43,12 +45,38 @@ import {
-   UnknownCallError,
- } from "../../../utils/errors.ts";
+@@ -46,6 +48,26 @@ import {
+   UnknownRTCError,
+ } from "../../errors";
  
 +/**
 + * How long to wait before each attempt to rejoin after the SFU drops us.
@@ -392,39 +233,18 @@ index 7889f900..bfa7aa0e 100644
 +]);
 +
  export interface ConnectionOpts {
-   /**
-    * For the local transport we already do know the jwt token and url. We can reuse it.
-    * On top the local transport will send additional data to the jwt server to use delayed event delegation.
-    */
-   existingSFUConfig?: SFUConfig;
-+  /**
-+   * Fetches a fresh SFU config with the same identity as `existingSFUConfig`.
-+   * Needed to rejoin after the SFU drops us, as the JWT service creates the
-+   * LiveKit room when it issues a token.
-+   */
-+  refreshSFUConfig?: () => Promise<SFUConfig>;
    /** The identity parts to use on this connection */
    ownMembershipIdentity: CallMembershipIdentityParts;
-   /** The media transport to connect to. */
-@@ -142,6 +170,9 @@ export class Connection {
+@@ -137,6 +159,8 @@ export class Connection {
+   private readonly slotId: string;
    private readonly logger: Logger;
    private readonly ownMembershipIdentity: CallMembershipIdentityParts;
-   private readonly existingSFUConfig?: SFUConfig;
-+  private readonly refreshSFUConfig?: () => Promise<SFUConfig>;
 +  private watchingForDrops = false;
 +  private rejoining = false;
    /**
     * Creates a new connection to a matrix RTC LiveKit backend.
     *
-@@ -152,6 +183,7 @@ export class Connection {
-   public constructor(opts: ConnectionOpts, logger: Logger) {
-     this.ownMembershipIdentity = opts.ownMembershipIdentity;
-     this.existingSFUConfig = opts.existingSFUConfig;
-+    this.refreshSFUConfig = opts.refreshSFUConfig;
-     this.roomId = opts.roomId;
-     this.logger = logger.getChild(
-       "[Connection " + opts.transport.livekit_service_url + "]",
-@@ -372,6 +404,7 @@ export class Connection {
+@@ -357,6 +381,7 @@ export class Connection {
        }
        // If we were stopped while connecting, don't proceed to update state.
        if (this.stopped) return;
@@ -432,7 +252,7 @@ index 7889f900..bfa7aa0e 100644
      } catch (error) {
        if (this.stopped) {
          // stop() was called while we were connecting, which makes the pending
-@@ -395,6 +428,58 @@ export class Connection {
+@@ -382,6 +407,60 @@ export class Connection {
      }
    }
  
@@ -441,7 +261,9 @@ index 7889f900..bfa7aa0e 100644
 +   *
 +   * LiveKit first tries to resume the session itself. That fails for good when
 +   * the SFU restarted or the room is gone (the resume gets a 404), and we would
-+   * otherwise stay disconnected for the rest of the call.
++   * otherwise stay disconnected for the rest of the call. A fresh token is
++   * fetched for each attempt, as the JWT service creates the LiveKit room when
++   * it issues one.
 +   */
 +  private watchForDrops(): void {
 +    if (this.watchingForDrops) return;
@@ -467,8 +289,7 @@ index 7889f900..bfa7aa0e 100644
 +        }
 +        if (this.stopped) return;
 +        try {
-+          const { url, jwt, livekitAlias } = await (this.refreshSFUConfig?.() ??
-+            this.getSFUConfigForRemoteConnection());
++          const { url, jwt, livekitAlias } = await this.getSFUConfig();
 +          if (this.stopped) return;
 +          this._livekitAlias = livekitAlias;
 +          await this.livekitRoom.connect(url, jwt);
@@ -479,84 +300,221 @@ index 7889f900..bfa7aa0e 100644
 +        }
 +      }
 +      if (!this.stopped) {
-+        this._state$.next(
-+          new FailToStartLivekitConnection("Could not rejoin the call"),
-+        );
++        this._state$.next({
++          state: "error",
++          error: new FailToStartLivekitConnection("Could not rejoin the call"),
++        });
 +      }
 +    } finally {
 +      this.rejoining = false;
 +    }
 +  }
 +
-   protected async getSFUConfigForRemoteConnection(): Promise<SFUConfig> {
-     // This will only be called for sfu's where we do not publish ourselves.
-     // For the local connection we will use the existingJwtTokenData
-diff --git a/src/state/CallViewModel/remoteMembers/ConnectionFactory.ts b/src/state/CallViewModel/remoteMembers/ConnectionFactory.ts
-index 30ff37f3..870ee800 100644
---- a/src/state/CallViewModel/remoteMembers/ConnectionFactory.ts
-+++ b/src/state/CallViewModel/remoteMembers/ConnectionFactory.ts
-@@ -48,6 +48,7 @@ export interface ConnectionFactory {
-     ownMembershipIdentity: CallMembershipIdentityParts,
-     logger: Logger,
-     sfuConfig?: SFUConfig,
-+    refreshSFUConfig?: () => Promise<SFUConfig>,
-   ): Connection;
+   protected async getSFUConfig(): Promise<SFUConfig> {
+     return await getSFUConfig({
+       client: this.client,
+diff --git a/sdk/src/media-backend/livekit/Publisher.test.ts b/sdk/src/media-backend/livekit/Publisher.test.ts
+index 840ae3ad..82b8216d 100644
+--- a/sdk/src/media-backend/livekit/Publisher.test.ts
++++ b/sdk/src/media-backend/livekit/Publisher.test.ts
+@@ -13,6 +13,7 @@ import {
+   type LocalTrackPublication,
+   ParticipantEvent,
+   type Room as LivekitRoom,
++  RoomEvent,
+   Track,
+ } from "livekit-client";
+ import { logger } from "matrix-js-sdk/lib/logger";
+@@ -80,11 +81,11 @@ describe("Publisher", () => {
+     beforeEach(() => {
+       createTracksLock = Promise.resolve();
+       participant = fakeLocalParticipant(async () => createTracksLock);
+-      room = {
++      room = Object.assign(new EventEmitter(), {
+         options: {},
+         setE2EEEnabled: () => undefined,
+         localParticipant: participant,
+-      } as unknown as LivekitRoom;
++      }) as unknown as LivekitRoom;
+       desired = new Map();
+       publisher = new Publisher(room, desired, logger);
+     });
+@@ -307,6 +308,95 @@ describe("Publisher", () => {
+         expect(participant.unpublishTrack).toHaveBeenCalledWith(t, true);
+       expect(participant.trackPublications.size).toBe(0);
+     });
++
++    describe("after the connection rejoins the room", () => {
++      /** What LiveKit does when it gives up on a session: drop every local track. */
++      async function drop(): Promise<void> {
++        for (const { track } of [...participant.trackPublications.values()])
++          if (track) await participant.unpublishTrack(track, true);
++        (room as unknown as EventEmitter).emit(RoomEvent.Disconnected);
++      }
++
++      function rejoin(): void {
++        (room as unknown as EventEmitter).emit(RoomEvent.Connected);
++      }
++
++      it("publishes the wanted tracks again, live once publishing", async () => {
++        want(microphone, camera);
++        publisher.start();
++        await publisher.startPublishing();
++        await flushPromises();
++
++        await drop();
++        expect(participant.trackPublications.size).toBe(0);
++        rejoin();
++        await flushPromises();
++        await flushPromises();
++
++        expect(track(Track.Source.Microphone)).toBeDefined();
++        expect(track(Track.Source.Camera)).toBeDefined();
++        expect(track(Track.Source.Microphone)!.isUpstreamPaused).toBe(false);
++      });
++
++      it("leaves out what the host muted before the drop", async () => {
++        want(microphone, camera);
++        publisher.start();
++        await flushPromises();
++        desired.get("camera")!.enabled = false;
++
++        await drop();
++        rejoin();
++        await flushPromises();
++        await flushPromises();
++
++        expect(track(Track.Source.Microphone)).toBeDefined();
++        expect(track(Track.Source.Camera)).toBeUndefined();
++      });
++
++      it("keeps the upstream paused when the member has not joined yet", async () => {
++        want(microphone);
++        publisher.start();
++        await flushPromises();
++
++        await drop();
++        rejoin();
++        await flushPromises();
++        await flushPromises();
++
++        expect(track(Track.Source.Microphone)!.isUpstreamPaused).toBe(true);
++      });
++
++      it("publishes nothing on the first connect", async () => {
++        want(microphone);
++        rejoin();
++        await flushPromises();
++
++        expect(participant.createTracks).not.toHaveBeenCalled();
++      });
++
++      it("publishes nothing when it had not started before the drop", async () => {
++        want(microphone);
++        await drop();
++        rejoin();
++        await flushPromises();
++
++        expect(participant.createTracks).not.toHaveBeenCalled();
++      });
++
++      it("stops listening once destroyed", async () => {
++        want(microphone);
++        publisher.start();
++        await flushPromises();
++        await publisher.destroy();
++        vi.mocked(participant.createTracks).mockClear();
++
++        await drop();
++        rejoin();
++        await flushPromises();
++
++        expect(participant.createTracks).not.toHaveBeenCalled();
++      });
++    });
+   });
+ });
+ 
+@@ -316,14 +406,14 @@ function fakeRoom(
+   activeOutput?: string,
+ ): { room: LivekitRoom; switchActiveDevice: ReturnType<typeof vi.fn> } {
+   const switchActiveDevice = vi.fn(async () => Promise.resolve(true));
+-  const room = {
++  const room = Object.assign(new EventEmitter(), {
+     state,
+     options: {},
+     setE2EEEnabled: () => undefined,
+     localParticipant: new EventEmitter(),
+     getActiveDevice: () => activeOutput,
+     switchActiveDevice,
+-  } as unknown as LivekitRoom;
++  }) as unknown as LivekitRoom;
+   return { room, switchActiveDevice };
  }
  
-@@ -99,6 +100,7 @@ export class ECConnectionFactory implements ConnectionFactory {
-    * @param ownMembershipIdentity required to connect (using the jwt service) with the SFU.
-    * @param logger The logger instance to use for this connection.
-    * @param sfuConfig optional config in case we already have a token for this connection.
-+   * @param refreshSFUConfig optional way to get a fresh token when rejoining after a drop.
-    * @returns
-    */
-   public createConnection(
-@@ -107,10 +109,12 @@ export class ECConnectionFactory implements ConnectionFactory {
-     ownMembershipIdentity: CallMembershipIdentityParts,
-     logger: Logger,
-     sfuConfig?: SFUConfig,
-+    refreshSFUConfig?: () => Promise<SFUConfig>,
-   ): Connection {
-     return new Connection(
-       {
-         existingSFUConfig: sfuConfig,
-+        refreshSFUConfig,
-         roomId: this.roomId,
-         transport,
-         client: this.client,
-diff --git a/src/state/CallViewModel/remoteMembers/ConnectionManager.ts b/src/state/CallViewModel/remoteMembers/ConnectionManager.ts
-index 5ebd2ce6..c11f5611 100644
---- a/src/state/CallViewModel/remoteMembers/ConnectionManager.ts
-+++ b/src/state/CallViewModel/remoteMembers/ConnectionManager.ts
-@@ -177,7 +177,7 @@ export function createConnectionManager$({
-                   transport.transport.livekit_service_url,
-                   transport.sfuConfig,
-                 ],
--                data: undefined,
-+                data: transport.refreshSFUConfig,
-               };
-             } else {
-               yield {
-@@ -185,12 +185,12 @@ export function createConnectionManager$({
-                   transport.livekit_service_url,
-                   undefined as SFUConfig | undefined,
-                 ],
--                data: undefined,
-+                data: undefined as (() => Promise<SFUConfig>) | undefined,
-               };
-             }
-           }
-         },
--        (scope, _data$, serviceUrl, sfuConfig) => {
-+        (scope, data$, serviceUrl, sfuConfig) => {
-           const connection = connectionFactory.createConnection(
-             scope,
-             {
-@@ -202,6 +202,7 @@ export function createConnectionManager$({
-             // TODO: This whole optional SFUConfig parameter is not particularly elegant.
-             // I would like it if connections always fetched the SFUConfig by themselves.
-             sfuConfig,
-+            data$.value,
-           );
-           // Start the connection immediately
-           // Use connection state to track connection progress
+diff --git a/sdk/src/media-backend/livekit/Publisher.ts b/sdk/src/media-backend/livekit/Publisher.ts
+index 00681644..63f37ec4 100644
+--- a/sdk/src/media-backend/livekit/Publisher.ts
++++ b/sdk/src/media-backend/livekit/Publisher.ts
+@@ -9,6 +9,7 @@ import {
+   type LocalTrackPublication,
+   ParticipantEvent,
+   type Room as LivekitRoom,
++  RoomEvent,
+   type Track,
+ } from "livekit-client";
+ import { type Logger } from "matrix-js-sdk/lib/logger";
+@@ -45,6 +46,8 @@ export class Publisher {
+   /** Whether the initial requests have been published; `publish` is immediate from then on. */
+   public started = false;
+   private readonly room: LivekitRoom;
++  /** Set when LiveKit drops the room, so that the next Connected is a rejoin. */
++  private dropped = false;
+ 
+   public constructor(
+     room: LivekitRoom,
+@@ -60,6 +63,10 @@ export class Publisher {
+       ParticipantEvent.LocalTrackPublished,
+       this.onLocalTrackPublished,
+     );
++    this.onDisconnected = this.onDisconnected.bind(this);
++    this.onConnected = this.onConnected.bind(this);
++    room.on(RoomEvent.Disconnected, this.onDisconnected);
++    room.on(RoomEvent.Connected, this.onConnected);
+   }
+ 
+   public async destroy(): Promise<void> {
+@@ -67,6 +74,8 @@ export class Publisher {
+       ParticipantEvent.LocalTrackPublished,
+       this.onLocalTrackPublished,
+     );
++    this.room.off(RoomEvent.Disconnected, this.onDisconnected);
++    this.room.off(RoomEvent.Connected, this.onConnected);
+     try {
+       for (const { track } of this.publications())
+         if (track) await this.room.localParticipant.unpublishTrack(track, true);
+@@ -185,6 +194,24 @@ export class Publisher {
+     await this.pauseUpstreams();
+   }
+ 
++  private onDisconnected(): void {
++    this.dropped = true;
++  }
++
++  /**
++   * LiveKit stops and drops our local tracks when it gives up on a session.
++   * When the connection then rejoins the room (see `Connection`), publish
++   * again what the host wants, less what it has muted, as the start does.
++   */
++  private onConnected(): void {
++    if (!this.dropped) return;
++    this.dropped = false;
++    if (!this.started) return;
++    this.logger.info("Rejoined the room, republishing local tracks");
++    this.started = false;
++    this.start();
++  }
++
+   private onLocalTrackPublished(publication: LocalTrackPublication): void {
+     this.logger.info(`Local ${publication.source} track published`);
+     if (!this.shouldPublish)

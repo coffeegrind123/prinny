@@ -17,18 +17,42 @@ here (waitingIntro in the source). The mutedSounds and soundHandoff
 follow-ups (8ccc5acc, 28e84596) are left out: they belong to the
 fork's per-sound switches and host-played end sounds, which this
 client does not have.
+
+Rebased onto v0.28.1: UrlConfiguration moved to its own module, and
+sounds load through loadSound (which also decodes data: URLs), so the
+override is the URL handed to it.
 ---
+ src/UrlConfiguration.ts           |  8 ++++++++
  src/UrlParams.test.ts             | 21 +++++++++++++++++++
- src/UrlParams.ts                  | 25 +++++++++++++++++++++++
+ src/UrlParams.ts                  | 17 ++++++++++++++++
  src/room/RingingAudioRenderer.tsx | 34 +++++++++++++++++++++++--------
  src/soundUtils.ts                 |  5 ++++-
- 4 files changed, 75 insertions(+), 10 deletions(-)
+ 5 files changed, 75 insertions(+), 10 deletions(-)
 
+diff --git a/src/UrlConfiguration.ts b/src/UrlConfiguration.ts
+index 2840bad1..2d714107 100644
+--- a/src/UrlConfiguration.ts
++++ b/src/UrlConfiguration.ts
+@@ -137,6 +137,14 @@ export interface UrlConfiguration {
+   noiseSuppression?: boolean;
+ 
+   callIntent?: RTCCallIntent;
++
++  /**
++   * Replacement URLs for the sounds Element Call plays itself, keyed by sound name
++   * (ringtone, ringtoneIntro, join, left, decline, timeout, raiseHand,
++   * screenshareStarted). The embedding client passes them as JSON so it can theme
++   * call sounds. Names not listed keep the default.
++   */
++  soundOverrides?: Record<string, string>;
+ }
+ 
+ // If you need to add a new flag to this interface, prefer a name that describes
 diff --git a/src/UrlParams.test.ts b/src/UrlParams.test.ts
-index 65be8ae8..bdcb29ef 100644
+index c1f1aeeb..ae9ad853 100644
 --- a/src/UrlParams.test.ts
 +++ b/src/UrlParams.test.ts
-@@ -442,6 +442,27 @@ describe("UrlParams", () => {
+@@ -439,6 +439,27 @@ describe("UrlParams", () => {
      });
    });
  
@@ -57,25 +81,10 @@ index 65be8ae8..bdcb29ef 100644
      it("uses header if provided", () => {
        expect(computeUrlParams("?header=app_bar&hideHeader=true").header).toBe(
 diff --git a/src/UrlParams.ts b/src/UrlParams.ts
-index 7c32c15f..cd13dfc5 100644
+index c3b4229d..366fa0c6 100644
 --- a/src/UrlParams.ts
 +++ b/src/UrlParams.ts
-@@ -262,6 +262,14 @@ export interface UrlConfiguration {
-   noiseSuppression?: boolean;
- 
-   callIntent?: RTCCallIntent;
-+
-+  /**
-+   * Replacement URLs for the sounds Element Call plays itself, keyed by sound name
-+   * (ringtone, ringtoneIntro, join, left, decline, timeout, raiseHand,
-+   * screenshareStarted). The embedding client passes them as JSON so it can theme
-+   * call sounds. Names not listed keep the default.
-+   */
-+  soundOverrides?: Record<string, string>;
- }
- 
- // If you need to add a new flag to this interface, prefer a name that describes
-@@ -325,6 +333,22 @@ class ParamParser {
+@@ -211,6 +211,22 @@ class ParamParser {
    }
  }
  
@@ -98,7 +107,7 @@ index 7c32c15f..cd13dfc5 100644
  let urlParamCache: {
    search?: string;
    hash?: string;
-@@ -569,6 +593,7 @@ export const computeUrlParams = (search = "", hash = ""): UrlParams => {
+@@ -363,6 +379,7 @@ export const computeUrlParams = (search = "", hash = ""): UrlParams => {
      autoLeaveWhenOthersLeft: parser.getFlag("autoLeave"),
      noiseSuppression: parser.getFlagParam("noiseSuppression", true),
      echoCancellation: parser.getFlagParam("echoCancellation", true),
@@ -180,7 +189,7 @@ index c0fe45d5..1c0d61b6 100644
    return null;
  };
 diff --git a/src/soundUtils.ts b/src/soundUtils.ts
-index 3e774802..0163dbb8 100644
+index 74d2ea33..f01fd243 100644
 --- a/src/soundUtils.ts
 +++ b/src/soundUtils.ts
 @@ -8,6 +8,7 @@ Please see LICENSE in the repository root for full details.
@@ -191,17 +200,15 @@ index 3e774802..0163dbb8 100644
  
  type SoundDefinition = { mp3?: string; ogg: string };
  
-@@ -46,10 +47,12 @@ export async function prefetchSounds<S extends string>(
+@@ -83,8 +84,10 @@ export async function prefetchSounds<S extends string>(
    await Promise.all(
      Object.entries(sounds).map(async ([name, file]) => {
        const { mp3, ogg } = file as SoundDefinition;
 +      // The embedding client can replace a sound with a single file of its own.
 +      const override = getUrlParams().soundOverrides?.[name];
        // Use preferred format, fallback to ogg if no mp3 is provided.
-       // Load an audio file
-       const response = await fetch(
--        preferredFormat === "ogg" ? ogg : (mp3 ?? ogg),
-+        override ?? (preferredFormat === "ogg" ? ogg : (mp3 ?? ogg)),
-       );
-       if (isFailure(response)) {
-         // If the sound doesn't load, it's not the end of the world. We won't play
+-      const url = preferredFormat === "ogg" ? ogg : (mp3 ?? ogg);
++      const url = override ?? (preferredFormat === "ogg" ? ogg : (mp3 ?? ogg));
+       let buffer: ArrayBuffer | null = null;
+       try {
+         buffer = await loadSound(url);

@@ -18,17 +18,41 @@ delegated_delayed_leave used when the SFU or homeserver can send the
 leave for us (61eeb817). The old keys would now be ignored, so the
 override moves to delayed_leave. delegated_delayed_leave keeps upstream's
 default: there the SFU sends the leave as soon as we drop off LiveKit.
+
+Rebased onto v0.28.1: upstream no longer generates config.json for the
+embedded build (bfad85a3 removed it with wait_for_key_rotation_ms, and
+vite-plugin-generate-file with it), and a missing config.json means
+DEFAULT_CONFIG. So the delayed_leave override moves into DEFAULT_CONFIG.
+The auto-leave grace now reads memberUserIds$, which replaced memberships$.
 ---
+ src/config/ConfigOptions.ts                     |  7 ++++++-
  .../CallViewModel/CallNotificationLifecycle.ts  | 17 +++++++++++++----
  src/state/CallViewModel/CallViewModel.test.ts   |  4 ++--
- vite-embedded.config.ts                         |  6 ++++++
- 3 files changed, 21 insertions(+), 6 deletions(-)
+ 3 files changed, 21 insertions(+), 7 deletions(-)
 
+diff --git a/src/config/ConfigOptions.ts b/src/config/ConfigOptions.ts
+index 65aa04da..0a0a688e 100644
+--- a/src/config/ConfigOptions.ts
++++ b/src/config/ConfigOptions.ts
+@@ -295,7 +295,12 @@ export const DEFAULT_CONFIG: ResolvedConfigOptions = {
+   },
+   matrix_rtc_session: {
+     network_error_retry_ms: 1_000,
+-    delayed_leave: { delay_ms: 18_000, restart_ms: 4_000 },
++    // Without delegation, our membership is only removed once the
++    // homeserver's delayed leave fires; keep that short so a closed or
++    // restarted app is not left in the call for long. With delegation the SFU
++    // sends the leave when we drop off LiveKit, so upstream's
++    // delegated_delayed_leave default stays.
++    delayed_leave: { delay_ms: 6_000, restart_ms: 2_000 },
+     delegated_delayed_leave: { delay_ms: 3_600_000, restart_ms: 300_000 },
+   },
+ };
 diff --git a/src/state/CallViewModel/CallNotificationLifecycle.ts b/src/state/CallViewModel/CallNotificationLifecycle.ts
-index 59930fd6..8f569d07 100644
+index ec165996..af23c1a9 100644
 --- a/src/state/CallViewModel/CallNotificationLifecycle.ts
 +++ b/src/state/CallViewModel/CallNotificationLifecycle.ts
-@@ -13,6 +13,7 @@ import {
+@@ -12,6 +12,7 @@ import {
    type RTCCallIntent,
  } from "matrix-js-sdk/lib/matrixrtc";
  import {
@@ -36,9 +60,9 @@ index 59930fd6..8f569d07 100644
    filter,
    fromEvent,
    map,
-@@ -39,6 +40,9 @@ import { type Behavior } from "../Behavior";
- import { type Epoch, type ObservableScope } from "../ObservableScope";
- import { type RoomMemberMap } from "./remoteMembers/MatrixMemberMetadata";
+@@ -36,6 +37,9 @@ import { logger as rootLogger } from "matrix-js-sdk/lib/logger";
+ 
+ import { type Behavior, type ObservableScope } from "@element-hq/matrixrtc-sdk";
  
 +/** How long everyone else must stay gone before an auto-leave call ends. */
 +export const ALL_OTHERS_LEFT_GRACE_MS = 30_000;
@@ -46,7 +70,7 @@ index 59930fd6..8f569d07 100644
  export type AutoLeaveReason = "allOthersLeft" | "timeout" | "decline";
  
  export interface RingAttempt {
-@@ -171,12 +175,17 @@ export function createCallNotificationLifecycle$({
+@@ -170,12 +174,17 @@ export function createCallNotificationLifecycle$({
        scope.share,
      );
  
@@ -54,14 +78,14 @@ index 59930fd6..8f569d07 100644
 +  // closed without hanging up keeps its membership until the server fires its
 +  // delayed leave event, and is usually reopened soon after. Only give up on the
 +  // call once everyone else has stayed gone for a grace period.
-   const allOthersLeft$ = memberships$.pipe(
-+    map(({ value }) => value.some((m) => m.userId !== localUser.userId)),
+   const allOthersLeft$ = memberUserIds$.pipe(
++    map((userIds) => userIds.some((userId) => userId !== localUser.userId)),
 +    distinctUntilChanged(),
      pairwise(),
 -    filter(
--      ([{ value: prev }, { value: current }]) =>
--        current.every((m) => m.userId === localUser.userId) &&
--        prev.some((m) => m.userId !== localUser.userId),
+-      ([prev, current]) =>
+-        current.every((userId) => userId === localUser.userId) &&
+-        prev.some((userId) => userId !== localUser.userId),
 +    // switchMap drops a pending timer as soon as someone else shows up again.
 +    switchMap(([prev, current]) =>
 +      prev && !current ? timer(ALL_OTHERS_LEFT_GRACE_MS) : EMPTY,
@@ -69,10 +93,10 @@ index 59930fd6..8f569d07 100644
      map(() => {}),
    );
 diff --git a/src/state/CallViewModel/CallViewModel.test.ts b/src/state/CallViewModel/CallViewModel.test.ts
-index c7783d15..044118b8 100644
+index aba23169..85c1e228 100644
 --- a/src/state/CallViewModel/CallViewModel.test.ts
 +++ b/src/state/CallViewModel/CallViewModel.test.ts
-@@ -1421,7 +1421,7 @@ describe.each(modes)("CallViewModel (%s mode)", (mode) => {
+@@ -1447,7 +1447,7 @@ describe.each(modes)("CallViewModel (%s mode)", (mode) => {
            rtcMembers$: rtcMemberJoinLeave$(behavior),
          },
          (vm) => {
@@ -81,7 +105,7 @@ index c7783d15..044118b8 100644
              a: "allOthersLeft",
            });
          },
-@@ -1487,7 +1487,7 @@ describe.each(modes)("CallViewModel (%s mode)", (mode) => {
+@@ -1513,7 +1513,7 @@ describe.each(modes)("CallViewModel (%s mode)", (mode) => {
            }),
          },
          (vm) => {
@@ -90,20 +114,3 @@ index c7783d15..044118b8 100644
              a: "allOthersLeft",
            });
          },
-diff --git a/vite-embedded.config.ts b/vite-embedded.config.ts
-index 228d2cf8..2fcd73e8 100644
---- a/vite-embedded.config.ts
-+++ b/vite-embedded.config.ts
-@@ -27,6 +27,12 @@ export default defineConfig((env) =>
-             data: {
-               matrix_rtc_session: {
-                 wait_for_key_rotation_ms: 5000,
-+                // Without delegation, our membership is only removed once the
-+                // homeserver's delayed leave fires; keep that short so a closed
-+                // or restarted app is not left in the call for long. With
-+                // delegation the SFU sends the leave when we drop off LiveKit,
-+                // so upstream's delegated_delayed_leave default stays.
-+                delayed_leave: { delay_ms: 6000, restart_ms: 2000 },
-               },
-             },
-           },

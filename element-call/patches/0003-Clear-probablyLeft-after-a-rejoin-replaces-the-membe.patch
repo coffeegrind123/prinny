@@ -12,16 +12,16 @@ the flag on membership status changes too.
 Ported to v0.24.0 from largelanguagemeowing/cinny d744488d; applied
 unchanged.
 ---
- .../localMember/HomeserverConnected.test.ts       | 15 +++++++++++++++
- .../localMember/HomeserverConnected.ts            | 12 +++++++++---
+ sdk/src/matrixrtc/HomeserverConnected.test.ts | 15 +++++++++++++++
+ sdk/src/matrixrtc/HomeserverConnected.ts      | 12 +++++++++---
  2 files changed, 24 insertions(+), 3 deletions(-)
 
-diff --git a/src/state/CallViewModel/localMember/HomeserverConnected.test.ts b/src/state/CallViewModel/localMember/HomeserverConnected.test.ts
-index 4b6bde98..0fb1c669 100644
---- a/src/state/CallViewModel/localMember/HomeserverConnected.test.ts
-+++ b/src/state/CallViewModel/localMember/HomeserverConnected.test.ts
+diff --git a/sdk/src/matrixrtc/HomeserverConnected.test.ts b/sdk/src/matrixrtc/HomeserverConnected.test.ts
+index c58b8e6d..3914bb0e 100644
+--- a/sdk/src/matrixrtc/HomeserverConnected.test.ts
++++ b/sdk/src/matrixrtc/HomeserverConnected.test.ts
 @@ -175,6 +175,21 @@ describe("createHomeserverConnected$", () => {
-     expect(hsConnected.combined$.value).toEqual([true, null]);
+     expect(hsConnected.disconnectReason$.value).toEqual(null);
    });
  
 +  it("recovers when a rejoin replaces the manager and probablyLeft clears without a ProbablyLeft event", () => {
@@ -42,10 +42,10 @@ index 4b6bde98..0fb1c669 100644
    it("composite sequence reflects each individual failure reason", () => {
      const hsConnected = createHomeserverConnected$(scope, client, session, 0);
  
-diff --git a/src/state/CallViewModel/localMember/HomeserverConnected.ts b/src/state/CallViewModel/localMember/HomeserverConnected.ts
-index 45e9f6cb..fc93d5db 100644
---- a/src/state/CallViewModel/localMember/HomeserverConnected.ts
-+++ b/src/state/CallViewModel/localMember/HomeserverConnected.ts
+diff --git a/sdk/src/matrixrtc/HomeserverConnected.ts b/sdk/src/matrixrtc/HomeserverConnected.ts
+index a1edaf6e..1a51d43c 100644
+--- a/sdk/src/matrixrtc/HomeserverConnected.ts
++++ b/sdk/src/matrixrtc/HomeserverConnected.ts
 @@ -23,6 +23,7 @@ import {
    of,
    delay,
@@ -54,7 +54,7 @@ index 45e9f6cb..fc93d5db 100644
  } from "rxjs";
  import { logger as rootLogger } from "matrix-js-sdk/lib/logger";
  
-@@ -103,9 +104,14 @@ export function createHomeserverConnected$(
+@@ -105,9 +106,14 @@ export function createHomeserverConnected$(
    //
    // If that is not the case we certainly still have a valid membership on the matrix network
    // independet if the sync currently works.
