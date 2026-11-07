@@ -16,6 +16,13 @@ import {
   blocksAllInvites,
   inviteBlockingWrites,
 } from '../../../utils/inviteBlocking';
+import {
+  MediaPreviewValue,
+  InviteAvatarsValue,
+  mediaPreviewWrites,
+  resolveMediaPreviewConfig,
+} from '../../../utils/mediaPreview';
+import { useGlobalMediaPreviewLevel } from '../../../hooks/useMediaPreview';
 
 // Invites the server rejects on your behalf: MSC4380 (merged) plus the older
 // MSC4155 form, see utils/inviteBlocking.ts. Only "block everything" is
@@ -23,20 +30,18 @@ import {
 // their own, and entries made in another client are kept untouched.
 const INVITE_CONFIG_TYPES = [INVITE_CONFIG_STABLE, INVITE_CONFIG_UNSTABLE, INVITE_CONFIG_MSC4155];
 
-// MSC4278: whether the client should load media and avatars from rooms you
-// have not joined. Off means a stranger cannot make your client fetch anything
-// simply by inviting you.
-const MEDIA_PREVIEW_TYPE = 'io.element.msc4278.media_preview_config';
-
-type MediaPreviewValue = 'on' | 'private' | 'off';
+// MSC4278 media previews: written as m.media_preview_config and the unstable
+// io.element.msc4278 copy, read stable first (utils/mediaPreview.ts). Enforced
+// by hooks/useMediaPreview.ts in every renderer that loads room media.
 
 export function PrivacySettings() {
   const mx = useMatrixClient();
   const [contentProtection, setContentProtection] = useSetting(settingsAtom, 'contentProtection');
 
   const [blockInvites, setBlockInvites] = useState(false);
-  const [mediaPreviews, setMediaPreviews] = useState<MediaPreviewValue>('on');
-  const [inviteAvatars, setInviteAvatars] = useState<'on' | 'off'>('on');
+  const mediaLevel = useGlobalMediaPreviewLevel();
+  const { media_previews: mediaPreviews, invite_avatars: inviteAvatars } =
+    resolveMediaPreviewConfig(mediaLevel);
 
   // Read once on mount, then again whenever the server pushes a change — these
   // settings follow the account, so another client changing them must not leave
@@ -49,13 +54,6 @@ export function PrivacySettings() {
         ),
       ),
     );
-
-    const media = mx.getAccountData(MEDIA_PREVIEW_TYPE as never)?.getContent<{
-      media_previews?: MediaPreviewValue;
-      invite_avatars?: 'on' | 'off';
-    }>();
-    setMediaPreviews(media?.media_previews ?? 'on');
-    setInviteAvatars(media?.invite_avatars ?? 'on');
   }, [mx]);
 
   useEffect(() => {
@@ -67,7 +65,7 @@ export function PrivacySettings() {
     useCallback(
       (event) => {
         const type = event.getType();
-        if (INVITE_CONFIG_TYPES.includes(type) || type === MEDIA_PREVIEW_TYPE) readSettings();
+        if (INVITE_CONFIG_TYPES.includes(type)) readSettings();
       },
       [readSettings],
     ),
@@ -88,16 +86,11 @@ export function PrivacySettings() {
 
   const saving = saveState.status === AsyncStatus.Loading;
 
+  // Keys the account has never set stay unset, so a server-side default (the
+  // MSC lets homeservers seed one) keeps applying to them.
   const setMedia = (
-    next: Partial<{ media_previews: MediaPreviewValue; invite_avatars: 'on' | 'off' }>,
-  ) =>
-    save({
-      [MEDIA_PREVIEW_TYPE]: {
-        media_previews: mediaPreviews,
-        invite_avatars: inviteAvatars,
-        ...next,
-      },
-    });
+    next: Partial<{ media_previews: MediaPreviewValue; invite_avatars: InviteAvatarsValue }>,
+  ) => save(mediaPreviewWrites({ ...mediaLevel, ...next }));
 
   return (
     <Box direction="Column" gap="100">

@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { Box, Chip, Spinner, Text, Tooltip, TooltipProvider, as } from 'folds';
+import { Box, Button, Chip, Icon, Icons, Spinner, Text, Tooltip, TooltipProvider, as } from 'folds';
 import classNames from 'classnames';
 import { BlurhashCanvas } from '../../BlurhashCanvas';
 import { EncryptedAttachmentInfo } from 'browser-encrypt-attachment';
@@ -14,6 +14,7 @@ import { useMediaSrc } from '../../../hooks/useMediaSrc';
 import { useHoverPlay } from '../../../hooks/useHoverPlay';
 import { validBlurHash } from '../../../utils/blurHash';
 import { Video } from '../../media';
+import { isMediaRevealed, revealMedia } from '../../../utils/mediaConsent';
 
 type VideoContentProps = {
   body: string;
@@ -34,6 +35,13 @@ type VideoContentProps = {
   markedAsSpoiler?: boolean;
   spoilerReason?: string;
   renderThumbnail?: () => ReactNode;
+  /**
+   * False when MSC4278 or "Disable Media Auto Load" says media in this room
+   * waits for a click. Then not even the metadata is requested (and for
+   * encrypted media, not the whole file) until the user presses Load.
+   * Default true.
+   */
+  autoLoad?: boolean;
   /**
    * Chrome drawn over the top-right of the player. The media feed's entry
    * point lives here: a video in the timeline plays in place, and this is what
@@ -73,15 +81,19 @@ export const VideoContent = as<'div', VideoContentProps>(
       spoilerReason,
       renderThumbnail,
       renderOverlay,
+      autoLoad,
       ...props
     },
     ref,
   ) => {
+    const [consented, setConsented] = useState(() => isMediaRevealed(url));
+    const loadAllowed = autoLoad !== false || consented;
     const { src, state, needsBlob, onSrcError, controlsList } = useMediaSrc(
       url,
       mimeType,
       encInfo,
       filename,
+      loadAllowed,
     );
     const blurHash = validBlurHash(info.thumbnail_info?.[MATRIX_BLUR_HASH_PROPERTY_NAME]);
     // In low animation mode a GIF holds still until pointed at or focused.
@@ -150,7 +162,23 @@ export const VideoContent = as<'div', VideoContentProps>(
             {renderThumbnail()}
           </Box>
         )}
-        {needsBlob && state.status !== AsyncStatus.Success ? (
+        {!loadAllowed ? (
+          <Box className={css.AbsoluteContainer} alignItems="Center" justifyContent="Center">
+            <Button
+              variant="Secondary"
+              fill="Solid"
+              radii="300"
+              size="300"
+              onClick={() => {
+                revealMedia(url);
+                setConsented(true);
+              }}
+              before={<Icon size="Inherit" src={Icons.Play} filled />}
+            >
+              <Text size="B300">Load video</Text>
+            </Button>
+          </Box>
+        ) : needsBlob && state.status !== AsyncStatus.Success ? (
           <Box className={css.AbsoluteContainer} alignItems="Center" justifyContent="Center">
             <Spinner variant="Secondary" />
           </Box>

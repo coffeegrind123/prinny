@@ -29,7 +29,7 @@ import {
   VideoContent,
   VoiceContent,
 } from './message';
-import { UrlPreviewCard, UrlPreviewHolder } from './url-preview';
+import { GatedUrlPreviewCard, UrlPreviewHolder } from './url-preview';
 import { Image } from './media';
 import { ImageViewer } from './image-viewer';
 import { PdfViewer } from './Pdf-viewer';
@@ -121,7 +121,14 @@ export function RenderMessageContent({
         {previewUrls.length > 0 && (
           <UrlPreviewHolder>
             {previewUrls.map((url) => (
-              <UrlPreviewCard key={url} url={url} ts={ts} roomId={roomId} eventId={eventId} />
+              <GatedUrlPreviewCard
+                key={url}
+                url={url}
+                ts={ts}
+                roomId={roomId}
+                eventId={eventId}
+                mediaPreviews={mediaAutoLoad}
+              />
             ))}
           </UrlPreviewHolder>
         )}
@@ -306,6 +313,7 @@ export function RenderMessageContent({
               body={body}
               info={info}
               {...props}
+              autoLoad={mediaAutoLoad}
               renderThumbnail={
                 mediaAutoLoad
                   ? () => (

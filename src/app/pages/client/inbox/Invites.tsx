@@ -33,6 +33,7 @@ import {
   PageHeroSection,
 } from '../../../components/page';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
+import { useInviteAvatarsAllowed } from '../../../hooks/useMediaPreview';
 import { allInvitesAtom } from '../../../state/room-list/inviteList';
 import { SequenceCard } from '../../../components/sequence-card';
 import {
@@ -217,10 +218,14 @@ function InviteCard({
   hour24Clock,
   dateFormatString,
   onNavigate,
-  hideAvatar,
+  hideAvatar: hideAvatarProp,
 }: InviteCardProps) {
   const mx = useMatrixClient();
   const userId = mx.getSafeUserId();
+  // MSC4278 invite_avatars: off means no invite may make us fetch its picture,
+  // the room's own or (for a DM) the inviter's.
+  const inviteAvatarsAllowed = useInviteAvatarsAllowed();
+  const hideAvatar = hideAvatarProp || !inviteAvatarsAllowed;
 
   const [viewTopic, setViewTopic] = useState(false);
   const closeTopic = () => setViewTopic(false);

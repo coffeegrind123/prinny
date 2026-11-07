@@ -49,8 +49,47 @@ import { copyToClipboard, tryDecodeURIComponent } from '../utils/dom';
 import { useTimeoutToggle } from '../hooks/useTimeoutToggle';
 import { MAX_HIGHLIGHT_LENGTH } from './react-prism/constants';
 import { renderMaths } from './katex';
+import { isMediaRevealed, revealMedia } from '../utils/mediaConsent';
 
 const ReactPrism = lazy(() => import('./react-prism/ReactPrism'));
+
+/**
+ * An inline `<img>` in a room where MSC4278 previews are off: nothing is
+ * fetched until the user clicks, and the click is remembered for the session.
+ */
+function InlineImageGate({
+  mxc,
+  label,
+  renderImage,
+}: {
+  mxc: string;
+  label: string;
+  renderImage: () => JSX.Element;
+}) {
+  const [shown, setShown] = useState(() => isMediaRevealed(mxc));
+
+  if (shown) return renderImage();
+
+  return (
+    <Chip
+      as="span"
+      variant="Secondary"
+      radii="Pill"
+      size="400"
+      outlined
+      onClick={() => {
+        revealMedia(mxc);
+        setShown(true);
+      }}
+      before={<Icon size="50" src={Icons.Photo} />}
+      aria-label={`Show image: ${label}`}
+    >
+      <Text as="span" size="B300" truncate>
+        {label}
+      </Text>
+    </Chip>
+  );
+}
 
 const EMOJI_REG_G = new RegExp(`${URL_NEG_LB}(${EMOJI_PATTERN})`, 'g');
 
@@ -410,6 +449,12 @@ export const getReactCustomHtmlParser = (
     handleMentionClick?: ReactEventHandler<HTMLElement>;
     useAuthentication?: boolean;
     renderMaths?: boolean;
+    /**
+     * MSC4278 / the local auto-load setting for this room. When false, inline
+     * images wait for a click and custom emoji show as their shortcode, so a
+     * message cannot make the client fetch anything by itself. Default true.
+     */
+    mediaPreviews?: boolean;
   },
 ): HTMLReactParserOptions => {
   const opts: HTMLReactParserOptions = {
@@ -633,6 +678,20 @@ export const getReactCustomHtmlParser = (
               <a href={htmlSrc} target="_blank" rel="noreferrer noopener">
                 {props.alt || props.title || htmlSrc}
               </a>
+            );
+          }
+          const previewsOff = htmlSrc && params.mediaPreviews === false;
+          const label = String(props.alt || props.title || 'image');
+          if (previewsOff && 'data-mx-emoticon' in props) {
+            return <span title={label}>{label}</span>;
+          }
+          if (previewsOff) {
+            return (
+              <InlineImageGate
+                mxc={attribs.src}
+                label={label}
+                renderImage={() => <img {...props} className={css.Img} src={htmlSrc} />}
+              />
             );
           }
           if (htmlSrc && 'data-mx-emoticon' in props) {

@@ -69,6 +69,11 @@ import { RoomPinMenu } from './room-pin-menu';
 import { useOpenRoomSettings } from '../../state/hooks/roomSettings';
 import { RoomNotificationModeSwitcher } from '../../components/RoomNotificationSwitcher';
 import {
+  RoomMediaPreviewSwitcher,
+  getRoomMediaPreviewIcon,
+  useRoomMediaPreviewChoice,
+} from '../../components/RoomMediaPreviewSwitcher';
+import {
   getRoomNotificationMode,
   getRoomNotificationModeIcon,
   useRoomsNotificationPreferencesContext,
@@ -107,6 +112,7 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
   const canInvite = permissions.action('invite', mx.getSafeUserId());
   const notificationPreferences = useRoomsNotificationPreferencesContext();
   const notificationMode = getRoomNotificationMode(notificationPreferences, room.roomId);
+  const mediaPreviewChoice = useRoomMediaPreviewChoice(room);
   const { navigateRoom } = useRoomNavigate();
 
   const [invitePrompt, setInvitePrompt] = useState(false);
@@ -184,6 +190,27 @@ const RoomMenu = forwardRef<HTMLDivElement, RoomMenuProps>(({ room, requestClose
             </MenuItem>
           )}
         </RoomNotificationModeSwitcher>
+        <RoomMediaPreviewSwitcher room={room}>
+          {(handleOpen, opened, changing) => (
+            <MenuItem
+              size="300"
+              after={
+                changing ? (
+                  <Spinner size="100" variant="Secondary" />
+                ) : (
+                  <Icon size="100" src={getRoomMediaPreviewIcon(mediaPreviewChoice)} />
+                )
+              }
+              radii="300"
+              aria-pressed={opened}
+              onClick={handleOpen}
+            >
+              <Text style={{ flexGrow: 1 }} as="span" size="T300" truncate>
+                Media Previews
+              </Text>
+            </MenuItem>
+          )}
+        </RoomMediaPreviewSwitcher>
       </Box>
       <Line variant="Surface" size="300" />
       <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>

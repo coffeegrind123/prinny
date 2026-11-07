@@ -128,6 +128,7 @@ import { useMentionClickHandler } from '../../hooks/useMentionClickHandler';
 import { useSpoilerClickHandler } from '../../hooks/useSpoilerClickHandler';
 import { useRoomNavigate } from '../../hooks/useRoomNavigate';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
+import { useMediaAutoLoad } from '../../hooks/useMediaPreview';
 import { useKatex } from '../../hooks/useKatex';
 import { chatEffectAtom } from './ChatEffects';
 import { effectForBody, effectForMsgType } from '../../plugins/effects';
@@ -718,7 +719,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   const [hideMembershipEvents] = useSetting(settingsAtom, 'hideMembershipEvents');
   const [hideNickAvatarEvents] = useSetting(settingsAtom, 'hideNickAvatarEvents');
   const [groupMembershipEvents] = useSetting(settingsAtom, 'groupMembershipEvents');
-  const [mediaAutoLoad] = useSetting(settingsAtom, 'mediaAutoLoad');
+  const mediaAutoLoad = useMediaAutoLoad(room);
   const [urlPreview] = useSetting(settingsAtom, 'urlPreview');
   const [mathsEnabled] = useSetting(settingsAtom, 'renderMaths');
   const [renderBotKeyboards] = useSetting(settingsAtom, 'renderBotKeyboards');
@@ -860,6 +861,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
         handleSpoilerClick: spoilerClickHandler,
         handleMentionClick: mentionClickHandler,
         renderMaths,
+        mediaPreviews: mediaAutoLoad,
       }),
     [
       mx,
@@ -869,6 +871,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
       mentionClickHandler,
       useAuthentication,
       renderMaths,
+      mediaAutoLoad,
     ],
   );
   // Maps stay off unless the viewer turned them on AND a tile style exists,

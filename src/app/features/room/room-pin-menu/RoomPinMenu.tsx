@@ -26,6 +26,7 @@ import * as css from './RoomPinMenu.css';
 import { SequenceCard } from '../../../components/sequence-card';
 import { useRoomEvent } from '../../../hooks/useRoomEvent';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
+import { useMediaAutoLoad } from '../../../hooks/useMediaPreview';
 import {
   AvatarBase,
   DefaultPlaceholder,
@@ -277,7 +278,7 @@ export const RoomPinMenu = forwardRef<HTMLDivElement, RoomPinMenuProps>(
     const pinnedEvents = useRoomPinnedEvents(room);
     const sortedPinnedEvent = useMemo(() => Array.from(pinnedEvents).reverse(), [pinnedEvents]);
     const useAuthentication = useMediaAuthentication();
-    const [mediaAutoLoad] = useSetting(settingsAtom, 'mediaAutoLoad');
+    const mediaAutoLoad = useMediaAutoLoad(room);
     const [globalUrlPreview] = useSetting(settingsAtom, 'urlPreview');
     const [encUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
     const urlPreview = room.hasEncryptionStateEvent() ? encUrlPreview : globalUrlPreview;
@@ -317,8 +318,17 @@ export const RoomPinMenu = forwardRef<HTMLDivElement, RoomPinMenuProps>(
           useAuthentication,
           handleSpoilerClick: spoilerClickHandler,
           handleMentionClick: mentionClickHandler,
+          mediaPreviews: mediaAutoLoad,
         }),
-      [mx, room, linkifyOpts, mentionClickHandler, spoilerClickHandler, useAuthentication],
+      [
+        mx,
+        room,
+        linkifyOpts,
+        mentionClickHandler,
+        spoilerClickHandler,
+        useAuthentication,
+        mediaAutoLoad,
+      ],
     );
 
     const renderMatrixEvent = useMatrixEventRenderer<[MatrixEvent, string, GetContentCallback]>(

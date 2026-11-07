@@ -24,6 +24,8 @@ import { inSameDay, timeDayMonthYear, today, yesterday } from '../../../utils/ti
 import { BlurhashCanvas } from '../../../components/BlurhashCanvas';
 import { mediaFeedRequestAtom, roomGalleryOpenAtom } from '../../../state/roomGallery';
 import { useScrollContentAnchor } from '../../../hooks/useScrollContentAnchor';
+import { useRoom } from '../../../hooks/useRoom';
+import { useMediaPreviewsAllowed } from '../../../hooks/useMediaPreview';
 import * as css from './RoomGallery.css';
 
 type MediaFilter = 'all' | 'image' | 'video';
@@ -34,9 +36,11 @@ const AUTO_DIG_ROUNDS = 3;
 type GalleryTileProps = {
   item: MediaItem;
   onOpen: (item: MediaItem) => void;
+  /** MSC4278: false keeps the tile to its blurhash until the user opts in. */
+  previewsAllowed: boolean;
 };
 
-function GalleryTile({ item, onOpen }: GalleryTileProps) {
+function GalleryTile({ item, onOpen, previewsAllowed }: GalleryTileProps) {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const tileRef = useRef<HTMLButtonElement>(null);
@@ -61,7 +65,8 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
     return () => observer.disconnect();
   }, [visible]);
 
-  const thumbnail = useMediaThumbnail(item, visible);
+  const load = visible && previewsAllowed;
+  const thumbnail = useMediaThumbnail(item, load);
   // Swapped in by the `<img>`'s own error handler — see `fallbackSrc`.
   const [thumbnailFailed, setThumbnailFailed] = useState(false);
   useEffect(() => setThumbnailFailed(false), [thumbnail.src]);
@@ -83,7 +88,7 @@ function GalleryTile({ item, onOpen }: GalleryTileProps) {
     item.source === 'attachment' &&
     item.mxcUrl &&
     !item.encInfo &&
-    visible
+    load
       ? (mxcUrlToHttp(mx, item.mxcUrl, useAuthentication) ?? undefined)
       : undefined;
 
@@ -239,6 +244,12 @@ const groupByDay = (items: MediaItem[]): DayGroup[] => {
  */
 export function RoomGallery() {
   const media = useRoomMediaContext();
+  const room = useRoom();
+  const previewsAllowedByConfig = useMediaPreviewsAllowed(room);
+  // Opening the gallery is not consent under MSC4278: with previews off the
+  // grid shows blurhashes until the user asks, once, for this gallery visit.
+  const [previewsShownAnyway, setPreviewsShownAnyway] = useState(false);
+  const previewsAllowed = previewsAllowedByConfig || previewsShownAnyway;
   const setGalleryOpen = useSetAtom(roomGalleryOpenAtom);
   const setFeedRequest = useSetAtom(mediaFeedRequestAtom);
   const [filter, setFilter] = useState<MediaFilter>('all');
@@ -425,6 +436,21 @@ export function RoomGallery() {
           {filterChip('image', 'Photos', counts.image)}
           {filterChip('video', 'Videos', counts.video)}
         </Box>
+        {!previewsAllowed && (
+          <Box alignItems="Center" gap="200" wrap="Wrap">
+            <Text size="T200" priority="300">
+              Media previews are off for this room.
+            </Text>
+            <Chip
+              variant="Secondary"
+              radii="Pill"
+              outlined
+              onClick={() => setPreviewsShownAnyway(true)}
+            >
+              <Text size="B300">Show previews</Text>
+            </Chip>
+          </Box>
+        )}
       </Box>
 
       <Box grow="Yes">
@@ -445,7 +471,12 @@ export function RoomGallery() {
                 </Box>
                 <div className={css.GalleryGrid}>
                   {group.items.map((item) => (
-                    <GalleryTile key={item.key} item={item} onOpen={openItem} />
+                    <GalleryTile
+                      key={item.key}
+                      item={item}
+                      onOpen={openItem}
+                      previewsAllowed={previewsAllowed}
+                    />
                   ))}
                 </div>
               </Box>

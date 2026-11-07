@@ -21,6 +21,7 @@ import {
 import { sanitizeReplyPreviewHtml } from '../../utils/sanitize';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
+import { useMediaAutoLoad } from '../../hooks/useMediaPreview';
 import { useRoomEvent } from '../../hooks/useRoomEvent';
 import colorMXID from '../../../util/colorMXID';
 import { contentForDisplay, getPerMessageProfile } from '../../utils/perMessageProfile';
@@ -92,6 +93,7 @@ export const Reply = as<'div', ReplyProps>(
   ) => {
     const mx = useMatrixClient();
     const useAuthentication = useMediaAuthentication();
+    const mediaAutoLoad = useMediaAutoLoad(room);
     const placeholderWidth = useMemo(() => randomNumberBetween(40, 400), []);
     const getFromLocalTimeline = useCallback(
       () => timelineSet?.findEventById(replyEventId),
@@ -137,9 +139,10 @@ export const Reply = as<'div', ReplyProps>(
           ? getReactCustomHtmlParser(mx, room.roomId, {
               linkifyOpts: LINKIFY_OPTS,
               useAuthentication,
+              mediaPreviews: mediaAutoLoad,
             })
           : undefined,
-      [emoticonHtml, mx, room.roomId, useAuthentication],
+      [emoticonHtml, mx, room.roomId, useAuthentication, mediaAutoLoad],
     );
 
     let bodyJSX: ReactNode = fallbackBody;

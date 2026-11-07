@@ -27,12 +27,13 @@ import { millify } from '../../plugins/millify';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { onEnterOrSpace, stopPropagation } from '../../utils/keyboard';
-import { RoomType, StateEvent } from '../../../types/matrix/room';
+import { Membership, RoomType, StateEvent } from '../../../types/matrix/room';
 import { useJoinedRoomId } from '../../hooks/useJoinedRoomId';
 import { useElementSizeObserver } from '../../hooks/useElementSizeObserver';
 import { getRoomAvatarUrl, getStateEvent } from '../../utils/room';
 import { useStateEventCallback } from '../../hooks/useStateEventCallback';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
+import { useInviteAvatarsAllowed } from '../../hooks/useMediaPreview';
 import { errorMessage } from '../../utils/errorMessage';
 
 type GridColumnCount = '1' | '2' | '3';
@@ -173,9 +174,16 @@ export const RoomCard = as<'div', RoomCardProps>(
     const fallbackName = getMxIdLocalPart(roomIdOrAlias) ?? roomIdOrAlias;
     const fallbackTopic = roomIdOrAlias;
 
-    const avatar = joinedRoom
-      ? getRoomAvatarUrl(mx, joinedRoom, 96, useAuthentication)
-      : avatarUrl && mxcUrlToHttp(mx, avatarUrl, useAuthentication, 96, 96, 'crop');
+    // MSC4278 invite_avatars covers a room we are only invited to, wherever it
+    // is drawn — this card included, when an invite link leads here.
+    const inviteAvatarsAllowed = useInviteAvatarsAllowed();
+    const invited = mx.getRoom(roomIdOrAlias)?.getMyMembership() === Membership.Invite;
+    const avatar =
+      invited && !inviteAvatarsAllowed
+        ? undefined
+        : joinedRoom
+          ? getRoomAvatarUrl(mx, joinedRoom, 96, useAuthentication)
+          : avatarUrl && mxcUrlToHttp(mx, avatarUrl, useAuthentication, 96, 96, 'crop');
 
     const roomName = joinedRoom?.name || name || fallbackName;
     const roomTopic =

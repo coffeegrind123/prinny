@@ -96,6 +96,7 @@ import { useSpoilerClickHandler } from '../../../hooks/useSpoilerClickHandler';
 import { ScreenSize, useScreenSizeContext } from '../../../hooks/useScreenSize';
 import { BackRouteHandler } from '../../../components/BackRouteHandler';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
+import { useMediaPreviewsAllowed } from '../../../hooks/useMediaPreview';
 import { allRoomsAtom } from '../../../state/room-list/roomList';
 import { usePowerLevels } from '../../../hooks/usePowerLevels';
 import { usePowerLevelTags } from '../../../hooks/usePowerLevelTags';
@@ -341,7 +342,7 @@ type RoomNotificationsGroupProps = {
 function RoomNotificationsGroupComp({
   room,
   notifications,
-  mediaAutoLoad,
+  mediaAutoLoad: mediaAutoLoadSetting,
   urlPreview,
   hideReadReceipts,
   onOpen,
@@ -351,6 +352,8 @@ function RoomNotificationsGroupComp({
 }: RoomNotificationsGroupProps) {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
+  const mediaPreviewsAllowed = useMediaPreviewsAllowed(room);
+  const mediaAutoLoad = (mediaAutoLoadSetting ?? false) && mediaPreviewsAllowed;
   const unread = useRoomUnread(room.roomId, roomToUnreadAtom);
 
   const powerLevels = usePowerLevels(room);
@@ -383,8 +386,17 @@ function RoomNotificationsGroupComp({
         useAuthentication,
         handleSpoilerClick: spoilerClickHandler,
         handleMentionClick: mentionClickHandler,
+        mediaPreviews: mediaAutoLoad,
       }),
-    [mx, room, linkifyOpts, mentionClickHandler, spoilerClickHandler, useAuthentication],
+    [
+      mx,
+      room,
+      linkifyOpts,
+      mentionClickHandler,
+      spoilerClickHandler,
+      useAuthentication,
+      mediaAutoLoad,
+    ],
   );
 
   const renderMatrixEvent = useMatrixEventRenderer<[IRoomEvent, string, GetContentCallback]>(

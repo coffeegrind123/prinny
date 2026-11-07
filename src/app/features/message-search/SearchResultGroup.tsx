@@ -56,6 +56,7 @@ import { UserAvatar } from '../../components/user-avatar';
 import { useMentionClickHandler } from '../../hooks/useMentionClickHandler';
 import { useSpoilerClickHandler } from '../../hooks/useSpoilerClickHandler';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
+import { useMediaPreviewsAllowed } from '../../hooks/useMediaPreview';
 import { usePowerLevels } from '../../hooks/usePowerLevels';
 import { usePowerLevelTags } from '../../hooks/usePowerLevelTags';
 import { useTheme } from '../../hooks/useTheme';
@@ -98,7 +99,7 @@ export function SearchResultGroup({
   room,
   highlights,
   items,
-  mediaAutoLoad,
+  mediaAutoLoad: mediaAutoLoadSetting,
   urlPreview,
   onOpen,
   legacyUsernameColor,
@@ -107,6 +108,8 @@ export function SearchResultGroup({
 }: SearchResultGroupProps) {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
+  const mediaPreviewsAllowed = useMediaPreviewsAllowed(room);
+  const mediaAutoLoad = (mediaAutoLoadSetting ?? false) && mediaPreviewsAllowed;
   const highlightRegex = useMemo(() => makeHighlightRegex(highlights), [highlights]);
 
   const powerLevels = usePowerLevels(room);
@@ -139,6 +142,7 @@ export function SearchResultGroup({
         useAuthentication,
         handleSpoilerClick: spoilerClickHandler,
         handleMentionClick: mentionClickHandler,
+        mediaPreviews: mediaAutoLoad,
       }),
     [
       mx,
@@ -148,6 +152,7 @@ export function SearchResultGroup({
       mentionClickHandler,
       spoilerClickHandler,
       useAuthentication,
+      mediaAutoLoad,
     ],
   );
 

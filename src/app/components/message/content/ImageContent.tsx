@@ -29,6 +29,7 @@ import { stopPropagation } from '../../../utils/keyboard';
 import { decryptFile, downloadEncryptedMedia, mxcUrlToHttp } from '../../../utils/matrix';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { validBlurHash } from '../../../utils/blurHash';
+import { isMediaRevealed, revealMedia } from '../../../utils/mediaConsent';
 
 type RenderViewerProps = {
   src: string;
@@ -111,12 +112,24 @@ export const ImageContent = as<'div', ImageContentProps>(
     };
 
     useEffect(() => {
-      if (autoPlay) loadSrc();
-    }, [autoPlay, loadSrc]);
+      if (autoPlay || isMediaRevealed(url)) loadSrc();
+    }, [autoPlay, url, loadSrc]);
+
+    // Auto-load can be withdrawn after an image already loaded: the setting
+    // changed, or it was not known yet when this mounted. The image then goes
+    // back behind View unless the user asked for it.
+    const [consented, setConsented] = useState(false);
+    const suppressed = !autoPlay && !consented && !isMediaRevealed(url);
+
+    const handleView = () => {
+      revealMedia(url);
+      setConsented(true);
+      if (srcState.status === AsyncStatus.Idle) loadSrc();
+    };
 
     return (
       <Box className={classNames(css.RelativeBase, className)} {...props} ref={ref}>
-        {srcState.status === AsyncStatus.Success && (
+        {srcState.status === AsyncStatus.Success && !suppressed && (
           <Overlay open={viewer} backdrop={<OverlayBackdrop />}>
             <OverlayCenter>
               <FocusTrap
@@ -145,21 +158,23 @@ export const ImageContent = as<'div', ImageContentProps>(
             punch={1}
           />
         )}
-        {!autoPlay && !markedAsSpoiler && srcState.status === AsyncStatus.Idle && (
-          <Box className={css.AbsoluteContainer} alignItems="Center" justifyContent="Center">
-            <Button
-              variant="Secondary"
-              fill="Solid"
-              radii="300"
-              size="300"
-              onClick={loadSrc}
-              before={<Icon size="Inherit" src={Icons.Photo} filled />}
-            >
-              <Text size="B300">View</Text>
-            </Button>
-          </Box>
-        )}
-        {srcState.status === AsyncStatus.Success && (
+        {!markedAsSpoiler &&
+          ((!autoPlay && srcState.status === AsyncStatus.Idle) ||
+            (suppressed && srcState.status === AsyncStatus.Success)) && (
+            <Box className={css.AbsoluteContainer} alignItems="Center" justifyContent="Center">
+              <Button
+                variant="Secondary"
+                fill="Solid"
+                radii="300"
+                size="300"
+                onClick={handleView}
+                before={<Icon size="Inherit" src={Icons.Photo} filled />}
+              >
+                <Text size="B300">View</Text>
+              </Button>
+            </Box>
+          )}
+        {srcState.status === AsyncStatus.Success && !suppressed && (
           <Box className={classNames(css.AbsoluteContainer, blurred && css.Blur)}>
             {renderImage({
               alt: body,
@@ -194,6 +209,8 @@ export const ImageContent = as<'div', ImageContentProps>(
                   outlined
                   onClick={() => {
                     setBlurred(false);
+                    revealMedia(url);
+                    setConsented(true);
                     if (srcState.status === AsyncStatus.Idle) {
                       loadSrc();
                     }
@@ -207,7 +224,8 @@ export const ImageContent = as<'div', ImageContentProps>(
         )}
         {(srcState.status === AsyncStatus.Loading || srcState.status === AsyncStatus.Success) &&
           !load &&
-          !blurred && (
+          !blurred &&
+          !suppressed && (
             <Box className={css.AbsoluteContainer} alignItems="Center" justifyContent="Center">
               <Spinner variant="Secondary" />
             </Box>

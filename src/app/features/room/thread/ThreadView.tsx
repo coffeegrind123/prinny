@@ -22,6 +22,7 @@ import { useRoomEvent } from '../../../hooks/useRoomEvent';
 import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
+import { useMediaAutoLoad } from '../../../hooks/useMediaPreview';
 import { useEditor } from '../../../components/editor';
 import { RoomInput } from '../RoomInput';
 import {
@@ -167,7 +168,7 @@ export function ThreadView({ room, rootId, onClose }: ThreadViewProps) {
 
   const [hour24Clock] = useSetting(settingsAtom, 'hour24Clock');
   const [dateFormatString] = useSetting(settingsAtom, 'dateFormatString');
-  const [mediaAutoLoad] = useSetting(settingsAtom, 'mediaAutoLoad');
+  const mediaAutoLoad = useMediaAutoLoad(room);
   const [globalUrlPreview] = useSetting(settingsAtom, 'urlPreview');
   const [encUrlPreview] = useSetting(settingsAtom, 'encUrlPreview');
   const urlPreview = room.hasEncryptionStateEvent() ? encUrlPreview : globalUrlPreview;
@@ -196,6 +197,7 @@ export function ThreadView({ room, rootId, onClose }: ThreadViewProps) {
         handleSpoilerClick: spoilerClickHandler,
         handleMentionClick: mentionClickHandler,
         renderMaths,
+        mediaPreviews: mediaAutoLoad,
       }),
     [
       mx,
@@ -205,6 +207,7 @@ export function ThreadView({ room, rootId, onClose }: ThreadViewProps) {
       mentionClickHandler,
       useAuthentication,
       renderMaths,
+      mediaAutoLoad,
     ],
   );
 
