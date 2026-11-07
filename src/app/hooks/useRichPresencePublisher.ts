@@ -1,12 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSetAtom } from 'jotai';
 import { useMatrixClient } from './useMatrixClient';
 import { useSetting } from '../state/hooks/settings';
 import { settingsAtom } from '../state/settings';
-import { richPresenceBridgeStatusAtom } from '../state/richPresenceBridge';
+import {
+  appPresenceServerStatusAtom,
+  richPresenceBridgeStatusAtom,
+} from '../state/richPresenceBridge';
 import {
   MEOW_RICH_PRESENCE_EXPIRES_AT,
   MSC4320_RPC,
+  MSC4544_MAX_ENTRIES,
   MSC4544_RPC,
   RICH_PRESENCE_EXPIRES_AT,
   RICH_PRESENCE_TTL,
@@ -22,6 +26,21 @@ import {
   type DiscordRichPresenceActivity,
 } from '../utils/discordActivity';
 import { isTauriDesktop } from '../utils/platform';
+import {
+  applyAppMessage,
+  isAppAllowed,
+  newSocketSalt,
+  notedApp,
+  opaqueSocketId,
+  parseAppMessage,
+  publishableEntries,
+  type AppEntry,
+} from '../utils/appPresence';
+
+/** Event the Rust app server emits for each message: `{ connection, message }`. */
+const APP_MESSAGE_EVENT = 'app-presence-message';
+
+type AppPresenceStarted = { port: number | null; socket: string | null };
 
 // Minimum interval between profile writes. Discord-RPC clients can fire
 // SET_ACTIVITY on every progress tick; coalesce to avoid hammering the HS.
@@ -72,10 +91,31 @@ export const useRichPresencePublisher = () => {
   const mx = useMatrixClient();
   const [enabled] = useSetting(settingsAtom, 'publishRichPresence');
   const setStatus = useSetAtom(richPresenceBridgeStatusAtom);
+  const setAppServerStatus = useSetAtom(appPresenceServerStatusAtom);
+  const [appPolicy] = useSetting(settingsAtom, 'appPresencePolicy');
+  const [knownApps, setKnownApps] = useSetting(settingsAtom, 'appPresenceApps');
+  const [socketSalt, setSocketSalt] = useSetting(settingsAtom, 'appPresenceSalt');
+
+  // Read by the running effect without restarting it (and with it, the
+  // servers) whenever the user allows or denies an app.
+  const allowedRef = useRef<(appId: string) => boolean>(() => false);
+  const knownAppsRef = useRef(knownApps);
+  const saltRef = useRef(socketSalt);
+  const rewriteRef = useRef<() => void>(() => undefined);
+  useEffect(() => {
+    knownAppsRef.current = knownApps;
+    allowedRef.current = (appId) => isAppAllowed(knownApps, appPolicy, appId);
+    // An app just allowed or denied: publish or withdraw its entries now.
+    rewriteRef.current();
+  }, [knownApps, appPolicy]);
+  useEffect(() => {
+    saltRef.current = socketSalt;
+  }, [socketSalt]);
 
   useEffect(() => {
     if (!enabled) {
       setStatus(undefined);
+      setAppServerStatus(undefined);
       return undefined;
     }
 
@@ -94,6 +134,12 @@ export const useRichPresencePublisher = () => {
     // MSC4544 entry id: kept while the same track/game continues.
     let entryIdentity: string | undefined;
     let entryId = '';
+    // MSC4544 entries from local apps, and what was last published of them.
+    const appEntries = new Map<string, AppEntry>();
+    let lastAppsWritten = '[]';
+    let msc4320Written = false;
+    let appServerStarted = false;
+    let unlistenApps: (() => void) | undefined;
 
     // Cover-art resolution: turn an external image URL into an MXC via the
     // homeserver's preview_url endpoint. Deduped by URL so a repeated cover
@@ -105,9 +151,13 @@ export const useRichPresencePublisher = () => {
     const tick = async () => {
       if (stopped || inFlight || writesUnsupported) return;
       if (Date.now() < retryWritesAt) return;
+      // Allowed apps' live entries; expired ones leave the map here.
+      const apps = publishableEntries(undefined, appEntries, allowedRef.current, Date.now());
+      const appsKey = JSON.stringify(apps);
       if (
         sameActivityPayload(pending, lastWritten) &&
-        (!pending || Date.now() - lastWriteAt < EXPIRY_REFRESH_INTERVAL)
+        (!pending || Date.now() - lastWriteAt < EXPIRY_REFRESH_INTERVAL) &&
+        appsKey === lastAppsWritten
       ) {
         return;
       }
@@ -115,11 +165,13 @@ export const useRichPresencePublisher = () => {
       const writing = pending;
       inFlight = true;
       try {
-        // Written twice, one after the other (MSC4544 asks for serialised
-        // writes): the MSC4320 object our clients and meow's read, with both
-        // forks' expiry keys so each hides the other's stale activity, and
-        // the MSC4544 array Extera and Zam read. An absent activity is a
-        // DELETE of both; MSC4544 forbids PUTting an empty array.
+        // Written one after the other (MSC4544 asks for serialised writes):
+        // the MSC4320 object our clients and meow's read, with both forks'
+        // expiry keys so each hides the other's stale activity, holding the
+        // Discord-bridge activity only; and the MSC4544 array Extera and Zam
+        // read, holding that activity first and then local apps' entries, up
+        // to four. An empty array is a DELETE: MSC4544 forbids PUTting one.
+        const list: Record<string, unknown>[] = [];
         if (writing) {
           const expiresAt = Date.now() + RICH_PRESENCE_TTL;
           const identity = activityIdentity(writing);
@@ -132,19 +184,25 @@ export const useRichPresencePublisher = () => {
             [RICH_PRESENCE_EXPIRES_AT]: expiresAt,
             [MEOW_RICH_PRESENCE_EXPIRES_AT]: expiresAt,
           });
-          await mx.setExtendedProfileProperty(MSC4544_RPC, [
-            toMsc4544Entry(writing, entryId, expiresAt),
-          ]);
-        } else {
+          msc4320Written = true;
+          list.push(toMsc4544Entry(writing, entryId, expiresAt));
+        } else if (msc4320Written || lastWritten) {
           await mx.deleteExtendedProfileProperty(MSC4320_RPC);
+          msc4320Written = false;
+        }
+        list.push(...apps);
+        if (list.length > 0) {
+          await mx.setExtendedProfileProperty(MSC4544_RPC, list.slice(0, MSC4544_MAX_ENTRIES));
+        } else {
           await mx.deleteExtendedProfileProperty(MSC4544_RPC);
         }
         // The cleanup's delete may have raced this write and landed first.
-        if (stopped && writing) {
+        if (stopped && list.length > 0) {
           await mx.deleteExtendedProfileProperty(MSC4320_RPC);
           await mx.deleteExtendedProfileProperty(MSC4544_RPC);
         }
         lastWritten = writing;
+        lastAppsWritten = appsKey;
         lastWriteAt = Date.now();
         writeFailures = 0;
         retryWritesAt = 0;
@@ -230,6 +288,65 @@ export const useRichPresencePublisher = () => {
     const interval = setInterval(() => {
       tick();
     }, MIN_WRITE_INTERVAL);
+    rewriteRef.current = () => {
+      if (!stopped && Date.now() - lastWriteAt >= MIN_WRITE_INTERVAL) tick();
+    };
+
+    const handleAppMessage = (raw: unknown) => {
+      if (stopped) return;
+      const now = Date.now();
+      const message = parseAppMessage(raw, now);
+      if (!message) return;
+      // Every app that reaches us is listed in settings, so the user can
+      // allow it; until then the default policy (deny) keeps it unpublished.
+      const noted = notedApp(knownAppsRef.current, message.appId, message.appName, now);
+      if (noted) setKnownApps((apps) => ({ ...apps, [message.appId]: noted }));
+      applyAppMessage(appEntries, message, now);
+      if (now - lastWriteAt >= MIN_WRITE_INTERVAL) tick();
+    };
+
+    // The app server is independent of the Discord bridge: either can fail to
+    // bind without taking the other down.
+    const initApps = async () => {
+      if (!(await isTauriDesktop())) return;
+      const userId = mx.getUserId();
+      if (stopped || !userId) return;
+      let salt = saltRef.current;
+      if (!salt) {
+        salt = newSocketSalt();
+        setSocketSalt(salt);
+      }
+      const opaqueId = await opaqueSocketId(salt, userId);
+      const [{ invoke }, { listen }] = await Promise.all([
+        import('@tauri-apps/api/core'),
+        import('@tauri-apps/api/event'),
+      ]);
+      if (stopped) return;
+      const unlistenFn = await listen<{ connection: number; message: unknown }>(
+        APP_MESSAGE_EVENT,
+        (event) => handleAppMessage(event.payload.message),
+      );
+      if (stopped) {
+        unlistenFn();
+        return;
+      }
+      unlistenApps = unlistenFn;
+      try {
+        const bound = await invoke<AppPresenceStarted>('start_app_presence_server', { opaqueId });
+        appServerStarted = true;
+        if (stopped) return;
+        setAppServerStatus({
+          state: 'running',
+          port: bound.port ?? undefined,
+          socket: bound.socket ?? undefined,
+        });
+      } catch (err) {
+        if (!stopped) setAppServerStatus({ state: 'error', error: String(err) });
+      }
+    };
+    initApps().catch((err) => {
+      if (!stopped) setAppServerStatus({ state: 'error', error: String(err) });
+    });
 
     const init = async () => {
       if (!(await isTauriDesktop())) {
@@ -278,7 +395,15 @@ export const useRichPresencePublisher = () => {
     return () => {
       stopped = true;
       clearInterval(interval);
+      rewriteRef.current = () => undefined;
       unlisten?.();
+      unlistenApps?.();
+      if (appServerStarted) {
+        import('@tauri-apps/api/core')
+          .then(({ invoke }) => invoke('stop_app_presence_server'))
+          .catch(() => undefined);
+      }
+      setAppServerStatus(undefined);
       // Leave no stale presence behind when disabling or tearing down.
       mx.deleteExtendedProfileProperty(MSC4320_RPC).catch(() => undefined);
       mx.deleteExtendedProfileProperty(MSC4544_RPC).catch(() => undefined);
@@ -289,7 +414,7 @@ export const useRichPresencePublisher = () => {
       }
       setStatus({ state: 'stopped' });
     };
-  }, [mx, enabled, setStatus]);
+  }, [mx, enabled, setStatus, setAppServerStatus, setKnownApps, setSocketSalt]);
 };
 
 /** Renders nothing; exists to host the publisher hook inside the client tree. */

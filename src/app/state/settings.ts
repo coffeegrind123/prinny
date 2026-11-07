@@ -4,6 +4,7 @@ import {
 } from '../utils/desktop-notifications';
 import { atom } from 'jotai';
 import type { GifProviderId } from '../utils/klipy';
+import type { AppPresencePolicy, KnownApps } from '../utils/appPresence';
 
 const STORAGE_KEY = 'settings';
 export type DateFormat =
@@ -236,6 +237,14 @@ export interface Settings {
   // their activity as this account's rich presence. Desktop only, and off by
   // default because claiming that socket is something the user should ask for.
   publishRichPresence: boolean;
+  // MSC4544: local apps (games, media players) that may add to the published
+  // rich presence over the desktop app's WebSocket. Per device, because apps
+  // are installed per device. The default for an app nobody has decided on
+  // MUST be deny, which is this default.
+  appPresencePolicy: AppPresencePolicy;
+  appPresenceApps: KnownApps;
+  // Salt for the unix socket path's opaque id (see utils/appPresence.ts).
+  appPresenceSalt: string;
 
   // `:sob:` becomes an emoji on the closing colon, without the autocomplete
   // menu. Off by default: it rewrites literal `:text:` the user meant to keep.
@@ -425,6 +434,9 @@ const defaultSettings: Settings = {
 
   showRichPresence: false,
   publishRichPresence: false,
+  appPresencePolicy: 'deny',
+  appPresenceApps: {},
+  appPresenceSalt: '',
 
   emojiShortcodeReplace: false,
 

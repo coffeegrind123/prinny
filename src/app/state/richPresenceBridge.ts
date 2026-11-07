@@ -12,3 +12,10 @@ export type RichPresenceBridgeStatus =
   | { state: 'stopped' };
 
 export const richPresenceBridgeStatusAtom = atom<RichPresenceBridgeStatus | undefined>(undefined);
+
+// The MSC4544 app WebSocket server (prinny-client `app_presence.rs`): where
+// apps can reach it, for the settings UI.
+export type AppPresenceServerStatus =
+  { state: 'running'; port?: number; socket?: string } | { state: 'error'; error: string };
+
+export const appPresenceServerStatusAtom = atom<AppPresenceServerStatus | undefined>(undefined);
