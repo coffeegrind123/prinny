@@ -4,6 +4,7 @@ User-facing changes per commit. Most recent at the top.
 
 ## 07.11.2026
 
+- `5e37163` Improved **privacy of YouTube and Twitch previews** — the player now loads only when you press play, so scrolling past a link no longer loads the site's player, ads and trackers. The preview shows the video's picture with a play button instead
 - `5f6225d` Added **Twitch players in link previews** — a linked Twitch channel, past broadcast or clip now plays right in the chat instead of showing the streamer's avatar as a huge picture. Links to other Twitch pages keep the normal preview, and YouTube and Twitch players always fill the preview's width
 - `78b68d1` Fixed **calls not starting in the desktop and Android apps** — with Element Call 0.28 the call hung at Join: the widget asked for its settings file, the app answered with its own start page instead, and the widget never got past that. The file ships with the widget again
 - `2c650ea` Fixed **call buttons greyed out on homeservers that announce their call server the newer way** (MSC4143 `/rtc/transports`, as Synapse's `matrix_rtc` setting does) — Prinny could connect such calls but would not let you start one
