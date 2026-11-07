@@ -110,10 +110,15 @@ export const getTwitchTarget = (raw: string): TwitchTarget | null => {
 };
 
 /**
- * The player URL for a target, embedded from `parentHost`. Never autoplays:
- * the frame loads for everyone who reads the message.
+ * The player URL for a target, embedded from `parentHost`. Autoplays only when
+ * asked: the card loads the player when the reader clicks play, and that click
+ * is the request to start.
  */
-export const twitchEmbedUrl = (target: TwitchTarget, parentHost: string): string => {
+export const twitchEmbedUrl = (
+  target: TwitchTarget,
+  parentHost: string,
+  { autoplay = false }: { autoplay?: boolean } = {},
+): string => {
   const params = new URLSearchParams();
   if (target.kind === 'clip') {
     params.set('clip', target.slug);
@@ -123,7 +128,7 @@ export const twitchEmbedUrl = (target: TwitchTarget, parentHost: string): string
     params.set('channel', target.channel);
   }
   params.set('parent', parentHost);
-  params.set('autoplay', 'false');
+  params.set('autoplay', autoplay ? 'true' : 'false');
   const base =
     target.kind === 'clip' ? 'https://clips.twitch.tv/embed' : 'https://player.twitch.tv/';
   return `${base}?${params.toString()}`;

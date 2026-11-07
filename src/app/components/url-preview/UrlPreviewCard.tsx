@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import { IPreviewUrlResponse } from 'matrix-js-sdk';
 import {
@@ -34,7 +34,8 @@ import { useSetting } from '../../state/hooks/settings';
 import { useUrlPreviewDismissed } from '../../state/hooks/dismissedUrlPreviews';
 import { settingsAtom } from '../../state/settings';
 import { isYoutubeUrl, getYoutubeVideoId } from '../../utils/youtube';
-import { getTwitchTarget, twitchEmbedUrl } from '../../utils/twitch';
+import { getTwitchTarget, twitchEmbedUrl, type TwitchTarget } from '../../utils/twitch';
+import { SitePlayer } from './SitePlayer';
 import { pipedEmbedUrl, usePipedInstance } from '../../utils/piped';
 import { useYoutubeMeta } from '../../hooks/useYoutubeMeta';
 import { fetchOgPreview } from '../../utils/tauri-og-preview';
@@ -154,19 +155,11 @@ const SOUNDCLOAK_RESTREAM_PATH = '/_/api/restream/';
 // entries.
 const YOUTUBE_EMBED_BASE = 'https://www.youtube.com/embed/';
 
-// The 16:9 box a site player (YouTube, Twitch) sits in. The card shrinks to
-// its content, so without an explicit width a player with no text around it
-// (no preview from the homeserver, which is common for Twitch and YouTube)
-// came out a few hundred pixels wide; this fills the card's 432px cap and
-// still fits a narrow screen.
-const SITE_PLAYER_FRAME_STYLE: CSSProperties = {
-  position: 'relative',
-  width: toRem(432),
-  maxWidth: '100%',
-  paddingBottom: '56.25%',
-  height: 0,
-  overflow: 'hidden',
-  backgroundColor: color.SurfaceVariant.Container,
+/** What the Twitch facade says when the homeserver gave no title. */
+const twitchLabel = (target: TwitchTarget): string => {
+  if (target.kind === 'channel') return `${target.channel} on Twitch`;
+  if (target.kind === 'video') return 'Twitch video';
+  return 'Twitch clip';
 };
 
 function rewriteEmbedUrl(url: string, useSoundcloak: boolean): string {
@@ -2167,59 +2160,27 @@ export const UrlPreviewCard = as<
           <Icon size="50" src={Icons.Cross} />
         </IconButton>
 
-        {/* YouTube iframe embed */}
+        {/* YouTube and Twitch: the site's player, loaded only when the reader
+            clicks play (see SitePlayer). Both srcs are built from parsed ids
+            only — a YouTube video id, a Twitch login, VOD id or clip slug —
+            never from the message text. The poster comes from the homeserver's
+            proxied preview, or from the host the metadata already came from. */}
         {isYt && ytVideoId && (
-          <Box style={SITE_PLAYER_FRAME_STYLE}>
-            <iframe
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                border: 'none',
-              }}
-              src={
-                usePiped ? pipedEmbedUrl(pipedBase, ytVideoId) : `${YOUTUBE_EMBED_BASE}${ytVideoId}`
-              }
-              title={title || 'YouTube video'}
-              // This frame auto-loads for anyone who reads the message, so it
-              // gets the narrowest sandbox that still plays video. Deliberately
-              // absent: allow-top-navigation (would let the frame navigate this
-              // window away) and allow-popups (would let it open new ones).
-              sandbox="allow-scripts allow-same-origin allow-presentation"
-              // Trimmed to what playback needs. clipboard-write in particular
-              // has no business being delegated to an embed the message sender
-              // chose; accelerometer/gyroscope are sensor access playback
-              // doesn't require.
-              // `allow` already grants fullscreen to the frame; a separate
-              // `allowFullScreen` attribute is redundant and makes Chrome warn
-              // that the allow policy takes precedence.
-              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            />
-          </Box>
+          <SitePlayer
+            site={usePiped ? 'Piped' : 'YouTube'}
+            title={title || 'YouTube video'}
+            poster={imgUrl || ytMeta.thumbnail}
+            src={`${
+              usePiped ? pipedEmbedUrl(pipedBase, ytVideoId) : `${YOUTUBE_EMBED_BASE}${ytVideoId}`
+            }?autoplay=1`}
+          />
         )}
-
-        {/* Twitch player: the src is built from a parsed login, VOD id or
-            clip slug only, never from the message text. Same sandbox and
-            permissions as the YouTube frame, for the same reasons. */}
         {twitchTarget && (
-          <Box style={SITE_PLAYER_FRAME_STYLE}>
-            <iframe
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                border: 'none',
-              }}
-              src={twitchEmbedUrl(twitchTarget, window.location.hostname)}
-              title={title || 'Twitch'}
-              sandbox="allow-scripts allow-same-origin allow-presentation"
-              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            />
-          </Box>
+          <SitePlayer
+            site="Twitch"
+            title={title || twitchLabel(twitchTarget)}
+            src={twitchEmbedUrl(twitchTarget, window.location.hostname, { autoplay: true })}
+          />
         )}
 
         {/* og:video embed (Bandcamp etc.) — see the validation above; both

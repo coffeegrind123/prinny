@@ -69,4 +69,10 @@ describe('twitchEmbedUrl', () => {
       'https://clips.twitch.tv/embed?clip=Funny-Clip&parent=prinny.app&autoplay=false',
     );
   });
+
+  it('autoplays when the reader asked to play', () => {
+    expect(
+      twitchEmbedUrl({ kind: 'channel', channel: 'somestreamer' }, 'localhost', { autoplay: true }),
+    ).toBe('https://player.twitch.tv/?channel=somestreamer&parent=localhost&autoplay=true');
+  });
 });

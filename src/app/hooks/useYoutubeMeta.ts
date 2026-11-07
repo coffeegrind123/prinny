@@ -5,6 +5,17 @@ export type YoutubeMeta = {
   title?: string;
   /** Channel name, shown where the card would otherwise print `og:site_name`. */
   author?: string;
+  /** Poster for the click-to-play facade; https only. */
+  thumbnail?: string;
+};
+
+const httpsUrl = (value: unknown): string | undefined => {
+  if (typeof value !== 'string') return undefined;
+  try {
+    return new URL(value).protocol === 'https:' ? value : undefined;
+  } catch {
+    return undefined;
+  }
 };
 
 /**
@@ -60,12 +71,14 @@ export function useYoutubeMeta(
       .then((data: unknown) => {
         if (typeof data !== 'object' || data === null) return;
         const record = data as Record<string, unknown>;
-        // Piped calls them `title`/`uploader`; oEmbed `title`/`author_name`.
+        // Piped calls them `title`/`uploader`/`thumbnailUrl`; oEmbed
+        // `title`/`author_name`/`thumbnail_url`.
         const title = record.title;
         const author = record.uploader ?? record.author_name;
         setMeta({
           title: typeof title === 'string' && title ? title : undefined,
           author: typeof author === 'string' && author ? author : undefined,
+          thumbnail: httpsUrl(record.thumbnailUrl ?? record.thumbnail_url),
         });
       })
       .catch(() => {
