@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { RICH_PRESENCE_PROFILE_FIELDS } from './richPresence';
+import { STATUS_PROFILE_FIELDS } from '../../app/utils/profileStatus';
 
 // Both are needed for `.tz()`: the timezone plugin is built on utc.
 dayjs.extend(utc);
@@ -25,6 +26,7 @@ export const M_TIMEZONE = 'm.tz';
 
 export const USER_PROFILE_FIELDS = [
   ...RICH_PRESENCE_PROFILE_FIELDS,
+  ...STATUS_PROFILE_FIELDS,
   MSC4247_PRONOUNS,
   M_PRONOUNS,
   MSC4427_BANNER,

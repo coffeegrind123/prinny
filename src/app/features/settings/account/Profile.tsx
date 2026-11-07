@@ -25,6 +25,9 @@ import {
   Spinner,
   TextArea,
   color,
+  PopOut,
+  RectCords,
+  Switch,
 } from 'folds';
 import { FocusTrap } from 'focus-trap-react';
 import { SequenceCard } from '../../../components/sequence-card';
@@ -59,7 +62,15 @@ import {
   ProfilePronoun,
 } from '../../../../types/matrix/profile';
 import { blobIsAnimated } from '../../../utils/animatedMedia';
-import { saveStatusMessage, useOwnStatus } from '../../../state/ownPresence';
+import {
+  ProfileStatusResult,
+  saveStatusMessage,
+  setShareStatus,
+  useOwnStatus,
+  useOwnStatusEmoji,
+  useShareStatus,
+} from '../../../state/ownPresence';
+import { EmojiBoard } from '../../../components/emoji-board';
 import { ProfilePreview } from './ProfilePreview';
 import * as previewCss from './ProfilePreview.css';
 import { Presence, useUserPresence } from '../../../hooks/useUserPresence';
@@ -766,18 +777,26 @@ function ProfileStatus({ userId }: { userId: string }) {
   const mx = useMatrixClient();
   const presence = useUserPresence(userId);
   const currentValue = useOwnStatus(userId);
+  const currentEmoji = useOwnStatusEmoji() ?? '';
+  const shareStatus = useShareStatus();
   const [value, setValue] = useState(currentValue);
+  const [emoji, setEmoji] = useState(currentEmoji);
+  const [emojiCords, setEmojiCords] = useState<RectCords>();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string>();
+  const [shareResult, setShareResult] = useState<ProfileStatusResult>();
 
   useEffect(() => setValue(currentValue), [currentValue]);
+  useEffect(() => setEmoji(currentEmoji), [currentEmoji]);
+
+  const currentPresence = presence?.presence ?? Presence.Online;
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     setSaving(true);
     setError(undefined);
     try {
-      await saveStatusMessage(mx, presence?.presence ?? Presence.Online, value.trim());
+      await saveStatusMessage(mx, currentPresence, value.trim(), emoji);
     } catch {
       setError('Could not save your status. Try again.');
     } finally {
@@ -785,48 +804,108 @@ function ProfileStatus({ userId }: { userId: string }) {
     }
   };
 
+  const handleShareChange = async (share: boolean) => {
+    setShareResult(undefined);
+    setShareResult(await setShareStatus(mx, share, currentPresence));
+  };
+
+  const unchanged = value === currentValue && emoji === currentEmoji;
+
   return (
-    <SettingTile
-      title={
-        <Text as="span" size="L400">
-          Status
-        </Text>
-      }
-      description="A short message shown with your presence."
-    >
-      <Box as="form" onSubmit={handleSubmit} direction="Column" gap="100" grow="Yes">
-        <Box gap="200" grow="Yes">
-          <Box grow="Yes" direction="Column">
-            <Input
-              aria-label="Status message"
-              value={value}
-              onChange={(event) => setValue(event.currentTarget.value)}
-              placeholder="What are you up to?"
-              maxLength={256}
-              size="400"
-              variant="Secondary"
-              radii="300"
-            />
-          </Box>
-          <Button
-            type="submit"
-            size="400"
-            variant="Success"
-            fill="Solid"
-            radii="300"
-            disabled={saving || value === currentValue}
-          >
-            {saving && <Spinner variant="Success" fill="Solid" size="300" />}
-            <Text size="B400">Save</Text>
-          </Button>
-        </Box>
-        {error && (
-          <Text role="alert" size="T200">
-            {error}
+    <>
+      <SettingTile
+        title={
+          <Text as="span" size="L400">
+            Status
           </Text>
-        )}
-      </Box>
-    </SettingTile>
+        }
+        description="A short message shown with your presence."
+      >
+        <Box as="form" onSubmit={handleSubmit} direction="Column" gap="100" grow="Yes">
+          <Box gap="200" grow="Yes">
+            <PopOut
+              anchor={emojiCords}
+              position="Bottom"
+              align="Start"
+              content={
+                <EmojiBoard
+                  imagePackRooms={[]}
+                  returnFocusOnDeactivate={false}
+                  allowTextCustomEmoji={false}
+                  addToRecentEmoji={false}
+                  onEmojiSelect={(unicode) => {
+                    setEmoji(unicode);
+                    setEmojiCords(undefined);
+                  }}
+                  requestClose={() => setEmojiCords(undefined)}
+                />
+              }
+            >
+              <IconButton
+                type="button"
+                size="400"
+                variant="Secondary"
+                radii="300"
+                aria-label={emoji ? `Status emoji ${emoji}, change` : 'Pick a status emoji'}
+                aria-pressed={!!emojiCords}
+                onClick={(evt) => setEmojiCords(evt.currentTarget.getBoundingClientRect())}
+              >
+                {emoji ? (
+                  <Text as="span" size="T400">
+                    {emoji}
+                  </Text>
+                ) : (
+                  <Icon size="200" src={Icons.Smile} />
+                )}
+              </IconButton>
+            </PopOut>
+            <Box grow="Yes" direction="Column">
+              <Input
+                aria-label="Status message"
+                value={value}
+                onChange={(event) => setValue(event.currentTarget.value)}
+                placeholder="What are you up to?"
+                maxLength={256}
+                size="400"
+                variant="Secondary"
+                radii="300"
+              />
+            </Box>
+            <Button
+              type="submit"
+              size="400"
+              variant="Success"
+              fill="Solid"
+              radii="300"
+              disabled={saving || unchanged}
+            >
+              {saving && <Spinner variant="Success" fill="Solid" size="300" />}
+              <Text size="B400">Save</Text>
+            </Button>
+          </Box>
+          {error && (
+            <Text role="alert" size="T200">
+              {error}
+            </Text>
+          )}
+        </Box>
+      </SettingTile>
+      <SettingTile
+        title="Share status on my profile"
+        description="Also publish your status and emoji on your profile (MSC4426), where other apps show it. Anyone who can look up your profile can read it, even people you share no room with; it is taken down while you are invisible."
+        after={<Switch variant="Primary" value={shareStatus} onChange={handleShareChange} />}
+      />
+      {shareResult === 'unsupported' && (
+        <Text size="T200" style={{ color: color.Critical.Main }}>
+          Your homeserver does not support profile fields, so your status cannot be shared there.
+        </Text>
+      )}
+      {shareResult === 'failed' && (
+        <Text size="T200" style={{ color: color.Critical.Main }}>
+          Could not update your profile. Try again.
+        </Text>
+      )}
+    </>
   );
 }
 

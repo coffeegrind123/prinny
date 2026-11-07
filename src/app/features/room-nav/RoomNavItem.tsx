@@ -85,6 +85,8 @@ import { useAutoDiscoveryInfo } from '../../hooks/useAutoDiscoveryInfo';
 import { livekitSupport } from '../../hooks/useLivekitSupport';
 import { useUserPresence } from '../../hooks/useUserPresence';
 import { useUserRichPresence } from '../../hooks/useUserRichPresence';
+import { useProfileStatus } from '../../state/profileStatus';
+import { formatProfileStatus } from '../../utils/profileStatus';
 import { AvatarPresence, PresenceBadge, PresenceStatus } from '../../components/presence';
 import { StateEvent } from '../../../types/matrix/room';
 import { webRTCSupported } from '../../utils/rtc';
@@ -486,7 +488,13 @@ export function RoomNavItem({
    * three-minute refresh timer exists for a room nav full of group rooms.
    */
   const dmUserRichPresence = useUserRichPresence(dmUserId ?? '');
-  const dmUserStatus = dmUserPresence?.status?.trim() || undefined;
+  // MSC4426 status from the profile cache (no request of its own), else the
+  // presence status_msg.
+  const dmProfileStatus = useProfileStatus(dmUserId);
+  const dmUserStatus =
+    (dmProfileStatus && formatProfileStatus(dmProfileStatus)) ||
+    dmUserPresence?.status?.trim() ||
+    undefined;
   // The line under the name only exists when it has something on it — an empty
   // one would make every DM row taller than a group room's for nothing.
   const dmStatusJSX = direct && (dmUserStatus || dmUserRichPresence) && (

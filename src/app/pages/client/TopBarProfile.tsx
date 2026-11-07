@@ -35,7 +35,7 @@ import { nameInitials } from '../../utils/common';
 import { copyToClipboard } from '../../utils/dom';
 import { stopPropagation } from '../../utils/keyboard';
 import { getMxIdLocalPart, mxcUrlToHttp } from '../../utils/matrix';
-import { saveChosenPresence, useChosenPresence, useOwnStatus } from '../../state/ownPresence';
+import { saveChosenPresence, useChosenPresence, useOwnStatusLine } from '../../state/ownPresence';
 import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
 import {
@@ -68,7 +68,7 @@ function AccountMenu({ requestClose, openSettings }: AccountMenuProps) {
   const presence = useUserPresence(userId);
   const richPresence = useUserRichPresence(userId);
   const chosen = useChosenPresence();
-  const status = useOwnStatus(userId);
+  const status = useOwnStatusLine(userId);
 
   const displayName = profile.displayName ?? getMxIdLocalPart(userId) ?? userId;
   const avatarUrl = profile.avatarUrl
@@ -181,7 +181,7 @@ export function TopBarProfile() {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const displayName = profile.displayName ?? getMxIdLocalPart(userId) ?? userId;
-  const status = useOwnStatus(userId);
+  const status = useOwnStatusLine(userId);
   const avatarUrl = profile.avatarUrl
     ? (mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 64, 64, 'crop') ?? undefined)
     : undefined;

@@ -30,6 +30,7 @@ import { splitWithSpace } from '../utils/common';
 import { createRoomEncryptionState } from '../components/create-room';
 import { leaveRoomExplicitly } from '../state/leftRooms';
 import { saveStatusMessage } from '../state/ownPresence';
+import { splitLeadingEmoji } from '../utils/profileStatus';
 import { Presence } from './useUserPresence';
 
 export const SHRUG = '¯\\_(ツ)_/¯';
@@ -572,9 +573,11 @@ export const useCommands = (mx: MatrixClient, room: Room): CommandRecord => {
       [Command.Status]: {
         name: Command.Status,
         description:
-          'Set your status message, shown to everyone wherever you appear. Run it with nothing after it to clear. Example: /status Out for lunch',
+          'Set your status message, shown to everyone wherever you appear. Start it with an emoji to set that too. Run it with nothing after it to clear. Example: /status 🍜 Out for lunch',
         exe: async (payload) => {
-          const status = payload.trim();
+          // "🍜 Out for lunch": the leading emoji becomes the status emoji
+          // (MSC4426). Without one, the previously chosen emoji is kept.
+          const { emoji, text: status } = splitLeadingEmoji(payload);
           // Your account-wide status, NOT the room topic — this is the same
           // field as Settings > Account > Status, and it follows you into every
           // room and every client.
@@ -593,6 +596,7 @@ export const useCommands = (mx: MatrixClient, room: Room): CommandRecord => {
               ? currentPresence
               : Presence.Online,
             status,
+            emoji,
           );
         },
       },

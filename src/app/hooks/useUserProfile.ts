@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ClientEvent, MatrixClient, UserEvent, UserEventHandlerMap } from 'matrix-js-sdk';
 import { useMatrixClient } from './useMatrixClient';
+import { recordFullProfile } from '../state/profileStatus';
 
 export type UserProfile = {
   avatarUrl?: string;
@@ -43,6 +44,7 @@ const hasRecentProfileFailure = (userId: string): boolean => {
 const requestProfile = async (mx: MatrixClient, userId: string): Promise<FetchedProfile> => {
   try {
     const info = await mx.getExtendedProfile(userId);
+    recordFullProfile(userId, info);
     return {
       avatarUrl: typeof info.avatar_url === 'string' ? info.avatar_url : undefined,
       displayName: typeof info.displayname === 'string' ? info.displayname : undefined,

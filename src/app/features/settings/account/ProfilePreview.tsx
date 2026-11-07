@@ -1,5 +1,6 @@
 import { Box, Button, Text, config } from 'folds';
 import { UserProfile } from '../../../hooks/useUserProfile';
+import { formatProfileStatus, getProfileStatus } from '../../../utils/profileStatus';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { getMxIdLocalPart, mxcUrlToHttp } from '../../../utils/matrix';
@@ -22,6 +23,8 @@ export function ProfilePreview({ profile, bannerMxc, userId, requestEdit }: Prof
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
   const displayName = profile.displayName ?? getMxIdLocalPart(userId) ?? userId;
+  const profileStatus = getProfileStatus(profile.extended);
+  const profileStatusLine = profileStatus ? formatProfileStatus(profileStatus) : undefined;
   const avatarUrl = profile.avatarUrl
     ? (mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 128, 128, 'crop') ?? undefined)
     : undefined;
@@ -55,7 +58,7 @@ export function ProfilePreview({ profile, bannerMxc, userId, requestEdit }: Prof
           bannerUrl={bannerUrl}
           profileLoaded={profile.loaded}
           presence={presence && presence.lastActiveTs !== 0 ? presence : undefined}
-          status={presence?.status}
+          status={profileStatusLine ?? presence?.status}
         />
         <Box direction="Column" gap="500" style={{ padding: config.space.S400 }}>
           <UserHeroName displayName={displayName} userId={userId} pronouns={pronouns} />
