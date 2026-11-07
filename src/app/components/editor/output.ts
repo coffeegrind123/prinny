@@ -83,8 +83,10 @@ const elementToCustomHtml = (node: CustomElement, children: string): string => {
       // be reconstructed from received HTML by the editor's parser (input.ts),
       // which makes the value remote input on the message-edit round trip.
       return node.key.startsWith('mxc://')
-        ? `<img data-mx-emoticon src="${sanitizeText(node.key)}" alt="${sanitizeText(
-            node.shortcode,
+        ? // Spec (image packs): alt = the image's body, else the shortcode;
+          // title = the shortcode.
+          `<img data-mx-emoticon src="${sanitizeText(node.key)}" alt="${sanitizeText(
+            node.alt || node.shortcode,
           )}" title="${sanitizeText(node.shortcode)}" height="32" />`
         : sanitizeText(node.key);
     case BlockType.Link:

@@ -17,7 +17,7 @@ import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { ImageUsage, PackImageReader } from '../../../plugins/custom-emoji';
 import { getEmoticonSearchStr } from '../../../plugins/utils';
 
-type EmoticonCompleteHandler = (key: string, shortcode: string) => void;
+type EmoticonCompleteHandler = (key: string, shortcode: string, alt?: string) => void;
 
 type EmoticonSearchItem = PackImageReader | IEmoji;
 
@@ -66,8 +66,8 @@ export function EmoticonAutocomplete({
     else resetSearch();
   }, [query.text, search, resetSearch]);
 
-  const handleAutocomplete: EmoticonCompleteHandler = (key, shortcode) => {
-    const emoticonEl = createEmoticonElement(key, shortcode);
+  const handleAutocomplete: EmoticonCompleteHandler = (key, shortcode, alt) => {
+    const emoticonEl = createEmoticonElement(key, shortcode, alt);
     replaceWithElement(editor, query.range, emoticonEl);
     moveCursor(editor, true);
     safeFocusEditor(editor);
@@ -80,7 +80,7 @@ export function EmoticonAutocomplete({
     if (autoCompleteEmoticon.length === 0) return;
     const emoticon = autoCompleteEmoticon[0];
     const key = 'url' in emoticon ? emoticon.url : emoticon.unicode;
-    handleAutocomplete(key, emoticon.shortcode);
+    handleAutocomplete(key, emoticon.shortcode, 'url' in emoticon ? emoticon.body : undefined);
   };
 
   // Capture phase — fires before the editor's keydown so we can stopPropagation
@@ -113,6 +113,7 @@ export function EmoticonAutocomplete({
       {autoCompleteEmoticon.map((emoticon, index) => {
         const isCustomEmoji = 'url' in emoticon;
         const key = isCustomEmoji ? emoticon.url : emoticon.unicode;
+        const alt = isCustomEmoji ? emoticon.body : undefined;
         const customEmojiUrl = mxcUrlToHttp(mx, key, useAuthentication);
 
         return (
@@ -123,9 +124,9 @@ export function EmoticonAutocomplete({
             data-autocomplete-index={index}
             aria-pressed={index === 0}
             onKeyDown={(evt: ReactKeyboardEvent<HTMLButtonElement>) =>
-              onTabPress(evt, () => handleAutocomplete(key, emoticon.shortcode))
+              onTabPress(evt, () => handleAutocomplete(key, emoticon.shortcode, alt))
             }
-            onClick={() => handleAutocomplete(key, emoticon.shortcode)}
+            onClick={() => handleAutocomplete(key, emoticon.shortcode, alt)}
             before={
               isCustomEmoji && customEmojiUrl ? (
                 <Box

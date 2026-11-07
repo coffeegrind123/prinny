@@ -116,6 +116,8 @@ emojisData.forEach((emoji) => {
 export type EmojiReplacement = {
   key: string;
   shortcode: string;
+  /** A custom emoji's description (pack image `body`). */
+  alt?: string;
 };
 
 /**

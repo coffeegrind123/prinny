@@ -577,7 +577,8 @@ type EmojiBoardProps = {
   requestClose: () => void;
   returnFocusOnDeactivate?: boolean;
   onEmojiSelect?: (unicode: string, shortcode: string) => void;
-  onCustomEmojiSelect?: (mxc: string, shortcode: string) => void;
+  /** `label` is the image's description (its `body`), or the shortcode. */
+  onCustomEmojiSelect?: (mxc: string, shortcode: string, label?: string) => void;
   onStickerSelect?: (mxc: string, shortcode: string, label: string) => void;
   onGifSelect?: (fav: FavoriteGif) => void;
   allowTextCustomEmoji?: boolean;
@@ -818,7 +819,7 @@ export function EmojiBoard({
       }
     }
     if (emojiInfo.type === EmojiType.CustomEmoji) {
-      onCustomEmojiSelect?.(emojiInfo.data, emojiInfo.shortcode);
+      onCustomEmojiSelect?.(emojiInfo.data, emojiInfo.shortcode, emojiInfo.label);
     }
     if (emojiInfo.type === EmojiType.Sticker) {
       onStickerSelect?.(emojiInfo.data, emojiInfo.shortcode, emojiInfo.label);

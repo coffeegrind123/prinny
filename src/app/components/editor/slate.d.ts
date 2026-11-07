@@ -39,6 +39,8 @@ export type EmoticonElement = {
   type: BlockType.Emoticon;
   key: string;
   shortcode: string;
+  /** The pack image's `body`: the emote's `alt` when sent (spec), else the shortcode. */
+  alt?: string;
   children: Text[];
 };
 export type CommandElement = {

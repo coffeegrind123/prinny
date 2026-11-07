@@ -174,10 +174,15 @@ export const createMentionElement = (
   children: [{ text: '' }],
 });
 
-export const createEmoticonElement = (key: string, shortcode: string): EmoticonElement => ({
+export const createEmoticonElement = (
+  key: string,
+  shortcode: string,
+  alt?: string,
+): EmoticonElement => ({
   type: BlockType.Emoticon,
   key,
   shortcode,
+  ...(alt && alt !== shortcode ? { alt } : {}),
   children: [{ text: '' }],
 });
 
@@ -657,6 +662,8 @@ export const getBeginCommand = (editor: Editor): string | undefined => {
 export type EmojiReplacement = {
   key: string;
   shortcode: string;
+  /** A custom emoji's description (pack image `body`). */
+  alt?: string;
 };
 
 const SHORTCODE_PATTERN = /:([a-zA-Z0-9_+-]+):$/;
@@ -710,7 +717,7 @@ export const replaceShortcodeWithEmoji = (
     focus: { path: cursor.path, offset },
   };
 
-  replaceWithElement(editor, range, createEmoticonElement(emoji.key, emoji.shortcode));
+  replaceWithElement(editor, range, createEmoticonElement(emoji.key, emoji.shortcode, emoji.alt));
   moveCursor(editor, true);
 
   return true;

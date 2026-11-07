@@ -96,9 +96,11 @@ const getInlineMarkElement = (
 
 const getInlineNonMarkElement = (node: Element): MentionElement | EmoticonElement | undefined => {
   if (node.name === 'img' && node.attribs['data-mx-emoticon'] !== undefined) {
-    const { src, alt } = node.attribs;
+    const { src, alt, title } = node.attribs;
     if (!src) return undefined;
-    return createEmoticonElement(src, alt || 'Unknown Emoji');
+    // The spec puts the shortcode in `title` and a description in `alt`;
+    // older messages (ours included) have the shortcode in both.
+    return createEmoticonElement(src, title || alt || 'Unknown Emoji', alt);
   }
   if (node.name === 'a') {
     const href = tryDecodeURIComponent(node.attribs.href);

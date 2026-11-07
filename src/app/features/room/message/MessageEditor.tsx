@@ -226,8 +226,8 @@ export const MessageEditor = as<'div', MessageEditorProps>(
       setAutocompleteQuery(undefined);
     }, [editor]);
 
-    const handleEmoticonSelect = (key: string, shortcode: string) => {
-      editor.insertNode(createEmoticonElement(key, shortcode));
+    const handleEmoticonSelect = (key: string, shortcode: string, label?: string) => {
+      editor.insertNode(createEmoticonElement(key, shortcode, label));
       moveCursor(editor);
     };
 

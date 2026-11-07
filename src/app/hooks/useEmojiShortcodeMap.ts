@@ -16,7 +16,11 @@ export const useEmojiShortcodeMap = (imagePackRooms: Room[]): Map<string, EmojiR
     const map = new Map(emojiShortcodeMap);
     imagePacks.forEach((pack) => {
       pack.getImages(ImageUsage.Emoticon).forEach((img) => {
-        map.set(img.shortcode.toLowerCase(), { key: img.url, shortcode: img.shortcode });
+        map.set(img.shortcode.toLowerCase(), {
+          key: img.url,
+          shortcode: img.shortcode,
+          alt: img.body,
+        });
       });
     });
     return map;
