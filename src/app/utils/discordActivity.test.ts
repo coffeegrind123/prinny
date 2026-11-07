@@ -37,6 +37,7 @@ describe('MSC4544 reading', () => {
       player: 'YouTube Music',
       coverArt: 'mxc://example.com/c',
       progress: { length: 268, timeComplete: NOW + 168_000 },
+      buttons: [{ label: 'x', url: 'https://example.com', requestOpenId: false }],
     });
   });
 

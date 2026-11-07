@@ -1,6 +1,11 @@
 import { MouseEventHandler, useEffect, useState } from 'react';
-import { Box, config, Icon, IconButton, Icons, ProgressBar, Text } from 'folds';
-import { RichPresence, RichPresenceProgress } from '../../../types/matrix/richPresence';
+import { Box, Button, color, config, Icon, IconButton, Icons, ProgressBar, Text } from 'folds';
+import {
+  RichPresence,
+  RichPresenceButton,
+  RichPresenceProgress,
+  resolveButtonUrl,
+} from '../../../types/matrix/richPresence';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { mxcUrlToHttp } from '../../utils/matrix';
@@ -78,6 +83,96 @@ const getExternalUrl = (value: string | undefined): string | undefined => {
   }
 };
 
+const PRESENCE_LINK_INTRO = "This link comes from someone's activity status. It goes to:";
+
+const OPENID_CONSEQUENCES =
+  'The site will learn your Matrix ID and server, can link this visit to your account, and sees your IP address and browser details when you open it.';
+
+const OPENID_WARNING = (
+  <Text size="T200" style={{ color: color.Critical.Main }}>
+    Continuing asks your homeserver for a token that proves you are this Matrix account, and puts it
+    in the link. {OPENID_CONSEQUENCES}
+  </Text>
+);
+
+const OPENID_TOKEN_WARNING = (
+  <Text size="T200" style={{ color: color.Critical.Main }}>
+    This link now contains a token that proves you are this Matrix account. {OPENID_CONSEQUENCES}
+  </Text>
+);
+
+type PresenceButtonDialogProps = {
+  button: RichPresenceButton;
+  onDone: () => void;
+};
+
+/**
+ * MSC4544's prompt for a button: the full URL on every click, never
+ * remembered. An OpenID button takes two steps. The first discloses the token
+ * request and nothing is requested until the user agrees; the second shows
+ * the URL with the token filled in, and opening it is a fresh click (which is
+ * also what keeps a browser from blocking the new window after the wait).
+ */
+function PresenceButtonDialog({ button, onDone }: PresenceButtonDialogProps) {
+  const mx = useMatrixClient();
+  const [resolved, setResolved] = useState<string | undefined>(
+    button.requestOpenId ? undefined : button.url,
+  );
+  const [requesting, setRequesting] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  const open = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+    onDone();
+  };
+
+  if (resolved !== undefined) {
+    return (
+      <UrlConfirmDialog
+        url={resolved}
+        intro={PRESENCE_LINK_INTRO}
+        warning={button.requestOpenId ? OPENID_TOKEN_WARNING : undefined}
+        onConfirm={() => open(resolved)}
+        onCancel={onDone}
+      />
+    );
+  }
+
+  const requestToken = async () => {
+    setRequesting(true);
+    setFailed(false);
+    try {
+      const token = await mx.getOpenIdToken();
+      setResolved(resolveButtonUrl(button.url, token));
+    } catch {
+      setFailed(true);
+    } finally {
+      setRequesting(false);
+    }
+  };
+
+  return (
+    <UrlConfirmDialog
+      url={button.url}
+      intro={PRESENCE_LINK_INTRO}
+      warning={
+        <>
+          {OPENID_WARNING}
+          {failed && (
+            <Text size="T200" style={{ color: color.Critical.Main }}>
+              Your homeserver did not issue a token.
+            </Text>
+          )}
+        </>
+      }
+      confirmLabel="Request token"
+      busy={requesting}
+      onConfirm={requestToken}
+      onCancel={onDone}
+    />
+  );
+}
+
 type UserRichPresenceProps = {
   presence: RichPresence;
 };
@@ -105,6 +200,7 @@ export function UserRichPresence({ presence }: UserRichPresenceProps) {
   // The dialog shows the host, which is the only part of a link its author
   // cannot misrepresent.
   const [confirmingUrl, setConfirmingUrl] = useState<string | null>(null);
+  const [confirmingButton, setConfirmingButton] = useState<RichPresenceButton | null>(null);
 
   const handleExternalLink: MouseEventHandler<HTMLAnchorElement> = (event) => {
     if (!externalUrl) return;
@@ -193,9 +289,33 @@ export function UserRichPresence({ presence }: UserRichPresenceProps) {
           )}
         </Box>
       </Box>
+      {presence.buttons && (
+        <Box gap="200" wrap="Wrap">
+          {presence.buttons.map((button) => (
+            <Button
+              key={`${button.label}\n${button.url}`}
+              size="300"
+              variant="Secondary"
+              fill="Soft"
+              radii="300"
+              title={button.url}
+              onClick={() => setConfirmingButton(button)}
+              after={<Icon src={Icons.External} size="50" />}
+            >
+              <Text size="B300" truncate>
+                {button.label}
+              </Text>
+            </Button>
+          ))}
+        </Box>
+      )}
+      {confirmingButton && (
+        <PresenceButtonDialog button={confirmingButton} onDone={() => setConfirmingButton(null)} />
+      )}
       {confirmingUrl && (
         <UrlConfirmDialog
           url={confirmingUrl}
+          intro={PRESENCE_LINK_INTRO}
           onConfirm={() => {
             window.open(confirmingUrl, '_blank', 'noopener,noreferrer');
             setConfirmingUrl(null);

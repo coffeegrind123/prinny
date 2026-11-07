@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import {
   Box,
   Button,
@@ -10,6 +10,7 @@ import {
   Overlay,
   OverlayBackdrop,
   OverlayCenter,
+  Spinner,
   Text,
   config,
 } from 'folds';
@@ -26,6 +27,13 @@ type UrlConfirmDialogProps = {
   url: string;
   onConfirm: () => void;
   onCancel: () => void;
+  /** Who the link comes from; the default suits bot buttons. */
+  intro?: string;
+  /** Shown above the buttons, e.g. what else confirming will do. */
+  warning?: ReactNode;
+  confirmLabel?: string;
+  /** Confirming is in progress: the confirm button shows a spinner. */
+  busy?: boolean;
 };
 
 /**
@@ -38,7 +46,15 @@ type UrlConfirmDialogProps = {
  * Shared by every place a bot-supplied URL can be opened, so there is one
  * behaviour to reason about rather than one per call site.
  */
-export function UrlConfirmDialog({ url, onConfirm, onCancel }: UrlConfirmDialogProps) {
+export function UrlConfirmDialog({
+  url,
+  onConfirm,
+  onCancel,
+  intro = 'This link was sent by a bot. It goes to:',
+  warning,
+  confirmLabel = 'Open',
+  busy = false,
+}: UrlConfirmDialogProps) {
   return (
     <Overlay open backdrop={<OverlayBackdrop />}>
       <OverlayCenter>
@@ -61,18 +77,25 @@ export function UrlConfirmDialog({ url, onConfirm, onCancel }: UrlConfirmDialogP
             </Header>
             <Box style={{ padding: config.space.S400 }} direction="Column" gap="300">
               <Text size="T200" priority="300">
-                This link was sent by a bot. It goes to:
+                {intro}
               </Text>
               <Text size="H5">{describeUrlTarget(url)}</Text>
               <Text size="T200" priority="300" style={{ wordBreak: 'break-all' }}>
                 {url}
               </Text>
+              {warning}
               <Box gap="200" justifyContent="End">
                 <Button variant="Secondary" fill="Soft" radii="300" onClick={onCancel}>
                   <Text size="B400">Cancel</Text>
                 </Button>
-                <Button variant="Primary" radii="300" onClick={onConfirm}>
-                  <Text size="B400">Open</Text>
+                <Button
+                  variant="Primary"
+                  radii="300"
+                  onClick={onConfirm}
+                  disabled={busy}
+                  before={busy ? <Spinner size="100" variant="Primary" fill="Solid" /> : undefined}
+                >
+                  <Text size="B400">{confirmLabel}</Text>
                 </Button>
               </Box>
             </Box>

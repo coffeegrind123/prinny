@@ -62,10 +62,65 @@ export type ActivityRichPresence = {
   details?: string;
 };
 
+/** MSC4544: placeholder in a button URL, replaced with the URL-encoded OpenID response. */
+export const MSC4544_OPENID_PLACEHOLDER = '{openid_data}';
+/** MSC4544: an entry carries at most this many buttons. */
+export const MSC4544_MAX_BUTTONS = 3;
+const BUTTON_LABEL_MAX_LENGTH = 64;
+
+/** An MSC4544 button: a link the viewer may follow, always after confirming. */
+export type RichPresenceButton = {
+  label: string;
+  /** http(s) only. May contain `{openid_data}` when `requestOpenId` is set. */
+  url: string;
+  /** The viewer's homeserver issues an OpenID token that goes into the URL. */
+  requestOpenId: boolean;
+};
+
 export type RichPresence = (MediaRichPresence | ActivityRichPresence) & {
   /** Publisher-clock ms after which the activity is stale; absent when it never expires. */
   expiresAt?: number;
+  /** MSC4544 only. */
+  buttons?: RichPresenceButton[];
 };
+
+const isHttpUrl = (value: string): boolean => {
+  try {
+    const { protocol } = new URL(value);
+    return protocol === 'https:' || protocol === 'http:';
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * MSC4544 `buttons`: at most three, each with a label and an http(s) URL.
+ * Anything else (other schemes, missing fields) is dropped, not repaired. The
+ * placeholder is only meaningful with `request_openid`; without it, it stays
+ * in the URL as literal text, as the MSC defines no other substitution.
+ */
+export const parseMsc4544Buttons = (value: unknown): RichPresenceButton[] | undefined => {
+  if (!Array.isArray(value)) return undefined;
+  const buttons: RichPresenceButton[] = [];
+  value.slice(0, MSC4544_MAX_BUTTONS).forEach((raw) => {
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return;
+    const { label, url } = raw as Record<string, unknown>;
+    if (typeof label !== 'string' || label.trim() === '') return;
+    if (typeof url !== 'string') return;
+    const requestOpenId = (raw as Record<string, unknown>).request_openid === true;
+    // The scheme is checked with the placeholder filled, since a URL that is
+    // only valid after substitution would still end up opened.
+    if (!isHttpUrl(url.split(MSC4544_OPENID_PLACEHOLDER).join('x'))) return;
+    buttons.push({ label: label.trim().slice(0, BUTTON_LABEL_MAX_LENGTH), url, requestOpenId });
+  });
+  return buttons.length > 0 ? buttons : undefined;
+};
+
+/** A button URL with the OpenID response put in, as MSC4544 specifies. */
+export const resolveButtonUrl = (url: string, openIdResponse?: object): string =>
+  openIdResponse
+    ? url.split(MSC4544_OPENID_PLACEHOLDER).join(encodeURIComponent(JSON.stringify(openIdResponse)))
+    : url;
 
 export const isRichPresenceExpired = (expiresAt: number | undefined, now = Date.now()): boolean =>
   expiresAt !== undefined && now > expiresAt + RICH_PRESENCE_EXPIRY_GRACE;
@@ -144,6 +199,7 @@ const parseMsc4544Entry = (value: unknown, now: number): RichPresence | undefine
   if (!isRecord(value) || typeof value.id !== 'string') return undefined;
   const expiresAt = optionalNumber(value.expiry);
   if (expiresAt === undefined || isRichPresenceExpired(expiresAt, now)) return undefined;
+  const buttons = parseMsc4544Buttons(value.buttons);
 
   if (value.type === MSC4544_RPC_MUSIC || value.type === M_RPC_MUSIC) {
     const track = optionalString(value.track);
@@ -166,6 +222,7 @@ const parseMsc4544Entry = (value: unknown, now: number): RichPresence | undefine
       player: optionalString(value.player_name),
       coverArt: optionalString(value.cover_url),
       progress,
+      ...(buttons ? { buttons } : {}),
     };
   }
 
@@ -181,6 +238,7 @@ const parseMsc4544Entry = (value: unknown, now: number): RichPresence | undefine
       name,
       image: optionalString(value.large_icon_url),
       details: details || undefined,
+      ...(buttons ? { buttons } : {}),
     };
   }
 
