@@ -540,7 +540,11 @@ export function RoomNavItem({
     );
 
     // Do not join if missing permissions or no livekit support or no webRTC support
-    if (!hasCallPermission || !livekitSupport(autoDiscoveryInfo) || !webRTCSupported()) {
+    if (
+      !hasCallPermission ||
+      !livekitSupport(autoDiscoveryInfo, mx.cachedRtcTransports.get()) ||
+      !webRTCSupported()
+    ) {
       return;
     }
 

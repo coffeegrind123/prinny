@@ -55,8 +55,8 @@ export class CallWidgetDriver extends BaseWidgetDriver {
    *
    * Order follows Element Web: the homeserver's MSC4143 `/rtc/transports`
    * endpoint first, then the `org.matrix.msc4143.rtc_foci` list in the
-   * client `.well-known` — the same source useLivekitSupport gates the call
-   * buttons on, so a server that shows the buttons can also connect.
+   * client `.well-known` — the same two sources useLivekitSupport gates the
+   * call buttons on, so a server that shows the buttons can also connect.
    */
   public async getRtcTransports(): Promise<IRtcTransportsResult> {
     let endpointError: unknown;
