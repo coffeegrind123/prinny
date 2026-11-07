@@ -4,6 +4,8 @@ User-facing changes per commit. Most recent at the top.
 
 ## 07.11.2026
 
+- `8fc3072` Added **buttons on rich presence from Extera and Zam** (MSC4544) — up to three links like "Watch stream" now show on someone's activity in their profile card. Every click asks first and shows the full address. A button that wants to prove who you are to the site (an OpenID token) says so and what the site learns before asking your homeserver for anything, then shows the finished link before opening it
+- `56d1a7d` Fixed **going invisible sometimes leaving your shared status public** — when the server refused the presence change (for example after two quick picks), the rest was skipped: the choice was not remembered and the status stayed on your profile. Every step now runs
 - `cac8372` Added **bot commands from gomuks, mautrix bots and other apps** (MSC4391) — commands a bot describes in that format now appear in the `/` menu with their parameters (`/deploy <env> [build]`), subcommands included, and only while the bot is still in the room. Sending one keeps the `/command` text and also sends the typed arguments, so bots that read them get exactly what you meant. Such bots, and accounts that flag themselves as bots the MSC4015 way, now get the BOT badge
 - `9d16f0c` Added **`matrix:` bot links** — a `matrix:u/…?action=chat` link carrying a bot start payload now asks to open a chat with the bot and send `/start`, like Prinny's own bot links. Also fixed a click on a bot link being handled twice (opening the user's profile as well)
 - `5646975` Updated **calls to Element Call 0.28.1** — keeps rejoining a call after the call server or homeserver drops you briefly, and still leaves a call 30 seconds after everyone else has gone
