@@ -11,13 +11,17 @@ the flag on membership status changes too.
 
 Ported to v0.24.0 from largelanguagemeowing/cinny d744488d; applied
 unchanged.
+
+Rebased onto v0.28.1: HomeserverConnected moved into the SDK
+(sdk/src/matrixrtc) and its combined$ pair became disconnectReason$,
+so the new test asserts the reason ("probablyLeft", then null).
 ---
  sdk/src/matrixrtc/HomeserverConnected.test.ts | 15 +++++++++++++++
  sdk/src/matrixrtc/HomeserverConnected.ts      | 12 +++++++++---
  2 files changed, 24 insertions(+), 3 deletions(-)
 
 diff --git a/sdk/src/matrixrtc/HomeserverConnected.test.ts b/sdk/src/matrixrtc/HomeserverConnected.test.ts
-index c58b8e6d..3914bb0e 100644
+index c58b8e6d..182028a8 100644
 --- a/sdk/src/matrixrtc/HomeserverConnected.test.ts
 +++ b/sdk/src/matrixrtc/HomeserverConnected.test.ts
 @@ -175,6 +175,21 @@ describe("createHomeserverConnected$", () => {
@@ -29,14 +33,14 @@ index c58b8e6d..3914bb0e 100644
 +    client.setSyncState(SyncState.Syncing);
 +    session.setMembershipStatus(Status.Connected);
 +    session.setProbablyLeft(true);
-+    expect(hsConnected.combined$.value).toEqual([false, "probablyLeft"]);
++    expect(hsConnected.disconnectReason$.value).toEqual("probablyLeft");
 +
 +    // A fresh MembershipManager starts with probablyLeft=false and only emits
 +    // ProbablyLeft on a change, so all we get is the status moving on.
 +    session.probablyLeft = false;
 +    session.setMembershipStatus(Status.Connecting);
 +    session.setMembershipStatus(Status.Connected);
-+    expect(hsConnected.combined$.value).toEqual([true, null]);
++    expect(hsConnected.disconnectReason$.value).toEqual(null);
 +  });
 +
    it("composite sequence reflects each individual failure reason", () => {
