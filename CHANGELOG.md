@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 07.11.2026
+
+- `71e252f` Fixed **"Show media previews" and "Show avatars in invites" doing nothing** — the privacy settings were saved but never applied, so Prinny loaded every picture, video and link preview whatever you chose. Now *Never* puts images, stickers, videos, pictures inside messages and link-preview media behind a click (custom emoji show as their `:shortcode:`), *Private rooms only* does that in public rooms, and turning off invite avatars hides the picture of every room you're invited to. Added a **Media Previews** choice to each room's menu (Default / Always / If room is private / Never) to override it per room. Follows the merged Matrix spec (MSC4278), so the choice is shared with Element and other apps; a click to view is remembered until restart
+
 ## 03.11.2026
 
 - `79c3f04` Fixed **the space "Auto Join Rooms" toggle doing nothing**, and made auto-join a choice — Settings › General › Spaces now offers Off / Spaces that ask / All spaces, and each space's menu adds Default / Always / Never for that space. Before, turning the setting on joined every space whatever its admins chose. The choice now follows your account to every device; a device that never saw it keeps your old on/off switch until you pick
