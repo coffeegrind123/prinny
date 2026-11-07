@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { CSSProperties, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import { IPreviewUrlResponse } from 'matrix-js-sdk';
 import {
@@ -34,6 +34,7 @@ import { useSetting } from '../../state/hooks/settings';
 import { useUrlPreviewDismissed } from '../../state/hooks/dismissedUrlPreviews';
 import { settingsAtom } from '../../state/settings';
 import { isYoutubeUrl, getYoutubeVideoId } from '../../utils/youtube';
+import { getTwitchTarget, twitchEmbedUrl } from '../../utils/twitch';
 import { pipedEmbedUrl, usePipedInstance } from '../../utils/piped';
 import { useYoutubeMeta } from '../../hooks/useYoutubeMeta';
 import { fetchOgPreview } from '../../utils/tauri-og-preview';
@@ -152,6 +153,21 @@ const SOUNDCLOAK_RESTREAM_PATH = '/_/api/restream/';
 // already constrains, plus an origin that is guaranteed to be one of the pinned
 // entries.
 const YOUTUBE_EMBED_BASE = 'https://www.youtube.com/embed/';
+
+// The 16:9 box a site player (YouTube, Twitch) sits in. The card shrinks to
+// its content, so without an explicit width a player with no text around it
+// (no preview from the homeserver, which is common for Twitch and YouTube)
+// came out a few hundred pixels wide; this fills the card's 432px cap and
+// still fits a narrow screen.
+const SITE_PLAYER_FRAME_STYLE: CSSProperties = {
+  position: 'relative',
+  width: toRem(432),
+  maxWidth: '100%',
+  paddingBottom: '56.25%',
+  height: 0,
+  overflow: 'hidden',
+  backgroundColor: color.SurfaceVariant.Container,
+};
 
 function rewriteEmbedUrl(url: string, useSoundcloak: boolean): string {
   if (useSoundcloak) {
@@ -676,6 +692,11 @@ export const UrlPreviewCard = as<
 
   const isYt = isYoutubeUrl(url);
   const ytVideoId = isYt ? getYoutubeVideoId(url) : null;
+  // A Twitch stream, VOD or clip plays in Twitch's own player, which needs the
+  // hostname of this page as `parent` (see utils/twitch.ts).
+  const twitchTarget = window.location.hostname ? getTwitchTarget(url) : null;
+  // A site player takes the place of the preview's image and og:video.
+  const hasSitePlayer = isYt || !!twitchTarget;
 
   // Single source of truth for "this renders as a bare audio player". The
   // soundcloak arm is only consulted when the integration is switched on.
@@ -1916,6 +1937,9 @@ export const UrlPreviewCard = as<
   // refused to serve — the common case, not the rare one — rendered no card at
   // all rather than a working embed.
   const isEmbeddableYoutube = isYt && !!ytVideoId;
+  // Twitch's player needs nothing from the preview either; a channel's preview
+  // is only its avatar.
+  const isEmbeddable = isEmbeddableYoutube || !!twitchTarget;
 
   /**
    * Which dedicated renderer owns this link, if any — regardless of whether
@@ -1979,7 +2003,7 @@ export const UrlPreviewCard = as<
     previewStatus.status !== AsyncStatus.Loading &&
     !fallbackPending &&
     !isDirectMediaLink &&
-    !isEmbeddableYoutube
+    !isEmbeddable
   ) {
     return null;
   }
@@ -2145,15 +2169,7 @@ export const UrlPreviewCard = as<
 
         {/* YouTube iframe embed */}
         {isYt && ytVideoId && (
-          <Box
-            style={{
-              position: 'relative',
-              paddingBottom: '56.25%',
-              height: 0,
-              overflow: 'hidden',
-              backgroundColor: color.SurfaceVariant.Container,
-            }}
-          >
+          <Box style={SITE_PLAYER_FRAME_STYLE}>
             <iframe
               style={{
                 position: 'absolute',
@@ -2184,9 +2200,31 @@ export const UrlPreviewCard = as<
           </Box>
         )}
 
+        {/* Twitch player: the src is built from a parsed login, VOD id or
+            clip slug only, never from the message text. Same sandbox and
+            permissions as the YouTube frame, for the same reasons. */}
+        {twitchTarget && (
+          <Box style={SITE_PLAYER_FRAME_STYLE}>
+            <iframe
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                border: 'none',
+              }}
+              src={twitchEmbedUrl(twitchTarget, window.location.hostname)}
+              title={title || 'Twitch'}
+              sandbox="allow-scripts allow-same-origin allow-presentation"
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            />
+          </Box>
+        )}
+
         {/* og:video embed (Bandcamp etc.) — see the validation above; both
             branches consume an already-vetted URL. */}
-        {!isYt && bandcampEmbedUrl && (
+        {!hasSitePlayer && bandcampEmbedUrl && (
           <iframe
             style={{ border: 0, width: '100%', height: '120px' }}
             src={bandcampEmbedUrl}
@@ -2200,7 +2238,7 @@ export const UrlPreviewCard = as<
             itself, loops and carries no chrome. ProxiedVideo also falls back to
             controls if the shell refuses to autoplay, which is the difference
             between a GIF that is paused and a GIF that cannot be started. */}
-        {!isYt && inlineOgVideoUrl && ogVideoIsGif && (
+        {!hasSitePlayer && inlineOgVideoUrl && ogVideoIsGif && (
           <ProxiedVideo
             src={inlineOgVideoUrl}
             poster={imgUrl || undefined}
@@ -2210,7 +2248,7 @@ export const UrlPreviewCard = as<
             className={urlPreviewCss.UrlPreviewVideo}
           />
         )}
-        {!isYt && inlineOgVideoUrl && !ogVideoIsGif && (
+        {!hasSitePlayer && inlineOgVideoUrl && !ogVideoIsGif && (
           <video
             className={urlPreviewCss.UrlPreviewVideo}
             src={inlineOgVideoUrl}
@@ -2234,7 +2272,7 @@ export const UrlPreviewCard = as<
             playable video — including Tenor, whose og:image is now the GIF
             itself. Without a real video URL this falls through to the image
             branch, which shows the poster and the link. */}
-        {!isYt && !hasOgVideo && isVideo && directVideoUrl && (
+        {!hasSitePlayer && !hasOgVideo && isVideo && directVideoUrl && (
           <video
             className={urlPreviewCss.UrlPreviewVideo}
             src={directVideoUrl}
@@ -2253,7 +2291,7 @@ export const UrlPreviewCard = as<
             </a>
           </video>
         )}
-        {!isYt && !hasOgVideo && isVideo && directVideoFailed && isWebUrl(url) && (
+        {!hasSitePlayer && !hasOgVideo && isVideo && directVideoFailed && isWebUrl(url) && (
           <Text size="T200" priority="300">
             This video can&apos;t be played here.{' '}
             <a href={url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
@@ -2292,7 +2330,7 @@ export const UrlPreviewCard = as<
             The tiny-favicon suppression is deliberately not applied to a direct
             image link: the dimensions there describe the linked image itself,
             and a genuinely 64×64 GIF is still the thing the user linked. */}
-        {!isYt &&
+        {!hasSitePlayer &&
           !hasOgVideo &&
           !(isVideo && directVideoUrl) &&
           !directAudioUrl &&
@@ -2432,7 +2470,7 @@ export const UrlPreviewCard = as<
 
   return (
     <UrlPreview {...props} ref={ref}>
-      {shownPreview || isDirectMediaLink || isEmbeddableYoutube ? (
+      {shownPreview || isDirectMediaLink || isEmbeddable ? (
         // A direct media link renders from the URL alone, so an absent preview
         // is fine — without this it sat on the spinner forever waiting for
         // metadata a raw .mp4 will never provide.
