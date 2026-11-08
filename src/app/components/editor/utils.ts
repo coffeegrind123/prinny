@@ -158,6 +158,37 @@ export const resetEditorHistory = (editor: Editor) => {
   };
 };
 
+const isSameDraft = (a: Node[], b: Node[]): boolean => JSON.stringify(a) === JSON.stringify(b);
+
+/**
+ * Make the composer show exactly `draft`.
+ *
+ * This replaces the editor's content rather than inserting at the caret. The
+ * draft atom is the composer's whole text, never a snippet to splice in. It
+ * also changes while a composer is mounted: crossing the mobile/desktop
+ * breakpoint rebuilds the router, and the new composer renders with the
+ * previous save before the old one's unmount writes the current text.
+ * Inserting each value stacked the stale draft and the current one on top of
+ * what was already there, so the text multiplied on every crossing (or phone
+ * rotation).
+ *
+ * A draft equal to what is on screen is a no-op, so the caret and undo history
+ * survive the common case untouched. A real replacement clears the history:
+ * undo must not resurrect text the user never typed in this composer.
+ */
+export const applyDraft = (editor: Editor, draft: Node[]) => {
+  if (draft.length === 0 ? isEmptyEditor(editor) : isSameDraft(editor.children, draft)) {
+    return;
+  }
+
+  Editor.withoutNormalizing(editor, () => {
+    resetEditor(editor);
+    Transforms.insertFragment(editor, draft);
+  });
+  resetEditorHistory(editor);
+};
+
+
 export const createMentionElement = (
   id: string,
   name: string,

@@ -11,7 +11,7 @@ import React, {
 import { useAtom, useAtomValue } from 'jotai';
 import { isKeyHotkey } from '../../utils/is-hotkey';
 import { EventType, IContent, MsgType, RelationType, Room } from 'matrix-js-sdk';
-import { Transforms, Editor } from 'slate';
+import { Editor } from 'slate';
 import {
   Box,
   color,
@@ -42,6 +42,7 @@ import {
   getAutocompleteQuery,
   getPrevWordRange,
   resetEditor,
+  applyDraft,
   RoomMentionAutocomplete,
   UserMentionAutocomplete,
   EmoticonAutocomplete,
@@ -438,7 +439,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
     );
 
     useEffect(() => {
-      Transforms.insertFragment(editor, msgDraft);
+      applyDraft(editor, msgDraft);
     }, [editor, msgDraft]);
 
     useEffect(
