@@ -19,7 +19,28 @@ export const EditorOptions = style([
   },
 ]);
 
-export const EditorTextareaScroll = style({});
+/*
+ * The composer row is [before buttons][text][after buttons], and the button
+ * groups never shrink. With a plain `width: 100%` the text area absorbed the
+ * whole squeeze: on a 360px phone (rem is 115% there) five after-buttons left
+ * it ~20px, so a link wrapped two characters per line.
+ *
+ * Now the text area has a floor and the row wraps: when the buttons cannot fit
+ * beside a usable text area, the after group drops to its own line (pushed
+ * right by `EditorOptionsAfter`). Wide screens keep the single row.
+ */
+export const EditorRow = style({
+  flexWrap: 'wrap',
+});
+
+export const EditorTextareaScroll = style({
+  flex: '1 1 0',
+  minWidth: toRem(160),
+});
+
+export const EditorOptionsAfter = style({
+  marginLeft: 'auto',
+});
 
 export const EditorTextarea = style([
   DefaultReset,
