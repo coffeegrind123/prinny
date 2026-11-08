@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 08.11.2026
+
+- `31689ce` Fixed **the message box squeezed to a sliver on phones** — with the attach, mic, formatting, emoji and send buttons all on one row, a narrow phone left the text only a couple of characters wide, so a link broke every two letters. The buttons now move to their own line under the text when they do not fit beside it
+
 ## 07.11.2026
 
 - `5e37163` Improved **privacy of YouTube and Twitch previews** — the player now loads only when you press play, so scrolling past a link no longer loads the site's player, ads and trackers. The preview shows the video's picture with a play button instead
