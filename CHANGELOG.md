@@ -4,6 +4,7 @@ User-facing changes per commit. Most recent at the top.
 
 ## 08.11.2026
 
+- `0a15a4f` Fixed **typed text repeating itself when the screen changes size** — rotating a phone to landscape, or resizing the window across the phone/desktop width, copied whatever was in the message box again each time. The box now keeps exactly what you typed
 - `31689ce` Fixed **the message box squeezed to a sliver on phones** — with the attach, mic, formatting, emoji and send buttons all on one row, a narrow phone left the text only a couple of characters wide, so a link broke every two letters. The buttons now move to their own line under the text when they do not fit beside it
 
 ## 07.11.2026
