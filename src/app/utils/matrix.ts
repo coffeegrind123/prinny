@@ -150,12 +150,50 @@ const normalizeEncInfo = (encInfo: EncryptedAttachmentInfo): EncryptedAttachment
     ),
 });
 
+/** The attachment's file info or key is malformed, so it cannot be decrypted. Retrying won't help. */
+export class AttachmentUnreadableError extends Error {
+  constructor() {
+    super('Attachment could not be decrypted');
+    this.name = 'AttachmentUnreadableError';
+  }
+}
+
+/**
+ * The ciphertext does not match the SHA-256 hash in the event: the file was altered after it was
+ * encrypted, or the event was. Its content must not be shown.
+ */
+export class AttachmentTamperedError extends Error {
+  constructor() {
+    super('Attachment failed its integrity check');
+    this.name = 'AttachmentTamperedError';
+  }
+}
+
+/** A failure that a retry cannot fix, so the UI offers none. */
+export const isFinalAttachmentError = (error: unknown): boolean =>
+  error instanceof AttachmentTamperedError || error instanceof AttachmentUnreadableError;
+
+// browser-encrypt-attachment's message for a hash mismatch, pinned by decryptFile.test.ts.
+const HASH_MISMATCH_MESSAGE = 'Mismatched SHA-256 digest';
+
 export const decryptFile = async (
   dataBuffer: ArrayBuffer,
   type: string,
   encInfo: EncryptedAttachmentInfo,
 ): Promise<Blob> => {
-  const dataArray = await decryptAttachment(dataBuffer, normalizeEncInfo(encInfo));
+  let dataArray: ArrayBuffer;
+  try {
+    // normalizeEncInfo runs inside the try: a missing info object fails there.
+    dataArray = await decryptAttachment(dataBuffer, normalizeEncInfo(encInfo));
+  } catch (e) {
+    if (e instanceof Error && e.message === HASH_MISMATCH_MESSAGE) {
+      throw new AttachmentTamperedError();
+    }
+    // Missing info, a malformed key or IV, or any other decrypt failure. The library's text is
+    // not for the UI, so it goes to the console and the user sees the generic message.
+    console.warn('Attachment decryption failed:', e instanceof Error ? e.message : e);
+    throw new AttachmentUnreadableError();
+  }
   const blob = new Blob([dataArray], { type });
   return blob;
 };

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
+import { AsyncStatus, useAsyncLoad } from '../../../hooks/useAsyncCallback';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { decryptFile, downloadEncryptedMedia, mxcUrlToHttp } from '../../../utils/matrix';
@@ -79,7 +79,7 @@ export const useMediaThumbnail = (item: MediaItem, load: boolean): MediaThumbnai
   // `videoPosterUrl` in RoomGallery.
   const unavailable = isEmbed ? !embedSrc : !hasSenderThumbnail && item.type === 'video';
 
-  const [state, loadSrc] = useAsyncCallback<string, Error, []>(
+  const [state, loadSrc] = useAsyncLoad<string, Error, []>(
     useCallback(async () => {
       if (isEmbed) {
         if (!embedSrc) throw new Error('No still for this embed');

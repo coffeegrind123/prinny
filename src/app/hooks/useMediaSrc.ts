@@ -11,6 +11,8 @@ export type MediaSrc = {
   src?: string;
   /** State of the blob fetch. Always Idle when the media streams directly. */
   state: AsyncState<string, Error>;
+  /** Fetch the blob again after a failure. */
+  retry: () => void;
   /** True when the media had to be fetched rather than streamed. */
   needsBlob: boolean;
   /**
@@ -181,9 +183,14 @@ export function useMediaSrc(
       : undefined
     : directUrl;
 
+  const retry = useCallback(() => {
+    loadSrc().catch(() => undefined);
+  }, [loadSrc]);
+
   return {
     src,
     state: srcState,
+    retry,
     needsBlob,
     onSrcError,
     controlsList: needsBlob ? 'nodownload' : undefined,

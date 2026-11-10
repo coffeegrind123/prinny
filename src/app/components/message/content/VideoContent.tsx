@@ -15,6 +15,7 @@ import { useHoverPlay } from '../../../hooks/useHoverPlay';
 import { validBlurHash } from '../../../utils/blurHash';
 import { Video } from '../../media';
 import { isMediaRevealed, revealMedia } from '../../../utils/mediaConsent';
+import { AttachmentLoadError } from './AttachmentLoadError';
 
 type VideoContentProps = {
   body: string;
@@ -88,7 +89,7 @@ export const VideoContent = as<'div', VideoContentProps>(
   ) => {
     const [consented, setConsented] = useState(() => isMediaRevealed(url));
     const loadAllowed = autoLoad !== false || consented;
-    const { src, state, needsBlob, onSrcError, controlsList } = useMediaSrc(
+    const { src, state, retry, needsBlob, onSrcError, controlsList } = useMediaSrc(
       url,
       mimeType,
       encInfo,
@@ -135,9 +136,7 @@ export const VideoContent = as<'div', VideoContentProps>(
           {...props}
           ref={ref}
         >
-          <Text size="T200" priority="300">
-            Failed to load video.
-          </Text>
+          <AttachmentLoadError error={state.error} onRetry={retry} size="300" />
         </Box>
       );
     }

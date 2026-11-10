@@ -20,7 +20,7 @@ import { BlurhashCanvas } from '../../BlurhashCanvas';
 import { FocusTrap } from 'focus-trap-react';
 import { EncryptedAttachmentInfo } from 'browser-encrypt-attachment';
 import { IImageInfo, MATRIX_BLUR_HASH_PROPERTY_NAME } from '../../../../types/matrix/common';
-import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
+import { AsyncStatus, useAsyncLoad } from '../../../hooks/useAsyncCallback';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import * as css from './style.css';
 import { bytesToSize } from '../../../utils/common';
@@ -30,6 +30,7 @@ import { decryptFile, downloadEncryptedMedia, mxcUrlToHttp } from '../../../util
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { validBlurHash } from '../../../utils/blurHash';
 import { isMediaRevealed, revealMedia } from '../../../utils/mediaConsent';
+import { AttachmentLoadError } from './AttachmentLoadError';
 
 type RenderViewerProps = {
   src: string;
@@ -84,7 +85,7 @@ export const ImageContent = as<'div', ImageContentProps>(
     const [viewer, setViewer] = useState(false);
     const [blurred, setBlurred] = useState(markedAsSpoiler ?? false);
 
-    const [srcState, loadSrc] = useAsyncCallback(
+    const [srcState, loadSrc] = useAsyncLoad(
       useCallback(async () => {
         const mediaUrl = mxcUrlToHttp(mx, url, useAuthentication);
         if (!mediaUrl) throw new Error('Invalid media URL');
@@ -232,30 +233,11 @@ export const ImageContent = as<'div', ImageContentProps>(
           )}
         {(error || srcState.status === AsyncStatus.Error) && (
           <Box className={css.AbsoluteContainer} alignItems="Center" justifyContent="Center">
-            <TooltipProvider
-              tooltip={
-                <Tooltip variant="Critical">
-                  <Text>Failed to load image!</Text>
-                </Tooltip>
-              }
-              position="Top"
-              align="Center"
-            >
-              {(triggerRef) => (
-                <Button
-                  ref={triggerRef}
-                  size="300"
-                  variant="Critical"
-                  fill="Soft"
-                  outlined
-                  radii="300"
-                  onClick={handleRetry}
-                  before={<Icon size="Inherit" src={Icons.Warning} filled />}
-                >
-                  <Text size="B300">Retry</Text>
-                </Button>
-              )}
-            </TooltipProvider>
+            <AttachmentLoadError
+              error={srcState.status === AsyncStatus.Error ? srcState.error : undefined}
+              onRetry={handleRetry}
+              size="300"
+            />
           </Box>
         )}
         {!load && typeof info?.size === 'number' && (

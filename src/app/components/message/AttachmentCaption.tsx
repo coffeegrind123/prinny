@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import { EncryptedAttachmentInfo } from 'browser-encrypt-attachment';
 import * as css from './AttachmentCaption.css';
 import { useMediaDownload } from '../../hooks/useMediaDownload';
+import { finalAttachmentMessage } from './content/AttachmentLoadError';
+import { AsyncStatus } from '../../hooks/useAsyncCallback';
 
 type CaptionNameProps = {
   filename: string;
@@ -57,20 +59,26 @@ export function AttachmentDownloadCaption({
   mimeType,
   encInfo,
 }: AttachmentDownloadCaptionProps) {
-  const { download, downloading, hasError, downloadName } = useMediaDownload(
+  const { download, downloading, hasError, state, downloadName } = useMediaDownload(
     filename,
     url,
     mimeType,
     encInfo,
   );
+  // A tampered or undecryptable file fails the same way every time: say why, offer no retry.
+  const finalError =
+    state.status === AsyncStatus.Error ? finalAttachmentMessage(state.error) : undefined;
 
   return (
     <button
       type="button"
       className={classNames(css.Caption, css.CaptionInteractive, hasError && css.CaptionCritical)}
       onClick={download}
-      disabled={downloading}
-      title={hasError ? `Download failed — retry ${downloadName}` : `Download ${downloadName}`}
+      disabled={downloading || !!finalError}
+      title={
+        finalError ??
+        (hasError ? `Download failed — retry ${downloadName}` : `Download ${downloadName}`)
+      }
     >
       {downloading ? (
         <Spinner className={css.CaptionIcon} size="50" variant="Secondary" />

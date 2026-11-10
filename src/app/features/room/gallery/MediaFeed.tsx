@@ -57,6 +57,7 @@ import { SOCIAL_EMBED_PROVIDER_LABEL } from '../../../utils/socialEmbed';
 import { useKeyDown } from '../../../hooks/useKeyDown';
 import { ScreenSize, useScreenSizeContext } from '../../../hooks/useScreenSize';
 import * as css from './MediaFeed.css';
+import { finalAttachmentMessage } from '../../../components/message/content/AttachmentLoadError';
 
 /** Pages either side of the active one that get real media elements. */
 const WINDOW = 1;
@@ -323,6 +324,8 @@ function MediaFeedContent({
     !!hlsError || mediaError || (!isEmbed && !isHls && state.status === AsyncStatus.Error);
   let failureText = 'Failed to load this attachment.';
   if (hlsError) failureText = hlsError;
+  else if (state.status === AsyncStatus.Error && finalAttachmentMessage(state.error))
+    failureText = finalAttachmentMessage(state.error) ?? failureText;
   else if (isEmbed)
     failureText = `Could not load this ${isVideo ? 'video' : 'image'} from ${
       item.embed ? SOCIAL_EMBED_PROVIDER_LABEL[item.embed.provider] : 'the linked post'

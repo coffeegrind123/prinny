@@ -1,10 +1,16 @@
 import { ReactNode, useCallback, useEffect } from 'react';
 import { IThumbnailContent } from '../../../../types/matrix/common';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
-import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
-import { decryptFile, downloadEncryptedMedia, mxcUrlToHttp } from '../../../utils/matrix';
+import { AsyncStatus, useAsyncLoad } from '../../../hooks/useAsyncCallback';
+import {
+  decryptFile,
+  downloadEncryptedMedia,
+  isFinalAttachmentError,
+  mxcUrlToHttp,
+} from '../../../utils/matrix';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { getImageSafeMimeType } from '../../../utils/mimeTypes';
+import { AttachmentLoadError } from './AttachmentLoadError';
 
 export type ThumbnailContentProps = {
   info: IThumbnailContent;
@@ -14,7 +20,7 @@ export function ThumbnailContent({ info, renderImage }: ThumbnailContentProps) {
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
 
-  const [thumbSrcState, loadThumbSrc] = useAsyncCallback(
+  const [thumbSrcState, loadThumbSrc] = useAsyncLoad(
     useCallback(async () => {
       const thumbInfo = info.thumbnail_info;
       const thumbMxcUrl = info.thumbnail_file?.url ?? info.thumbnail_url;
@@ -40,5 +46,12 @@ export function ThumbnailContent({ info, renderImage }: ThumbnailContentProps) {
     loadThumbSrc();
   }, [loadThumbSrc]);
 
-  return thumbSrcState.status === AsyncStatus.Success ? renderImage(thumbSrcState.data) : null;
+  if (thumbSrcState.status === AsyncStatus.Success) return renderImage(thumbSrcState.data);
+  // A thumbnail is decoration: a missing one or a network failure stays silent, so it cannot cover
+  // the media's own controls. A tampered or undecryptable one is said, because the reader must
+  // know why nothing is shown.
+  if (thumbSrcState.status === AsyncStatus.Error && isFinalAttachmentError(thumbSrcState.error)) {
+    return <AttachmentLoadError error={thumbSrcState.error} />;
+  }
+  return null;
 }
