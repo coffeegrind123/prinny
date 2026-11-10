@@ -35,6 +35,7 @@ import { useStateEventCallback } from '../../hooks/useStateEventCallback';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { useInviteAvatarsAllowed } from '../../hooks/useMediaPreview';
 import { errorMessage } from '../../utils/errorMessage';
+import { stripUnsafeTextChars } from '../../utils/unsafeText';
 
 type GridColumnCount = '1' | '2' | '3';
 const getGridColumnCount = (gridWidth: number): GridColumnCount => {
@@ -185,9 +186,10 @@ export const RoomCard = as<'div', RoomCardProps>(
           ? getRoomAvatarUrl(mx, joinedRoom, 96, useAuthentication)
           : avatarUrl && mxcUrlToHttp(mx, avatarUrl, useAuthentication, 96, 96, 'crop');
 
-    const roomName = joinedRoom?.name || name || fallbackName;
-    const roomTopic =
-      (topicEvent?.getContent().topic as string) || undefined || topic || fallbackTopic;
+    const roomName = stripUnsafeTextChars(joinedRoom?.name || name || fallbackName);
+    const roomTopic = stripUnsafeTextChars(
+      (topicEvent?.getContent().topic as string) || undefined || topic || fallbackTopic,
+    );
     const joinedMemberCount = joinedRoom?.getJoinedMemberCount() ?? memberCount;
 
     useStateEventCallback(

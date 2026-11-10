@@ -1,4 +1,5 @@
 import { EncryptedAttachmentInfo } from 'browser-encrypt-attachment';
+import { stripUnsafeTextChars } from './unsafeText';
 
 /**
  * Per-message sender profiles: one account posting as "CI", "Deploy",
@@ -33,6 +34,11 @@ const DISPLAY_NAME_MAX_CHARS = 80;
 export type PerMessageProfile = {
   id: string;
   displayname?: string;
+  /**
+   * The name exactly as sent, when cleaning changed it. The fallback prefix in
+   * the body carries this form, so it is what `stripProfileFallback` matches.
+   */
+  fallbackName?: string;
   avatarUrl?: string;
   avatarFile?: EncryptedAttachmentInfo & { url: string };
   /** The body starts with the name; strip it before rendering. */
@@ -53,7 +59,7 @@ const validField = (value: unknown): value is string =>
 
 const cleanName = (value: unknown): string | undefined => {
   if (!validField(value)) return undefined;
-  const name = value.replace(/\s+/g, ' ').trim();
+  const name = stripUnsafeTextChars(value).replace(/\s+/g, ' ').trim();
   return name ? Array.from(name).slice(0, DISPLAY_NAME_MAX_CHARS).join('') : undefined;
 };
 
@@ -71,6 +77,9 @@ const parseMsc4144 = (raw: unknown): PerMessageProfile | undefined => {
   };
   const displayname = cleanName(raw.displayname);
   if (displayname) profile.displayname = displayname;
+  if (displayname && raw.displayname !== displayname) {
+    profile.fallbackName = raw.displayname as string;
+  }
   const avatarUrl = mxcOnly(raw.avatar_url);
   if (avatarUrl) profile.avatarUrl = avatarUrl;
   if (!avatarUrl && isRecord(raw.avatar_file) && mxcOnly(raw.avatar_file.url)) {
@@ -133,15 +142,16 @@ export const stripProfileFallback = <T extends Content>(
   content: T,
   profile: PerMessageProfile,
 ): T => {
-  if (!profile.hasFallback || !profile.displayname) return content;
+  const sentName = profile.fallbackName ?? profile.displayname;
+  if (!profile.hasFallback || !sentName) return content;
 
   const next: Content = { ...content };
-  const prefix = `${profile.displayname}: `;
+  const prefix = `${sentName}: `;
   if (typeof content.body === 'string' && content.body.startsWith(prefix)) {
     next.body = content.body.slice(prefix.length);
   }
   if (typeof content.formatted_body === 'string') {
-    const name = escapeRegExp(escapeHtml(profile.displayname));
+    const name = escapeRegExp(escapeHtml(sentName));
     const fallback = new RegExp(
       `<strong\\s+data-mx-profile-fallback(?:="")?\\s*>${name}: </strong\\s*>`,
     );

@@ -100,6 +100,7 @@ import { useRoomPermissions } from '../../../hooks/useRoomPermissions';
 import { InviteUserPrompt } from '../../../components/invite-user-prompt';
 import { useRoomsNotificationPreferencesContext } from '../../../hooks/useRoomsNotificationPreferences';
 import { SpaceNotificationModeSwitcher } from '../../../components/SpaceNotificationSwitcher';
+import { stripOptionalText } from '../../../utils/unsafeText';
 
 type SpaceMenuProps = {
   room: Room;
@@ -640,7 +641,9 @@ function ClosedSpaceFolder({
   const dropType = dropState?.type;
 
   const tooltipName =
-    folder.name ?? folder.content.map((i) => mx.getRoom(i)?.name ?? '').join(', ') ?? 'Unnamed';
+    folder.name ??
+    folder.content.map((i) => stripOptionalText(mx.getRoom(i)?.name) ?? '').join(', ') ??
+    'Unnamed';
   const [spaceUnreadPill] = useSetting(settingsAtom, 'spaceUnreadPill');
 
   return (

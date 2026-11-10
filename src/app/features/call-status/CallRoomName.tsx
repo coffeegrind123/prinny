@@ -11,6 +11,7 @@ import { allRoomsAtom } from '../../state/room-list/roomList';
 import { mDirectAtom } from '../../state/mDirectList';
 import { useAllJoinedRoomsSet, useGetRoom } from '../../hooks/useGetRoom';
 import { useRoomNavigate } from '../../hooks/useRoomNavigate';
+import { stripOptionalText } from '../../utils/unsafeText';
 
 type CallRoomNameProps = {
   room: Room;
@@ -39,7 +40,8 @@ export function CallRoomName({ room, plain }: CallRoomNameProps) {
       {name}
       {!dm && perfectOrphanParent && (
         <Text as="span" size="T200" priority="300">
-          {' •'} <b>{getRoom(perfectOrphanParent)?.name ?? perfectOrphanParent}</b>
+          {' •'}{' '}
+          <b>{stripOptionalText(getRoom(perfectOrphanParent)?.name) ?? perfectOrphanParent}</b>
         </Text>
       )}
     </>

@@ -150,6 +150,7 @@ import { BotReplyKeyboard } from './BotReplyKeyboard';
 import { BotMenuButton } from './BotMenuButton';
 import { usePowerLevelTags } from '../../hooks/usePowerLevelTags';
 import { useComposingCheck } from '../../hooks/useComposingCheck';
+import { stripOptionalText, stripUnsafeTextChars } from '../../utils/unsafeText';
 
 // Bridges the global `toggle-emoji-picker` keybind into the emoji
 // board's per-instance UseStateProvider scope. Lives as a child of
@@ -1074,7 +1075,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
               >
                 <Icon size="600" src={Icons.File} />
                 <Text size="H4" align="Center">
-                  {`Drop Files in "${room?.name || 'Room'}"`}
+                  {`Drop Files in "${stripOptionalText(room?.name) || 'Room'}"`}
                 </Text>
                 <Text align="Center">Drag and drop files here or click for selection dialog</Text>
               </Box>
@@ -1186,7 +1187,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
                         }
                       >
                         <Text size="T300" truncate>
-                          {trimReplyFromBody(replyDraft.body)}
+                          {stripUnsafeTextChars(trimReplyFromBody(replyDraft.body))}
                         </Text>
                       </ReplyLayout>
                     </Box>

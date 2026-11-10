@@ -3,6 +3,8 @@ import { RoomJoinRulesEventContent } from 'matrix-js-sdk/lib/types';
 import { Room, RoomEvent, RoomEventHandlerMap } from 'matrix-js-sdk';
 import { StateEvent } from '../../types/matrix/room';
 import { useStateEvent } from './useStateEvent';
+import { stripUnsafeTextChars } from '../utils/unsafeText';
+import { getRoomName } from '../utils/room';
 
 export const useRoomAvatar = (room: Room, dm?: boolean): string | undefined => {
   const avatarEvent = useStateEvent(room, StateEvent.RoomAvatar);
@@ -17,13 +19,13 @@ export const useRoomAvatar = (room: Room, dm?: boolean): string | undefined => {
 };
 
 export const useRoomName = (room: Room): string => {
-  const [name, setName] = useState(room.name);
+  const [name, setName] = useState(() => getRoomName(room));
 
   useEffect(() => {
-    setName(room.name);
+    setName(getRoomName(room));
 
     const handleRoomNameChange: RoomEventHandlerMap[RoomEvent.Name] = () => {
-      setName(room.name);
+      setName(getRoomName(room));
     };
     room.on(RoomEvent.Name, handleRoomNameChange);
     return () => {
@@ -38,7 +40,8 @@ export const useRoomTopic = (room: Room): string | undefined => {
   const topicEvent = useStateEvent(room, StateEvent.RoomTopic);
 
   const content = topicEvent?.getContent();
-  const topic = content && typeof content.topic === 'string' ? content.topic : undefined;
+  const topic =
+    content && typeof content.topic === 'string' ? stripUnsafeTextChars(content.topic) : undefined;
 
   return topic;
 };

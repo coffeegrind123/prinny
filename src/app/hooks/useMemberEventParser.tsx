@@ -4,6 +4,7 @@ import { MatrixEvent } from 'matrix-js-sdk';
 import { IMemberContent, Membership } from '../../types/matrix/room';
 import { getMxIdLocalPart } from '../utils/matrix';
 import { isMembershipChanged } from '../utils/room';
+import { stripUnsafeTextChars } from '../utils/unsafeText';
 
 export type ParsedResult = {
   icon: IconSrc;
@@ -18,7 +19,8 @@ export const useMemberEventParser = (): MemberEventParser => {
     const prevContent = mEvent.getPrevContent() as IMemberContent;
     const senderId = mEvent.getSender();
     const userId = mEvent.getStateKey();
-    const reason = typeof content.reason === 'string' ? content.reason : undefined;
+    const reason =
+      typeof content.reason === 'string' ? stripUnsafeTextChars(content.reason) : undefined;
 
     if (!senderId || !userId)
       return {
@@ -29,7 +31,7 @@ export const useMemberEventParser = (): MemberEventParser => {
     const senderName = getMxIdLocalPart(senderId);
     const userName =
       typeof content.displayname === 'string'
-        ? content.displayname || getMxIdLocalPart(userId)
+        ? stripUnsafeTextChars(content.displayname) || getMxIdLocalPart(userId)
         : getMxIdLocalPart(userId);
 
     if (isMembershipChanged(mEvent)) {
@@ -180,7 +182,7 @@ export const useMemberEventParser = (): MemberEventParser => {
     if (content.displayname !== prevContent.displayname) {
       const prevUserName =
         typeof prevContent.displayname === 'string'
-          ? prevContent.displayname || getMxIdLocalPart(userId)
+          ? stripUnsafeTextChars(prevContent.displayname) || getMxIdLocalPart(userId)
           : getMxIdLocalPart(userId);
 
       return {

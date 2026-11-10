@@ -38,7 +38,7 @@ import { mDirectAtom } from '../../state/mDirectList';
 import { roomToParentsAtom } from '../../state/room/roomToParents';
 import { useAllJoinedRoomsSet, useGetRoom } from '../../hooks/useGetRoom';
 import { VirtualTile } from '../../components/virtualizer';
-import { getDirectRoomAvatarUrl, getRoomAvatarUrl } from '../../utils/room';
+import { getDirectRoomAvatarUrl, getRoomAvatarUrl, getRoomName } from '../../utils/room';
 import { RoomAvatar, RoomIcon } from '../../components/room-avatar';
 import { nameInitials } from '../../utils/common';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
@@ -55,6 +55,7 @@ import { getViaServers } from '../../plugins/via-servers';
 import { rateLimitedActions } from '../../utils/matrix';
 import { useAlive } from '../../hooks/useAlive';
 import { ModalFlexScroll } from '../../styles/Modal.css';
+import { stripOptionalText } from '../../utils/unsafeText';
 
 const SEARCH_OPTS: UseAsyncSearchOptions = {
   limit: 500,
@@ -97,7 +98,7 @@ export function AddExistingModal({ parentId, space, requestClose }: AddExistingM
   }, [spaces, rooms, directs, space, parentId, roomIdToParents, mx]);
 
   const getRoomNameStr: SearchItemStrGetter<string> = useCallback(
-    (rId) => getRoom(rId)?.name ?? rId,
+    (rId) => stripOptionalText(getRoom(rId)?.name) ?? rId,
     [getRoom],
   );
 
@@ -284,10 +285,10 @@ export function AddExistingModal({ parentId, space, requestClose }: AddExistingM
                                           ? getDirectRoomAvatarUrl(mx, room, 96, useAuthentication)
                                           : getRoomAvatarUrl(mx, room, 96, useAuthentication)
                                       }
-                                      alt={room.name}
+                                      alt={getRoomName(room)}
                                       renderFallback={() => (
                                         <Text as="span" size="H6">
-                                          {nameInitials(room.name)}
+                                          {nameInitials(getRoomName(room))}
                                         </Text>
                                       )}
                                     />
@@ -305,8 +306,8 @@ export function AddExistingModal({ parentId, space, requestClose }: AddExistingM
                               <Box grow="Yes">
                                 <Text truncate size="T400">
                                   {queryHighlighRegex
-                                    ? highlightText(queryHighlighRegex, [room.name])
-                                    : room.name}
+                                    ? highlightText(queryHighlighRegex, [getRoomName(room)])
+                                    : getRoomName(room)}
                                 </Text>
                               </Box>
                             </MenuItem>

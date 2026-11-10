@@ -47,7 +47,7 @@ import { Image } from '../../components/media';
 import { ImageViewer } from '../../components/image-viewer';
 import * as customHtmlCss from '../../styles/CustomHtml.css';
 import { RoomAvatar, RoomIcon } from '../../components/room-avatar';
-import { getRoomAvatarUrl } from '../../utils/room';
+import { getRoomAvatarUrl, getRoomName } from '../../utils/room';
 import { ResultItem } from './useMessageSearch';
 import { getResultAvatarMxc, getResultDisplayName, getResultProfile } from './resultUtils';
 import { SearchResultContext } from './SearchResultContext';
@@ -274,7 +274,7 @@ export function SearchResultGroup({
             <RoomAvatar
               roomId={room.roomId}
               src={getRoomAvatarUrl(mx, room, 96, useAuthentication)}
-              alt={room.name}
+              alt={getRoomName(room)}
               renderFallback={() => (
                 <RoomIcon
                   size="50"
@@ -286,7 +286,7 @@ export function SearchResultGroup({
             />
           </Avatar>
           <Text size="H4" truncate>
-            {room.name}
+            {getRoomName(room)}
           </Text>
         </Box>
       </Header>

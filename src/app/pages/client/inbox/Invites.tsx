@@ -45,6 +45,7 @@ import {
   getStateEvent,
   isDirectInvite,
   isSpace,
+  getRoomName,
 } from '../../../utils/room';
 import { nameInitials } from '../../../utils/common';
 import { RoomAvatar } from '../../../components/room-avatar';
@@ -71,6 +72,7 @@ import { useReportRoomSupported } from '../../../hooks/useReportRoomSupported';
 import { useSetting } from '../../../state/hooks/settings';
 import { settingsAtom } from '../../../state/settings';
 import { errorMessage } from '../../../utils/errorMessage';
+import { stripOptionalText } from '../../../utils/unsafeText';
 
 const COMPACT_CARD_WIDTH = 548;
 
@@ -99,10 +101,11 @@ const makeInviteData = (mx: MatrixClient, room: Room, useAuthentication: boolean
   const roomAvatar = direct
     ? getDirectRoomAvatarUrl(mx, room, 96, useAuthentication)
     : getRoomAvatarUrl(mx, room, 96, useAuthentication);
-  const roomName = room.name || room.getCanonicalAlias() || room.roomId;
-  const roomTopic =
+  const roomName = getRoomName(room) || room.getCanonicalAlias() || room.roomId;
+  const roomTopic = stripOptionalText(
     getStateEvent(room, StateEvent.RoomTopic)?.getContent<RoomTopicEventContent>()?.topic ??
-    undefined;
+      undefined,
+  );
 
   const member = room.getMember(userId);
   const memberEvent = member?.events.member;

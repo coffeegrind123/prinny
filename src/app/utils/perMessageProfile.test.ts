@@ -17,6 +17,7 @@ describe('getPerMessageProfile', () => {
     ).toEqual({
       id: 'p1',
       displayname: 'Alice the Bot',
+      fallbackName: '  Alice   the  Bot ',
       avatarUrl: 'mxc://hs/a',
       hasFallback: true,
       isWebhook: false,
@@ -133,6 +134,28 @@ describe('stripProfileFallback', () => {
         profile('A & B'),
       ),
     ).toEqual({ body: 'hi', formatted_body: '<p>hi</p>' });
+  });
+
+  it('removes the fallback a sender wrote with the raw name, though the shown name is cleaned', () => {
+    // The fallback carries the name as sent; the profile shows it cleaned (no
+    // override characters, collapsed spaces), so matching must use the raw one.
+    for (const raw of ['Ad\u202Emin', '  Alice   the  Bot ']) {
+      const parsed = getPerMessageProfile({
+        [MSC]: { id: 'p', displayname: raw, has_fallback: true },
+      });
+      expect(parsed).toBeDefined();
+      expect(parsed?.displayname).not.toContain('\u202E');
+      const escaped = raw.replace(/&/g, '&amp;');
+      expect(
+        stripProfileFallback(
+          {
+            body: `${raw}: hi`,
+            formatted_body: `<strong data-mx-profile-fallback>${escaped}: </strong>hi`,
+          },
+          parsed!,
+        ),
+      ).toEqual({ body: 'hi', formatted_body: 'hi' });
+    }
   });
 
   it('leaves content alone without has_fallback, or when the prefix does not match', () => {

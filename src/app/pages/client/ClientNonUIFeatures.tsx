@@ -56,6 +56,7 @@ import { ChosenPresenceRestore } from '../../hooks/useChosenPresenceRestore';
 import { ProfileCallPublisher } from '../../hooks/useProfileCallPublisher';
 import { contentForDisplay, getPerMessageProfile } from '../../utils/perMessageProfile';
 import { DebugHandle } from '../../hooks/useDebugHandle';
+import { stripOptionalText, stripUnsafeTextChars } from '../../utils/unsafeText';
 
 function SystemEmojiFeature() {
   const [twitterEmoji] = useSetting(settingsAtom, 'twitterEmoji');
@@ -423,18 +424,20 @@ function MessageNotifications() {
       } else {
         const roomName = room.name ?? 'Unknown';
         const parentRoomId = roomToParents.get(room.roomId)?.values().next().value;
-        const parentName = parentRoomId ? mx.getRoom(parentRoomId)?.name : undefined;
+        const parentName = parentRoomId
+          ? stripOptionalText(mx.getRoom(parentRoomId)?.name)
+          : undefined;
         title = parentName
           ? `${username} (#${roomName}, ${parentName})`
           : `${username} (#${roomName})`;
       }
 
       notify({
-        title,
+        title: stripUnsafeTextChars(title),
         roomAvatar: avatarMxc
           ? (mxcUrlToHttp(mx, avatarMxc, useAuthentication, 96, 96, 'crop') ?? undefined)
           : undefined,
-        notificationBody,
+        notificationBody: stripUnsafeTextChars(notificationBody),
         roomId: room.roomId,
         eventId,
       });

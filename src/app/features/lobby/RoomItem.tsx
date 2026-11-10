@@ -39,6 +39,7 @@ import { ItemDraggableTarget, useDraggableItem } from './DnD';
 import { mxcUrlToHttp } from '../../utils/matrix';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { errorMessage } from '../../utils/errorMessage';
+import { stripOptionalText, stripUnsafeTextChars } from '../../utils/unsafeText';
 
 type RoomJoinButtonProps = {
   roomId: string;
@@ -188,14 +189,16 @@ type RoomProfileProps = {
 function RoomProfile({
   roomId,
   roomType,
-  name,
-  topic,
+  name: rawName,
+  topic: rawTopic,
   avatarUrl,
   suggested,
   memberCount,
   joinRule,
   options,
 }: RoomProfileProps) {
+  const name = stripUnsafeTextChars(rawName);
+  const topic = stripOptionalText(rawTopic);
   return (
     <Box grow="Yes" gap="300">
       <Avatar>

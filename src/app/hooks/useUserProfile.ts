@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ClientEvent, MatrixClient, UserEvent, UserEventHandlerMap } from 'matrix-js-sdk';
 import { useMatrixClient } from './useMatrixClient';
 import { recordFullProfile } from '../state/profileStatus';
+import { stripUnsafeTextChars } from '../utils/unsafeText';
 
 export type UserProfile = {
   avatarUrl?: string;
@@ -136,5 +137,13 @@ export const useUserProfile = (userId: string): UserProfile => {
     };
   }, [mx, userId]);
 
-  return profile;
+  // Display copy only: invisible and bidi override characters are dropped, and a
+  // name made only of them counts as no name.
+  return useMemo(
+    () =>
+      profile.displayName === undefined
+        ? profile
+        : { ...profile, displayName: stripUnsafeTextChars(profile.displayName) || undefined },
+    [profile],
+  );
 };

@@ -26,7 +26,7 @@ import { settingsAtom } from '../../../state/settings';
 import { useSelectedRoom } from '../../../hooks/router/useSelectedRoom';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { getCanonicalAliasOrRoomId } from '../../../utils/matrix';
-import { getDirectRoomAvatarUrl } from '../../../utils/room';
+import { getDirectRoomAvatarUrl, getRoomName } from '../../../utils/room';
 import { nameInitials } from '../../../utils/common';
 import { factoryRoomIdByActivity } from '../../../utils/sort';
 
@@ -86,7 +86,7 @@ function DirectRailButton({ room, selected, onClick }: DirectRailButtonProps) {
     <RoomUnreadProvider roomId={room.roomId}>
       {(unread) => (
         <SidebarItem active={selected}>
-          <SidebarItemTooltip tooltip={room.name}>
+          <SidebarItemTooltip tooltip={getRoomName(room)}>
             {(triggerRef) => (
               <SidebarAvatar
                 as="button"
@@ -98,8 +98,8 @@ function DirectRailButton({ room, selected, onClick }: DirectRailButtonProps) {
                 <RoomAvatar
                   roomId={room.roomId}
                   src={getDirectRoomAvatarUrl(mx, room, 96, useAuthentication)}
-                  alt={room.name}
-                  renderFallback={() => <Text size="H4">{nameInitials(room.name, 2)}</Text>}
+                  alt={getRoomName(room)}
+                  renderFallback={() => <Text size="H4">{nameInitials(getRoomName(room), 2)}</Text>}
                 />
               </SidebarAvatar>
             )}

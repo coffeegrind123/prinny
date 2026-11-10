@@ -96,6 +96,7 @@ import { ASCIILexicalTable, orderKeys } from '../../../utils/ASCIILexicalTable';
 import { errorMessage } from '../../../utils/errorMessage';
 import { setSpaceAutoJoin, useAutoJoinPrefs } from '../../../state/autoJoin';
 import { autoJoinsSpace } from '../../../utils/spaceAutoJoin';
+import { stripOptionalText } from '../../../utils/unsafeText';
 
 type SpaceMenuProps = {
   room: Room;
@@ -752,7 +753,7 @@ export function Space() {
                           onClick={handleCategoryClick}
                           closed={closedCategories.has(categoryId)}
                         >
-                          {roomId === space.roomId ? 'Rooms' : room?.name}
+                          {roomId === space.roomId ? 'Rooms' : stripOptionalText(room?.name)}
                         </RoomNavCategoryButton>
                       </NavCategoryHeader>
                     </div>

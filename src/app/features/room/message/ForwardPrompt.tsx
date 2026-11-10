@@ -45,13 +45,14 @@ import { useAllJoinedRoomsSet, useGetRoom } from '../../../hooks/useGetRoom';
 import { factoryRoomIdByAtoZ } from '../../../utils/sort';
 import { VirtualTile } from '../../../components/virtualizer';
 import { RoomAvatar, RoomIcon } from '../../../components/room-avatar';
-import { getDirectRoomAvatarUrl, getRoomAvatarUrl } from '../../../utils/room';
+import { getDirectRoomAvatarUrl, getRoomAvatarUrl, getRoomName } from '../../../utils/room';
 import { nameInitials } from '../../../utils/common';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { stopPropagation } from '../../../utils/keyboard';
 import { useAlive } from '../../../hooks/useAlive';
 import { rateLimitedActions } from '../../../utils/matrix';
 import { ModalFlexScroll } from '../../../styles/Modal.css';
+import { stripOptionalText } from '../../../utils/unsafeText';
 
 const SEARCH_OPTS: UseAsyncSearchOptions = {
   limit: 1000,
@@ -110,7 +111,7 @@ export function ForwardPrompt({ mEvent, requestClose }: ForwardPromptProps) {
   );
 
   const getRoomNameStr: SearchItemStrGetter<string> = useCallback(
-    (rId) => getRoom(rId)?.name ?? rId,
+    (rId) => stripOptionalText(getRoom(rId)?.name) ?? rId,
     [getRoom],
   );
 
@@ -284,10 +285,10 @@ export function ForwardPrompt({ mEvent, requestClose }: ForwardPromptProps) {
                                     <RoomAvatar
                                       roomId={room.roomId}
                                       src={getDirectRoomAvatarUrl(mx, room, 96, useAuthentication)}
-                                      alt={room.name}
+                                      alt={getRoomName(room)}
                                       renderFallback={() => (
                                         <Text as="span" size="H6">
-                                          {nameInitials(room.name)}
+                                          {nameInitials(getRoomName(room))}
                                         </Text>
                                       )}
                                     />
@@ -295,7 +296,7 @@ export function ForwardPrompt({ mEvent, requestClose }: ForwardPromptProps) {
                                     <RoomAvatar
                                       roomId={room.roomId}
                                       src={getRoomAvatarUrl(mx, room, 96, useAuthentication)}
-                                      alt={room.name}
+                                      alt={getRoomName(room)}
                                       renderFallback={() => (
                                         <RoomIcon
                                           size="200"
@@ -310,7 +311,7 @@ export function ForwardPrompt({ mEvent, requestClose }: ForwardPromptProps) {
                             >
                               <Box grow="Yes">
                                 <Text size="T300" truncate>
-                                  {room.name}
+                                  {getRoomName(room)}
                                 </Text>
                               </Box>
                             </MenuItem>

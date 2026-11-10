@@ -44,6 +44,7 @@ import { LineClamp2 } from '../../../styles/Text.css';
 import { allRoomsAtom } from '../../../state/room-list/roomList';
 import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { stopPropagation } from '../../../utils/keyboard';
+import { getRoomName } from '../../../utils/room';
 
 function GlobalPackSelector({
   packs,
@@ -149,7 +150,7 @@ function GlobalPackSelector({
                 <Box key={roomId} direction="Column" gap="100">
                   <Box alignItems="Center">
                     <Box grow="Yes">
-                      <Text size="L400">{room.name}</Text>
+                      <Text size="L400">{getRoomName(room)}</Text>
                     </Box>
                     <Box shrink="No">
                       <Chip

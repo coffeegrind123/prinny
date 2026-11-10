@@ -5,6 +5,7 @@ import { MessageEmptyContent } from './content';
 import { sanitizeCustomHtml } from '../../utils/sanitize';
 import { highlightText, scaleSystemEmoji } from '../../plugins/react-custom-html-parser';
 import { unwrapOptOutUrls, unwrapOptOutUrlsHtml } from '../../utils/messageUrls';
+import { stripUnsafeTextChars } from '../../utils/unsafeText';
 
 type RenderBodyProps = {
   body: string;
@@ -24,9 +25,12 @@ export function RenderBody({
   if (body === '') <MessageEmptyContent />;
   if (customBody) {
     if (customBody === '') <MessageEmptyContent />;
-    return parse(sanitizeCustomHtml(unwrapOptOutUrlsHtml(customBody)), htmlReactParserOptions);
+    return parse(
+      sanitizeCustomHtml(unwrapOptOutUrlsHtml(stripUnsafeTextChars(customBody))),
+      htmlReactParserOptions,
+    );
   }
-  const shown = unwrapOptOutUrls(body);
+  const shown = unwrapOptOutUrls(stripUnsafeTextChars(body));
   return (
     <Linkify options={linkifyOpts}>
       {highlightRegex

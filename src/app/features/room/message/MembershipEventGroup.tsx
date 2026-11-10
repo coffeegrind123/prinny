@@ -35,13 +35,14 @@ import {
 } from '../../../utils/membershipSummary';
 import { IMemberContent, Membership } from '../../../../types/matrix/room';
 import * as css from './MembershipEventGroup.css';
+import { stripUnsafeTextChars } from '../../../utils/unsafeText';
 
 /** Element shows at most five faces on a summary; the text names the rest. */
 const AVATAR_LIMIT = 5;
 const AVATAR_SIZE = toRem(20);
 
 const profileName = (value: unknown): string | undefined =>
-  typeof value === 'string' && value.length > 0 ? value : undefined;
+  typeof value === 'string' ? stripUnsafeTextChars(value) || undefined : undefined;
 
 /**
  * The summary's view of one `m.room.member` event.

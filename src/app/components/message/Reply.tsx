@@ -26,6 +26,7 @@ import { useRoomEvent } from '../../hooks/useRoomEvent';
 import colorMXID from '../../../util/colorMXID';
 import { contentForDisplay, getPerMessageProfile } from '../../utils/perMessageProfile';
 import { GetMemberPowerTag } from '../../hooks/useMemberPowerTag';
+import { stripUnsafeTextChars } from '../../utils/unsafeText';
 
 type ReplyLayoutProps = {
   userColor?: string;
@@ -148,11 +149,11 @@ export const Reply = as<'div', ReplyProps>(
     let bodyJSX: ReactNode = fallbackBody;
     if (emoticonHtml && htmlParserOpts) {
       bodyJSX = parse(
-        sanitizeReplyPreviewHtml(trimReplyFromFormattedBody(emoticonHtml)),
+        sanitizeReplyPreviewHtml(trimReplyFromFormattedBody(stripUnsafeTextChars(emoticonHtml))),
         htmlParserOpts,
       );
     } else if (body) {
-      bodyJSX = scaleSystemEmoji(trimReplyFromBody(body));
+      bodyJSX = scaleSystemEmoji(stripUnsafeTextChars(trimReplyFromBody(body)));
     }
 
     return (

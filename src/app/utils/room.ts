@@ -34,6 +34,7 @@ import {
   UnreadInfo,
 } from '../../types/matrix/room';
 import { sanitizeText } from './sanitize';
+import { stripUnsafeTextChars } from './unsafeText';
 
 export const getStateEvent = (
   room: Room,
@@ -445,8 +446,12 @@ export const getMemberDisplayName = (room: Room, userId: string): string | undef
   const member = room.getMember(userId);
   const name = member?.rawDisplayName;
   if (name === userId) return undefined;
-  return name;
+  // A name made only of invisible or override characters is no name at all.
+  return name === undefined ? undefined : stripUnsafeTextChars(name) || undefined;
 };
+
+/** The room name for display, without invisible or bidi override characters. */
+export const getRoomName = (room: Room): string => stripUnsafeTextChars(room.name);
 
 export const getMemberSearchStr = (
   member: RoomMember,

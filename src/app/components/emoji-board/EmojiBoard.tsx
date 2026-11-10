@@ -68,6 +68,7 @@ import { FavoriteGif } from '../../state/gifFavorites';
 import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
 import * as css from './components/styles.css';
+import { stripOptionalText } from '../../utils/unsafeText';
 
 // The mashup tab carries ~233 KB of inlined Twemoji parts. Loading it with the
 // board would make every emoji picker pay for a tab most openings never touch,
@@ -115,7 +116,8 @@ const useGroups = (
 
     imagePacks.forEach((pack) => {
       let label = pack.name;
-      if (!label) label = isUserId(pack.id) ? 'Personal Set' : mx.getRoom(pack.id)?.name;
+      if (!label)
+        label = isUserId(pack.id) ? 'Personal Set' : stripOptionalText(mx.getRoom(pack.id)?.name);
 
       g.push({
         id: pack.id,
@@ -156,7 +158,8 @@ const useGroups = (
 
     imagePacks.forEach((pack) => {
       let label = pack.name;
-      if (!label) label = isUserId(pack.id) ? 'Personal Set' : mx.getRoom(pack.id)?.name;
+      if (!label)
+        label = isUserId(pack.id) ? 'Personal Set' : stripOptionalText(mx.getRoom(pack.id)?.name);
 
       g.push({
         id: pack.id,
@@ -242,7 +245,10 @@ function EmojiSidebar({ activeGroupAtom, packs, onScrollToGroup }: EmojiSidebarP
           <SidebarDivider />
           {packs.map((pack) => {
             let label = pack.name;
-            if (!label) label = isUserId(pack.id) ? 'Personal Set' : mx.getRoom(pack.id)?.name;
+            if (!label)
+              label = isUserId(pack.id)
+                ? 'Personal Set'
+                : stripOptionalText(mx.getRoom(pack.id)?.name);
 
             const url =
               mxcUrlToHttp(mx, pack.getAvatarUrl(usage) ?? '', useAuthentication) ?? undefined;
@@ -305,7 +311,10 @@ function StickerSidebar({ activeGroupAtom, packs, onScrollToGroup }: StickerSide
       <SidebarStack>
         {packs.map((pack) => {
           let label = pack.name;
-          if (!label) label = isUserId(pack.id) ? 'Personal Set' : mx.getRoom(pack.id)?.name;
+          if (!label)
+            label = isUserId(pack.id)
+              ? 'Personal Set'
+              : stripOptionalText(mx.getRoom(pack.id)?.name);
 
           const url =
             mxcUrlToHttp(mx, pack.getAvatarUrl(usage) ?? '', useAuthentication) ?? undefined;

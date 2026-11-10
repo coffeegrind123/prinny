@@ -35,7 +35,7 @@ import { useDirectRooms } from '../../pages/client/direct/useDirectRooms';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { useAllJoinedRoomsSet, useGetRoom } from '../../hooks/useGetRoom';
 import { RoomAvatar, RoomIcon } from '../room-avatar';
-import { getDirectRoomAvatarUrl, getRoomAvatarUrl } from '../../utils/room';
+import { getDirectRoomAvatarUrl, getRoomAvatarUrl, getRoomName } from '../../utils/room';
 import { nameInitials } from '../../utils/common';
 import { useIgnoredUsers } from '../../hooks/useIgnoredUsers';
 import { CutoutCard } from '../cutout-card';
@@ -136,10 +136,10 @@ export function MutualRoomsChip({ userId }: { userId: string }) {
                     ? getDirectRoomAvatarUrl(mx, room, 96, useAuthentication)
                     : getRoomAvatarUrl(mx, room, 96, useAuthentication)
                 }
-                alt={room.name}
+                alt={getRoomName(room)}
                 renderFallback={() => (
                   <Text as="span" size="H6">
-                    {nameInitials(room.name)}
+                    {nameInitials(getRoomName(room))}
                   </Text>
                 )}
               />
@@ -150,7 +150,7 @@ export function MutualRoomsChip({ userId }: { userId: string }) {
         }
       >
         <Text size="B300" truncate>
-          {room.name}
+          {getRoomName(room)}
         </Text>
       </MenuItem>
     );

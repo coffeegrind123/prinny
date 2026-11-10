@@ -40,6 +40,7 @@ import {
   formatSearchDuration,
   useSearchTimer,
 } from './SearchProgress';
+import { stripOptionalText } from '../../utils/unsafeText';
 
 // Twenty results a page: up to 200 searched before an all-filtered-out result
 // is reported as no results.
@@ -141,7 +142,10 @@ export function MessageSearch({
     if (parsed.tokens.every((token) => token.kind === 'text')) return undefined;
 
     const lookup: SearchLookup = {
-      rooms: allRooms.map((roomId) => ({ roomId, name: mx.getRoom(roomId)?.name ?? roomId })),
+      rooms: allRooms.map((roomId) => ({
+        roomId,
+        name: stripOptionalText(mx.getRoom(roomId)?.name) ?? roomId,
+      })),
       users: [],
     };
     // Members are only gathered when a from: or mentions: needs them: on a

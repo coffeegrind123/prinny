@@ -5,7 +5,7 @@ import { JoinRule, MatrixClient } from 'matrix-js-sdk';
 import { useAtomValue } from 'jotai';
 
 import { createMentionElement, moveCursor, replaceWithElement, safeFocusEditor } from '../utils';
-import { getDirectRoomAvatarUrl } from '../../../utils/room';
+import { getDirectRoomAvatarUrl, getRoomName } from '../../../utils/room';
 import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { AutocompleteQuery } from './autocompleteQuery';
 import { AutocompleteMenu } from './AutocompleteMenu';
@@ -162,7 +162,8 @@ export function RoomMentionAutocomplete({
           if (!room) return null;
           const dm = mDirects.has(room.roomId);
 
-          const handleSelect = () => handleAutocomplete(room.getCanonicalAlias() ?? rId, room.name);
+          const handleSelect = () =>
+            handleAutocomplete(room.getCanonicalAlias() ?? rId, getRoomName(room));
 
           return (
             <MenuItem
@@ -186,7 +187,7 @@ export function RoomMentionAutocomplete({
                     <RoomAvatar
                       roomId={room.roomId}
                       src={getDirectRoomAvatarUrl(mx, room)}
-                      alt={room.name}
+                      alt={getRoomName(room)}
                       renderFallback={() => (
                         <RoomIcon
                           size="50"
@@ -203,7 +204,7 @@ export function RoomMentionAutocomplete({
               }
             >
               <Text style={{ flexGrow: 1 }} size="B400" truncate>
-                {room.name}
+                {getRoomName(room)}
               </Text>
             </MenuItem>
           );

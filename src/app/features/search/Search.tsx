@@ -45,6 +45,7 @@ import {
   getRoomAvatarUrl,
   guessPerfectParent,
   isTombstoned,
+  getRoomName,
 } from '../../utils/room';
 import { highlightText, makeHighlightRegex } from '../../plugins/react-custom-html-parser';
 import { factoryRoomIdByActivity } from '../../utils/sort';
@@ -60,6 +61,7 @@ import { searchModalAtom } from '../../state/searchModal';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { KeySymbol } from '../../utils/key-symbol';
 import { isMacOS } from '../../utils/user-agent';
+import { stripOptionalText } from '../../utils/unsafeText';
 
 enum SearchRoomType {
   Rooms = '#',
@@ -168,7 +170,7 @@ export function Search({ requestClose }: SearchProps) {
 
   const getTargetStr: SearchItemStrGetter<string> = useCallback(
     (roomId: string) => {
-      const roomName = getRoom(roomId)?.name ?? roomId;
+      const roomName = stripOptionalText(getRoom(roomId)?.name) ?? roomId;
       if (mDirects.has(roomId)) {
         const targetUserId = getDmUserId(roomId, getRoom, mx.getSafeUserId());
         const targetUsername = targetUserId && getMxIdLocalPart(targetUserId);
@@ -364,7 +366,10 @@ export function Search({ requestClose }: SearchProps) {
                               )}
                               {!dm && perfectOrphanParent && (
                                 <Text size="T200" priority="300" truncate>
-                                  <b>{getRoom(perfectOrphanParent)?.name ?? perfectOrphanParent}</b>
+                                  <b>
+                                    {stripOptionalText(getRoom(perfectOrphanParent)?.name) ??
+                                      perfectOrphanParent}
+                                  </b>
                                 </Text>
                               )}
                               {unread && (
@@ -387,10 +392,10 @@ export function Search({ requestClose }: SearchProps) {
                                       ? getDirectRoomAvatarUrl(mx, room, 32, useAuthentication)
                                       : getRoomAvatarUrl(mx, room, 32, useAuthentication)
                                   }
-                                  alt={room.name}
+                                  alt={getRoomName(room)}
                                   renderFallback={() => (
                                     <Text as="span" size="H6">
-                                      {nameInitials(room.name)}
+                                      {nameInitials(getRoomName(room))}
                                     </Text>
                                   )}
                                 />
@@ -407,8 +412,8 @@ export function Search({ requestClose }: SearchProps) {
                           <Box grow="Yes" alignItems="Center" gap="100">
                             <Text size="T400" truncate>
                               {queryHighlighRegex
-                                ? highlightText(queryHighlighRegex, [room.name])
-                                : room.name}
+                                ? highlightText(queryHighlighRegex, [getRoomName(room)])
+                                : getRoomName(room)}
                             </Text>
                             {dmUsername && (
                               <Text as="span" size="T200" priority="300" truncate>
@@ -420,7 +425,7 @@ export function Search({ requestClose }: SearchProps) {
                             )}
                             {!dm && perfectParent && perfectParent !== perfectOrphanParent && (
                               <Text size="T200" priority="300" truncate>
-                                — {getRoom(perfectParent)?.name ?? perfectParent}
+                                — {stripOptionalText(getRoom(perfectParent)?.name) ?? perfectParent}
                               </Text>
                             )}
                             {deprecated && (
