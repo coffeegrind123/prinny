@@ -6,7 +6,6 @@
   "featuredCommunities": {
     "openAsDefault": false,
     "spaces": [
-      "#cinny:matrix.org",
       "#community:matrix.org",
       "#space:unredacted.org",
       "#librewolf-community:matrix.org",
