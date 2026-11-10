@@ -1,6 +1,5 @@
-import { t as e } from "./preload-helper-Czpn1I53.js";
-import { E as t, __tla as __tla_0 } from "./index-ku99VGCl.js";
-let P, Zi, p, f, ot, Di, l, _, Ve, Ur, Yr, na, F, yr, g, ie, L, b, Re, Pr, Ne, Lr, ne, S, m, we, Ee, ae, Ki, ze, Ar, ia, lt, I, y, Ce, He, Hr, j, Te, Je, Mr, ke, Ae, Fe, Pe, pe, De, Oe, Ut, he, ge, _e, ve, R, fe, Ye, Le, M, z, ee, Vr;
+import { M as e, __tla as __tla_0 } from "./index-DJlqD_Vw.js";
+let P, Xi, f, d, at, Ei, c, g, Be, Hr, Jr, ta, F, vr, h, re, L, y, Le, Nr, Me, Ir, te, x, p, Ce, Te, ie, Gi, Re, kr, ra, ct, I, v, Se, Ve, Vr, k, we, qe, jr, Oe, ke, Pe, Ne, fe, Ee, De, Ht, me, he, ge, _e, R, de, Je, Ie, M, z, A, Br;
 let __tla = Promise.all([
     (()=>{
         try {
@@ -8,17 +7,17 @@ let __tla = Promise.all([
         } catch  {}
     })()
 ]).then(async ()=>{
-    let n, r, i, a, o, s, c, u, d, h, v, x, C;
-    n = t();
-    r = typeof process == `object` && process + `` == `[object process]` && !process.versions.nw && !(process.versions.electron && process.type && process.type !== `browser`);
-    i = [
+    let t, n, r, i, a, o, s, l, u, m, _, b, S;
+    t = e();
+    n = typeof process == `object` && process + `` == `[object process]` && !process.versions.nw && !(process.versions.electron && process.type && process.type !== `browser`);
+    r = [
         1 / 0,
         1 / 0,
         -1 / 0,
         -1 / 0
     ];
-    a = new Float32Array(i);
-    o = [
+    i = new Float32Array(r);
+    a = [
         .001,
         0,
         0,
@@ -26,8 +25,8 @@ let __tla = Promise.all([
         0,
         0
     ];
-    s = `http://www.w3.org/2000/svg`;
-    c = {
+    o = `http://www.w3.org/2000/svg`;
+    s = {
         ANY: 1,
         DISPLAY: 2,
         PRINT: 4,
@@ -38,15 +37,15 @@ let __tla = Promise.all([
         IS_EDITING: 128,
         OPLIST: 256
     };
-    l = {
+    c = {
         DISABLE: 0,
         ENABLE: 1,
         ENABLE_FORMS: 2,
         ENABLE_STORAGE: 3
     };
-    u = `pdfjs_internal_id_`;
-    d = `pdfjs_internal_editor_`;
-    f = {
+    l = `pdfjs_internal_id_`;
+    u = `pdfjs_internal_editor_`;
+    d = {
         DISABLE: -1,
         NONE: 0,
         FREETEXT: 3,
@@ -57,7 +56,7 @@ let __tla = Promise.all([
         SIGNATURE: 101,
         COMMENT: 102
     };
-    p = {
+    f = {
         RESIZE: 1,
         CREATE: 2,
         FREETEXT_SIZE: 11,
@@ -73,7 +72,7 @@ let __tla = Promise.all([
         HIGHLIGHT_SHOW_ALL: 34,
         DRAW_STEP: 41
     };
-    m = {
+    p = {
         PRINT: 4,
         MODIFY_CONTENTS: 8,
         COPY: 16,
@@ -83,7 +82,7 @@ let __tla = Promise.all([
         ASSEMBLE: 1024,
         PRINT_HIGH_QUALITY: 2048
     };
-    h = {
+    m = {
         FILL: 0,
         STROKE: 1,
         FILL_STROKE: 2,
@@ -95,12 +94,12 @@ let __tla = Promise.all([
         FILL_STROKE_MASK: 3,
         ADD_TO_PATH_FLAG: 4
     };
-    g = {
+    h = {
         GRAYSCALE_1BPP: 1,
         RGB_24BPP: 2,
         RGBA_32BPP: 3
     };
-    _ = {
+    g = {
         TEXT: 1,
         LINK: 2,
         FREETEXT: 3,
@@ -129,19 +128,19 @@ let __tla = Promise.all([
         REDACT: 26,
         RICHMEDIA: 27
     };
-    v = {
+    _ = {
         SOLID: 1,
         DASHED: 2,
         BEVELED: 3,
         INSET: 4,
         UNDERLINE: 5
     };
-    y = {
+    v = {
         ERRORS: 0,
         WARNINGS: 1,
         INFOS: 5
     };
-    b = {
+    y = {
         dependency: 1,
         setLineWidth: 2,
         setLineCap: 3,
@@ -234,37 +233,37 @@ let __tla = Promise.all([
         setFillTransparent: 93,
         rawFillPath: 94
     };
-    x = {
+    b = {
         moveTo: 0,
         lineTo: 1,
         curveTo: 2,
         quadraticCurveTo: 3,
         closePath: 4
     };
-    S = {
+    x = {
         NEED_PASSWORD: 1,
         INCORRECT_PASSWORD: 2
     };
-    C = y.WARNINGS;
-    function w(e) {
-        Number.isInteger(e) && (C = e);
+    S = v.WARNINGS;
+    function C(e) {
+        Number.isInteger(e) && (S = e);
     }
-    function T() {
-        return C;
+    function w() {
+        return S;
+    }
+    function T(e) {
+        S >= v.INFOS && console.info(`Info: ${e}`);
     }
     function E(e) {
-        C >= y.INFOS && console.info(`Info: ${e}`);
+        S >= v.WARNINGS && console.warn(`Warning: ${e}`);
     }
     function D(e) {
-        C >= y.WARNINGS && console.warn(`Warning: ${e}`);
-    }
-    function O(e) {
         throw Error(e);
     }
-    function k(e, t) {
-        e || O(t);
+    function O(e, t) {
+        e || D(t);
     }
-    function A(e) {
+    function ee(e) {
         switch(e?.protocol){
             case `http:`:
             case `https:`:
@@ -276,19 +275,19 @@ let __tla = Promise.all([
                 return !1;
         }
     }
-    j = function(e, t = null, n = null) {
+    k = function(e, t = null, n = null) {
         if (!e) return null;
         if (n && typeof e == `string` && (n.addDefaultProtocol && e.startsWith(`www.`) && e.match(/\./g)?.length >= 2 && (e = `http://${e}`), n.tryConvertEncoding)) try {
-            e = le(e);
+            e = ce(e);
         } catch  {}
         let r = t ? URL.parse(e, t) : URL.parse(e);
-        return A(r) ? r : null;
+        return ee(r) ? r : null;
     };
-    ee = function(e, t, n = !1) {
+    A = function(e, t, n = !1) {
         let r = URL.parse(e);
-        return r ? (r.hash = t, r.href) : n && j(e, `http://example.com`) ? e.split(`#`, 1)[0] + `${t ? `#${t}` : ``}` : ``;
+        return r ? (r.hash = t, r.href) : n && k(e, `http://example.com`) ? e.split(`#`, 1)[0] + `${t ? `#${t}` : ``}` : ``;
     };
-    function te(e) {
+    function j(e) {
         return e.substring(e.lastIndexOf(`/`) + 1);
     }
     M = function(e, t, n, r = !1) {
@@ -299,34 +298,34 @@ let __tla = Promise.all([
             writable: !1
         }), n;
     };
-    let N, re, oe;
+    let N, ne, ae;
     N = function() {
         function e(e, t) {
             this.message = e, this.name = t;
         }
         return e.prototype = Error(), e.constructor = e, e;
     }();
-    ne = class extends N {
+    te = class extends N {
         constructor(e, t){
             super(e, `PasswordException`), this.code = t;
         }
     };
-    re = class extends N {
+    ne = class extends N {
         constructor(e, t){
             super(e, `UnknownErrorException`), this.details = t;
         }
     };
-    ie = class extends N {
+    re = class extends N {
         constructor(e){
             super(e, `InvalidPDFException`);
         }
     };
-    ae = class extends N {
+    ie = class extends N {
         constructor(e, t, n){
             super(e, `ResponseException`), this.status = t, this.missing = n;
         }
     };
-    oe = class extends N {
+    ae = class extends N {
         constructor(e){
             super(e, `FormatError`);
         }
@@ -336,8 +335,8 @@ let __tla = Promise.all([
             super(e, `AbortException`);
         }
     };
-    function se(e) {
-        (typeof e != `object` || e?.length === void 0) && O(`Invalid argument for bytesToString`);
+    function oe(e) {
+        (typeof e != `object` || e?.length === void 0) && D(`Invalid argument for bytesToString`);
         let t = e.length, n = 8192;
         if (t < n) return String.fromCharCode.apply(null, e);
         let r = [];
@@ -347,8 +346,8 @@ let __tla = Promise.all([
         }
         return r.join(``);
     }
-    function ce(e) {
-        typeof e != `string` && O(`Invalid argument for stringToBytes`);
+    function se(e) {
+        typeof e != `string` && D(`Invalid argument for stringToBytes`);
         let t = e.length, n = new Uint8Array(t);
         for(let r = 0; r < t; ++r)n[r] = e.charCodeAt(r) & 255;
         return n;
@@ -500,24 +499,24 @@ let __tla = Promise.all([
             c[0] = Math.min(c[0], e, o), c[1] = Math.min(c[1], t, s), c[2] = Math.max(c[2], e, o), c[3] = Math.max(c[3], t, s), this.#t(e, n, i, o, t, r, a, s, 3 * (-e + 3 * (n - i) + o), 6 * (e - 2 * n + i), 3 * (n - e), c), this.#t(e, n, i, o, t, r, a, s, 3 * (-t + 3 * (r - a) + s), 6 * (t - 2 * r + a), 3 * (r - t), c);
         }
     };
-    function le(e) {
+    function ce(e) {
         return decodeURIComponent(escape(e));
     }
-    var ue = null, de = null;
-    fe = function(e) {
-        return ue || (ue = /([\u00a0\u00b5\u037e\u0eb3\u2000-\u200a\u202f\u2126\ufb00-\ufb04\ufb06\ufb20-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufba1\ufba4-\ufba9\ufbae-\ufbb1\ufbd3-\ufbdc\ufbde-\ufbe7\ufbea-\ufbf8\ufbfc\ufbfd\ufc00-\ufc5d\ufc64-\ufcf1\ufcf5-\ufd3d\ufd88\ufdf4\ufdfa\ufdfb\ufe71\ufe77\ufe79\ufe7b\ufe7d]+)|(\ufb05+)/gu, de = new Map([
+    var le = null, ue = null;
+    de = function(e) {
+        return le || (le = /([\u00a0\u00b5\u037e\u0eb3\u2000-\u200a\u202f\u2126\ufb00-\ufb04\ufb06\ufb20-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufba1\ufba4-\ufba9\ufbae-\ufbb1\ufbd3-\ufbdc\ufbde-\ufbe7\ufbea-\ufbf8\ufbfc\ufbfd\ufc00-\ufc5d\ufc64-\ufcf1\ufcf5-\ufd3d\ufd88\ufdf4\ufdfa\ufdfb\ufe71\ufe77\ufe79\ufe7b\ufe7d]+)|(\ufb05+)/gu, ue = new Map([
             [
                 `ﬅ`,
                 `ſt`
             ]
-        ])), e.replaceAll(ue, (e, t, n)=>t ? t.normalize(`NFKC`) : de.get(n));
+        ])), e.replaceAll(le, (e, t, n)=>t ? t.normalize(`NFKC`) : ue.get(n));
     };
-    pe = function() {
+    fe = function() {
         if (typeof crypto.randomUUID == `function`) return crypto.randomUUID();
         let e = new Uint8Array(32);
-        return crypto.getRandomValues(e), se(e);
+        return crypto.getRandomValues(e), oe(e);
     };
-    function me(e, t, n) {
+    function pe(e, t, n) {
         if (!Array.isArray(n) || n.length < 2) return !1;
         let [r, i, ...a] = n;
         if (!e(r) && !Number.isInteger(r) || !t(i)) return !1;
@@ -545,10 +544,10 @@ let __tla = Promise.all([
         for (let e of a)if (!(typeof e == `number` || s && e === null)) return !1;
         return !0;
     }
-    he = ()=>[];
-    ge = ()=>new Map;
-    _e = ()=>Object.create(null);
-    ve = ()=>new Set;
+    me = ()=>[];
+    he = ()=>new Map;
+    ge = ()=>Object.create(null);
+    _e = ()=>new Set;
     typeof Iterator.prototype.join != `function` && (Iterator.prototype.join = function(e) {
         return [
             ...this
@@ -557,8 +556,8 @@ let __tla = Promise.all([
     L = function(e, t, n) {
         return Math.min(Math.max(e, t), n);
     };
-    let ye, be, xe, Se;
-    ye = class e {
+    let ve, ye, be, xe;
+    ve = class e {
         constructor({ viewBox: e, userUnit: t, scale: n, rotation: r, offsetX: i = 0, offsetY: a = 0, dontFlip: o = !1 }){
             this.viewBox = e, this.userUnit = t, this.scale = n, this.rotation = r, this.offsetX = i, this.offsetY = a, n *= t;
             let s = (e[2] + e[0]) / 2, c = (e[3] + e[1]) / 2, l, u, d, f;
@@ -624,7 +623,7 @@ let __tla = Promise.all([
             return I.applyInverseTransform(n, this.transform), n;
         }
     };
-    be = class e {
+    ye = class e {
         static textContent(t) {
             let n = [], r = {
                 items: n,
@@ -646,9 +645,9 @@ let __tla = Promise.all([
             return e !== `textarea` && e !== `input` && e !== `option` && e !== `select`;
         }
     };
-    xe = /url\(|image-set\(/i;
-    Se = /^on/i;
-    Ce = class {
+    be = /url\(|image-set\(/i;
+    xe = /^on/i;
+    Se = class {
         static get _allowedHtmlElements() {
             return M(this, `_allowedHtmlElements`, new Set([
                 `a`,
@@ -753,7 +752,7 @@ let __tla = Promise.all([
         static setAttributes({ html: e, element: t, storage: n = null, intent: r, linkService: i }) {
             let { attributes: a } = t, o = e instanceof HTMLAnchorElement;
             a.type === `radio` && (a.name = `${a.name}-${r}`);
-            for (let [t, n] of Object.entries(a))if (n != null && !Se.test(t) && !(r === `richText` && !this._allowedRichTextAttributes.has(t))) switch(t){
+            for (let [t, n] of Object.entries(a))if (n != null && !xe.test(t) && (r !== `richText` || this._allowedRichTextAttributes.has(t))) switch(t){
                 case `class`:
                     n.length && e.setAttribute(t, n.join(` `));
                     break;
@@ -765,7 +764,7 @@ let __tla = Promise.all([
                 case `style`:
                     if (r === `richText`) {
                         let t = this._allowedRichTextStyles;
-                        for (let [r, i] of Object.entries(n))t.has(r) && !xe.test(i) && (e.style[r] = i);
+                        for (let [r, i] of Object.entries(n))t.has(r) && !be.test(i) && (e.style[r] = i);
                     } else Object.assign(e.style, n);
                     break;
                 case `textContent`:
@@ -777,7 +776,7 @@ let __tla = Promise.all([
             o && i?.addLinkAttributes(e, a.href, a.newWindow), n && a.dataId && this.setupStorage(e, a.dataId, t, n);
         }
         static #e(e, t, n) {
-            return n === `richText` ? !t && this._allowedRichTextElements.has(e) ? document.createElement(e) : null : t ? t === s && this._allowedSvgElements.has(e) ? document.createElementNS(s, e) : null : this._allowedHtmlElements.has(e) ? document.createElement(e) : null;
+            return n === `richText` ? !t && this._allowedRichTextElements.has(e) ? document.createElement(e) : null : t ? t === o && this._allowedSvgElements.has(e) ? document.createElementNS(o, e) : null : this._allowedHtmlElements.has(e) ? document.createElement(e) : null;
         }
         static render(e) {
             let t = e.annotationStorage, n = e.linkService, r = e.xfaHtml, i = e.intent || `display`, a = this.#e(r.name, r.attributes?.xmlns, i) ?? document.createElement(`div`);
@@ -797,7 +796,7 @@ let __tla = Promise.all([
             if (r.children.length === 0) {
                 if (r.value) {
                     let e = document.createTextNode(r.value);
-                    a.append(e), o && be.shouldBuildText(r.name) && c.push(e);
+                    a.append(e), o && ye.shouldBuildText(r.name) && c.push(e);
                 }
                 return {
                     textDivs: c
@@ -839,7 +838,7 @@ let __tla = Promise.all([
                     ]);
                     else if (s.value) {
                         let e = document.createTextNode(s.value);
-                        o && be.shouldBuildText(u) && c.push(e), d.append(e);
+                        o && ye.shouldBuildText(u) && c.push(e), d.append(e);
                     }
                 }
             }
@@ -854,7 +853,7 @@ let __tla = Promise.all([
         }
         static getPageViewport(e, { scale: t = 1, rotation: n = 0 }) {
             let { width: r, height: i } = e.attributes.style;
-            return new ye({
+            return new ve({
                 viewBox: [
                     0,
                     0,
@@ -867,13 +866,13 @@ let __tla = Promise.all([
             });
         }
     };
-    we = class {
+    Ce = class {
         static CSS = 96;
         static PDF = 72;
         static PDF_TO_CSS_UNITS = this.CSS / this.PDF;
     };
-    Te = async function(e, t = `text`) {
-        if (Me(e, document.baseURI)) {
+    we = async function(e, t = `text`) {
+        if (je(e, document.baseURI)) {
             let n = await fetch(e);
             if (!n.ok) throw Error(n.statusText);
             switch(t){
@@ -901,32 +900,30 @@ let __tla = Promise.all([
                                 return;
                         }
                         n(i.responseText);
-                        return;
-                    }
-                    r(Error(i.statusText));
+                    } else r(Error(i.statusText));
                 }
             }, i.send(null);
         });
     };
-    Ee = class extends N {
+    Te = class extends N {
         constructor(e, t = 0){
             super(e, `RenderingCancelledException`), this.extraDelay = t;
         }
     };
-    De = function(e) {
+    Ee = function(e) {
         let t = e.length, n = 0;
         for(; n < t && e[n].trim() === ``;)n++;
         return e.substring(n, n + 5).toLowerCase() === `data:`;
     };
-    Oe = function(e) {
+    De = function(e) {
         return typeof e == `string` && /\.pdf$/i.test(e);
     };
-    ke = function(e) {
-        return [e] = e.split(/[#?]/, 1), te(e);
+    Oe = function(e) {
+        return [e] = e.split(/[#?]/, 1), j(e);
     };
-    Ae = function(e, t = `document.pdf`) {
+    ke = function(e, t = `document.pdf`) {
         if (typeof e != `string`) return t;
-        if (De(e)) return D(`getPdfFilenameFromUrl: ignore "data:"-URL for performance reasons.`), t;
+        if (Ee(e)) return E(`getPdfFilenameFromUrl: ignore "data:"-URL for performance reasons.`), t;
         let n = ((e)=>{
             try {
                 return new URL(e);
@@ -946,11 +943,11 @@ let __tla = Promise.all([
         let r = (e)=>{
             try {
                 let t = decodeURIComponent(e);
-                return t.includes(`/`) && (t = te(t), t.length === 4 && i.test(t)) ? e : t;
+                return t.includes(`/`) && (t = j(t), t.length === 4 && i.test(t)) ? e : t;
             } catch  {
                 return e;
             }
-        }, i = /\.pdf$/i, a = te(n.pathname);
+        }, i = /\.pdf$/i, a = j(n.pathname);
         if (i.test(a)) return r(a);
         if (n.searchParams.size > 0) {
             let e = (e)=>[
@@ -964,14 +961,14 @@ let __tla = Promise.all([
         }
         return t;
     };
-    var je = class {
+    var Ae = class {
         #e = new Map;
         times = [];
         time(e) {
-            this.#e.has(e) && D(`Timer is already running for ${e}`), this.#e.set(e, Date.now());
+            this.#e.has(e) && E(`Timer is already running for ${e}`), this.#e.set(e, Date.now());
         }
         timeEnd(e) {
-            this.#e.has(e) || D(`Timer has not been started for ${e}`), this.times.push({
+            this.#e.has(e) || E(`Timer has not been started for ${e}`), this.times.push({
                 name: e,
                 start: this.#e.get(e),
                 end: Date.now()
@@ -982,7 +979,7 @@ let __tla = Promise.all([
             return this.times.map((t)=>`${t.name.padEnd(e)} ${t.end - t.start}ms\n`).join(``);
         }
     };
-    function Me(e, t) {
+    function je(e, t) {
         let n = t ? URL.parse(e, t) : URL.parse(e);
         return /https?:/.test(n?.protocol ?? ``);
     }
@@ -992,7 +989,7 @@ let __tla = Promise.all([
     z = function(e) {
         e.preventDefault(), e.stopPropagation();
     };
-    Ne = class {
+    Me = class {
         static #e;
         static toDateObject(e) {
             if (e instanceof Date) return e;
@@ -1016,7 +1013,7 @@ let __tla = Promise.all([
             return u = u >= 0 && u <= 59 ? u : 0, c === `-` ? (a += l, o += u) : c === `+` && (a -= l, o -= u), new Date(Date.UTC(n, r, i, a, o, s));
         }
     };
-    Pe = function(e) {
+    Ne = function(e) {
         if (e.startsWith(`#`)) {
             let t = e.slice(1);
             return [
@@ -1052,21 +1049,21 @@ let __tla = Promise.all([
             t[4] !== void 0 && t[4] !== `none` ? parseFloat(t[4]) : 1
         ] : null;
     };
-    Fe = function(e) {
-        let t = Pe(e);
-        return t ? t.slice(0, 3) : (D(`Not a valid color format: "${e}"`), [
+    Pe = function(e) {
+        let t = Ne(e);
+        return t ? t.slice(0, 3) : (E(`Not a valid color format: "${e}"`), [
             0,
             0,
             0
         ]);
     };
-    function Ie(e) {
+    function Fe(e) {
         let t = document.createElement(`span`);
         t.style.visibility = `hidden`, t.style.colorScheme = `only light`, document.body.append(t);
         for (let n of e.keys()){
             t.style.color = n;
             let r = window.getComputedStyle(t).color;
-            e.set(n, Fe(r));
+            e.set(n, Pe(r));
         }
         t.remove();
     }
@@ -1092,15 +1089,15 @@ let __tla = Promise.all([
             o
         ];
     }
-    Le = function(e, t, n = !1, r = !0) {
-        if (t instanceof ye) {
+    Ie = function(e, t, n = !1, r = !0) {
+        if (t instanceof ve) {
             let { pageWidth: r, pageHeight: i } = t.rawDims, { style: a } = e, o = `round(down, var(--total-scale-factor) * ${r}px, var(--scale-round-x))`, s = `round(down, var(--total-scale-factor) * ${i}px, var(--scale-round-y))`;
             !n || t.rotation % 180 == 0 ? (a.width = o, a.height = s) : (a.width = s, a.height = o);
         }
         r && e.setAttribute(`data-main-rotation`, t.rotation);
     };
-    let Be;
-    Re = class e {
+    let ze;
+    Le = class e {
         constructor(){
             let { pixelRatio: t } = e;
             this.sx = t, this.sy = t;
@@ -1128,7 +1125,7 @@ let __tla = Promise.all([
             return e;
         }
     };
-    ze = [
+    Re = [
         `image/apng`,
         `image/avif`,
         `image/bmp`,
@@ -1139,27 +1136,27 @@ let __tla = Promise.all([
         `image/webp`,
         `image/x-icon`
     ];
-    Be = class {
+    ze = class {
         static get isDarkMode() {
             return M(this, `isDarkMode`, !!window?.matchMedia?.(`(prefers-color-scheme: dark)`).matches);
         }
     };
-    Ve = class {
+    Be = class {
         static get commentForegroundColor() {
             let e = document.createElement(`span`);
             e.classList.add(`comment`, `sidebar`);
             let { style: t } = e;
             t.width = t.height = `0`, t.display = `none`, t.color = `var(--comment-fg-color)`, document.body.append(e);
             let { color: n } = window.getComputedStyle(e);
-            return e.remove(), M(this, `commentForegroundColor`, Fe(n));
+            return e.remove(), M(this, `commentForegroundColor`, Pe(n));
         }
     };
-    He = function(e, t) {
+    Ve = function(e, t) {
         t = L(t ?? 1, 0, 1);
         let n = 255 * (1 - t);
         return e.map((e)=>Math.round(e * t + n));
     };
-    function Ue(e, t) {
+    function He(e, t) {
         let n = e[0] / 255, r = e[1] / 255, i = e[2] / 255, a = Math.max(n, r, i), o = Math.min(n, r, i), s = (a + o) / 2;
         if (a === o) t[0] = t[1] = 0;
         else {
@@ -1177,7 +1174,7 @@ let __tla = Promise.all([
         }
         t[2] = s;
     }
-    function We(e, t) {
+    function Ue(e, t) {
         let n = e[0], r = e[1], i = e[2], a = (1 - Math.abs(2 * i - 1)) * r, o = a * (1 - Math.abs(n / 60 % 2 - 1)), s = i - a / 2;
         switch(Math.floor(n / 60)){
             case 0:
@@ -1200,36 +1197,36 @@ let __tla = Promise.all([
                 t[0] = a + s, t[1] = s, t[2] = o + s;
         }
     }
-    function Ge(e) {
+    function We(e) {
         return e <= .03928 ? e / 12.92 : ((e + .055) / 1.055) ** 2.4;
     }
-    function Ke(e, t, n) {
-        We(e, n), n.map(Ge);
+    function Ge(e, t, n) {
+        Ue(e, n), n.map(We);
         let r = .2126 * n[0] + .7152 * n[1] + .0722 * n[2];
-        We(t, n), n.map(Ge);
+        Ue(t, n), n.map(We);
         let i = .2126 * n[0] + .7152 * n[1] + .0722 * n[2];
         return r > i ? (r + .05) / (i + .05) : (i + .05) / (r + .05);
     }
-    var qe = new Map;
-    Je = function(e, t) {
-        let n = e[0] + e[1] * 256 + e[2] * 65536 + t[0] * 16777216 + t[1] * 4294967296 + t[2] * 1099511627776, r = qe.get(n);
+    var Ke = new Map;
+    qe = function(e, t) {
+        let n = e[0] + e[1] * 256 + e[2] * 65536 + t[0] * 16777216 + t[1] * 4294967296 + t[2] * 1099511627776, r = Ke.get(n);
         if (r) return r;
         let i = new Float32Array(9), a = i.subarray(0, 3), o = i.subarray(3, 6);
-        Ue(e, o);
+        He(e, o);
         let s = i.subarray(6, 9);
-        Ue(t, s);
+        He(t, s);
         let c = s[2] < .5, l = c ? 12 : 4.5;
-        if (o[2] = c ? Math.sqrt(o[2]) : 1 - Math.sqrt(1 - o[2]), Ke(o, s, a) < l) {
+        if (o[2] = c ? Math.sqrt(o[2]) : 1 - Math.sqrt(1 - o[2]), Ge(o, s, a) < l) {
             let e, t;
             for(c ? (e = o[2], t = 1) : (e = 0, t = o[2]); t - e > .005;){
                 let n = o[2] = (e + t) / 2;
-                c === Ke(o, s, a) < l ? e = n : t = n;
+                c === Ge(o, s, a) < l ? e = n : t = n;
             }
             o[2] = c ? t : e;
         }
-        return We(o, a), r = I.makeHexColor(Math.round(a[0] * 255), Math.round(a[1] * 255), Math.round(a[2] * 255)), qe.set(n, r), r;
+        return Ue(o, a), r = I.makeHexColor(Math.round(a[0] * 255), Math.round(a[1] * 255), Math.round(a[2] * 255)), Ke.set(n, r), r;
     };
-    Ye = function({ html: e, dir: t, className: n }, r) {
+    Je = function({ html: e, dir: t, className: n }, r) {
         let i = document.createDocumentFragment();
         if (typeof e == `string`) {
             let n = document.createElement(`p`);
@@ -1240,38 +1237,38 @@ let __tla = Promise.all([
                 n.append(document.createTextNode(i)), e < t - 1 && n.append(document.createElement(`br`));
             }
             i.append(n);
-        } else Ce.render({
+        } else Se.render({
             xfaHtml: e,
             div: i,
             intent: `richText`
         });
         i.firstElementChild.classList.add(`richText`, n), r.append(i);
     };
-    function Xe(e) {
+    function Ye(e) {
         let t = new Path2D;
         if (!e) return t;
         for(let n = 0, r = e.length; n < r;)switch(e[n++]){
-            case x.moveTo:
+            case b.moveTo:
                 t.moveTo(e[n++], e[n++]);
                 break;
-            case x.lineTo:
+            case b.lineTo:
                 t.lineTo(e[n++], e[n++]);
                 break;
-            case x.curveTo:
+            case b.curveTo:
                 t.bezierCurveTo(e[n++], e[n++], e[n++], e[n++], e[n++], e[n++]);
                 break;
-            case x.quadraticCurveTo:
+            case b.quadraticCurveTo:
                 t.quadraticCurveTo(e[n++], e[n++], e[n++], e[n++]);
                 break;
-            case x.closePath:
+            case b.closePath:
                 t.closePath();
                 break;
             default:
-                D(`Unrecognized drawing path operator: ${e[n - 1]}`);
+                E(`Unrecognized drawing path operator: ${e[n - 1]}`);
         }
         return t;
     }
-    var Ze = class e {
+    var Xe = class e {
         #e = null;
         #t = null;
         #n;
@@ -1404,7 +1401,7 @@ let __tla = Promise.all([
         remove() {
             this.#e.remove(), this.#t?.destroy(), this.#t = null;
         }
-    }, Qe = class {
+    }, Ze = class {
         #e = null;
         #t = null;
         #n;
@@ -1431,11 +1428,7 @@ let __tla = Promise.all([
                 let e = i.y + i.height;
                 if (e < n) continue;
                 let a = i.x + (t ? i.width : 0);
-                if (e > n) {
-                    r = a, n = e;
-                    continue;
-                }
-                t ? a > r && (r = a) : a < r && (r = a);
+                e > n ? (r = a, n = e) : t ? a > r && (r = a) : a < r && (r = a);
             }
             return [
                 t ? 1 - r : r,
@@ -1461,13 +1454,13 @@ let __tla = Promise.all([
                 signal: o
             })), this.#e.append(i);
         }
-    }, $e = Object.freeze({
+    }, Qe = Object.freeze({
         internal: `f63eb798-ea37-4556-98de-f8303ee5a694`
     });
-    function et(e, t, n) {
+    function $e(e, t, n) {
         for (let r of n)t.addEventListener(r, e[r].bind(e));
     }
-    let H, tt, nt, rt, it, at, st, ct, U, ut, dt, W, ft, pt, mt, ht, gt, _t, vt, yt;
+    let H, et, tt, nt, rt, it, ot, st, U, lt, ut, W, dt, ft, pt, mt, ht, gt, _t, vt;
     H = class e {
         static #e = NaN;
         static #t = null;
@@ -1510,18 +1503,18 @@ let __tla = Promise.all([
             e.#n = NaN;
         }
     };
-    tt = class {
+    et = class {
         #e = 0;
         get id() {
-            return `${d}${this.#e++}`;
+            return `${u}${this.#e++}`;
         }
     };
-    nt = class e {
-        #e = pe();
+    tt = class e {
+        #e = fe();
         #t = 0;
         #n = null;
         static get _isSVGFittingCanvas() {
-            let e = `data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1 1" width="1" height="1" xmlns="${s}"><rect width="1" height="1" style="fill:red;"/></svg>`, t = new OffscreenCanvas(1, 3).getContext(`2d`, {
+            let e = `data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 1 1" width="1" height="1" xmlns="${o}"><rect width="1" height="1" style="fill:red;"/></svg>`, t = new OffscreenCanvas(1, 3).getContext(`2d`, {
                 willReadFrequently: !0
             }), n = new Image;
             n.src = e;
@@ -1541,7 +1534,7 @@ let __tla = Promise.all([
                     isSvg: !1
                 };
                 let t;
-                if (typeof n == `string` ? (r.url = n, t = await Te(n, `blob`)) : n instanceof File ? t = r.file = n : n instanceof Blob && (t = n), t.type === `image/svg+xml`) {
+                if (typeof n == `string` ? (r.url = n, t = await we(n, `blob`)) : n instanceof File ? t = r.file = n : n instanceof Blob && (t = n), t.type === `image/svg+xml`) {
                     let n = e._isSVGFittingCanvas, i = new FileReader, a = new Image, o = new Promise((e, t)=>{
                         a.onload = ()=>{
                             r.bitmap = a, r.isSvg = !0, e();
@@ -1554,7 +1547,7 @@ let __tla = Promise.all([
                 } else r.bitmap = await createImageBitmap(t);
                 r.refCounter = 1;
             } catch (e) {
-                D(e), r = null;
+                E(e), r = null;
             }
             return this.#n.set(t, r), r && this.#n.set(r.id, r), r;
         }
@@ -1612,7 +1605,7 @@ let __tla = Promise.all([
             return e.startsWith(`image_${this.#e}_`);
         }
     };
-    rt = class {
+    nt = class {
         #e = [];
         #t = !1;
         #n;
@@ -1671,7 +1664,7 @@ let __tla = Promise.all([
             this.#e = null;
         }
     };
-    it = class e {
+    rt = class e {
         static ALT = 1;
         static CTRL = 2;
         static META = 4;
@@ -1689,7 +1682,7 @@ let __tla = Promise.all([
                         e && (r = o.slice(4));
                     }
                     let [s, c] = e.#e(r);
-                    s !== null && this.callbacks.getOrInsertComputed(s, he).push({
+                    s !== null && this.callbacks.getOrInsertComputed(s, me).push({
                         callback: i,
                         options: a,
                         modifiers: c
@@ -1702,17 +1695,16 @@ let __tla = Promise.all([
             for (let i of t.split(`+`)){
                 if (i = i.trim(), !i) continue;
                 let a = i.toUpperCase(), o = e[a];
-                if (o) {
-                    r |= o;
-                    continue;
+                if (o) r |= o;
+                else {
+                    if (n !== null) {
+                        E(`KeyboardManager: multiple keys in shortcut "${t}"`);
+                        break;
+                    }
+                    n = a === `SPACE` ? ` ` : i;
                 }
-                if (n !== null) {
-                    D(`KeyboardManager: multiple keys in shortcut "${t}"`);
-                    break;
-                }
-                n = a === `SPACE` ? ` ` : i;
             }
-            return n === null && D(`KeyboardManager: no key found in shortcut "${t}"`), [
+            return n === null && E(`KeyboardManager: no key found in shortcut "${t}"`), [
                 n,
                 r
             ];
@@ -1731,10 +1723,10 @@ let __tla = Promise.all([
             let i = (n.altKey ? e.ALT : 0) | (n.ctrlKey ? e.CTRL : 0) | (n.metaKey ? e.META : 0) | (n.shiftKey ? e.SHIFT : 0), a = r.find((e)=>e.modifiers === i);
             if (!a) return;
             let { callback: o, options: { bubbles: s = !1, args: c = [], checker: l = null } } = a;
-            l && !l(t, n) || (o.bind(t, ...c, n)(), s || z(n));
+            (!l || l(t, n)) && (o.bind(t, ...c, n)(), s || z(n));
         }
     };
-    at = class e {
+    it = class e {
         static _colorsMapping = new Map([
             [
                 `CanvasText`,
@@ -1764,10 +1756,10 @@ let __tla = Promise.all([
                     null
                 ]
             ]);
-            return Ie(e), M(this, `_colors`, e);
+            return Fe(e), M(this, `_colors`, e);
         }
         convert(t) {
-            let n = Fe(t);
+            let n = Pe(t);
             if (!window.matchMedia(`(forced-colors: active)`).matches) return n;
             for (let [t, r] of this._colors)if (r.every((e, t)=>e === n[t])) return e._colorsMapping.get(t);
             return n;
@@ -1777,7 +1769,7 @@ let __tla = Promise.all([
             return t ? I.makeHexColor(...t) : e;
         }
     };
-    ot = class e {
+    at = class e {
         #e = new AbortController;
         #t = null;
         #n = null;
@@ -1787,7 +1779,7 @@ let __tla = Promise.all([
         #o = null;
         #s = null;
         #c = null;
-        #l = new rt;
+        #l = new nt;
         #u = null;
         #d = null;
         #f = null;
@@ -1806,7 +1798,7 @@ let __tla = Promise.all([
         #w = null;
         #T = !1;
         #E = null;
-        #D = new tt;
+        #D = new et;
         #O = !1;
         #k = !1;
         #A = !1;
@@ -1815,7 +1807,7 @@ let __tla = Promise.all([
         #N = null;
         #P = null;
         #F = null;
-        #I = f.NONE;
+        #I = d.NONE;
         #L = new Set;
         #R = null;
         #z = null;
@@ -1849,7 +1841,7 @@ let __tla = Promise.all([
                 }
                 return !0;
             }, i = this.TRANSLATE_SMALL, a = this.TRANSLATE_BIG;
-            return M(this, `_keyboardManager`, new it([
+            return M(this, `_keyboardManager`, new rt([
                 [
                     [
                         `ctrl+a`,
@@ -2041,7 +2033,7 @@ let __tla = Promise.all([
             this.#K = e, this.#q = t, this.#J = n, this.#o = r, this.#u = i, this.#z = a, this.#H = s, this._eventBus = o;
             let _ = {
                 signal: g,
-                ...$e
+                ...Qe
             };
             o.on(`editingaction`, this.onEditingAction.bind(this), _), o.on(`pagechanging`, this.onPageChanging.bind(this), _), o.on(`scalechanging`, this.onScaleChanging.bind(this), _), o.on(`rotationchanging`, this.onRotationChanging.bind(this), _), o.on(`setpreference`, this.onSetPreference.bind(this), _), o.on(`switchannotationeditorparams`, (e)=>this.updateParams(e.type, e.value), _), window.addEventListener(`pointerdown`, ()=>{
                 this.#k = !0;
@@ -2057,7 +2049,7 @@ let __tla = Promise.all([
                 capture: !0,
                 signal: g
             }), this.#te(), this.#ce(), this.#ie(), this.#s = s.annotationStorage, this.#x = s.filterFactory, this.#B = c, this.#w = l || null, this.#v = u, this.#y = d, this.#b = f, this.#F = p || null, this.viewParameters = {
-                realScale: we.PDF_TO_CSS_UNITS,
+                realScale: Ce.PDF_TO_CSS_UNITS,
                 rotation: 0
             }, this.isShiftKeyDown = !1, this._editorUndoBar = m || null, this._supportsPinchToZoom = h !== !1, i?.setSidebarUiManager(this);
         }
@@ -2096,11 +2088,7 @@ let __tla = Promise.all([
             let t = new Map, n = !!this.#B;
             for (let [r, i] of e){
                 let e = r.endsWith(`_HCM`);
-                if (n && e) {
-                    t.set(r.replace(`_HCM`, ``), i);
-                    continue;
-                }
-                !n && !e && t.set(r, i);
+                n && e ? t.set(r.replace(`_HCM`, ``), i) : !n && !e && t.set(r, i);
             }
             return M(this, `highlightColors`, t);
         }
@@ -2170,7 +2158,7 @@ let __tla = Promise.all([
             let { resolve: t, promise: n } = Promise.withResolvers(), r = (n)=>{
                 n.pageNumber === e && (this._eventBus.off(`editorsrendered`, r), t());
             };
-            this._eventBus.on(`editorsrendered`, r, $e), await n;
+            this._eventBus.on(`editorsrendered`, r, Qe), await n;
         }
         getSignature(e) {
             this.#z?.getSignature({
@@ -2185,7 +2173,7 @@ let __tla = Promise.all([
             this._eventBus.on(`annotationeditormodechanged`, t, {
                 once: !0,
                 signal: this._signal,
-                ...$e
+                ...Qe
             }), this._eventBus.dispatch(`showannotationeditorui`, {
                 source: this,
                 mode: e
@@ -2228,7 +2216,7 @@ let __tla = Promise.all([
             this.#_.delete(e);
         }
         onScaleChanging({ scale: e }) {
-            this.commitOrRemove(), this.viewParameters.realScale = e * we.PDF_TO_CSS_UNITS;
+            this.commitOrRemove(), this.viewParameters.realScale = e * Ce.PDF_TO_CSS_UNITS;
             for (let e of this.#_)e.onScaleChanging();
             this.#f?.onScaleChanging();
         }
@@ -2250,7 +2238,7 @@ let __tla = Promise.all([
             let { anchorNode: r, anchorOffset: i, focusNode: a, focusOffset: o } = n, s = n.toString(), c = this.#X(n).closest(`.textLayer`), l = this.getSelectionBoxes(c);
             if (!l) return;
             n.empty();
-            let u = this.#Z(c), d = this.#I === f.NONE, p = ()=>{
+            let u = this.#Z(c), f = this.#I === d.NONE, p = ()=>{
                 let n = u?.createAndAddNewEditor({
                     x: 0,
                     y: 0
@@ -2263,13 +2251,9 @@ let __tla = Promise.all([
                     focusOffset: o,
                     text: s
                 });
-                d && this.showAllEditors(`highlight`, !0, !0), t && n?.editComment();
+                f && this.showAllEditors(`highlight`, !0, !0), t && n?.editComment();
             };
-            if (d) {
-                this.switchToMode(f.HIGHLIGHT, p);
-                return;
-            }
-            p();
+            f ? this.switchToMode(d.HIGHLIGHT, p) : p();
         }
         commentSelection(e = ``) {
             this.highlightSelection(e, !0);
@@ -2281,11 +2265,11 @@ let __tla = Promise.all([
             let e = document.getSelection();
             if (!e || e.isCollapsed) return;
             let t = this.#X(e).closest(`.textLayer`), n = this.getSelectionBoxes(t);
-            n && (this.#E ||= new Qe(this), this.#E.show(t, n, this.direction === `ltr`));
+            n && (this.#E ||= new Ze(this), this.#E.show(t, n, this.direction === `ltr`));
         }
         getAndRemoveDataFromAnnotationStorage(e) {
             if (!this.#s) return null;
-            let t = `${d}${e}`, n = this.#s.getRawValue(t);
+            let t = `${u}${e}`, n = this.#s.getRawValue(t);
             return n && this.#s.remove(t), n;
         }
         addToAnnotationStorage(e) {
@@ -2306,16 +2290,13 @@ let __tla = Promise.all([
             let { anchorNode: t } = e;
             if (t === this.#R) return;
             let n = this.#X(e).closest(`.textLayer`);
-            if (!n) {
-                this.#R && (this.#E?.hide(), this.#R = null, this.#le({
-                    hasSelectedText: !1
-                }));
-                return;
-            }
-            if (this.#E?.hide(), this.#R = t, this.#le({
+            if (!n) this.#R && (this.#E?.hide(), this.#R = null, this.#le({
+                hasSelectedText: !1
+            }));
+            else if (this.#E?.hide(), this.#R = t, this.#le({
                 hasSelectedText: !0
-            }), (this.#I === f.HIGHLIGHT || this.#I === f.NONE) && (this.#I === f.HIGHLIGHT && this.showAllEditors(`highlight`, !0, !0), this.#T = this.isShiftKeyDown, !this.isShiftKeyDown)) {
-                let e = this.#I === f.HIGHLIGHT ? this.#Z(n) : null;
+            }), (this.#I === d.HIGHLIGHT || this.#I === d.NONE) && (this.#I === d.HIGHLIGHT && this.showAllEditors(`highlight`, !0, !0), this.#T = this.isShiftKeyDown, !this.isShiftKeyDown)) {
+                let e = this.#I === d.HIGHLIGHT ? this.#Z(n) : null;
                 if (e?.toggleDrawing(), this.#k) {
                     let t = new AbortController, n = this.combinedSignal(t), r = (n)=>{
                         (n.type !== `pointerup` || n.button === 0) && (t.abort(), e?.toggleDrawing(!0), n.type === `pointerup` && this.#ee(`main_toolbar`));
@@ -2329,7 +2310,7 @@ let __tla = Promise.all([
             }
         }
         #ee(e = ``) {
-            this.#I === f.HIGHLIGHT ? this.highlightSelection(e) : this.#v && this.#Q();
+            this.#I === d.HIGHLIGHT ? this.highlightSelection(e) : this.#v && this.#Q();
         }
         #te() {
             document.addEventListener(`selectionchange`, this.#$.bind(this), {
@@ -2448,7 +2429,7 @@ let __tla = Promise.all([
             try {
                 n = JSON.parse(n);
             } catch (e) {
-                D(`paste: "${e.message}".`);
+                E(`paste: "${e.message}".`);
                 return;
             }
             if (!Array.isArray(n)) return;
@@ -2472,11 +2453,11 @@ let __tla = Promise.all([
                     mustExec: !0
                 });
             } catch (e) {
-                D(`paste: "${e.message}".`);
+                E(`paste: "${e.message}".`);
             }
         }
         keydown(t) {
-            !this.isShiftKeyDown && t.key === `Shift` && (this.isShiftKeyDown = !0), this.#I !== f.NONE && !this.isEditorHandlingKeyboard && e._keyboardManager.exec(this, t);
+            !this.isShiftKeyDown && t.key === `Shift` && (this.isShiftKeyDown = !0), this.#I !== d.NONE && !this.isEditorHandlingKeyboard && e._keyboardManager.exec(this, t);
         }
         keyup(e) {
             this.isShiftKeyDown && e.key === `Shift` && (this.isShiftKeyDown = !1, this.#T && (this.#T = !1, this.#ee(`main_toolbar`)));
@@ -2509,7 +2490,7 @@ let __tla = Promise.all([
         }
         clonePage(e, t) {
             for (let n of this.getEditors(e)){
-                let e = n.serialize(n.mode !== f.HIGHLIGHT);
+                let e = n.serialize(n.mode !== d.HIGHLIGHT);
                 e && (e.pageIndex = t, e.id = this.getId(), e.isClone = !0, delete e.popupRef, this.#s.setValue(e.id, e));
             }
         }
@@ -2524,9 +2505,9 @@ let __tla = Promise.all([
             Object.entries(e).some(([e, t])=>this.#U[e] !== t) && (this._eventBus.dispatch(`editingstateschanged`, {
                 source: this,
                 details: Object.assign(this.#U, e)
-            }), this.#I === f.HIGHLIGHT && e.hasSelectedEditor === !1 && this.#ue([
+            }), this.#I === d.HIGHLIGHT && e.hasSelectedEditor === !1 && this.#ue([
                 [
-                    p.HIGHLIGHT_FREE,
+                    f.HIGHLIGHT_FREE,
                     !0
                 ]
             ]));
@@ -2539,7 +2520,7 @@ let __tla = Promise.all([
         }
         setEditingState(e) {
             e ? (this.#ne(), this.#oe(), this.#le({
-                isEditing: this.#I !== f.NONE,
+                isEditing: this.#I !== d.NONE,
                 isEmpty: this.#he(),
                 hasSomethingToUndo: this.#l.hasSomethingToUndo(),
                 hasSomethingToRedo: this.#l.hasSomethingToRedo(),
@@ -2574,34 +2555,33 @@ let __tla = Promise.all([
         }
         async updateMode(e, t = null, n = !1, r = !1, i = !1, a = !1) {
             if (this.#I !== e && !(this.#Y && (await this.#Y.promise, !this.#Y))) {
-                if (this.#Y = Promise.withResolvers(), this.#f?.commitOrRemove(), this.#I === f.POPUP && this.#u?.hideSidebar(), this.#u?.destroyPopup(), this.#I = e, e === f.NONE) {
+                if (this.#Y = Promise.withResolvers(), this.#f?.commitOrRemove(), this.#I === d.POPUP && this.#u?.hideSidebar(), this.#u?.destroyPopup(), this.#I = e, e === d.NONE) {
                     this.setEditingState(!1), this.#fe();
                     for (let e of this.#r.values())e.hideStandaloneCommentButton();
                     this._editorUndoBar?.hide(), this.toggleComment(null), this.#Y.resolve();
-                    return;
-                }
-                for (let e of this.#r.values())e.addStandaloneCommentButton();
-                e === f.SIGNATURE && await this.#z?.loadSignatures(), n && H.clearPointerType(), this.setEditingState(!0), await this.#de(), this.unselectAll();
-                for (let t of this.#i.values())t.updateMode(e);
-                if (e === f.POPUP) {
-                    this.#n ||= await this.#H.getAnnotationsByType(new Set(this.#g.map((e)=>e._editorType)));
-                    let e = new Set, t = [];
-                    for (let n of this.#r.values()){
-                        let { annotationElementId: r, hasComment: i, deleted: a } = n;
-                        r && e.add(r), i && !a && t.push(n.getData());
+                } else {
+                    for (let e of this.#r.values())e.addStandaloneCommentButton();
+                    e === d.SIGNATURE && await this.#z?.loadSignatures(), n && H.clearPointerType(), this.setEditingState(!0), await this.#de(), this.unselectAll();
+                    for (let t of this.#i.values())t.updateMode(e);
+                    if (e === d.POPUP) {
+                        this.#n ||= await this.#H.getAnnotationsByType(new Set(this.#g.map((e)=>e._editorType)));
+                        let e = new Set, t = [];
+                        for (let n of this.#r.values()){
+                            let { annotationElementId: r, hasComment: i, deleted: a } = n;
+                            r && e.add(r), i && !a && t.push(n.getData());
+                        }
+                        for (let n of this.#n){
+                            let { id: r, popupRef: i, contentsObj: a } = n;
+                            i && a?.str && !e.has(r) && !this.#m.has(r) && t.push(n);
+                        }
+                        this.#u?.showSidebar(t);
                     }
-                    for (let n of this.#n){
-                        let { id: r, popupRef: i, contentsObj: a } = n;
-                        i && a?.str && !e.has(r) && !this.#m.has(r) && t.push(n);
+                    if (!t) r && this.addNewEditorFromKeyboard(), this.#Y.resolve();
+                    else {
+                        for (let e of this.#r.values())e.uid === t ? (this.setSelected(e), a ? e.editComment() : i ? e.enterInEditMode() : e.focus()) : e.unselect();
+                        this.#Y.resolve();
                     }
-                    this.#u?.showSidebar(t);
                 }
-                if (!t) {
-                    r && this.addNewEditorFromKeyboard(), this.#Y.resolve();
-                    return;
-                }
-                for (let e of this.#r.values())e.uid === t ? (this.setSelected(e), a ? e.editComment() : i ? e.enterInEditMode() : e.focus()) : e.unselect();
-                this.#Y.resolve();
             }
         }
         addNewEditorFromKeyboard() {
@@ -2616,10 +2596,10 @@ let __tla = Promise.all([
         updateParams(e, t) {
             if (this.#g) {
                 switch(e){
-                    case p.CREATE:
+                    case f.CREATE:
                         this.currentLayer.addNewEditor(t);
                         return;
-                    case p.HIGHLIGHT_SHOW_ALL:
+                    case f.HIGHLIGHT_SHOW_ALL:
                         this._eventBus.dispatch(`reporttelemetry`, {
                             source: this,
                             details: {
@@ -2637,9 +2617,9 @@ let __tla = Promise.all([
         }
         showAllEditors(e, t, n = !1) {
             for (let n of this.#r.values())n.editorType === e && n.show(t);
-            (this.#V?.get(p.HIGHLIGHT_SHOW_ALL) ?? !0) !== t && this.#ue([
+            (this.#V?.get(f.HIGHLIGHT_SHOW_ALL) ?? !0) !== t && this.#ue([
                 [
-                    p.HIGHLIGHT_SHOW_ALL,
+                    f.HIGHLIGHT_SHOW_ALL,
                     t
                 ]
             ]);
@@ -2678,7 +2658,7 @@ let __tla = Promise.all([
         removeEditor(e) {
             e.div.contains(document.activeElement) && (this.#S && clearTimeout(this.#S), this.#S = setTimeout(()=>{
                 this.focusMainContainer(), this.#S = null;
-            }, 0)), this.#r.delete(e.id), e.annotationElementId && this.#P?.delete(e.annotationElementId), this.unselect(e), (!e.annotationElementId || !this.#m.has(e.annotationElementId)) && this.#s?.remove(e.id);
+            }, 0)), this.#r.delete(e.id), e.annotationElementId && this.#P?.delete(e.annotationElementId), this.unselect(e), e.annotationElementId && this.#m.has(e.annotationElementId) || this.#s?.remove(e.id);
         }
         addDeletedAnnotationElement(e) {
             this.#m.add(e.annotationElementId), this.addChangedExistingAnnotation(e), e.deleted = !0;
@@ -2708,15 +2688,11 @@ let __tla = Promise.all([
             this.#ue(e.defaultPropertiesToUpdate);
         }
         toggleSelected(e) {
-            if (this.#L.has(e)) {
-                this.#L.delete(e), e.unselect(), this.#le({
-                    hasSelectedEditor: this.hasSelection
-                });
-                return;
-            }
-            this.#L.add(e), e.select(), this.#ue(e.propertiesToUpdate), this.#le({
+            this.#L.has(e) ? (this.#L.delete(e), e.unselect(), this.#le({
+                hasSelectedEditor: this.hasSelection
+            })) : (this.#L.add(e), e.select(), this.#ue(e.propertiesToUpdate), this.#le({
                 hasSelectedEditor: !0
-            });
+            }));
         }
         setSelected(e) {
             this.updateToolbar({
@@ -2810,7 +2786,7 @@ let __tla = Promise.all([
             this.#ge(this.#r.values());
         }
         unselectAll() {
-            if (!(this.#t && (this.#t.commitOrRemove(), this.#I !== f.NONE)) && !this.#f?.commitOrRemove() && (this.#u?.destroyPopup(), this.hasSelection)) {
+            if (!(this.#t && (this.#t.commitOrRemove(), this.#I !== d.NONE)) && !this.#f?.commitOrRemove() && (this.#u?.destroyPopup(), this.hasSelection)) {
                 for (let e of this.#L)e.unselect();
                 this.#L.clear(), this.#le({
                     hasSelectedEditor: !1
@@ -2895,10 +2871,10 @@ let __tla = Promise.all([
             return this.#I;
         }
         isEditingMode() {
-            return this.#I !== f.NONE;
+            return this.#I !== d.NONE;
         }
         get imageManager() {
-            return M(this, `imageManager`, new nt);
+            return M(this, `imageManager`, new tt);
         }
         getSelectionBoxes(e) {
             if (!e) return null;
@@ -2955,7 +2931,7 @@ let __tla = Promise.all([
             let t = this.#c?.get(e.data.id);
             if (!t) return;
             let n = this.#s.getRawValue(t);
-            n && (this.#I === f.NONE && !n.hasBeenModified || n.renderAnnotationElement(e));
+            n && (this.#I !== d.NONE || n.hasBeenModified) && n.renderAnnotationElement(e);
         }
         setMissingCanvas(e, t, n) {
             let r = this.#P?.get(e);
@@ -2965,7 +2941,7 @@ let __tla = Promise.all([
             (this.#P ||= new Map).set(e, t);
         }
     };
-    st = class e {
+    ot = class e {
         #e = null;
         #t = !1;
         #n = null;
@@ -3044,15 +3020,14 @@ let __tla = Promise.all([
             }), this.#m());
         }
         toggleAltTextBadge(e = !1) {
-            if (!this.#d || this.#e) {
-                this.#s?.remove(), this.#s = null;
-                return;
+            if (!this.#d || this.#e) this.#s?.remove(), this.#s = null;
+            else {
+                if (!this.#s) {
+                    let e = this.#s = document.createElement(`div`);
+                    e.className = `noAltTextBadge`, this.#c.div.append(e);
+                }
+                this.#s.classList.toggle(`hidden`, !e);
             }
-            if (!this.#s) {
-                let e = this.#s = document.createElement(`div`);
-                e.className = `noAltTextBadge`, this.#c.div.append(e);
-            }
-            this.#s.classList.toggle(`hidden`, !e);
         }
         serialize(e) {
             let t = this.#e;
@@ -3126,7 +3101,7 @@ let __tla = Promise.all([
             this.#t ? n.setAttribute(`data-l10n-id`, `pdfjs-editor-alt-text-decorative-tooltip`) : (n.removeAttribute(`data-l10n-id`), n.textContent = this.#e), n.parentNode || t.append(n), this.#c.getElementForAltText()?.setAttribute(`aria-describedby`, n.id);
         }
     };
-    ct = class {
+    st = class {
         #e = null;
         #t = null;
         #n = !1;
@@ -3275,11 +3250,7 @@ let __tla = Promise.all([
             };
         }
         set data(e) {
-            if (e !== this.#o && (this.#a = null), e === null) {
-                this.#o = ``, this.#c = !0;
-                return;
-            }
-            this.#o = e, this.#s = new Date, this.#c = !1;
+            e !== this.#o && (this.#a = null), e === null ? (this.#o = ``, this.#c = !0) : (this.#o = e, this.#s = new Date, this.#c = !1);
         }
         restoreData({ text: e, richText: t, date: n }) {
             this.#o = e, this.#a = t, this.#s = n, this.#c = !1;
@@ -3292,7 +3263,7 @@ let __tla = Promise.all([
             this.#t?.remove(), this.#t = null, this.#e?.remove(), this.#e = null, this.#o = ``, this.#a = null, this.#s = null, this.#r = null, this.#n = !1, this.#c = !1;
         }
     };
-    lt = class e {
+    ct = class e {
         #e;
         #t = !1;
         #n = null;
@@ -3315,7 +3286,7 @@ let __tla = Promise.all([
             });
         }
         get MIN_TOUCH_DISTANCE_TO_PINCH() {
-            return 35 / Re.pixelRatio;
+            return 35 / Le.pixelRatio;
         }
         #f(e) {
             if (this.#r?.()) return;
@@ -3431,12 +3402,12 @@ let __tla = Promise.all([
         #w = !1;
         #T = e._zIndex++;
         static _borderLineWidth = -1;
-        static _colorManager = new at;
+        static _colorManager = new it;
         static _zIndex = 1;
         static _telemetryTimeout = 1e3;
         static get _resizerKeyboardManager() {
-            let t = e.prototype._resizeWithKeyboard, n = ot.TRANSLATE_SMALL, r = ot.TRANSLATE_BIG;
-            return M(this, `_resizerKeyboardManager`, new it([
+            let t = e.prototype._resizeWithKeyboard, n = at.TRANSLATE_SMALL, r = at.TRANSLATE_BIG;
+            return M(this, `_resizerKeyboardManager`, new rt([
                 [
                     [
                         `ArrowLeft`
@@ -3574,7 +3545,7 @@ let __tla = Promise.all([
             return M(this, `_defaultLineColor`, this._colorManager.getHexCode(`CanvasText`));
         }
         static deleteAnnotationElement(e) {
-            let t = new ut({
+            let t = new lt({
                 id: e._uiManager.getId(),
                 parent: e.parent,
                 uiManager: e._uiManager
@@ -3609,7 +3580,7 @@ let __tla = Promise.all([
             return !1;
         }
         static paste(e, t) {
-            O(`Not implemented`);
+            D(`Not implemented`);
         }
         get propertiesToUpdate() {
             return [];
@@ -4043,15 +4014,15 @@ let __tla = Promise.all([
                 let e = Math.hypot(s, c);
                 w = T = Math.max(Math.min(Math.hypot(b[0] - y[0] - E, b[1] - y[1] - D) / e, 1 / s, 1 / c), l / s, u / c);
             } else v ? w = L(Math.abs(b[0] - y[0] - E), l, 1) / s : T = L(Math.abs(b[1] - y[1] - D), u, 1) / c;
-            let O = e._round(s * w), k = e._round(c * T);
-            x = f(...g(O, k));
-            let A = S - x[0], j = C - x[1];
+            let O = e._round(s * w), ee = e._round(c * T);
+            x = f(...g(O, ee));
+            let k = S - x[0], A = C - x[1];
             this.#h ||= [
                 this.x,
                 this.y,
                 this.width,
                 this.height
-            ], this.width = O, this.height = k, this.x = A, this.y = j, this.setDims(), this.fixAndSetPosition(), this._onResizing();
+            ], this.width = O, this.height = ee, this.x = k, this.y = A, this.setDims(), this.fixAndSetPosition(), this._onResizing();
         }
         _onResizing() {}
         altTextFinish() {
@@ -4062,7 +4033,7 @@ let __tla = Promise.all([
         }
         async addEditToolbar() {
             if (this._editToolbar || this.#_) return this._editToolbar;
-            this._editToolbar = new Ze(this), this.div.append(this._editToolbar.render());
+            this._editToolbar = new Xe(this), this.div.append(this._editToolbar.render());
             let { toolbarButtons: e } = this;
             if (e) for (let [t, n] of e)await this._editToolbar.addButton(t, n);
             return this.hasComment || this._editToolbar.addButton(`comment`, this.addCommentButton()), this._editToolbar.addButton(`delete`), this._editToolbar;
@@ -4084,7 +4055,7 @@ let __tla = Promise.all([
             return this.div.getBoundingClientRect();
         }
         createAltText() {
-            return this.#n || (st.initialize(e._l10n), this.#n = new st(this), this.#e &&= (this.#n.data = this.#e, null)), this.#n;
+            return this.#n || (ot.initialize(e._l10n), this.#n = new ot(this), this.#e &&= (this.#n.data = this.#e, null)), this.#n;
         }
         get altTextData() {
             return this.#n?.data;
@@ -4111,16 +4082,10 @@ let __tla = Promise.all([
             this.#r?.focusButton();
         }
         addCommentButton() {
-            return this.canAddComment ? this.#r ||= new ct(this) : null;
+            return this.canAddComment ? this.#r ||= new st(this) : null;
         }
         addStandaloneCommentButton() {
-            if (this._uiManager.hasCommentManager()) {
-                if (this.#i) {
-                    this._uiManager.isEditingMode() && this.#i.classList.remove(`hidden`);
-                    return;
-                }
-                this.hasComment && (this.#i = this.#r.renderForStandalone(), this.div.append(this.#i));
-            }
+            this._uiManager.hasCommentManager() && (this.#i ? this._uiManager.isEditingMode() && this.#i.classList.remove(`hidden`) : this.hasComment && (this.#i = this.#r.renderForStandalone(), this.div.append(this.#i)));
         }
         removeStandaloneCommentButton() {
             this.#r.removeStandaloneCommentButton(), this.#i = null;
@@ -4141,10 +4106,10 @@ let __tla = Promise.all([
             };
         }
         set comment(e) {
-            this.#r ||= new ct(this), typeof e == `object` && e ? this.#r.restoreData(e) : this.#r.data = e, this.hasComment ? (this.removeCommentButtonFromToolbar(), this.addStandaloneCommentButton(), this._uiManager.updateComment(this)) : (this.addCommentButtonInToolbar(), this.removeStandaloneCommentButton(), this._uiManager.removeComment(this));
+            this.#r ||= new st(this), typeof e == `object` && e ? this.#r.restoreData(e) : this.#r.data = e, this.hasComment ? (this.removeCommentButtonFromToolbar(), this.addStandaloneCommentButton(), this._uiManager.updateComment(this)) : (this.addCommentButtonInToolbar(), this.removeStandaloneCommentButton(), this._uiManager.removeComment(this));
         }
         setCommentData({ comment: e, popupRef: t, richText: n }) {
-            if (!t || (this.#r ||= new ct(this), this.#r.setInitialText(e, n), !this.annotationElementId)) return;
+            if (!t || (this.#r ||= new st(this), this.#r.setInitialText(e, n), !this.annotationElementId)) return;
             let r = this._uiManager.getAndRemoveDataFromAnnotationStorage(this.annotationElementId);
             r && this.updateFromAnnotationLayer(r);
         }
@@ -4158,7 +4123,7 @@ let __tla = Promise.all([
             return !!this.#r && !this.#r.isEmpty() && !this.#r.isDeleted();
         }
         async editComment(e) {
-            this.#r ||= new ct(this), this.#r.edit(e);
+            this.#r ||= new st(this), this.#r.edit(e);
         }
         toggleComment(e, t = void 0) {
             this.hasComment && this._uiManager.toggleComment(this, e, t);
@@ -4193,11 +4158,11 @@ let __tla = Promise.all([
             let [t, n] = this.parentDimensions;
             this.parentRotation % 180 != 0 && (e.style.maxWidth = `${(100 * n / t).toFixed(2)}%`, e.style.maxHeight = `${(100 * t / n).toFixed(2)}%`);
             let [r, i] = this.getInitialTranslation();
-            return this.translate(r, i), et(this, e, [
+            return this.translate(r, i), $e(this, e, [
                 `keydown`,
                 `pointerdown`,
                 `dblclick`
-            ]), this.isResizable && this._uiManager._supportsPinchToZoom && (this.#C ||= new lt({
+            ]), this.isResizable && this._uiManager._supportsPinchToZoom && (this.#C ||= new ct({
                 container: e,
                 isPinchingDisabled: ()=>!this.isSelected,
                 onPinchStart: this.#P.bind(this),
@@ -4238,15 +4203,7 @@ let __tla = Promise.all([
         }
         pointerdown(e) {
             let { isMac: t } = F.platform;
-            if (e.button !== 0 || e.ctrlKey && t) {
-                e.preventDefault();
-                return;
-            }
-            if (this.#m = !0, this._isDraggable) {
-                this.#R(e);
-                return;
-            }
-            this.#L(e);
+            e.button !== 0 || e.ctrlKey && t ? e.preventDefault() : (this.#m = !0, this._isDraggable ? this.#R(e) : this.#L(e));
         }
         #L(e) {
             let { isMac: t } = F.platform;
@@ -4275,11 +4232,7 @@ let __tla = Promise.all([
                 e.pointerType === this.#s && (this.#C || e.isPrimary) && o(e), z(e);
             }, a));
             let s = (e)=>{
-                if (!this.#o || this.#o === e.pointerId) {
-                    o(e);
-                    return;
-                }
-                z(e);
+                !this.#o || this.#o === e.pointerId ? o(e) : z(e);
             };
             window.addEventListener(`pointerup`, s, {
                 signal: i
@@ -4586,17 +4539,9 @@ let __tla = Promise.all([
             this.#W(), this.div.focus();
         }
         select() {
-            if (this.isSelected && this._editToolbar) {
-                this._editToolbar.show();
-                return;
-            }
-            if (this.isSelected = !0, this.makeResizable(), this.div?.classList.add(`selectedEditor`), !this._editToolbar) {
-                this.addEditToolbar().then(()=>{
-                    this.div?.classList.contains(`selectedEditor`) && this._editToolbar?.show();
-                });
-                return;
-            }
-            this._editToolbar?.show(), this.#n?.toggleAltTextBadge(!1);
+            this.isSelected && this._editToolbar ? this._editToolbar.show() : (this.isSelected = !0, this.makeResizable(), this.div?.classList.add(`selectedEditor`), this._editToolbar ? (this._editToolbar?.show(), this.#n?.toggleAltTextBadge(!1)) : this.addEditToolbar().then(()=>{
+                this.div?.classList.contains(`selectedEditor`) && this._editToolbar?.show();
+            }));
         }
         focus() {
             this.div && !this.div.contains(document.activeElement) && setTimeout(()=>this.div?.focus({
@@ -4659,9 +4604,7 @@ let __tla = Promise.all([
                 r && clearTimeout(r), r = setTimeout(()=>{
                     this._reportTelemetry(t), this.#S.delete(n), this.#S.size === 0 && (this.#S = null);
                 }, e._telemetryTimeout), this.#S.set(n, r);
-                return;
-            }
-            t.type ||= this.editorType, this._uiManager._eventBus.dispatch(`reporttelemetry`, {
+            } else t.type ||= this.editorType, this._uiManager._eventBus.dispatch(`reporttelemetry`, {
                 source: this,
                 details: {
                     type: `editing`,
@@ -4679,15 +4622,7 @@ let __tla = Promise.all([
             this.div && (this.div.tabIndex = -1), this.#a = !0;
         }
         updateFakeAnnotationElement(e) {
-            if (!this.#d && !this.deleted) {
-                this.#d = e.addFakeAnnotation(this);
-                return;
-            }
-            if (this.deleted) {
-                this.#d.remove(), this.#d = null;
-                return;
-            }
-            (this.hasEditedComment || this._hasBeenMoved || this._hasBeenResized) && this.#d.updateEdited({
+            !this.#d && !this.deleted ? this.#d = e.addFakeAnnotation(this) : this.deleted ? (this.#d.remove(), this.#d = null) : (this.hasEditedComment || this._hasBeenMoved || this._hasBeenResized) && this.#d.updateEdited({
                 rect: this.getPDFRect(),
                 popup: this.comment
             });
@@ -4707,7 +4642,7 @@ let __tla = Promise.all([
             t?.nodeName === `DIV` && t.classList.contains(`annotationContent`) && t.remove();
         }
     };
-    ut = class extends U {
+    lt = class extends U {
         constructor(e){
             super(e), this.annotationElementId = e.annotationElementId, this.deleted = !0;
         }
@@ -4715,12 +4650,12 @@ let __tla = Promise.all([
             return this.serializeDeleted();
         }
     };
-    dt = 3285377520;
+    ut = 3285377520;
     W = 4294901760;
-    ft = 65535;
-    pt = class {
+    dt = 65535;
+    ft = class {
         constructor(e){
-            this.h1 = e ? e & 4294967295 : dt, this.h2 = e ? e & 4294967295 : dt;
+            this.h1 = e ? e | 0 : ut, this.h2 = e ? e | 0 : ut;
         }
         update(e) {
             let t, n;
@@ -4733,28 +4668,28 @@ let __tla = Promise.all([
             } else if (ArrayBuffer.isView(e)) t = e.slice(), n = t.byteLength;
             else throw Error(`Invalid data format, must be a string or TypedArray.`);
             let r = n >> 2, i = n - r * 4, a = new Uint32Array(t.buffer, 0, r), o = 0, s = 0, c = this.h1, l = this.h2, u = 3432918353, d = 461845907, f = 11601, p = 13715;
-            for(let e = 0; e < r; e++)e & 1 ? (o = a[e], o = o * u & W | o * f & ft, o = o << 15 | o >>> 17, o = o * d & W | o * p & ft, c ^= o, c = c << 13 | c >>> 19, c = c * 5 + 3864292196) : (s = a[e], s = s * u & W | s * f & ft, s = s << 15 | s >>> 17, s = s * d & W | s * p & ft, l ^= s, l = l << 13 | l >>> 19, l = l * 5 + 3864292196);
+            for(let e = 0; e < r; e++)e & 1 ? (o = a[e], o = o * u & W | o * f & dt, o = o << 15 | o >>> 17, o = o * d & W | o * p & dt, c ^= o, c = c << 13 | c >>> 19, c = c * 5 + 3864292196) : (s = a[e], s = s * u & W | s * f & dt, s = s << 15 | s >>> 17, s = s * d & W | s * p & dt, l ^= s, l = l << 13 | l >>> 19, l = l * 5 + 3864292196);
             switch(o = 0, i){
                 case 3:
                     o ^= t[r * 4 + 2] << 16;
                 case 2:
                     o ^= t[r * 4 + 1] << 8;
                 case 1:
-                    o ^= t[r * 4], o = o * u & W | o * f & ft, o = o << 15 | o >>> 17, o = o * d & W | o * p & ft, r & 1 ? c ^= o : l ^= o;
+                    o ^= t[r * 4], o = o * u & W | o * f & dt, o = o << 15 | o >>> 17, o = o * d & W | o * p & dt, r & 1 ? c ^= o : l ^= o;
             }
             this.h1 = c, this.h2 = l;
         }
         hexdigest() {
             let e = this.h1, t = this.h2;
-            return e ^= t >>> 1, e = e * 3981806797 & W | e * 36045 & ft, t = t * 4283543511 & W | ((t << 16 | e >>> 16) * 2950163797 & W) >>> 16, e ^= t >>> 1, e = e * 444984403 & W | e * 60499 & ft, t = t * 3301882366 & W | ((t << 16 | e >>> 16) * 3120437893 & W) >>> 16, e ^= t >>> 1, (e >>> 0).toString(16).padStart(8, `0`) + (t >>> 0).toString(16).padStart(8, `0`);
+            return e ^= t >>> 1, e = e * 3981806797 & W | e * 36045 & dt, t = t * 4283543511 & W | ((t << 16 | e >>> 16) * 2950163797 & W) >>> 16, e ^= t >>> 1, e = e * 444984403 & W | e * 60499 & dt, t = t * 3301882366 & W | ((t << 16 | e >>> 16) * 3120437893 & W) >>> 16, e ^= t >>> 1, (e >>> 0).toString(16).padStart(8, `0`) + (t >>> 0).toString(16).padStart(8, `0`);
         }
     };
-    mt = Object.freeze({
+    pt = Object.freeze({
         map: null,
         hash: ``,
         transfer: void 0
     });
-    ht = class {
+    mt = class {
         #e = !1;
         #t = null;
         #n = null;
@@ -4771,7 +4706,7 @@ let __tla = Promise.all([
         }
         remove(e) {
             let t = this.#r.get(e);
-            t !== void 0 && (t instanceof U && this.#n.delete(t.annotationElementId), this.#r.delete(e), this.#r.size === 0 && this.resetModified(), !this.#r.values().some((e)=>e instanceof U) && this.onAnnotationEditor?.(null));
+            t !== void 0 && (t instanceof U && this.#n.delete(t.annotationElementId), this.#r.delete(e), this.#r.size === 0 && this.resetModified(), this.#r.values().some((e)=>e instanceof U) || this.onAnnotationEditor?.(null));
         }
         setValue(e, t) {
             let n = this.#r.get(e), r = !1;
@@ -4792,11 +4727,11 @@ let __tla = Promise.all([
             this.#e && (this.#e = !1, this.onResetModified?.());
         }
         get print() {
-            return new gt(this);
+            return new ht(this);
         }
         get serializable() {
-            if (this.#r.size === 0) return mt;
-            let e = new Map, t = new pt, n = [], r = Object.create(null), i = !1;
+            if (this.#r.size === 0) return pt;
+            let e = new Map, t = new ft, n = [], r = Object.create(null), i = !1;
             for (let [n, a] of this.#r){
                 let o = a instanceof U ? a.serialize(!1, r) : a;
                 a.page && (a.pageIndex = a.page._pageIndex, delete a.page), o && (e.set(n, o), t.update(`${n}:${JSON.stringify(o)}`), i ||= !!o.bitmap);
@@ -4806,7 +4741,7 @@ let __tla = Promise.all([
                 map: e,
                 hash: t.hexdigest(),
                 transfer: n
-            } : mt;
+            } : pt;
         }
         get editorStats() {
             let e = null, t = new Map, n = 0, r = 0;
@@ -4823,7 +4758,7 @@ let __tla = Promise.all([
                 let s = e[o] ||= new Map;
                 for (let [e, t] of Object.entries(a)){
                     if (e === `type`) continue;
-                    let n = s.getOrInsertComputed(e, ge);
+                    let n = s.getOrInsertComputed(e, he);
                     n.set(t, (n.get(t) ?? 0) + 1);
                 }
             }
@@ -4850,7 +4785,7 @@ let __tla = Promise.all([
             if (this.#n) for (let t of this.#n.values())t.serialize() && e.push(t.annotationElementId);
             let t = ``;
             if (e.length) {
-                let n = new pt;
+                let n = new ft;
                 n.update(e.join(`,`)), t = n.hexdigest();
             }
             return this.#t = {
@@ -4862,12 +4797,12 @@ let __tla = Promise.all([
             return this.#r.entries();
         }
     };
-    gt = class extends ht {
-        #e = mt;
+    ht = class extends mt {
+        #e = pt;
         constructor(e){
             super();
             let { serializable: t } = e;
-            if (t === mt) return;
+            if (t === pt) return;
             let { map: n, hash: r, transfer: i } = t, a = structuredClone(n, i ? {
                 transfer: i
             } : null);
@@ -4878,7 +4813,7 @@ let __tla = Promise.all([
             };
         }
         get print() {
-            O(`Should not call PrintAnnotationStorage.print`);
+            D(`Should not call PrintAnnotationStorage.print`);
         }
         get serializable() {
             return this.#e;
@@ -4890,21 +4825,21 @@ let __tla = Promise.all([
             });
         }
     };
-    _t = `__forcedDependency`;
-    ({ floor: vt, ceil: yt } = Math);
-    function bt(e, t, n, r, i, a) {
+    gt = `__forcedDependency`;
+    ({ floor: _t, ceil: vt } = Math);
+    function yt(e, t, n, r, i, a) {
         e[t * 4 + 0] = Math.min(e[t * 4 + 0], n), e[t * 4 + 1] = Math.min(e[t * 4 + 1], r), e[t * 4 + 2] = Math.max(e[t * 4 + 2], i), e[t * 4 + 3] = Math.max(e[t * 4 + 3], a);
     }
-    function xt(e, t, n, r, i) {
+    function bt(e, t, n, r, i) {
         let a;
         e ? (e < 0 && (a = i[0], i[0] = i[2], i[2] = a), i[0] *= e, i[2] *= e, t < 0 && (a = i[1], i[1] = i[3], i[3] = a), i[1] *= t, i[3] *= t) : i.fill(0), i[0] += n, i[1] += r, i[2] += n, i[3] += r;
     }
-    var St = new Uint32Array(new Uint8Array([
+    var xt = new Uint32Array(new Uint8Array([
         255,
         255,
         0,
         0
-    ]).buffer)[0], Ct = class {
+    ]).buffer)[0], St = class {
         #e;
         #t;
         constructor(e, t){
@@ -4914,7 +4849,7 @@ let __tla = Promise.all([
             return this.#e.length;
         }
         isEmpty(e) {
-            return this.#e[e] === St;
+            return this.#e[e] === xt;
         }
         minX(e) {
             return this.#t[e * 4 + 0] / 256;
@@ -4928,10 +4863,10 @@ let __tla = Promise.all([
         maxY(e) {
             return (this.#t[e * 4 + 3] + 1) / 256;
         }
-    }, wt = (e, t)=>e?.getOrInsertComputed(t, ()=>({
+    }, Ct = (e, t)=>e?.getOrInsertComputed(t, ()=>({
                 dependencies: new Set,
                 isRenderingOperation: !1
-            })), Tt = class {
+            })), wt = class {
         #e = [
             [
                 1,
@@ -4948,7 +4883,7 @@ let __tla = Promise.all([
             1 / 0,
             1 / 0
         ];
-        #n = new Float64Array(i);
+        #n = new Float64Array(r);
         _pendingBBoxIdx = -1;
         #r;
         #i;
@@ -4964,7 +4899,7 @@ let __tla = Promise.all([
         }
         #s(e, t) {
             let n = new ArrayBuffer(e * 4);
-            this.#a = new Uint8ClampedArray(n), this.#o = new Uint32Array(n), t && t.length > 0 ? (this.#o.set(t), this.#o.fill(St, t.length)) : this.#o.fill(St);
+            this.#a = new Uint8ClampedArray(n), this.#o = new Uint32Array(n), t && t.length > 0 ? (this.#o.set(t), this.#o.fill(xt, t.length)) : this.#o.fill(xt);
         }
         get clipBox() {
             return this.#t;
@@ -5005,34 +4940,34 @@ let __tla = Promise.all([
             return this.#e.length > 1 && this.#e.pop(), this;
         }
         resetBBox(e) {
-            return this._pendingBBoxIdx !== e && (this._pendingBBoxIdx = e, this.#n.set(i, 0)), this;
+            return this._pendingBBoxIdx !== e && (this._pendingBBoxIdx = e, this.#n.set(r, 0)), this;
         }
-        recordClipBox(e, t, n, r, a, o) {
-            let s = I.multiplyByDOMMatrix(this.#e.at(-1), t.getTransform()), c = i.slice();
+        recordClipBox(e, t, n, i, a, o) {
+            let s = I.multiplyByDOMMatrix(this.#e.at(-1), t.getTransform()), c = r.slice();
             I.axialAlignedBoundingBox([
                 n,
                 a,
-                r,
+                i,
                 o
             ], s, c);
             let l = I.intersect(this.#t, c);
             return l ? (this.#t[0] = l[0], this.#t[1] = l[1], this.#t[2] = l[2], this.#t[3] = l[3]) : (this.#t[0] = this.#t[1] = 1 / 0, this.#t[2] = this.#t[3] = -1 / 0), this;
         }
-        recordBBox(e, t, n, r, a, o) {
+        recordBBox(e, t, n, i, a, o) {
             let s = this.#t;
             if (s[0] === 1 / 0) return this;
             let c = I.multiplyByDOMMatrix(this.#e.at(-1), t.getTransform());
             if (s[0] === -1 / 0) return I.axialAlignedBoundingBox([
                 n,
                 a,
-                r,
+                i,
                 o
             ], c, this.#n), this;
-            let l = i.slice();
+            let l = r.slice();
             return I.axialAlignedBoundingBox([
                 n,
                 a,
-                r,
+                i,
                 o
             ], c, l), this.#n[0] = L(l[0], s[0], this.#n[0]), this.#n[1] = L(l[1], s[1], this.#n[1]), this.#n[2] = L(l[2], this.#n[2], s[2]), this.#n[3] = L(l[3], this.#n[3], s[3]), this;
         }
@@ -5041,15 +4976,15 @@ let __tla = Promise.all([
         }
         recordOperation(e, t = !1, n) {
             if (this._pendingBBoxIdx !== e) return this;
-            let r = vt(this.#n[0] * 256 / this.#r), i = vt(this.#n[1] * 256 / this.#i), a = yt(this.#n[2] * 256 / this.#r), o = yt(this.#n[3] * 256 / this.#i);
-            if (bt(this.#a, e, r, i, a, o), n) for (let t of n)for (let n of t)n !== e && bt(this.#a, n, r, i, a, o);
+            let r = _t(this.#n[0] * 256 / this.#r), i = _t(this.#n[1] * 256 / this.#i), a = vt(this.#n[2] * 256 / this.#r), o = vt(this.#n[3] * 256 / this.#i);
+            if (yt(this.#a, e, r, i, a, o), n) for (let t of n)for (let n of t)n !== e && yt(this.#a, n, r, i, a, o);
             return t || (this._pendingBBoxIdx = -1), this;
         }
         bboxToClipBoxDropOperation(e) {
             return this._pendingBBoxIdx === e && (this._pendingBBoxIdx = -1, this.#t[0] = Math.max(this.#t[0], this.#n[0]), this.#t[1] = Math.max(this.#t[1], this.#n[1]), this.#t[2] = Math.min(this.#t[2], this.#n[2]), this.#t[3] = Math.min(this.#t[3], this.#n[3])), this;
         }
         take() {
-            return new Ct(this.#o, this.#a);
+            return new St(this.#o, this.#a);
         }
         takeDebugMetadata() {
             throw Error(`Unreachable`);
@@ -5091,7 +5026,7 @@ let __tla = Promise.all([
         recordShowTextOperation(e, t = !1) {
             return this;
         }
-    }, Et = class {
+    }, Tt = class {
         #e = {
             __proto__: null
         };
@@ -5100,7 +5035,7 @@ let __tla = Promise.all([
             transform: [],
             moveText: [],
             sameLineText: [],
-            [_t]: []
+            [gt]: []
         };
         #n = new Map;
         #r = new Set;
@@ -5110,7 +5045,7 @@ let __tla = Promise.all([
         #s;
         constructor(e, t = !1){
             this.#s = e, t && (this.#a = new Map, this.#o = (e, t)=>{
-                wt(this.#a, t).dependencies.add(e);
+                Ct(this.#a, t).dependencies.add(e);
             });
         }
         get clipBox() {
@@ -5133,15 +5068,15 @@ let __tla = Promise.all([
                 sameLineText: {
                     __proto__: this.#t.sameLineText
                 },
-                [_t]: {
-                    __proto__: this.#t[_t]
+                [gt]: {
+                    __proto__: this.#t[gt]
                 }
             }, this.#s.save(e), this;
         }
         restore(e) {
             this.#s.restore(e, this.#o);
             let t = Object.getPrototypeOf(this.#e);
-            return t === null ? this : (this.#e = t, this.#t = Object.getPrototypeOf(this.#t), this);
+            return t === null || (this.#e = t, this.#t = Object.getPrototypeOf(this.#t)), this;
         }
         recordOpenMarker(e) {
             return this.#s.recordOpenMarker(e, this.#o), this;
@@ -5180,14 +5115,14 @@ let __tla = Promise.all([
             this.#e[e] = this.#n.get(t) ?? n;
         }
         recordFutureForcedDependency(e, t) {
-            return this.recordIncrementalData(_t, t), this;
+            return this.recordIncrementalData(gt, t), this;
         }
         inheritSimpleDataAsFutureForcedDependencies(e) {
             for (let t of e)t in this.#e && this.recordFutureForcedDependency(t, this.#e[t]);
             return this;
         }
         inheritPendingDependenciesAsFutureForcedDependencies() {
-            for (let e of this.#r)this.recordFutureForcedDependency(_t, e);
+            for (let e of this.#r)this.recordFutureForcedDependency(gt, e);
             return this;
         }
         resetBBox(e) {
@@ -5206,7 +5141,7 @@ let __tla = Promise.all([
                 0,
                 0,
                 0
-            ], I.axialAlignedBoundingBox(s, n.fontMatrix, l), (r !== 1 || i !== 0 || a !== 0) && xt(r, -r, i, a, l), c))) return this.recordBBox(e, t, l[0], l[2], l[1], l[3]);
+            ], I.axialAlignedBoundingBox(s, n.fontMatrix, l), (r !== 1 || i !== 0 || a !== 0) && bt(r, -r, i, a, l), c))) return this.recordBBox(e, t, l[0], l[2], l[1], l[3]);
             if (!o) return this.recordFullPageBBox(e);
             let u = o();
             return s && l && c === void 0 && (c = l[0] <= i - u.actualBoundingBoxLeft && l[2] >= i + u.actualBoundingBoxRight && l[1] <= a - u.actualBoundingBoxAscent && l[3] >= a + u.actualBoundingBoxDescent, this.#i.set(n, c), c) ? this.recordBBox(e, t, l[0], l[2], l[1], l[3]) : this.recordBBox(e, t, i - u.actualBoundingBoxLeft, i + u.actualBoundingBoxRight, a - u.actualBoundingBoxAscent, a + u.actualBoundingBoxDescent);
@@ -5227,9 +5162,9 @@ let __tla = Promise.all([
         }
         recordOperation(e, t = !1) {
             if (this.recordDependencies(e, [
-                _t
+                gt
             ]), this.#a) {
-                let t = wt(this.#a, e), { dependencies: n } = t;
+                let t = Ct(this.#a, e), { dependencies: n } = t;
                 this.#r.forEach(n.add, n), this.#s._savesStack.forEach(n.add, n), this.#s._markedContentStack.forEach(n.add, n), n.delete(e), t.isRenderingOperation = !0;
             }
             let n = !t && e === this.#s._pendingBBoxIdx;
@@ -5255,7 +5190,7 @@ let __tla = Promise.all([
         takeDebugMetadata() {
             return this.#a;
         }
-    }, Dt = class e {
+    }, Et = class e {
         #e;
         #t;
         #n;
@@ -5423,7 +5358,7 @@ let __tla = Promise.all([
             `transform`,
             `fillColor`
         ]
-    }, Ot = class e {
+    }, Dt = class e {
         #e;
         #t;
         #n = 4;
@@ -5433,7 +5368,7 @@ let __tla = Promise.all([
         constructor(e){
             this.#e = e.width, this.#t = e.height;
         }
-        record(t, n, r, a) {
+        record(t, n, i, a) {
             if (this.#r === this.#n) {
                 this.#n *= 2;
                 let t = new e.#a(this.#n * 6);
@@ -5441,10 +5376,10 @@ let __tla = Promise.all([
             }
             let o = B(t), s;
             if (a[0] !== 1 / 0) {
-                let e = i.slice();
+                let e = r.slice();
                 I.axialAlignedBoundingBox([
                     0,
-                    -r,
+                    -i,
                     n,
                     0
                 ], o, e);
@@ -5476,17 +5411,17 @@ let __tla = Promise.all([
             }
             s || (s = [
                 0,
-                -r,
+                -i,
                 0,
                 0,
                 n,
-                -r
+                -i
             ], I.applyTransform(s, o, 0), I.applyTransform(s, o, 2), I.applyTransform(s, o, 4)), s[0] /= this.#e, s[1] /= this.#t, s[2] /= this.#e, s[3] /= this.#t, s[4] /= this.#e, s[5] /= this.#t, this.#i.set(s, this.#r * 6), this.#r++;
         }
         take() {
             return this.#i.subarray(0, this.#r * 6);
         }
-    }, kt = class {
+    }, Ot = class {
         #e = new Set;
         #t = null;
         constructor({ ownerDocument: e = globalThis.document, styleElement: t = null }){
@@ -5523,18 +5458,16 @@ let __tla = Promise.all([
             this.styleElement &&= (this.styleElement.remove(), null);
         }
         async loadSystemFont({ systemFontInfo: e, disableFontFace: t, _inspectFont: n }) {
-            if (!(!e || this.#e.has(e.loadedName))) {
-                if (k(!t, "loadSystemFont shouldn't be called when `disableFontFace` is set."), this.isFontLoadingAPISupported) {
+            if (e && !this.#e.has(e.loadedName)) {
+                if (O(!t, "loadSystemFont shouldn't be called when `disableFontFace` is set."), this.isFontLoadingAPISupported) {
                     let { loadedName: t, src: r, style: i } = e, a = new FontFace(t, r, i);
                     this.addNativeFontFace(a);
                     try {
                         await a.load(), this.#e.add(t), n?.(e);
                     } catch  {
-                        D(`Cannot load system font: ${e.baseFontName}, installing it could help to improve PDF rendering.`), this.removeNativeFontFace(a);
+                        E(`Cannot load system font: ${e.baseFontName}, installing it could help to improve PDF rendering.`), this.removeNativeFontFace(a);
                     }
-                    return;
-                }
-                O(`Not implemented: loadSystemFont without the Font Loading API.`);
+                } else D(`Not implemented: loadSystemFont without the Font Loading API.`);
             }
         }
         async bind(e) {
@@ -5550,7 +5483,7 @@ let __tla = Promise.all([
                     try {
                         await t.loaded;
                     } catch (n) {
-                        throw D(`Failed to load font '${t.family}': '${n}'.`), e.disableFontFace = !0, n;
+                        throw E(`Failed to load font '${t.family}': '${n}'.`), e.disableFontFace = !0, n;
                     }
                 }
                 return;
@@ -5569,11 +5502,11 @@ let __tla = Promise.all([
             return M(this, `isFontLoadingAPISupported`, e);
         }
         get isSyncFontLoadingSupported() {
-            return M(this, `isSyncFontLoadingSupported`, r || F.platform.isFirefox);
+            return M(this, `isSyncFontLoadingSupported`, n || F.platform.isFirefox);
         }
         _queueLoadingCallback(e) {
             function t() {
-                for(k(!r.done, `completeRequest() cannot be called twice.`), r.done = !0; n.length > 0 && n[0].done;){
+                for(O(!r.done, `completeRequest() cannot be called twice.`), r.done = !0; n.length > 0 && n[0].done;){
                     let e = n.shift();
                     setTimeout(e.callback, 0);
                 }
@@ -5604,15 +5537,7 @@ let __tla = Promise.all([
             s.width = 1, s.height = 1;
             let c = s.getContext(`2d`), l = 0;
             function u(e, t) {
-                if (++l > 30) {
-                    D(`Load test font never loaded.`), t();
-                    return;
-                }
-                if (c.font = `30px ` + e, c.fillText(`.`, 0, 20), c.getImageData(0, 0, 1, 1).data[3] > 0) {
-                    t();
-                    return;
-                }
-                setTimeout(u.bind(null, e, t));
+                ++l > 30 ? (E(`Load test font never loaded.`), t()) : (c.font = `30px ` + e, c.fillText(`.`, 0, 20), c.getImageData(0, 0, 1, 1).data[3] > 0 ? t() : setTimeout(u.bind(null, e, t)));
             }
             let d = `lt${Date.now()}${this.loadTestFontId++}`, f = this._loadTestFont;
             f = i(f, 976, d.length, d);
@@ -5634,7 +5559,7 @@ let __tla = Promise.all([
                 g.remove(), t.complete();
             });
         }
-    }, At = class {
+    }, kt = class {
         compiledGlyphs = Object.create(null);
         #e;
         constructor(e, t = null, n, r){
@@ -5668,9 +5593,9 @@ let __tla = Promise.all([
             try {
                 r = e.get(n);
             } catch (e) {
-                D(`getPathGenerator - ignoring character: "${e}".`);
+                E(`getPathGenerator - ignoring character: "${e}".`);
             }
-            let i = Xe(r?.path);
+            let i = Ye(r?.path);
             return this.fontExtraProperties || e.delete(n), this.compiledGlyphs[t] = i;
         }
         get black() {
@@ -5748,13 +5673,13 @@ let __tla = Promise.all([
         get defaultVMetrics() {
             return this.#e.defaultVMetrics;
         }
-    }, jt = class {
+    }, At = class {
         static strings = [
             `fontFamily`,
             `fontWeight`,
             `italicAngle`
         ];
-    }, Mt = class {
+    }, jt = class {
         static strings = [
             `css`,
             `loadedName`,
@@ -5790,7 +5715,7 @@ let __tla = Promise.all([
         static OFFSET_FONT_MATRIX = this.OFFSET_BBOX + 1 + 8;
         static OFFSET_DEFAULT_VMETRICS = this.OFFSET_FONT_MATRIX + 1 + 48;
         static OFFSET_STRINGS = this.OFFSET_DEFAULT_VMETRICS + 1 + 6;
-    }, Nt = class {
+    }, Mt = class {
         static KIND = 0;
         static HAS_BBOX = 1;
         static HAS_BACKGROUND = 2;
@@ -5799,7 +5724,7 @@ let __tla = Promise.all([
         static N_COLOR = 8;
         static N_STOP = 12;
         static N_FIGURES = 16;
-    }, Pt = class {
+    }, Nt = class {
         #e;
         #t = new TextDecoder;
         #n;
@@ -5807,7 +5732,7 @@ let __tla = Promise.all([
             this.#e = e, this.#n = new DataView(e);
         }
         #r(e) {
-            k(e < jt.strings.length, `Invalid string index`);
+            O(e < At.strings.length, `Invalid string index`);
             let t = 0;
             for(let n = 0; n < e; n++)t += this.#n.getUint32(t) + 4;
             let n = this.#n.getUint32(t);
@@ -5822,7 +5747,7 @@ let __tla = Promise.all([
         get italicAngle() {
             return this.#r(2);
         }
-    }, Ft = class {
+    }, Pt = class {
         #e;
         #t = new TextDecoder;
         #n;
@@ -5833,7 +5758,7 @@ let __tla = Promise.all([
             return this.#n.getUint8(0) !== 0;
         }
         #r(e) {
-            k(e < Mt.strings.length, `Invalid string index`);
+            O(e < jt.strings.length, `Invalid string index`);
             let t = 5;
             for(let n = 0; n < e; n++)t += this.#n.getUint32(t) + 4;
             let n = this.#n.getUint32(t);
@@ -5862,7 +5787,7 @@ let __tla = Promise.all([
                 weight: this.#t.decode(new Uint8Array(this.#e, e + 4, r))
             };
         }
-    }, It = class {
+    }, Ft = class {
         #e;
         #t = new TextDecoder;
         #n;
@@ -5870,7 +5795,7 @@ let __tla = Promise.all([
             this.#e = e, this.#n = new DataView(e), t && Object.assign(this, t);
         }
         #r(e) {
-            k(e < K.bools.length, `Invalid boolean index`);
+            O(e < K.bools.length, `Invalid boolean index`);
             let t = Math.floor(e / 4), n = e * 2 % 8, r = this.#n.getUint8(t) >> n & 3;
             return r === 0 ? void 0 : r === 2;
         }
@@ -5905,7 +5830,7 @@ let __tla = Promise.all([
             return this.#r(9);
         }
         #i(e) {
-            return k(e < K.numbers.length, `Invalid number index`), this.#n.getFloat64(K.OFFSET_NUMBERS + e * 8);
+            return O(e < K.numbers.length, `Invalid number index`), this.#n.getFloat64(K.OFFSET_NUMBERS + e * 8);
         }
         get ascent() {
             return this.#i(0);
@@ -5919,7 +5844,7 @@ let __tla = Promise.all([
         #a(e, t, n, r) {
             let i = this.#n.getUint8(e);
             if (i === 0) return;
-            k(i === t, `Invalid array length.`), e += 1;
+            O(i === t, `Invalid array length.`), e += 1;
             let a = Array(i);
             for(let t = 0; t < i; t++)a[t] = this.#n[n](e, !0), e += r;
             return a;
@@ -5934,7 +5859,7 @@ let __tla = Promise.all([
             return this.#a(K.OFFSET_DEFAULT_VMETRICS, 3, `getInt16`, 2);
         }
         #o(e) {
-            k(e < K.strings.length, `Invalid string index`);
+            O(e < K.strings.length, `Invalid string index`);
             let t = K.OFFSET_STRINGS + 4;
             for(let n = 0; n < e; n++)t += this.#n.getUint32(t) + 4;
             let n = this.#n.getUint32(t);
@@ -5981,7 +5906,7 @@ let __tla = Promise.all([
             let r = this.#n.getUint32(e);
             if (r === 0) return null;
             let i = new Uint8Array(r);
-            return i.set(new Uint8Array(this.#e, e + 4, r)), new Pt(i.buffer);
+            return i.set(new Uint8Array(this.#e, e + 4, r)), new Nt(i.buffer);
         }
         get systemFontInfo() {
             let e = K.OFFSET_STRINGS, t = this.#n.getUint32(e);
@@ -5989,14 +5914,14 @@ let __tla = Promise.all([
             let n = this.#n.getUint32(e);
             if (n === 0) return null;
             let r = new Uint8Array(n);
-            return r.set(new Uint8Array(this.#e, e + 4, n)), new Ft(r.buffer);
+            return r.set(new Uint8Array(this.#e, e + 4, n)), new Pt(r.buffer);
         }
-    }, Lt = class {
+    }, It = class {
         constructor(e){
             this.buffer = e, this.view = new DataView(e), this.data = new Uint8Array(e);
         }
         getIR() {
-            let e = this.view, t = this.data[Nt.KIND], n = !!this.data[Nt.HAS_BBOX], r = !!this.data[Nt.HAS_BACKGROUND], a = e.getUint32(Nt.N_COORD, !0), o = e.getUint32(Nt.N_COLOR, !0), s = e.getUint32(Nt.N_STOP, !0), c = 20, l = new Float32Array(this.buffer, c, a * 2);
+            let e = this.view, t = this.data[Mt.KIND], n = !!this.data[Mt.HAS_BBOX], i = !!this.data[Mt.HAS_BACKGROUND], a = e.getUint32(Mt.N_COORD, !0), o = e.getUint32(Mt.N_COLOR, !0), s = e.getUint32(Mt.N_STOP, !0), c = 20, l = new Float32Array(this.buffer, c, a * 2);
             c += a * 8;
             let u = new Uint8Array(this.buffer, c, o * 4);
             c += o * 4;
@@ -6016,7 +5941,7 @@ let __tla = Promise.all([
                 for(let t = 0; t < 4; ++t)f.push(e.getFloat32(c, !0)), c += 4;
             }
             let p = null;
-            if (r && (p = new Uint8Array(this.buffer, c, 3), c += 3), t === 1) return [
+            if (i && (p = new Uint8Array(this.buffer, c, 3), c += 3), t === 1) return [
                 `RadialAxial`,
                 `axial`,
                 f,
@@ -6043,9 +5968,9 @@ let __tla = Promise.all([
                 l[5]
             ];
             if (t === 3) {
-                let e = this.data[Nt.SHADING_TYPE], t = null;
+                let e = this.data[Mt.SHADING_TYPE], t = null;
                 if (l.length > 0) {
-                    t = i.slice();
+                    t = r.slice();
                     for(let e = 0, n = l.length; e < n; e += 2)I.pointBoundingBox(l[e], l[e + 1], t);
                 }
                 return [
@@ -6061,7 +5986,7 @@ let __tla = Promise.all([
             }
             throw Error(`Unsupported pattern kind: ${t}`);
         }
-    }, Rt = class {
+    }, Lt = class {
         #e;
         constructor(e){
             this.#e = e;
@@ -6070,10 +5995,10 @@ let __tla = Promise.all([
             return F.isFloat16ArraySupported ? new Float16Array(this.#e) : new Float32Array(this.#e);
         }
     };
-    function zt(e) {
+    function Rt(e) {
         if (e instanceof URL) return e;
         if (typeof e == `string`) {
-            if (r) {
+            if (n) {
                 if (/^[a-z][a-z0-9\-+.]+:/i.test(e)) return new URL(e);
                 let t = process.getBuiltinModule(`url`);
                 return new URL(t.pathToFileURL(e));
@@ -6083,22 +6008,22 @@ let __tla = Promise.all([
         }
         throw Error(`Invalid PDF url data: either string or URL-object is expected in the url property.`);
     }
-    function Bt(e) {
-        if (r && n.Buffer !== void 0 && e instanceof n.Buffer) throw Error("Please provide binary data as `Uint8Array`, rather than `Buffer`.");
+    function zt(e) {
+        if (n && t.Buffer !== void 0 && e instanceof t.Buffer) throw Error("Please provide binary data as `Uint8Array`, rather than `Buffer`.");
         if (e instanceof Uint8Array && e.byteLength === e.buffer.byteLength) return e;
-        if (typeof e == `string`) return ce(e);
+        if (typeof e == `string`) return se(e);
         if (e instanceof ArrayBuffer || ArrayBuffer.isView(e) || typeof e == `object` && !isNaN(e?.length)) return new Uint8Array(e);
         throw Error(`Invalid PDF binary data: either TypedArray, string, or array-like object is expected in the data property.`);
     }
-    function Vt(e) {
+    function Bt(e) {
         if (typeof e != `string`) return null;
         if (e.endsWith(`/`)) return e;
         throw Error(`Invalid factory url: "${e}" must include trailing slash.`);
     }
-    let Ht, Wt, Gt, q;
-    Ht = (e)=>typeof e == `object` && Number.isInteger(e?.num) && e.num >= 0 && Number.isInteger(e?.gen) && e.gen >= 0;
-    Ut = me.bind(null, Ht, (e)=>typeof e == `object` && typeof e?.name == `string`);
-    Wt = class {
+    let Vt, Ut, Wt, q;
+    Vt = (e)=>typeof e == `object` && Number.isInteger(e?.num) && e.num >= 0 && Number.isInteger(e?.gen) && e.gen >= 0;
+    Ht = pe.bind(null, Vt, (e)=>typeof e == `object` && typeof e?.name == `string`);
+    Ut = class {
         #e = new Map;
         #t = Promise.resolve();
         postMessage(e, t) {
@@ -6116,7 +6041,7 @@ let __tla = Promise.all([
             if (n?.signal instanceof AbortSignal) {
                 let { signal: i } = n;
                 if (i.aborted) {
-                    D("LoopbackPort - cannot use an `aborted` signal.");
+                    E("LoopbackPort - cannot use an `aborted` signal.");
                     return;
                 }
                 let a = ()=>this.removeEventListener(e, t);
@@ -6132,7 +6057,7 @@ let __tla = Promise.all([
             this.#e.clear();
         }
     };
-    Gt = {
+    Wt = {
         DATA: 1,
         ERROR: 2
     };
@@ -6146,24 +6071,24 @@ let __tla = Promise.all([
         PULL_COMPLETE: 7,
         START_COMPLETE: 8
     };
-    function Kt() {}
+    function Gt() {}
     function J(e) {
-        if (e instanceof P || e instanceof ie || e instanceof ne || e instanceof ae || e instanceof re) return e;
-        switch(e instanceof Error || typeof e == `object` && e || O(`wrapReason: Expected "reason" to be a (possibly cloned) Error.`), e.name){
+        if (e instanceof P || e instanceof re || e instanceof te || e instanceof ie || e instanceof ne) return e;
+        switch(e instanceof Error || typeof e == `object` && e || D(`wrapReason: Expected "reason" to be a (possibly cloned) Error.`), e.name){
             case `AbortException`:
                 return new P(e.message);
             case `InvalidPDFException`:
-                return new ie(e.message);
+                return new re(e.message);
             case `PasswordException`:
-                return new ne(e.message, e.code);
+                return new te(e.message, e.code);
             case `ResponseException`:
-                return new ae(e.message, e.status, e.missing);
+                return new ie(e.message, e.status, e.missing);
             case `UnknownErrorException`:
-                return new re(e.message, e.details);
+                return new ne(e.message, e.details);
         }
-        return new re(e.message, e.toString());
+        return new ne(e.message, e.toString());
     }
-    var qt = class {
+    var Kt = class {
         #e = new AbortController;
         constructor(e, t, n){
             this.sourceName = e, this.targetName = t, this.comObj = n, this.callbackId = 1, this.streamId = 1, this.streamSinks = Object.create(null), this.streamControllers = Object.create(null), this.callbackCapabilities = Object.create(null), this.actionHandler = Object.create(null), n.addEventListener(`message`, this.#t.bind(this), {
@@ -6179,8 +6104,8 @@ let __tla = Promise.all([
             if (e.callback) {
                 let t = e.callbackId, n = this.callbackCapabilities[t];
                 if (!n) throw Error(`Cannot resolve callback ${t}`);
-                if (delete this.callbackCapabilities[t], e.callback === Gt.DATA) n.resolve(e.data);
-                else if (e.callback === Gt.ERROR) n.reject(J(e.reason));
+                if (delete this.callbackCapabilities[t], e.callback === Wt.DATA) n.resolve(e.data);
+                else if (e.callback === Wt.ERROR) n.reject(J(e.reason));
                 else throw Error(`Unexpected callback case`);
                 return;
             }
@@ -6192,7 +6117,7 @@ let __tla = Promise.all([
                     i.postMessage({
                         sourceName: n,
                         targetName: r,
-                        callback: Gt.DATA,
+                        callback: Wt.DATA,
                         callbackId: e.callbackId,
                         data: t
                     });
@@ -6200,18 +6125,12 @@ let __tla = Promise.all([
                     i.postMessage({
                         sourceName: n,
                         targetName: r,
-                        callback: Gt.ERROR,
+                        callback: Wt.ERROR,
                         callbackId: e.callbackId,
                         reason: J(t)
                     });
                 });
-                return;
-            }
-            if (e.streamId) {
-                this.#n(e);
-                return;
-            }
-            t(e.data);
+            } else e.streamId ? this.#n(e) : t(e.data);
         }
         on(e, t) {
             let n = this.actionHandler;
@@ -6273,7 +6192,7 @@ let __tla = Promise.all([
                     }), t.promise;
                 },
                 cancel: (e)=>{
-                    k(e instanceof Error, `cancel must have a valid reason`);
+                    O(e instanceof Error, `cancel must have a valid reason`);
                     let t = Promise.withResolvers();
                     return this.streamControllers[i].cancelCall = t, this.streamControllers[i].isClosed = !0, s.postMessage({
                         sourceName: a,
@@ -6307,7 +6226,7 @@ let __tla = Promise.all([
                     }), delete a.streamSinks[t]);
                 },
                 error (e) {
-                    k(e instanceof Error, `error must have a valid reason`), !this.isCancelled && (this.isCancelled = !0, i.postMessage({
+                    O(e instanceof Error, `error must have a valid reason`), this.isCancelled || (this.isCancelled = !0, i.postMessage({
                         sourceName: n,
                         targetName: r,
                         stream: q.ERROR,
@@ -6360,7 +6279,7 @@ let __tla = Promise.all([
                         });
                         break;
                     }
-                    o.desiredSize <= 0 && e.desiredSize > 0 && o.sinkCapability.resolve(), o.desiredSize = e.desiredSize, Promise.try(o.onPull || Kt).then(function() {
+                    o.desiredSize <= 0 && e.desiredSize > 0 && o.sinkCapability.resolve(), o.desiredSize = e.desiredSize, Promise.try(o.onPull || Gt).then(function() {
                         i.postMessage({
                             sourceName: n,
                             targetName: r,
@@ -6379,15 +6298,15 @@ let __tla = Promise.all([
                     });
                     break;
                 case q.ENQUEUE:
-                    if (k(a, `enqueue should have stream controller`), a.isClosed) break;
+                    if (O(a, `enqueue should have stream controller`), a.isClosed) break;
                     a.controller.enqueue(e.chunk);
                     break;
                 case q.CLOSE:
-                    if (k(a, `close should have stream controller`), a.isClosed) break;
+                    if (O(a, `close should have stream controller`), a.isClosed) break;
                     a.isClosed = !0, a.controller.close(), this.#i(a, t);
                     break;
                 case q.ERROR:
-                    k(a, `error should have stream controller`), a.controller.error(J(e.reason)), this.#i(a, t);
+                    O(a, `error should have stream controller`), a.controller.error(J(e.reason)), this.#i(a, t);
                     break;
                 case q.CANCEL_COMPLETE:
                     e.success ? a.cancelCall.resolve() : a.cancelCall.reject(J(e.reason)), this.#i(a, t);
@@ -6395,7 +6314,7 @@ let __tla = Promise.all([
                 case q.CANCEL:
                     if (!o) break;
                     let s = J(e.reason);
-                    Promise.try(o.onCancel || Kt, s).then(function() {
+                    Promise.try(o.onCancel || Gt, s).then(function() {
                         i.postMessage({
                             sourceName: n,
                             targetName: r,
@@ -6427,7 +6346,7 @@ let __tla = Promise.all([
         destroy() {
             this.#e?.abort(), this.#e = null;
         }
-    }, Jt = class {
+    }, qt = class {
         #e = Object.freeze({
             cMapUrl: `CMap`,
             standardFontDataUrl: `font`,
@@ -6443,7 +6362,7 @@ let __tla = Promise.all([
                 case `wasmUrl`:
                     break;
                 default:
-                    O(`Not implemented: ${e}`);
+                    D(`Not implemented: ${e}`);
             }
             let n = this[e];
             if (!n) throw Error(`Ensure that the \`${e}\` API parameter is provided.`);
@@ -6453,14 +6372,14 @@ let __tla = Promise.all([
             });
         }
         async _fetch(e, t) {
-            O("Abstract method `_fetch` called.");
+            D("Abstract method `_fetch` called.");
         }
-    }, Yt = class extends Jt {
+    }, Jt = class extends qt {
         async _fetch(e, t) {
-            let n = await Te(e, t === `cMapUrl` && !e.endsWith(`.bcmap`) ? `text` : `bytes`);
-            return n instanceof Uint8Array ? n : ce(n);
+            let n = await we(e, t === `cMapUrl` && !e.endsWith(`.bcmap`) ? `text` : `bytes`);
+            return n instanceof Uint8Array ? n : se(n);
         }
-    }, Xt = class {
+    }, Yt = class {
         #e = !1;
         constructor({ enableHWA: e = !1 }){
             this.#e = e;
@@ -6486,9 +6405,9 @@ let __tla = Promise.all([
             t.width = t.height = 0, e.canvas = null, e.context = null;
         }
         _createCanvas(e, t) {
-            O("Abstract method `_createCanvas` called.");
+            D("Abstract method `_createCanvas` called.");
         }
-    }, Zt = class extends Xt {
+    }, Xt = class extends Yt {
         constructor({ ownerDocument: e = globalThis.document, enableHWA: t = !1 }){
             super({
                 enableHWA: t
@@ -6498,7 +6417,7 @@ let __tla = Promise.all([
             let n = this._document.createElement(`canvas`);
             return n.width = e, n.height = t, n;
         }
-    }, Qt = class {
+    }, Zt = class {
         addFilter(e) {
             return `none`;
         }
@@ -6527,7 +6446,7 @@ let __tla = Promise.all([
             return null;
         }
         destroy(e = !1) {}
-    }, $t = class extends Qt {
+    }, Qt = class extends Zt {
         #e;
         #t;
         #n;
@@ -6548,8 +6467,8 @@ let __tla = Promise.all([
             if (!this.#n) {
                 let e = this.#i.createElement(`div`), { style: t } = e;
                 t.colorScheme = `only light`, t.visibility = `hidden`, t.contain = `strict`, t.width = t.height = 0, t.position = `absolute`, t.top = t.left = 0, t.zIndex = -1;
-                let n = this.#i.createElementNS(s, `svg`);
-                n.setAttribute(`width`, 0), n.setAttribute(`height`, 0), this.#n = this.#i.createElementNS(s, `defs`), e.append(n), n.append(this.#n), this.#i.body.append(e);
+                let n = this.#i.createElementNS(o, `svg`);
+                n.setAttribute(`width`, 0), n.setAttribute(`height`, 0), this.#n = this.#i.createElementNS(o, `defs`), e.append(n), n.append(this.#n), this.#i.body.append(e);
             }
             return this.#n;
         }
@@ -6576,7 +6495,7 @@ let __tla = Promise.all([
             if (this.#e === void 0) {
                 this.#e = ``;
                 let e = this.#i.URL;
-                e !== this.#i.baseURI && (De(e) ? D(`#createUrl: ignore "data:"-URL for performance reasons.`) : this.#e = ee(e, ``));
+                e !== this.#i.baseURI && (Ee(e) ? E(`#createUrl: ignore "data:"-URL for performance reasons.`) : this.#e = A(e, ``));
             }
             return `url(${this.#e}#${e})`;
         }
@@ -6658,9 +6577,9 @@ let __tla = Promise.all([
             if (r) return r;
             let i = `g_${this.#r}_knockout_filter_${this.#o++}`, a = this.#d(i);
             this.#s.set(n, a);
-            let o = this.#m(i), c = this.#i.createElementNS(s, `feComponentTransfer`);
-            o.append(c);
-            let l = this.#i.createElementNS(s, `feFuncA`);
+            let s = this.#m(i), c = this.#i.createElementNS(o, `feComponentTransfer`);
+            s.append(c);
+            let l = this.#i.createElementNS(o, `feFuncA`);
             return l.setAttribute(`type`, `linear`), l.setAttribute(`slope`, `${t}`), l.setAttribute(`intercept`, `0`), c.append(l), a;
         }
         addHighlightHCMFilter(e, t, n, r, i) {
@@ -6699,34 +6618,34 @@ let __tla = Promise.all([
             e && this.#a?.size || (this.#n?.parentNode.parentNode.remove(), this.#n = null, this.#t?.clear(), this.#t = null, this.#a?.clear(), this.#a = null, this.#o = 0);
         }
         #f(e) {
-            let t = this.#i.createElementNS(s, `feColorMatrix`);
+            let t = this.#i.createElementNS(o, `feColorMatrix`);
             t.setAttribute(`type`, `matrix`), t.setAttribute(`values`, `0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0.59 0.11 0 0`), e.append(t);
         }
         #p(e) {
-            let t = this.#i.createElementNS(s, `feColorMatrix`);
+            let t = this.#i.createElementNS(o, `feColorMatrix`);
             t.setAttribute(`type`, `matrix`), t.setAttribute(`values`, `0.2126 0.7152 0.0722 0 0 0.2126 0.7152 0.0722 0 0 0.2126 0.7152 0.0722 0 0 0 0 0 1 0`), e.append(t);
         }
         #m(e) {
-            let t = this.#i.createElementNS(s, `filter`);
+            let t = this.#i.createElementNS(o, `filter`);
             return t.setAttribute(`color-interpolation-filters`, `sRGB`), t.setAttribute(`id`, e), this.#l.append(t), t;
         }
         #h(e, t, n) {
-            let r = this.#i.createElementNS(s, t);
+            let r = this.#i.createElementNS(o, t);
             r.setAttribute(`type`, `discrete`), r.setAttribute(`tableValues`, n), e.append(r);
         }
         #g(e, t, n, r) {
-            let i = this.#i.createElementNS(s, `feComponentTransfer`);
+            let i = this.#i.createElementNS(o, `feComponentTransfer`);
             r.append(i), this.#h(i, `feFuncR`, e), this.#h(i, `feFuncG`, t), this.#h(i, `feFuncB`, n);
         }
         #_(e, t) {
-            let n = this.#i.createElementNS(s, `feComponentTransfer`);
+            let n = this.#i.createElementNS(o, `feComponentTransfer`);
             t.append(n), this.#h(n, `feFuncA`, e);
         }
         #v(e) {
-            return this.#l.style.color = `CanvasText`, this.#l.style.backgroundColor = e, Fe(getComputedStyle(this.#l).getPropertyValue(`background-color`));
+            return this.#l.style.color = `CanvasText`, this.#l.style.backgroundColor = e, Pe(getComputedStyle(this.#l).getPropertyValue(`background-color`));
         }
         #y(e) {
-            return this.#l.style.color = `CanvasText`, this.#l.style.backgroundColor = e, Pe(getComputedStyle(this.#l).getPropertyValue(`background-color`));
+            return this.#l.style.color = `CanvasText`, this.#l.style.backgroundColor = e, Ne(getComputedStyle(this.#l).getPropertyValue(`background-color`));
         }
         #b() {
             this.#l.style.color = ``, this.#l.style.backgroundColor = ``;
@@ -6740,31 +6659,31 @@ let __tla = Promise.all([
             ];
             let [a, o, s] = this.#v(`Canvas`);
             return [
-                en(t, a, i),
-                en(n, o, i),
-                en(r, s, i)
+                $t(t, a, i),
+                $t(n, o, i),
+                $t(r, s, i)
             ];
         }
     };
-    function en(e, t, n) {
+    function $t(e, t, n) {
         return Math.round(n * e + (1 - n) * t);
     }
-    r && D("Please use the `legacy` build in Node.js environments.");
-    async function tn(e) {
+    n && E("Please use the `legacy` build in Node.js environments.");
+    async function en(e) {
         let t = await process.getBuiltinModule(`fs/promises`).readFile(e);
         return new Uint8Array(t);
     }
-    var nn = class extends Qt {
-    }, rn = class extends Xt {
+    var tn = class extends Zt {
+    }, nn = class extends Yt {
         _createCanvas(e, t) {
             return process.getBuiltinModule(`module`).createRequire(import.meta.url)(`@napi-rs/canvas`).createCanvas(e, t);
         }
-    }, an = class extends Jt {
+    }, rn = class extends qt {
         async _fetch(e, t) {
-            return tn(e);
+            return en(e);
         }
     };
-    function on({ src: e, srcPos: t = 0, dest: n, width: r, height: i, nonBlackColor: a = 4294967295, inverseDecode: o = !1 }) {
+    function an({ src: e, srcPos: t = 0, dest: n, width: r, height: i, nonBlackColor: a = 4294967295, inverseDecode: o = !1 }) {
         let s = F.isLittleEndian ? 4278190080 : 255, [c, l] = o ? [
             a,
             s
@@ -6788,7 +6707,7 @@ let __tla = Promise.all([
             destPos: m
         };
     }
-    function sn({ src: e, srcPos: t = 0, dest: n, destPos: r = 0, width: i, height: a }) {
+    function on({ src: e, srcPos: t = 0, dest: n, destPos: r = 0, width: i, height: a }) {
         let o = 0, s = i * a * 3, c = s >> 2, l = new Uint32Array(e.buffer, t, c), u = F.isLittleEndian ? 4278190080 : 255;
         if (F.isLittleEndian) {
             for(; o < c - 2; o += 3, r += 4){
@@ -6808,7 +6727,7 @@ let __tla = Promise.all([
             destPos: r
         };
     }
-    var cn = `
+    var sn = `
 struct Uniforms {
   offsetX      : f32,
   offsetY      : f32,
@@ -6851,7 +6770,7 @@ fn vs_main(in : VertexInput) -> VertexOutput {
 fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
   return vec4<f32>(in.color, 1.0);
 }
-`, ln = new class {
+`, cn = new class {
         #e = null;
         #t = null;
         #n = null;
@@ -6874,7 +6793,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         loadMeshShader() {
             if (!this.#t || this.#n) return;
             let e = this.#t.createShaderModule({
-                code: cn
+                code: sn
             });
             this.#n = this.#t.createRenderPipeline({
                 layout: `auto`,
@@ -6985,37 +6904,37 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ]), p.destroy(), m.destroy(), h.destroy(), _.transferToImageBitmap();
         }
     };
+    function ln() {
+        return cn.init();
+    }
     function un() {
-        return ln.init();
+        return cn.isReady;
     }
     function dn() {
-        return ln.isReady;
+        cn.loadMeshShader();
     }
-    function fn() {
-        ln.loadMeshShader();
-    }
-    function pn(e, t, n, r, i, a, o, s) {
-        return ln.draw(e, t, n, r, i, a, o, s);
+    function fn(e, t, n, r, i, a, o, s) {
+        return cn.draw(e, t, n, r, i, a, o, s);
     }
     var Y = {
         FILL: `Fill`,
         STROKE: `Stroke`,
         SHADING: `Shading`
     };
-    function mn(e, t) {
+    function pn(e, t) {
         if (!t) return;
         let n = t[2] - t[0], r = t[3] - t[1], i = new Path2D;
         i.rect(t[0], t[1], n, r), e.clip(i);
     }
-    var hn = class {
+    var mn = class {
         matrix = null;
         isModifyingCurrentTransform() {
             return !1;
         }
         getPattern() {
-            O("Abstract method `getPattern` called.");
+            D("Abstract method `getPattern` called.");
         }
-    }, gn = class extends hn {
+    }, hn = class extends mn {
         constructor(e){
             super(), this._type = e[1], this._bbox = e[2], this._colorStops = e[3], this._p0 = e[4], this._p1 = e[5], this._r0 = e[6], this._r1 = e[7];
         }
@@ -7085,36 +7004,36 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     1,
                     a[0],
                     a[1]
-                ]), l.transform(...t.baseTransform), this.matrix && l.transform(...this.matrix), mn(l, this._bbox), this.areConic() && (l.fillStyle = this._createReversedGradient(l), l.fill()), l.fillStyle = this._createGradient(l), l.fill(), i = e.createPattern(c.canvas, `no-repeat`), t.canvasFactory.destroy(c);
+                ]), l.transform(...t.baseTransform), this.matrix && l.transform(...this.matrix), pn(l, this._bbox), this.areConic() && (l.fillStyle = this._createReversedGradient(l), l.fill()), l.fillStyle = this._createGradient(l), l.fill(), i = e.createPattern(c.canvas, `no-repeat`), t.canvasFactory.destroy(c);
                 let u = new DOMMatrix(n);
                 i.setTransform(u);
-            } else this.areConic() && (e.save(), mn(e, this._bbox), e.fillStyle = this._createReversedGradient(e), e.fillRect(-1e10, -1e10, 2e10, 2e10), e.restore()), mn(e, this._bbox), i = this._createGradient(e);
+            } else this.areConic() && (e.save(), pn(e, this._bbox), e.fillStyle = this._createReversedGradient(e), e.fillRect(-1e10, -1e10, 2e10, 2e10), e.restore()), pn(e, this._bbox), i = this._createGradient(e);
             return i;
         }
     };
-    function _n(e, t, n, r, i, a, o, s) {
+    function gn(e, t, n, r, i, a, o, s) {
         let c = t.coords, l = t.colors, u = e.data, d = e.width * 4, f;
         c[n * 2 + 1] > c[r * 2 + 1] && (f = n, n = r, r = f, f = a, a = o, o = f), c[r * 2 + 1] > c[i * 2 + 1] && (f = r, r = i, i = f, f = o, o = s, s = f), c[n * 2 + 1] > c[r * 2 + 1] && (f = n, n = r, r = f, f = a, a = o, o = f);
         let p = (c[n * 2] + t.offsetX) * t.scaleX, m = (c[n * 2 + 1] + t.offsetY) * t.scaleY, h = (c[r * 2] + t.offsetX) * t.scaleX, g = (c[r * 2 + 1] + t.offsetY) * t.scaleY, _ = (c[i * 2] + t.offsetX) * t.scaleX, v = (c[i * 2 + 1] + t.offsetY) * t.scaleY;
         if (m >= v) return;
-        let y = l[a * 4], b = l[a * 4 + 1], x = l[a * 4 + 2], S = l[o * 4], C = l[o * 4 + 1], w = l[o * 4 + 2], T = l[s * 4], E = l[s * 4 + 1], D = l[s * 4 + 2], O = Math.round(m), k = Math.round(v), A, j, ee, te, M, N, ne, re;
-        for(let e = O; e <= k; e++){
+        let y = l[a * 4], b = l[a * 4 + 1], x = l[a * 4 + 2], S = l[o * 4], C = l[o * 4 + 1], w = l[o * 4 + 2], T = l[s * 4], E = l[s * 4 + 1], D = l[s * 4 + 2], O = Math.round(m), ee = Math.round(v), k, A, j, M, N, te, ne, re;
+        for(let e = O; e <= ee; e++){
             if (e < g) {
                 let t = e < m ? 0 : (m - e) / (m - g);
-                A = p - (p - h) * t, j = y - (y - S) * t, ee = b - (b - C) * t, te = x - (x - w) * t;
+                k = p - (p - h) * t, A = y - (y - S) * t, j = b - (b - C) * t, M = x - (x - w) * t;
             } else {
                 let t;
-                t = e > v ? 1 : g === v ? 0 : (g - e) / (g - v), A = h - (h - _) * t, j = S - (S - T) * t, ee = C - (C - E) * t, te = w - (w - D) * t;
+                t = e > v ? 1 : g === v ? 0 : (g - e) / (g - v), k = h - (h - _) * t, A = S - (S - T) * t, j = C - (C - E) * t, M = w - (w - D) * t;
             }
             let t;
-            t = e < m ? 0 : e > v ? 1 : (m - e) / (m - v), M = p - (p - _) * t, N = y - (y - T) * t, ne = b - (b - E) * t, re = x - (x - D) * t;
-            let n = Math.round(Math.min(A, M)), r = Math.round(Math.max(A, M)), i = d * e + n * 4;
-            for(let e = n; e <= r; e++)t = (A - e) / (A - M), t < 0 ? t = 0 : t > 1 && (t = 1), u[i++] = j - (j - N) * t | 0, u[i++] = ee - (ee - ne) * t | 0, u[i++] = te - (te - re) * t | 0, u[i++] = 255;
+            t = e < m ? 0 : e > v ? 1 : (m - e) / (m - v), N = p - (p - _) * t, te = y - (y - T) * t, ne = b - (b - E) * t, re = x - (x - D) * t;
+            let n = Math.round(Math.min(k, N)), r = Math.round(Math.max(k, N)), i = d * e + n * 4;
+            for(let e = n; e <= r; e++)t = (k - e) / (k - N), t < 0 ? t = 0 : t > 1 && (t = 1), u[i++] = A - (A - te) * t | 0, u[i++] = j - (j - ne) * t | 0, u[i++] = M - (M - re) * t | 0, u[i++] = 255;
         }
     }
-    var vn = class extends hn {
+    var _n = class extends mn {
         constructor(e){
-            super(), this._posData = e[2], this._colData = e[3], this._vertexCount = e[4], this._bounds = e[5], this._bbox = e[6], this._background = e[7], fn();
+            super(), this._posData = e[2], this._colData = e[3], this._vertexCount = e[4], this._bounds = e[5], this._bbox = e[6], this._background = e[7], dn();
         }
         _createMeshCanvas(e, t, n) {
             let r = 1.1, i = 3e3, a = Math.floor(this._bounds[0]), o = Math.floor(this._bounds[1]), s = Math.ceil(this._bounds[2]) - a, c = Math.ceil(this._bounds[3]) - o, l = Math.min(Math.ceil(Math.abs(s * e[0] * r)), i) || 1, u = Math.min(Math.ceil(Math.abs(c * e[1] * r)), i) || 1, d = s ? s / l : 1, f = c ? c / u : 1, p = {
@@ -7125,14 +7044,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 scaleX: 1 / d,
                 scaleY: 1 / f
             }, m = l + 4, h = u + 4, g = n.create(m, h);
-            if (dn() && this._vertexCount > 48) g.context.drawImage(pn(this._posData, this._colData, this._vertexCount, p, t, m, h, 2), 0, 0);
+            if (un() && this._vertexCount > 48) g.context.drawImage(fn(this._posData, this._colData, this._vertexCount, p, t, m, h, 2), 0, 0);
             else {
                 let e = g.context.createImageData(l, u);
                 if (t) {
                     let n = e.data;
                     for(let e = 0, r = n.length; e < r; e += 4)n[e] = t[0], n[e + 1] = t[1], n[e + 2] = t[2], n[e + 3] = 255;
                 }
-                for(let t = 0, n = this._vertexCount; t < n; t += 3)_n(e, p, t, t + 1, t + 2, t, t + 1, t + 2);
+                for(let t = 0, n = this._vertexCount; t < n; t += 3)gn(e, p, t, t + 1, t + 2, t, t + 1, t + 2);
                 g.context.putImageData(e, 2, 2);
             }
             return {
@@ -7147,7 +7066,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return !0;
         }
         getPattern(e, t, n, r) {
-            mn(e, this._bbox);
+            pn(e, this._bbox);
             let i = new Float32Array(2);
             if (r === Y.SHADING) I.singularValueDecompose2dScale(B(e), i);
             else if (this.matrix) {
@@ -7160,26 +7079,26 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let o = e.createPattern(a.canvas, `no-repeat`);
             return t.canvasFactory.destroy(a), o;
         }
-    }, yn = class extends hn {
+    }, vn = class extends mn {
         getPattern() {
             return `hotpink`;
         }
     };
-    function bn(e) {
+    function yn(e) {
         switch(e[0]){
             case `RadialAxial`:
-                return new gn(e);
+                return new hn(e);
             case `Mesh`:
-                return new vn(e);
+                return new _n(e);
             case `Dummy`:
-                return new yn;
+                return new vn;
         }
         throw Error(`Unknown IR type: ${e[0]}`);
     }
-    var xn = {
+    var bn = {
         COLORED: 1,
         UNCOLORED: 2
-    }, Sn = class e {
+    }, xn = class e {
         static MAX_PATTERN_SIZE = 3e3;
         constructor(e, t, n, r){
             this.color = e[1], this.operatorList = e[2], this.matrix = e[3], this.bbox = e[4], this.xstep = e[5], this.ystep = e[6], this.paintType = e[7], this.tilingType = e[8], this.needsIsolation = e[9] ?? !0, this.ctx = t, this.canvasGraphicsFactory = n, this.baseTransform = r, this.patternBaseMatrix = this.matrix ? I.transform(r, this.matrix) : r;
@@ -7218,7 +7137,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         drawPattern(e, t, n = !1, [r, i], a) {
             let [o, s, c, l] = this.bbox, u = e.dependencyTracker;
-            if (u && (e.dependencyTracker = new Dt(u, a)), e.save(), n ? e.ctx.clip(t, `evenodd`) : e.ctx.clip(t), e.ctx.setTransform(...this.patternBaseMatrix), e.ctx.translate(r * this.xstep, i * this.ystep), this.needsIsolation || e.ctx.globalAlpha !== 1 || e.ctx.globalCompositeOperation !== `source-over` || e.inSMaskMode) {
+            if (u && (e.dependencyTracker = new Et(u, a)), e.save(), n ? e.ctx.clip(t, `evenodd`) : e.ctx.clip(t), e.ctx.setTransform(...this.patternBaseMatrix), e.ctx.translate(r * this.xstep, i * this.ystep), this.needsIsolation || e.ctx.globalAlpha !== 1 || e.ctx.globalCompositeOperation !== `source-over` || e.inSMaskMode) {
                 let t = c - o, n = l - s, [r, i] = this._getCombinedScales(), u = this.getSizeAndScale(t, this.ctx.canvas.width, r), d = this.getSizeAndScale(n, this.ctx.canvas.height, i), f = this._renderTileCanvas(e, a, u, d);
                 e.ctx.drawImage(f.canvas, o, s, t, n), e.canvasFactory.destroy(f);
             } else this.setFillAndStrokeStyleToContext(e, this.paintType, this.color), this.clipBbox(e, o, s, c, l), e.baseTransformStack.push(e.baseTransform), e.baseTransform = B(e.ctx), e.executeOperatorList(this.operatorList), e.baseTransform = e.baseTransformStack.pop();
@@ -7226,7 +7145,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         createPatternCanvas(e, t) {
             let [n, r, i, a] = this.bbox, o = i - n, s = a - r, { xstep: c, ystep: l } = this;
-            c = Math.abs(c), l = Math.abs(l), E(`TilingType: ` + this.tilingType);
+            c = Math.abs(c), l = Math.abs(l), T(`TilingType: ` + this.tilingType);
             let [u, d] = this._getCombinedScales(), f = o, p = s, m = !1, h = !1;
             Math.ceil(c * u) >= Math.ceil(o * u) ? f = c : m = !0, Math.ceil(l * d) >= Math.ceil(s * d) ? p = l : h = !0;
             let g = this.getSizeAndScale(f, this.ctx.canvas.width, u), _ = this.getSizeAndScale(p, this.ctx.canvas.height, d), v = this._renderTileCanvas(e, t, g, _);
@@ -7272,15 +7191,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         setFillAndStrokeStyleToContext(e, t, n) {
             let r = e.ctx, i = e.current;
             switch(i.patternFill = i.patternStroke = !1, t){
-                case xn.COLORED:
+                case bn.COLORED:
                     let { fillStyle: e, strokeStyle: a } = this.ctx;
                     r.fillStyle = i.fillColor = e, r.strokeStyle = i.strokeColor = a;
                     break;
-                case xn.UNCOLORED:
+                case bn.UNCOLORED:
                     r.fillStyle = r.strokeStyle = n, i.fillColor = i.strokeColor = n;
                     break;
                 default:
-                    throw new oe(`Unsupported paint type: ${t}`);
+                    throw new ae(`Unsupported paint type: ${t}`);
             }
         }
         isModifyingCurrentTransform() {
@@ -7292,8 +7211,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let c = e.createPattern(o.canvas, `repeat`);
             return t.canvasFactory.destroy(o.canvasEntry), c.setTransform(s), c;
         }
-    }, Cn = 16, wn = 100, Tn = 15, En = 10, X = 16, Dn = new DOMMatrix, Z = new Float32Array(2);
-    function On(e, t) {
+    }, Sn = 16, Cn = 100, wn = 15, Tn = 10, X = 16, En = new DOMMatrix, Z = new Float32Array(2);
+    function Dn(e, t) {
         if (e._removeMirroring) throw Error(`Context is already forwarding operations.`);
         let n = new Map;
         for (let r of [
@@ -7328,7 +7247,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             delete e._removeMirroring;
         };
     }
-    function kn(e, t, n, r, i, a, o, s, c, l) {
+    function On(e, t, n, r, i, a, o, s, c, l) {
         let [u, d, f, p, m, h] = B(e);
         if (d === 0 && f === 0) {
             let g = o * u + m, _ = Math.round(g), v = s * p + h, y = Math.round(v), b = (o + c) * u + m, x = Math.abs(Math.round(b) - _) || 1, S = (s + l) * p + h, C = Math.abs(Math.round(S) - y) || 1;
@@ -7351,13 +7270,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             _ * l
         ];
     }
-    var An = class {
+    var kn = class {
         alphaIsShape = !1;
         fontSize = 0;
         fontSizeScale = 1;
         textMatrix = null;
         textMatrixScale = 1;
-        fontMatrix = o;
+        fontMatrix = a;
         leading = 0;
         x = 0;
         y = 0;
@@ -7366,7 +7285,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         charSpacing = 0;
         wordSpacing = 0;
         textHScale = 1;
-        textRenderingMode = h.FILL;
+        textRenderingMode = m.FILL;
         textRise = 0;
         fillColor = `#000000`;
         strokeColor = `#000000`;
@@ -7378,7 +7297,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         lineWidth = 1;
         activeSMask = null;
         transferMaps = `none`;
-        minMax = a.slice();
+        minMax = i.slice();
         constructor(e, t){
             this.clipBox = new Float32Array([
                 0,
@@ -7394,7 +7313,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         getPathBoundingBox(e = Y.FILL, t = null) {
             let n = this.minMax.slice();
             if (e === Y.STROKE) {
-                t || O(`Stroke bounding box must include transform.`), I.singularValueDecompose2dScale(t, Z);
+                t || D(`Stroke bounding box must include transform.`), I.singularValueDecompose2dScale(t, Z);
                 let e = Z[0] * this.lineWidth / 2, r = Z[1] * this.lineWidth / 2;
                 n[0] -= e, n[1] -= r, n[2] += e, n[3] += r;
             }
@@ -7413,26 +7332,26 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.minMax[0] === 1 / 0;
         }
         startNewPathAndClipBox(e) {
-            this.clipBox.set(e, 0), this.minMax.set(a, 0);
+            this.clipBox.set(e, 0), this.minMax.set(i, 0);
         }
         getClippedPathBoundingBox(e = Y.FILL, t = null) {
             return I.intersect(this.clipBox, this.getPathBoundingBox(e, t));
         }
     };
-    function jn(e, t) {
+    function An(e, t) {
         let { width: n, height: r, kind: i } = t, a = r % X, o = (r - a) / X, s = a === 0 ? o : o + 1, c = e.createImageData(n, X), l = 0, u = t.data, d = c.data, f;
-        if (i === g.GRAYSCALE_1BPP) for(f = 0; f < s; f++)({ srcPos: l } = on({
+        if (i === h.GRAYSCALE_1BPP) for(f = 0; f < s; f++)({ srcPos: l } = an({
             src: u,
             srcPos: l,
             dest: d,
             width: n,
             height: f < o ? X : a
         })), e.putImageData(c, 0, f * X);
-        else if (i === g.RGBA_32BPP) {
+        else if (i === h.RGBA_32BPP) {
             let t = 0, r = n * X * 4;
             for(f = 0; f < o; f++)d.set(u.subarray(l, l + r)), l += r, e.putImageData(c, 0, t), t += X;
             f < s && (r = n * a * 4, d.set(u.subarray(l, l + r)), e.putImageData(c, 0, t));
-        } else if (i === g.RGB_24BPP) for(f = 0; f < s; f++)({ srcPos: l } = sn({
+        } else if (i === h.RGB_24BPP) for(f = 0; f < s; f++)({ srcPos: l } = on({
             src: u,
             srcPos: l,
             dest: new Uint32Array(d.buffer),
@@ -7441,13 +7360,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         })), e.putImageData(c, 0, f * X);
         else throw Error(`bad image kind: ${i}`);
     }
-    function Mn(e, t) {
+    function jn(e, t) {
         if (t.bitmap) {
             e.drawImage(t.bitmap, 0, 0);
             return;
         }
         let { width: n, height: r } = t, i = r % X, a = (r - i) / X, o = i === 0 ? a : a + 1, s = e.createImageData(n, X), c = 0, l = t.data, u = s.data;
-        for(let t = 0; t < o; t++)({ srcPos: c } = on({
+        for(let t = 0; t < o; t++)({ srcPos: c } = an({
             src: l,
             srcPos: c,
             dest: u,
@@ -7456,7 +7375,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             nonBlackColor: 0
         })), e.putImageData(s, 0, t * X);
     }
-    function Nn(e, t) {
+    function Mn(e, t) {
         for (let n of [
             `strokeStyle`,
             `fillStyle`,
@@ -7472,26 +7391,26 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         ])e[n] !== void 0 && (t[n] = e[n]);
         e.setLineDash !== void 0 && (t.setLineDash(e.getLineDash()), t.lineDashOffset = e.lineDashOffset);
     }
-    function Pn(e) {
+    function Nn(e) {
         e.strokeStyle = e.fillStyle = `#000000`, e.fillRule = `nonzero`, e.globalAlpha = 1, e.lineWidth = 1, e.lineCap = `butt`, e.lineJoin = `miter`, e.miterLimit = 10, e.globalCompositeOperation = `source-over`, e.font = `10px sans-serif`, e.setLineDash !== void 0 && (e.setLineDash([]), e.lineDashOffset = 0);
         let { filter: t } = e;
         t !== `none` && t !== `` && (e.filter = `none`);
     }
-    function Fn(e, t) {
+    function Pn(e, t) {
         if (t) return !0;
         I.singularValueDecompose2dScale(e, Z);
-        let n = Math.fround(Re.pixelRatio * we.PDF_TO_CSS_UNITS);
+        let n = Math.fround(Le.pixelRatio * Ce.PDF_TO_CSS_UNITS);
         return Z[0] <= n && Z[1] <= n;
     }
-    var In = [
+    var Fn = [
         `butt`,
         `round`,
         `square`
-    ], Ln = [
+    ], In = [
         `miter`,
         `round`,
         `bevel`
-    ], Rn = {}, zn = {}, Bn = class e {
+    ], Ln = {}, Rn = {}, zn = class e {
         #e = 0;
         #t = 0;
         #n = null;
@@ -7503,7 +7422,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #c = null;
         #l = [];
         constructor(e, t, n, r, i, { optionalContentConfig: a, markedContentStack: o = null }, s, c, l, u){
-            this.ctx = e, this.current = new An(this.ctx.canvas.width, this.ctx.canvas.height), this.stateStack = [], this.pendingClip = null, this.pendingEOFill = !1, this.commonObjs = t, this.objs = n, this.canvasFactory = r, this.filterFactory = i, this.groupStack = [], this.baseTransform = null, this.baseTransformStack = [], this.groupLevel = 0, this.smaskStack = [], this.tempSMask = null, this.smaskGroupCanvases = [], this.smaskPreparedEntry = null, this.smaskPreparedFor = null, this.smaskPreparedOffsetX = 0, this.smaskPreparedOffsetY = 0, this.smaskPreparedOOBAlpha = null, this.suspendedCtx = null, this.contentVisible = !0, this.markedContentStack = o || [], this.optionalContentConfig = a, this.cachedPatterns = new Map, this.annotationCanvasMap = s, this.viewportScale = 1, this.outputScaleX = 1, this.outputScaleY = 1, this.pageColors = c, this._cachedScaleForStroking = [
+            this.ctx = e, this.current = new kn(this.ctx.canvas.width, this.ctx.canvas.height), this.stateStack = [], this.pendingClip = null, this.pendingEOFill = !1, this.commonObjs = t, this.objs = n, this.canvasFactory = r, this.filterFactory = i, this.groupStack = [], this.baseTransform = null, this.baseTransformStack = [], this.groupLevel = 0, this.smaskStack = [], this.tempSMask = null, this.smaskGroupCanvases = [], this.smaskPreparedEntry = null, this.smaskPreparedFor = null, this.smaskPreparedOffsetX = 0, this.smaskPreparedOffsetY = 0, this.smaskPreparedOOBAlpha = null, this.suspendedCtx = null, this.contentVisible = !0, this.markedContentStack = o || [], this.optionalContentConfig = a, this.cachedPatterns = new Map, this.annotationCanvasMap = s, this.viewportScale = 1, this.outputScaleX = 1, this.outputScaleY = 1, this.pageColors = c, this._cachedScaleForStroking = [
                 -1,
                 0
             ], this._cachedGetSinglePixelWidth = null, this._cachedBitmapsMap = new Map, this.dependencyTracker = l ?? null, this.imagesTracker = u ?? null;
@@ -7517,12 +7436,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 let e = this.transparentCanvasEntry = this.canvasFactory.create(i, a);
                 this.compositeCtx = this.ctx, { canvas: this.transparentCanvas, context: this.ctx } = e, this.ctx.save(), this.ctx.transform(...B(this.compositeCtx));
             }
-            this.ctx.save(), Pn(this.ctx), e && (this.ctx.transform(...e), this.outputScaleX = e[0], this.outputScaleY = e[3]), this.ctx.transform(...t.transform), this.viewportScale = t.scale, this.baseTransform = B(this.ctx);
+            this.ctx.save(), Nn(this.ctx), e && (this.ctx.transform(...e), this.outputScaleX = e[0], this.outputScaleY = e[3]), this.ctx.transform(...t.transform), this.viewportScale = t.scale, this.baseTransform = B(this.ctx);
         }
         executeOperatorList(e, t, n, r, i) {
             let a = e.argsArray, o = e.fnArray, s = t || 0, c = a.length;
             if (c === s) return s;
-            let l = c - s > En && typeof n == `function`, u = l ? Date.now() + Tn : 0, d = 0, f = this.commonObjs, p = this.objs, m, h;
+            let l = c - s > Tn && typeof n == `function`, u = l ? Date.now() + wn : 0, d = 0, f = this.commonObjs, p = this.objs, m, h;
             for(;;){
                 if (r !== void 0) {
                     if (s === r.nextBreakPoint) return r.breakIt(s, n), s;
@@ -7532,7 +7451,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     }
                 }
                 if (!i || i(s)) {
-                    if (m = o[s], h = a[s] ?? null, m !== b.dependency) h === null ? this[m](s) : this[m](s, ...h);
+                    if (m = o[s], h = a[s] ?? null, m !== y.dependency) h === null ? this[m](s) : this[m](s, ...h);
                     else for (let e of h){
                         this.dependencyTracker?.recordNamedData(e, s);
                         let t = e.startsWith(`g_`) ? f : p;
@@ -7540,7 +7459,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     }
                 }
                 if (s++, s === c) return s;
-                if (l && ++d > En) {
+                if (l && ++d > Tn) {
                     if (Date.now() > u) return n(), s;
                     d = 0;
                 }
@@ -7608,13 +7527,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
         }
         _createMaskCanvas(e, t) {
-            let n = this.ctx, { width: r, height: i } = t, o = this.current.fillColor, s = this.current.patternFill, c = B(n), l, u, d, f;
+            let n = this.ctx, { width: r, height: a } = t, o = this.current.fillColor, s = this.current.patternFill, c = B(n), l, u, d, f;
             if ((t.bitmap || t.data) && t.count > 1) {
                 let n = t.bitmap || t.data.buffer;
                 u = JSON.stringify(s ? c : [
                     c.slice(0, 4),
                     o
-                ]), l = this._cachedBitmapsMap.getOrInsertComputed(n, ge);
+                ]), l = this._cachedBitmapsMap.getOrInsertComputed(n, he);
                 let r = l.get(u);
                 if (r && !s) {
                     let t = Math.round(Math.min(c[0], c[2]) + c[4]), n = Math.round(Math.min(c[1], c[3]) + c[5]);
@@ -7626,12 +7545,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 }
                 d = r;
             }
-            d || (f = this.canvasFactory.create(r, i), Mn(f.context, t));
+            d || (f = this.canvasFactory.create(r, a), jn(f.context, t));
             let p = I.transform(c, [
                 1 / r,
                 0,
                 0,
-                -1 / i,
+                -1 / a,
                 0,
                 0
             ]);
@@ -7641,14 +7560,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 0,
                 1,
                 0,
-                -i
+                -a
             ]);
-            let m = a.slice();
+            let m = i.slice();
             I.axialAlignedBoundingBox([
                 0,
                 0,
                 r,
-                i
+                a
             ], p, m);
             let [h, g, _, v] = m, y = Math.round(_ - h) || 1, b = Math.round(v - g) || 1, x = this.canvasFactory.create(y, b), S = x.context, C = h, w = g;
             S.translate(-C, -w), S.transform(...p);
@@ -7657,7 +7576,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 let e = this._scaleImage(f.canvas, V(S));
                 d = e.img, T = e.tmpCanvas, d !== f.canvas && (this.canvasFactory.destroy(f), f = null), l && s && (l.set(u, d), T = null, f = null);
             }
-            S.imageSmoothingEnabled = Fn(B(S), t.interpolate), kn(S, d, 0, 0, d.width, d.height, 0, 0, r, i), T && this.canvasFactory.destroy(T), f && this.canvasFactory.destroy(f), S.globalCompositeOperation = `source-in`;
+            S.imageSmoothingEnabled = Pn(B(S), t.interpolate), On(S, d, 0, 0, d.width, d.height, 0, 0, r, a), T && this.canvasFactory.destroy(T), f && this.canvasFactory.destroy(f), S.globalCompositeOperation = `source-in`;
             let E = I.transform(V(S), [
                 1,
                 0,
@@ -7666,7 +7585,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 -C,
                 -w
             ]);
-            return S.fillStyle = s ? o.getPattern(n, this, E, Y.FILL, e) : o, S.fillRect(0, 0, r, i), l && !s && l.set(u, x.canvas), this.dependencyTracker?.recordDependencies(e, G.transformAndFill), {
+            return S.fillStyle = s ? o.getPattern(n, this, E, Y.FILL, e) : o, S.fillRect(0, 0, r, a), l && !s && l.set(u, x.canvas), this.dependencyTracker?.recordDependencies(e, G.transformAndFill), {
                 canvas: x.canvas,
                 canvasEntry: l && !s ? null : x,
                 offsetX: Math.round(C),
@@ -7677,10 +7596,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.dependencyTracker?.recordSimpleData(`lineWidth`, e), t !== this.current.lineWidth && (this._cachedScaleForStroking[0] = -1), this.current.lineWidth = t, this.ctx.lineWidth = t;
         }
         setLineCap(e, t) {
-            this.dependencyTracker?.recordSimpleData(`lineCap`, e), this.ctx.lineCap = In[t];
+            this.dependencyTracker?.recordSimpleData(`lineCap`, e), this.ctx.lineCap = Fn[t];
         }
         setLineJoin(e, t) {
-            this.dependencyTracker?.recordSimpleData(`lineJoin`, e), this.ctx.lineJoin = Ln[t];
+            this.dependencyTracker?.recordSimpleData(`lineJoin`, e), this.ctx.lineJoin = In[t];
         }
         setMiterLimit(e, t) {
             this.dependencyTracker?.recordSimpleData(`miterLimit`, e), this.ctx.miterLimit = t;
@@ -7755,7 +7674,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
             let o;
             if (n === `Luminosity` && r) {
-                let [e, t, n] = Pe(r), a = Math.round(.3 * e + .59 * t + .11 * n);
+                let [e, t, n] = Ne(r), a = Math.round(.3 * e + .59 * t + .11 * n);
                 o = i?.[a] ?? a;
             } else o = i?.[0] ?? 0;
             let { width: s, height: c } = this.ctx.canvas, l = t.width * t.height, u = s * c < 4 * l, d = a ? {
@@ -7766,7 +7685,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             u ? (p = this._bakeSMaskCanvas(t, e.offsetX, e.offsetY, s, c, f, d), m = 0, h = 0) : (p = this._bakeSMaskCanvas(t, 0, 0, t.width, t.height, f, d), m = e.offsetX, h = e.offsetY), this.smaskPreparedEntry = p, this.smaskPreparedFor = e, this.smaskPreparedOffsetX = m, this.smaskPreparedOffsetY = h, this.smaskPreparedOOBAlpha = !u && o !== 0 ? o : null;
         }
         _bakeSMaskCanvas(e, t, n, r, i, a, o) {
-            !a && !o && O(`_bakeSMaskCanvas with neither backdrop nor filter`);
+            !a && !o && D(`_bakeSMaskCanvas with neither backdrop nor filter`);
             let s = this.canvasFactory.create(r, i), c = s.context;
             if (c.drawImage(e, t, n), a && (c.globalCompositeOperation = `destination-atop`, c.fillStyle = a, c.fillRect(0, 0, r, i)), !o) return s;
             let l = this.canvasFactory.create(r, i), u = l.context;
@@ -7788,7 +7707,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let { width: t, height: n } = this.ctx.canvas, r = this.canvasFactory.create(t, n);
             this.smaskScratchCanvas = r, this.suspendedCtx = this.ctx;
             let i = this.ctx = r.context;
-            i.setTransform(this.suspendedCtx.getTransform()), Nn(this.suspendedCtx, i), On(i, this.suspendedCtx), this._ensurePreparedSMask(this.current.activeSMask), this.setGState(e, [
+            i.setTransform(this.suspendedCtx.getTransform()), Mn(this.suspendedCtx, i), Dn(i, this.suspendedCtx), this._ensurePreparedSMask(this.current.activeSMask), this.setGState(e, [
                 [
                     `BM`,
                     `source-over`
@@ -7797,7 +7716,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         endSMaskMode() {
             if (!this.inSMaskMode) throw Error(`endSMaskMode called while not in smask mode`);
-            this.ctx._removeMirroring(), Nn(this.ctx, this.suspendedCtx), this.ctx = this.suspendedCtx, this.suspendedCtx = null, this.canvasFactory.destroy(this.smaskScratchCanvas), this.smaskScratchCanvas = null, this._clearPreparedSMask();
+            this.ctx._removeMirroring(), Mn(this.ctx, this.suspendedCtx), this.ctx = this.suspendedCtx, this.suspendedCtx = null, this.canvasFactory.destroy(this.smaskScratchCanvas), this.smaskScratchCanvas = null, this._clearPreparedSMask();
         }
         #f(e, t = null, n = 1) {
             let { width: r, height: i } = e, a = t ?? this.canvasFactory.create(r, i), o = a.context;
@@ -7842,12 +7761,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let t = this.#l.at(-1), { canvas: n } = this.ctx, r = this.#p(t, `knockoutTempEntry`, n.width, n.height);
             this.#n = r;
             let i = r.context;
-            return i.save(), i.setTransform(this.ctx.getTransform()), Nn(this.ctx, i), this.#a = i.globalCompositeOperation, i.globalCompositeOperation = `source-over`, On(i, this.ctx), this.#c = t, this.#r = this.ctx, this.#i = this.suspendedCtx, this.ctx = i, this.inSMaskMode && (this.suspendedCtx = i), !0;
+            return i.save(), i.setTransform(this.ctx.getTransform()), Mn(this.ctx, i), this.#a = i.globalCompositeOperation, i.globalCompositeOperation = `source-over`, Dn(i, this.ctx), this.#c = t, this.#r = this.ctx, this.#i = this.suspendedCtx, this.ctx = i, this.inSMaskMode && (this.suspendedCtx = i), !0;
         }
         #g(e) {
             if (!e) return;
             let t = this.#n, n = this.#r, r = this.#i, i = t.context;
-            this.#n = null, this.#r = null, this.#i = null, this.inSMaskMode && this.suspendedCtx === i && this.ctx !== i && this.endSMaskMode(), this.inSMaskMode && (this.suspendedCtx = r), this.ctx._removeMirroring(), this.ctx.globalCompositeOperation = this.#a, this.#a = null, Nn(this.ctx, n), this.ctx = n;
+            this.#n = null, this.#r = null, this.#i = null, this.inSMaskMode && this.suspendedCtx === i && this.ctx !== i && this.endSMaskMode(), this.inSMaskMode && (this.suspendedCtx = r), this.ctx._removeMirroring(), this.ctx.globalCompositeOperation = this.#a, this.#a = null, Mn(this.ctx, n), this.ctx = n;
             let a = this.#c;
             this.#c = null;
             let o = this.#o;
@@ -7884,7 +7803,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 this.ctx.canvas.height
             ];
             let t = this.current.activeSMask, n = this.suspendedCtx, r = this.#t > 0 && n === this.ctx;
-            this.composeSMask(r ? null : n, t, this.ctx, e), !r && (this.ctx.save(), this.ctx.setTransform(1, 0, 0, 1, 0, 0), this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height), this.ctx.restore());
+            this.composeSMask(r ? null : n, t, this.ctx, e), r || (this.ctx.save(), this.ctx.setTransform(1, 0, 0, 1, 0, 0), this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height), this.ctx.restore());
         }
         composeSMask(e, t, n, r) {
             let i = r[0], a = r[1], o = r[2] - i, s = r[3] - a;
@@ -7920,16 +7839,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             l.rect(i, a, n, r), t.clip(l), t.globalCompositeOperation = `destination-in`, t.drawImage(o.canvas, i - s, a - c, n, r, i, a, n, r), t.restore();
         }
         save(e) {
-            this.inSMaskMode && Nn(this.ctx, this.suspendedCtx), this.ctx.save();
+            this.inSMaskMode && Mn(this.ctx, this.suspendedCtx), this.ctx.save();
             let t = this.current;
             this.stateStack.push(t), this.current = t.clone(), this.dependencyTracker?.save(e);
         }
         restore(e) {
-            if (this.dependencyTracker?.restore(e), this.stateStack.length === 0) {
-                this.inSMaskMode && this.endSMaskMode();
-                return;
-            }
-            this.current = this.stateStack.pop(), this.ctx.restore(), this.inSMaskMode && (Nn(this.suspendedCtx, this.ctx), this.ctx.setTransform(this.suspendedCtx.getTransform())), this.checkSMaskState(e), this.pendingClip = null, this._cachedScaleForStroking[0] = -1, this._cachedGetSinglePixelWidth = null;
+            this.dependencyTracker?.restore(e), this.stateStack.length === 0 ? this.inSMaskMode && this.endSMaskMode() : (this.current = this.stateStack.pop(), this.ctx.restore(), this.inSMaskMode && (Mn(this.suspendedCtx, this.ctx), this.ctx.setTransform(this.suspendedCtx.getTransform())), this.checkSMaskState(e), this.pendingClip = null, this._cachedScaleForStroking[0] = -1, this._cachedGetSinglePixelWidth = null);
         }
         transform(e, t, n, r, i, a, o) {
             this.dependencyTracker?.recordIncrementalData(`transform`, e), this.ctx.transform(t, n, r, i, a, o), this._cachedScaleForStroking[0] = -1, this._cachedGetSinglePixelWidth = null;
@@ -7937,18 +7852,18 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         constructPath(e, t, n, r) {
             let [i] = n;
             if (!r) {
-                i ||= n[0] = new Path2D, t !== b.stroke && t !== b.closeStroke && (this.current.tilingPatternDims = null), this[t](e, i);
+                i ||= n[0] = new Path2D, t !== y.stroke && t !== y.closeStroke && (this.current.tilingPatternDims = null), this[t](e, i);
                 return;
             }
             if (this.dependencyTracker !== null) {
-                let n = t === b.stroke ? this.current.lineWidth / 2 : 0;
+                let n = t === y.stroke ? this.current.lineWidth / 2 : 0;
                 this.dependencyTracker.resetBBox(e).recordBBox(e, this.ctx, r[0] - n, r[2] + n, r[1] - n, r[3] + n).recordDependencies(e, [
                     `transform`
                 ]);
             }
-            i instanceof Path2D || (i = n[0] = Xe(i)), I.axialAlignedBoundingBox(r, B(this.ctx), this.current.minMax);
+            i instanceof Path2D || (i = n[0] = Ye(i)), I.axialAlignedBoundingBox(r, B(this.ctx), this.current.minMax);
             let a = this.current.tilingPatternDims;
-            if (a && t !== b.stroke && t !== b.closeStroke && this.current.fillColor instanceof Sn) {
+            if (a && t !== y.stroke && t !== y.closeStroke && this.current.fillColor instanceof xn) {
                 let e = I.intersect(this.current.clipBox, this.current.minMax);
                 e ? this.current.fillColor.updatePatternDims(e, a) : this.current.tilingPatternDims = null;
             }
@@ -8015,10 +7930,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.ctx.fill(t), this.dependencyTracker?.recordDependencies(e, G.rawFillPath).recordOperation(e), this.#g(n);
         }
         clip(e) {
-            this.dependencyTracker?.recordFutureForcedDependency(`clipMode`, e), this.pendingClip = Rn;
+            this.dependencyTracker?.recordFutureForcedDependency(`clipMode`, e), this.pendingClip = Ln;
         }
         eoClip(e) {
-            this.dependencyTracker?.recordFutureForcedDependency(`clipMode`, e), this.pendingClip = zn;
+            this.dependencyTracker?.recordFutureForcedDependency(`clipMode`, e), this.pendingClip = Rn;
         }
         beginText(e) {
             this.current.textMatrix = null, this.current.textMatrixScale = 1, this.current.x = this.current.lineX = 0, this.current.y = this.current.lineY = 0, this.dependencyTracker?.recordOpenMarker(e).resetIncrementalData(`sameLineText`).resetIncrementalData(`moveText`, e);
@@ -8052,10 +7967,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.dependencyTracker?.recordSimpleData(`font`, e).recordSimpleDataFromNamed(`fontObj`, t, e);
             let r = this.commonObjs.get(t), i = this.current;
             if (!r) throw Error(`Can't find font for ${t}`);
-            if (i.fontMatrix = r.fontMatrix || o, (i.fontMatrix[0] === 0 || i.fontMatrix[3] === 0) && D(`Invalid font matrix for font ` + t), n < 0 ? (n = -n, i.fontDirection = -1) : i.fontDirection = 1, this.current.font = r, this.current.fontSize = n, r.isType3Font) return;
-            let a = r.loadedName || `sans-serif`, s = r.systemFontInfo?.css || `"${a}", ${r.fallbackName}`, c = `normal`;
+            if (i.fontMatrix = r.fontMatrix || a, (i.fontMatrix[0] === 0 || i.fontMatrix[3] === 0) && E(`Invalid font matrix for font ` + t), n < 0 ? (n = -n, i.fontDirection = -1) : i.fontDirection = 1, this.current.font = r, this.current.fontSize = n, r.isType3Font) return;
+            let o = r.loadedName || `sans-serif`, s = r.systemFontInfo?.css || `"${o}", ${r.fallbackName}`, c = `normal`;
             r.black ? c = `900` : r.bold && (c = `bold`);
-            let l = r.italic ? `italic` : `normal`, u = L(n, Cn, wn);
+            let l = r.italic ? `italic` : `normal`, u = L(n, Sn, Cn);
             this.current.fontSizeScale = n / u, this.ctx.font = `${l} ${c} ${u}px ${s}`;
         }
         setTextRenderingMode(e, t) {
@@ -8083,18 +7998,18 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return r.addPath(e, new DOMMatrix(n).invertSelf().multiplySelf(t)), r;
         }
         paintChar(e, t, n, r, i, a) {
-            let o = this.ctx, s = this.current, c = s.font, l = s.textRenderingMode, u = s.fontSize / s.fontSizeScale, d = l & h.FILL_STROKE_MASK, f = !!(l & h.ADD_TO_PATH_FLAG), p = s.patternFill && !c.missingFile, m = s.patternStroke && !c.missingFile, g;
-            if ((c.disableFontFace || f || p || m) && !c.missingFile && (g = c.getPathGenerator(this.commonObjs, t)), g && (c.disableFontFace || p || m)) {
+            let o = this.ctx, s = this.current, c = s.font, l = s.textRenderingMode, u = s.fontSize / s.fontSizeScale, d = l & m.FILL_STROKE_MASK, f = !!(l & m.ADD_TO_PATH_FLAG), p = s.patternFill && !c.missingFile, h = s.patternStroke && !c.missingFile, g;
+            if ((c.disableFontFace || f || p || h) && !c.missingFile && (g = c.getPathGenerator(this.commonObjs, t)), g && (c.disableFontFace || p || h)) {
                 o.save(), o.translate(n, r), o.scale(u, -u), this.dependencyTracker?.recordCharacterBBox(e, o, c);
                 let t;
-                if (d === h.FILL || d === h.FILL_STROKE) {
+                if (d === m.FILL || d === m.FILL_STROKE) {
                     if (i) {
                         t = o.getTransform(), o.setTransform(...i);
                         let e = this.#_(g, t, i);
                         o.fill(e);
                     } else o.fill(g);
                 }
-                if (d === h.STROKE || d === h.FILL_STROKE) {
+                if (d === m.STROKE || d === m.FILL_STROKE) {
                     if (a) {
                         t ||= o.getTransform(), o.setTransform(...a);
                         let { a: e, b: n, c: r, d: i } = t, s = I.inverseTransform(a), c = I.transform([
@@ -8109,7 +8024,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     } else o.lineWidth /= u, o.stroke(g);
                 }
                 o.restore();
-            } else (d === h.FILL || d === h.FILL_STROKE) && (o.fillText(t, n, r), this.dependencyTracker?.recordCharacterBBox(e, o, c, u, n, r, ()=>o.measureText(t))), (d === h.STROKE || d === h.FILL_STROKE) && (this.dependencyTracker && this.dependencyTracker?.recordCharacterBBox(e, o, c, u, n, r, ()=>o.measureText(t)).recordDependencies(e, G.stroke), o.strokeText(t, n, r));
+            } else (d === m.FILL || d === m.FILL_STROKE) && (o.fillText(t, n, r), this.dependencyTracker?.recordCharacterBBox(e, o, c, u, n, r, ()=>o.measureText(t))), (d === m.STROKE || d === m.FILL_STROKE) && (this.dependencyTracker && this.dependencyTracker?.recordCharacterBBox(e, o, c, u, n, r, ()=>o.measureText(t)).recordDependencies(e, G.stroke), o.strokeText(t, n, r));
             f && ((this.pendingTextPaths ||= []).push({
                 transform: B(o),
                 x: n,
@@ -8131,7 +8046,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return M(this, `isFontSubpixelAAEnabled`, r);
         }
         showText(e, t) {
-            this.dependencyTracker && (this.dependencyTracker.recordDependencies(e, G.showText).resetBBox(e), this.current.textRenderingMode & h.ADD_TO_PATH_FLAG && this.dependencyTracker.recordFutureForcedDependency(`textClip`, e).inheritPendingDependenciesAsFutureForcedDependencies());
+            this.dependencyTracker && (this.dependencyTracker.recordDependencies(e, G.showText).resetBBox(e), this.current.textRenderingMode & m.ADD_TO_PATH_FLAG && this.dependencyTracker.recordFutureForcedDependency(`textClip`, e).inheritPendingDependenciesAsFutureForcedDependencies());
             let n = this.current, r = n.font;
             if (r.isType3Font) {
                 let r = this.#h(n.fillAlpha);
@@ -8143,9 +8058,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 this.dependencyTracker?.recordOperation(e);
                 return;
             }
-            let a = this.#h(n.fillAlpha), o = this.ctx, s = n.fontSizeScale, c = n.charSpacing, l = n.wordSpacing, u = n.fontDirection, d = n.textHScale * u, f = t.length, p = r.vertical, m = p ? 1 : -1, g = r.defaultVMetrics, _ = i * n.fontMatrix[0], v = n.textRenderingMode === h.FILL && !r.disableFontFace && !n.patternFill;
+            let a = this.#h(n.fillAlpha), o = this.ctx, s = n.fontSizeScale, c = n.charSpacing, l = n.wordSpacing, u = n.fontDirection, d = n.textHScale * u, f = t.length, p = r.vertical, h = p ? 1 : -1, g = r.defaultVMetrics, _ = i * n.fontMatrix[0], v = n.textRenderingMode === m.FILL && !r.disableFontFace && !n.patternFill;
             o.save(), n.textMatrix && o.transform(...n.textMatrix), o.translate(n.x, n.y + n.textRise), u > 0 ? o.scale(d, -1) : o.scale(d, 1);
-            let y, b, x = n.textRenderingMode & h.FILL_STROKE_MASK, S = x === h.FILL || x === h.FILL_STROKE, C = x === h.STROKE || x === h.FILL_STROKE, w = n.lineWidth, T = n.textMatrixScale;
+            let y, b, x = n.textRenderingMode & m.FILL_STROKE_MASK, S = x === m.FILL || x === m.FILL_STROKE, C = x === m.STROKE || x === m.FILL_STROKE, w = n.lineWidth, T = n.textMatrixScale;
             if (T === 0 || w === 0 ? C && (w = this.getSinglePixelWidth()) : w /= T, s !== 1 && (o.scale(s, s), w /= s), o.lineWidth = w, S && n.patternFill) {
                 o.save();
                 let t = n.fillColor.getPattern(o, this, V(o), Y.FILL, e);
@@ -8167,14 +8082,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 n.x += i * _ * d, o.restore(), this.compose(), this.#g(a);
                 return;
             }
-            let E = 0, D;
-            for(D = 0; D < f; ++D){
+            let E = 0, D = 0;
+            for(; D < f; ++D){
                 let n = t[D];
                 if (typeof n == `number`) {
-                    E += m * n * i / 1e3;
+                    E += h * n * i / 1e3;
                     continue;
                 }
-                let a = !1, d = (n.isSpace ? l : 0) + c, f = n.fontChar, h = n.accent, x, S, C = n.width;
+                let a = !1, d = (n.isSpace ? l : 0) + c, f = n.fontChar, m = n.accent, x, S, C = n.width;
                 if (p) {
                     let e = n.vmetric || g, t = -(n.vmetric ? e[1] : C * .5) * _, r = e[2] * _;
                     C = e ? -e[0] : C, x = t / s, S = (E + r) / s;
@@ -8189,12 +8104,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     } else C !== e && (x += (C - e) / 2e3 * i / s);
                 }
                 if (this.contentVisible && (n.isInFont || r.missingFile)) {
-                    if (v && !h) o.fillText(f, x, S), this.dependencyTracker?.recordCharacterBBox(e, o, w ? {
+                    if (v && !m) o.fillText(f, x, S), this.dependencyTracker?.recordCharacterBBox(e, o, w ? {
                         bbox: null
                     } : r, i / s, x, S, ()=>w ?? o.measureText(f));
-                    else if (this.paintChar(e, f, x, S, y, b), h) {
-                        let t = x + i * h.offset.x / s, n = S - i * h.offset.y / s;
-                        this.paintChar(e, h.fontChar, t, n, y, b);
+                    else if (this.paintChar(e, f, x, S, y, b), m) {
+                        let t = x + i * m.offset.x / s, n = S - i * m.offset.y / s;
+                        this.paintChar(e, m.fontChar, t, n, y, b);
                     }
                 }
                 let T = p ? C * _ - d * u : C * _ + d * u;
@@ -8203,22 +8118,22 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             p ? n.y -= E : n.x += E * d, o.restore(), this.compose(), this.dependencyTracker?.recordShowTextOperation(e), this.#g(a);
         }
         showType3Text(e, t) {
-            let n = this.ctx, r = this.current, i = r.font, a = r.fontSize, s = r.fontDirection, c = i.vertical ? 1 : -1, l = r.charSpacing, u = r.wordSpacing, d = r.textHScale * s, f = r.fontMatrix || o, p = t.length, m = r.textRenderingMode === h.INVISIBLE, g, _, v, y;
-            if (m || a === 0) return;
+            let n = this.ctx, r = this.current, i = r.font, o = r.fontSize, s = r.fontDirection, c = i.vertical ? 1 : -1, l = r.charSpacing, u = r.wordSpacing, d = r.textHScale * s, f = r.fontMatrix || a, p = t.length, h = r.textRenderingMode === m.INVISIBLE, g, _, v, b;
+            if (h || o === 0) return;
             this._cachedScaleForStroking[0] = -1, this._cachedGetSinglePixelWidth = null, n.save(), r.textMatrix && n.transform(...r.textMatrix), n.translate(r.x, r.y + r.textRise), n.scale(d, s);
             let x = this.dependencyTracker;
-            for(this.dependencyTracker = x ? new Dt(x, e) : null, g = 0; g < p; ++g){
+            for(this.dependencyTracker = x ? new Et(x, e) : null, g = 0; g < p; ++g){
                 if (_ = t[g], typeof _ == `number`) {
-                    y = c * _ * a / 1e3, this.ctx.translate(y, 0), r.x += y * d;
+                    b = c * _ * o / 1e3, this.ctx.translate(b, 0), r.x += b * d;
                     continue;
                 }
-                let e = (_.isSpace ? u : 0) + l, o = i.charProcOperatorList[_.operatorListId];
-                o ? this.contentVisible && (this.save(), o.fnArray[0] === b.setCharWidth && (r.fillAlpha = r.strokeAlpha = 1, n.globalAlpha = 1), n.scale(a, a), n.transform(...f), this.executeOperatorList(o), this.restore()) : D(`Type3 character "${_.operatorListId}" is not available.`);
+                let e = (_.isSpace ? u : 0) + l, a = i.charProcOperatorList[_.operatorListId];
+                a ? this.contentVisible && (this.save(), a.fnArray[0] === y.setCharWidth && (r.fillAlpha = r.strokeAlpha = 1, n.globalAlpha = 1), n.scale(o, o), n.transform(...f), this.executeOperatorList(a), this.restore()) : E(`Type3 character "${_.operatorListId}" is not available.`);
                 let s = [
                     _.width,
                     0
                 ];
-                I.applyTransform(s, f), v = s[0] * a + e, n.translate(v, 0), r.x += v * d;
+                I.applyTransform(s, f), v = s[0] * o + e, n.translate(v, 0), r.x += v * d;
             }
             n.restore(), x && (this.dependencyTracker = x);
         }
@@ -8231,11 +8146,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let r;
             if (n[0] === `TilingPattern`) {
                 let t = this.baseTransform || B(this.ctx);
-                r = new Sn(n, this.ctx, {
+                r = new xn(n, this.ctx, {
                     createCanvasGraphics: (t, n)=>new e(t, this.commonObjs, this.objs, this.canvasFactory, this.filterFactory, {
                             optionalContentConfig: this.optionalContentConfig,
                             markedContentStack: this.markedContentStack
-                        }, void 0, void 0, this.dependencyTracker ? new Dt(this.dependencyTracker, n, !0) : null)
+                        }, void 0, void 0, this.dependencyTracker ? new Et(this.dependencyTracker, n, !0) : null)
                 }, t);
             } else r = this._getPattern(t, n[1], n[2]);
             return r;
@@ -8246,7 +8161,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         setFillColorN(e, ...t) {
             this.dependencyTracker?.recordSimpleData(`fillColor`, e);
             let n = this.current.fillColor = this.getColorN_Pattern(e, t);
-            this.current.patternFill = !0, this.current.tilingPatternDims = n instanceof Sn ? [
+            this.current.patternFill = !0, this.current.tilingPatternDims = n instanceof xn ? [
                 0,
                 0,
                 0,
@@ -8266,32 +8181,32 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.dependencyTracker?.recordSimpleData(`fillColor`, e), this.ctx.fillStyle = this.current.fillColor = `transparent`, this.current.patternFill = !1, this.current.tilingPatternDims = null;
         }
         _getPattern(e, t, n = null) {
-            let r = this.cachedPatterns.getOrInsertComputed(t, ()=>bn(this.getObject(e, t)));
+            let r = this.cachedPatterns.getOrInsertComputed(t, ()=>yn(this.getObject(e, t)));
             return n && (r.matrix = n), r;
         }
         shadingFill(e, t) {
             if (!this.contentVisible) return;
             let n = this.#h(this.current.fillAlpha), r = this.ctx;
             this.save(e), r.fillStyle = this._getPattern(e, t).getPattern(r, this, V(r), Y.SHADING, e);
-            let i = V(r);
-            if (i) {
-                let { width: e, height: t } = r.canvas, n = a.slice();
+            let a = V(r);
+            if (a) {
+                let { width: e, height: t } = r.canvas, n = i.slice();
                 I.axialAlignedBoundingBox([
                     0,
                     0,
                     e,
                     t
-                ], i, n);
+                ], a, n);
                 let [o, s, c, l] = n;
                 this.ctx.fillRect(o, s, c - o, l - s);
             } else this.ctx.fillRect(-1e10, -1e10, 2e10, 2e10);
             this.dependencyTracker?.resetBBox(e).recordFullPageBBox(e).recordDependencies(e, G.transform).recordDependencies(e, G.fill).recordOperation(e), this.compose(this.current.getClippedPathBoundingBox()), this.restore(e), this.#g(n);
         }
         beginInlineImage() {
-            O(`Should not call beginInlineImage`);
+            D(`Should not call beginInlineImage`);
         }
         beginImageData() {
-            O(`Should not call beginImageData`);
+            D(`Should not call beginImageData`);
         }
         paintFormXObjectBegin(e, t, n) {
             if (this.contentVisible && (this.save(e), this.baseTransformStack.push(this.baseTransform), t && this.transform(e, ...t), this.baseTransform = B(this.ctx), n)) {
@@ -8321,8 +8236,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 this.groupStack.push(null), this.#l.push(null), this.groupLevel++;
                 return;
             }
-            !t.isolated && !t.knockout && this.#e === 0 && E(`TODO: Fully support non-isolated non-knockout groups.`);
-            let i = B(r);
+            !t.isolated && !t.knockout && this.#e === 0 && T(`TODO: Fully support non-isolated non-knockout groups.`);
+            let a = B(r);
             t.matrix && r.transform(...t.matrix);
             let o = [
                 0,
@@ -8330,7 +8245,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 r.canvas.width,
                 r.canvas.height
             ], s;
-            t.bbox ? (s = a.slice(), I.axialAlignedBoundingBox(t.bbox, B(r), s), s = I.intersect(s, o) || [
+            t.bbox ? (s = i.slice(), I.axialAlignedBoundingBox(t.bbox, B(r), s), s = I.intersect(s, o) || [
                 0,
                 0,
                 0,
@@ -8346,7 +8261,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let f = this.canvasFactory.create(u, d);
             t.smask && this.smaskGroupCanvases.push(f);
             let p = f.context, m = t.knockout && !t.isolated ? r : null, h = !t.isolated && !t.knockout && !t.smask && t.needsIsolation && this.#e > 0, g = t.knockout ? this.canvasFactory.create(u, d) : null, _ = this.#e;
-            t.knockout ? this.#e++ : this.#e = 0, p.translate(-c, -l), p.transform(...i);
+            t.knockout ? this.#e++ : this.#e = 0, p.translate(-c, -l), p.transform(...a);
             let v = !t.isolated && !t.smask && t.needsIsolation, y = v && !n && _ === 0 && !t.knockout && !t.isGray && t.hasSoftMask && r.globalAlpha === 1 && r.globalCompositeOperation === `source-over` && this.current.transferMaps === `none`;
             if (v && (n || y) && (p.save(), p.setTransform(1, 0, 0, 1, 0, 0), p.drawImage(r.canvas, -c, -l), p.restore()), t.bbox) {
                 let e = new Path2D, [n, r, i, a] = t.bbox;
@@ -8364,7 +8279,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 subtype: t.smask.subtype,
                 backdrop: t.smask.backdrop,
                 transferMap: t.smask.transferMap || null
-            }), (!t.smask || this.dependencyTracker) && (r.setTransform(1, 0, 0, 1, 0, 0), r.translate(c, l), r.save()), Nn(r, p), this.ctx = p, this.dependencyTracker?.inheritSimpleDataAsFutureForcedDependencies([
+            }), (!t.smask || this.dependencyTracker) && (r.setTransform(1, 0, 0, 1, 0, 0), r.translate(c, l), r.save()), Mn(r, p), this.ctx = p, this.dependencyTracker?.inheritSimpleDataAsFutureForcedDependencies([
                 `fillAlpha`,
                 `strokeAlpha`,
                 `globalCompositeOperation`
@@ -8400,17 +8315,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         endGroup(e, t) {
             if (!this.contentVisible) return;
             this.groupLevel--;
-            let n = this.ctx, r = this.groupStack.pop(), i = this.#l.pop();
-            if (i && (this.#e = i.savedKnockoutLevel), r === null) {
-                this.restore(e);
-                return;
-            }
-            if (t.isGray && this.#v(n), this.ctx = r, this.ctx.imageSmoothingEnabled = !1, this.dependencyTracker?.popBaseTransform(), t.smask) this.tempSMask = this.smaskStack.pop(), this.restore(e), this.dependencyTracker && (this.ctx.restore(), this.inSMaskMode && this.ctx.setTransform(this.suspendedCtx.getTransform())), this.#y(i);
+            let n = this.ctx, r = this.groupStack.pop(), a = this.#l.pop();
+            if (a && (this.#e = a.savedKnockoutLevel), r === null) this.restore(e);
+            else if (t.isGray && this.#v(n), this.ctx = r, this.ctx.imageSmoothingEnabled = !1, this.dependencyTracker?.popBaseTransform(), t.smask) this.tempSMask = this.smaskStack.pop(), this.restore(e), this.dependencyTracker && (this.ctx.restore(), this.inSMaskMode && this.ctx.setTransform(this.suspendedCtx.getTransform())), this.#y(a);
             else {
                 this.ctx.restore();
                 let t = B(this.ctx);
                 this.restore(e), this.ctx.save(), this.ctx.setTransform(...t);
-                let o = a.slice();
+                let o = i.slice();
                 I.axialAlignedBoundingBox([
                     0,
                     0,
@@ -8419,9 +8331,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 ], t, o);
                 let s = this.#l.at(-1);
                 if (this.#e > 0) {
-                    if (i.hasInnerBackdrop) {
-                        let { width: e, height: a } = n.canvas, o = this.canvasFactory.create(e, a), s = o.context;
-                        s.drawImage(r.canvas, i.offsetX, i.offsetY, e, a, 0, 0, e, a), s.globalCompositeOperation = `source-over`, s.drawImage(n.canvas, 0, 0);
+                    if (a.hasInnerBackdrop) {
+                        let { width: e, height: i } = n.canvas, o = this.canvasFactory.create(e, i), s = o.context;
+                        s.drawImage(r.canvas, a.offsetX, a.offsetY, e, i, 0, 0, e, i), s.globalCompositeOperation = `source-over`, s.drawImage(n.canvas, 0, 0);
                         let c = this.#f(n.canvas);
                         s.globalCompositeOperation = `destination-in`, s.drawImage(c.canvas, 0, 0);
                         let l = this.ctx.globalCompositeOperation, u = this.ctx.globalAlpha, d = this.ctx.filter;
@@ -8432,8 +8344,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                             backdropCanvas: e?.canvas ?? null,
                             destTransform: t,
                             backdropOffset: e ? [
-                                s.offsetX + i.offsetX,
-                                s.offsetY + i.offsetY
+                                s.offsetX + a.offsetX,
+                                s.offsetY + a.offsetY
                             ] : [
                                 0,
                                 0
@@ -8443,7 +8355,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                         });
                     }
                 } else {
-                    if (i.replaceBackdrop) {
+                    if (a.replaceBackdrop) {
                         let e = new Path2D;
                         e.rect(0, 0, n.canvas.width, n.canvas.height), this.ctx.clip(e), this.ctx.globalCompositeOperation = `copy`;
                     }
@@ -8452,7 +8364,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 this.ctx.restore(), this.canvasFactory.destroy({
                     canvas: n.canvas,
                     context: n
-                }), this.#y(i), this.compose(o);
+                }), this.#y(a), this.compose(o);
             }
         }
         #v(e) {
@@ -8472,7 +8384,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             e && (e.knockoutMaskEntry &&= (this.canvasFactory.destroy(e.knockoutMaskEntry), null), e.knockoutTempEntry &&= (this.canvasFactory.destroy(e.knockoutTempEntry), null), e.knockoutBackdropEntry &&= (this.canvasFactory.destroy(e.knockoutBackdropEntry), null));
         }
         beginAnnotation(e, t, n, r, i, a, o) {
-            if (this.#u(), Pn(this.ctx), this.ctx.save(), this.save(e), this.baseTransform && this.ctx.setTransform(...this.baseTransform), n) {
+            if (this.#u(), Nn(this.ctx), this.ctx.save(), this.save(e), this.baseTransform && this.ctx.setTransform(...this.baseTransform), n) {
                 let i = n[2] - n[0], s = n[3] - n[1];
                 if (a && this.annotationCanvasMap) {
                     r = r.slice(), r[4] -= n[0], r[5] -= n[1], n = n.slice(), n[0] = n[1] = 0, n[2] = i, n[3] = s, I.singularValueDecompose2dScale(B(this.ctx), Z);
@@ -8480,19 +8392,19 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     this.annotationCanvas = this.canvasFactory.create(a, c);
                     let { canvas: l, context: u } = this.annotationCanvas;
                     if (o) {
-                        let e = this.annotationCanvasMap.getOrInsertComputed(t, he);
+                        let e = this.annotationCanvasMap.getOrInsertComputed(t, me);
                         l.setAttribute(`data-canvas-name`, o);
                         let n = e.findIndex((e)=>e.getAttribute(`data-canvas-name`) === o);
                         n === -1 ? e.push(l) : e[n] = l;
                     } else this.annotationCanvasMap.set(t, l);
-                    this.annotationCanvas.savedCtx = this.ctx, this.ctx = u, this.ctx.save(), this.ctx.setTransform(Z[0], 0, 0, -Z[1], 0, s * Z[1]), Pn(this.ctx);
+                    this.annotationCanvas.savedCtx = this.ctx, this.ctx = u, this.ctx.save(), this.ctx.setTransform(Z[0], 0, 0, -Z[1], 0, s * Z[1]), Nn(this.ctx);
                 } else {
-                    Pn(this.ctx), this.endPath(e);
+                    Nn(this.ctx), this.endPath(e);
                     let t = new Path2D;
                     t.rect(n[0], n[1], i, s), this.ctx.clip(t);
                 }
             }
-            this.current = new An(this.ctx.canvas.width, this.ctx.canvas.height), this.baseTransformStack.push(this.baseTransform), this.transform(e, ...r), this.transform(e, ...i), this.baseTransform = B(this.ctx);
+            this.current = new kn(this.ctx.canvas.width, this.ctx.canvas.height), this.baseTransformStack.push(this.baseTransform), this.transform(e, ...r), this.transform(e, ...i), this.baseTransform = B(this.ctx);
         }
         endAnnotation(e) {
             this.annotationCanvas && (this.ctx.restore(), this.#d(), this.ctx = this.annotationCanvas.savedCtx, delete this.annotationCanvas.savedCtx, delete this.annotationCanvas), this.baseTransform = this.baseTransformStack.pop();
@@ -8532,24 +8444,20 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.dependencyTracker?.resetBBox(e).recordDependencies(e, G.transformAndFill);
             for (let n of t){
                 let { data: t, width: o, height: s, transform: c } = n, l = this.canvasFactory.create(o, s), u = l.context;
-                u.save(), Mn(u, this.getObject(e, t, n)), u.globalCompositeOperation = `source-in`, u.fillStyle = a ? i.getPattern(u, this, V(r), Y.FILL, e) : i, u.fillRect(0, 0, o, s), u.restore(), r.save(), r.transform(...c), r.scale(1, -1), kn(r, l.canvas, 0, 0, o, s, 0, -1, 1, 1), this.canvasFactory.destroy(l), this.dependencyTracker?.recordBBox(e, r, 0, o, 0, s), r.restore();
+                u.save(), jn(u, this.getObject(e, t, n)), u.globalCompositeOperation = `source-in`, u.fillStyle = a ? i.getPattern(u, this, V(r), Y.FILL, e) : i, u.fillRect(0, 0, o, s), u.restore(), r.save(), r.transform(...c), r.scale(1, -1), On(r, l.canvas, 0, 0, o, s, 0, -1, 1, 1), this.canvasFactory.destroy(l), this.dependencyTracker?.recordBBox(e, r, 0, o, 0, s), r.restore();
             }
             this.compose(), this.dependencyTracker?.recordOperation(e), this.#g(n);
         }
         paintImageXObject(e, t) {
             if (!this.contentVisible) return;
             let n = this.getObject(e, t);
-            if (!n) {
-                D(`Dependent image isn't ready yet`);
-                return;
-            }
-            this.paintInlineImageXObject(e, n);
+            n ? this.paintInlineImageXObject(e, n) : E(`Dependent image isn't ready yet`);
         }
         paintImageXObjectRepeat(e, t, n, r, i) {
             if (!this.contentVisible) return;
             let a = this.getObject(e, t);
             if (!a) {
-                D(`Dependent image isn't ready yet`);
+                E(`Dependent image isn't ready yet`);
                 return;
             }
             let o = a.width, s = a.height, c = [];
@@ -8595,10 +8503,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 s = e.img, c = e.canvasEntry;
             } else {
                 let e = this.canvasFactory.create(n, r);
-                jn(e.context, t), s = this.applyTransferMapsToCanvas(e.context), c = e;
+                An(e.context, t), s = this.applyTransferMapsToCanvas(e.context), c = e;
             }
             let l = this._scaleImage(s, V(a));
-            a.imageSmoothingEnabled = Fn(B(a), t.interpolate), this.dependencyTracker && (this.dependencyTracker.resetBBox(e).recordBBox(e, a, 0, n, -r, 0).recordDependencies(e, G.imageXObject).recordOperation(e), this.imagesTracker?.record(a, n, r, this.dependencyTracker.clipBox)), kn(a, l.img, 0, 0, l.paintWidth, l.paintHeight, 0, -r, n, r), l.tmpCanvas && this.canvasFactory.destroy(l.tmpCanvas), c && this.canvasFactory.destroy(c), this.compose(), this.restore(e), this.#g(i);
+            a.imageSmoothingEnabled = Pn(B(a), t.interpolate), this.dependencyTracker && (this.dependencyTracker.resetBBox(e).recordBBox(e, a, 0, n, -r, 0).recordDependencies(e, G.imageXObject).recordOperation(e), this.imagesTracker?.record(a, n, r, this.dependencyTracker.clipBox)), On(a, l.img, 0, 0, l.paintWidth, l.paintHeight, 0, -r, n, r), l.tmpCanvas && this.canvasFactory.destroy(l.tmpCanvas), c && this.canvasFactory.destroy(c), this.compose(), this.restore(e), this.#g(i);
         }
         paintInlineImageXObjectGroup(e, t, n) {
             if (!this.contentVisible) return;
@@ -8606,10 +8514,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             if (t.bitmap) a = t.bitmap;
             else {
                 let e = t.width, n = t.height, r = this.canvasFactory.create(e, n);
-                jn(r.context, t), a = this.applyTransferMapsToCanvas(r.context), o = r;
+                An(r.context, t), a = this.applyTransferMapsToCanvas(r.context), o = r;
             }
             this.dependencyTracker?.resetBBox(e);
-            for (let t of n)i.save(), i.transform(...t.transform), i.scale(1, -1), kn(i, a, t.x, t.y, t.w, t.h, 0, -1, 1, 1), this.dependencyTracker?.recordBBox(e, i, 0, 1, -1, 0), i.restore();
+            for (let t of n)i.save(), i.transform(...t.transform), i.scale(1, -1), On(i, a, t.x, t.y, t.w, t.h, 0, -1, 1, 1), this.dependencyTracker?.recordBBox(e, i, 0, 1, -1, 0), i.restore();
             o && this.canvasFactory.destroy(o), this.dependencyTracker?.recordOperation(e), this.compose(), this.#g(r);
         }
         paintSolidColorImageMask(e) {
@@ -8640,7 +8548,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let r = this.current.isEmptyClip();
             this.pendingClip && this.current.updateClipFromPath(), this.pendingClip || this.compose(n);
             let i = this.ctx;
-            this.pendingClip ? (r || (this.pendingClip === zn ? i.clip(t, `evenodd`) : i.clip(t)), this.pendingClip = null, this.dependencyTracker?.bboxToClipBoxDropOperation(e).recordFutureForcedDependency(`clipPath`, e)) : this.dependencyTracker?.recordOperation(e), this.current.startNewPathAndClipBox(this.current.clipBox);
+            this.pendingClip ? (r || (this.pendingClip === Rn ? i.clip(t, `evenodd`) : i.clip(t)), this.pendingClip = null, this.dependencyTracker?.bboxToClipBoxDropOperation(e).recordFutureForcedDependency(`clipPath`, e)) : this.dependencyTracker?.recordOperation(e), this.current.startNewPathAndClipBox(this.current.clipBox);
         }
         getSinglePixelWidth() {
             if (!this._cachedGetSinglePixelWidth) {
@@ -8688,9 +8596,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 return;
             }
             let o = n.getLineDash();
-            t && n.save(), n.scale(i, a), Dn.a = 1 / i, Dn.d = 1 / a;
+            t && n.save(), n.scale(i, a), En.a = 1 / i, En.d = 1 / a;
             let s = new Path2D;
-            if (s.addPath(e, Dn), o.length > 0) {
+            if (s.addPath(e, En), o.length > 0) {
                 let e = Math.max(i, a);
                 n.setLineDash(o.map((t)=>t / e)), n.lineDashOffset /= e;
             }
@@ -8701,8 +8609,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return !0;
         }
     };
-    for(let e in b)Bn.prototype[e] !== void 0 && (Bn.prototype[b[e]] = Bn.prototype[e]);
-    var Vn = class {
+    for(let e in y)zn.prototype[e] !== void 0 && (zn.prototype[y[e]] = zn.prototype[e]);
+    var Bn = class {
         #e = null;
         #t = null;
         _fullReader = null;
@@ -8715,7 +8623,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._fullReader?._loaded ?? 0;
         }
         getFullReader() {
-            return k(!this._fullReader, `BasePDFStream.getFullReader can only be called once.`), this._fullReader = new this.#e(this);
+            return O(!this._fullReader, `BasePDFStream.getFullReader can only be called once.`), this._fullReader = new this.#e(this);
         }
         getRangeReader(e, t) {
             if (t <= this._progressiveDataLength) return null;
@@ -8726,7 +8634,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this._fullReader?.cancel(e);
             for (let t of new Set(this._rangeReaders))t.cancel(e);
         }
-    }, Hn = class {
+    }, Vn = class {
         onProgress = null;
         _contentLength = 0;
         _filename = null;
@@ -8760,24 +8668,24 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._isStreamingSupported;
         }
         async read() {
-            O("Abstract method `read` called");
+            D("Abstract method `read` called");
         }
         cancel(e) {
-            O("Abstract method `cancel` called");
+            D("Abstract method `cancel` called");
         }
-    }, Un = class {
+    }, Hn = class {
         _stream = null;
         constructor(e, t, n){
             this._stream = e;
         }
         async read() {
-            O("Abstract method `read` called");
+            D("Abstract method `read` called");
         }
         cancel(e) {
-            O("Abstract method `cancel` called");
+            D("Abstract method `cancel` called");
         }
     };
-    function Wn(e) {
+    function Un(e) {
         let t = !0, n = r(`filename\\*`, `i`).exec(e);
         if (n) {
             n = n[1];
@@ -8799,7 +8707,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 try {
                     let r = new TextDecoder(e, {
                         fatal: !0
-                    }), i = ce(n);
+                    }), i = se(n);
                     n = r.decode(i), t = !1;
                 } catch  {}
             }
@@ -8814,9 +8722,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 let [, e, r, i] = n;
                 if (e = parseInt(e, 10), e in t) {
                     if (e === 0) break;
-                    continue;
-                }
-                t[e] = [
+                } else t[e] = [
                     r,
                     i
                 ];
@@ -8856,7 +8762,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         return ``;
     }
-    function Gn(e, t) {
+    function Wn(e, t) {
         let n = new Headers;
         if (!e || !t || typeof t != `object`) return n;
         for(let e in t){
@@ -8865,34 +8771,34 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         return n;
     }
-    function Kn(e) {
+    function Gn(e) {
         return URL.parse(e)?.origin ?? null;
     }
-    function qn({ responseHeaders: e, isHttp: t, rangeChunkSize: n, disableRange: r }) {
+    function Kn({ responseHeaders: e, isHttp: t, rangeChunkSize: n, disableRange: r }) {
         let i = {
             contentLength: 0,
             isRangeSupported: !1
         }, a = parseInt(e.get(`Content-Length`), 10);
         return !Number.isInteger(a) || (i.contentLength = a, a <= 2 * n) || r || !t || e.get(`Accept-Ranges`) !== `bytes` || (e.get(`Content-Encoding`) || `identity`) === `identity` && (i.isRangeSupported = !0), i;
     }
-    function Jn(e) {
+    function qn(e) {
         let t = e.get(`Content-Disposition`);
         if (t) {
-            let e = Wn(t);
+            let e = Un(t);
             if (e.includes(`%`)) try {
                 e = decodeURIComponent(e);
             } catch  {}
-            if (Oe(e)) return e;
+            if (De(e)) return e;
         }
         return null;
     }
-    function Yn(e, t) {
-        return new ae(`Unexpected server response (${e}) while retrieving PDF "${t.href}".`, e, e === 404 || e === 0 && t.protocol === `file:`);
+    function Jn(e, t) {
+        return new ie(`Unexpected server response (${e}) while retrieving PDF "${t.href}".`, e, e === 404 || e === 0 && t.protocol === `file:`);
     }
-    function Xn(e, t) {
+    function Yn(e, t) {
         if (e !== t) throw Error(`Expected range response-origin "${e}" to match "${t}".`);
     }
-    function Zn(e, t, n, r) {
+    function Xn(e, t, n, r) {
         return fetch(e, {
             method: `GET`,
             headers: t,
@@ -8902,36 +8808,36 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             redirect: `follow`
         });
     }
-    function Qn(e, t) {
-        if (e !== 200 && e !== 206) throw Yn(e, t);
+    function Zn(e, t) {
+        if (e !== 200 && e !== 206) throw Jn(e, t);
     }
-    function $n(e) {
+    function Qn(e) {
         if (e instanceof Uint8Array) return e.buffer;
         if (e instanceof ArrayBuffer) return e;
         throw Error(`getArrayBuffer - unexpected data: ${e}`);
     }
-    var er = class extends Vn {
+    var $n = class extends Bn {
         _responseOrigin = null;
         constructor(e){
-            super(e, tr, nr);
+            super(e, er, tr);
             let { httpHeaders: t, url: n } = e;
-            k(/https?:/.test(n.protocol), `PDFFetchStream only supports http(s):// URLs.`), this.headers = Gn(!0, t);
+            O(/https?:/.test(n.protocol), `PDFFetchStream only supports http(s):// URLs.`), this.headers = Wn(!0, t);
         }
-    }, tr = class extends Hn {
+    }, er = class extends Vn {
         _abortController = new AbortController;
         _reader = null;
         constructor(e){
             super(e);
             let { disableRange: t, disableStream: n, rangeChunkSize: r, url: i, withCredentials: a } = e._source;
-            this._isStreamingSupported = !n, Zn(i, new Headers(e.headers), a, this._abortController).then((n)=>{
-                e._responseOrigin = Kn(n.url), Qn(n.status, i), this._reader = n.body.getReader();
-                let a = n.headers, { contentLength: o, isRangeSupported: s } = qn({
+            this._isStreamingSupported = !n, Xn(i, new Headers(e.headers), a, this._abortController).then((n)=>{
+                e._responseOrigin = Gn(n.url), Zn(n.status, i), this._reader = n.body.getReader();
+                let a = n.headers, { contentLength: o, isRangeSupported: s } = Kn({
                     responseHeaders: a,
                     isHttp: !0,
                     rangeChunkSize: r,
                     disableRange: t
                 });
-                this._contentLength = o, this._isRangeSupported = s, this._filename = Jn(a), !this._isStreamingSupported && this._isRangeSupported && this.cancel(new P(`Streaming is disabled.`)), this._headersCapability.resolve();
+                this._contentLength = o, this._isRangeSupported = s, this._filename = qn(a), !this._isStreamingSupported && this._isRangeSupported && this.cancel(new P(`Streaming is disabled.`)), this._headersCapability.resolve();
             }).catch(this._headersCapability.reject);
         }
         async read() {
@@ -8941,22 +8847,22 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 value: e,
                 done: t
             } : (this._loaded += e.byteLength, this._callOnProgress(), {
-                value: $n(e),
+                value: Qn(e),
                 done: !1
             });
         }
         cancel(e) {
             this._reader?.cancel(e), this._abortController.abort();
         }
-    }, nr = class extends Un {
+    }, tr = class extends Hn {
         _abortController = new AbortController;
         _readCapability = Promise.withResolvers();
         _reader = null;
         constructor(e, t, n){
             super(e, t, n);
             let { url: r, withCredentials: i } = e._source, a = new Headers(e.headers);
-            a.append(`Range`, `bytes=${t}-${n - 1}`), Zn(r, a, i, this._abortController).then((t)=>{
-                Xn(Kn(t.url), e._responseOrigin), Qn(t.status, r), this._reader = t.body.getReader(), this._readCapability.resolve();
+            a.append(`Range`, `bytes=${t}-${n - 1}`), Xn(r, a, i, this._abortController).then((t)=>{
+                Yn(Gn(t.url), e._responseOrigin), Zn(t.status, r), this._reader = t.body.getReader(), this._readCapability.resolve();
             }).catch(this._readCapability.reject);
         }
         async read() {
@@ -8966,7 +8872,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 value: e,
                 done: t
             } : {
-                value: $n(e),
+                value: Qn(e),
                 done: !1
             };
         }
@@ -8974,24 +8880,24 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this._reader?.cancel(e), this._abortController.abort();
         }
     };
-    function rr(e) {
+    function nr(e) {
         return e instanceof Uint8Array && e.byteLength === e.buffer.byteLength ? e.buffer : new Uint8Array(e).buffer;
     }
-    function ir() {
+    function rr() {
         for (let e of this._requests)e.resolve({
             value: void 0,
             done: !0
         });
         this._requests.length = 0;
     }
-    var ar = class extends Vn {
+    var ir = class extends Bn {
         _progressiveDone = !1;
         _queuedChunks = [];
         constructor(e){
-            super(e, or, sr);
+            super(e, ar, or);
             let { pdfDataRangeTransport: t } = e, { initialData: n, progressiveDone: r } = t;
             if (n?.length > 0) {
-                let e = rr(n);
+                let e = nr(n);
                 this._queuedChunks.push(e);
             }
             this._progressiveDone = r, t.transportReady((e)=>{
@@ -9006,11 +8912,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             });
         }
         #e(e, t) {
-            let n = rr(t);
+            let n = nr(t);
             if (e === void 0) this._fullReader ? this._fullReader._enqueue(n) : this._queuedChunks.push(n);
             else {
                 let t = this._rangeReaders.keys().find((t)=>t._begin === e);
-                k(t, "#onReceiveData - no `PDFDataTransportStreamRangeReader` instance found."), t._enqueue(n);
+                O(t, "#onReceiveData - no `PDFDataTransportStreamRangeReader` instance found."), t._enqueue(n);
             }
         }
         getFullReader() {
@@ -9024,8 +8930,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         cancelAllRequests(e) {
             super.cancelAllRequests(e), this._source.pdfDataRangeTransport.abort();
         }
-    }, or = class extends Hn {
-        #e = ir.bind(this);
+    }, ar = class extends Vn {
+        #e = rr.bind(this);
         _done = !1;
         _queuedChunks = null;
         _requests = [];
@@ -9034,7 +8940,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let { pdfDataRangeTransport: t, disableRange: n, disableStream: r } = e._source, { length: i, contentDispositionFilename: a } = t;
             this._queuedChunks = e._queuedChunks || [];
             for (let e of this._queuedChunks)this._loaded += e.byteLength;
-            this._done = e._progressiveDone, this._contentLength = i, this._isStreamingSupported = !r, this._isRangeSupported = !n, Oe(a) && (this._filename = a), this._headersCapability.resolve();
+            this._done = e._progressiveDone, this._contentLength = i, this._isStreamingSupported = !r, this._isRangeSupported = !n, De(a) && (this._filename = a), this._headersCapability.resolve();
             let o = this._loaded;
             Promise.resolve().then(()=>{
                 o > 0 && this._loaded === o && this._callOnProgress();
@@ -9064,8 +8970,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         progressiveDone() {
             this._done ||= !0, this._queuedChunks.length === 0 && this.#e();
         }
-    }, sr = class extends Un {
-        #e = ir.bind(this);
+    }, or = class extends Hn {
+        #e = rr.bind(this);
         onDone = null;
         _begin = -1;
         _done = !1;
@@ -9098,17 +9004,17 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         cancel(e) {
             this._done = !0, this.#e(), this.onDone?.();
         }
-    }, cr = 200, lr = 206;
-    function ur(e) {
-        return typeof e == `string` ? ce(e).buffer : e;
+    }, sr = 200, cr = 206;
+    function lr(e) {
+        return typeof e == `string` ? se(e).buffer : e;
     }
-    var dr = class extends Vn {
+    var ur = class extends Bn {
         #e = new WeakMap;
         _responseOrigin = null;
         constructor(e){
-            super(e, fr, pr);
+            super(e, dr, fr);
             let { httpHeaders: t, url: n } = e;
-            this.url = n, this.isHttp = /https?:/.test(n.protocol), this.headers = Gn(this.isHttp, t);
+            this.url = n, this.isHttp = /https?:/.test(n.protocol), this.headers = Wn(this.isHttp, t);
         }
         _request(e) {
             let t = new XMLHttpRequest, n = {
@@ -9120,7 +9026,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
             this.#e.set(t, n), t.open(`GET`, this.url), t.withCredentials = this._source.withCredentials;
             for (let [e, n] of this.headers)t.setRequestHeader(e, n);
-            return this.isHttp && `begin` in e && `end` in e ? (t.setRequestHeader(`Range`, `bytes=${e.begin}-${e.end - 1}`), n.validateStatus = (e)=>e === lr || e === cr) : n.validateStatus = (e)=>e === cr, t.responseType = `arraybuffer`, k(e.onError, "Expected `onError` callback to be provided."), t.onerror = ()=>e.onError(t.status), t.onreadystatechange = this.#n.bind(this, t), t.onprogress = this.#t.bind(this, t), t.send(null), t;
+            return this.isHttp && `begin` in e && `end` in e ? (t.setRequestHeader(`Range`, `bytes=${e.begin}-${e.end - 1}`), n.validateStatus = (e)=>e === cr || e === sr) : n.validateStatus = (e)=>e === sr, t.responseType = `arraybuffer`, O(e.onError, "Expected `onError` callback to be provided."), t.onerror = ()=>e.onError(t.status), t.onreadystatechange = this.#n.bind(this, t), t.onprogress = this.#t.bind(this, t), t.send(null), t;
         }
         #t(e, t) {
             this.#e.get(e)?.onProgress?.(t);
@@ -9132,15 +9038,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 n.onError(e.status);
                 return;
             }
-            let r = e.status || cr;
+            let r = e.status || sr;
             if (!n.validateStatus(r)) {
                 n.onError(e.status);
                 return;
             }
-            let i = ur(e.response);
-            if (r === lr) {
+            let i = lr(e.response);
+            if (r === cr) {
                 let t = e.getResponseHeader(`Content-Range`);
-                /bytes \d+-\d+\/\d+/.test(t) ? n.onDone(i) : (D(`Missing or invalid "Content-Range" header.`), n.onError(0));
+                /bytes \d+-\d+\/\d+/.test(t) ? n.onDone(i) : (E(`Missing or invalid "Content-Range" header.`), n.onError(0));
             } else i ? n.onDone(i) : n.onError(e.status);
         }
         _abortRequest(e) {
@@ -9150,8 +9056,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let n = super.getRangeReader(e, t);
             return n && (n.onClosed = ()=>this._rangeReaders.delete(n)), n;
         }
-    }, fr = class extends Hn {
-        #e = ir.bind(this);
+    }, dr = class extends Vn {
+        #e = rr.bind(this);
         _cachedChunks = [];
         _done = !1;
         _requests = [];
@@ -9166,20 +9072,20 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         #t() {
             let e = this._stream, { disableRange: t, rangeChunkSize: n } = e._source, r = this._fullRequestXhr;
-            e._responseOrigin = Kn(r.responseURL);
+            e._responseOrigin = Gn(r.responseURL);
             let i = r.getAllResponseHeaders(), a = new Headers(i ? i.trimStart().replace(/[^\S ]+$/, ``).split(/[\r\n]+/).map((e)=>{
                 let [t, ...n] = e.split(`: `);
                 return [
                     t,
                     n.join(`: `)
                 ];
-            }) : []), { contentLength: o, isRangeSupported: s } = qn({
+            }) : []), { contentLength: o, isRangeSupported: s } = Kn({
                 responseHeaders: a,
                 isHttp: e.isHttp,
                 rangeChunkSize: n,
                 disableRange: t
             });
-            this._contentLength = o, this._isRangeSupported = s, this._filename = Jn(a), this._isRangeSupported && e._abortRequest(r), this._headersCapability.resolve();
+            this._contentLength = o, this._isRangeSupported = s, this._filename = qn(a), this._isRangeSupported && e._abortRequest(r), this._headersCapability.resolve();
         }
         #n(e) {
             this._requests.length > 0 ? this._requests.shift().resolve({
@@ -9188,7 +9094,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }) : this._cachedChunks.push(e), this._done = !0, this._cachedChunks.length === 0 && this.#e();
         }
         #r(e) {
-            this._storedError = Yn(e, this._stream.url), this._headersCapability.reject(this._storedError);
+            this._storedError = Jn(e, this._stream.url), this._headersCapability.reject(this._storedError);
             for (let e of this._requests)e.reject(this._storedError);
             this._requests.length = 0, this._cachedChunks.length = 0;
         }
@@ -9214,8 +9120,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         cancel(e) {
             this._done = !0, this._headersCapability.reject(e), this.#e(), this._stream._abortRequest(this._fullRequestXhr), this._fullRequestXhr = null;
         }
-    }, pr = class extends Un {
-        #e = ir.bind(this);
+    }, fr = class extends Hn {
+        #e = rr.bind(this);
         onClosed = null;
         _done = !1;
         _queuedChunk = null;
@@ -9232,9 +9138,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             });
         }
         #t() {
-            let e = Kn(this._requestXhr?.responseURL);
+            let e = Gn(this._requestXhr?.responseURL);
             try {
-                Xn(e, this._stream._responseOrigin);
+                Yn(e, this._stream._responseOrigin);
             } catch (e) {
                 this._storedError = e, this.#r(0);
             }
@@ -9246,7 +9152,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }) : this._queuedChunk = e, this._done = !0, this.#e(), this.onClosed?.();
         }
         #r(e) {
-            this._storedError ??= Yn(e, this._stream.url);
+            this._storedError ??= Jn(e, this._stream.url);
             for (let e of this._requests)e.reject(this._storedError);
             this._requests.length = 0, this._queuedChunk = null;
         }
@@ -9270,28 +9176,28 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this._done = !0, this.#e(), this._stream._abortRequest(this._requestXhr), this.onClosed?.();
         }
     };
-    function mr(e, t = null) {
+    function pr(e, t = null) {
         let n = process.getBuiltinModule(`fs`), { Readable: r } = process.getBuiltinModule(`stream`), i = n.createReadStream(e, t);
         return r.toWeb(i);
     }
-    var hr = class extends Vn {
+    var mr = class extends Bn {
         constructor(e){
-            super(e, gr, _r);
+            super(e, hr, gr);
             let { url: t } = e;
-            k(t.protocol === `file:`, `PDFNodeStream only supports file:// URLs.`);
+            O(t.protocol === `file:`, `PDFNodeStream only supports file:// URLs.`);
         }
-    }, gr = class extends Hn {
+    }, hr = class extends Vn {
         _reader = null;
         constructor(e){
             super(e);
             let { disableRange: t, disableStream: n, rangeChunkSize: r, url: i } = e._source;
             this._isStreamingSupported = !n, process.getBuiltinModule(`fs/promises`).lstat(i).then((e)=>{
-                let n = mr(i);
+                let n = pr(i);
                 this._reader = n.getReader();
                 let { size: a } = e;
                 this._contentLength = a, this._isRangeSupported = !t && a > 2 * r, !this._isStreamingSupported && this._isRangeSupported && this.cancel(new P(`Streaming is disabled.`)), this._headersCapability.resolve();
             }).catch((e)=>{
-                e.code === `ENOENT` && (e = Yn(0, i)), this._headersCapability.reject(e);
+                e.code === `ENOENT` && (e = Jn(0, i)), this._headersCapability.reject(e);
             });
         }
         async read() {
@@ -9301,21 +9207,21 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 value: e,
                 done: t
             } : (this._loaded += e.byteLength, this._callOnProgress(), {
-                value: $n(e),
+                value: Qn(e),
                 done: !1
             });
         }
         cancel(e) {
             this._reader?.cancel(e);
         }
-    }, _r = class extends Un {
+    }, gr = class extends Hn {
         _readCapability = Promise.withResolvers();
         _reader = null;
         constructor(e, t, n){
             super(e, t, n);
             let { url: r } = e._source;
             try {
-                let e = mr(r, {
+                let e = pr(r, {
                     start: t,
                     end: n - 1
                 });
@@ -9331,7 +9237,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 value: e,
                 done: t
             } : {
-                value: $n(e),
+                value: Qn(e),
                 done: !1
             };
         }
@@ -9339,11 +9245,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this._reader?.cancel(e);
         }
     };
-    function vr(e) {
-        return Me(e) ? er : r ? hr : dr;
+    function _r(e) {
+        return je(e) ? $n : n ? mr : ur;
     }
-    let br, xr, Sr, Cr, wr, Tr, Er, Dr, Or, kr, jr;
-    yr = class {
+    let yr, br, xr, Sr, Cr, wr, Tr, Er, Dr, Or, Ar;
+    vr = class {
         static #e = null;
         static #t = ``;
         static get workerPort() {
@@ -9361,7 +9267,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#t = e;
         }
     };
-    br = class {
+    yr = class {
         #e;
         #t;
         constructor({ parsedData: e, rawData: t }){
@@ -9377,14 +9283,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#e.entries();
         }
     };
-    xr = Symbol(`INTERNAL`);
-    Sr = class {
+    br = Symbol(`INTERNAL`);
+    xr = class {
         #e = !1;
         #t = !1;
         #n = !1;
         #r = !0;
         constructor(e, { name: t, intent: n, usage: r, rbGroups: i }){
-            this.#e = !!(e & c.DISPLAY), this.#t = !!(e & c.PRINT), this.name = t, this.intent = n, this.usage = r, this.rbGroups = i;
+            this.#e = !!(e & s.DISPLAY), this.#t = !!(e & s.PRINT), this.name = t, this.intent = n, this.usage = r, this.rbGroups = i;
         }
         get visible() {
             if (this.#n) return this.#r;
@@ -9393,7 +9299,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#e ? t?.viewState !== `OFF` : !this.#t || e?.printState !== `OFF`;
         }
         _setVisible(e, t, n = !1) {
-            e !== xr && O("Internal method `_setVisible` called."), this.#n = n, this.#r = t;
+            e !== br && D("Internal method `_setVisible` called."), this.#n = n, this.#r = t;
         }
         get serializable() {
             return {
@@ -9402,7 +9308,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
         }
     };
-    Cr = class e {
+    Sr = class e {
         #e = null;
         #t = new Map;
         #n = null;
@@ -9410,17 +9316,17 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #i;
         creator = null;
         name = null;
-        constructor(e, t = c.DISPLAY, n = null){
+        constructor(e, t = s.DISPLAY, n = null){
             if (this.#i = e, this.renderingIntent = t, e !== null) {
                 this.name = e.name, this.creator = e.creator, this.#r = e.order;
-                for (let n of e.groups)this.#t.set(n.id, new Sr(t, n));
+                for (let n of e.groups)this.#t.set(n.id, new xr(t, n));
                 if (n) {
-                    n.size !== this.#t.size && O(`Incorrect serialized groupState.`);
-                    for (let [e, t] of n)this.#t.get(e)._setVisible(xr, t.visible, t.userSet);
+                    n.size !== this.#t.size && D(`Incorrect serialized groupState.`);
+                    for (let [e, t] of n)this.#t.get(e)._setVisible(br, t.visible, t.userSet);
                 } else {
-                    if (e.baseState === `OFF`) for (let e of this.#t.values())e._setVisible(xr, !1);
-                    for (let t of e.on)this.#t.get(t)._setVisible(xr, !0);
-                    for (let t of e.off)this.#t.get(t)._setVisible(xr, !1);
+                    if (e.baseState === `OFF`) for (let e of this.#t.values())e._setVisible(br, !1);
+                    for (let t of e.on)this.#t.get(t)._setVisible(br, !0);
+                    for (let t of e.off)this.#t.get(t)._setVisible(br, !1);
                 }
                 this.#n = this.getHash();
             }
@@ -9433,7 +9339,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 let t = e[r], i;
                 if (Array.isArray(t)) i = this.#a(t);
                 else if (this.#t.has(t)) i = this.#t.get(t).visible;
-                else return D(`Optional content group not found: ${t}`), !0;
+                else return E(`Optional content group not found: ${t}`), !0;
                 switch(n){
                     case `And`:
                         if (!i) return !1;
@@ -9451,50 +9357,49 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         isVisible(e) {
             if (this.#t.size === 0) return !0;
-            if (!e) return E(`Optional content group not defined.`), !0;
-            if (e.type === `OCG`) return this.#t.has(e.id) ? this.#t.get(e.id).visible : (D(`Optional content group not found: ${e.id}`), !0);
+            if (!e) return T(`Optional content group not defined.`), !0;
+            if (e.type === `OCG`) return this.#t.has(e.id) ? this.#t.get(e.id).visible : (E(`Optional content group not found: ${e.id}`), !0);
             if (e.type === `OCMD`) {
                 if (e.expression) return this.#a(e.expression);
                 if (!e.policy || e.policy === `AnyOn`) {
                     for (let t of e.ids){
-                        if (!this.#t.has(t)) return D(`Optional content group not found: ${t}`), !0;
+                        if (!this.#t.has(t)) return E(`Optional content group not found: ${t}`), !0;
                         if (this.#t.get(t).visible) return !0;
                     }
                     return !1;
                 }
                 if (e.policy === `AllOn`) {
                     for (let t of e.ids){
-                        if (!this.#t.has(t)) return D(`Optional content group not found: ${t}`), !0;
+                        if (!this.#t.has(t)) return E(`Optional content group not found: ${t}`), !0;
                         if (!this.#t.get(t).visible) return !1;
                     }
                     return !0;
                 }
                 if (e.policy === `AnyOff`) {
                     for (let t of e.ids){
-                        if (!this.#t.has(t)) return D(`Optional content group not found: ${t}`), !0;
+                        if (!this.#t.has(t)) return E(`Optional content group not found: ${t}`), !0;
                         if (!this.#t.get(t).visible) return !0;
                     }
                     return !1;
                 }
                 if (e.policy === `AllOff`) {
                     for (let t of e.ids){
-                        if (!this.#t.has(t)) return D(`Optional content group not found: ${t}`), !0;
+                        if (!this.#t.has(t)) return E(`Optional content group not found: ${t}`), !0;
                         if (this.#t.get(t).visible) return !1;
                     }
                     return !0;
                 }
-                return D(`Unknown optional content policy ${e.policy}.`), !0;
+                return E(`Unknown optional content policy ${e.policy}.`), !0;
             }
-            return D(`Unknown group type ${e.type}.`), !0;
+            return E(`Unknown group type ${e.type}.`), !0;
         }
         setVisibility(e, t = !0, n = !0) {
             let r = this.#t.get(e);
-            if (!r) {
-                D(`Optional content group not found: ${e}`);
-                return;
+            if (!r) E(`Optional content group not found: ${e}`);
+            else {
+                if (n && t && r.rbGroups.length) for (let t of r.rbGroups)for (let n of t)n !== e && this.#t.get(n)?._setVisible(br, !1, !0);
+                r._setVisible(br, !!t, !0), this.#e = null;
             }
-            if (n && t && r.rbGroups.length) for (let t of r.rbGroups)for (let n of t)n !== e && this.#t.get(n)?._setVisible(xr, !1, !0);
-            r._setVisible(xr, !!t, !0), this.#e = null;
         }
         setOCGState({ state: e, preserveRB: t }) {
             let n;
@@ -9533,7 +9438,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         getHash() {
             if (this.#e !== null) return this.#e;
-            let e = new pt;
+            let e = new ft;
             for (let [t, n] of this.#t)e.update(`${t}:${n.visible}`);
             return this.#e = e.hexdigest();
         }
@@ -9553,7 +9458,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return new e(t, n, r);
         }
     };
-    wr = class {
+    Cr = class {
         #e = null;
         #t = null;
         #n = 0;
@@ -9673,7 +9578,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let t = new Map;
             for(let n = 0, r = e.length; n < r; n++){
                 let r = this.getPageId(e[n]);
-                t.getOrInsertComputed(r, he).push(n + 1);
+                t.getOrInsertComputed(r, me).push(n + 1);
             }
             return this.getPageMappingForSaving(t);
         }
@@ -9693,33 +9598,33 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#e?.subarray(0, this.pagesNumber);
         }
     };
-    Tr = Symbol(`INITIAL_DATA`);
-    Er = ()=>({
+    wr = Symbol(`INITIAL_DATA`);
+    Tr = ()=>({
             ...Promise.withResolvers(),
-            data: Tr
+            data: wr
         });
-    Dr = class {
+    Er = class {
         #e = new Map;
         get(e, t = null) {
             if (t) {
-                let n = this.#e.getOrInsertComputed(e, Er);
+                let n = this.#e.getOrInsertComputed(e, Tr);
                 return n.promise.then(()=>t(n.data)), null;
             }
             let n = this.#e.get(e);
-            if (!n || n.data === Tr) throw Error(`Requesting object that isn't resolved yet ${e}.`);
+            if (!n || n.data === wr) throw Error(`Requesting object that isn't resolved yet ${e}.`);
             return n.data;
         }
         has(e) {
             let t = this.#e.get(e);
-            return !!t && t.data !== Tr;
+            return !!t && t.data !== wr;
         }
         delete(e) {
             let t = this.#e.get(e);
-            return !t || t.data === Tr ? !1 : (this.#e.delete(e), !0);
+            return !t || t.data === wr ? !1 : (this.#e.delete(e), !0);
         }
         resolve(e, t = null) {
-            let n = this.#e.getOrInsertComputed(e, Er);
-            if (n.data !== Tr) throw Error(`Object already resolved ${e}.`);
+            let n = this.#e.getOrInsertComputed(e, Tr);
+            if (n.data !== wr) throw Error(`Object already resolved ${e}.`);
             n.data = t, n.resolve();
         }
         clear() {
@@ -9727,15 +9632,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#e.clear();
         }
         *[Symbol.iterator]() {
-            for (let [e, { data: t }] of this.#e)t !== Tr && (yield [
+            for (let [e, { data: t }] of this.#e)t !== wr && (yield [
                 e,
                 t
             ]);
         }
     };
-    Or = 1e5;
-    kr = 30;
-    Ar = class e {
+    Dr = 1e5;
+    Or = 30;
+    kr = class e {
         #e = Promise.withResolvers();
         #t = null;
         #n = !1;
@@ -9768,7 +9673,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 }
             });
             else throw Error(`No "textContentSource" parameter specified.`);
-            this.#t = this.#u = r, this.#i = n, this.#f = i.scale * Re.pixelRatio, this.#d = i.rotation, this.#o = {
+            this.#t = this.#u = r, this.#i = n, this.#f = i.scale * Le.pixelRatio, this.#d = i.rotation, this.#o = {
                 div: null,
                 properties: null,
                 ctx: null
@@ -9781,7 +9686,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 -1,
                 -s,
                 c + o
-            ], this.#c = a, this.#s = o, e.#k(), r.style.setProperty(`--min-font-size`, e.#S), Le(r, i), this.#e.promise.finally(()=>{
+            ], this.#c = a, this.#s = o, e.#k(), r.style.setProperty(`--min-font-size`, e.#S), Ie(r, i), this.#e.promise.finally(()=>{
                 e.#C.delete(this), this.#o = null, this.#p = null;
             }).catch(()=>{});
         }
@@ -9802,18 +9707,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#i && this.#t.append(this.#i.render());
             let t = ()=>{
                 this.#l.read().then(({ value: e, done: n })=>{
-                    if (n) {
-                        this.#e.resolve();
-                        return;
-                    }
-                    this.#a ??= e.lang, Object.assign(this.#p, e.styles), this.#w(e.items), t();
+                    n ? this.#e.resolve() : (this.#a ??= e.lang, Object.assign(this.#p, e.styles), this.#w(e.items), t());
                 }, this.#e.reject);
             };
             return this.#l = this.#h.getReader(), e.#C.add(this), t(), this.#e.promise;
         }
         update({ viewport: t, onBefore: n = null }) {
-            let r = t.scale * Re.pixelRatio, i = t.rotation;
-            if (i !== this.#d && (n?.(), this.#d = i, Le(this.#u, {
+            let r = t.scale * Le.pixelRatio, i = t.rotation;
+            if (i !== this.#d && (n?.(), this.#d = i, Ie(this.#u, {
                 rotation: i
             })), r !== this.#f) {
                 n?.(), this.#f = r;
@@ -9840,8 +9741,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#o.ctx ??= e.#D(this.#a);
             let n = this.#g, r = this.#m;
             for (let e of t){
-                if (n.length > Or) {
-                    D(`Ignoring additional textDivs for performance reasons.`), this.#n = !0;
+                if (n.length > Dr) {
+                    E(`Ignoring additional textDivs for performance reasons.`), this.#n = !0;
                     return;
                 }
                 if (e.str === void 0) {
@@ -9849,9 +9750,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                         let t = this.#t;
                         this.#t = document.createElement(`span`), this.#t.classList.add(`markedContent`), e.id && this.#t.setAttribute(`id`, e.id), e.tag === `Artifact` && (this.#t.ariaHidden = !0), t.append(this.#t);
                     } else e.type === `endMarkedContent` && (this.#t = this.#t.parentNode);
-                    continue;
-                }
-                r.push(e.str), this.#T(e);
+                } else r.push(e.str), this.#T(e);
             }
         }
         #T(t) {
@@ -9926,42 +9825,42 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let r = this.#y.get(e);
             if (r) return r;
             let i = this.#D(n);
-            i.canvas.width = i.canvas.height = kr, this.#O(i, kr, e);
+            i.canvas.width = i.canvas.height = Or, this.#O(i, Or, e);
             let a = i.measureText(``), o = a.fontBoundingBoxAscent, s = Math.abs(a.fontBoundingBoxDescent);
             i.canvas.width = i.canvas.height = 0;
             let c = .8;
-            return o ? c = o / (o + s) : (F.platform.isFirefox && D("Enable the `dom.textMetrics.fontBoundingBox.enabled` preference in `about:config` to improve TextLayer rendering."), t.ascent ? c = t.ascent : t.descent && (c = 1 + t.descent)), this.#y.set(e, c), c;
+            return o ? c = o / (o + s) : (F.platform.isFirefox && E("Enable the `dom.textMetrics.fontBoundingBox.enabled` preference in `about:config` to improve TextLayer rendering."), t.ascent ? c = t.ascent : t.descent && (c = 1 + t.descent)), this.#y.set(e, c), c;
         }
     };
-    jr = 100;
-    Mr = function(e = {}) {
-        let t = new Nr, { docId: n } = t, i = e.url ? zt(e.url) : null, a = e.data ? Bt(e.data) : null, o = e.httpHeaders || null, s = e.withCredentials === !0, c = e.password ?? null, l = e.range instanceof Pr ? e.range : null, u = Number.isInteger(e.rangeChunkSize) && e.rangeChunkSize > 0 ? e.rangeChunkSize : 2 ** 16, d = e.worker instanceof Lr ? e.worker : null, f = e.verbosity, p = typeof e.docBaseUrl == `string` && !De(e.docBaseUrl) ? e.docBaseUrl : null, m = Vt(e.cMapUrl), h = e.cMapPacked !== !1, g = Vt(e.iccUrl), _ = Vt(e.standardFontDataUrl), v = Vt(e.wasmUrl), y = e.stopAtErrors !== !0, b = Number.isInteger(e.maxImageSize) && e.maxImageSize > -1 ? e.maxImageSize : -1, x = typeof e.isOffscreenCanvasSupported == `boolean` ? e.isOffscreenCanvasSupported : !r, S = typeof e.isImageDecoderSupported == `boolean` ? e.isImageDecoderSupported : !r, C = Number.isInteger(e.canvasMaxAreaInBytes) ? e.canvasMaxAreaInBytes : -1, T = typeof e.disableFontFace == `boolean` ? e.disableFontFace : r, E = e.fontExtraProperties === !0, D = e.enableXfa === !0, O = e.ownerDocument || globalThis.document, k = e.disableRange === !0, A = e.disableStream === !0, j = e.disableAutoFetch === !0, ee = e.pdfBug === !0, te = e.CanvasFactory || (r ? rn : Zt), M = e.FilterFactory || (r ? nn : $t), N = e.BinaryDataFactory || (r ? an : Yt), ne = e.enableHWA === !0, re = e.enableWebGPU === !0 ? un() : Promise.resolve(!1), ie = e.useWasm !== !1, ae = e.pagesMapper || new wr, oe = typeof e.useSystemFonts == `boolean` ? e.useSystemFonts : !r && !T, P = typeof e.useWorkerFetch == `boolean` ? e.useWorkerFetch : !!(N === Yt && m && h && _ && v && Me(m, document.baseURI) && Me(_, document.baseURI) && Me(v, document.baseURI));
-        w(f);
+    Ar = 100;
+    jr = function(e = {}) {
+        let t = new Mr, { docId: r } = t, i = e.url ? Rt(e.url) : null, a = e.data ? zt(e.data) : null, o = e.httpHeaders || null, s = e.withCredentials === !0, c = e.password ?? null, l = e.range instanceof Nr ? e.range : null, u = Number.isInteger(e.rangeChunkSize) && e.rangeChunkSize > 0 ? e.rangeChunkSize : 2 ** 16, d = e.worker instanceof Ir ? e.worker : null, f = e.verbosity, p = typeof e.docBaseUrl == `string` && !Ee(e.docBaseUrl) ? e.docBaseUrl : null, m = Bt(e.cMapUrl), h = e.cMapPacked !== !1, g = Bt(e.iccUrl), _ = Bt(e.standardFontDataUrl), v = Bt(e.wasmUrl), y = e.stopAtErrors !== !0, b = Number.isInteger(e.maxImageSize) && e.maxImageSize > -1 ? e.maxImageSize : -1, x = typeof e.isOffscreenCanvasSupported == `boolean` ? e.isOffscreenCanvasSupported : !n, S = typeof e.isImageDecoderSupported == `boolean` ? e.isImageDecoderSupported : !n, w = Number.isInteger(e.canvasMaxAreaInBytes) ? e.canvasMaxAreaInBytes : -1, T = typeof e.disableFontFace == `boolean` ? e.disableFontFace : n, E = e.fontExtraProperties === !0, D = e.enableXfa === !0, O = e.ownerDocument || globalThis.document, ee = e.disableRange === !0, k = e.disableStream === !0, A = e.disableAutoFetch === !0, j = e.pdfBug === !0, M = e.CanvasFactory || (n ? nn : Xt), N = e.FilterFactory || (n ? tn : Qt), te = e.BinaryDataFactory || (n ? rn : Jt), ne = e.enableHWA === !0, re = e.enableWebGPU === !0 ? ln() : Promise.resolve(!1), ie = e.useWasm !== !1, ae = e.pagesMapper || new Cr, P = typeof e.useSystemFonts == `boolean` ? e.useSystemFonts : !n && !T, oe = typeof e.useWorkerFetch == `boolean` ? e.useWorkerFetch : !!(te === Jt && m && h && _ && v && je(m, document.baseURI) && je(_, document.baseURI) && je(v, document.baseURI));
+        C(f);
         let se = {
-            canvasFactory: new te({
+            canvasFactory: new M({
                 ownerDocument: O,
                 enableHWA: ne
             }),
-            filterFactory: new M({
-                docId: n,
+            filterFactory: new N({
+                docId: r,
                 ownerDocument: O
             }),
-            binaryDataFactory: P ? null : new N({
+            binaryDataFactory: oe ? null : new te({
                 cMapUrl: m,
                 standardFontDataUrl: _,
                 wasmUrl: v
             })
         };
-        d || (d = Lr.create({
+        d || (d = Ir.create({
             verbosity: f,
-            port: yr.workerPort
+            port: vr.workerPort
         }), t._worker = d);
-        let ce = {
-            docId: n,
+        let F = {
+            docId: r,
             apiVersion: `6.2.108`,
             data: a,
             password: c,
-            disableAutoFetch: j,
+            disableAutoFetch: A,
             rangeChunkSize: u,
             docBaseUrl: p,
             enableXfa: D,
@@ -9971,11 +9870,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 ignoreErrors: y,
                 isOffscreenCanvasSupported: x,
                 isImageDecoderSupported: S,
-                canvasMaxAreaInBytes: C,
+                canvasMaxAreaInBytes: w,
                 fontExtraProperties: E,
-                useSystemFonts: oe,
+                useSystemFonts: P,
                 useWasm: ie,
-                useWorkerFetch: P,
+                useWorkerFetch: oe,
                 cMapUrl: m,
                 cMapPacked: h,
                 iccUrl: g,
@@ -9983,13 +9882,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 wasmUrl: v,
                 hasGPU: !1
             }
-        }, F = {
+        }, I = {
             ownerDocument: O,
-            pdfBug: ee,
+            pdfBug: j,
             styleElement: null,
             enableHWA: ne,
             loadingParams: {
-                disableAutoFetch: j,
+                disableAutoFetch: A,
                 enableXfa: D
             }
         };
@@ -9998,36 +9897,36 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             re
         ]).then(function([, e]) {
             if (d.destroyed) throw Error(`Worker was destroyed`);
-            ce.evaluatorOptions.hasGPU = e;
-            let r = d.messageHandler.sendWithPromise(`GetDocRequest`, ce, a ? [
+            F.evaluatorOptions.hasGPU = e;
+            let n = d.messageHandler.sendWithPromise(`GetDocRequest`, F, a ? [
                 a.buffer
             ] : null), c;
             if (!a) {
-                if (l) c = new ar({
+                if (l) c = new ir({
                     pdfDataRangeTransport: l,
-                    disableRange: k,
-                    disableStream: A
+                    disableRange: ee,
+                    disableStream: k
                 });
-                else if (i) c = new (vr(i))({
+                else if (i) c = new (_r(i))({
                     url: i,
                     httpHeaders: o,
                     withCredentials: s,
                     rangeChunkSize: u,
-                    disableRange: k,
-                    disableStream: A
+                    disableRange: ee,
+                    disableStream: k
                 });
                 else throw Error("getDocument - expected either `data`, `range`, or `url` parameter.");
             }
-            return r.then((e)=>{
+            return n.then((e)=>{
                 if (d.destroyed) throw Error(`Worker was destroyed`);
-                let r = new qt(n, e, d.port), i = new Rr(r, t, c, F, se, ae);
+                let n = new Kt(r, e, d.port), i = new Lr(n, t, c, I, se, ae);
                 if (t._transport = i, t.destroyed) throw Error(`Loading aborted`);
-                r.send(`Ready`, null);
+                n.send(`Ready`, null);
             });
         }).catch(t._capability.reject).finally(t._setupCapability.resolve), t;
     };
-    let Nr, Fr, Ir, Rr, zr, Br, Wr;
-    Nr = class e {
+    let Mr, Pr, Fr, Lr, Rr, zr, Ur;
+    Mr = class e {
         static #e = 0;
         _capability = Promise.withResolvers();
         _setupCapability = Promise.withResolvers();
@@ -10053,7 +9952,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._transport.getData();
         }
     };
-    Pr = class {
+    Nr = class {
         #e = Promise.withResolvers();
         #t = null;
         constructor(e, t, n = !1, r = null){
@@ -10085,11 +9984,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#t = e, this.#e.resolve();
         }
         requestDataRange(e, t) {
-            O(`Abstract method PDFDataRangeTransport.requestDataRange`);
+            D(`Abstract method PDFDataRangeTransport.requestDataRange`);
         }
         abort() {}
     };
-    Fr = class {
+    Pr = class {
         constructor(e, t){
             this._pdfInfo = e, this._transport = t;
         }
@@ -10215,11 +10114,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._transport.getCalculationOrderIds();
         }
     };
-    Ir = class e {
+    Fr = class e {
         #e = !1;
         #t = null;
         constructor(e, t, n, r, i = !1){
-            this._pageIndex = e, this._pageInfo = t, this._transport = n, this._stats = i ? new je : null, this._pdfBug = i, this.commonObjs = n.commonObjs, this.objs = new Dr, this._intentStates = new Map, this.destroyed = !1, this.recordedBBoxes = null, this.#t = r, this.imageCoordinates = null;
+            this._pageIndex = e, this._pageInfo = t, this._transport = n, this._stats = i ? new Ae : null, this._pdfBug = i, this.commonObjs = n.commonObjs, this.objs = new Er, this._intentStates = new Map, this.destroyed = !1, this.recordedBBoxes = null, this.#t = r, this.imageCoordinates = null;
         }
         clone(t) {
             let n = new e(t, this._pageInfo, this._transport, this.#t, this._pdfBug);
@@ -10244,7 +10143,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._pageInfo.view;
         }
         getViewport({ scale: e, rotation: t = this.rotate, offsetX: n = 0, offsetY: r = 0, dontFlip: i = !1 } = {}) {
-            return new ye({
+            return new ve({
                 viewBox: this.view,
                 userUnit: this.userUnit,
                 scale: e,
@@ -10270,13 +10169,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         async getXfa() {
             return this._transport._htmlForXfa?.children[this._pageIndex] || null;
         }
-        render({ canvasContext: e, canvas: t = e.canvas, viewport: n, intent: r = `display`, annotationMode: i = l.ENABLE, transform: a = null, background: o = null, optionalContentConfigPromise: s = null, annotationCanvasMap: u = null, pageColors: d = null, printAnnotationStorage: f = null, isEditing: p = !1, recordImages: m = !1, recordOperations: h = !1, operationsFilter: g = null }) {
+        render({ canvasContext: e, canvas: t = e.canvas, viewport: n, intent: r = `display`, annotationMode: i = c.ENABLE, transform: a = null, background: o = null, optionalContentConfigPromise: l = null, annotationCanvasMap: u = null, pageColors: d = null, printAnnotationStorage: f = null, isEditing: p = !1, recordImages: m = !1, recordOperations: h = !1, operationsFilter: g = null }) {
             this._stats?.time(`Overall`);
             let _ = this._transport.getRenderingIntent(r, i, f, p), { renderingIntent: v, cacheKey: y } = _;
-            this.#e = !1, s ||= this._transport.getOptionalContentConfig(v);
-            let b = this._intentStates.getOrInsertComputed(y, _e);
+            this.#e = !1, l ||= this._transport.getOptionalContentConfig(v);
+            let b = this._intentStates.getOrInsertComputed(y, ge);
             b.streamReaderCancelTimeout &&= (clearTimeout(b.streamReaderCancelTimeout), null);
-            let x = !!(v & c.PRINT);
+            let x = !!(v & s.PRINT);
             b.displayReadyCapability || (b.displayReadyCapability = Promise.withResolvers(), b.operatorList = {
                 fnArray: [],
                 argsArray: [],
@@ -10293,14 +10192,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     reason: e instanceof Error ? e : Error(e)
                 })) : O.capability.resolve(), this._stats && (this._stats.timeEnd(`Rendering`), this._stats.timeEnd(`Overall`), globalThis.Stats?.enabled && globalThis.Stats.add(this.pageNumber, this._stats));
             }, E = null, D = null;
-            (C || w) && (D = new Tt(t, b.operatorList.length)), C && (E = new Et(D, S));
-            let O = new Br({
+            (C || w) && (D = new wt(t, b.operatorList.length)), C && (E = new Tt(D, S));
+            let O = new zr({
                 callback: T,
                 params: {
                     canvas: t,
                     canvasContext: e,
                     dependencyTracker: E ?? D,
-                    imagesTracker: w ? new Ot(t) : null,
+                    imagesTracker: w ? new Dt(t) : null,
                     viewport: n,
                     transform: a,
                     background: o
@@ -10319,27 +10218,26 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 operationsFilter: g
             });
             (b.renderTasks ||= new Set).add(O);
-            let k = O.task;
+            let ee = O.task;
             return Promise.all([
                 b.displayReadyCapability.promise,
-                s
+                l
             ]).then(([e, t])=>{
-                if (this.destroyed) {
-                    T();
-                    return;
+                if (this.destroyed) T();
+                else {
+                    if (this._stats?.time(`Rendering`), !(t.renderingIntent & v)) throw Error("Must use the same `intent`-argument when calling the `PDFPageProxy.render` and `PDFDocumentProxy.getOptionalContentConfig` methods.");
+                    O.initializeGraphics({
+                        transparency: e,
+                        optionalContentConfig: t
+                    }), O.operatorListChanged();
                 }
-                if (this._stats?.time(`Rendering`), !(t.renderingIntent & v)) throw Error("Must use the same `intent`-argument when calling the `PDFPageProxy.render` and `PDFDocumentProxy.getOptionalContentConfig` methods.");
-                O.initializeGraphics({
-                    transparency: e,
-                    optionalContentConfig: t
-                }), O.operatorListChanged();
-            }).catch(T), k;
+            }).catch(T), ee;
         }
-        getOperatorList({ intent: e = `display`, annotationMode: t = l.ENABLE, printAnnotationStorage: n = null, isEditing: r = !1 } = {}) {
+        getOperatorList({ intent: e = `display`, annotationMode: t = c.ENABLE, printAnnotationStorage: n = null, isEditing: r = !1 } = {}) {
             function i() {
                 o.operatorList.lastChunk && (o.opListReadCapability.resolve(o.operatorList), o.renderTasks.delete(s));
             }
-            let a = this._transport.getRenderingIntent(e, t, n, r, !0), o = this._intentStates.getOrInsertComputed(a.cacheKey, _e), s;
+            let a = this._transport.getRenderingIntent(e, t, n, r, !0), o = this._intentStates.getOrInsertComputed(a.cacheKey, ge), s;
             return o.opListReadCapability || (s = Object.create(null), s.operatorListChanged = i, o.opListReadCapability = Promise.withResolvers(), (o.renderTasks ||= new Set).add(s), o.operatorList = {
                 fnArray: [],
                 argsArray: [],
@@ -10361,7 +10259,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             });
         }
         async getTextContent(e = {}) {
-            if (this._transport._htmlForXfa) return this.getXfa().then((e)=>be.textContent(e));
+            if (this._transport._htmlForXfa) return this.getXfa().then((e)=>ye.textContent(e));
             let t = this.streamTextContent(e), n = {
                 items: [],
                 styles: Object.create(null),
@@ -10386,7 +10284,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         cleanup(e = !1) {
             this.#e = !0;
             let t = this.#n();
-            return e && t && (this._stats &&= new je), t;
+            return e && t && (this._stats &&= new Ae), t;
         }
         #n() {
             if (!this.#e || this.destroyed) return !1;
@@ -10415,11 +10313,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             s.streamReader = o;
             let c = ()=>{
                 o.read().then(({ value: e, done: t })=>{
-                    if (t) {
-                        s.streamReader = null;
-                        return;
-                    }
-                    this._transport.destroyed || (this._renderPageChunk(e, s), c());
+                    t ? s.streamReader = null : this._transport.destroyed || (this._renderPageChunk(e, s), c());
                 }, (e)=>{
                     if (s.streamReader = null, !this._transport.destroyed) {
                         if (s.operatorList) {
@@ -10439,8 +10333,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             if (e.streamReader) {
                 if (e.streamReaderCancelTimeout &&= (clearTimeout(e.streamReaderCancelTimeout), null), !n) {
                     if (e.renderTasks.size > 0) return;
-                    if (t instanceof Ee) {
-                        let n = jr;
+                    if (t instanceof Te) {
+                        let n = Ar;
                         t.extraDelay > 0 && t.extraDelay < 1e3 && (n += t.extraDelay), e.streamReaderCancelTimeout = setTimeout(()=>{
                             e.streamReaderCancelTimeout = null, this._abortOperatorList({
                                 intentState: e,
@@ -10464,7 +10358,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._stats;
         }
     };
-    Lr = class t {
+    Ir = class e {
         #e = Promise.withResolvers();
         #t = null;
         #n = null;
@@ -10473,7 +10367,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         static #a = !1;
         static #o = new WeakMap;
         static{
-            r && (this.#a = !0, yr.workerSrc ||= `./pdf.worker.mjs`), this._isSameOrigin = (e, t)=>{
+            n && (this.#a = !0, vr.workerSrc ||= `./pdf.worker.mjs`), this._isSameOrigin = (e, t)=>{
                 let n = URL.parse(e);
                 if (!n?.origin || n.origin === `null`) return !1;
                 let r = new URL(t, n);
@@ -10487,10 +10381,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 }));
             };
         }
-        constructor({ name: e = null, port: n = null, verbosity: r = T() } = {}){
-            if (this.name = e, this.destroyed = !1, this.verbosity = r, n) {
-                if (t.#o.has(n)) throw Error(`Cannot use more than one PDFWorker per port.`);
-                t.#o.set(n, this), this.#c(n);
+        constructor({ name: t = null, port: n = null, verbosity: r = w() } = {}){
+            if (this.name = t, this.destroyed = !1, this.verbosity = r, n) {
+                if (e.#o.has(n)) throw Error(`Cannot use more than one PDFWorker per port.`);
+                e.#o.set(n, this), this.#c(n);
             } else this.#l();
         }
         get promise() {
@@ -10508,19 +10402,19 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#t;
         }
         #c(e) {
-            this.#n = e, this.#t = new qt(`main`, `worker`, e), this.#t.on(`ready`, ()=>{}), this.#s();
+            this.#n = e, this.#t = new Kt(`main`, `worker`, e), this.#t.on(`ready`, ()=>{}), this.#s();
         }
         #l() {
-            if (t.#a || t.#d) {
+            if (e.#a || e.#d) {
                 this.#u();
                 return;
             }
-            let { workerSrc: e } = t;
+            let { workerSrc: t } = e;
             try {
-                t._isSameOrigin(window.location, e) || (e = t._createCDNWrapper(new URL(e, window.location).href));
-                let n = new Worker(e, {
+                e._isSameOrigin(window.location, t) || (t = e._createCDNWrapper(new URL(t, window.location).href));
+                let n = new Worker(t, {
                     type: `module`
-                }), r = new qt(`main`, `worker`, n), i = ()=>{
+                }), r = new Kt(`main`, `worker`, n), i = ()=>{
                     a.abort(), r.destroy(), n.terminate(), this.destroyed ? this.#e.reject(Error(`Worker was destroyed`)) : this.#u();
                 }, a = new AbortController;
                 n.addEventListener(`error`, ()=>{
@@ -10528,17 +10422,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 }, {
                     signal: a.signal
                 }), r.on(`test`, (e)=>{
-                    if (a.abort(), this.destroyed || !e) {
-                        i();
-                        return;
-                    }
-                    this.#t = r, this.#n = n, this.#r = n, this.#s();
+                    a.abort(), this.destroyed || !e ? i() : (this.#t = r, this.#n = n, this.#r = n, this.#s());
                 }), r.on(`ready`, (e)=>{
-                    if (a.abort(), this.destroyed) {
-                        i();
-                        return;
-                    }
-                    try {
+                    if (a.abort(), this.destroyed) i();
+                    else try {
                         o();
                     } catch  {
                         this.#u();
@@ -10553,37 +10440,37 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 o();
                 return;
             } catch  {
-                E(`The worker has been disabled.`);
+                T(`The worker has been disabled.`);
             }
             this.#u();
         }
         #u() {
-            t.#a ||= (D(`Setting up fake worker.`), !0), t._setupFakeWorkerGlobal.then((e)=>{
+            e.#a ||= (E(`Setting up fake worker.`), !0), e._setupFakeWorkerGlobal.then((t)=>{
                 if (this.destroyed) {
                     this.#e.reject(Error(`Worker was destroyed`));
                     return;
                 }
-                let n = new Wt;
+                let n = new Ut;
                 this.#n = n;
-                let r = `fake${t.#i++}`, i = new qt(r + `_worker`, r, n);
-                e.setup(i, n), this.#t = new qt(r, r + `_worker`, n), this.#s();
+                let r = `fake${e.#i++}`, i = new Kt(r + `_worker`, r, n);
+                t.setup(i, n), this.#t = new Kt(r, r + `_worker`, n), this.#s();
             }).catch((e)=>{
                 this.#e.reject(Error(`Setting up fake worker failed: "${e.message}".`));
             });
         }
         destroy() {
-            this.destroyed = !0, this.#r?.terminate(), this.#r = null, t.#o.delete(this.#n), this.#n = null, this.#t?.destroy(), this.#t = null;
+            this.destroyed = !0, this.#r?.terminate(), this.#r = null, e.#o.delete(this.#n), this.#n = null, this.#t?.destroy(), this.#t = null;
         }
-        static create(e) {
-            let n = this.#o.get(e?.port);
+        static create(t) {
+            let n = this.#o.get(t?.port);
             if (n) {
                 if (n._pendingDestroy) throw Error("PDFWorker.create - the worker is being destroyed.\nPlease remember to await `PDFDocumentLoadingTask.destroy()`-calls.");
                 return n;
             }
-            return new t(e);
+            return new e(t);
         }
         static get workerSrc() {
-            if (yr.workerSrc) return yr.workerSrc;
+            if (vr.workerSrc) return vr.workerSrc;
             throw Error(`No "GlobalWorkerOptions.workerSrc" specified.`);
         }
         static get #d() {
@@ -10594,13 +10481,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
         }
         static get _setupFakeWorkerGlobal() {
-            return M(this, `_setupFakeWorkerGlobal`, (async ()=>this.#d ? this.#d : (await e(()=>import(this.workerSrc).then(async (m)=>{
-                        await m.__tla;
-                        return m;
-                    }), [])).WorkerMessageHandler)());
+            return M(this, `_setupFakeWorkerGlobal`, (async ()=>this.#d ? this.#d : (await import(this.workerSrc).then(async (m)=>{
+                    await m.__tla;
+                    return m;
+                })).WorkerMessageHandler)());
         }
     };
-    Rr = class {
+    Lr = class {
         downloadInfoCapability = Promise.withResolvers();
         #e = null;
         #t = new Map;
@@ -10610,7 +10497,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #a = new Map;
         #o = null;
         constructor(e, t, n, r, i, a){
-            this.messageHandler = e, this.loadingTask = t, this.#n = n, this.commonObjs = new Dr, this.fontLoader = new kt({
+            this.messageHandler = e, this.loadingTask = t, this.#n = n, this.commonObjs = new Er, this.fontLoader = new Ot({
                 ownerDocument: r.ownerDocument,
                 styleElement: r.styleElement
             }), this.enableHWA = r.enableHWA, this.loadingParams = r.loadingParams, this._params = r, this.canvasFactory = i.canvasFactory, this.filterFactory = i.filterFactory, this.binaryDataFactory = i.binaryDataFactory, this.pagesMapper = a, this.destroyed = !1, this.destroyCapability = null, this.setupMessageHandler();
@@ -10630,40 +10517,40 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             });
         }
         get annotationStorage() {
-            return M(this, `annotationStorage`, new ht);
+            return M(this, `annotationStorage`, new mt);
         }
-        getRenderingIntent(e, t = l.ENABLE, n = null, r = !1, i = !1) {
-            let a = c.DISPLAY, o = mt;
+        getRenderingIntent(e, t = c.ENABLE, n = null, r = !1, i = !1) {
+            let a = s.DISPLAY, o = pt;
             switch(e){
                 case `any`:
-                    a = c.ANY;
+                    a = s.ANY;
                     break;
                 case `display`:
                     break;
                 case `print`:
-                    a = c.PRINT;
+                    a = s.PRINT;
                     break;
                 default:
-                    D(`getRenderingIntent - invalid intent: ${e}`);
+                    E(`getRenderingIntent - invalid intent: ${e}`);
             }
-            let s = a & c.PRINT && n instanceof gt ? n : this.annotationStorage;
+            let l = a & s.PRINT && n instanceof ht ? n : this.annotationStorage;
             switch(t){
-                case l.DISABLE:
-                    a += c.ANNOTATIONS_DISABLE;
+                case c.DISABLE:
+                    a += s.ANNOTATIONS_DISABLE;
                     break;
-                case l.ENABLE:
+                case c.ENABLE:
                     break;
-                case l.ENABLE_FORMS:
-                    a += c.ANNOTATIONS_FORMS;
+                case c.ENABLE_FORMS:
+                    a += s.ANNOTATIONS_FORMS;
                     break;
-                case l.ENABLE_STORAGE:
-                    a += c.ANNOTATIONS_STORAGE, o = s.serializable;
+                case c.ENABLE_STORAGE:
+                    a += s.ANNOTATIONS_STORAGE, o = l.serializable;
                     break;
                 default:
-                    D(`getRenderingIntent - invalid annotationMode: ${t}`);
+                    E(`getRenderingIntent - invalid annotationMode: ${t}`);
             }
-            r && (a += c.IS_EDITING), i && (a += c.OPLIST);
-            let { ids: u, hash: d } = s.modifiedIds, f = [
+            r && (a += s.IS_EDITING), i && (a += s.OPLIST);
+            let { ids: u, hash: d } = l.modifiedIds, f = [
                 a,
                 o.hash,
                 d
@@ -10683,21 +10570,17 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#r.clear(), this.#i.clear(), this.#a.clear(), Object.hasOwn(this, `annotationStorage`) && this.annotationStorage.resetModified();
             let t = this.messageHandler.sendWithPromise(`Terminate`, null);
             return e.push(t), Promise.all(e).then(()=>{
-                this.commonObjs.clear(), this.fontLoader.clear(), this.#t.clear(), this.filterFactory.destroy(), Ar.cleanup(), this.#n?.cancelAllRequests(new P(`Worker was terminated.`)), this.messageHandler?.destroy(), this.messageHandler = null, this.destroyCapability.resolve();
+                this.commonObjs.clear(), this.fontLoader.clear(), this.#t.clear(), this.filterFactory.destroy(), kr.cleanup(), this.#n?.cancelAllRequests(new P(`Worker was terminated.`)), this.messageHandler?.destroy(), this.messageHandler = null, this.destroyCapability.resolve();
             }, this.destroyCapability.reject), this.destroyCapability.promise;
         }
         setupMessageHandler() {
             let { messageHandler: e, loadingTask: t } = this;
             e.on(`GetReader`, (e, t)=>{
-                k(this.#n, "GetReader - no `BasePDFStream` instance available."), this.#e = this.#n.getFullReader(), this.#e.onProgress = (e)=>this.#c(e), t.onPull = ()=>{
+                O(this.#n, "GetReader - no `BasePDFStream` instance available."), this.#e = this.#n.getFullReader(), this.#e.onProgress = (e)=>this.#c(e), t.onPull = ()=>{
                     this.#e.read().then(function({ value: e, done: n }) {
-                        if (n) {
-                            t.close();
-                            return;
-                        }
-                        k(e instanceof ArrayBuffer, `GetReader - expected an ArrayBuffer.`), t.enqueue(new Uint8Array(e), 1, [
+                        n ? t.close() : (O(e instanceof ArrayBuffer, `GetReader - expected an ArrayBuffer.`), t.enqueue(new Uint8Array(e), 1, [
                             e
-                        ]);
+                        ]));
                     }).catch((e)=>{
                         t.error(e);
                     });
@@ -10715,21 +10598,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     contentLength: r
                 };
             }), e.on(`GetRangeReader`, (e, t)=>{
-                k(this.#n, "GetRangeReader - no `BasePDFStream` instance available.");
+                O(this.#n, "GetRangeReader - no `BasePDFStream` instance available.");
                 let n = this.#n.getRangeReader(e.begin, e.end);
-                if (!n) {
-                    t.close();
-                    return;
-                }
-                t.onPull = ()=>{
+                n ? (t.onPull = ()=>{
                     n.read().then(function({ value: e, done: n }) {
-                        if (n) {
-                            t.close();
-                            return;
-                        }
-                        k(e instanceof ArrayBuffer, `GetRangeReader - expected an ArrayBuffer.`), t.enqueue(new Uint8Array(e), 1, [
+                        n ? t.close() : (O(e instanceof ArrayBuffer, `GetRangeReader - expected an ArrayBuffer.`), t.enqueue(new Uint8Array(e), 1, [
                             e
-                        ]);
+                        ]));
                     }).catch((e)=>{
                         t.error(e);
                     });
@@ -10737,9 +10612,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     n.cancel(e), t.ready.catch((e)=>{
                         if (!this.destroyed) throw e;
                     });
-                };
+                }) : t.close();
             }), e.on(`GetDoc`, ({ pdfInfo: e })=>{
-                this.pagesMapper.pagesNumber = e.numPages, this._numPages = e.numPages, this._htmlForXfa = e.htmlForXfa, delete e.htmlForXfa, t._capability.resolve(new Fr(e, this));
+                this.pagesMapper.pagesNumber = e.numPages, this._numPages = e.numPages, this._htmlForXfa = e.htmlForXfa, delete e.htmlForXfa, t._capability.resolve(new Pr(e, this));
             }), e.on(`DocException`, (e)=>{
                 t._capability.reject(J(e));
             }), e.on(`PasswordRequest`, (e)=>{
@@ -10768,10 +10643,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     case `Font`:
                         if (`error` in r) {
                             let e = r.error;
-                            D(`Error during font loading: ${e}`), this.commonObjs.resolve(t, e);
+                            E(`Error during font loading: ${e}`), this.commonObjs.resolve(t, e);
                             break;
                         }
-                        let i = new At(new It(r), this._params.pdfBug && globalThis.FontInspector?.enabled ? (e, t)=>globalThis.FontInspector.fontAdded(e, t) : null, r.charProcOperatorList, r.extra);
+                        let i = new kt(new Ft(r), this._params.pdfBug && globalThis.FontInspector?.enabled ? (e, t)=>globalThis.FontInspector.fontAdded(e, t) : null, r.charProcOperatorList, r.extra);
                         this.fontLoader.bind(i).catch(()=>e.sendWithPromise(`FontFallback`, {
                                 id: t
                             })).finally(()=>{
@@ -10780,7 +10655,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                         break;
                     case `CopyLocalImage`:
                         let { imageRef: a } = r;
-                        k(a, `The imageRef must be defined.`);
+                        O(a, `The imageRef must be defined.`);
                         for (let e of this.#r.values())for (let [, n] of e.objs){
                             if (n?.ref !== a) continue;
                             if (!n.dataLen) return null;
@@ -10789,13 +10664,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                         }
                         break;
                     case `FontPath`:
-                        this.commonObjs.resolve(t, new Rt(r));
+                        this.commonObjs.resolve(t, new Lt(r));
                         break;
                     case `Image`:
                         this.commonObjs.resolve(t, r);
                         break;
                     case `Pattern`:
-                        let o = new Lt(r);
+                        let o = new It(r);
                         this.commonObjs.resolve(t, o.getIR());
                         break;
                     default:
@@ -10806,11 +10681,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 if (this.destroyed) return;
                 let i = this.#r.get(t);
                 if (!i.objs.has(e)) {
-                    if (i._intentStates.size === 0) {
-                        r?.bitmap?.close();
-                        return;
-                    }
-                    switch(n){
+                    if (i._intentStates.size === 0) r?.bitmap?.close();
+                    else switch(n){
                         case `Image`:
                         case `Pattern`:
                             i.objs.resolve(e, r);
@@ -10831,7 +10703,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.messageHandler.sendWithPromise(`GetData`, null);
         }
         saveDocument() {
-            this.annotationStorage.size <= 0 && D("saveDocument called while `annotationStorage` is empty, please use the getData-method instead.");
+            this.annotationStorage.size <= 0 && E("saveDocument called while `annotationStorage` is empty, please use the getData-method instead.");
             let { map: e, transfer: t } = this.annotationStorage.serializable;
             return this.messageHandler.sendWithPromise(`SaveDocument`, {
                 isPureXfa: !!this._htmlForXfa,
@@ -10888,13 +10760,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }).then((e)=>{
                 if (this.destroyed) throw Error(`Transport destroyed`);
                 e.refStr && this.#a.set(e.refStr, n);
-                let r = new Ir(t, e, this, this.pagesMapper, this._params.pdfBug);
+                let r = new Fr(t, e, this, this.pagesMapper, this._params.pdfBug);
                 return this.#r.set(t, r), r;
             });
             return this.#i.set(t, i), i;
         }
         async getPageIndex(e) {
-            if (!Ht(e)) throw Error(`Invalid pageIndex request.`);
+            if (!Vt(e)) throw Error(`Invalid pageIndex request.`);
             let t = await this.messageHandler.sendWithPromise(`GetPageIndex`, {
                 num: e.num,
                 gen: e.gen
@@ -10975,7 +10847,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.messageHandler.sendWithPromise(`GetOutline`, null);
         }
         getOptionalContentConfig(e) {
-            return this.#s(`GetOptionalContentConfig`).then((t)=>new Cr(t, e));
+            return this.#s(`GetOptionalContentConfig`).then((t)=>new Sr(t, e));
         }
         getPermissions() {
             return this.messageHandler.sendWithPromise(`GetPermissions`, null);
@@ -10984,7 +10856,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let e = `GetMetadata`;
             return this.#t.getOrInsertComputed(e, ()=>this.messageHandler.sendWithPromise(e, null).then((e)=>({
                         info: e[0],
-                        metadata: e[1] ? new br(e[1]) : null,
+                        metadata: e[1] ? new yr(e[1]) : null,
                         contentDispositionFilename: this.#e?.filename ?? null,
                         contentLength: this.#e?.contentLength ?? null,
                         hasStructTree: e[2]
@@ -11000,11 +10872,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             if (!this.destroyed) {
                 await this.messageHandler.sendWithPromise(`Cleanup`, null);
                 for (let e of this.#r.values())if (!e.cleanup()) throw Error(`startCleanup: Page ${e.pageNumber} is currently rendering.`);
-                this.commonObjs.clear(), e || this.fontLoader.clear(), this.#t.clear(), this.filterFactory.destroy(!0), Ar.cleanup();
+                this.commonObjs.clear(), e || this.fontLoader.clear(), this.#t.clear(), this.filterFactory.destroy(!0), kr.cleanup();
             }
         }
         cachedPageNumber(e) {
-            if (!Ht(e)) return null;
+            if (!Vt(e)) return null;
             let t = e.gen === 0 ? `${e.num}R` : `${e.num}R${e.gen}`, n = this.#a.get(t);
             if (n >= 0) {
                 let e = this.pagesMapper.getPageNumber(n + 1);
@@ -11013,7 +10885,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return null;
         }
     };
-    zr = class {
+    Rr = class {
         _internalRenderTask = null;
         onContinue = null;
         onError = null;
@@ -11036,11 +10908,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._internalRenderTask.imageCoordinates || null;
         }
     };
-    Br = class e {
+    zr = class e {
         #e = null;
         static #t = new WeakSet;
         constructor({ callback: e, params: t, objs: n, commonObjs: r, annotationCanvasMap: i, operatorList: a, pageIndex: o, canvasFactory: s, filterFactory: c, useRequestAnimationFrame: l = !1, pdfBug: u = !1, pageColors: d = null, enableHWA: f = !1, operationsFilter: p = null }){
-            this.callback = e, this.params = t, this.objs = n, this.commonObjs = r, this.annotationCanvasMap = i, this.operatorListIdx = null, this.operatorList = a, this._pageIndex = o, this.canvasFactory = s, this.filterFactory = c, this._pdfBug = u, this.pageColors = d, this.running = !1, this.graphicsReadyCallback = null, this.graphicsReady = !1, this._useRequestAnimationFrame = l === !0 && typeof window < `u`, this.cancelled = !1, this.capability = Promise.withResolvers(), this.task = new zr(this), this._cancelBound = this.cancel.bind(this), this._continueBound = this._continue.bind(this), this._scheduleNextBound = this._scheduleNext.bind(this), this._nextBound = this._next.bind(this), this._canvas = t.canvas, this._canvasContext = t.canvas ? null : t.canvasContext, this._enableHWA = f, this._dependencyTracker = t.dependencyTracker, this._imagesTracker = t.imagesTracker, this._operationsFilter = p;
+            this.callback = e, this.params = t, this.objs = n, this.commonObjs = r, this.annotationCanvasMap = i, this.operatorListIdx = null, this.operatorList = a, this._pageIndex = o, this.canvasFactory = s, this.filterFactory = c, this._pdfBug = u, this.pageColors = d, this.running = !1, this.graphicsReadyCallback = null, this.graphicsReady = !1, this._useRequestAnimationFrame = l === !0 && typeof window < `u`, this.cancelled = !1, this.capability = Promise.withResolvers(), this.task = new Rr(this), this._cancelBound = this.cancel.bind(this), this._continueBound = this._continue.bind(this), this._scheduleNextBound = this._scheduleNext.bind(this), this._nextBound = this._next.bind(this), this._canvas = t.canvas, this._canvasContext = t.canvas ? null : t.canvasContext, this._enableHWA = f, this._dependencyTracker = t.dependencyTracker, this._imagesTracker = t.imagesTracker, this._operationsFilter = p;
         }
         get completed() {
             return this.capability.promise.catch(function() {});
@@ -11056,7 +10928,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 alpha: !1,
                 willReadFrequently: !this._enableHWA
             });
-            this.gfx = new Bn(c, this.commonObjs, this.objs, this.canvasFactory, this.filterFactory, {
+            this.gfx = new zn(c, this.commonObjs, this.objs, this.canvasFactory, this.filterFactory, {
                 optionalContentConfig: n
             }, this.annotationCanvasMap, this.pageColors, o, s), this.gfx.beginDrawing({
                 transform: i,
@@ -11066,17 +10938,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }), this.operatorListIdx = 0, this.graphicsReady = !0, this.graphicsReadyCallback?.();
         }
         cancel(t = null, n = 0) {
-            this.running = !1, this.cancelled = !0, this.gfx?.endDrawing(), this.#e &&= (window.cancelAnimationFrame(this.#e), null), e.#t.delete(this._canvas), t ||= new Ee(`Rendering cancelled, page ${this._pageIndex + 1}`, n), this.callback(t), this.task.onError?.(t);
+            this.running = !1, this.cancelled = !0, this.gfx?.endDrawing(), this.#e &&= (window.cancelAnimationFrame(this.#e), null), e.#t.delete(this._canvas), t ||= new Te(`Rendering cancelled, page ${this._pageIndex + 1}`, n), this.callback(t), this.task.onError?.(t);
         }
         operatorListChanged() {
-            if (!this.graphicsReady) {
-                this.graphicsReadyCallback ||= this._continueBound;
-                return;
-            }
-            this.gfx.dependencyTracker?.growOperationsCount(this.operatorList.fnArray.length), this.stepper?.updateOperatorList(this.operatorList), !this.running && this._continue();
+            this.graphicsReady ? (this.gfx.dependencyTracker?.growOperationsCount(this.operatorList.fnArray.length), this.stepper?.updateOperatorList(this.operatorList), this.running || this._continue()) : this.graphicsReadyCallback ||= this._continueBound;
         }
         _continue() {
-            this.running = !0, !this.cancelled && (this.task.onContinue ? this.task.onContinue(this._scheduleNextBound) : this._scheduleNext());
+            this.running = !0, this.cancelled || (this.task.onContinue ? this.task.onContinue(this._scheduleNextBound) : this._scheduleNext());
         }
         _scheduleNext() {
             this._useRequestAnimationFrame ? this.#e = window.requestAnimationFrame(()=>{
@@ -11087,9 +10955,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.cancelled || (this.operatorListIdx = this.gfx.executeOperatorList(this.operatorList, this.operatorListIdx, this._continueBound, this.stepper, this._operationsFilter), this.operatorListIdx === this.operatorList.argsArray.length && (this.running = !1, this.operatorList.lastChunk && (this.gfx.endDrawing(), e.#t.delete(this._canvas), this.callback())));
         }
     };
-    Vr = `6.2.108`;
-    Hr = `0365cbde0`;
-    Ur = class e {
+    Br = `6.2.108`;
+    Vr = `0365cbde0`;
+    Hr = class e {
         #e = null;
         #t = null;
         #n;
@@ -11102,7 +10970,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #l = null;
         static #u = null;
         static get _keyboardManager() {
-            return M(this, `_keyboardManager`, new it([
+            return M(this, `_keyboardManager`, new rt([
                 [
                     [
                         `Escape`
@@ -11188,7 +11056,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #f(e, t) {
             t.stopPropagation(), this.#s.dispatch(`switchannotationeditorparams`, {
                 source: this,
-                type: p.HIGHLIGHT_COLOR,
+                type: f.HIGHLIGHT_COLOR,
                 value: e
             }), this.updateColor(e);
         }
@@ -11201,36 +11069,16 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             t && this.#f(t, e);
         }
         _moveToNext(e) {
-            if (!this.#g) {
-                this.#m(e);
-                return;
-            }
-            if (e.target === this.#e) {
-                this.#r.firstElementChild?.focus();
-                return;
-            }
-            e.target.nextSibling?.focus();
+            this.#g ? e.target === this.#e ? this.#r.firstElementChild?.focus() : e.target.nextSibling?.focus() : this.#m(e);
         }
         _moveToPrevious(e) {
-            if (e.target === this.#r?.firstElementChild || e.target === this.#e) {
-                this.#g && this._hideDropdownFromKeyboard();
-                return;
-            }
-            this.#g || this.#m(e), e.target.previousSibling?.focus();
+            e.target === this.#r?.firstElementChild || e.target === this.#e ? this.#g && this._hideDropdownFromKeyboard() : (this.#g || this.#m(e), e.target.previousSibling?.focus());
         }
         _moveToBeginning(e) {
-            if (!this.#g) {
-                this.#m(e);
-                return;
-            }
-            this.#r.firstElementChild?.focus();
+            this.#g ? this.#r.firstElementChild?.focus() : this.#m(e);
         }
         _moveToEnd(e) {
-            if (!this.#g) {
-                this.#m(e);
-                return;
-            }
-            this.#r.lastElementChild?.focus();
+            this.#g ? this.#r.lastElementChild?.focus() : this.#m(e);
         }
         #p(t) {
             e._keyboardManager.exec(this, t);
@@ -11259,16 +11107,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#r && !this.#r.classList.contains(`hidden`);
         }
         _hideDropdownFromKeyboard() {
-            if (!this.#a) {
-                if (!this.#g) {
-                    this.#o?.unselect();
-                    return;
-                }
-                this.hideDropdown(), this.#e.focus({
-                    preventScroll: !0,
-                    focusVisible: this.#i
-                });
-            }
+            this.#a || (this.#g ? (this.hideDropdown(), this.#e.focus({
+                preventScroll: !0,
+                focusVisible: this.#i
+            })) : this.#o?.unselect());
         }
         updateColor(e) {
             if (this.#t && (this.#t.style.backgroundColor = e), !this.#r) return;
@@ -11279,7 +11121,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#e?.remove(), this.#e = null, this.#t = null, this.#r?.remove(), this.#r = null;
         }
     };
-    Wr = class e {
+    Ur = class e {
         #e = null;
         #t = !1;
         #n = null;
@@ -11301,7 +11143,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             } else c.value = a || `#000000`;
             return c.className = `basicColorPicker`, c.tabIndex = 0, c.setAttribute(`data-l10n-id`, e.#i[t]), c.addEventListener(`input`, ()=>{
                 if (s) {
-                    let e = Pe(c.value);
+                    let e = Ne(c.value);
                     if (!e) return;
                     let [t, a, o, s] = e, l = I.makeHexColor(t, a, o);
                     r === void 0 ? (this.#r.updateParams(n, l), this.#r.updateParams(i, s)) : this.#r.updateParams(r, {
@@ -11331,14 +11173,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         hideDropdown() {}
     };
-    function Gr(e) {
+    function Wr(e) {
         return Math.floor(L(e, 0, 1) * 255).toString(16).padStart(2, `0`);
     }
-    function Kr(e) {
+    function Gr(e) {
         return L(e, 0, 1) * 255;
     }
-    let qr, Jr, Xr, Zr, Qr, $r, Q, ei, ti, ni, ri, ii, ai, oi, si, ci, li, ui, di, fi, pi, mi, hi, gi, _i, vi, yi, bi, xi, Si, Ci, wi, Ti, Ei, Oi, ki, $, Ai, ji, Mi, Ni, Pi, Fi, Ii, Li, Ri, zi, Bi, Vi, Hi, Ui, Wi, Gi, qi, Ji, Yi, Xi;
-    qr = class {
+    let Kr, qr, Yr, Xr, Zr, Qr, Q, $r, ei, ti, ni, ri, ii, ai, oi, si, ci, li, ui, di, fi, pi, mi, hi, gi, _i, vi, yi, bi, xi, Si, Ci, wi, Ti, Di, Oi, $, ki, Ai, ji, Mi, Ni, Pi, Fi, Ii, Li, Ri, zi, Bi, Vi, Hi, Ui, Wi, Ki, qi, Ji, Yi;
+    Kr = class {
         static CMYK_G([e, t, n, r]) {
             return [
                 `G`,
@@ -11363,14 +11205,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ];
         }
         static G_rgb([e]) {
-            return e = Kr(e), [
+            return e = Gr(e), [
                 e,
                 e,
                 e
             ];
         }
         static G_HTML([e]) {
-            let t = Gr(e);
+            let t = Wr(e);
             return `#${t}${t}${t}`;
         }
         static RGB_G([e, t, n]) {
@@ -11380,10 +11222,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ];
         }
         static RGB_rgb(e) {
-            return e.map(Kr);
+            return e.map(Gr);
         }
         static RGB_HTML(e) {
-            return `#${e.map(Gr).join(``)}`;
+            return `#${e.map(Wr).join(``)}`;
         }
         static T_HTML() {
             return `#00000000`;
@@ -11403,9 +11245,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         static CMYK_rgb([e, t, n, r]) {
             return [
-                Kr(1 - Math.min(1, e + r)),
-                Kr(1 - Math.min(1, n + r)),
-                Kr(1 - Math.min(1, t + r))
+                Gr(1 - Math.min(1, e + r)),
+                Gr(1 - Math.min(1, n + r)),
+                Gr(1 - Math.min(1, t + r))
             ];
         }
         static CMYK_HTML(e) {
@@ -11423,7 +11265,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ];
         }
     };
-    Jr = class {
+    qr = class {
         create(e, t, n = !1) {
             if (e <= 0 || t <= 0) throw Error(`Invalid SVG dimensions`);
             let r = this._createSVG(`svg:svg`);
@@ -11434,70 +11276,70 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._createSVG(e);
         }
         _createSVG(e) {
-            O("Abstract method `_createSVG` called.");
+            D("Abstract method `_createSVG` called.");
         }
     };
-    Yr = class extends Jr {
+    Jr = class extends qr {
         _createSVG(e) {
-            return document.createElementNS(s, e);
+            return document.createElementNS(o, e);
         }
     };
-    Xr = 9;
-    Zr = new WeakSet;
-    Qr = new Date().getTimezoneOffset() * 60 * 1e3;
-    $r = class {
+    Yr = 9;
+    Xr = new WeakSet;
+    Zr = new Date().getTimezoneOffset() * 60 * 1e3;
+    Qr = class {
         static create(e) {
             switch(e.data.annotationType){
-                case _.LINK:
+                case g.LINK:
+                    return new ei(e);
+                case g.TEXT:
                     return new ti(e);
-                case _.TEXT:
-                    return new ni(e);
-                case _.WIDGET:
+                case g.WIDGET:
                     switch(e.data.fieldType){
                         case `Tx`:
-                            return new ii(e);
+                            return new ri(e);
                         case `Btn`:
-                            return e.data.radioButton ? new si(e) : e.data.checkBox ? new oi(e) : new ci(e);
+                            return e.data.radioButton ? new oi(e) : e.data.checkBox ? new ai(e) : new si(e);
                         case `Ch`:
-                            return new li(e);
+                            return new ci(e);
                         case `Sig`:
-                            return new ai(e);
+                            return new ii(e);
                     }
-                    return new ri(e);
-                case _.POPUP:
-                    return new ui(e);
-                case _.FREETEXT:
+                    return new ni(e);
+                case g.POPUP:
+                    return new li(e);
+                case g.FREETEXT:
+                    return new di(e);
+                case g.LINE:
                     return new fi(e);
-                case _.LINE:
+                case g.SQUARE:
                     return new pi(e);
-                case _.SQUARE:
+                case g.CIRCLE:
                     return new mi(e);
-                case _.CIRCLE:
+                case g.POLYLINE:
                     return new hi(e);
-                case _.POLYLINE:
-                    return new gi(e);
-                case _.CARET:
-                    return new vi(e);
-                case _.INK:
-                    return new yi(e);
-                case _.POLYGON:
+                case g.CARET:
                     return new _i(e);
-                case _.HIGHLIGHT:
+                case g.INK:
+                    return new vi(e);
+                case g.POLYGON:
+                    return new gi(e);
+                case g.HIGHLIGHT:
+                    return new yi(e);
+                case g.UNDERLINE:
                     return new bi(e);
-                case _.UNDERLINE:
+                case g.SQUIGGLY:
                     return new xi(e);
-                case _.SQUIGGLY:
+                case g.STRIKEOUT:
                     return new Si(e);
-                case _.STRIKEOUT:
+                case g.STAMP:
                     return new Ci(e);
-                case _.STAMP:
+                case g.FILEATTACHMENT:
                     return new wi(e);
-                case _.FILEATTACHMENT:
+                case g.RICHMEDIA:
+                case g.SCREEN:
+                case g.SOUND:
                     return new Ti(e);
-                case _.RICHMEDIA:
-                case _.SCREEN:
-                case _.SOUND:
-                    return new Ei(e);
                 default:
                     return new Q(e);
             }
@@ -11555,7 +11397,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         get commentText() {
             let { data: e } = this;
-            return this.annotationStorage.getRawValue(`${d}${e.id}`)?.popup?.contents || e.contentsObj?.str || ``;
+            return this.annotationStorage.getRawValue(`${u}${e.id}`)?.popup?.contents || e.contentsObj?.str || ``;
         }
         set commentText(e) {
             let { data: t } = this, n = {
@@ -11564,7 +11406,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
             this.annotationStorage.updateEditor(t.id, {
                 popup: n
-            }) || this.annotationStorage.setValue(`${d}${t.id}`, {
+            }) || this.annotationStorage.setValue(`${u}${t.id}`, {
                 id: t.id,
                 annotationType: t.annotationType,
                 page: this.parent.page,
@@ -11595,9 +11437,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         _createContainer(e) {
             let { data: t, parent: { page: n, viewport: r } } = this, i = document.createElement(`section`);
-            i.setAttribute(`data-annotation-id`, t.id), !(this instanceof ri) && !(this instanceof ti) && !(this instanceof Ei) && (i.tabIndex = 0);
+            i.setAttribute(`data-annotation-id`, t.id), this instanceof ni || this instanceof ei || this instanceof Ti || (i.tabIndex = 0);
             let { style: a } = i;
-            if (a.zIndex = this.parent.zIndex, this.parent.zIndex += 2, t.alternativeText && (i.title = t.alternativeText), t.noRotate && i.classList.add(`norotate`), !t.rect || this instanceof ui) {
+            if (a.zIndex = this.parent.zIndex, this.parent.zIndex += 2, t.alternativeText && (i.title = t.alternativeText), t.noRotate && i.classList.add(`norotate`), !t.rect || this instanceof li) {
                 let { rotation: e } = t;
                 return !t.hasOwnCanvas && e !== 0 && this.setRotation(e, i), i;
             }
@@ -11606,19 +11448,19 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 a.borderWidth = `${t.borderStyle.width}px`;
                 let e = t.borderStyle.horizontalCornerRadius, n = t.borderStyle.verticalCornerRadius;
                 switch((e > 0 || n > 0) && (a.borderRadius = `calc(${e}px * var(--total-scale-factor)) / calc(${n}px * var(--total-scale-factor))`), t.borderStyle.style){
-                    case v.SOLID:
+                    case _.SOLID:
                         a.borderStyle = `solid`;
                         break;
-                    case v.DASHED:
+                    case _.DASHED:
                         a.borderStyle = `dashed`;
                         break;
-                    case v.BEVELED:
-                        D(`Unimplemented border style: beveled`);
+                    case _.BEVELED:
+                        E(`Unimplemented border style: beveled`);
                         break;
-                    case v.INSET:
-                        D(`Unimplemented border style: inset`);
+                    case _.INSET:
+                        E(`Unimplemented border style: inset`);
                         break;
-                    case v.UNDERLINE:
+                    case _.UNDERLINE:
                         a.borderBottomStyle = `solid`;
                 }
                 let r = t.borderColor || null;
@@ -11645,8 +11487,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         get _commonActions() {
             let e = (e, t, n)=>{
                 let r = n.detail[e], i = r[0], a = r.slice(1);
-                n.target.style[t] = qr[`${i}_HTML`](a), this.annotationStorage.setValue(this.data.id, {
-                    [t]: qr[`${i}_rgb`](a)
+                n.target.style[t] = Kr[`${i}_HTML`](a), this.annotationStorage.setValue(this.data.id, {
+                    [t]: Kr[`${i}_rgb`](a)
                 });
             };
             return M(this, `_commonActions`, {
@@ -11737,12 +11579,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 let [a, o, s, c] = e.subarray(2, 6);
                 if (r === a && i === o && t === s && n === c) return;
             }
-            let { style: a } = this.container, o;
+            let { style: a } = this.container, s;
             if (this.#t) {
                 let { borderColor: e, borderWidth: t } = a;
-                a.borderWidth = 0, o = [
+                a.borderWidth = 0, s = [
                     `url('data:image/svg+xml;utf8,`,
-                    `<svg xmlns="${s}" preserveAspectRatio="none" viewBox="0 0 1 1">`,
+                    `<svg xmlns="${o}" preserveAspectRatio="none" viewBox="0 0 1 1">`,
                     `<g fill="transparent" stroke="${e}" stroke-width="${t}">`
                 ], this.container.classList.add(`hasBorder`);
             }
@@ -11753,16 +11595,16 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let p = u.createElement(`clipPath`), m = `clippath_${this.data.id}`;
             p.setAttribute(`id`, m), p.setAttribute(`clipPathUnits`, `objectBoundingBox`), f.append(p);
             for(let n = 2, r = e.length; n < r; n += 8){
-                let r = e[n], a = e[n + 1], s = e[n + 2], d = e[n + 3], f = u.createElement(`rect`), m = (s - t) / c, h = (i - a) / l, g = (r - s) / c, _ = (a - d) / l;
-                f.setAttribute(`x`, m), f.setAttribute(`y`, h), f.setAttribute(`width`, g), f.setAttribute(`height`, _), p.append(f), o?.push(`<rect vector-effect="non-scaling-stroke" x="${m}" y="${h}" width="${g}" height="${_}"/>`);
+                let r = e[n], a = e[n + 1], o = e[n + 2], d = e[n + 3], f = u.createElement(`rect`), m = (o - t) / c, h = (i - a) / l, g = (r - o) / c, _ = (a - d) / l;
+                f.setAttribute(`x`, m), f.setAttribute(`y`, h), f.setAttribute(`width`, g), f.setAttribute(`height`, _), p.append(f), s?.push(`<rect vector-effect="non-scaling-stroke" x="${m}" y="${h}" width="${g}" height="${_}"/>`);
             }
-            this.#t && (o.push(`</g></svg>')`), a.backgroundImage = o.join(``)), this.container.append(d), this.container.style.clipPath = `url(#${m})`;
+            this.#t && (s.push(`</g></svg>')`), a.backgroundImage = s.join(``)), this.container.append(d), this.container.style.clipPath = `url(#${m})`;
         }
         _createPopup(e = null) {
             let { data: t } = this, n, r;
             e ? (n = {
                 str: e.text
-            }, r = e.date) : (n = t.contentsObj, r = t.modificationDate), this.#n = new ui({
+            }, r = e.date) : (n = t.contentsObj, r = t.modificationDate), this.#n = new li({
                 data: {
                     color: t.color,
                     titleObj: t.titleObj,
@@ -11789,7 +11631,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#n;
         }
         render() {
-            O("Abstract method `AnnotationElement.render` called");
+            D("Abstract method `AnnotationElement.render` called");
         }
         _getElementsByName(e, t = null) {
             let n = [];
@@ -11798,11 +11640,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 for (let { page: e, id: i, exportValues: a } of r){
                     if (e === -1 || i === t) continue;
                     let r = typeof a == `string` ? a : null, o = document.querySelector(`[data-element-id="${i}"]`);
-                    if (o && !Zr.has(o)) {
-                        D(`_getElementsByName - element not allowed: ${i}`);
-                        continue;
-                    }
-                    n.push({
+                    o && !Xr.has(o) ? E(`_getElementsByName - element not allowed: ${i}`) : n.push({
                         id: i,
                         exportValue: r,
                         domElement: o
@@ -11812,7 +11650,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
             for (let r of document.getElementsByName(e)){
                 let { exportValue: e } = r, i = r.getAttribute(`data-element-id`);
-                i !== t && Zr.has(r) && n.push({
+                i !== t && Xr.has(r) && n.push({
                     id: i,
                     exportValue: e,
                     domElement: r
@@ -11847,7 +11685,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             });
         }
         updateOC(e) {
-            !this.data.oc || !e || (e.isVisible(this.data.oc) ? this.show() : this.hide());
+            this.data.oc && e && (e.isVisible(this.data.oc) ? this.show() : this.hide());
         }
         get width() {
             return this.data.rect[2] - this.data.rect[0];
@@ -11860,7 +11698,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             e.style.backgroundColor = t === null ? `transparent` : I.makeHexColor(...t);
         }
     };
-    ei = class extends Q {
+    $r = class extends Q {
         constructor(e){
             super(e, {
                 isRenderable: !0,
@@ -11893,7 +11731,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.parent.removeAnnotation(this.data.id), this.container.remove(), this.container = null, this.removePopup();
         }
     };
-    ti = class extends Q {
+    ei = class extends Q {
         constructor(e, t = null){
             super(e, {
                 isRenderable: !0,
@@ -11957,11 +11795,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         _bindResetFormAction(e, t) {
             let n = e.onclick;
-            if (n || (e.href = this.linkService.getAnchorUrl(``)), this.#e(), !this._fieldObjects) {
-                D('_bindResetFormAction - "resetForm" action not supported, ensure that the `fieldObjects` parameter is provided.'), n || (e.onclick = ()=>!1);
-                return;
-            }
-            e.onclick = ()=>{
+            n || (e.href = this.linkService.getAnchorUrl(``)), this.#e(), this._fieldObjects ? e.onclick = ()=>{
                 n?.();
                 let { fields: e, refs: r, include: i } = t, a = [];
                 if (e.length !== 0 || r.length !== 0) {
@@ -12006,13 +11840,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                             continue;
                     }
                     let n = document.querySelector(`[data-element-id="${t}"]`);
-                    if (n) {
-                        if (!Zr.has(n)) {
-                            D(`_bindResetFormAction - element not allowed: ${t}`);
-                            continue;
-                        }
-                        n.dispatchEvent(new Event(`resetform`));
-                    }
+                    n && (Xr.has(n) ? n.dispatchEvent(new Event(`resetform`)) : E(`_bindResetFormAction - element not allowed: ${t}`));
                 }
                 return this.enableScripting && this.linkService.eventBus?.dispatch(`dispatcheventinsandbox`, {
                     source: this,
@@ -12022,10 +11850,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                         name: `ResetForm`
                     }
                 }), !1;
-            };
+            } : (E('_bindResetFormAction - "resetForm" action not supported, ensure that the `fieldObjects` parameter is provided.'), n || (e.onclick = ()=>!1));
         }
     };
-    ni = class extends Q {
+    ti = class extends Q {
         constructor(e){
             super(e, {
                 isRenderable: !0
@@ -12039,7 +11867,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             })), !this.data.popupRef && this.hasPopupData && (this.hasOwnCommentButton = !0, this._createPopup()), this.container.append(e), this.container;
         }
     };
-    ri = class extends Q {
+    ni = class extends Q {
         render() {
             return this.container;
         }
@@ -12086,7 +11914,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 `left`,
                 `center`,
                 `right`
-            ], { fontColor: n } = this.data.defaultAppearanceData, r = this.data.defaultAppearanceData.fontSize || Xr, i = e.style, a, o = (e)=>Math.round(10 * e) / 10;
+            ], { fontColor: n } = this.data.defaultAppearanceData, r = this.data.defaultAppearanceData.fontSize || Yr, i = e.style, a, o = (e)=>Math.round(10 * e) / 10;
             if (this.data.multiLine) {
                 let e = Math.abs(this.data.rect[3] - this.data.rect[1] - 2), t = e / (Math.round(e / (1.35 * r)) || 1);
                 a = Math.min(r, o(t / 1.35));
@@ -12100,7 +11928,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             t ? e.setAttribute(`required`, !0) : e.removeAttribute(`required`), e.setAttribute(`aria-required`, t);
         }
     };
-    ii = class extends ri {
+    ri = class extends ni {
         constructor(e){
             let t = e.renderForms || e.data.hasOwnCanvas || !e.data.hasAppearance && !!e.data.fieldValue;
             super(e, {
@@ -12134,7 +11962,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     commitKey: 1,
                     focused: !1
                 };
-                this.data.multiLine ? (n = document.createElement(`textarea`), n.textContent = o ?? i, this.data.doNotScroll && (n.style.overflowY = `hidden`)) : (n = document.createElement(`input`), n.type = this.data.password ? `password` : `text`, n.setAttribute(`value`, o ?? i), this.data.doNotScroll && (n.style.overflowX = `hidden`)), this.data.hasOwnCanvas && (this.container.classList.add(`hasOwnCanvas`), e.has(t) && this.container.classList.add(`sandboxModified`)), Zr.add(n), this.contentElement = n, n.setAttribute(`data-element-id`, t), n.disabled = this.data.readOnly, n.name = this.data.fieldName, n.tabIndex = 0;
+                this.data.multiLine ? (n = document.createElement(`textarea`), n.textContent = o ?? i, this.data.doNotScroll && (n.style.overflowY = `hidden`)) : (n = document.createElement(`input`), n.type = this.data.password ? `password` : `text`, n.setAttribute(`value`, o ?? i), this.data.doNotScroll && (n.style.overflowX = `hidden`)), this.data.hasOwnCanvas && (this.container.classList.add(`hasOwnCanvas`), e.has(t) && this.container.classList.add(`sandboxModified`)), Xr.add(n), this.contentElement = n, n.setAttribute(`data-element-id`, t), n.disabled = this.data.readOnly, n.name = this.data.fieldName, n.tabIndex = 0;
                 let { datetimeFormat: c, datetimeType: l, timeStep: u } = this.data, d = !!l && this.enableScripting;
                 c && (n.title = c), this._setRequired(n, this.data.required), a && (n.maxLength = a), n.addEventListener(`input`, (r)=>{
                     e.setValue(t, {
@@ -12162,7 +11990,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                                         n.getMinutes(),
                                         n.getSeconds()
                                     ].map((e)=>e.toString().padStart(2, `0`)).join(`:`);
-                                } else t.value = new Date(e - Qr).toISOString().split(l === `date` ? `T` : `.`, 1)[0];
+                                } else t.value = new Date(e - Zr).toISOString().split(l === `date` ? `T` : `.`, 1)[0];
                             } else t.value = e;
                         }
                         s.lastCommittedValue = t.value, s.commitKey = 1, this.data.actions?.Focus || (s.focused = !0);
@@ -12333,14 +12161,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._setTextStyle(n), this._setBackgroundColor(n), this._setDefaultPropertiesFromJS(n), this.container.append(n), this.container;
         }
     };
-    ai = class extends ri {
+    ii = class extends ni {
         constructor(e){
             super(e, {
                 isRenderable: !!e.data.hasOwnCanvas
             });
         }
     };
-    oi = class extends ri {
+    ai = class extends ni {
         constructor(e){
             super(e, {
                 isRenderable: e.renderForms
@@ -12354,7 +12182,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 value: r
             })), this.container.classList.add(`buttonWidgetAnnotation`, `checkBox`);
             let i = document.createElement(`input`);
-            return Zr.add(i), i.setAttribute(`data-element-id`, n), i.disabled = t.readOnly, this._setRequired(i, this.data.required), i.type = `checkbox`, i.name = t.fieldName, r && i.setAttribute(`checked`, !0), i.setAttribute(`exportValue`, t.exportValue), i.tabIndex = 0, i.addEventListener(`change`, (r)=>{
+            return Xr.add(i), i.setAttribute(`data-element-id`, n), i.disabled = t.readOnly, this._setRequired(i, this.data.required), i.type = `checkbox`, i.name = t.fieldName, r && i.setAttribute(`checked`, !0), i.setAttribute(`exportValue`, t.exportValue), i.tabIndex = 0, i.addEventListener(`change`, (r)=>{
                 let { name: i, checked: a } = r.target;
                 for (let r of this._getElementsByName(i, n)){
                     let n = a && r.exportValue === t.exportValue;
@@ -12412,7 +12240,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ], (e)=>e.target.checked)), this._setDefaultPropertiesFromJS(i), this.container.append(i), this.container;
         }
     };
-    si = class extends ri {
+    oi = class extends ni {
         constructor(e){
             super(e, {
                 isRenderable: e.renderForms
@@ -12429,7 +12257,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 value: !1
             });
             let i = document.createElement(`input`);
-            if (Zr.add(i), i.setAttribute(`data-element-id`, n), i.disabled = t.readOnly, this._setRequired(i, this.data.required), i.type = `radio`, i.name = t.fieldName, r && i.setAttribute(`checked`, !0), i.tabIndex = 0, i.addEventListener(`change`, (t)=>{
+            if (Xr.add(i), i.setAttribute(`data-element-id`, n), i.disabled = t.readOnly, this._setRequired(i, this.data.required), i.type = `radio`, i.name = t.fieldName, r && i.setAttribute(`checked`, !0), i.tabIndex = 0, i.addEventListener(`change`, (t)=>{
                 let { name: r, checked: i } = t.target;
                 for (let t of this._getElementsByName(r, n))e.setValue(t.id, {
                     value: !1
@@ -12492,7 +12320,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._setDefaultPropertiesFromJS(i), this.container.append(i), this.container;
         }
     };
-    ci = class extends ti {
+    si = class extends ei {
         constructor(e){
             super(e, {
                 ignoreBorder: e.data.hasAppearance
@@ -12507,7 +12335,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             })), e;
         }
     };
-    li = class extends ri {
+    ci = class extends ni {
         constructor(e){
             super(e, {
                 isRenderable: e.renderForms
@@ -12518,7 +12346,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let e = this.annotationStorage, t = this.data.id, n = e.getValue(t, {
                 value: this.data.fieldValue
             }), r = document.createElement(`select`);
-            Zr.add(r), r.setAttribute(`data-element-id`, t), r.disabled = this.data.readOnly, this._setRequired(r, this.data.required), r.name = this.data.fieldName, r.tabIndex = 0;
+            Xr.add(r), r.setAttribute(`data-element-id`, t), r.disabled = this.data.readOnly, this._setRequired(r, this.data.required), r.name = this.data.fieldName, r.tabIndex = 0;
             let i = this.data.combo && this.data.options.length > 0;
             this.data.combo || (r.size = this.data.options.length, this.data.multiSelect && (r.multiple = !0)), r.addEventListener(`resetform`, (e)=>{
                 let t = this.data.defaultFieldValue;
@@ -12665,7 +12493,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }), this.data.combo && this._setTextStyle(r), this._setBackgroundColor(r), this._setDefaultPropertiesFromJS(r), this.container.append(r), this.container;
         }
     };
-    ui = class extends Q {
+    li = class extends Q {
         constructor(e){
             let { data: t, elements: n, parent: r } = e, i = !!r._commentManager;
             if (super(e, {
@@ -12676,7 +12504,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             } else this.popup = null;
         }
         #e() {
-            return new di({
+            return new ui({
                 container: this.container,
                 color: this.data.color,
                 titleObj: this.data.titleObj,
@@ -12696,10 +12524,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             e.classList.add(`popupAnnotation`), e.role = `comment`;
             let t = this.popup = this.#e(), n = [];
             for (let e of this.elements)e.popup = t, e.container.ariaHasPopup = `dialog`, n.push(e.data.id), e.addHighlightArea();
-            return this.container.setAttribute(`aria-controls`, n.map((e)=>`${u}${e}`).join(`,`)), this.container;
+            return this.container.setAttribute(`aria-controls`, n.map((e)=>`${l}${e}`).join(`,`)), this.container;
         }
     };
-    di = class {
+    ui = class {
         #e = null;
         #t = this.#P.bind(this);
         #n = this.#R.bind(this);
@@ -12727,7 +12555,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #w = null;
         #T = null;
         constructor({ container: e, color: t, elements: n, titleObj: r, modificationDate: i, contentsObj: a, richText: o, parent: s, rect: c, parentRect: l, open: u, commentManager: d = null }){
-            this.#o = e, this.#x = r, this.#s = a, this.#b = o, this.#u = s, this.#a = t, this.#y = c, this.#d = l, this.#l = n, this.#e = d, this.#w = n[0], this.#c = Ne.toDateObject(i), this.trigger = n.flatMap((e)=>e.getElementsToTriggerPopup()), d || (this.#E(), this.#o.hidden = !0, u && this.#I());
+            this.#o = e, this.#x = r, this.#s = a, this.#b = o, this.#u = s, this.#a = t, this.#y = c, this.#d = l, this.#l = n, this.#e = d, this.#w = n[0], this.#c = Me.toDateObject(i), this.trigger = n.flatMap((e)=>e.getElementsToTriggerPopup()), d || (this.#E(), this.#o.hidden = !0, u && this.#I());
         }
         #E() {
             if (this.#m) return;
@@ -12884,7 +12712,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     dateObj: this.#c.valueOf()
                 })), e.dateTime = this.#c.toISOString(), t.append(e);
             }
-            Ye({
+            Je({
                 html: this.#A || this.#s.str,
                 dir: this.#s?.dir,
                 className: `popupContent`
@@ -12933,18 +12761,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             e.altKey || e.shiftKey || e.ctrlKey || e.metaKey || (e.key === `Enter` || e.key === `Escape` && this.#f) && this.#I();
         }
         updateEdited({ rect: e, popup: t, deleted: n }) {
-            if (this.#e) {
-                n ? (this.remove(), this.#T = null) : t && (t.deleted ? this.remove() : (this.#k(), this.#T = t.text)), e && (this.#_ = null, this.#D(), this.#O());
-                return;
-            }
-            if (n || t?.deleted) {
-                this.remove();
-                return;
-            }
-            this.#E(), this.#S ||= {
+            this.#e ? (n ? (this.remove(), this.#T = null) : t && (t.deleted ? this.remove() : (this.#k(), this.#T = t.text)), e && (this.#_ = null, this.#D(), this.#O())) : n || t?.deleted ? this.remove() : (this.#E(), this.#S ||= {
                 contentsObj: this.#s,
                 richText: this.#b
-            }, e && (this.#h = null), t && t.text && (this.#b = this.#N(t.text), this.#c = Ne.toDateObject(t.date), this.#s = null), this.#p?.remove(), this.#p = null;
+            }, e && (this.#h = null), t && t.text && (this.#b = this.#N(t.text), this.#c = Me.toDateObject(t.date), this.#s = null), this.#p?.remove(), this.#p = null);
         }
         resetEdited() {
             this.#S && ({ contentsObj: this.#s, richText: this.#b } = this.#S, this.#S = null, this.#p?.remove(), this.#p = null, this.#h = null);
@@ -12973,17 +12793,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             d.left = `${this.#h[0]}%`, d.top = `${this.#h[1]}%`;
         }
         #I() {
-            if (this.#e) {
-                this.#e.toggleCommentPopup(this, !1);
-                return;
-            }
-            this.#f = !this.#f, this.#f ? (this.#L(), this.#o.addEventListener(`click`, this.#i), this.#o.addEventListener(`keydown`, this.#t)) : (this.#R(), this.#o.removeEventListener(`click`, this.#i), this.#o.removeEventListener(`keydown`, this.#t));
+            this.#e ? this.#e.toggleCommentPopup(this, !1) : (this.#f = !this.#f, this.#f ? (this.#L(), this.#o.addEventListener(`click`, this.#i), this.#o.addEventListener(`keydown`, this.#t)) : (this.#R(), this.#o.removeEventListener(`click`, this.#i), this.#o.removeEventListener(`keydown`, this.#t)));
         }
         #L() {
             this.#p || this.render(), this.isVisible ? this.#f && this.#o.classList.add(`focused`) : (this.#F(), this.#o.hidden = !1, this.#o.style.zIndex = parseInt(this.#o.style.zIndex, 10) + 1e3);
         }
         #R() {
-            this.#o.classList.remove(`focused`), !(this.#f || !this.isVisible) && (this.#o.hidden = !0, this.#o.style.zIndex = parseInt(this.#o.style.zIndex, 10) - 1e3);
+            this.#o.classList.remove(`focused`), this.#f || !this.isVisible || (this.#o.hidden = !0, this.#o.style.zIndex = parseInt(this.#o.style.zIndex, 10) - 1e3);
         }
         forceHide() {
             this.#C = this.isVisible, this.#C && (this.#o.hidden = !0);
@@ -12995,12 +12811,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return !this.#e && this.#o.hidden === !1;
         }
     };
-    fi = class extends Q {
+    di = class extends Q {
         constructor(e){
             super(e, {
                 isRenderable: !0,
                 ignoreBorder: !0
-            }), this.textContent = e.data.textContent, this.textPosition = e.data.textPosition, this.annotationEditorType = f.FREETEXT;
+            }), this.textContent = e.data.textContent, this.textPosition = e.data.textPosition, this.annotationEditorType = d.FREETEXT;
         }
         render() {
             if (this.container.classList.add(`freeTextAnnotation`), this.textContent) {
@@ -13015,7 +12831,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return !this.data.popupRef && this.hasPopupData && (this.hasOwnCommentButton = !0, this._createPopup()), this._editOnDoubleClick(), this.container;
         }
     };
-    pi = class extends Q {
+    fi = class extends Q {
         #e = null;
         constructor(e){
             super(e, {
@@ -13035,7 +12851,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.container.classList.add(`highlightArea`);
         }
     };
-    mi = class extends Q {
+    pi = class extends Q {
         #e = null;
         constructor(e){
             super(e, {
@@ -13055,7 +12871,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.container.classList.add(`highlightArea`);
         }
     };
-    hi = class extends Q {
+    mi = class extends Q {
         #e = null;
         constructor(e){
             super(e, {
@@ -13075,7 +12891,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.container.classList.add(`highlightArea`);
         }
     };
-    gi = class extends Q {
+    hi = class extends Q {
         #e = null;
         constructor(e){
             super(e, {
@@ -13103,12 +12919,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.container.classList.add(`highlightArea`);
         }
     };
-    _i = class extends gi {
+    gi = class extends hi {
         constructor(e){
             super(e), this.containerClassName = `polygonAnnotation`, this.svgElementName = `svg:polygon`;
         }
     };
-    vi = class extends Q {
+    _i = class extends Q {
         constructor(e){
             super(e, {
                 isRenderable: !0,
@@ -13119,14 +12935,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.container.classList.add(`caretAnnotation`), !this.data.popupRef && this.hasPopupData && (this.hasOwnCommentButton = !0, this._createPopup()), this.container;
         }
     };
-    yi = class extends Q {
+    vi = class extends Q {
         #e = null;
         #t = [];
         constructor(e){
             super(e, {
                 isRenderable: !0,
                 ignoreBorder: !0
-            }), this.containerClassName = `inkAnnotation`, this.svgElementName = `svg:polyline`, this.annotationEditorType = this.data.it === `InkHighlight` ? f.HIGHLIGHT : f.INK;
+            }), this.containerClassName = `inkAnnotation`, this.svgElementName = `svg:polyline`, this.annotationEditorType = this.data.it === `InkHighlight` ? d.HIGHLIGHT : d.INK;
         }
         #n(e, t) {
             switch(e){
@@ -13182,13 +12998,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.container.classList.add(`highlightArea`);
         }
     };
-    bi = class extends Q {
+    yi = class extends Q {
         constructor(e){
             super(e, {
                 isRenderable: !0,
                 ignoreBorder: !0,
                 createQuadrilaterals: !0
-            }), this.annotationEditorType = f.HIGHLIGHT;
+            }), this.annotationEditorType = d.HIGHLIGHT;
         }
         render() {
             let { data: { overlaidText: e, popupRef: t } } = this;
@@ -13199,7 +13015,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.container;
         }
     };
-    xi = class extends Q {
+    bi = class extends Q {
         constructor(e){
             super(e, {
                 isRenderable: !0,
@@ -13216,7 +13032,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.container;
         }
     };
-    Si = class extends Q {
+    xi = class extends Q {
         constructor(e){
             super(e, {
                 isRenderable: !0,
@@ -13233,7 +13049,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.container;
         }
     };
-    Ci = class extends Q {
+    Si = class extends Q {
         constructor(e){
             super(e, {
                 isRenderable: !0,
@@ -13250,18 +13066,18 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.container;
         }
     };
-    wi = class extends Q {
+    Ci = class extends Q {
         constructor(e){
             super(e, {
                 isRenderable: !0,
                 ignoreBorder: !0
-            }), this.annotationEditorType = f.STAMP;
+            }), this.annotationEditorType = d.STAMP;
         }
         render() {
             return this.container.classList.add(`stampAnnotation`), this.container.setAttribute(`role`, `img`), !this.data.popupRef && this.hasPopupData && (this.hasOwnCommentButton = !0, this._createPopup()), this._editOnDoubleClick(), this.container;
         }
     };
-    Ti = class extends Q {
+    wi = class extends Q {
         #e = null;
         constructor(e){
             super(e, {
@@ -13294,7 +13110,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             r && this.downloadManager?.openOrDownloadData(r, t);
         }
     };
-    Ei = class extends Q {
+    Ti = class extends Q {
         #e = new AbortController;
         #t = null;
         #n = null;
@@ -13363,7 +13179,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#e.abort(), this.#n &&= (this.#n.pause(), this.#n.removeAttribute(`src`), this.#n.load(), null), this.#i();
         }
     };
-    Di = class e {
+    Ei = class e {
         #e = null;
         #t = null;
         #n = null;
@@ -13374,14 +13190,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #s = !1;
         zIndex = 0;
         constructor({ div: e, accessibilityManager: t, annotationCanvasMap: n, annotationEditorUIManager: r, page: i, viewport: a, structTreeLayer: o, commentManager: s, linkService: c, annotationStorage: l }){
-            this.div = e, this.#e = t, this.#t = n, this.#i = o || null, this.#a = c || null, this.#n = l || new ht, this.page = i, this.viewport = a, this._annotationEditorUIManager = r, this._commentManager = s || null;
+            this.div = e, this.#e = t, this.#t = n, this.#i = o || null, this.#a = c || null, this.#n = l || new mt, this.page = i, this.viewport = a, this._annotationEditorUIManager = r, this._commentManager = s || null;
         }
         hasEditableAnnotations() {
             return this.#r.size > 0;
         }
         async render(e) {
             let { annotations: t, optionalContentConfig: n } = e, r = this.div;
-            Le(r, this.viewport);
+            Ie(r, this.viewport);
             let i = new Map, a = [], o = {
                 data: null,
                 layer: r,
@@ -13389,7 +13205,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 downloadManager: e.downloadManager,
                 imageResourcesPath: e.imageResourcesPath || ``,
                 renderForms: e.renderForms !== !1,
-                svgFactory: new Yr,
+                svgFactory: new Jr,
                 annotationStorage: this.#n,
                 enableComment: e.enableComment === !0,
                 enableScripting: e.enableScripting === !0,
@@ -13400,7 +13216,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
             for (let e of t){
                 if (e.noHTML) continue;
-                let t = e.annotationType === _.POPUP;
+                let t = e.annotationType === g.POPUP;
                 if (t) {
                     let t = i.get(e.id);
                     if (!t) continue;
@@ -13411,9 +13227,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     o.elements = t;
                 } else if (e.rect[2] === e.rect[0] || e.rect[3] === e.rect[1]) continue;
                 o.data = e;
-                let r = $r.create(o);
+                let r = Qr.create(o);
                 if (!r.isRenderable) continue;
-                t || (this.#o.push(r), e.popupRef && i.getOrInsertComputed(e.popupRef, he).push(r));
+                t || (this.#o.push(r), e.popupRef && i.getOrInsertComputed(e.popupRef, me).push(r));
                 let s = r.render();
                 e.hidden && (s.style.visibility = `hidden`), r.updateOC(n), r._isEditable && (this.#r.set(r.data.id, r), this._annotationEditorUIManager?.renderAnnotationElement(r));
             }
@@ -13421,10 +13237,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             for (let e of a){
                 let t = o.elements = i.get(e.id);
                 o.data = e;
-                let n = $r.create(o);
+                let n = Qr.create(o);
                 if (!n.isRenderable) continue;
                 let r = n.render();
-                n.contentElement.id = `${u}${e.id}`, e.hidden && (r.style.visibility = `hidden`), t.at(-1).container.after(r);
+                n.contentElement.id = `${l}${e.id}`, e.hidden && (r.style.visibility = `hidden`), t.at(-1).container.after(r);
             }
             this.#l();
         }
@@ -13435,7 +13251,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             if (!this.#s) {
                 this.#s = !0;
                 for (let { contentElement: t, data: { id: n } } of this.#o){
-                    let r = t.id = `${u}${n}`;
+                    let r = t.id = `${l}${n}`;
                     e.push(this.#i?.getAriaAttributes(r).then((e)=>{
                         if (e) for (let [n, r] of e)t.setAttribute(n, r);
                     }));
@@ -13456,19 +13272,19 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 data: null,
                 layer: this.div,
                 linkService: this.#a,
-                svgFactory: new Yr,
+                svgFactory: new Jr,
                 parent: this
             };
             for (let r of t){
                 r.borderStyle ||= e._defaultBorderStyle, n.data = r;
-                let t = $r.create(n);
-                t.isRenderable && (t.render(), t.contentElement.id = `${u}${r.id}`, this.#o.push(t));
+                let t = Qr.create(n);
+                t.isRenderable && (t.render(), t.contentElement.id = `${l}${r.id}`, this.#o.push(t));
             }
             await this.#c();
         }
         update({ viewport: e, optionalContentConfig: t }) {
             let n = this.div;
-            this.viewport = e, Le(n, {
+            this.viewport = e, Ie(n, {
                 rotation: e.rotation
             });
             for (let e of this.#o)e.updateOC(t);
@@ -13509,7 +13325,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#r.get(e);
         }
         addFakeAnnotation(e) {
-            let { div: t } = this, { id: n, rotation: r } = e, i = new ei({
+            let { div: t } = this, { id: n, rotation: r } = e, i = new $r({
                 data: {
                     id: n,
                     rect: e.getPDFRect(),
@@ -13522,7 +13338,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 linkService: this.#a,
                 annotationStorage: this.#n
             });
-            return i.render(), i.contentElement.id = `${u}${n}`, i.createOrUpdatePopup(), this.#o.push(i), i;
+            return i.render(), i.contentElement.id = `${l}${n}`, i.createOrUpdatePopup(), this.#o.push(i), i;
         }
         removeAnnotation(e) {
             let t = this.#o.findIndex((t)=>t.data.id === e);
@@ -13543,7 +13359,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return M(this, `_defaultBorderStyle`, Object.freeze({
                 width: 1,
                 rawWidth: 1,
-                style: v.SOLID,
+                style: _.SOLID,
                 dashArray: [
                     3
                 ],
@@ -13552,8 +13368,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }));
         }
     };
-    Oi = /\r\n?|\n/g;
-    ki = class e extends U {
+    Di = /\r\n?|\n/g;
+    Oi = class e extends U {
         #e = ``;
         #t = `${this.id}-editor`;
         #n = null;
@@ -13564,8 +13380,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         static _defaultColor = null;
         static _defaultFontSize = 10;
         static get _keyboardManager() {
-            let t = e.prototype, n = (e)=>e.isEmpty(), r = ot.TRANSLATE_SMALL, i = ot.TRANSLATE_BIG;
-            return M(this, `_keyboardManager`, new it([
+            let t = e.prototype, n = (e)=>e.isEmpty(), r = at.TRANSLATE_SMALL, i = at.TRANSLATE_BIG;
+            return M(this, `_keyboardManager`, new rt([
                 [
                     [
                         `ctrl+s`,
@@ -13702,7 +13518,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ]));
         }
         static _type = `freetext`;
-        static _editorType = f.FREETEXT;
+        static _editorType = d.FREETEXT;
         constructor(t){
             super({
                 ...t,
@@ -13716,30 +13532,30 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         static updateDefaultParams(t, n) {
             switch(t){
-                case p.FREETEXT_SIZE:
+                case f.FREETEXT_SIZE:
                     e._defaultFontSize = n;
                     break;
-                case p.FREETEXT_COLOR:
+                case f.FREETEXT_COLOR:
                     e._defaultColor = n;
             }
         }
         updateParams(e, t) {
             switch(e){
-                case p.FREETEXT_SIZE:
+                case f.FREETEXT_SIZE:
                     this.#i(t);
                     break;
-                case p.FREETEXT_COLOR:
+                case f.FREETEXT_COLOR:
                     this.#a(t);
             }
         }
         static get defaultPropertiesToUpdate() {
             return [
                 [
-                    p.FREETEXT_SIZE,
+                    f.FREETEXT_SIZE,
                     e._defaultFontSize
                 ],
                 [
-                    p.FREETEXT_COLOR,
+                    f.FREETEXT_COLOR,
                     e._defaultColor || U._defaultLineColor
                 ]
             ];
@@ -13747,17 +13563,17 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         get propertiesToUpdate() {
             return [
                 [
-                    p.FREETEXT_SIZE,
+                    f.FREETEXT_SIZE,
                     this.#r
                 ],
                 [
-                    p.FREETEXT_COLOR,
+                    f.FREETEXT_COLOR,
                     this.color
                 ]
             ];
         }
         get toolbarButtons() {
-            return this._colorPicker ||= new Wr(this), [
+            return this._colorPicker ||= new Ur(this), [
                 [
                     `colorPicker`,
                     this._colorPicker
@@ -13765,7 +13581,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ];
         }
         get colorType() {
-            return p.FREETEXT_COLOR;
+            return f.FREETEXT_COLOR;
         }
         #i(e) {
             let t = (e)=>{
@@ -13776,7 +13592,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 undo: t.bind(this, n),
                 post: this._uiManager.updateUI.bind(this._uiManager, this),
                 mustExec: !0,
-                type: p.FREETEXT_SIZE,
+                type: f.FREETEXT_SIZE,
                 overwriteIfSameType: !0,
                 keepUndo: !0
             });
@@ -13793,7 +13609,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 undo: t.bind(this, n),
                 post: this._uiManager.updateUI.bind(this._uiManager, this),
                 mustExec: !0,
-                type: p.FREETEXT_COLOR,
+                type: f.FREETEXT_COLOR,
                 overwriteIfSameType: !0,
                 keepUndo: !0
             });
@@ -13867,11 +13683,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let e = this.#e, t = this.#e = this.#o().trimEnd();
             if (e === t) return;
             let n = (e)=>{
-                if (this.#e = e, !e) {
-                    this.remove();
-                    return;
-                }
-                this.#l(), this._uiManager.rebuild(this), this.#s();
+                this.#e = e, e ? (this.#l(), this._uiManager.rebuild(this), this.#s()) : this.remove();
             };
             this.addCommands({
                 cmd: ()=>{
@@ -13953,13 +13765,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.div;
         }
         static #c(e) {
-            return (e.nodeType === Node.TEXT_NODE ? e.nodeValue : e.innerText).replaceAll(Oi, ``);
+            return (e.nodeType === Node.TEXT_NODE ? e.nodeValue : e.innerText).replaceAll(Di, ``);
         }
         editorDivPaste(t) {
             let n = t.clipboardData || window.clipboardData, { types: r } = n;
             if (r.length === 1 && r[0] === `text/plain`) return;
             t.preventDefault();
-            let i = e.#d(n.getData(`text`) || ``).replaceAll(Oi, `
+            let i = e.#d(n.getData(`text`) || ``).replaceAll(Di, `
 `);
             if (!i) return;
             let a = window.getSelection();
@@ -13974,17 +13786,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let { startContainer: s, startOffset: c } = o, l = [], u = [];
             if (s.nodeType === Node.TEXT_NODE) {
                 let t = s.parentElement;
-                if (u.push(s.nodeValue.slice(c).replaceAll(Oi, ``)), t !== this.editorDiv) {
+                if (u.push(s.nodeValue.slice(c).replaceAll(Di, ``)), t !== this.editorDiv) {
                     let n = l;
-                    for (let r of this.editorDiv.childNodes){
-                        if (r === t) {
-                            n = u;
-                            continue;
-                        }
-                        n.push(e.#c(r));
-                    }
+                    for (let r of this.editorDiv.childNodes)r === t ? n = u : n.push(e.#c(r));
                 }
-                l.push(s.nodeValue.slice(0, c).replaceAll(Oi, ``));
+                l.push(s.nodeValue.slice(0, c).replaceAll(Di, ``));
             } else if (s === this.editorDiv) {
                 let t = l, n = 0;
                 for (let r of this.editorDiv.childNodes)n++ === c && (t = u), t.push(e.#c(r));
@@ -14025,11 +13831,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         static async deserialize(t, n, r) {
             let i = null;
-            if (t instanceof fi) {
-                let { data: { defaultAppearanceData: { fontSize: e, fontColor: n }, rect: r, rotation: a, id: o, popupRef: s, richText: c, contentsObj: l, creationDate: u, modificationDate: d }, textContent: p, textPosition: m, parent: { page: { pageNumber: h } } } = t;
+            if (t instanceof di) {
+                let { data: { defaultAppearanceData: { fontSize: e, fontColor: n }, rect: r, rotation: a, id: o, popupRef: s, richText: c, contentsObj: l, creationDate: u, modificationDate: f }, textContent: p, textPosition: m, parent: { page: { pageNumber: h } } } = t;
                 if (!p?.length) return null;
                 i = t = {
-                    annotationType: f.FREETEXT,
+                    annotationType: d.FREETEXT,
                     color: Array.from(n),
                     fontSize: e,
                     value: p.join(`
@@ -14045,7 +13851,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     comment: l?.str || null,
                     richText: c,
                     creationDate: u,
-                    modificationDate: d
+                    modificationDate: f
                 };
             }
             let a = await super.deserialize(t, n, r);
@@ -14089,13 +13895,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
     $ = class {
         static PRECISION = 1e-4;
         toSVGPath() {
-            O("Abstract method `toSVGPath` must be implemented.");
+            D("Abstract method `toSVGPath` must be implemented.");
         }
         get box() {
-            O("Abstract getter `box` must be implemented.");
+            D("Abstract getter `box` must be implemented.");
         }
         serialize(e, t) {
-            O("Abstract method `serialize` must be implemented.");
+            D("Abstract method `serialize` must be implemented.");
         }
         static _rescale(e, t, n, r, i, a) {
             a ||= new Float32Array(e.length);
@@ -14150,7 +13956,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ];
         }
     };
-    Ai = class e {
+    ki = class e {
         #e;
         #t = [];
         #n;
@@ -14248,28 +14054,16 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             e.push(`L${(a[0] - t) / r} ${(a[1] - n) / i} L${s} ${c} L${l} ${u} L${(o[0] - t) / r} ${(o[1] - n) / i}`);
         }
         newFreeDrawOutline(e, t, n, r, i, a) {
-            return new ji(e, t, n, r, i, a);
+            return new Ai(e, t, n, r, i, a);
         }
         getOutlines() {
             let e = this.#i, t = this.#t, n = this.#a, [r, i, a, o] = this.#e, s = new Float32Array((this.#f?.length ?? 0) + 2);
             for(let e = 0, t = s.length - 2; e < t; e += 2)s[e] = (this.#f[e] - r) / a, s[e + 1] = (this.#f[e + 1] - i) / o;
             if (s[s.length - 2] = (this.#o - r) / a, s[s.length - 1] = (this.#s - i) / o, isNaN(n[6]) && !this.isEmpty()) return this.#b(s);
             let c = new Float32Array(this.#i.length + 24 + this.#t.length), l = e.length;
-            for(let t = 0; t < l; t += 2){
-                if (isNaN(e[t])) {
-                    c[t] = c[t + 1] = NaN;
-                    continue;
-                }
-                c[t] = e[t], c[t + 1] = e[t + 1];
-            }
+            for(let t = 0; t < l; t += 2)isNaN(e[t]) ? c[t] = c[t + 1] = NaN : (c[t] = e[t], c[t + 1] = e[t + 1]);
             l = this.#S(c, l);
-            for(let e = t.length - 6; e >= 6; e -= 6)for(let n = 0; n < 6; n += 2){
-                if (isNaN(t[e + n])) {
-                    c[l] = c[l + 1] = NaN, l += 2;
-                    continue;
-                }
-                c[l] = t[e + n], c[l + 1] = t[e + n + 1], l += 2;
-            }
+            for(let e = t.length - 6; e >= 6; e -= 6)for(let n = 0; n < 6; n += 2)isNaN(t[e + n]) ? (c[l] = c[l + 1] = NaN, l += 2) : (c[l] = t[e + n], c[l + 1] = t[e + n + 1], l += 2);
             return this.#x(c, l), this.newFreeDrawOutline(c, s, this.#e, this.#u, this.#n, this.#r);
         }
         #b(e) {
@@ -14354,7 +14148,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ], t), t += 24;
         }
     };
-    ji = class extends $ {
+    Ai = class extends $ {
         #e;
         #t = new Float32Array(4);
         #n;
@@ -14378,13 +14172,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let e = [
                 `M${this.#o[4]} ${this.#o[5]}`
             ];
-            for(let t = 6, n = this.#o.length; t < n; t += 6){
-                if (isNaN(this.#o[t])) {
-                    e.push(`L${this.#o[t + 4]} ${this.#o[t + 5]}`);
-                    continue;
-                }
-                e.push(`C${this.#o[t]} ${this.#o[t + 1]} ${this.#o[t + 2]} ${this.#o[t + 3]} ${this.#o[t + 4]} ${this.#o[t + 5]}`);
-            }
+            for(let t = 6, n = this.#o.length; t < n; t += 6)isNaN(this.#o[t]) ? e.push(`L${this.#o[t + 4]} ${this.#o[t + 5]}`) : e.push(`C${this.#o[t]} ${this.#o[t + 1]} ${this.#o[t + 2]} ${this.#o[t + 3]} ${this.#o[t + 4]} ${this.#o[t + 5]}`);
             return e.push(`Z`), e.join(` `);
         }
         serialize([e, t, n, r], i) {
@@ -14410,15 +14198,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
         }
         #s(e) {
-            let t = this.#o, n = t[4], r = t[5], a = [
+            let t = this.#o, n = t[4], i = t[5], a = [
                 n,
-                r,
+                i,
                 n,
-                r
-            ], o = n, s = r, c = n, l = r, u = e ? Math.max : Math.min, d = new Float32Array(4);
+                i
+            ], o = n, s = i, c = n, l = i, u = e ? Math.max : Math.min, d = new Float32Array(4);
             for(let e = 6, f = t.length; e < f; e += 6){
                 let f = t[e + 4], p = t[e + 5];
-                isNaN(t[e]) ? (I.pointBoundingBox(f, p, a), s > p ? (o = f, s = p) : s === p && (o = u(o, f)), l < p ? (c = f, l = p) : l === p && (c = u(c, f))) : (d.set(i, 0), I.bezierBoundingBox(n, r, ...t.slice(e, e + 6), d), I.rectBoundingBox(...d, a), s > d[1] ? (o = d[0], s = d[1]) : s === d[1] && (o = u(o, d[0])), l < d[3] ? (c = d[2], l = d[3]) : l === d[3] && (c = u(c, d[2]))), n = f, r = p;
+                isNaN(t[e]) ? (I.pointBoundingBox(f, p, a), s > p ? (o = f, s = p) : s === p && (o = u(o, f)), l < p ? (c = f, l = p) : l === p && (c = u(c, f))) : (d.set(r, 0), I.bezierBoundingBox(n, i, ...t.slice(e, e + 6), d), I.rectBoundingBox(...d, a), s > d[1] ? (o = d[0], s = d[1]) : s === d[1] && (o = u(o, d[0])), l < d[3] ? (c = d[2], l = d[3]) : l === d[3] && (c = u(c, d[2]))), n = f, i = p;
             }
             let f = this.#t;
             f[0] = a[0] - this.#n, f[1] = a[1] - this.#n, f[2] = a[2] - a[0] + 2 * this.#n, f[3] = a[3] - a[1] + 2 * this.#n, this.firstPoint = [
@@ -14433,7 +14221,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#t;
         }
         newOutliner(e, t, n, r, i, a = 0) {
-            return new Ai(e, t, n, r, i, a);
+            return new ki(e, t, n, r, i, a);
         }
         getNewOutline(e, t) {
             let [n, r, i, a] = this.#t, [o, s, c, l] = this.#e, u = i * c, d = a * l, f = n * c + o, p = r * l + s, m = this.newOutliner({
@@ -14447,14 +14235,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return m.getOutlines();
         }
     };
-    Mi = class {
+    ji = class {
         #e;
         #t;
         #n;
         #r = [];
         #i = [];
-        constructor(e, t = 0, n = 0, r = !0){
-            let a = i.slice(), o = 10 ** -4;
+        constructor(e, t = 0, n = 0, i = !0){
+            let a = r.slice(), o = 10 ** -4;
             for (let { x: n, y: r, width: i, height: s } of e){
                 let e = Math.floor((n - t) / o) * o, c = Math.ceil((n + i + t) / o) * o, l = Math.floor((r - t) / o) * o, u = Math.ceil((r + s + t) / o) * o, d = [
                     e,
@@ -14469,13 +14257,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 ];
                 this.#r.push(d, f), I.rectBoundingBox(e, l, c, u, a);
             }
-            let s = a[2] - a[0] + 2 * n, c = a[3] - a[1] + 2 * n, l = a[0] - n, u = a[1] - n, d = r ? -1 / 0 : 1 / 0, f = 1 / 0, p = this.#r.at(r ? -1 : -2), m = [
+            let s = a[2] - a[0] + 2 * n, c = a[3] - a[1] + 2 * n, l = a[0] - n, u = a[1] - n, d = i ? -1 / 0 : 1 / 0, f = 1 / 0, p = this.#r.at(i ? -1 : -2), m = [
                 p[0],
                 p[2]
             ];
             for (let e of this.#r){
-                let [t, n, i, a] = e;
-                !a && r ? n < f ? (f = n, d = t) : n === f && (d = Math.max(d, t)) : a && !r && (n < f ? (f = n, d = t) : n === f && (d = Math.min(d, t))), e[0] = (t - l) / s, e[1] = (n - u) / c, e[2] = (i - u) / c;
+                let [t, n, r, a] = e;
+                !a && i ? n < f ? (f = n, d = t) : n === f && (d = Math.max(d, t)) : a && !i && (n < f ? (f = n, d = t) : n === f && (d = Math.min(d, t))), e[0] = (t - l) / s, e[1] = (n - u) / c, e[2] = (r - u) / c;
             }
             this.#e = new Float32Array([
                 l,
@@ -14529,7 +14317,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 }
                 i.push(l, u);
             }
-            return new Ni(r, this.#e, this.#t, this.#n);
+            return new Mi(r, this.#e, this.#t, this.#n);
         }
         #o(e) {
             let t = this.#i, n = 0, r = t.length - 1;
@@ -14585,9 +14373,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                                 if (a === 1) return [];
                                 i.splice(e, 1), e--, a--;
                             }
-                            continue;
-                        }
-                        i[e][2] = n, s > r && i.push([
+                        } else i[e][2] = n, s > r && i.push([
                             t,
                             r,
                             s
@@ -14598,7 +14384,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return i;
         }
     };
-    Ni = class extends $ {
+    Mi = class extends $ {
         #e;
         #t;
         constructor(e, t, n, r){
@@ -14630,17 +14416,17 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#e;
         }
     };
-    Pi = class extends Ai {
+    Ni = class extends ki {
         newFreeDrawOutline(e, t, n, r, i, a) {
-            return new Fi(e, t, n, r, i, a);
-        }
-    };
-    Fi = class extends ji {
-        newOutliner(e, t, n, r, i, a = 0) {
             return new Pi(e, t, n, r, i, a);
         }
     };
-    Ii = class e extends U {
+    Pi = class extends Ai {
+        newOutliner(e, t, n, r, i, a = 0) {
+            return new Ni(e, t, n, r, i, a);
+        }
+    };
+    Fi = class e extends U {
         #e = null;
         #t = 0;
         #n;
@@ -14663,13 +14449,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         static _defaultOpacity = 1;
         static _defaultThickness = 12;
         static _type = `highlight`;
-        static _editorType = f.HIGHLIGHT;
+        static _editorType = d.HIGHLIGHT;
         static _freeHighlightId = -1;
         static _freeHighlight = null;
         static _freeHighlightClipId = ``;
         static get _keyboardManager() {
             let t = e.prototype;
-            return M(this, `_keyboardManager`, new it([
+            return M(this, `_keyboardManager`, new rt([
                 [
                     [
                         `ArrowLeft`
@@ -14743,9 +14529,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
         }
         #v() {
-            let e = new Mi(this.#n, .001);
+            let e = new ji(this.#n, .001);
             this.#l = e.getOutlines(), [this.x, this.y, this.width, this.height] = this.#l.box;
-            let t = new Mi(this.#n, .0025, .001, this._uiManager.direction === `ltr`);
+            let t = new ji(this.#n, .0025, .001, this._uiManager.direction === `ltr`);
             this.#a = t.getOutlines();
             let { firstPoint: n } = this.#l;
             this.#f = [
@@ -14825,10 +14611,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         static updateDefaultParams(t, n) {
             switch(t){
-                case p.HIGHLIGHT_COLOR:
+                case f.HIGHLIGHT_COLOR:
                     e._defaultColor = n;
                     break;
-                case p.HIGHLIGHT_THICKNESS:
+                case f.HIGHLIGHT_THICKNESS:
                     e._defaultThickness = n;
             }
         }
@@ -14841,21 +14627,21 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         updateParams(e, t) {
             switch(e){
-                case p.HIGHLIGHT_COLOR:
+                case f.HIGHLIGHT_COLOR:
                     this.#b(t);
                     break;
-                case p.HIGHLIGHT_THICKNESS:
+                case f.HIGHLIGHT_THICKNESS:
                     this.#x(t);
             }
         }
         static get defaultPropertiesToUpdate() {
             return [
                 [
-                    p.HIGHLIGHT_COLOR,
+                    f.HIGHLIGHT_COLOR,
                     e._defaultColor
                 ],
                 [
-                    p.HIGHLIGHT_THICKNESS,
+                    f.HIGHLIGHT_THICKNESS,
                     e._defaultThickness
                 ]
             ];
@@ -14863,15 +14649,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         get propertiesToUpdate() {
             return [
                 [
-                    p.HIGHLIGHT_COLOR,
+                    f.HIGHLIGHT_COLOR,
                     this.color || e._defaultColor
                 ],
                 [
-                    p.HIGHLIGHT_THICKNESS,
+                    f.HIGHLIGHT_THICKNESS,
                     this.#g || e._defaultThickness
                 ],
                 [
-                    p.HIGHLIGHT_FREE,
+                    f.HIGHLIGHT_FREE,
                     this.#d
                 ]
             ];
@@ -14893,7 +14679,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 undo: n.bind(this, r, i),
                 post: this._uiManager.updateUI.bind(this._uiManager, this),
                 mustExec: !0,
-                type: p.HIGHLIGHT_COLOR,
+                type: f.HIGHLIGHT_COLOR,
                 overwriteIfSameType: !0,
                 keepUndo: !0
             }), this._reportTelemetry({
@@ -14910,7 +14696,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 undo: n.bind(this, t),
                 post: this._uiManager.updateUI.bind(this._uiManager, this),
                 mustExec: !0,
-                type: p.INK_THICKNESS,
+                type: f.INK_THICKNESS,
                 overwriteIfSameType: !0,
                 keepUndo: !0
             }), this._reportTelemetry({
@@ -14922,7 +14708,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this._uiManager.highlightColors ? [
                 [
                     `colorPicker`,
-                    this.#i = new Ur({
+                    this.#i = new Hr({
                         editor: this
                     })
                 ]
@@ -14967,7 +14753,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }), this.fixAndSetPosition(), this.setDims());
         }
         #C() {
-            this.#u === null || !this.parent || (this.parent.drawLayer.remove(this.#u), this.#u = null, this.parent.drawLayer.remove(this.#m), this.#m = null);
+            this.#u !== null && this.parent && (this.parent.drawLayer.remove(this.#u), this.#u = null, this.parent.drawLayer.remove(this.#m), this.#m = null);
         }
         #w(e = this.parent) {
             this.#u === null && ({ id: this.#u, clipPathId: this.#r } = e.drawLayer.draw({
@@ -15052,7 +14838,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 signal: this._uiManager._signal
             });
             let t = this.#c = document.createElement(`div`);
-            return e.append(t), t.setAttribute(`aria-hidden`, `true`), t.className = `internal`, t.style.clipPath = this.#r, this.setDims(), et(this, this.#c, [
+            return e.append(t), t.setAttribute(`aria-hidden`, `true`), t.className = `internal`, t.style.clipPath = this.#r, this.setDims(), $e(this, this.#c, [
                 `pointerover`,
                 `pointerleave`
             ]), this.enableEditing(), e;
@@ -15150,7 +14936,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 signal: u
             }), n.addEventListener(`pointermove`, this.#j.bind(this, e), {
                 signal: u
-            }), this._freeHighlight = new Pi({
+            }), this._freeHighlight = new Ni({
                 x: r,
                 y: i
             }, [
@@ -15196,10 +14982,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         static async deserialize(e, t, n) {
             let r = null;
-            if (e instanceof bi) {
-                let { data: { quadPoints: t, rect: n, rotation: i, id: a, color: o, opacity: s, popupRef: c, richText: l, contentsObj: u, creationDate: d, modificationDate: p }, parent: { page: { pageNumber: m } } } = e;
+            if (e instanceof yi) {
+                let { data: { quadPoints: t, rect: n, rotation: i, id: a, color: o, opacity: s, popupRef: c, richText: l, contentsObj: u, creationDate: f, modificationDate: p }, parent: { page: { pageNumber: m } } } = e;
                 r = e = {
-                    annotationType: f.HIGHLIGHT,
+                    annotationType: d.HIGHLIGHT,
                     color: Array.from(o),
                     opacity: s,
                     quadPoints: t,
@@ -15213,13 +14999,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     popupRef: c,
                     richText: l,
                     comment: u?.str || null,
-                    creationDate: d,
+                    creationDate: f,
                     modificationDate: p
                 };
-            } else if (e instanceof yi) {
-                let { data: { inkLists: t, rect: n, rotation: i, id: a, color: o, borderStyle: { rawWidth: s }, popupRef: c, richText: l, contentsObj: u, creationDate: d, modificationDate: p }, parent: { page: { pageNumber: m } } } = e;
+            } else if (e instanceof vi) {
+                let { data: { inkLists: t, rect: n, rotation: i, id: a, color: o, borderStyle: { rawWidth: s }, popupRef: c, richText: l, contentsObj: u, creationDate: f, modificationDate: p }, parent: { page: { pageNumber: m } } } = e;
                 r = e = {
-                    annotationType: f.HIGHLIGHT,
+                    annotationType: d.HIGHLIGHT,
                     color: Array.from(o),
                     thickness: s,
                     inkLists: t,
@@ -15233,34 +15019,34 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     popupRef: c,
                     richText: l,
                     comment: u?.str || null,
-                    creationDate: d,
+                    creationDate: f,
                     modificationDate: p
                 };
             }
             let { color: i, quadPoints: a, inkLists: o, outlines: s, opacity: c } = e, l = await super.deserialize(e, t, n);
             l.color = I.makeHexColor(...i), l.opacity = c || 1, o && (l.#g = e.thickness), l._initialData = r, e.comment && l.setCommentData(e);
-            let [u, d] = l.pageDimensions, [p, m] = l.pageTranslation;
+            let [u, f] = l.pageDimensions, [p, m] = l.pageTranslation;
             if (a) {
                 let e = l.#n = [];
                 for(let t = 0; t < a.length; t += 8)e.push({
                     x: (a[t] - p) / u,
-                    y: 1 - (a[t + 1] - m) / d,
+                    y: 1 - (a[t + 1] - m) / f,
                     width: (a[t + 2] - a[t]) / u,
-                    height: (a[t + 1] - a[t + 5]) / d
+                    height: (a[t + 1] - a[t + 5]) / f
                 });
                 l.#v(), l.#w(), l.rotate(l.rotation);
             } else if (o || s) {
                 l.#d = !0;
                 let e = (o || s.points)[0], n = {
                     x: e[0] - p,
-                    y: d - (e[1] - m)
-                }, r = new Pi(n, [
+                    y: f - (e[1] - m)
+                }, r = new Ni(n, [
                     0,
                     0,
                     u,
-                    d
+                    f
                 ], 1, l.#g / 2, !0, .001);
-                for(let t = 0, i = e.length; t < i; t += 2)n.x = e[t] - p, n.y = d - (e[t + 1] - m), r.add(n);
+                for(let t = 0, i = e.length; t < i; t += 2)n.x = e[t] - p, n.y = f - (e[t + 1] - m), r.add(n);
                 let { id: i, clipPathId: a } = t.drawLayer.draw({
                     bbox: [
                         0,
@@ -15315,7 +15101,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return !1;
         }
     };
-    Li = class {
+    Ii = class {
         #e = Object.create(null);
         updateProperty(e, t) {
             this[e] = t, this.updateSVGProperty(e, t);
@@ -15339,10 +15125,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.updateProperties(e);
         }
         clone() {
-            O(`Not implemented`);
+            D(`Not implemented`);
         }
     };
-    Ri = class e extends U {
+    Li = class e extends U {
         #e = null;
         #t;
         _colorPicker = null;
@@ -15378,10 +15164,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return e;
         }
         static getDefaultDrawingOptions(e) {
-            O(`Not implemented`);
+            D(`Not implemented`);
         }
         static get typesMap() {
-            O(`Not implemented`);
+            D(`Not implemented`);
         }
         static get isDrawer() {
             return !0;
@@ -15438,7 +15224,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 undo: s.bind(this, a, o),
                 post: this._uiManager.updateUI.bind(this._uiManager, this),
                 mustExec: !0,
-                type: p.INK_COLOR_AND_OPACITY,
+                type: f.INK_COLOR_AND_OPACITY,
                 overwriteIfSameType: !0,
                 keepUndo: !0
             });
@@ -15509,16 +15295,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.parent && !e ? (this._uiManager.removeShouldRescale(this), this.#s()) : e && (this._uiManager.addShouldRescale(this), this.#c(e), t = !this.parent && this.div?.classList.contains(`selectedEditor`)), super.setParent(e), t && this.select();
         }
         #s() {
-            this._drawId === null || !this.parent || (this.parent.drawLayer.remove(this._drawId), this._drawId = null, this._drawingOptions.reset());
+            this._drawId !== null && this.parent && (this.parent.drawLayer.remove(this._drawId), this._drawId = null, this._drawingOptions.reset());
         }
         #c(e = this.parent) {
-            if (this._drawId === null || this.parent !== e) {
-                if (this._drawId !== null) {
-                    this.parent.drawLayer.updateParent(this._drawId, e.drawLayer);
-                    return;
-                }
-                this._drawingOptions.updateAll(), this._drawId = this.#o(this.#e, e);
-            }
+            (this._drawId === null || this.parent !== e) && (this._drawId === null ? (this._drawingOptions.updateAll(), this._drawId = this.#o(this.#e, e)) : this.parent.drawLayer.updateParent(this._drawId, e.drawLayer));
         }
         #l([e, t, n, r]) {
             let { parentDimensions: [i, a], rotation: o } = this;
@@ -15725,13 +15505,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return n.append(r), r.setAttribute(`aria-hidden`, `true`), r.className = `internal`, this.setDims(), this._uiManager.addShouldRescale(this), this.disableEditing(), this._isCopy && this._moveAfterPaste(e, t), n;
         }
         static createDrawerInstance(e, t, n, r, i) {
-            O(`Not implemented`);
+            D(`Not implemented`);
         }
         static startDrawing(t, n, r, i) {
             let { target: a, offsetX: o, offsetY: s, pointerId: c, pointerType: l } = i;
             if (H.isInitializedAndDifferentPointerType(l)) return;
             let { viewport: { rotation: u } } = t, { width: d, height: f } = a.getBoundingClientRect(), p = e.#r = new AbortController, m = t.combinedSignal(p);
-            if (H.setPointer(l, c), window.addEventListener(`pointerup`, (e)=>{
+            H.setPointer(l, c), window.addEventListener(`pointerup`, (e)=>{
                 H.isSamePointerIdOrRemove(e.pointerId) && this._endDraw(e);
             }, {
                 signal: m
@@ -15753,22 +15533,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 H.isSameTimeStamp(e.timeStamp) && z(e);
             }, {
                 signal: m
-            }), t.toggleDrawing(), n._editorUndoBar?.hide(), e.#n) {
-                t.drawLayer.updateProperties(this._currentDrawId, e.#n.startNew(o, s, d, f, u));
-                return;
-            }
-            n.updateUIForDefaultProperties(this), e.#n = this.createDrawerInstance(o, s, d, f, u), e.#i = this.getDefaultDrawingOptions(), this._currentParent = t, { id: this._currentDrawId } = t.drawLayer.draw(this._mergeSVGProperties(e.#i.toSVGProperties(), e.#n.defaultSVGProperties), !0, !1);
+            }), t.toggleDrawing(), n._editorUndoBar?.hide(), e.#n ? t.drawLayer.updateProperties(this._currentDrawId, e.#n.startNew(o, s, d, f, u)) : (n.updateUIForDefaultProperties(this), e.#n = this.createDrawerInstance(o, s, d, f, u), e.#i = this.getDefaultDrawingOptions(), this._currentParent = t, { id: this._currentDrawId } = t.drawLayer.draw(this._mergeSVGProperties(e.#i.toSVGProperties(), e.#n.defaultSVGProperties), !0, !1));
         }
         static _drawMove(t) {
             if (H.isSameTimeStamp(t.timeStamp), !e.#n) return;
             let { offsetX: n, offsetY: r, pointerId: i } = t;
-            if (H.isSamePointerId(i)) {
-                if (H.isUsingMultiplePointers()) {
-                    this._endDraw(t);
-                    return;
-                }
-                this._currentParent.drawLayer.updateProperties(this._currentDrawId, e.#n.add(n, r)), H.setTimeStamp(t.timeStamp), z(t);
-            }
+            H.isSamePointerId(i) && (H.isUsingMultiplePointers() ? this._endDraw(t) : (this._currentParent.drawLayer.updateProperties(this._currentDrawId, e.#n.add(n, r)), H.setTimeStamp(t.timeStamp), z(t)));
         }
         static _cleanup(t) {
             t && (this._currentDrawId = -1, this._currentParent = null, e.#n = null, e.#i = null, H.clearTimeStamp()), e.#r && (e.#r.abort(), e.#r = null, H.clearPointerIds());
@@ -15786,17 +15556,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                             n.drawLayer.updateProperties(r, t.removeLastElement());
                         },
                         mustExec: !1,
-                        type: p.DRAW_STEP
+                        type: f.DRAW_STEP
                     });
-                    return;
-                }
-                this.endDrawing(!1);
+                } else this.endDrawing(!1);
             }
         }
         static endDrawing(t) {
             let n = this._currentParent;
             if (!n) return null;
-            if (n.toggleDrawing(!0), n.cleanUndoStack(p.DRAW_STEP), !e.#n.isEmpty()) {
+            if (n.toggleDrawing(!0), n.cleanUndoStack(f.DRAW_STEP), !e.#n.isEmpty()) {
                 let { pageDimensions: [r, i], scale: a } = n, o = n.createAndAddNewEditor({
                     offsetX: 0,
                     offsetY: 0
@@ -15812,7 +15580,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         createDrawingOptions(e) {}
         static deserializeDraw(e, t, n, r, i, a) {
-            O(`Not implemented`);
+            D(`Not implemented`);
         }
         static async deserialize(e, t, n) {
             let { rawDims: { pageWidth: r, pageHeight: i, pageX: a, pageY: o } } = t.viewport, s = this.deserializeDraw(a, o, r, i, this._INNER_MARGIN, e), c = await super.deserialize(e, t, n);
@@ -15838,7 +15606,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return !1;
         }
     };
-    zi = class {
+    Ri = class {
         #e = new Float64Array(6);
         #t;
         #n;
@@ -15847,7 +15615,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #a;
         #o = ``;
         #s = 0;
-        #c = new Bi;
+        #c = new zi;
         #l;
         #u;
         constructor(e, t, n, r, i, a){
@@ -15997,7 +15765,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
         }
     };
-    Bi = class extends $ {
+    zi = class extends $ {
         #e;
         #t = 0;
         #n;
@@ -16029,19 +15797,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         toSVGPath() {
             let e = [];
-            for (let { line: t } of this.#r){
-                if (e.push(`M${$.svgRound(t[4])} ${$.svgRound(t[5])}`), t.length === 6) {
-                    e.push(`Z`);
-                    continue;
-                }
-                if (t.length === 12 && isNaN(t[6])) {
-                    e.push(`L${$.svgRound(t[10])} ${$.svgRound(t[11])}`);
-                    continue;
-                }
-                for(let n = 6, r = t.length; n < r; n += 6){
-                    let [r, i, a, o, s, c] = t.subarray(n, n + 6).map($.svgRound);
-                    e.push(`C${r} ${i} ${a} ${o} ${s} ${c}`);
-                }
+            for (let { line: t } of this.#r)if (e.push(`M${$.svgRound(t[4])} ${$.svgRound(t[5])}`), t.length === 6) e.push(`Z`);
+            else if (t.length === 12 && isNaN(t[6])) e.push(`L${$.svgRound(t[10])} ${$.svgRound(t[11])}`);
+            else for(let n = 6, r = t.length; n < r; n += 6){
+                let [r, i, a, o, s, c] = t.subarray(n, n + 6).map($.svgRound);
+                e.push(`C${r} ${i} ${a} ${o} ${s} ${c}`);
             }
             return e.join(``);
         }
@@ -16168,7 +15928,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ];
         }
         #d() {
-            let e = this.#e = a.slice();
+            let e = this.#e = i.slice();
             for (let { line: t } of this.#r){
                 if (t.length <= 12) {
                     for(let n = 4, r = t.length; n < r; n += 6)I.pointBoundingBox(t[n], t[n + 1], e);
@@ -16327,7 +16087,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
         }
     };
-    Vi = class e extends Li {
+    Bi = class e extends Ii {
         constructor(e){
             super(), this._viewParameters = e, super.updateProperties({
                 fill: `none`,
@@ -16347,9 +16107,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return t.updateAll(this), t;
         }
     };
-    Hi = class e extends Ri {
+    Vi = class e extends Li {
         static _type = `ink`;
-        static _editorType = f.INK;
+        static _editorType = d.INK;
         static _defaultDrawingOptions = null;
         constructor(e){
             super({
@@ -16358,7 +16118,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }), this._willKeepAspectRatio = !0, this.defaultL10nId = `pdfjs-editor-ink-editor`;
         }
         static initialize(e, t) {
-            U.initialize(e, t), this._defaultDrawingOptions = new Vi(t.viewParameters);
+            U.initialize(e, t), this._defaultDrawingOptions = new Bi(t.viewParameters);
         }
         static getDefaultDrawingOptions(e) {
             let t = this._defaultDrawingOptions.clone();
@@ -16370,31 +16130,31 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         static get typesMap() {
             return M(this, `typesMap`, new Map([
                 [
-                    p.INK_THICKNESS,
+                    f.INK_THICKNESS,
                     `stroke-width`
                 ],
                 [
-                    p.INK_COLOR,
+                    f.INK_COLOR,
                     `stroke`
                 ],
                 [
-                    p.INK_OPACITY,
+                    f.INK_OPACITY,
                     `stroke-opacity`
                 ]
             ]));
         }
         static createDrawerInstance(e, t, n, r, i) {
-            return new zi(e, t, n, r, i, this._defaultDrawingOptions[`stroke-width`]);
+            return new Ri(e, t, n, r, i, this._defaultDrawingOptions[`stroke-width`]);
         }
         static deserializeDraw(e, t, n, r, i, a) {
-            return Bi.deserialize(e, t, n, r, i, a);
+            return zi.deserialize(e, t, n, r, i, a);
         }
         static async deserialize(e, t, n) {
             let r = null;
-            if (e instanceof yi) {
-                let { data: { inkLists: t, rect: n, rotation: i, id: a, color: o, opacity: s, borderStyle: { rawWidth: c }, popupRef: l, richText: u, contentsObj: d, creationDate: p, modificationDate: m }, parent: { page: { pageNumber: h } } } = e;
+            if (e instanceof vi) {
+                let { data: { inkLists: t, rect: n, rotation: i, id: a, color: o, opacity: s, borderStyle: { rawWidth: c }, popupRef: l, richText: u, contentsObj: f, creationDate: p, modificationDate: m }, parent: { page: { pageNumber: h } } } = e;
                 r = e = {
-                    annotationType: f.INK,
+                    annotationType: d.INK,
                     color: Array.from(o),
                     thickness: c,
                     opacity: s,
@@ -16410,7 +16170,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     deleted: !1,
                     popupRef: l,
                     richText: u,
-                    comment: d?.str || null,
+                    comment: f?.str || null,
                     creationDate: p,
                     modificationDate: m
                 };
@@ -16419,7 +16179,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return i._initialData = r, e.comment && i.setCommentData(e), i;
         }
         get toolbarButtons() {
-            return this._colorPicker ||= new Wr(this), [
+            return this._colorPicker ||= new Ur(this), [
                 [
                     `colorPicker`,
                     this._colorPicker
@@ -16427,27 +16187,19 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             ];
         }
         get colorType() {
-            return p.INK_COLOR;
+            return f.INK_COLOR;
         }
         get colorAndOpacityType() {
-            return p.INK_COLOR_AND_OPACITY;
+            return f.INK_COLOR_AND_OPACITY;
         }
         get opacityType() {
-            return p.INK_OPACITY;
+            return f.INK_OPACITY;
         }
         updateParams(e, t) {
-            if (e === p.INK_COLOR_AND_OPACITY) {
-                this._updateColorAndOpacity(t.color, t.opacity);
-                return;
-            }
-            super.updateParams(e, t);
+            e === f.INK_COLOR_AND_OPACITY ? this._updateColorAndOpacity(t.color, t.opacity) : super.updateParams(e, t);
         }
         static updateDefaultParams(e, t) {
-            if (e === p.INK_COLOR_AND_OPACITY) {
-                super.updateDefaultParams(p.INK_COLOR, t.color), super.updateDefaultParams(p.INK_OPACITY, t.opacity);
-                return;
-            }
-            super.updateDefaultParams(e, t);
+            e === f.INK_COLOR_AND_OPACITY ? (super.updateDefaultParams(f.INK_COLOR, t.color), super.updateDefaultParams(f.INK_OPACITY, t.opacity)) : super.updateDefaultParams(e, t);
         }
         get color() {
             return this._drawingOptions.stroke;
@@ -16501,15 +16253,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }), null;
         }
     };
-    Ui = class extends Bi {
+    Hi = class extends zi {
         toSVGPath() {
             let e = super.toSVGPath();
             return e.endsWith(`Z`) || (e += `Z`), e;
         }
     };
-    Wi = 8;
-    Gi = 3;
-    Ki = class {
+    Ui = 8;
+    Wi = 3;
+    Gi = class {
         static #e = {
             maxDim: 512,
             sigmaSFactor: .02,
@@ -16792,7 +16544,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 }
             }
             if (d.length === 0) return null;
-            let g = o ? new Ui : new Bi;
+            let g = o ? new Hi : new zi;
             return g.build(d, t, n, 1, r, o ? 0 : u, i), {
                 outline: g,
                 newCurves: h,
@@ -16813,7 +16565,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
             let c;
             c = a >= -128 && o <= 127 ? Int8Array : a >= -32768 && o <= 32767 ? Int16Array : Int32Array;
-            let l = e.length, u = Wi + Gi * l, d = new Uint32Array(u), f = 0;
+            let l = e.length, u = Ui + Wi * l, d = new Uint32Array(u), f = 0;
             d[f++] = u * Uint32Array.BYTES_PER_ELEMENT + (s - 2 * l) * c.BYTES_PER_ELEMENT, d[f++] = 0, d[f++] = r, d[f++] = i, d[f++] = +!t, d[f++] = Math.max(0, Math.floor(n ?? 0)), d[f++] = l, d[f++] = c.BYTES_PER_ELEMENT;
             for (let t of e)d[f++] = t.length - 2, d[f++] = t[0], d[f++] = t[1];
             let p = new CompressionStream(`deflate-raw`), m = p.writable.getWriter();
@@ -16836,7 +16588,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 for await (let e of n)a ||= new Uint8Array(new Uint32Array(e.buffer, 0, 4)[0]), a.set(e, o), o += e.length;
                 let s = new Uint32Array(a.buffer, 0, a.length >> 2), c = s[1];
                 if (c !== 0) throw Error(`Invalid version: ${c}`);
-                let l = s[2], u = s[3], d = s[4] === 0, f = s[5], p = s[6], m = s[7], h = [], g = (Wi + Gi * p) * Uint32Array.BYTES_PER_ELEMENT, _;
+                let l = s[2], u = s[3], d = s[4] === 0, f = s[5], p = s[6], m = s[7], h = [], g = (Ui + Wi * p) * Uint32Array.BYTES_PER_ELEMENT, _;
                 switch(m){
                     case Int8Array.BYTES_PER_ELEMENT:
                         _ = new Int8Array(a.buffer, g);
@@ -16849,9 +16601,9 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 }
                 o = 0;
                 for(let e = 0; e < p; e++){
-                    let t = s[Gi * e + Wi], n = new Float32Array(t + 2);
+                    let t = s[Wi * e + Ui], n = new Float32Array(t + 2);
                     h.push(n);
-                    for(let t = 0; t < 2; t++)n[t] = s[Gi * e + Wi + t + 1];
+                    for(let t = 0; t < 2; t++)n[t] = s[Wi * e + Ui + t + 1];
                     for(let e = 0; e < t; e++)n[e + 2] = n[e] + _[o++];
                 }
                 return {
@@ -16862,11 +16614,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     height: u
                 };
             } catch (e) {
-                return D(`decompressSignature: ${e}`), null;
+                return E(`decompressSignature: ${e}`), null;
             }
         }
     };
-    qi = class e extends Li {
+    Ki = class e extends Ii {
         constructor(){
             super(), super.updateProperties({
                 fill: U._defaultLineColor,
@@ -16878,7 +16630,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return t.updateAll(this), t;
         }
     };
-    Ji = class e extends Vi {
+    qi = class e extends Bi {
         constructor(e){
             super(e), super.updateProperties({
                 stroke: U._defaultLineColor,
@@ -16890,13 +16642,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return t.updateAll(this), t;
         }
     };
-    Yi = class e extends Ri {
+    Ji = class e extends Li {
         #e = !1;
         #t = null;
         #n = null;
         #r = null;
         static _type = `signature`;
-        static _editorType = f.SIGNATURE;
+        static _editorType = d.SIGNATURE;
         static _defaultDrawingOptions = null;
         constructor(e){
             super({
@@ -16906,7 +16658,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }), this._willKeepAspectRatio = !0, this.#n = e.signatureData || null, this.#t = null, this.defaultL10nId = `pdfjs-editor-signature-editor1`;
         }
         static initialize(e, t) {
-            U.initialize(e, t), this._defaultDrawingOptions = new qi, this._defaultDrawnSignatureOptions = new Ji(t.viewParameters);
+            U.initialize(e, t), this._defaultDrawingOptions = new Ki, this._defaultDrawnSignatureOptions = new qi(t.viewParameters);
         }
         static getDefaultDrawingOptions(e) {
             let t = this._defaultDrawingOptions.clone();
@@ -16945,7 +16697,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let t, n, { _isCopy: r } = this;
             if (r && (this._isCopy = !1, t = this.x, n = this.y), super.render(), this._drawId === null) {
                 if (this.#n) {
-                    let { lines: t, mustSmooth: n, areContours: r, description: i, uuid: a, heightInPage: o } = this.#n, { rawDims: { pageWidth: s, pageHeight: c }, rotation: l } = this.parent.viewport, u = Ki.processDrawnLines({
+                    let { lines: t, mustSmooth: n, areContours: r, description: i, uuid: a, heightInPage: o } = this.#n, { rawDims: { pageWidth: s, pageHeight: c }, rotation: l } = this.parent.viewport, u = Gi.processDrawnLines({
                         lines: t,
                         pageWidth: s,
                         pageHeight: c,
@@ -16983,7 +16735,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let { newCurves: e, areContours: t, thickness: n, width: r, height: i } = this.#n, a = Math.max(r, i);
             return {
                 areContours: t,
-                outline: Ki.processDrawnLines({
+                outline: Gi.processDrawnLines({
                     lines: {
                         curves: e.map((e)=>({
                                 points: e
@@ -17011,7 +16763,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         addSignature(t, n, r, i) {
             let { x: a, y: o } = this, { outline: s } = this.#n = t;
-            this.#e = s instanceof Ui, this.description = r;
+            this.#e = s instanceof Hi, this.description = r;
             let c;
             this.#e ? c = e.getDefaultDrawingOptions() : (c = e._defaultDrawnSignatureOptions.clone(), c.updateProperties({
                 "stroke-width": s.thickness
@@ -17030,15 +16782,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         getFromImage(t) {
             let { rawDims: { pageWidth: n, pageHeight: r }, rotation: i } = this.parent.viewport;
-            return Ki.process(t, n, r, i, e._INNER_MARGIN);
+            return Gi.process(t, n, r, i, e._INNER_MARGIN);
         }
         getFromText(t, n) {
             let { rawDims: { pageWidth: r, pageHeight: i }, rotation: a } = this.parent.viewport;
-            return Ki.extractContoursFromText(t, n, r, i, a, e._INNER_MARGIN);
+            return Gi.extractContoursFromText(t, n, r, i, a, e._INNER_MARGIN);
         }
         getDrawnSignature(t) {
             let { rawDims: { pageWidth: n, pageHeight: r }, rotation: i } = this.parent.viewport;
-            return Ki.processDrawnLines({
+            return Gi.processDrawnLines({
                 lines: t,
                 pageWidth: n,
                 pageHeight: r,
@@ -17074,14 +16826,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }), i;
         }
         static deserializeDraw(e, t, n, r, i, a) {
-            return a.areContours ? Ui.deserialize(e, t, n, r, i, a) : Bi.deserialize(e, t, n, r, i, a);
+            return a.areContours ? Hi.deserialize(e, t, n, r, i, a) : zi.deserialize(e, t, n, r, i, a);
         }
         static async deserialize(e, t, n) {
             let r = await super.deserialize(e, t, n);
             return r.#e = e.areContours, r.description = e.accessibilityData?.alt || ``, r.#r = e.uuid, r;
         }
     };
-    Xi = class extends U {
+    Yi = class extends U {
         #e = null;
         #t = null;
         #n = null;
@@ -17094,7 +16846,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #l = !1;
         #u = !1;
         static _type = `stamp`;
-        static _editorType = f.STAMP;
+        static _editorType = d.STAMP;
         constructor(e){
             super({
                 ...e,
@@ -17105,11 +16857,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             U.initialize(e, t);
         }
         static isHandlingMimeForPasting(e) {
-            return ze.includes(e);
+            return Re.includes(e);
         }
         static paste(e, t) {
             t.pasteEditor({
-                mode: f.STAMP
+                mode: d.STAMP
             }, {
                 bitmapFile: e.getAsFile()
             });
@@ -17131,33 +16883,28 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             };
         }
         #d(e, t = !1) {
-            if (!e) {
-                this.remove();
-                return;
-            }
-            this.#e = e.bitmap, t || (this.#t = e.id, this.#l = e.isSvg), e.file && (this.#a = e.file.name), this.#m();
+            e ? (this.#e = e.bitmap, t || (this.#t = e.id, this.#l = e.isSvg), e.file && (this.#a = e.file.name), this.#m()) : this.remove();
         }
         #f() {
             if (this.#n = null, this._uiManager.enableWaiting(!1), this.#o) {
-                if (this._uiManager.useNewAltTextWhenAddingImage && this._uiManager.useNewAltTextFlow && this.#e) {
-                    this.addEditToolbar().then(()=>{
-                        this._editToolbar.hide(), this._uiManager.editAltText(this, !0);
-                    });
-                    return;
+                if (this._uiManager.useNewAltTextWhenAddingImage && this._uiManager.useNewAltTextFlow && this.#e) this.addEditToolbar().then(()=>{
+                    this._editToolbar.hide(), this._uiManager.editAltText(this, !0);
+                });
+                else {
+                    if (!this._uiManager.useNewAltTextWhenAddingImage && this._uiManager.useNewAltTextFlow && this.#e) {
+                        this._reportTelemetry({
+                            action: `pdfjs.image.image_added`,
+                            data: {
+                                alt_text_modal: !1,
+                                alt_text_type: `empty`
+                            }
+                        });
+                        try {
+                            this.mlGuessAltText();
+                        } catch  {}
+                    }
+                    this.div.focus();
                 }
-                if (!this._uiManager.useNewAltTextWhenAddingImage && this._uiManager.useNewAltTextFlow && this.#e) {
-                    this._reportTelemetry({
-                        action: `pdfjs.image.image_added`,
-                        data: {
-                            alt_text_modal: !1,
-                            alt_text_type: `empty`
-                        }
-                    });
-                    try {
-                        this.mlGuessAltText();
-                    } catch  {}
-                }
-                this.div.focus();
             }
         }
         async mlGuessAltText(e = null, t = !0) {
@@ -17200,7 +16947,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 return;
             }
             let e = document.createElement(`input`);
-            e.type = `file`, e.accept = ze.join(`,`);
+            e.type = `file`, e.accept = Re.join(`,`);
             let t = this._uiManager._signal;
             this.#n = new Promise((n)=>{
                 e.addEventListener(`change`, async ()=>{
@@ -17229,11 +16976,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#t && (this.#e = null, this._uiManager.imageManager.deleteId(this.#t), this.#o?.remove(), this.#o = null, this.#c &&= (clearTimeout(this.#c), null)), super.remove();
         }
         rebuild() {
-            if (!this.parent) {
-                this.#t && this.#p();
-                return;
-            }
-            super.rebuild(), this.div !== null && (this.#t && this.#o === null && this.#p(), this.isAttachedToDOM || this.parent.add(this));
+            this.parent ? (super.rebuild(), this.div !== null && (this.#t && this.#o === null && this.#p(), this.isAttachedToDOM || this.parent.add(this))) : this.#t && this.#p();
         }
         onceAdded(e) {
             this._isDraggable = !0, e && this.div.focus();
@@ -17278,13 +17021,13 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
             this._uiManager.enableWaiting(!1);
             let o = this.#o = document.createElement(`canvas`);
-            o.setAttribute(`role`, `img`), this.addContainer(o), this.width = t / r, this.height = n / i, this.setDims(), this._initialOptions?.isCentered ? this.center() : this.fixAndSetPosition(), this._initialOptions = null, (!this._uiManager.useNewAltTextWhenAddingImage || !this._uiManager.useNewAltTextFlow || this.annotationElementId) && (e.hidden = !1), this.#g(), this.#u ||= (this.parent.addUndoableEditor(this), !0), this._reportTelemetry({
+            o.setAttribute(`role`, `img`), this.addContainer(o), this.width = t / r, this.height = n / i, this.setDims(), this._initialOptions?.isCentered ? this.center() : this.fixAndSetPosition(), this._initialOptions = null, this._uiManager.useNewAltTextWhenAddingImage && this._uiManager.useNewAltTextFlow && !this.annotationElementId || (e.hidden = !1), this.#g(), this.#u ||= (this.parent.addUndoableEditor(this), !0), this._reportTelemetry({
                 action: `inserted_image`
             }), this.#a && this.div.setAttribute(`aria-description`, this.#a), this.annotationElementId || this._uiManager.a11yAlert(U._l10nAlert.stamp);
         }
         copyCanvas(e, t, n = !1) {
             e ||= 224;
-            let { width: r, height: i } = this.#e, a = new Re, o = this.#e, s = r, c = i, l = null;
+            let { width: r, height: i } = this.#e, a = new Le, o = this.#e, s = r, c = i, l = null;
             if (t) {
                 if (r > t || i > t) {
                     let e = Math.min(t / r, t / i);
@@ -17296,7 +17039,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 let u = l.getContext(`2d`);
                 u.filter = this._uiManager.hcmFilter;
                 let d = `white`, f = `#cfcfd8`;
-                this._uiManager.hcmFilter === `none` ? Be.isDarkMode && (d = `#8f8f9d`, f = `#42414d`) : f = `black`;
+                this._uiManager.hcmFilter === `none` ? ze.isDarkMode && (d = `#8f8f9d`, f = `#42414d`) : f = `black`;
                 let p = 15 * a.sx, m = 15 * a.sy, h = new OffscreenCanvas(p * 2, m * 2), g = h.getContext(`2d`);
                 g.fillStyle = d, g.fillRect(0, 0, p * 2, m * 2), g.fillStyle = f, g.fillRect(0, 0, p, m), g.fillRect(p, m, p, m), u.fillStyle = u.createPattern(h, `repeat`), u.fillRect(0, 0, e, n), u.drawImage(o, 0, 0, o.width, o.height, 0, 0, e, n);
             }
@@ -17335,7 +17078,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return o;
         }
         #g() {
-            let [e, t] = this.parentDimensions, { width: n, height: r } = this, i = new Re, a = Math.ceil(n * e * i.sx), o = Math.ceil(r * t * i.sy), s = this.#o;
+            let [e, t] = this.parentDimensions, { width: n, height: r } = this, i = new Le, a = Math.ceil(n * e * i.sx), o = Math.ceil(r * t * i.sy), s = this.#o;
             if (!s || s.width === a && s.height === o) return;
             s.width = a, s.height = o;
             let c = this.#l ? this.#e : this.#h(a, o), l = s.getContext(`2d`);
@@ -17351,19 +17094,19 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 return { width: e.width, height: e.height } = this.#e, e.getContext(`2d`).drawImage(this.#e, 0, 0), e.toDataURL();
             }
             if (this.#l) {
-                let [e, t] = this.pageDimensions, n = Math.round(this.width * e * we.PDF_TO_CSS_UNITS), r = Math.round(this.height * t * we.PDF_TO_CSS_UNITS), i = new OffscreenCanvas(n, r);
+                let [e, t] = this.pageDimensions, n = Math.round(this.width * e * Ce.PDF_TO_CSS_UNITS), r = Math.round(this.height * t * Ce.PDF_TO_CSS_UNITS), i = new OffscreenCanvas(n, r);
                 return i.getContext(`2d`).drawImage(this.#e, 0, 0, this.#e.width, this.#e.height, 0, 0, n, r), i.transferToImageBitmap();
             }
             return structuredClone(this.#e);
         }
         static async deserialize(e, t, n) {
             let r = null, i = !1;
-            if (e instanceof wi) {
-                let { data: { rect: a, rotation: o, id: s, structParent: c, popupRef: l, richText: d, contentsObj: p, creationDate: m, modificationDate: h }, container: g, parent: { page: { pageNumber: _ } }, canvas: v } = e, y, b;
+            if (e instanceof Ci) {
+                let { data: { rect: a, rotation: o, id: s, structParent: c, popupRef: u, richText: f, contentsObj: p, creationDate: m, modificationDate: h }, container: g, parent: { page: { pageNumber: _ } }, canvas: v } = e, y, b;
                 v ? (delete e.canvas, { id: y, bitmap: b } = n.imageManager.getFromCanvas(g.id, v), v.remove()) : (i = !0, e._hasNoCanvas = !0);
-                let x = (await t._structTree.getAriaAttributes(`${u}${s}`))?.get(`aria-label`) || ``;
+                let x = (await t._structTree.getAriaAttributes(`${l}${s}`))?.get(`aria-label`) || ``;
                 r = e = {
-                    annotationType: f.STAMP,
+                    annotationType: d.STAMP,
                     bitmapId: y,
                     bitmap: b,
                     pageIndex: _ - 1,
@@ -17378,15 +17121,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     },
                     isSvg: !1,
                     structParent: c,
-                    popupRef: l,
-                    richText: d,
+                    popupRef: u,
+                    richText: f,
                     comment: p?.str || null,
                     creationDate: m,
                     modificationDate: h
                 };
             }
-            let a = await super.deserialize(e, t, n), { rect: o, bitmap: s, bitmapUrl: c, bitmapId: l, isSvg: d, accessibilityData: p } = e;
-            i ? (n.addMissingCanvas(e.id, a), a.#s = !0) : l && n.imageManager.isValidId(l) ? (a.#t = l, s && (a.#e = s)) : a.#r = c, a.#l = d;
+            let a = await super.deserialize(e, t, n), { rect: o, bitmap: s, bitmapUrl: c, bitmapId: u, isSvg: f, accessibilityData: p } = e;
+            i ? (n.addMissingCanvas(e.id, a), a.#s = !0) : u && n.imageManager.isValidId(u) ? (a.#t = u, s && (a.#e = s)) : a.#r = c, a.#l = f;
             let [m, h] = a.pageDimensions;
             return a.width = (o[2] - o[0]) / m, a.height = (o[3] - o[1]) / h, p && (a.altTextData = p), a._initialData = r, e.comment && a.setCommentData(e), a.#u = !!r, a;
         }
@@ -17433,7 +17176,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }), null);
         }
     };
-    Zi = class e {
+    Xi = class e {
         #e;
         #t = !1;
         #n = null;
@@ -17452,11 +17195,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         #h;
         static _initialized = !1;
         static #g = new Map([
-            ki,
-            Hi,
-            Xi,
-            Ii,
-            Yi
+            Oi,
+            Vi,
+            Yi,
+            Fi,
+            Ji
         ].map((e)=>[
                 e._editorType,
                 e
@@ -17475,20 +17218,20 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#a.size === 0;
         }
         get isInvisible() {
-            return this.isEmpty && this.#h.getMode() === f.NONE;
+            return this.isEmpty && this.#h.getMode() === d.NONE;
         }
         updateToolbar(e) {
             this.#h.updateToolbar(e);
         }
         updateMode(t = this.#h.getMode()) {
             switch(this.#S(), t){
-                case f.NONE:
+                case d.NONE:
                     this.div.classList.toggle(`nonEditing`, !0), this.disableTextSelection(), this.togglePointerEvents(!1), this.toggleAnnotationLayerPointerEvents(!0), this.disableClick();
                     return;
-                case f.INK:
+                case d.INK:
                     this.disableTextSelection(), this.togglePointerEvents(!0), this.enableClick();
                     break;
-                case f.HIGHLIGHT:
+                case d.HIGHLIGHT:
                     this.enableTextSelection(), this.togglePointerEvents(!1), this.disableClick();
                     break;
                 default:
@@ -17496,7 +17239,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
             this.toggleAnnotationLayerPointerEvents(!1);
             let { classList: n } = this.div;
-            if (n.toggle(`nonEditing`, !1), t === f.POPUP) n.toggle(`commentEditing`, !0);
+            if (n.toggle(`nonEditing`, !1), t === d.POPUP) n.toggle(`commentEditing`, !0);
             else {
                 n.toggle(`commentEditing`, !1);
                 for (let r of e.#g.values())n.toggle(`${r._type}Editing`, t === r._editorType);
@@ -17557,7 +17300,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                     i.toggle(`getElements`, !0);
                     let a = document.elementsFromPoint(t, n);
                     if (i.toggle(`getElements`, !1), !this.div.contains(a[0])) return;
-                    let o, s = RegExp(`^${d}[0-9]+$`);
+                    let o, s = RegExp(`^${u}[0-9]+$`);
                     for (let e of a)if (s.test(e.id)) {
                         o = e.id;
                         break;
@@ -17573,17 +17316,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             let t = this.#n, n = [];
             if (t) {
                 let e = new Map, r = new Map;
-                for (let t of this.#_){
-                    if (t.disableEditing(), !t.annotationElementId) {
-                        n.push(t);
-                        continue;
-                    }
-                    if (t.serialize() !== null) {
-                        e.set(t.annotationElementId, t);
-                        continue;
-                    }
-                    r.set(t.annotationElementId, t), this.getEditableAnnotation(t.annotationElementId)?.show(), t.remove();
-                }
+                for (let t of this.#_)t.disableEditing(), t.annotationElementId ? t.serialize() === null ? (r.set(t.annotationElementId, t), this.getEditableAnnotation(t.annotationElementId)?.show(), t.remove()) : e.set(t.annotationElementId, t) : n.push(t);
                 for (let n of t.getEditableAnnotations()){
                     let { id: t } = n.data;
                     if (this.#h.isDeletedAnnotationElement(t)) {
@@ -17593,11 +17326,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                         continue;
                     }
                     let i = r.get(t);
-                    if (i) {
-                        i.resetAnnotationElement(n), i.show(!1), n.show();
-                        continue;
-                    }
-                    i = e.get(t), i && (this.#h.addChangedExistingAnnotation(i), i.renderAnnotationElement(n) && i.show(!1)), n.show();
+                    i ? (i.resetAnnotationElement(n), i.show(!1), n.show()) : (i = e.get(t), i && (this.#h.addChangedExistingAnnotation(i), i.renderAnnotationElement(n) && i.show(!1)), n.show());
                 }
             }
             this.#S(), this.isEmpty && (this.div.hidden = !0);
@@ -17629,7 +17358,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             if (t === this.#d.div || (t.getAttribute(`role`) === `img` || t.classList.contains(`endOfContent`) || t.classList.contains(`textLayerImages`) || t.classList.contains(`textLayerImagePlaceholder`)) && this.#d.div.contains(t)) {
                 let { isMac: t } = F.platform;
                 if (e.button !== 0 || e.ctrlKey && t) return;
-                this.#h.showAllEditors(`highlight`, !0, !0), this.#d.div.classList.add(`free`), this.toggleDrawing(), Ii.startHighlighting(this, this.#h.direction === `ltr`, {
+                this.#h.showAllEditors(`highlight`, !0, !0), this.#d.div.classList.add(`free`), this.toggleDrawing(), Fi.startHighlighting(this, this.#h.direction === `ltr`, {
                     target: this.#d.div,
                     x: e.x,
                     y: e.y
@@ -17786,14 +17515,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 return;
             }
             let n = this.#h.getMode();
-            if (n === f.STAMP || n === f.POPUP || n === f.SIGNATURE) {
-                this.#h.unselectAll();
-                return;
-            }
-            this.createAndAddNewEditor(e, !1);
+            n === d.STAMP || n === d.POPUP || n === d.SIGNATURE ? this.#h.unselectAll() : this.createAndAddNewEditor(e, !1);
         }
         pointerdown(e) {
-            if (this.#h.getMode() === f.HIGHLIGHT && this.enableTextSelection(), this.#o) {
+            if (this.#h.getMode() === d.HIGHLIGHT && this.enableTextSelection(), this.#o) {
                 this.#o = !1;
                 return;
             }
@@ -17825,9 +17550,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             if (e) {
                 let { activeElement: e } = document;
                 this.div.contains(e) && (this.#u = e);
-                return;
-            }
-            this.#u && setTimeout(()=>{
+            } else this.#u && setTimeout(()=>{
                 this.#u?.focus(), this.#u = null;
             }, 0);
         }
@@ -17853,14 +17576,14 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             for (let e of this.#a.values())e.isEmpty() && e.remove();
         }
         async render({ viewport: e }) {
-            this.viewport = e, Le(this.div, e);
+            this.viewport = e, Ie(this.div, e);
             for (let e of this.#h.getEditors(this.pageIndex))this.add(e), e.rebuild();
             await this.#h.findClonesForPage(this), this.div.hidden = this.isEmpty, this.updateMode();
         }
         update({ viewport: e }) {
             this.#h.commitOrRemove(), this.#S();
             let t = this.viewport.rotation, n = e.rotation;
-            if (this.viewport = e, Le(this.div, {
+            if (this.viewport = e, Ie(this.div, {
                 rotation: n
             }), t !== n) for (let e of this.#a.values())e.rotate(n);
         }
@@ -17875,18 +17598,18 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return this.#h.viewParameters.realScale;
         }
     };
-    function Qi(e, t) {
+    function Zi(e, t) {
         return e === t ? 0 : e.compareDocumentPosition(t) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
     }
-    function $i(e) {
+    function Qi(e) {
         return e ? e.nodeType === Node.ELEMENT_NODE ? e.closest(`.textLayer`) : e.parentElement?.closest(`.textLayer`) || null : null;
     }
-    function ea(e, t, n, r) {
+    function $i(e, t, n, r) {
         if (e === n) return t <= r;
         let i = e.compareDocumentPosition(n);
         return i & Node.DOCUMENT_POSITION_FOLLOWING ? !0 : i & Node.DOCUMENT_POSITION_PRECEDING ? !1 : null;
     }
-    function ta(e, t, n) {
+    function ea(e, t, n) {
         if (e.nodeType !== Node.ELEMENT_NODE || !e.classList.contains(`textLayer`) || t !== e.childNodes.length) return {
             container: e,
             offset: t
@@ -17900,7 +17623,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             offset: r.childNodes.length
         };
     }
-    na = class e {
+    ta = class e {
         #e = null;
         #t = new Map;
         #n = null;
@@ -17921,7 +17644,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 if (t?.selectionDiv && (t.selectionDiv.remove(), e.#u.delete(t.selectionDiv)), e.#p.set(i, {
                     drawLayer: this
                 }), e.#f.add(i), this.#n = i, this.#a = new MutationObserver((t)=>{
-                    if (!(!this.#e || !this.#n?.isConnected || !e.#h())) {
+                    if (this.#e && this.#n?.isConnected && e.#h()) {
                         for (let { addedNodes: n } of t)for (let t of n)if (t.nodeType === Node.ELEMENT_NODE && t.classList.contains(`endOfContent`)) {
                             e.#_();
                             return;
@@ -17951,11 +17674,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
         }
         setParent(t) {
-            if (!this.#e) {
-                this.#e = t, this.#n?.isConnected && e.#h() && e.#_();
-                return;
-            }
-            if (this.#e !== t) {
+            if (!this.#e) this.#e = t, this.#n?.isConnected && e.#h() && e.#_();
+            else if (this.#e !== t) {
                 if (this.#t.size > 0) for (let e of this.#t.values())e.remove(), t.append(e);
                 this.#e = t;
             }
@@ -17969,7 +17689,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return !!e && !e.isCollapsed;
         }
         static #g() {
-            return this.#f.keys().filter((e)=>e.isConnected).toArray().sort(Qi);
+            return this.#f.keys().filter((e)=>e.isConnected).toArray().sort(Zi);
         }
         static #_() {
             let t = document.getSelection();
@@ -17982,10 +17702,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             for(let e = 0, n = t.rangeCount; e < n; e++){
                 let n = t.getRangeAt(e);
                 if (n.collapsed) continue;
-                let { startContainer: a, startOffset: o, endContainer: s, endOffset: c } = n, l = $i(a), u = $i(s), d = l === null, f = u === null;
+                let { startContainer: a, startOffset: o, endContainer: s, endOffset: c } = n, l = Qi(a), u = Qi(s), d = l === null, f = u === null;
                 if (this.#d && d !== f) return;
                 if (t.rangeCount === 1) {
-                    let { anchorNode: e, anchorOffset: n, focusNode: r, focusOffset: i } = t, d = $i(e), f = $i(r), p = ea(e, n, r, i);
+                    let { anchorNode: e, anchorOffset: n, focusNode: r, focusOffset: i } = t, d = Qi(e), f = Qi(r), p = $i(e, n, r, i);
                     d && f && p !== null && (p ? (a = e, o = n, l = d, s = r, c = i, u = f) : (a = r, o = i, l = f, s = e, c = n, u = d));
                 }
                 let p = r.filter((e)=>n.intersectsNode(e));
@@ -17997,24 +17717,21 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                         if (!e) continue;
                         s = e, c = e.nodeType === Node.TEXT_NODE ? e.textContent.length : e.childNodes.length;
                     } else if (s.classList.contains(`textLayer`) && s.childNodes.length === c) {
-                        let e = ta(s, c, u);
+                        let e = ea(s, c, u);
                         if (!e) continue;
                         s = e.container, c = e.offset;
                     }
                 }
                 if (a.nodeType === Node.ELEMENT_NODE) {
-                    let e = ta(a, o, l);
+                    let e = ea(a, o, l);
                     if (!e) continue;
                     a = e.container, o = e.offset;
                 }
-                if (l === u && !m && p.includes(l)) {
-                    i.push([
-                        n,
-                        l
-                    ]);
-                    continue;
-                }
-                for (let e of p){
+                if (l === u && !m && p.includes(l)) i.push([
+                    n,
+                    l
+                ]);
+                else for (let e of p){
                     let t = e.firstChild;
                     if (!t) continue;
                     let n = document.createRange();
@@ -18067,7 +17784,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
         }
         static get _svgFactory() {
-            return M(this, `_svgFactory`, new Yr);
+            return M(this, `_svgFactory`, new Jr);
         }
         static #v(e, [t, n, r, i]) {
             let { style: a } = e;
@@ -18153,10 +17870,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             this.#t.clear(), this.#o.clear(), this.#a?.disconnect(), this.#a = null, this.#n &&= (e.#p.get(this.#n)?.drawLayer === this && (e.#m(this.#n), e.#p.delete(this.#n), e.#f.delete(this.#n), e.#f.size === 0 && (e.#l?.abort(), e.#l = null, e.#d = !1)), null);
         }
     };
-    function ra(e) {
+    function na(e) {
         return `${(e * 100).toFixed(2)}%`;
     }
-    ia = class e {
+    ra = class e {
         #e = [];
         #t = new Map;
         #n = null;
@@ -18201,10 +17918,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             return u.className = `textLayerImagePlaceholder`, u.width = 0, u.height = 0, Object.assign(u.style, {
                 opacity: 0,
                 position: `absolute`,
-                left: ra(e),
-                top: ra(t),
-                width: ra(o / this.#i),
-                height: ra(s / this.#a),
+                left: na(e),
+                top: na(t),
+                width: na(o / this.#i),
+                height: na(s / this.#a),
                 transformOrigin: `0% 0%`,
                 transform: `matrix(${c.join(`,`)})`
             }), this.#t.set(u, {
@@ -18217,70 +17934,70 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
     };
     globalThis._pdfjsTestingUtils = {
-        HighlightOutliner: Mi
+        HighlightOutliner: ji
     }, globalThis.pdfjsLib = {
         AbortException: P,
-        AnnotationEditorLayer: Zi,
-        AnnotationEditorParamsType: p,
-        AnnotationEditorType: f,
-        AnnotationEditorUIManager: ot,
-        AnnotationLayer: Di,
-        AnnotationMode: l,
-        AnnotationType: _,
-        applyOpacity: He,
-        build: Hr,
-        ColorPicker: Ur,
-        createValidAbsoluteUrl: j,
-        CSSConstants: Ve,
-        DOMSVGFactory: Yr,
-        DrawLayer: na,
+        AnnotationEditorLayer: Xi,
+        AnnotationEditorParamsType: f,
+        AnnotationEditorType: d,
+        AnnotationEditorUIManager: at,
+        AnnotationLayer: Ei,
+        AnnotationMode: c,
+        AnnotationType: g,
+        applyOpacity: Ve,
+        build: Vr,
+        ColorPicker: Hr,
+        createValidAbsoluteUrl: k,
+        CSSConstants: Be,
+        DOMSVGFactory: Jr,
+        DrawLayer: ta,
         FeatureTest: F,
-        fetchData: Te,
-        findContrastColor: Je,
-        getDocument: Mr,
-        getFilenameFromUrl: ke,
-        getPdfFilenameFromUrl: Ae,
-        getRGB: Fe,
-        getRGBA: Pe,
-        getUuid: pe,
-        GlobalWorkerOptions: yr,
-        ImageKind: g,
-        InvalidPDFException: ie,
-        isDataScheme: De,
-        isPdfFile: Oe,
-        isValidExplicitDest: Ut,
-        makeArr: he,
-        makeMap: ge,
-        makeObj: _e,
-        makeSet: ve,
+        fetchData: we,
+        findContrastColor: qe,
+        getDocument: jr,
+        getFilenameFromUrl: Oe,
+        getPdfFilenameFromUrl: ke,
+        getRGB: Pe,
+        getRGBA: Ne,
+        getUuid: fe,
+        GlobalWorkerOptions: vr,
+        ImageKind: h,
+        InvalidPDFException: re,
+        isDataScheme: Ee,
+        isPdfFile: De,
+        isValidExplicitDest: Ht,
+        makeArr: me,
+        makeMap: he,
+        makeObj: ge,
+        makeSet: _e,
         MathClamp: L,
         noContextMenu: R,
-        normalizeUnicode: fe,
-        OPS: b,
-        OutputScale: Re,
-        PasswordException: ne,
-        PasswordResponses: S,
-        PDFDataRangeTransport: Pr,
-        PDFDateString: Ne,
-        PDFWorker: Lr,
-        PermissionFlag: m,
-        PixelsPerInch: we,
-        RenderingCancelledException: Ee,
-        renderRichText: Ye,
-        ResponseException: ae,
-        setLayerDimensions: Le,
+        normalizeUnicode: de,
+        OPS: y,
+        OutputScale: Le,
+        PasswordException: te,
+        PasswordResponses: x,
+        PDFDataRangeTransport: Nr,
+        PDFDateString: Me,
+        PDFWorker: Ir,
+        PermissionFlag: p,
+        PixelsPerInch: Ce,
+        RenderingCancelledException: Te,
+        renderRichText: Je,
+        ResponseException: ie,
+        setLayerDimensions: Ie,
         shadow: M,
-        SignatureExtractor: Ki,
+        SignatureExtractor: Gi,
         stopEvent: z,
-        SupportedImageMimeTypes: ze,
-        TextLayer: Ar,
-        TextLayerImages: ia,
-        TouchManager: lt,
-        updateUrlHash: ee,
+        SupportedImageMimeTypes: Re,
+        TextLayer: kr,
+        TextLayerImages: ra,
+        TouchManager: ct,
+        updateUrlHash: A,
         Util: I,
-        VerbosityLevel: y,
-        version: Vr,
-        XfaLayer: Ce
+        VerbosityLevel: v,
+        version: Br,
+        XfaLayer: Se
     };
 });
-export { P as AbortException, Zi as AnnotationEditorLayer, p as AnnotationEditorParamsType, f as AnnotationEditorType, ot as AnnotationEditorUIManager, Di as AnnotationLayer, l as AnnotationMode, _ as AnnotationType, Ve as CSSConstants, Ur as ColorPicker, Yr as DOMSVGFactory, na as DrawLayer, F as FeatureTest, yr as GlobalWorkerOptions, g as ImageKind, ie as InvalidPDFException, L as MathClamp, b as OPS, Re as OutputScale, Pr as PDFDataRangeTransport, Ne as PDFDateString, Lr as PDFWorker, ne as PasswordException, S as PasswordResponses, m as PermissionFlag, we as PixelsPerInch, Ee as RenderingCancelledException, ae as ResponseException, Ki as SignatureExtractor, ze as SupportedImageMimeTypes, Ar as TextLayer, ia as TextLayerImages, lt as TouchManager, I as Util, y as VerbosityLevel, Ce as XfaLayer, He as applyOpacity, Hr as build, j as createValidAbsoluteUrl, Te as fetchData, Je as findContrastColor, Mr as getDocument, ke as getFilenameFromUrl, Ae as getPdfFilenameFromUrl, Fe as getRGB, Pe as getRGBA, pe as getUuid, De as isDataScheme, Oe as isPdfFile, Ut as isValidExplicitDest, he as makeArr, ge as makeMap, _e as makeObj, ve as makeSet, R as noContextMenu, fe as normalizeUnicode, Ye as renderRichText, Le as setLayerDimensions, M as shadow, z as stopEvent, ee as updateUrlHash, Vr as version, __tla };
+export { P as AbortException, Xi as AnnotationEditorLayer, f as AnnotationEditorParamsType, d as AnnotationEditorType, at as AnnotationEditorUIManager, Ei as AnnotationLayer, c as AnnotationMode, g as AnnotationType, Be as CSSConstants, Hr as ColorPicker, Jr as DOMSVGFactory, ta as DrawLayer, F as FeatureTest, vr as GlobalWorkerOptions, h as ImageKind, re as InvalidPDFException, L as MathClamp, y as OPS, Le as OutputScale, Nr as PDFDataRangeTransport, Me as PDFDateString, Ir as PDFWorker, te as PasswordException, x as PasswordResponses, p as PermissionFlag, Ce as PixelsPerInch, Te as RenderingCancelledException, ie as ResponseException, Gi as SignatureExtractor, Re as SupportedImageMimeTypes, kr as TextLayer, ra as TextLayerImages, ct as TouchManager, I as Util, v as VerbosityLevel, Se as XfaLayer, Ve as applyOpacity, Vr as build, k as createValidAbsoluteUrl, we as fetchData, qe as findContrastColor, jr as getDocument, Oe as getFilenameFromUrl, ke as getPdfFilenameFromUrl, Pe as getRGB, Ne as getRGBA, fe as getUuid, Ee as isDataScheme, De as isPdfFile, Ht as isValidExplicitDest, me as makeArr, he as makeMap, ge as makeObj, _e as makeSet, R as noContextMenu, de as normalizeUnicode, Je as renderRichText, Ie as setLayerDimensions, M as shadow, z as stopEvent, A as updateUrlHash, Br as version, __tla };
