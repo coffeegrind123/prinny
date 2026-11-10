@@ -39,6 +39,37 @@ The 2026-05-15 report is obsolete in most of its specifics. Corrections:
 
 ---
 
+## 1a. Dependabot alerts — **2026-11-10**
+
+Fourteen open alerts, checked against the lockfile (all real, none stale) and fixed or
+decided:
+
+| Package                | Was                    | Now                                | Alerts                    | Scope   |
+| ---------------------- | ---------------------- | ---------------------------------- | ------------------------- | ------- |
+| `vite`                 | 8.2.1                  | **8.3.6**                          | 6 (1 high, launch-editor) | dev     |
+| `fast-uri`             | 3.1.8                  | **3.1.9** (override `^3.1.9`)      | 4 (2 medium)              | dev     |
+| `serialize-javascript` | 7.0.5                  | **7.1.4**                          | 1 low                     | dev     |
+| `i18next-http-backend` | 4.0.3                  | **4.0.4**                          | 1 low                     | runtime |
+| `minimatch`            | 10.2.x under eslint    | **11.0.5** (nested overrides)      | 1 medium (#167)           | dev     |
+| `js-yaml`              | override `^4.3.1`      | override `^4.3.2` (lock was 4.3.2) | Dependabot PR #9          | dev     |
+
+**`minimatch` is overridden for three consumers only:** `eslint`,
+`@eslint/config-array` and `@typescript-eslint/typescript-estree`. They call
+`minimatch()` and `Minimatch#match()`, which 11 keeps (11 removed `makeRe()`,
+`Minimatch#regexp`, `AST` and the `Minimatch.set` item types). The eslint findings
+were compared before and after: identical. `workbox-build`'s nested `glob` stays on
+minimatch 10.2.5, because glob reads `Minimatch.set` internals that 11 changed. It
+globs our own build output at build time, with patterns we write, so the
+pattern-amplification DoS has no attacker. `minimatch` 3.1.5 and 5.1.9 are outside the
+advisory's range (`>= 7.0.0`).
+
+**`deepmerge` 4.3.1 (#163, low, no fixed version): not exploitable here.** Only
+`@vanilla-extract/css` uses it, in `style([...])` composition, merging the style
+objects of our own `.css.ts` files when they are evaluated at build time. The
+prototype-poisoning needs an attacker-supplied source object; there is none.
+
+---
+
 ## 1. Open advisories — **cleared 2026-08-11**
 
 `npm audit` now reports **0 advisories**, down from **22 (10 high, 5 moderate,
