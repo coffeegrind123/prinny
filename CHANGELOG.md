@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 11.11.2026
+
+- `d5fed18` Fixed **names and messages that could display differently from what was sent** — invisible direction-override characters (such as U+202E, which reverses the text after it) and control characters are now removed wherever a room name, topic, member name, message, reply preview or notification is shown, so a file name like "invoice[U+202E]gpj.exe" can no longer pose as "invoiceexe.jpg". Right-to-left marks that Arabic and Hebrew text need are kept; what was sent, and chat exports, are unchanged
+
 ## 10.11.2026
 
 - `ac2379a` Fixed **polls counting one person's vote several times** — a vote naming the same answer more than once counted each time; it now counts once, and a vote naming an answer the poll does not have is discarded, as the polls spec says
