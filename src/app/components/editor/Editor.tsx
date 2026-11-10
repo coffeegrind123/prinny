@@ -27,7 +27,12 @@ import { RenderElement, RenderLeaf } from './Elements';
 import { CustomElement } from './slate';
 import * as css from './Editor.css';
 import { toggleKeyboardShortcut } from './keyboard';
-import { rememberSelection, restoreCaretIfMissing, restoreDomCaretIfMissing } from './utils';
+import {
+  insertQuotedLines,
+  rememberSelection,
+  restoreCaretIfMissing,
+  restoreDomCaretIfMissing,
+} from './utils';
 
 /**
  * A fresh empty document, built per editor — never a shared constant.
@@ -74,8 +79,23 @@ const withVoid = (editor: Editor): Editor => {
   return editor;
 };
 
+// Pasting several lines after a typed "> " quotes all of them (see `insertQuotedLines`).
+const withQuotePaste = (editor: Editor): Editor => {
+  const { insertTextData } = editor;
+
+  editor.insertTextData = (data) => {
+    const text = data.getData('text/plain');
+    if (text && insertQuotedLines(editor, text)) return true;
+    return insertTextData(data);
+  };
+
+  return editor;
+};
+
 export const useEditor = (): Editor => {
-  const [editor] = useState(() => withInline(withVoid(withReact(withHistory(createEditor())))));
+  const [editor] = useState(() =>
+    withInline(withVoid(withQuotePaste(withReact(withHistory(createEditor()))))),
+  );
   return editor;
 };
 

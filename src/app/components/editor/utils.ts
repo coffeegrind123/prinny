@@ -753,3 +753,56 @@ export const replaceShortcodeWithEmoji = (
 
   return true;
 };
+
+// A typed markdown quote marker at the start of a line: "> ", ">", "> > ".
+const QUOTE_MARKER_REG = /^(?:> ?)+/;
+// Discord's ">>> " quotes everything after it, so the pasted lines are already quoted.
+const DISCORD_MULTILINE_QUOTE_REG = /^>>>(?: |$)/;
+const PASTED_LINE_BREAK = /\r\n|\r|\n/;
+
+/**
+ * Paste multi-line text into a line that starts with a typed quote marker, repeating the marker
+ * on every pasted line. Returns false, changing nothing, when the default paste should run.
+ *
+ * Slate's default text paste splits the lines into separate paragraphs, and the markdown parsers
+ * quote only lines that start with `>` themselves, so "> " followed by a pasted paragraph sent
+ * the first line quoted and the rest as plain text.
+ *
+ * Only paragraphs are handled: a rich quote (the toolbar's block quote) already keeps pasted
+ * lines inside it, and a code block must take the text literally.
+ */
+export const insertQuotedLines = (editor: Editor, text: string): boolean => {
+  const lines = text.split(PASTED_LINE_BREAK);
+  if (lines.length < 2 || !editor.selection) return false;
+
+  const blockEntry = Editor.above(editor, {
+    at: editor.selection,
+    match: (node) => Element.isElement(node) && Editor.isBlock(editor, node),
+  });
+  if (!blockEntry) return false;
+  const [block, blockPath] = blockEntry;
+  if (!Element.isElement(block) || block.type !== BlockType.Paragraph) return false;
+
+  // The marker must stay in front of the caret; a selection that would delete it is not a quote
+  // paste.
+  const selectionStart = Range.start(editor.selection);
+  const lineStart = Editor.start(editor, blockPath);
+  const before = Editor.string(editor, { anchor: lineStart, focus: selectionStart });
+  if (DISCORD_MULTILINE_QUOTE_REG.test(before)) return false;
+  const marker = QUOTE_MARKER_REG.exec(before)?.[0];
+  if (!marker) return false;
+
+  Editor.withoutNormalizing(editor, () => {
+    if (editor.selection && Range.isExpanded(editor.selection)) {
+      Editor.deleteFragment(editor);
+    }
+    lines.forEach((line, index) => {
+      if (index > 0) {
+        Transforms.splitNodes(editor, { always: true });
+        editor.insertText(marker);
+      }
+      editor.insertText(line);
+    });
+  });
+  return true;
+};
