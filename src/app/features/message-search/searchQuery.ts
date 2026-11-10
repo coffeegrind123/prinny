@@ -4,10 +4,11 @@ import { IEventWithRoomId } from 'matrix-js-sdk';
  * Search operators (the `searchOperators` setting): free text plus
  * `operator:value` filters, as in Discord.
  *
- * The server only understands free text, a room list, a sender list and
- * `contains_url`. Everything else (`has:` media kinds, dates, `mentions:`,
- * `pinned:`) is applied to results in the client, so it works against any
- * homeserver.
+ * The server only understands free text, a room list and a sender list. Its
+ * `contains_url` means "content.url is set", i.e. an upload, not a link in the
+ * text, so `has:link` is not sent. Everything else (`has:` kinds, dates,
+ * `mentions:`, `pinned:`) is applied to results in the client, so it works
+ * against any homeserver.
  */
 
 export const HAS_KINDS = ['link', 'image', 'video', 'audio', 'file'] as const;
@@ -185,9 +186,15 @@ export const parseSearchQuery = (input: string, now: number = Date.now()): Parse
   return query;
 };
 
-/** Remove one token from the raw query string, tidying whitespace. */
-export const removeQueryToken = (input: string, token: QueryToken): string =>
-  `${input.slice(0, token.start)}${input.slice(token.end)}`.replace(/\s+/g, ' ').trim();
+/**
+ * Remove one token from the raw query string. Only the gap it leaves is
+ * tidied; whitespace inside quoted phrases elsewhere stays as typed.
+ */
+export const removeQueryToken = (input: string, token: QueryToken): string => {
+  const before = input.slice(0, token.start).trimEnd();
+  const after = input.slice(token.end).trimStart();
+  return before && after ? `${before} ${after}` : `${before}${after}`;
+};
 
 export type SearchLookup = {
   /** userId -> display name, for every candidate sender */
@@ -283,7 +290,7 @@ export const resolveSearchQuery = (
   rooms.unresolved.forEach((value) => unresolved.push({ operator: 'in', value }));
 
   const needsClientFilter =
-    query.has.some((k) => k !== 'link') ||
+    query.has.length > 0 ||
     query.before !== undefined ||
     query.after !== undefined ||
     query.mentions.length > 0 ||

@@ -1,5 +1,5 @@
-import { RefObject, useEffect, useMemo, useRef } from 'react';
-import { Text, Box, Icon, Icons, config, Spinner, IconButton, Line } from 'folds';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { Text, Box, Icon, Icons, config, Spinner, IconButton, Line, Button } from 'folds';
 import { useAtomValue } from 'jotai';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useScrollElement } from '../../hooks/useScrollElement';
@@ -41,9 +41,10 @@ import {
   useSearchTimer,
 } from './SearchProgress';
 import { stripOptionalText } from '../../utils/unsafeText';
+import { emptyPageStreak } from './autoPaging';
 
-// Twenty results a page: up to 200 searched before an all-filtered-out result
-// is reported as no results.
+// Twenty results a page: up to 200 searched in a row without a match left by
+// the client filters before searching stops and offers to go further.
 const MAX_FILTERED_PAGES = 10;
 
 /** What the search operators could not use, and the one thing /search cannot do. */
@@ -174,7 +175,6 @@ export function MessageSearch({
         // rather than every room.
         rooms: resolvedQuery.rooms,
         senders: resolvedQuery.senders ?? searchParamsSenders ?? senders,
-        containsUrl: resolvedQuery.has.includes('link'),
       };
     }
 
@@ -331,36 +331,67 @@ export function MessageSearch({
     });
   };
 
+  // Results each page adds once client filters have run. A page can add none.
+  const visiblePerPage = useMemo(
+    () =>
+      data?.pages.map((page) =>
+        page.groups.reduce(
+          (n, group) =>
+            n +
+            (resultFilter ? group.items.filter((item) => resultFilter(item.event)) : group.items)
+              .length,
+          0,
+        ),
+      ) ?? [],
+    [data, resultFilter],
+  );
+  // Page count when the user last asked to search further; the empty-page
+  // limit counts from there. Tied to the first page, so a new search starts at 0.
+  const [pagingResumed, setPagingResumed] = useState<{ first: unknown; at: number }>();
+  const firstPage = data?.pages[0];
+  const pagingResumedAt = pagingResumed && pagingResumed.first === firstPage ? pagingResumed.at : 0;
+  const pagingStalled = emptyPageStreak(visiblePerPage, pagingResumedAt) >= MAX_FILTERED_PAGES;
+
+  // Fetch the next page while the end of the list is in view, or while
+  // client filters have left nothing to show (an empty list has no last row to
+  // bring into view). Pages that add nothing are capped: without that, a page
+  // emptied by a filter leaves the last row in view, and the search would page
+  // through the whole history on its own.
   const lastVItem = vItems[vItems.length - 1];
   const lastVItemIndex: number | undefined = lastVItem?.index;
   const lastGroupIndex = groups.length - 1;
+  const endInView = lastGroupIndex > -1 && lastGroupIndex === lastVItemIndex;
+  const nothingShown = !!resultFilter && groups.length === 0;
   useEffect(() => {
-    if (
-      lastGroupIndex > -1 &&
-      lastGroupIndex === lastVItemIndex &&
-      !isFetchingNextPage &&
-      hasNextPage
-    ) {
-      fetchNextPage();
-    }
-  }, [lastVItemIndex, lastGroupIndex, fetchNextPage, isFetchingNextPage, hasNextPage]);
-
-  // Client-side filters can empty whole pages, and an empty list has no last
-  // row to trigger the next page. Keep paging for a while before saying none.
-  const filteredPages = data?.pages.length ?? 0;
-  useEffect(() => {
-    if (!resultFilter || groups.length > 0 || status !== 'success') return;
-    if (!hasNextPage || isFetchingNextPage || filteredPages >= MAX_FILTERED_PAGES) return;
+    if (status !== 'success' || !hasNextPage || isFetchingNextPage || pagingStalled) return;
+    if (!endInView && !nothingShown) return;
     fetchNextPage();
   }, [
-    resultFilter,
-    groups.length,
     status,
     hasNextPage,
     isFetchingNextPage,
-    filteredPages,
+    pagingStalled,
+    endInView,
+    nothingShown,
+    // A new page can leave both flags unchanged; it must still re-check.
+    visiblePerPage.length,
     fetchNextPage,
   ]);
+  const searchFurther = hasNextPage && pagingStalled && !isFetchingNextPage;
+  const handleSearchFurther = () =>
+    setPagingResumed({ first: firstPage, at: visiblePerPage.length });
+  const searchFurtherButton = (
+    <Button
+      variant="Secondary"
+      fill="Soft"
+      size="300"
+      radii="400"
+      outlined
+      onClick={handleSearchFurther}
+    >
+      <Text size="B300">Search older messages</Text>
+    </Button>
+  );
 
   return (
     <Box direction="Column" gap="700">
@@ -433,10 +464,14 @@ export function MessageSearch({
       {msgSearchParams.term && groups.length === 0 && status === 'success' && (
         <SearchNotice>
           <Text size="T300">
-            No results found for <b>{`"${msgSearchParams.term}"`}</b>
+            {searchFurther
+              ? 'No matches yet in the messages searched for '
+              : 'No results found for '}
+            <b>{`"${msgSearchParams.term}"`}</b>
           </Text>
         </SearchNotice>
       )}
+      {searchFurther && groups.length === 0 && searchFurtherButton}
 
       {((msgSearchParams.term && status === 'pending') ||
         (groups.length > 0 && vItems.length === 0)) && (
@@ -507,6 +542,7 @@ export function MessageSearch({
               </Text>
             </Box>
           )}
+          {searchFurther && searchFurtherButton}
         </Box>
       )}
 
