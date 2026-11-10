@@ -6,6 +6,7 @@ User-facing changes per commit. Most recent at the top.
 
 - `51bd753` Fixed **photos revealing where they were taken** — uploaded JPEG, PNG and WebP images no longer carry their EXIF metadata (GPS position, camera, timestamps), XMP, IPTC, comments, or the extra images and motion-photo video some phones attach. Pixels are not re-encoded, colour profiles stay, and photos keep their rotation. Applies to messages, the Android share sheet, avatars, room icons and emoji/sticker packs
 - `d5fed18` Fixed **names and messages that could display differently from what was sent** — invisible direction-override characters (such as U+202E, which reverses the text after it) and control characters are now removed wherever a room name, topic, member name, message, reply preview or notification is shown, so a file name like "invoice[U+202E]gpj.exe" can no longer pose as "invoiceexe.jpg". Right-to-left marks that Arabic and Hebrew text need are kept; what was sent, and chat exports, are unchanged
+- `ff48c4d` Fixed **calls missing people who were already in them** — joining or opening a room with a call in progress could show the call without some participants, because their room membership had not been loaded yet. Members are now loaded while someone is in a call
 
 ## 10.11.2026
 
