@@ -1,4 +1,4 @@
-import { MouseEventHandler, useCallback, useState } from 'react';
+import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import {
   Badge,
   Box,
@@ -120,11 +120,14 @@ type VerifyCurrentDeviceTileProps = {
   secretStorageKeyId?: string;
   secretStorageKeyContent?: SecretStorageKeyContent;
   hasVerifiedOtherDevice?: boolean;
+  /** Told when this tile's verification dialog opens or closes. */
+  onVerifyingChange?: (verifying: boolean) => void;
 };
 export function VerifyCurrentDeviceTile({
   secretStorageKeyId,
   secretStorageKeyContent,
   hasVerifiedOtherDevice = false,
+  onVerifyingChange,
 }: VerifyCurrentDeviceTileProps) {
   const [learnMore, setLearnMore] = useState(false);
 
@@ -139,6 +142,11 @@ export function VerifyCurrentDeviceTile({
   const requesting = requestState.status === AsyncStatus.Loading;
   const canVerifyManually = Boolean(secretStorageKeyId && secretStorageKeyContent);
   const canVerifyWithDevice = hasVerifiedOtherDevice;
+
+  const verifying = requestState.status === AsyncStatus.Success;
+  useEffect(() => {
+    onVerifyingChange?.(verifying);
+  }, [verifying, onVerifyingChange]);
 
   return (
     <>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Box, Text, IconButton, Icon, Icons, Scroll } from 'folds';
 import { Page, PageContent, PageContentCenter, PageHeader } from '../../../components/page';
 import { SequenceCard } from '../../../components/sequence-card';
@@ -58,6 +59,11 @@ export function Devices({ requestClose }: DevicesProps) {
 
   const otherDevicesId = useDeviceIds(otherDevices);
   const otherVerifiedDevices = useOtherVerifiedDevices();
+
+  // The verification dialog lives inside the tile, and the tile only shows while this device is
+  // unverified. A verification that succeeded unmounted the dialog with it, so the reader never
+  // saw "Your device is verified". Keep the tile while its dialog is open.
+  const [verifying, setVerifying] = useState(false);
   const unverifiedDeviceCount = useUnverifiedDeviceCount(
     crypto,
     mx.getSafeUserId(),
@@ -141,11 +147,12 @@ export function Devices({ requestClose }: DevicesProps) {
                         {crypto && <DeviceKeyDetails crypto={crypto} />}
                       </DeviceTile>
                       {crossSigningActive &&
-                        verificationStatus === VerificationStatus.Unverified && (
+                        (verifying || verificationStatus === VerificationStatus.Unverified) && (
                           <VerifyCurrentDeviceTile
                             secretStorageKeyId={defaultSecretStorageKeyId}
                             secretStorageKeyContent={defaultSecretStorageKeyContent}
                             hasVerifiedOtherDevice={otherVerifiedDevices === 'available'}
+                            onVerifyingChange={setVerifying}
                           />
                         )}
                       {crypto && verificationStatus === VerificationStatus.Verified && (
