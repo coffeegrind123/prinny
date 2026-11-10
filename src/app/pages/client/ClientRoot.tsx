@@ -37,6 +37,7 @@ import { useSyncState } from '../../hooks/useSyncState';
 import { useSyncRecovery } from '../../hooks/useSyncRecovery';
 import { stopPropagation } from '../../utils/keyboard';
 import { StorageStatus } from './StorageStatus';
+import { DeviceKeysStatus } from './DeviceKeysStatus';
 import { SyncStatus } from './SyncStatus';
 import { AuthMetadataProvider } from '../../hooks/useAuthMetadata';
 import { ServerSoftwareProvider } from '../../hooks/useServerSoftware';
@@ -239,6 +240,7 @@ export function ClientRoot({ children }: ClientRootProps) {
       <SpecVersions baseUrl={baseUrl!}>
         {mx && <SyncStatus mx={mx} />}
         {mx && <StorageStatus />}
+        {mx && <DeviceKeysStatus mx={mx} />}
         {loading && <ClientRootOptions mx={mx} />}
         {(loadState.status === AsyncStatus.Error || startState.status === AsyncStatus.Error) && (
           <SplashScreen>
