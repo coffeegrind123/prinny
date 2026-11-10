@@ -24,6 +24,7 @@ import {
 import { isTauri } from '../app/utils/desktop-notifications';
 import { USER_PROFILE_FIELDS } from '../types/matrix/profile';
 import { isPrivateHost } from '../app/utils/safeUrl';
+import { trackClockSkew } from '../app/utils/clockSkew';
 import { compactServerAcls } from './compactServerAcl';
 import { disposeSyncStorePersistence, installSyncStorePersistence } from './syncStorePersistence';
 
@@ -314,6 +315,7 @@ const recheckKeyBackupAfterInitialSync = (mx: MatrixClient): void => {
 
 export const startClient = async (mx: MatrixClient) => {
   recheckKeyBackupAfterInitialSync(mx);
+  trackClockSkew(mx);
   compactServerAcls(mx);
   await mx.startClient({
     lazyLoadMembers: true,
