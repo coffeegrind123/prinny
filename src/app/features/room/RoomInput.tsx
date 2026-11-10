@@ -25,6 +25,7 @@ import {
   OverlayCenter,
   PopOut,
   Scroll,
+  Spinner,
   Text,
   config,
   toRem,
@@ -65,6 +66,7 @@ import {
   TUploadContent,
   decryptFile,
   downloadEncryptedMedia,
+  downloadMedia,
   encryptFile,
   getImageInfo,
   getMxIdLocalPart,
@@ -184,6 +186,8 @@ const ENCRYPT_PREPARE_INTERVAL_MS = 60_000;
 /** Typing pause after which the draft is written to storage. */
 const DRAFT_STORE_DELAY_MS = 400;
 
+type PickedMediaKind = 'GIF' | 'Sticker';
+
 export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
   ({ editor, fileDropContainerRef, roomId, room, threadRootId, threadLatestEventId }, ref) => {
     const mx = useMatrixClient();
@@ -227,6 +231,9 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
 
     const [msgDraft, setMsgDraft] = useAtom(roomIdToMsgDraftAtomFamily(draftScope));
     const [replyDraft, setReplyDraft] = useAtom(roomIdToReplyDraftAtomFamily(draftScope));
+    // GIFs and stickers being fetched or uploaded ahead of their send, and why the last one failed.
+    const [preparingMedia, setPreparingMedia] = useState(0);
+    const [pickedMediaError, setPickedMediaError] = useState<string>();
     const replyUserID = replyDraft?.userId;
 
     const botKeyboard = useBotReplyKeyboard(room);
@@ -906,31 +913,60 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
       moveCursor(editor);
     };
 
-    const handleGifSelect = async (fav: FavoriteGif) => {
-      const sendGifContent = (content: IContent) => {
-        applyRelation(content);
-        mx.sendMessage(roomId, content as any);
-        setReplyDraft(undefined);
-      };
-
-      const safeGifName = (name: string, fallback: string) =>
-        name
-          .replace(/[/\\?%*:|"<>/]/g, '')
-          .trim()
-          .slice(0, 50) || fallback;
-
+    // A picked GIF or sticker is fetched, and usually uploaded, before it is sent. Show that it is on
+    // its way, and say so when it does not make it: every failure used to end in a bare `return`, so
+    // a click could simply do nothing. A rejected send shows as a failed message in the timeline.
+    const sendPickedMedia = async (
+      kind: PickedMediaKind,
+      prepare: () => Promise<() => Promise<unknown>>,
+    ) => {
+      setPickedMediaError(undefined);
+      setPreparingMedia((count) => count + 1);
+      let send: () => Promise<unknown>;
       try {
+        send = await prepare();
+      } catch (err) {
+        console.error(`Failed to prepare ${kind}`, err);
+        setPickedMediaError(
+          `${kind} not sent: it could not be loaded. Check your connection and try again.`,
+        );
+        return;
+      } finally {
+        setPreparingMedia((count) => count - 1);
+      }
+      setReplyDraft(undefined);
+      send().catch(() => undefined);
+    };
+
+    const handleGifSelect = (fav: FavoriteGif) =>
+      sendPickedMedia('GIF', async () => {
+        const gifSender = (content: IContent) => () => {
+          applyRelation(content);
+          return mx.sendMessage(roomId, content as any);
+        };
+
+        const fetchBlob = async (url: string): Promise<Blob> => {
+          const resp = await fetch(url);
+          if (!resp.ok) throw new Error(`GIF download failed: ${resp.status}`);
+          return resp.blob();
+        };
+
+        const safeGifName = (name: string, fallback: string) =>
+          name
+            .replace(/[/\\?%*:|"<>/]/g, '')
+            .trim()
+            .slice(0, 50) || fallback;
+
         // An unencrypted mxc favourite going into an unencrypted room can
         // reuse the already uploaded content without a re-upload.
         if (fav.kind === 'mxc' && !fav.video && !fav.encInfo && !room.hasEncryptionStateEvent()) {
-          sendGifContent({
+          return gifSender({
             msgtype: MsgType.Image,
             body: fav.body,
             filename: fav.body,
             url: fav.mxc,
             info: fav.info,
           });
-          return;
         }
 
         let blob: Blob;
@@ -938,24 +974,21 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
         let videoGif = fav.kind === 'url' || (fav.kind === 'mxc' && fav.video === true);
         if (fav.kind === 'klipy') {
           const format = getGifToSend(fav.gif);
-          if (!format?.url) return;
+          if (!format?.url) throw new Error('GIF has no sendable format');
           videoGif = isGifVideo(format);
-          const resp = await fetch(format.url);
-          if (!resp.ok) return;
-          blob = await resp.blob();
+          blob = await fetchBlob(format.url);
           filename = `${safeGifName(fav.gif.title || 'gif', 'gif')}.${videoGif ? 'mp4' : 'gif'}`;
         } else if (fav.kind === 'mxc') {
           const mediaUrl = mxcUrlToHttp(mx, fav.mxc, useAuthentication);
-          if (!mediaUrl) return;
+          if (!mediaUrl) throw new Error('GIF has no media URL');
           if (fav.encInfo) {
             const { encInfo } = fav;
             blob = await downloadEncryptedMedia(mediaUrl, (encBuf) =>
               decryptFile(encBuf, fav.info?.mimetype ?? 'image/gif', encInfo),
             );
           } else {
-            const resp = await fetch(mediaUrl);
-            if (!resp.ok) return;
-            blob = await resp.blob();
+            // The homeserver's media needs the auth header on authenticated media.
+            blob = await downloadMedia(mediaUrl);
           }
           const extension = videoGif ? 'mp4' : 'gif';
           const baseName = fav.body.replace(/\.(?:gif|mp4)$/i, '');
@@ -963,9 +996,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
             ? fav.body
             : `${safeGifName(baseName, 'gif')}.${extension}`;
         } else {
-          const resp = await fetch(fav.videoUrl);
-          if (!resp.ok) return;
-          blob = await resp.blob();
+          blob = await fetchBlob(fav.videoUrl);
           filename = `${safeGifName(fav.title || 'gif', 'gif')}.mp4`;
         }
 
@@ -979,7 +1010,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
 
         const uploadData = await mx.uploadContent(uploadFile);
         const mxc = uploadData?.content_uri;
-        if (!mxc) return;
+        if (!mxc) throw new Error('GIF upload returned no content URI');
 
         const item: TUploadItem = {
           file,
@@ -992,37 +1023,36 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
           : await getImageMsgContent(mx, item, mxc);
         if (videoGif) content[MATRIX_GIF_PROPERTY_NAME] = true;
 
-        sendGifContent(content);
-      } catch (e) {
-        console.error('Failed to send GIF', e);
-      }
-    };
+        return gifSender(content);
+      });
 
-    const handleStickerSelect = async (mxc: string, shortcode: string, label: string) => {
-      const stickerUrl = mxcUrlToHttp(mx, mxc, useAuthentication);
-      if (!stickerUrl) return;
+    const handleStickerSelect = (mxc: string, shortcode: string, label: string) =>
+      sendPickedMedia('Sticker', async () => {
+        const stickerUrl = mxcUrlToHttp(mx, mxc, useAuthentication);
+        if (!stickerUrl) throw new Error('Sticker has no media URL');
 
-      // MSC4230 covers `m.sticker` as well as `m.image`, and animated stickers
-      // are the common case — a receiver that thumbnails one gets a still.
-      const stickerBlob = await getImageUrlBlob(stickerUrl);
-      const info = {
-        ...(await getImageInfo(await loadImageElement(stickerUrl), stickerBlob)),
-        ...animatedImageInfo(await blobIsAnimated(stickerBlob)),
-      };
+        // MSC4230 covers `m.sticker` as well as `m.image`, and animated stickers
+        // are the common case — a receiver that thumbnails one gets a still.
+        const stickerBlob = await getImageUrlBlob(stickerUrl);
+        const info = {
+          ...(await getImageInfo(await loadImageElement(stickerUrl), stickerBlob)),
+          ...animatedImageInfo(await blobIsAnimated(stickerBlob)),
+        };
 
-      // Stickers are a send path like any other, so they carry the drafted
-      // reply and the thread relation too. Without this, picking a sticker
-      // while a reply was staged posted it as a loose message — and inside a
-      // thread it landed in the main room.
-      const content = {
-        body: label,
-        url: mxc,
-        info,
-      };
-      applyRelation(content as IContent);
-      mx.sendEvent(roomId, EventType.Sticker, content);
-      setReplyDraft(undefined);
-    };
+        // Stickers are a send path like any other, so they carry the drafted
+        // reply and the thread relation too. Without this, picking a sticker
+        // while a reply was staged posted it as a loose message — and inside a
+        // thread it landed in the main room.
+        const content = {
+          body: label,
+          url: mxc,
+          info,
+        };
+        return () => {
+          applyRelation(content as IContent);
+          return mx.sendEvent(roomId, EventType.Sticker, content);
+        };
+      });
 
     return (
       <div ref={ref}>
@@ -1419,10 +1449,48 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
             </>
           }
           bottom={
-            toolbar && (
+            (toolbar || preparingMedia > 0 || pickedMediaError) && (
               <div>
-                <Line variant="SurfaceVariant" size="300" />
-                <Toolbar />
+                {preparingMedia > 0 && (
+                  <Box
+                    role="status"
+                    alignItems="Center"
+                    gap="200"
+                    style={{ padding: config.space.S200 }}
+                  >
+                    <Spinner size="100" variant="Secondary" />
+                    <Text size="T200" priority="300">
+                      Sending…
+                    </Text>
+                  </Box>
+                )}
+                {pickedMediaError && (
+                  <Box
+                    role="alert"
+                    alignItems="Center"
+                    gap="200"
+                    style={{ padding: config.space.S200 }}
+                  >
+                    <Text size="T200" style={{ color: color.Critical.Main }}>
+                      {pickedMediaError}
+                    </Text>
+                    <IconButton
+                      size="300"
+                      radii="300"
+                      variant="SurfaceVariant"
+                      aria-label="Dismiss"
+                      onClick={() => setPickedMediaError(undefined)}
+                    >
+                      <Icon size="50" src={Icons.Cross} />
+                    </IconButton>
+                  </Box>
+                )}
+                {toolbar && (
+                  <>
+                    <Line variant="SurfaceVariant" size="300" />
+                    <Toolbar />
+                  </>
+                )}
               </div>
             )
           }
