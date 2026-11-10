@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { zipEntryName } from './zipEntryName';
+import { uniqueZipEntryName, zipEntryName } from './zipEntryName';
 
 describe('zipEntryName (image pack download)', () => {
   it('keeps an ordinary shortcode and extension', () => {
@@ -29,5 +29,16 @@ describe('zipEntryName (image pack download)', () => {
     expect(zipEntryName('a\u0000b\u001fc', 'image/png')).toBe('a_b_c.png');
     expect(zipEntryName('', 'image/png')).toBe('image.png');
     expect(zipEntryName('...', 'image/webp')).toBe('image.webp');
+  });
+});
+
+describe('uniqueZipEntryName', () => {
+  it('treats names differing only in case as the same file', () => {
+    // Windows and macOS extract Smile.png and smile.png to one file, so the second
+    // silently replaced the first.
+    const used = new Set<string>();
+    expect(uniqueZipEntryName('Smile', 'image/png', used)).toBe('Smile.png');
+    expect(uniqueZipEntryName('smile', 'image/png', used)).toBe('smile-1.png');
+    expect(uniqueZipEntryName('SMILE', 'image/png', used)).toBe('SMILE-2.png');
   });
 });

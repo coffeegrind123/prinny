@@ -26,3 +26,24 @@ export const zipEntryName = (shortcode: string, mimeType: string): string => {
   const ext = mimeTypeToExt(mimeType);
   return SAFE_EXT.test(ext) ? `${base}.${ext}` : base;
 };
+
+/**
+ * `zipEntryName`, suffixed until no earlier entry has the same name. Compared
+ * case-insensitively: Windows and macOS extract `Smile.png` and `smile.png` to
+ * one file, so the second used to replace the first. `used` holds lowercased
+ * names and is updated.
+ */
+export const uniqueZipEntryName = (
+  shortcode: string,
+  mimeType: string,
+  used: Set<string>,
+): string => {
+  let name = zipEntryName(shortcode, mimeType);
+  let suffix = 1;
+  while (used.has(name.toLowerCase())) {
+    name = zipEntryName(`${shortcode}-${suffix}`, mimeType);
+    suffix += 1;
+  }
+  used.add(name.toLowerCase());
+  return name;
+};

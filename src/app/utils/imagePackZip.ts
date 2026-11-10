@@ -2,7 +2,7 @@ import { MatrixClient } from 'matrix-js-sdk';
 import { ImagePack } from '../plugins/custom-emoji';
 import { downloadMedia, mxcUrlToHttp } from './matrix';
 import { safeDownloadFilename } from './mimeTypes';
-import { zipEntryName } from './zipEntryName';
+import { uniqueZipEntryName } from './zipEntryName';
 import { createZip, ZipEntry } from './zip';
 import FileSaver from './save-file';
 
@@ -37,14 +37,7 @@ export const downloadImagePackZip = async (
 
       const blob = await downloadMedia(httpUrl);
       const mimeType = image.info?.mimetype || blob.type || '';
-      let name = zipEntryName(image.shortcode, mimeType);
-
-      let suffix = 1;
-      while (usedNames.has(name)) {
-        name = zipEntryName(`${image.shortcode}-${suffix}`, mimeType);
-        suffix += 1;
-      }
-      usedNames.add(name);
+      const name = uniqueZipEntryName(image.shortcode, mimeType, usedNames);
 
       return { name, data: new Uint8Array(await blob.arrayBuffer()) };
     }),
