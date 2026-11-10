@@ -8,7 +8,8 @@ export type LogoutRisk = {
 };
 
 export type LogoutRiskInput = {
-  crossSigningActive: boolean;
+  /** Recovery holds the identity keys, so they can be restored after this device is gone. */
+  recoveryActive: boolean;
   verification: VerificationStatus;
   /** This device is uploading its keys to a backup it trusts; undefined until known. */
   backupActive: boolean | undefined;
@@ -27,7 +28,7 @@ const pluralKeys = (count: number): string =>
  * only-device card is added last because it makes any other risk permanent.
  */
 export const logoutRisks = ({
-  crossSigningActive,
+  recoveryActive,
   verification,
   backupActive,
   backupRemaining,
@@ -35,7 +36,7 @@ export const logoutRisks = ({
 }: LogoutRiskInput): LogoutRisk[] => {
   const risks: LogoutRisk[] = [];
 
-  if (!crossSigningActive) {
+  if (!recoveryActive) {
     risks.push({
       id: 'noRecovery',
       severity: 'Critical',

@@ -4,7 +4,7 @@ import { AsyncStatus, useAsyncCallback } from '../hooks/useAsyncCallback';
 import { logoutClient } from '../../client/initMatrix';
 import { useMatrixClient } from '../hooks/useMatrixClient';
 import { CryptoApi } from 'matrix-js-sdk/lib/crypto-api';
-import { useCrossSigningActive } from '../hooks/useCrossSigning';
+import { useRecoveryActive } from '../hooks/useCrossSigning';
 import { InfoCard } from './info-card';
 import { useDeviceVerificationStatus } from '../hooks/useDeviceVerificationStatus';
 import { useKeyBackupStatusChange, useKeyBackupSync } from '../hooks/useKeyBackup';
@@ -39,14 +39,14 @@ function LogoutRiskCards({ crypto }: { crypto: CryptoApi }) {
   const mx = useMatrixClient();
   const deviceId = mx.getDeviceId() ?? undefined;
 
-  const crossSigningActive = useCrossSigningActive();
+  const recoveryActive = useRecoveryActive();
   const verification = useDeviceVerificationStatus(crypto, mx.getSafeUserId(), deviceId);
   const backupActive = useBackupActive(crypto);
   const [backupRemaining] = useKeyBackupSync();
   const [devices] = useDeviceList();
 
   const risks = logoutRisks({
-    crossSigningActive,
+    recoveryActive,
     verification,
     backupActive,
     backupRemaining,

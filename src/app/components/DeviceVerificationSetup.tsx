@@ -79,11 +79,23 @@ function makeUIAAction<T>(
   return action;
 }
 
+/**
+ * - `Create`: the account has no identity; make one, with recovery.
+ * - `Reset`: replace the identity. Every device becomes unverified.
+ * - `TurnOn`: recovery was turned off; store the existing identity's keys in
+ *   new recovery without creating new ones.
+ */
+export enum SetupMode {
+  Create = 'create',
+  Reset = 'reset',
+  TurnOn = 'turnOn',
+}
+
 type SetupVerificationProps = {
   onComplete: (recoveryKey: string) => void;
-  reset?: boolean;
+  mode?: SetupMode;
 };
-export function SetupVerification({ onComplete, reset }: SetupVerificationProps) {
+export function SetupVerification({ onComplete, mode = SetupMode.Create }: SetupVerificationProps) {
   const mx = useMatrixClient();
   const alive = useAlive();
 
@@ -154,13 +166,24 @@ export function SetupVerification({ onComplete, reset }: SetupVerificationProps)
         const crypto = mx.getCrypto();
         if (!crypto) throw new Error('Unexpected Error! Crypto module not found!');
 
+        const hasIdentity = await crypto.userHasCrossSigningKeys(mx.getSafeUserId(), true);
         // "Enable" is offered whenever the master key account data isn't in the local store,
         // which is also true before it has synced. Setting up again would replace a working
         // identity and its secret storage, so only the explicit reset path may do that.
-        if (!reset && (await crypto.userHasCrossSigningKeys(mx.getSafeUserId(), true))) {
+        if (mode === SetupMode.Create && hasIdentity) {
           throw new Error(
             'This account already has device verification set up. Verify with your recovery key or another device instead.',
           );
+        }
+        if (mode === SetupMode.TurnOn) {
+          // Only identity keys this device holds can be stored. Creating new ones here would
+          // unverify every device, so check before changing anything.
+          const { privateKeysCachedLocally: held } = await crypto.getCrossSigningStatus();
+          if (!hasIdentity || !(held.masterKey && held.selfSigningKey && held.userSigningKey)) {
+            throw new Error(
+              'This device does not hold your identity keys. Turn recovery on from a verified device that does.',
+            );
+          }
         }
 
         const recoveryKeyData = await crypto.createRecoveryKeyFromPassphrase(passphrase);
@@ -174,13 +197,21 @@ export function SetupVerification({ onComplete, reset }: SetupVerificationProps)
           setupNewSecretStorage: true,
         });
 
-        await crypto.bootstrapCrossSigning({
-          authUploadDeviceSigningKeys,
-          setupNewCrossSigning: true,
-        });
+        // bootstrapSecretStorage has stored the identity keys this device holds; only Create and
+        // Reset make new ones.
+        if (mode !== SetupMode.TurnOn) {
+          await crypto.bootstrapCrossSigning({
+            authUploadDeviceSigningKeys,
+            setupNewCrossSigning: true,
+          });
+        }
 
         if (withBackup) {
-          await crypto.resetKeyBackup();
+          // Turning on again keeps a backup this device already uploads to; its key was just
+          // stored with the rest. A new backup would leave the old keys behind.
+          const keepBackup =
+            mode === SetupMode.TurnOn && (await crypto.getActiveSessionBackupVersion()) !== null;
+          if (!keepBackup) await crypto.resetKeyBackup();
         } else {
           // A backup left from before cannot be opened with the new key, so remove it rather
           // than leave one that shows as locked forever.
@@ -190,7 +221,7 @@ export function SetupVerification({ onComplete, reset }: SetupVerificationProps)
 
         onComplete(recoveryKeyData.encodedPrivateKey);
       },
-      [mx, onComplete, authUploadDeviceSigningKeys, reset],
+      [mx, onComplete, authUploadDeviceSigningKeys, mode],
     ),
   );
 
@@ -207,20 +238,36 @@ export function SetupVerification({ onComplete, reset }: SetupVerificationProps)
       passphrase = passphraseInput.value;
     }
 
-    setup(passphrase, backUp);
+    // The failure is shown below, so the rethrown rejection would only add console noise.
+    setup(passphrase, backUp).catch(() => undefined);
   };
 
   return (
     <Box as="form" onSubmit={handleSubmit} direction="Column" gap="400">
       <Text size="T300">
-        A <b>recovery key</b> lets you verify this account when no other device is signed in. It is
-        the only way back into your encrypted messages if you lose every device.
+        {mode === SetupMode.TurnOn ? (
+          <>
+            Recovery is off. Turning it on makes a new <b>recovery key</b> and stores a copy of your
+            existing identity keys on your homeserver. Your identity and verified devices stay as
+            they are.
+          </>
+        ) : (
+          <>
+            A <b>recovery key</b> lets you verify this account when no other device is signed in. It
+            is the only way back into your encrypted messages if you lose every device.
+          </>
+        )}
+      </Text>
+      <Text size="T200" priority="300">
+        Your recovery key never leaves your devices. It locks a copy of your cross-signing keys that
+        is stored on your homeserver, so the server holds them but cannot read them.
       </Text>
       <Box direction="Column" gap="100">
         <Text size="L400">Passphrase (optional)</Text>
         <PasswordInput name="passphraseInput" size="400" readOnly={loading} />
         <Text size="T200" priority="300">
           A passphrase is a memorable way to produce the same key. It is not your login password.
+          Use a long one: a weak passphrase can be guessed by anyone who can read your account data.
         </Text>
       </Box>
       <Box
@@ -253,7 +300,9 @@ export function SetupVerification({ onComplete, reset }: SetupVerificationProps)
         disabled={loading}
         before={loading && <Spinner size="200" variant="Primary" fill="Solid" />}
       >
-        <Text size="B400">Create recovery key</Text>
+        <Text size="B400">
+          {mode === SetupMode.TurnOn ? 'Turn on recovery' : 'Create recovery key'}
+        </Text>
       </Button>
       {setupState.status === AsyncStatus.Error && (
         <Text size="T200" style={{ color: color.Critical.Main }}>
@@ -369,9 +418,11 @@ export function RecoveryKeyDisplay({ recoveryKey, onDone }: RecoveryKeyDisplayPr
 
 type DeviceVerificationSetupProps = {
   onCancel: () => void;
+  /** `Create` or `TurnOn`; resetting has its own dialog. */
+  mode?: SetupMode.Create | SetupMode.TurnOn;
 };
 export const DeviceVerificationSetup = forwardRef<HTMLDivElement, DeviceVerificationSetupProps>(
-  ({ onCancel }, ref) => {
+  ({ onCancel, mode = SetupMode.Create }, ref) => {
     const [recoveryKey, setRecoveryKey] = useState<string>();
 
     return (
@@ -385,7 +436,9 @@ export const DeviceVerificationSetup = forwardRef<HTMLDivElement, DeviceVerifica
           size="500"
         >
           <Box grow="Yes">
-            <Text size="H4">Set up recovery</Text>
+            <Text size="H4">
+              {mode === SetupMode.TurnOn ? 'Turn on recovery' : 'Set up recovery'}
+            </Text>
           </Box>
           {/* Once a key exists it must be saved first, so only Done closes the dialog. */}
           {!recoveryKey && (
@@ -398,7 +451,7 @@ export const DeviceVerificationSetup = forwardRef<HTMLDivElement, DeviceVerifica
           {recoveryKey ? (
             <RecoveryKeyDisplay recoveryKey={recoveryKey} onDone={onCancel} />
           ) : (
-            <SetupVerification onComplete={setRecoveryKey} />
+            <SetupVerification onComplete={setRecoveryKey} mode={mode} />
           )}
         </Box>
       </Dialog>
@@ -438,7 +491,7 @@ export const DeviceVerificationReset = forwardRef<HTMLDivElement, DeviceVerifica
                 recoveryKey ? (
                   <RecoveryKeyDisplay recoveryKey={recoveryKey} onDone={onCancel} />
                 ) : (
-                  <SetupVerification onComplete={setRecoveryKey} reset />
+                  <SetupVerification onComplete={setRecoveryKey} mode={SetupMode.Reset} />
                 )
               }
             </UseStateProvider>

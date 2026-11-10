@@ -28,8 +28,15 @@ import {
   useSecretStorageDefaultKeyId,
   useSecretStorageKeyContent,
 } from '../../../hooks/useSecretStorage';
-import { CrossSigningStatus, useCrossSigningStatus } from '../../../hooks/useCrossSigning';
+import {
+  CrossSigningStatus,
+  useCrossSigningStatus,
+  useRecoveryActive,
+} from '../../../hooks/useCrossSigning';
+import { recoveryTileState } from '../../../utils/recoveryTile';
+import { SetupMode } from '../../../components/DeviceVerificationSetup';
 import { BackupRestoreTile } from '../../../components/BackupRestore';
+import type { IdentityState } from '../../device-verification-gate/verificationGate';
 
 function DevicesPlaceholder() {
   return (
@@ -40,6 +47,12 @@ function DevicesPlaceholder() {
   );
 }
 
+const IDENTITY_BY_STATUS: Record<CrossSigningStatus, IdentityState> = {
+  [CrossSigningStatus.Unknown]: 'unknown',
+  [CrossSigningStatus.Active]: 'present',
+  [CrossSigningStatus.Inactive]: 'absent',
+};
+
 type DevicesProps = {
   requestClose: () => void;
 };
@@ -48,6 +61,8 @@ export function Devices({ requestClose }: DevicesProps) {
   const crypto = mx.getCrypto();
   const crossSigningStatus = useCrossSigningStatus();
   const crossSigningActive = crossSigningStatus === CrossSigningStatus.Active;
+  const recoveryOn = useRecoveryActive();
+  const recoveryTile = recoveryTileState(recoveryOn, IDENTITY_BY_STATUS[crossSigningStatus]);
   const [devices, refreshDeviceList] = useDeviceList();
 
   const [currentDevice, otherDevices] = useSplitCurrentDevice(devices);
@@ -106,12 +121,17 @@ export function Devices({ requestClose }: DevicesProps) {
                   >
                     <SettingTile
                       title="Device Verification"
-                      description="To verify device identity and grant access to encrypted messages."
+                      description={
+                        recoveryTile === 'turnOn'
+                          ? 'Recovery is off. Devices can still be verified from another device you are signed in on. Turn recovery on to get a recovery key again.'
+                          : 'To verify device identity and grant access to encrypted messages. Recovery keeps an encrypted copy of your cross-signing keys on your homeserver; the key to it stays on your devices.'
+                      }
                       after={
                         <>
                           <EnableVerification
-                            visible={!crossSigningActive}
-                            loading={crossSigningStatus === CrossSigningStatus.Unknown}
+                            visible={recoveryTile !== 'manage'}
+                            loading={recoveryTile === 'checking'}
+                            mode={recoveryTile === 'turnOn' ? SetupMode.TurnOn : SetupMode.Create}
                           />
                           {crossSigningActive && (
                             <Box gap="200" alignItems="Center">
@@ -119,7 +139,7 @@ export function Devices({ requestClose }: DevicesProps) {
                                 verificationStatus={verificationStatus}
                                 otherUnverifiedCount={unverifiedDeviceCount}
                               />
-                              <DeviceVerificationOptions />
+                              <DeviceVerificationOptions recoveryOn={recoveryOn} />
                             </Box>
                           )}
                         </>

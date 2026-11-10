@@ -30,7 +30,9 @@ import { DeviceVerification } from '../../../components/DeviceVerification';
 import {
   DeviceVerificationResetOverlay,
   DeviceVerificationSetup,
+  SetupMode,
 } from '../../../components/DeviceVerificationSetup';
+import { TurnOffRecoveryOverlay } from '../../../components/TurnOffRecovery';
 import { stopPropagation } from '../../../utils/keyboard';
 import { useAuthMetadata } from '../../../hooks/useAuthMetadata';
 import { withSearchParam } from '../../../pages/pathUtils';
@@ -286,8 +288,14 @@ export function VerifyOtherDeviceTile({ crypto, deviceId }: VerifyOtherDeviceTil
 type EnableVerificationProps = {
   visible: boolean;
   loading?: boolean;
+  /** `TurnOn` when an identity exists but recovery is off: keep the identity. */
+  mode?: SetupMode.Create | SetupMode.TurnOn;
 };
-export function EnableVerification({ visible, loading }: EnableVerificationProps) {
+export function EnableVerification({
+  visible,
+  loading,
+  mode = SetupMode.Create,
+}: EnableVerificationProps) {
   const [open, setOpen] = useState(false);
 
   const handleCancel = useCallback(() => setOpen(false), []);
@@ -303,7 +311,7 @@ export function EnableVerification({ visible, loading }: EnableVerificationProps
           before={loading && <Spinner size="100" variant="Primary" fill="Solid" />}
         >
           <Text as="span" size="B300">
-            Enable
+            {mode === SetupMode.TurnOn ? 'Turn on recovery' : 'Enable'}
           </Text>
         </Button>
       )}
@@ -317,7 +325,7 @@ export function EnableVerification({ visible, loading }: EnableVerificationProps
                 escapeDeactivates: false,
               }}
             >
-              <DeviceVerificationSetup onCancel={handleCancel} />
+              <DeviceVerificationSetup onCancel={handleCancel} mode={mode} />
             </FocusTrap>
           </OverlayCenter>
         </Overlay>
@@ -326,12 +334,18 @@ export function EnableVerification({ visible, loading }: EnableVerificationProps
   );
 }
 
-export function DeviceVerificationOptions() {
+type DeviceVerificationOptionsProps = {
+  /** Offer "Turn off recovery"; only when it is on. */
+  recoveryOn: boolean;
+};
+export function DeviceVerificationOptions({ recoveryOn }: DeviceVerificationOptionsProps) {
   const [menuCords, setMenuCords] = useState<RectCords>();
   const authMetadata = useAuthMetadata();
   const accountManagementActions = useAccountManagementActions();
 
   const [reset, setReset] = useState(false);
+  const [turnOff, setTurnOff] = useState(false);
+  const handleCancelTurnOff = useCallback(() => setTurnOff(false), []);
 
   const handleCancelReset = useCallback(() => {
     setReset(false);
@@ -346,9 +360,11 @@ export function DeviceVerificationOptions() {
 
     if (authMetadata) {
       const authUrl = authMetadata.account_management_uri ?? authMetadata.issuer;
-      openWebUrl(withSearchParam(authUrl, {
+      openWebUrl(
+        withSearchParam(authUrl, {
           action: accountManagementActions.crossSigningReset,
-        }));
+        }),
+      );
       return;
     }
 
@@ -386,6 +402,22 @@ export function DeviceVerificationOptions() {
           >
             <Menu>
               <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
+                {recoveryOn && (
+                  <MenuItem
+                    variant="Critical"
+                    onClick={() => {
+                      setMenuCords(undefined);
+                      setTurnOff(true);
+                    }}
+                    size="300"
+                    radii="300"
+                    fill="None"
+                  >
+                    <Text as="span" size="T300" truncate>
+                      Turn off recovery…
+                    </Text>
+                  </MenuItem>
+                )}
                 <MenuItem
                   variant="Critical"
                   onClick={handleReset}
@@ -403,6 +435,7 @@ export function DeviceVerificationOptions() {
         }
       />
       {reset && <DeviceVerificationResetOverlay onCancel={handleCancelReset} />}
+      {turnOff && <TurnOffRecoveryOverlay onCancel={handleCancelTurnOff} />}
     </>
   );
 }
