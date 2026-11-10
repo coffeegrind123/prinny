@@ -127,7 +127,8 @@ export function Devices({ requestClose }: DevicesProps) {
                           : 'To verify device identity and grant access to encrypted messages. Recovery keeps an encrypted copy of your cross-signing keys on your homeserver; the key to it stays on your devices.'
                       }
                       after={
-                        <>
+                        // Both can show at once (recovery off, identity present), so space them.
+                        <Box gap="200" alignItems="Center">
                           <EnableVerification
                             visible={recoveryTile !== 'manage'}
                             loading={recoveryTile === 'checking'}
@@ -142,7 +143,7 @@ export function Devices({ requestClose }: DevicesProps) {
                               <DeviceVerificationOptions recoveryOn={recoveryOn} />
                             </Box>
                           )}
-                        </>
+                        </Box>
                       }
                     />
                     <OnlyVerifiedDevicesTile />
