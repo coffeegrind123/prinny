@@ -149,7 +149,25 @@ Range: `eff1f48e..upstream/dev` (`7170a0fc`) — 4 commits.
 | `14e490c8` | `[x]`  | fix(deps): update dependency sanitize-html v2.17.7 to v2.18.1 (#3133)    | Our `a7f8e9b`. **Security:** we list `noscript` in `nonTextTags`, so GHSA-x3q4-9hxx-gx8m applies — verified 2.18.1 drops a `<noscript>` region that 2.17.7 let leak. Also removes `deepmerge` (GHSA-gcqx-w48m-w2h4) |
 | `1e6412ed` | `[-]`  | chore: Release v4.12.8 (#3135)                                           | Release/version stamp |
 | `e58468ca` | `[-]`  | chore: fix typo in CONTRIBUTING.md (#3138)                               | Docs — we removed CONTRIBUTING |
-| `7170a0fc` | `[~]`  | chore: update existing community alias and add server (#3130)            | Our `7a0be22`: took the three alias renames; not the `servers` list, ours is empty on purpose (`publicServersUrl`) — **START HERE next sync** |
+| `7170a0fc` | `[~]`  | chore: update existing community alias and add server (#3130)            | Our `7a0be22`: took the three alias renames; not the `servers` list, ours is empty on purpose (`publicServersUrl`) |
+
+
+### 2026-11-10 sync session
+
+Range: `7170a0fc..upstream/dev` (`474400ce`) — 10 commits.
+
+| SHA        | Status | Description                                                                         | Notes |
+| ---------- | ------ | ----------------------------------------------------------------------------------- | ----- |
+| `bbf4f0cb` | `[x]`  | fix: Check m.room.encrypted permission for composer in encrypted rooms (#3092)      | Our `ef6be3e`. Reads the room's `m.room.encryption` state event instead of the deprecated `MatrixClient.isRoomEncrypted` (not supported under rust crypto); also re-renders when encryption is turned on |
+| `ae734fc6` | `[~]`  | chore(deps): bump nginx from 1.31.5-alpine to 1.31.8-alpine (#3140)                 | Our `9350faf`: same version, keeping our digest pin (Docker Hub index digest for 1.31.8-alpine) |
+| `c9e00530` | `[-]`  | chore(deps): bump actions/upload-artifact from 7.0.1 to 7.0.2 (#3131)               | CI dep |
+| `ddddce73` | `[x]`  | fix(deps): update dependency i18next-http-backend to v4.0.4 [security] (#3143)      | Already satisfied — our `f533c95` took 4.0.4 the same day (Dependabot alert) |
+| `e12adce0` | `[-]`  | chore(deps): bump docker/build-push-action from 7.3.0 to 7.4.0 (#3111)              | CI dep |
+| `5006dba6` | `[-]`  | chore(deps): bump docker/setup-buildx-action from 4.3.0 to 4.4.1 (#3114)            | CI dep |
+| `e83fc7d1` | `[-]`  | chore(deps): bump docker/setup-qemu-action from 4.3.0 to 4.4.0 (#3112)              | CI dep |
+| `8441aa6a` | `[-]`  | chore(deps): bump docker/login-action from 4.6.0 to 4.7.0 (#3144)                   | CI dep |
+| `76bbdc61` | `[-]`  | chore: add workflow for file headers (#3145)                                        | Upstream's licence-header check; not our convention |
+| `474400ce` | `[-]`  | chore: use block format for comments in headers                                     | Follow-up to the header workflow — **START HERE next sync** |
 
 ---
 
@@ -157,8 +175,8 @@ Range: `eff1f48e..upstream/dev` (`7170a0fc`) — 4 commits.
 
 ### Cumulative
 
-- **Backported:** 26 commits
-- **Skipped:** 68 commits (CI/deps, release stamps, docs)
+- **Backported:** 28 commits
+- **Skipped:** 76 commits (CI/deps, release stamps, docs)
 
 ### 2026-05-15 session
 
@@ -177,6 +195,14 @@ Range: `eff1f48e..upstream/dev` (`7170a0fc`) — 4 commits.
 
 - **Backported:** 0 commits
 - **Skipped:** 2 commits (1 security dep bump already satisfied, 1 CI dep)
+- **History:** recorded with `git merge -s ours upstream/dev`
+
+### 2026-11-10 session
+
+- **Backported:** 2 commits (1 bugfix adapted to the non-deprecated encryption check, 1 Docker base image keeping our digest pin)
+- **Skipped:** 8 commits (6 CI deps + the 2-commit header workflow); 1 security bump already satisfied, counted as skipped
+- **Conflicts resolved:** none
+- **Verified:** on a clean `npm ci`: `tsc --noEmit` 0 errors (the 133 recorded on 2026-09-26 are gone), eslint 0 errors, vitest 181/181; `vite build` runs in CI
 - **History:** recorded with `git merge -s ours upstream/dev`
 
 ### 2026-09-26 session

@@ -2,6 +2,18 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 10.11.2026
+
+- `ebbc1f7` Fixed **emoji verification saying "verified" when it had failed** — if one device's keys had changed, both screens showed the same emoji, then one said "Your device is verified" and the other "Verification has been canceled", and nothing was verified. A failed verification now says so on both, with the reason in words (and the code, for bug reports)
+- `5ccd218` Added **a warning when this session has lost its encryption keys** — a session whose local key store was lost while it stayed signed in can no longer decrypt new messages or be verified. A red banner now says so, with a Sign Out button: signing in again creates a new session with working keys
+- `5a0471e` Fixed **"Verify with Device" refusing to start with a false clock warning** — it said the device's clock was minutes ahead of the server when the clocks agreed. The check misread how old recent messages were as clock skew, after a reload and on some servers (Conduit); it now measures only on messages as they arrive
+- `8f20c7f` Fixed **the verification dialog disappearing on success** — verifying from Settings › Devices closed the dialog the moment the device became verified, so you never saw "Your device is verified"
+- `7064566` Fixed **pasting into a quote quoting only the first line** — type `> ` and paste several lines, and every line is now quoted, not just the first
+- `ef6be3e` Fixed **the message box ignoring who may post in encrypted rooms** — in an encrypted room, the box now checks the permission for encrypted messages, which is what it sends (from upstream Cinny)
+- `61162b5` `bf0c245` Removed **Cinny's own room and space from the featured communities** — new users of Prinny were pointed at Cinny's community
+- `5261509` Added **a Windows ARM64 installer** — Windows on ARM machines get their own installer and in-app updates (from upstream Cinny desktop)
+- `f533c95` Updated **dependencies with security fixes** — `vite`, `fast-uri`, `serialize-javascript`, `minimatch` (build tools) and `i18next-http-backend`; the Docker image moves to nginx 1.31.8 (`9350faf`)
+
 ## 08.11.2026
 
 - `0a15a4f` Fixed **typed text repeating itself when the screen changes size** — rotating a phone to landscape, or resizing the window across the phone/desktop width, copied whatever was in the message box again each time. The box now keeps exactly what you typed
