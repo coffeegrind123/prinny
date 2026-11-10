@@ -42,14 +42,44 @@ export type GifFavoritesContent = {
   favorites?: StoredFavorite[];
 };
 
-const parseStoredFavorite = (item: any): StoredFavorite | undefined => {
-  if (!item || typeof item.id !== 'string' || typeof item.addedAt !== 'number') return undefined;
-  const { fav } = item;
-  if (fav && (fav.kind === 'klipy' || fav.kind === 'mxc' || fav.kind === 'url')) {
-    return { id: item.id, fav, addedAt: item.addedAt };
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const isHttpUrl = (value: unknown): value is string =>
+  typeof value === 'string' && /^https?:\/\//i.test(value);
+
+// Klipy entries are sent through getGifToSend, which reads media_formats.
+const isKlipyGif = (value: unknown): value is KlipyGif =>
+  isRecord(value) && typeof value.id === 'string' && isRecord(value.media_formats);
+
+/**
+ * Account data is written by every client signed in to the account, so a stored favourite is
+ * checked field by field before the picker renders or sends it: an entry missing its URL threw
+ * deep in the send path, and a `url` favourite could point anywhere.
+ */
+const isFavoriteGif = (value: unknown): value is FavoriteGif => {
+  if (!isRecord(value)) return false;
+  if (value.kind === 'klipy') return isKlipyGif(value.gif);
+  if (value.kind === 'mxc') {
+    return (
+      typeof value.mxc === 'string' &&
+      value.mxc.startsWith('mxc://') &&
+      typeof value.body === 'string'
+    );
+  }
+  if (value.kind === 'url') return isHttpUrl(value.videoUrl) && typeof value.title === 'string';
+  return false;
+};
+
+const parseStoredFavorite = (item: unknown): StoredFavorite | undefined => {
+  if (!isRecord(item) || typeof item.id !== 'string' || typeof item.addedAt !== 'number') {
+    return undefined;
+  }
+  if (isFavoriteGif(item.fav)) {
+    return { id: item.id, fav: item.fav, addedAt: item.addedAt };
   }
   // Legacy format: { id, gif: KlipyGif, addedAt }
-  if (item.gif) {
+  if (isKlipyGif(item.gif)) {
     return { id: item.id, fav: { kind: 'klipy', gif: item.gif }, addedAt: item.addedAt };
   }
   return undefined;
@@ -71,14 +101,25 @@ export const getGifFavorites = (mx: MatrixClient): StoredFavorite[] => {
 const setGifFavorites = (mx: MatrixClient, favorites: StoredFavorite[]): Promise<unknown> =>
   mx.setAccountData(AccountDataEvent.PrinnyGifFavorites, { favorites });
 
+// setAccountData resolves only once sync echoes the write, so a toggle started before the
+// previous one landed read the old list and overwrote it. Toggles run one after another, each
+// against the newest account data; a failed one does not stop the next.
+let toggleQueue: Promise<unknown> = Promise.resolve();
+
 export const toggleGifFavorite = (mx: MatrixClient, fav: FavoriteGif): Promise<unknown> => {
-  const id = getFavoriteGifId(fav);
-  const current = getGifFavorites(mx);
-  const exists = current.some((f) => f.id === id);
-  const next = exists
-    ? current.filter((f) => f.id !== id)
-    : [{ id, fav, addedAt: Date.now() }, ...current];
-  return setGifFavorites(mx, next);
+  const run = toggleQueue
+    .catch(() => undefined)
+    .then(() => {
+      const id = getFavoriteGifId(fav);
+      const current = getGifFavorites(mx);
+      const exists = current.some((f) => f.id === id);
+      const next = exists
+        ? current.filter((f) => f.id !== id)
+        : [{ id, fav, addedAt: Date.now() }, ...current];
+      return setGifFavorites(mx, next);
+    });
+  toggleQueue = run;
+  return run;
 };
 
 /**
@@ -98,7 +139,7 @@ export const useToggleGifFavorite = (): ((fav: FavoriteGif) => void) => {
   const mx = useMatrixClient();
   return useCallback(
     (fav: FavoriteGif) => {
-      toggleGifFavorite(mx, fav);
+      toggleGifFavorite(mx, fav).catch((err) => console.warn('Failed to save GIF favourite', err));
     },
     [mx],
   );
