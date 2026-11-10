@@ -11,6 +11,7 @@ User-facing changes per commit. Most recent at the top.
 - `e7bfece` Fixed **typed messages lost on reload** — unsent text in a room's or a thread's composer now survives reloading the page, a crash or restarting the app. Sending or clearing the text removes the saved draft, and signing out clears them all
 - `56937d3` `c9e3d2f` Added **Turn off recovery** and **Turn on recovery** in Settings › Devices — recovery (the encrypted copy of your identity keys on your homeserver, and the key backup) can now be turned off. Turning it back on keeps your identity and verified devices instead of creating a new identity. An account whose identity exists without recovery is no longer shown as having it, and the logout warning now says so
 - `18876b7` Improved **encrypted attachments that fail to open** — a file that fails its integrity check (it may have been altered after it was sent) now says so instead of showing a generic error with a Retry that could never work, and one that can't be decrypted says that. Audio, video and voice messages now offer Retry after a network error
+- `92a81c7` Fixed **picking a GIF or sticker sometimes doing nothing** — the composer now shows "Sending…" while it is fetched and uploaded, and says so if it could not be loaded. Favourite GIFs stored on servers with authenticated media load again
 
 ## 10.11.2026
 
