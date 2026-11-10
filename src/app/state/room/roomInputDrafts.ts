@@ -6,6 +6,7 @@ import { IEventRelation } from 'matrix-js-sdk';
 import { createUploadAtomFamily } from '../upload';
 import { TUploadContent } from '../../utils/matrix';
 import { createListAtom } from '../list';
+import { loadMsgDraft, storeMsgDraft } from './msgDraftStore';
 
 export type TUploadMetadata = {
   markedAsSpoiler: boolean;
@@ -37,11 +38,19 @@ export type RoomIdToMsgAction =
       roomId: string;
     };
 
-const createMsgDraftAtom = () => atom<Descendant[]>([]);
+/** A composer's unsent text: starts from the stored draft and stores every change. */
+const createMsgDraftAtom = (scope: string) => {
+  const draftAtom = atom<Descendant[]>(loadMsgDraft(scope));
+  return atom<Descendant[], [Descendant[]], void>(
+    (get) => get(draftAtom),
+    (get, set, draft) => {
+      set(draftAtom, draft);
+      storeMsgDraft(scope, draft);
+    },
+  );
+};
 export type TMsgDraftAtom = ReturnType<typeof createMsgDraftAtom>;
-export const roomIdToMsgDraftAtomFamily = atomFamily<string, TMsgDraftAtom>(() =>
-  createMsgDraftAtom(),
-);
+export const roomIdToMsgDraftAtomFamily = atomFamily<string, TMsgDraftAtom>(createMsgDraftAtom);
 
 export type IReplyDraft = {
   userId: string;

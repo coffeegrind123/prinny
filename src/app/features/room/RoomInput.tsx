@@ -151,6 +151,7 @@ import { BotMenuButton } from './BotMenuButton';
 import { usePowerLevelTags } from '../../hooks/usePowerLevelTags';
 import { useComposingCheck } from '../../hooks/useComposingCheck';
 import { stripOptionalText, stripUnsafeTextChars } from '../../utils/unsafeText';
+import { storeMsgDraft } from '../../state/room/msgDraftStore';
 
 // Bridges the global `toggle-emoji-picker` keybind into the emoji
 // board's per-instance UseStateProvider scope. Lives as a child of
@@ -179,6 +180,9 @@ interface RoomInputProps {
 }
 
 const ENCRYPT_PREPARE_INTERVAL_MS = 60_000;
+
+/** Typing pause after which the draft is written to storage. */
+const DRAFT_STORE_DELAY_MS = 400;
 
 export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
   ({ editor, fileDropContainerRef, roomId, room, threadRootId, threadLatestEventId }, ref) => {
@@ -302,9 +306,32 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
     }, [mx, room]);
 
     const [emojiShortcodeReplace] = useSetting(settingsAtom, 'emojiShortcodeReplace');
+    // The draft reaches its atom only when the composer is left, which a reload
+    // or a quit never does, so it is also stored a moment after each change and
+    // when the page goes away.
+    const draftTimerRef = useRef<number>(undefined);
+    const storeDraft = useCallback(() => {
+      window.clearTimeout(draftTimerRef.current);
+      storeMsgDraft(
+        draftScope,
+        isEmptyEditor(editor) ? [] : JSON.parse(JSON.stringify(editor.children)),
+      );
+    }, [draftScope, editor]);
+    useEffect(() => {
+      window.addEventListener('pagehide', storeDraft);
+      return () => {
+        window.removeEventListener('pagehide', storeDraft);
+        // The editor is shared between rooms: a late save would file the next
+        // room's text under this one.
+        window.clearTimeout(draftTimerRef.current);
+      };
+    }, [storeDraft]);
+
     const handleEditorChange = useCallback(() => {
       if (editor.operations.some((op) => op.type !== 'set_selection')) {
         prepareToEncrypt();
+        window.clearTimeout(draftTimerRef.current);
+        draftTimerRef.current = window.setTimeout(storeDraft, DRAFT_STORE_DELAY_MS);
       }
       if (!emojiShortcodeReplace) return;
       // Only look when the change actually introduced a ':'. Every keystroke
@@ -316,7 +343,7 @@ export const RoomInput = forwardRef<HTMLDivElement, RoomInputProps>(
       if (hasColonInsert) {
         replaceShortcodeWithEmoji(editor, emojiShortcodeMap);
       }
-    }, [editor, emojiShortcodeMap, emojiShortcodeReplace, prepareToEncrypt]);
+    }, [editor, emojiShortcodeMap, emojiShortcodeReplace, prepareToEncrypt, storeDraft]);
 
     const voiceRecorder = useVoiceRecorder(roomId);
     const micPermission = useMicrophonePermission();
