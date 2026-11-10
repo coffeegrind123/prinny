@@ -358,12 +358,14 @@ const useTimelinePagination = (
   const timelineRef = useRef(timeline);
   timelineRef.current = timeline;
   const alive = useAlive();
+  // Keyed to the timeline and direction that stalled, so a jump to another
+  // chain (a permalink) can paginate again. Jump to Latest rebuilds the SAME
+  // live timeline objects, so it clears this explicitly (clearStall); a local
+  // inside the memo below could not be reached from outside.
+  const stalledRef = useRef<{ timeline: EventTimeline; backwards: boolean } | undefined>(undefined);
 
   const handleTimelinePagination = useMemo(() => {
     let fetching = false;
-    // Keyed to the timeline and direction that stalled, so a jump to another
-    // chain (permalink, jump to latest) can paginate again.
-    let stalledAt: { timeline: EventTimeline; backwards: boolean } | undefined;
 
     const recalibratePagination = (
       linkedTimelines: EventTimeline[],
@@ -400,6 +402,7 @@ const useTimelinePagination = (
 
       const timelineToPaginate = backwards ? lTimelines[0] : lTimelines[lTimelines.length - 1];
       if (!timelineToPaginate) return;
+      const stalledAt = stalledRef.current;
       if (stalledAt?.timeline === timelineToPaginate && stalledAt.backwards === backwards) return;
 
       // A permalink or jump swaps in another chain while we await the server
@@ -462,7 +465,7 @@ const useTimelinePagination = (
             `[timeline] pagination made no progress in ${timelineToPaginate.getRoomId()}, giving up`,
           );
           if (isStale()) return;
-          stalledAt = { timeline: timelineToPaginate, backwards };
+          stalledRef.current = { timeline: timelineToPaginate, backwards };
           if (alive()) onStalled(timelineToPaginate);
           return;
         }
@@ -487,7 +490,10 @@ const useTimelinePagination = (
       }
     };
   }, [mx, alive, setTimeline, limit, paginatingRef, onStalled]);
-  return handleTimelinePagination;
+  const clearStall = useCallback(() => {
+    stalledRef.current = undefined;
+  }, []);
+  return [handleTimelinePagination, clearStall] as const;
 };
 
 /**
@@ -925,7 +931,7 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
   // True only while this component's own `/messages` is in flight — see
   // `useBackfillArrive`, which uses it to ignore the backfill we caused.
   const ownPaginationRef = useRef(false);
-  const handleTimelinePagination = useTimelinePagination(
+  const [handleTimelinePagination, clearPaginationStall] = useTimelinePagination(
     mx,
     timeline,
     setTimeline,
@@ -1611,6 +1617,10 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     if (eventId) {
       navigateRoom(room.roomId, undefined, { replace: true });
     }
+    // The live timeline comes back as the same objects, so a stall recorded on
+    // it would otherwise block pagination for good.
+    clearPaginationStall();
+    setStalledTimeline(undefined);
     setTimeline(getInitialTimeline(room));
     scrollToBottomRef.current.count += 1;
     scrollToBottomRef.current.smooth = false;
