@@ -8,6 +8,7 @@ User-facing changes per commit. Most recent at the top.
 - `d5fed18` Fixed **names and messages that could display differently from what was sent** — invisible direction-override characters (such as U+202E, which reverses the text after it) and control characters are now removed wherever a room name, topic, member name, message, reply preview or notification is shown, so a file name like "invoice[U+202E]gpj.exe" can no longer pose as "invoiceexe.jpg". Right-to-left marks that Arabic and Hebrew text need are kept; what was sent, and chat exports, are unchanged
 - `ff48c4d` Fixed **calls missing people who were already in them** — joining or opening a room with a call in progress could show the call without some participants, because their room membership had not been loaded yet. Members are now loaded while someone is in a call
 - `dad3a43` Fixed **search fetching page after page on its own** — with a filter such as `has:image` or `before:`, a page with no matches made search keep loading older messages through the whole history. It now stops after 10 empty pages and offers **Search older messages**. Also fixed `has:link` finding only uploaded files instead of messages containing links
+- `e7bfece` Fixed **typed messages lost on reload** — unsent text in a room's or a thread's composer now survives reloading the page, a crash or restarting the app. Sending or clearing the text removes the saved draft, and signing out clears them all
 
 ## 10.11.2026
 
