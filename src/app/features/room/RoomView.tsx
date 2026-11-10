@@ -4,7 +4,7 @@ import { Box, Text, config } from 'folds';
 import { EventType } from 'matrix-js-sdk';
 import { isKeyHotkey } from '../../utils/is-hotkey';
 import { useStateEvent } from '../../hooks/useStateEvent';
-import { StateEvent } from '../../../types/matrix/room';
+import { MessageEvent, StateEvent } from '../../../types/matrix/room';
 import { usePowerLevelsContext } from '../../hooks/usePowerLevels';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { safeFocusEditor, useEditor } from '../../components/editor';
@@ -92,11 +92,16 @@ export function RoomView({ eventId }: { eventId?: string }) {
   const mx = useMatrixClient();
 
   const tombstoneEvent = useStateEvent(room, StateEvent.RoomTombstone);
+  const encryptionEvent = useStateEvent(room, StateEvent.RoomEncryption);
   const powerLevels = usePowerLevelsContext();
   const creators = useRoomCreators(room);
 
   const permissions = useRoomPermissions(creators, powerLevels);
-  const canMessage = permissions.event(EventType.RoomMessage, mx.getSafeUserId());
+  // In an encrypted room the composer sends m.room.encrypted, so that is the power level to check.
+  const canMessage = permissions.event(
+    encryptionEvent ? MessageEvent.RoomMessageEncrypted : EventType.RoomMessage,
+    mx.getSafeUserId(),
+  );
 
   useKeyDown(
     window,
