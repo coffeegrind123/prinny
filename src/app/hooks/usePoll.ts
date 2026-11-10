@@ -3,6 +3,7 @@ import { MatrixEvent, Poll, PollEvent, Room } from 'matrix-js-sdk';
 import { Relations } from 'matrix-js-sdk/lib/models/relations';
 import { M_POLL_KIND_DISCLOSED } from 'matrix-js-sdk/lib/@types/polls';
 import { useMatrixClient } from './useMatrixClient';
+import { tallyBallots } from '../utils/pollTally';
 
 export type PollAnswerTally = {
   id: string;
@@ -122,17 +123,9 @@ export const usePoll = (room: Room, pollStartEvent: MatrixEvent): PollState | un
       latestByUser.set(sender, readAnswers(event));
     });
 
-    const validIds = new Set(pollEvent.answers.map((answer) => answer.id));
-    const counts = new Map<string, number>();
-    let ballots = 0;
-
-    latestByUser.forEach((answers) => {
-      // A ballot naming an option that is not in the poll is spoiled — the spec
-      // says to discard it rather than credit it to something else.
-      const valid = answers.filter((id) => validIds.has(id)).slice(0, pollEvent.maxSelections);
-      if (valid.length === 0) return;
-      ballots += 1;
-      valid.forEach((id) => counts.set(id, (counts.get(id) ?? 0) + 1));
+    const { counts, ballots } = tallyBallots(latestByUser, {
+      answerIds: pollEvent.answers.map((answer) => answer.id),
+      maxSelections: pollEvent.maxSelections,
     });
 
     const myAnswers = new Set(latestByUser.get(userId) ?? []);
