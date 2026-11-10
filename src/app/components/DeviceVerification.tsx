@@ -32,6 +32,13 @@ import { AsyncStatus, useAsyncCallback } from '../hooks/useAsyncCallback';
 import { useMatrixClient } from '../hooks/useMatrixClient';
 import { ContainerColor } from '../styles/ContainerColor.css';
 import { errorMessage } from '../utils/errorMessage';
+import {
+  VerificationOutcome,
+  cancelCodeFromError,
+  verificationCancelReason,
+  verificationOutcome,
+} from '../utils/verificationCancel';
+import { otherDeviceKeysChanged } from '../../client/deviceKeysCheck';
 
 const DialogHeaderStyles: CSSProperties = {
   padding: `0 ${config.space.S200} 0 ${config.space.S400}`,
@@ -188,18 +195,21 @@ function CompareEmoji({ sasData }: { sasData: ShowSasCallbacks }) {
 
 type SasVerificationProps = {
   verifier: Verifier;
-  onCancel: () => void;
+  onFailed: (error: unknown) => void;
   onVerified: () => void;
 };
-function SasVerification({ verifier, onCancel, onVerified }: SasVerificationProps) {
+function SasVerification({ verifier, onFailed, onVerified }: SasVerificationProps) {
   const [sasData, setSasData] = useState<ShowSasCallbacks>();
 
   useVerifierShowSas(verifier, setSasData);
-  useVerifierCancel(verifier, onCancel);
+  useVerifierCancel(verifier, onFailed);
 
   // The request can stay in Started for a while after the verifier has finished, which left
-  // the emoji screen up, and its X then cancelled a completed verification. Failures arrive as
-  // the verifier's Cancel event, so the rejection itself needs no handling.
+  // the emoji screen up, and its X then cancelled a completed verification.
+  //
+  // A failure does not always arrive as the verifier's Cancel event. When the MAC check fails
+  // (m.mismatched_sas, a device presenting other keys than the ones on record), the rust verifier
+  // only rejects here, and the request then reads Done, so the rejection must be reported.
   useEffect(() => {
     let active = true;
     verifier
@@ -207,11 +217,13 @@ function SasVerification({ verifier, onCancel, onVerified }: SasVerificationProp
       .then(() => {
         if (active) onVerified();
       })
-      .catch(() => undefined);
+      .catch((err: unknown) => {
+        if (active) onFailed(err);
+      });
     return () => {
       active = false;
     };
-  }, [verifier, onVerified]);
+  }, [verifier, onVerified, onFailed]);
 
   if (sasData) {
     return <CompareEmoji sasData={sasData} />;
@@ -241,12 +253,14 @@ function VerificationDone({ onExit }: VerificationDoneProps) {
 }
 
 type VerificationCanceledProps = {
+  reason?: string;
   onClose: () => void;
 };
-function VerificationCanceled({ onClose }: VerificationCanceledProps) {
+function VerificationCanceled({ reason, onClose }: VerificationCanceledProps) {
   return (
     <Box direction="Column" gap="400">
       <Text>Verification has been canceled.</Text>
+      {reason && <Text size="T300">{reason}</Text>}
       <Button variant="Secondary" fill="Soft" onClick={onClose}>
         <Text size="B400">Close</Text>
       </Button>
@@ -258,20 +272,46 @@ type DeviceVerificationProps = {
   request: VerificationRequest;
   onExit: () => void;
 };
+type VerificationFailure = {
+  code?: string;
+  otherDeviceKeysChanged?: boolean;
+};
+
 export function DeviceVerification({ request, onExit }: DeviceVerificationProps) {
+  const mx = useMatrixClient();
   const phase = useVerificationRequestPhase(request);
   const [verified, setVerified] = useState(false);
   const verifiedRef = useRef(false);
+  const [failure, setFailure] = useState<VerificationFailure>();
 
   useEffect(() => {
     verifiedRef.current = false;
     setVerified(false);
+    setFailure(undefined);
   }, [request]);
 
   const handleVerified = useCallback(() => {
     verifiedRef.current = true;
     setVerified(true);
   }, []);
+
+  const handleFailed = useCallback(
+    (error: unknown) => {
+      const code = cancelCodeFromError(error) ?? request.cancellationCode ?? undefined;
+      console.warn('[verification] failed', { code, transactionId: request.transactionId }, error);
+      setFailure((current) => current ?? { code });
+
+      // A mismatch after matching emoji means one side presented other keys than the ones on
+      // record. If the server's keys for the other device moved, that device lost its keys.
+      const { otherUserId, otherDeviceId } = request;
+      if (!otherDeviceId || (code !== 'm.mismatched_sas' && code !== 'm.key_mismatch')) return;
+      otherDeviceKeysChanged(mx, otherUserId, otherDeviceId).then((changed) => {
+        if (!changed) return;
+        setFailure((current) => current && { ...current, otherDeviceKeysChanged: true });
+      });
+    },
+    [mx, request],
+  );
 
   const handleCancel = useCallback(() => {
     if (
@@ -284,7 +324,8 @@ export function DeviceVerification({ request, onExit }: DeviceVerificationProps)
     onExit();
   }, [request, onExit]);
 
-  const done = verified || phase === VerificationPhase.Done;
+  const outcome = verificationOutcome({ phase, verified, failed: !!failure });
+  const done = outcome === VerificationOutcome.Verified;
 
   const handleAccept = useCallback(() => request.accept(), [request]);
   const handleStart = useCallback(async () => {
@@ -324,11 +365,11 @@ export function DeviceVerification({ request, onExit }: DeviceVerificationProps)
                   <VerificationWaitStart />
                 ))}
               {phase === VerificationPhase.Started &&
-                !done &&
+                outcome === VerificationOutcome.Pending &&
                 (request.verifier ? (
                   <SasVerification
                     verifier={request.verifier}
-                    onCancel={handleCancel}
+                    onFailed={handleFailed}
                     onVerified={handleVerified}
                   />
                 ) : (
@@ -338,8 +379,13 @@ export function DeviceVerification({ request, onExit }: DeviceVerificationProps)
                   />
                 ))}
               {done && <VerificationDone onExit={onExit} />}
-              {!done && phase === VerificationPhase.Cancelled && (
-                <VerificationCanceled onClose={handleCancel} />
+              {outcome === VerificationOutcome.Canceled && (
+                <VerificationCanceled
+                  reason={verificationCancelReason(failure?.code ?? request.cancellationCode, {
+                    otherDeviceKeysChanged: failure?.otherDeviceKeysChanged,
+                  })}
+                  onClose={handleCancel}
+                />
               )}
             </Box>
           </Dialog>
