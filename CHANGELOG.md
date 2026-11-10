@@ -4,6 +4,8 @@ User-facing changes per commit. Most recent at the top.
 
 ## 10.11.2026
 
+- `ac2379a` Fixed **polls counting one person's vote several times** — a vote naming the same answer more than once counted each time; it now counts once, and a vote naming an answer the poll does not have is discarded, as the polls spec says
+- `c8df487` Fixed **a downloaded emoji or sticker pack zip could write files outside its folder** — file names came from the pack's own data, which whoever edits the pack controls. Names are now plain file names that stay inside the folder
 - `ebbc1f7` Fixed **emoji verification saying "verified" when it had failed** — if one device's keys had changed, both screens showed the same emoji, then one said "Your device is verified" and the other "Verification has been canceled", and nothing was verified. A failed verification now says so on both, with the reason in words (and the code, for bug reports)
 - `5ccd218` Added **a warning when this session has lost its encryption keys** — a session whose local key store was lost while it stayed signed in can no longer decrypt new messages or be verified. A red banner now says so, with a Sign Out button: signing in again creates a new session with working keys
 - `5a0471e` Fixed **"Verify with Device" refusing to start with a false clock warning** — it said the device's clock was minutes ahead of the server when the clocks agreed. The check misread how old recent messages were as clock skew, after a reload and on some servers (Conduit); it now measures only on messages as they arrive
