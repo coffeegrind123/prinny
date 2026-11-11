@@ -22,6 +22,7 @@ import { useMatrixClient } from '../../../hooks/useMatrixClient';
 import { useUpdateCheck } from '../../../hooks/useUpdateCheck';
 import { useIsAndroid } from '../../../hooks/useIsAndroid';
 import { version } from '../../../../../package.json';
+import { Diagnostics } from './Diagnostics';
 
 // What the update button says and does, per state. An update button that only
 // ever reads "Check for Updates" makes the user hunt for the banner to
@@ -193,6 +194,7 @@ export function About({ requestClose }: AboutProps) {
                     )}
                   </SequenceCard>
                 </Box>
+                <Diagnostics />
                 <Box direction="Column" gap="100">
                   <Text size="L400">Credits</Text>
                   <SequenceCard

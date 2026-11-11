@@ -11,6 +11,7 @@ import {
   MentionElement,
 } from './slate';
 import { editableActiveElement } from '../../utils/dom';
+import { FocusRepairTrigger, recordFocusRepair } from '../../utils/composerFocusRepairs';
 
 const ALL_MARK_TYPE: MarkType[] = [
   MarkType.Bold,
@@ -498,7 +499,7 @@ let focusRepairLogged = false;
  * event system cannot swallow, and on `keydown`, before a keystroke is handled. The model's caret
  * is the one restored, as `focusEditorDOM` does: it is where the reader left off.
  */
-export const repairEditorFocusFlag = (editor: Editor, trigger: string): boolean => {
+export const repairEditorFocusFlag = (editor: Editor, trigger: FocusRepairTrigger): boolean => {
   let el: HTMLElement;
   try {
     el = ReactEditor.toDOMNode(editor as ReactEditor, editor);
@@ -510,6 +511,7 @@ export const repairEditorFocusFlag = (editor: Editor, trigger: string): boolean 
     root instanceof Document || root instanceof ShadowRoot ? root.activeElement : null;
   if (activeElement !== el || IS_FOCUSED.get(editor)) return false;
 
+  recordFocusRepair(trigger);
   if (!focusRepairLogged) {
     focusRepairLogged = true;
     console.warn(`[composer] focused without slate knowing (${trigger}); caret restored`);
