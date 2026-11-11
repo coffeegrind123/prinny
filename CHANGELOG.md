@@ -25,6 +25,10 @@ User-facing changes per commit. Most recent at the top.
 - `6f164d9` Fixed **GIFs from other clients and bridges showing as plain videos** — the GIF marker sent by the Pinniped fork and by mautrix bridges is now recognised, and Pinniped's rich presence expiry is honoured again
 - `1a5d42e` Improved **exported message key files** — they are named after the account (`prinny-message-keys-<user>-<server>.txt`) instead of `cinny-keys.txt`
 - `1db8df5` Fixed **a missing dependency declaration** — `events` is now listed directly, and lint covers all of `src` on every platform
+- `fbc9a86` Added **emoji skin tones** — a hand beside the emoji search picks the skin tone used for every emoji that has one, in the picker, search, Recent and the `:` autocomplete
+- `37107a7` Added **favourite emoji** — right-click (long-press on touch) an emoji in the picker to pin it to a Favourites group at the top, synced across your devices
+- `14ec4cb` Improved **Recent emoji** — custom emoji you pick now show up in the Recent group alongside regular emoji
+- `38aaf70` Improved **membership lines** — names in lines such as "alice invited bob" now open the person's profile when clicked
 
 ## 10.11.2026
 
