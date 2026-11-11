@@ -13,6 +13,7 @@ declare module 'matrix-js-sdk' {
     'app.prinny.gif_favorites': unknown;
     'app.prinny.emoji_favorites': unknown;
     'app.prinny.recent_emoji': unknown;
+    'app.prinny.call_notification_rule': unknown;
     'app.prinny.emoji_mashups': unknown;
     'app.prinny.left_rooms': unknown;
     'app.prinny.auto_join': unknown;

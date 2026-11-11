@@ -28,6 +28,7 @@ import { trackClockSkew } from '../app/utils/clockSkew';
 import { watchOwnDeviceKeys } from './deviceKeysCheck';
 import { compactServerAcls } from './compactServerAcl';
 import { disposeSyncStorePersistence, installSyncStorePersistence } from './syncStorePersistence';
+import { ensureCallNotificationRule } from '../app/utils/callNotificationRule';
 
 type Session = {
   baseUrl: string;
@@ -314,8 +315,21 @@ const recheckKeyBackupAfterInitialSync = (mx: MatrixClient): void => {
   mx.on(ClientEvent.Sync, onSync);
 };
 
+// Push rules arrive with the first sync; see callNotificationRule for why this rule exists.
+const installCallNotificationRuleAfterInitialSync = (mx: MatrixClient): void => {
+  const onSync = (state: SyncState) => {
+    if (state !== SyncState.Prepared && state !== SyncState.Syncing) return;
+    mx.removeListener(ClientEvent.Sync, onSync);
+    ensureCallNotificationRule(mx).catch((err) => {
+      console.warn('[push] could not install the call notification rule:', err);
+    });
+  };
+  mx.on(ClientEvent.Sync, onSync);
+};
+
 export const startClient = async (mx: MatrixClient) => {
   recheckKeyBackupAfterInitialSync(mx);
+  installCallNotificationRuleAfterInitialSync(mx);
   trackClockSkew(mx);
   watchOwnDeviceKeys(mx);
   compactServerAcls(mx);
