@@ -25,9 +25,9 @@ import {
   IThumbnailContent,
   IVideoContent,
   IVideoInfo,
-  MATRIX_GIF_PROPERTY_NAME,
   MATRIX_SPOILER_PROPERTY_NAME,
   MATRIX_SPOILER_REASON_PROPERTY_NAME,
+  isGifVideoContent,
 } from '../../../types/matrix/common';
 import {
   FALLBACK_MIMETYPE,
@@ -319,7 +319,7 @@ export function MVideo({ content, renderAsFile, renderVideoContent }: MVideoProp
           // Written by the GIF picker on send. Until now nothing read it back
           // when rendering, so a GIF arrived as an ordinary video: a Watch
           // button, then autoplay-and-loop — the loop being right by accident.
-          gif: content[MATRIX_GIF_PROPERTY_NAME] === true,
+          gif: isGifVideoContent(content),
           info: videoInfo,
           mimeType: safeMimeType,
           url: mxcUrl,

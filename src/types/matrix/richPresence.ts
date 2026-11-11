@@ -32,6 +32,8 @@ export const RICH_PRESENCE_EXPIRES_AT = 'app.prinny.expires_at';
 // The meow fork publishes the same object with its own expiry key; honouring
 // it hides their stale activity too.
 export const MEOW_RICH_PRESENCE_EXPIRES_AT = 'de.mreow.pinniped.expires_at';
+// Where that fork publishes it since it moved to its new namespace; read only.
+const PINNIPED_RICH_PRESENCE_EXPIRES_AT = 'club.stablecat.pinniped.expires_at';
 export const RICH_PRESENCE_TTL = 5 * 60 * 1000;
 // The expiry is set by the publisher's clock and checked against ours, so
 // allow for clocks that disagree before calling an activity stale.
@@ -151,6 +153,7 @@ export const parseRichPresence = (value: unknown): RichPresence | undefined => {
   if (!isRecord(value)) return undefined;
   const expiresAt =
     optionalNumber(value[RICH_PRESENCE_EXPIRES_AT]) ??
+    optionalNumber(value[PINNIPED_RICH_PRESENCE_EXPIRES_AT]) ??
     optionalNumber(value[MEOW_RICH_PRESENCE_EXPIRES_AT]);
   if (isRichPresenceExpired(expiresAt)) return undefined;
 

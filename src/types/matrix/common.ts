@@ -8,6 +8,23 @@ export const MATRIX_SPOILER_REASON_PROPERTY_NAME =
 // Marks an m.video we sent as a GIF, so it renders and favourites as one
 // rather than as a silent clip.
 export const MATRIX_GIF_PROPERTY_NAME = 'io.cinny.gif';
+/** The same marker as the Pinniped fork now sends it. */
+const PINNIPED_GIF_PROPERTY_NAME = 'club.stablecat.pinniped.gif';
+/** The same marker as mautrix bridges send it, inside `info`. */
+const MAUTRIX_GIF_INFO_PROPERTY_NAME = 'fi.mau.gif';
+
+/** Whether a video message asks to be shown as a GIF (looped, muted, no controls), under any name. */
+export const isGifVideoContent = (content: Record<string, unknown>): boolean => {
+  if (content[MATRIX_GIF_PROPERTY_NAME] === true || content[PINNIPED_GIF_PROPERTY_NAME] === true) {
+    return true;
+  }
+  const { info } = content;
+  return (
+    typeof info === 'object' &&
+    info !== null &&
+    (info as Record<string, unknown>)[MAUTRIX_GIF_INFO_PROPERTY_NAME] === true
+  );
+};
 
 // MSC4230 — whether an m.image / m.sticker is animated. Stable since Matrix
 // 1.18; the unstable prefix is written alongside it because Element still reads

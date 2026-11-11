@@ -50,7 +50,7 @@ import { MatrixLinkHandler } from '../../components/MatrixLinkHandler';
 import { BotStartLinkHandler } from '../../components/BotStartLinkHandler';
 import { ShareTargetHandler } from '../../features/share/ShareTargetHandler';
 import { isVoiceMessageContent } from '../../utils/voice-message';
-import { MATRIX_GIF_PROPERTY_NAME } from '../../../types/matrix/common';
+import { isGifVideoContent } from '../../../types/matrix/common';
 import { IdleDetector } from '../../hooks/useIdleDetector';
 import { ChosenPresenceRestore } from '../../hooks/useChosenPresenceRestore';
 import { ProfileCallPublisher } from '../../hooks/useProfileCallPublisher';
@@ -394,7 +394,7 @@ function MessageNotifications() {
       } else if (msgtype === 'm.video') {
         // A GIF is sent as a looping video whose body is just a filename, so
         // it is named for what the user sees rather than "🎬 tenor.mp4".
-        if (content?.[MATRIX_GIF_PROPERTY_NAME] === true) {
+        if (content && isGifVideoContent(content)) {
           notificationBody = 'Sent a GIF';
         } else {
           notificationBody = rawBody ? `🎬 ${rawBody}` : 'Sent a video';

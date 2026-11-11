@@ -24,6 +24,7 @@ import {
   MATRIX_SPOILER_REASON_PROPERTY_NAME,
   IGalleryItem,
   isGalleryMsgType,
+  isGifVideoContent,
 } from '../../types/matrix/common';
 import { getBlobSafeMimeType, getImageSafeMimeType } from '../utils/mimeTypes';
 import { validBlurHash } from '../utils/blurHash';
@@ -232,7 +233,7 @@ const galleryItemsFromEvent = (mEvent: MatrixEvent): MediaItem[] => {
                 thumbnail_info: info.thumbnail_info,
               }
             : undefined,
-        gif: (item as Record<string, unknown>)[MATRIX_GIF_PROPERTY_NAME] === true,
+        gif: isGifVideoContent(item as Record<string, unknown>),
         spoiler: (item as Record<string, unknown>)[MATRIX_SPOILER_PROPERTY_NAME] === true,
         spoilerReason: (item as Record<string, unknown>)[MATRIX_SPOILER_REASON_PROPERTY_NAME] as
           string | undefined,
@@ -298,7 +299,7 @@ export const mediaItemFromEvent = (mEvent: MatrixEvent): MediaItem | undefined =
             thumbnail_info: info.thumbnail_info,
           }
         : undefined,
-    gif: content[MATRIX_GIF_PROPERTY_NAME] === true,
+    gif: isGifVideoContent(content),
     spoiler: content[MATRIX_SPOILER_PROPERTY_NAME] === true,
     spoilerReason: content[MATRIX_SPOILER_REASON_PROPERTY_NAME],
   };
