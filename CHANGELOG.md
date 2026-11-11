@@ -29,6 +29,7 @@ User-facing changes per commit. Most recent at the top.
 - `37107a7` Added **favourite emoji** — right-click (long-press on touch) an emoji in the picker to pin it to a Favourites group at the top, synced across your devices
 - `14ec4cb` Improved **Recent emoji** — custom emoji you pick now show up in the Recent group alongside regular emoji
 - `38aaf70` Improved **membership lines** — names in lines such as "alice invited bob" now open the person's profile when clicked
+- `9bbe2c4` Fixed **typing coming out backwards after closing a dialog** — when a popup or dialog handed focus back to the message box in a way the editor did not notice, every letter typed afterwards went in at the same spot, so "abc" became "cba". The message box now notices and puts the cursor back where it was
 
 ## 10.11.2026
 
