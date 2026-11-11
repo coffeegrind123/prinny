@@ -38,7 +38,11 @@ import {
   verificationCancelReason,
   verificationOutcome,
 } from '../utils/verificationCancel';
-import { otherDeviceKeysChanged } from '../../client/deviceKeysCheck';
+import {
+  otherDeviceKeysChanged,
+  ownDeviceKeysLost,
+  useOwnDeviceKeysReport,
+} from '../../client/deviceKeysCheck';
 
 const DialogHeaderStyles: CSSProperties = {
   padding: `0 ${config.space.S200} 0 ${config.space.S400}`,
@@ -283,6 +287,7 @@ export function DeviceVerification({ request, onExit }: DeviceVerificationProps)
   const [verified, setVerified] = useState(false);
   const verifiedRef = useRef(false);
   const [failure, setFailure] = useState<VerificationFailure>();
+  const ownKeysLost = ownDeviceKeysLost(useOwnDeviceKeysReport());
 
   useEffect(() => {
     verifiedRef.current = false;
@@ -383,6 +388,7 @@ export function DeviceVerification({ request, onExit }: DeviceVerificationProps)
                 <VerificationCanceled
                   reason={verificationCancelReason(failure?.code ?? request.cancellationCode, {
                     otherDeviceKeysChanged: failure?.otherDeviceKeysChanged,
+                    ownDeviceKeysLost: ownKeysLost,
                   })}
                   onClose={handleCancel}
                 />

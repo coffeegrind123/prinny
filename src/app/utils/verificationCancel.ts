@@ -23,10 +23,18 @@ const REASONS: Record<string, string> = {
 const KEYS_CHANGED_REASON =
   'The other session lost its encryption keys: the keys the server now has for it differ from the ones this device verified before. Sign out of that session and sign in again, then verify the new one.';
 
+const OWN_KEYS_LOST_REASON =
+  'This device lost its encryption keys: it now has other keys than the ones your other devices and the server have on record for it, so it cannot be verified. Sign out of this device and sign in again, then verify the new session.';
+
 export type CancelReasonContext = {
   /** The server's keys for the other device differ from the ones this device has cached. */
   otherDeviceKeysChanged?: boolean;
+  /** This device's own keys differ from the server's, or from the ones it started with. */
+  ownDeviceKeysLost?: boolean;
 };
+
+const isKeyMismatchCode = (code: string) =>
+  code === 'm.mismatched_sas' || code === 'm.key_mismatch';
 
 /** Why a verification was cancelled, in words, with the raw code kept for bug reports. */
 export const verificationCancelReason = (
@@ -34,10 +42,10 @@ export const verificationCancelReason = (
   context: CancelReasonContext = {},
 ): string | undefined => {
   if (!code) return undefined;
-  if (
-    context.otherDeviceKeysChanged &&
-    (code === 'm.mismatched_sas' || code === 'm.key_mismatch')
-  ) {
+  if (context.ownDeviceKeysLost && isKeyMismatchCode(code)) {
+    return `${OWN_KEYS_LOST_REASON} (${code})`;
+  }
+  if (context.otherDeviceKeysChanged && isKeyMismatchCode(code)) {
     return `${KEYS_CHANGED_REASON} (${code})`;
   }
   const reason = REASONS[code];

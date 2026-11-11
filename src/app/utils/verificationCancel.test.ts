@@ -27,6 +27,17 @@ describe('verificationCancelReason', () => {
     );
   });
 
+  it('says this device lost its keys when its own keys are the ones that changed', () => {
+    expect(verificationCancelReason('m.mismatched_sas', { ownDeviceKeysLost: true })).toMatch(
+      /This device lost its encryption keys.*sign in again.*\(m\.mismatched_sas\)$/is,
+    );
+    expect(verificationCancelReason('m.key_mismatch', { ownDeviceKeysLost: true })).toMatch(
+      /This device lost/,
+    );
+    // Other codes are not about keys.
+    expect(verificationCancelReason('m.user', { ownDeviceKeysLost: true })).toMatch(/cancelled/);
+  });
+
   it('shows an unknown code as it is, and nothing when there is no code', () => {
     expect(verificationCancelReason('org.example.weird')).toBe('Reason code: org.example.weird');
     expect(verificationCancelReason(null)).toBeUndefined();
