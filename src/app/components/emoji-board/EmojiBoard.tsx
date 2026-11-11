@@ -26,13 +26,11 @@ import { useEmojiGroupIcons } from './useEmojiGroupIcons';
 import { preventScrollWithArrowKey, stopPropagation } from '../../utils/keyboard';
 import { useRelevantImagePacks } from '../../hooks/useImagePacks';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
-import { useRecentEmoji } from '../../hooks/useRecentEmoji';
 import { isUserId, mxcUrlToHttp } from '../../utils/matrix';
 import { editableActiveElement, targetFromEvent } from '../../utils/dom';
 import { useAsyncSearch, UseAsyncSearchOptions } from '../../hooks/useAsyncSearch';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useThrottle } from '../../hooks/useThrottle';
-import { addRecentEmoji } from '../../plugins/recent-emoji';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
 import { ImagePack, ImageUsage, PackImageReader } from '../../plugins/custom-emoji';
 import { emojiSearchKey, getEmoticonSearchStr } from '../../plugins/utils';
@@ -72,6 +70,8 @@ import { stripOptionalText } from '../../utils/unsafeText';
 import { SkinToneSelector } from './components/SkinToneSelector';
 import { toggleFavoriteEmoji } from '../../plugins/favorite-emoji';
 import { useFavoriteEmoji } from '../../hooks/useFavoriteEmoji';
+import { useRecentPickerEmoji } from '../../hooks/useRecentPickerEmoji';
+import { recordPickerRecent } from '../../plugins/recent-picker-emoji';
 
 // The mashup tab carries ~233 KB of inlined Twemoji parts. Loading it with the
 // board would make every emoji picker pay for a tab most openings never touch,
@@ -105,7 +105,11 @@ const useGroups = (
 ): [EmojiGroupItem[], StickerGroupItem[]] => {
   const mx = useMatrixClient();
 
-  const recentEmojis = useRecentEmoji(mx, 21);
+  const customEmoticons = useMemo(
+    () => imagePacks.flatMap((pack) => pack.getImages(ImageUsage.Emoticon)),
+    [imagePacks],
+  );
+  const recentEmojis = useRecentPickerEmoji(mx, customEmoticons, 21);
   const favoriteEmojis = useFavoriteEmoji();
   const labels = useEmojiGroupLabels();
 
@@ -848,11 +852,14 @@ export function EmojiBoard({
     if (emojiInfo.type === EmojiType.Emoji) {
       onEmojiSelect?.(emojiInfo.data, emojiInfo.shortcode);
       if (!keepOpen && addToRecentEmoji) {
-        addRecentEmoji(mx, emojiInfo.data);
+        recordPickerRecent(mx, emojiInfo.data);
       }
     }
     if (emojiInfo.type === EmojiType.CustomEmoji) {
       onCustomEmojiSelect?.(emojiInfo.data, emojiInfo.shortcode, emojiInfo.label);
+      if (!keepOpen && addToRecentEmoji) {
+        recordPickerRecent(mx, emojiInfo.data);
+      }
     }
     if (emojiInfo.type === EmojiType.Sticker) {
       onStickerSelect?.(emojiInfo.data, emojiInfo.shortcode, emojiInfo.label);

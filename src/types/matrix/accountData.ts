@@ -8,7 +8,7 @@ export enum AccountDataEvent {
   PrinnyRoomOrder = 'app.prinny.room_order',
   PrinnyGifFavorites = 'app.prinny.gif_favorites',
   PrinnyEmojiFavorites = 'app.prinny.emoji_favorites',
-  PrinnyRecentCustomEmoji = 'app.prinny.recent_custom_emoji',
+  PrinnyRecentEmoji = 'app.prinny.recent_emoji',
   PrinnyEmojiMashups = 'app.prinny.emoji_mashups',
   /** Rooms the user left, which space auto-join must not join again. */
   PrinnyLeftRooms = 'app.prinny.left_rooms',
