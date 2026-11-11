@@ -30,6 +30,9 @@ User-facing changes per commit. Most recent at the top.
 - `14ec4cb` Improved **Recent emoji** — custom emoji you pick now show up in the Recent group alongside regular emoji
 - `38aaf70` Improved **membership lines** — names in lines such as "alice invited bob" now open the person's profile when clicked
 - `9bbe2c4` Fixed **typing coming out backwards after closing a dialog** — when a popup or dialog handed focus back to the message box in a way the editor did not notice, every letter typed afterwards went in at the same spot, so "abc" became "cba". The message box now notices and puts the cursor back where it was
+- `792b04d` Improved **Notification Sound** — turning it off now also silences the ring of an incoming call; the call still shows
+- `8c9e7fe` Fixed **a red @ badge whenever someone starts a call** — a call's ring counted as a mention of everyone in the room. Prinny now adds a push rule so a ring notifies without counting as a mention, in every client and in mobile notifications. Muted rooms stay muted
+- `da0901e` Added **Export Identity Keys** and **Import Identity Keys** in Settings › Devices › Local Backup — a password-protected copy of your identity, to verify a new device after losing every other one, even with recovery off. Keys that are not your account's current identity are refused
 
 ## 10.11.2026
 
