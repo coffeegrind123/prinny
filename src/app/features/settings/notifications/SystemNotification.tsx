@@ -255,7 +255,7 @@ export function SystemNotification() {
       >
         <SettingTile
           title="Notification Sound"
-          description="Play sound when new message arrive."
+          description="Play a sound when a new message arrives."
           after={<Switch value={isNotificationSounds} onChange={setIsNotificationSounds} />}
         />
         <SettingTile
