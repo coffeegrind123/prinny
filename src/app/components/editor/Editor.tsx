@@ -20,6 +20,7 @@ import {
   RenderLeafProps,
   RenderElementProps,
   RenderPlaceholderProps,
+  ReactEditor,
 } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { BlockType } from './types';
@@ -31,6 +32,7 @@ import {
   insertQuotedLines,
   rememberSelection,
   restoreCaretIfMissing,
+  repairEditorFocusFlag,
   restoreDomCaretIfMissing,
 } from './utils';
 
@@ -215,6 +217,27 @@ export const CustomEditor = forwardRef<HTMLDivElement, CustomEditorProps>(
      * is repaired — see `restoreDomCaretIfMissing` — so this never argues with
      * the reader about where their cursor is.
      */
+    // See `repairEditorFocusFlag`: focus that React never saw leaves slate thinking it is
+    // unfocused, and typing then comes out backwards. Native listeners, because the whole problem
+    // is that React's event system was not listening. The focus check waits a microtask, so a
+    // normal focus (which React does see) has set the flag first and nothing is touched.
+    useEffect(() => {
+      let el: HTMLElement;
+      try {
+        el = ReactEditor.toDOMNode(editor, editor);
+      } catch {
+        return undefined;
+      }
+      const handleFocus = () => queueMicrotask(() => repairEditorFocusFlag(editor, 'focus'));
+      const handleKeyDown = () => repairEditorFocusFlag(editor, 'keydown');
+      el.addEventListener('focus', handleFocus);
+      el.addEventListener('keydown', handleKeyDown, true);
+      return () => {
+        el.removeEventListener('focus', handleFocus);
+        el.removeEventListener('keydown', handleKeyDown, true);
+      };
+    }, [editor]);
+
     useEffect(() => {
       const handleDomSelectionChange = () => {
         restoreDomCaretIfMissing(editor);

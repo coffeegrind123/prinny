@@ -188,7 +188,6 @@ export const applyDraft = (editor: Editor, draft: Node[]) => {
   resetEditorHistory(editor);
 };
 
-
 export const createMentionElement = (
   id: string,
   name: string,
@@ -478,6 +477,45 @@ const focusEditorDOM = (
   }
   IS_FOCUSED.set(editor, true);
   if (!alreadyFocused) el.focus({ preventScroll: true });
+};
+
+/** Logged once per page: enough to show the repair ran, without a line per keystroke. */
+let focusRepairLogged = false;
+
+/**
+ * Repair the state behind "text types in backwards": the composer has DOM focus but slate believes
+ * it is not focused. Returns whether a repair was needed.
+ *
+ * Slate learns it is focused from React's `onFocus`, or from its `selectionchange` handler. A focus
+ * moved while React is committing (a dialog or popup closing and handing focus back) never reaches
+ * `onFocus`, and when the caret does not move there is no `selectionchange` either. Slate then
+ * stops writing its selection into the DOM, each character goes in at a caret that no longer moves,
+ * and "abc" comes out as "cb...a". Reproduced in Chromium by hiding the composer's `focusin` from
+ * React and focusing it programmatically, as a closing dialog does.
+ *
+ * The routes there are many and depend on the browser (`safeFocusEditor` covers the ones we call
+ * ourselves), so the composer checks for the state itself: on its native `focus`, which React's
+ * event system cannot swallow, and on `keydown`, before a keystroke is handled. The model's caret
+ * is the one restored, as `focusEditorDOM` does: it is where the reader left off.
+ */
+export const repairEditorFocusFlag = (editor: Editor, trigger: string): boolean => {
+  let el: HTMLElement;
+  try {
+    el = ReactEditor.toDOMNode(editor as ReactEditor, editor);
+  } catch {
+    return false;
+  }
+  const root = el.getRootNode();
+  const activeElement =
+    root instanceof Document || root instanceof ShadowRoot ? root.activeElement : null;
+  if (activeElement !== el || IS_FOCUSED.get(editor)) return false;
+
+  if (!focusRepairLogged) {
+    focusRepairLogged = true;
+    console.warn(`[composer] focused without slate knowing (${trigger}); caret restored`);
+  }
+  focusEditorDOM(editor);
+  return true;
 };
 
 /**
