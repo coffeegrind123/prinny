@@ -905,8 +905,6 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     [mapsEnabled, mapStyleUrl],
   );
 
-  const parseMemberEvent = useMemberEventParser();
-
   const [timeline, setTimeline] = useState<Timeline>(() =>
     eventId ? getEmptyTimeline() : getInitialTimeline(room),
   );
@@ -1664,6 +1662,8 @@ export function RoomTimeline({ room, eventId, roomInputRef, editor }: RoomTimeli
     },
     [room, space, openUserRoomProfile],
   );
+  // Names in membership lines ("alice invited bob") open profiles the same way.
+  const parseMemberEvent = useMemberEventParser(handleUserClick);
   // Clicking a sender's name opens their profile, the same as clicking their
   // avatar, rather than inserting a mention into the composer. Mentioning is
   // still a keystroke away through composer autocomplete, and is also an action

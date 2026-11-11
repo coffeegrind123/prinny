@@ -246,6 +246,26 @@ export const UsernameBold = style({
 });
 
 /**
+ * A username button inside a sentence ("alice invited bob"). `Username` is sized for a message
+ * header; here the name is part of running text, so it takes the text's font and colour and
+ * wraps with it however long it is, instead of running out of the row.
+ */
+export const UsernameInline = style({
+  overflow: 'visible',
+  whiteSpace: 'normal',
+  overflowWrap: 'anywhere',
+  maxWidth: '100%',
+  verticalAlign: 'baseline',
+  textAlign: 'start',
+  font: 'inherit',
+  color: 'inherit',
+  margin: 0,
+  padding: 0,
+  background: 'none',
+  border: 0,
+});
+
+/**
  * Stops a link inside a message from being a drag source.
  *
  * An anchor is natively draggable, and that beats text selection: a

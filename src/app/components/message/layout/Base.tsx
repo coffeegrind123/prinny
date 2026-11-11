@@ -27,6 +27,20 @@ export const UsernameBold = as<'b'>(({ as: AsUsernameBold = 'b', className, ...p
   <AsUsernameBold className={classNames(css.UsernameBold, className)} {...props} ref={ref} />
 ));
 
+/** A clickable username inside a sentence, wrapping with it; see `css.UsernameInline`. */
+export const InlineUsername = as<'button'>(
+  ({ as: AsInlineUsername = 'button', className, children, ...props }, ref) => (
+    <AsInlineUsername
+      type="button"
+      className={classNames(css.Username, css.UsernameInline, className)}
+      {...props}
+      ref={ref}
+    >
+      <b className={css.UsernameBold}>{children}</b>
+    </AsInlineUsername>
+  ),
+);
+
 export const MessageTextBody = as<'div', css.MessageTextBodyVariants & { notice?: boolean }>(
   ({ as: asComp = 'div', className, preWrap, jumboEmoji, emote, notice, ...props }, ref) => (
     <Text
