@@ -28,6 +28,94 @@ export enum DeviceKeysState {
 
 export type IdentityKeys = { ed25519: string; curve25519: string };
 
+export type DeviceKeysChange = { at: number; from: string; to: string };
+
+/**
+ * The identity keys this device ID has started with, kept in localStorage beside the login.
+ *
+ * A device's keys never change while its crypto store survives, so a change under the same device
+ * ID means the store was lost and the SDK made a new account. Recorded locally because no server
+ * reports it: Conduit keeps the old keys (which `compareDeviceKeys` catches) but Synapse
+ * overwrites them, and then only this record shows it happened, and when.
+ */
+export type DeviceKeysHistory = IdentityKeys & { since: number; changes: DeviceKeysChange[] };
+
+export const MAX_DEVICE_KEY_CHANGES = 10;
+
+export const recordDeviceKeys = (
+  history: DeviceKeysHistory | undefined,
+  keys: IdentityKeys,
+  now: number,
+): DeviceKeysHistory => {
+  if (!history) return { ...keys, since: now, changes: [] };
+  if (history.ed25519 === keys.ed25519 && history.curve25519 === keys.curve25519) return history;
+
+  const change = { at: now, from: history.ed25519, to: keys.ed25519 };
+  return {
+    ...keys,
+    since: now,
+    changes: [...history.changes, change].slice(-MAX_DEVICE_KEY_CHANGES),
+  };
+};
+
+const isString = (value: unknown): value is string => typeof value === 'string';
+
+const isChange = (value: unknown): value is DeviceKeysChange => {
+  const change = value as Partial<DeviceKeysChange> | null;
+  return (
+    typeof change === 'object' &&
+    change !== null &&
+    typeof change.at === 'number' &&
+    isString(change.from) &&
+    isString(change.to)
+  );
+};
+
+export const parseDeviceKeysHistory = (raw: string | null): DeviceKeysHistory | undefined => {
+  if (!raw) return undefined;
+  let value: Partial<DeviceKeysHistory>;
+  try {
+    value = JSON.parse(raw);
+  } catch {
+    return undefined;
+  }
+  if (
+    !value ||
+    !isString(value.ed25519) ||
+    !isString(value.curve25519) ||
+    typeof value.since !== 'number' ||
+    !Array.isArray(value.changes) ||
+    !value.changes.every(isChange)
+  ) {
+    return undefined;
+  }
+  return {
+    ed25519: value.ed25519,
+    curve25519: value.curve25519,
+    since: value.since,
+    changes: value.changes,
+  };
+};
+
+const historyStorageKey = (userId: string, deviceId: string) =>
+  `app.prinny.deviceKeysHistory:${userId}:${deviceId}`;
+
+const readHistory = (key: string): DeviceKeysHistory | undefined => {
+  try {
+    return parseDeviceKeysHistory(localStorage.getItem(key));
+  } catch {
+    return undefined;
+  }
+};
+
+const writeHistory = (key: string, history: DeviceKeysHistory) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(history));
+  } catch (err) {
+    console.warn('[crypto] could not store the device key history', err);
+  }
+};
+
 export const compareDeviceKeys = (
   deviceId: string,
   local: IdentityKeys,
@@ -93,13 +181,51 @@ export const otherDeviceKeysChanged = async (
 // The first check can run before the new account's keys are uploaded; look again once.
 const RECHECK_NOT_UPLOADED_MS = 60_000;
 
-let mismatch = false;
+/** What is known about this session's own keys, for the banner, the gate and Diagnostics. */
+export type OwnDeviceKeysReport = {
+  /** The server's answer, once asked. */
+  state?: DeviceKeysState;
+  checkedAt?: number;
+  local?: IdentityKeys;
+  /** The identity keys the server serves for this device, when it has any. */
+  server?: Partial<IdentityKeys>;
+  history?: DeviceKeysHistory;
+};
+
+let report: OwnDeviceKeysReport = {};
 const listeners = new Set<() => void>();
 
-const setMismatch = (value: boolean) => {
-  if (mismatch === value) return;
-  mismatch = value;
+const updateReport = (next: OwnDeviceKeysReport) => {
+  report = next;
   listeners.forEach((listener) => listener());
+};
+
+/**
+ * Whether this session's keys are known to differ from the ones its device ID had before:
+ * the server holds others, or this device started with others since it was first seen here.
+ */
+export const ownDeviceKeysLost = (current: OwnDeviceKeysReport): boolean =>
+  current.state === DeviceKeysState.Mismatch || (current.history?.changes.length ?? 0) > 0;
+
+const recordOwnKeys = async (mx: MatrixClient) => {
+  const crypto = mx.getCrypto();
+  const userId = mx.getUserId();
+  const deviceId = mx.getDeviceId();
+  if (!crypto || !userId || !deviceId) return;
+
+  const local = await crypto.getOwnDeviceKeys();
+  const key = historyStorageKey(userId, deviceId);
+  const before = readHistory(key);
+  const history = recordDeviceKeys(before, local, Date.now());
+  if (history !== before) writeHistory(key, history);
+  if (before && history !== before) {
+    console.error('[crypto] this device started with other identity keys than before', {
+      deviceId,
+      before: { ed25519: before.ed25519, curve25519: before.curve25519 },
+      now: local,
+    });
+  }
+  updateReport({ ...report, local, history });
 };
 
 const checkNow = async (mx: MatrixClient): Promise<DeviceKeysState | undefined> => {
@@ -118,7 +244,16 @@ const checkNow = async (mx: MatrixClient): Promise<DeviceKeysState | undefined> 
       server,
     });
   }
-  setMismatch(state === DeviceKeysState.Mismatch);
+  updateReport({
+    ...report,
+    state,
+    checkedAt: Date.now(),
+    local,
+    server: server && {
+      ed25519: server[`ed25519:${deviceId}`],
+      curve25519: server[`curve25519:${deviceId}`],
+    },
+  });
   return state;
 };
 
@@ -126,7 +261,8 @@ const checkNow = async (mx: MatrixClient): Promise<DeviceKeysState | undefined> 
 export const watchOwnDeviceKeys = (mx: MatrixClient): (() => void) => {
   let timer: ReturnType<typeof setTimeout> | undefined;
   let stopped = false;
-  setMismatch(false);
+  updateReport({});
+  recordOwnKeys(mx).catch((err) => console.warn('[crypto] could not record own device keys', err));
 
   const run = () => {
     checkNow(mx)
@@ -158,7 +294,12 @@ const subscribe = (listener: () => void) => {
     listeners.delete(listener);
   };
 };
-const getSnapshot = () => mismatch;
+const getSnapshot = () => report;
+
+export const useOwnDeviceKeysReport = (): OwnDeviceKeysReport =>
+  useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+
+export const getOwnDeviceKeysReport = (): OwnDeviceKeysReport => report;
 
 export const useOwnDeviceKeysMismatch = (): boolean =>
-  useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  useOwnDeviceKeysReport().state === DeviceKeysState.Mismatch;
