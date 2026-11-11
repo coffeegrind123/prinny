@@ -18,6 +18,13 @@ User-facing changes per commit. Most recent at the top.
 - `f3a8141` Fixed **starring two GIFs quickly keeping only one** — and favourites saved by another client in a broken shape are skipped instead of failing when sent
 - `598ef85` Fixed **a file sometimes uploading twice** — attachments now start uploading after the card is shown, not while it is drawn
 - `2f0bdc5` Improved **the camera button in calls** — it is disabled with "Camera Unavailable" when the device has no camera
+- `f361d8a` Improved **message hover buttons** — Add Reaction, Reply, Reply in Thread, Edit and More Options now have tooltips and are named for screen readers
+- `cc3aaad` Fixed **Select All in an opened text file** — Ctrl/Cmd+A now selects the file's text instead of the whole page behind it
+- `a7510e7` Improved **settings wording** — "URL Preview", "URL Preview in Encrypted Rooms", "Play a sound when a new message arrives"
+- `4b9c8ef` Improved **privacy in the desktop and Android apps** — they no longer send the app's address as a referrer when loading link previews and media, as the web version already did. YouTube players still get the app's origin, which they need to play
+- `6f164d9` Fixed **GIFs from other clients and bridges showing as plain videos** — the GIF marker sent by the Pinniped fork and by mautrix bridges is now recognised, and Pinniped's rich presence expiry is honoured again
+- `1a5d42e` Improved **exported message key files** — they are named after the account (`prinny-message-keys-<user>-<server>.txt`) instead of `cinny-keys.txt`
+- `1db8df5` Fixed **a missing dependency declaration** — `events` is now listed directly, and lint covers all of `src` on every platform
 
 ## 10.11.2026
 
