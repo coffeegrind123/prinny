@@ -12,6 +12,12 @@ User-facing changes per commit. Most recent at the top.
 - `56937d3` `c9e3d2f` Added **Turn off recovery** and **Turn on recovery** in Settings › Devices — recovery (the encrypted copy of your identity keys on your homeserver, and the key backup) can now be turned off. Turning it back on keeps your identity and verified devices instead of creating a new identity. An account whose identity exists without recovery is no longer shown as having it, and the logout warning now says so
 - `18876b7` Improved **encrypted attachments that fail to open** — a file that fails its integrity check (it may have been altered after it was sent) now says so instead of showing a generic error with a Retry that could never work, and one that can't be decrypted says that. Audio, video and voice messages now offer Retry after a network error
 - `92a81c7` Fixed **picking a GIF or sticker sometimes doing nothing** — the composer now shows "Sending…" while it is fetched and uploaded, and says so if it could not be loaded. Favourite GIFs stored on servers with authenticated media load again
+- `273acd2` Fixed **a room tab reopening the same old message** — after opening a notification or message link, going back to that room's tab jumped to and highlighted that message every time; the tab now remembers the room
+- `da9df54` Fixed **Jump to Latest not getting history loading going again** — after loading older messages stalled, jumping to the latest message left it stalled until the room was reopened
+- `fa93dda` Improved **applying a space's notification setting** — unread counts are rebuilt once after the change instead of once per room
+- `f3a8141` Fixed **starring two GIFs quickly keeping only one** — and favourites saved by another client in a broken shape are skipped instead of failing when sent
+- `598ef85` Fixed **a file sometimes uploading twice** — attachments now start uploading after the card is shown, not while it is drawn
+- `2f0bdc5` Improved **the camera button in calls** — it is disabled with "Camera Unavailable" when the device has no camera
 
 ## 10.11.2026
 
