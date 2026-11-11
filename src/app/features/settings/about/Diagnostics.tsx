@@ -9,7 +9,7 @@ import { useOwnDeviceKeysReport } from '../../../../client/deviceKeysCheck';
 import { readFocusRepairs } from '../../../utils/composerFocusRepairs';
 import { isTauri } from '../../../utils/desktop-notifications';
 import { copyToClipboard } from '../../../utils/dom';
-import { formatDiagnostics } from './diagnostics';
+import { formatDiagnostics } from './diagnosticsReport';
 import { version } from '../../../../../package.json';
 
 export function Diagnostics() {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { DeviceKeysState } from '../../../../client/deviceKeysCheck';
-import { DiagnosticsInput, formatDiagnostics } from './diagnostics';
+import { DiagnosticsInput, formatDiagnostics } from './diagnosticsReport';
 
 const BASE: DiagnosticsInput = {
   version: '4.11.272',
