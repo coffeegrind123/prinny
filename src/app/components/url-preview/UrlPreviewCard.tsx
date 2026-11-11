@@ -2173,6 +2173,7 @@ export const UrlPreviewCard = as<
             src={`${
               usePiped ? pipedEmbedUrl(pipedBase, ytVideoId) : `${YOUTUBE_EMBED_BASE}${ytVideoId}`
             }?autoplay=1`}
+            referrerPolicy={usePiped ? undefined : 'strict-origin'}
           />
         )}
         {twitchTarget && (

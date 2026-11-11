@@ -34,6 +34,12 @@ type SitePlayerProps = {
   site: string;
   /** Poster from a host the card already talks to; otherwise a plain panel. */
   poster?: string;
+  /**
+   * The frame's referrer policy, overriding the page's `no-referrer`. YouTube's player refuses to
+   * play without the embedding origin (error 153), so it gets `strict-origin`: the origin only,
+   * and only once the reader clicks play.
+   */
+  referrerPolicy?: HTMLIFrameElement['referrerPolicy'];
 };
 
 /**
@@ -45,7 +51,7 @@ type SitePlayerProps = {
  * click this renders a button and at most a poster image; the click swaps in
  * the frame and starts playback, so watching still takes one click.
  */
-export function SitePlayer({ src, title, site, poster }: SitePlayerProps) {
+export function SitePlayer({ src, title, site, poster, referrerPolicy }: SitePlayerProps) {
   const [active, setActive] = useState(false);
   const [posterFailed, setPosterFailed] = useState(false);
 
@@ -56,6 +62,7 @@ export function SitePlayer({ src, title, site, poster }: SitePlayerProps) {
           style={FILL_STYLE}
           src={src}
           title={title}
+          referrerPolicy={referrerPolicy}
           // The narrowest sandbox that still plays video. Deliberately absent:
           // allow-top-navigation (would let the frame navigate this window
           // away) and allow-popups (would let it open new ones).

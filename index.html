@@ -8,6 +8,9 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content"
     />
     <title>Cinny</title>
+    <!-- The web build gets Referrer-Policy from nginx; the desktop and Android builds have no
+         server header, so the page sets it. Players that need an origin set their own. -->
+    <meta name="referrer" content="no-referrer" />
     <meta name="name" content="Cinny" />
     <meta name="author" content="Ajay Bura" />
     <meta
