@@ -12,6 +12,7 @@ import { decryptMegolmKeyFile, encryptMegolmKeyFile } from '../../../../util/cry
 import { useAlive } from '../../../hooks/useAlive';
 import { useFilePicker } from '../../../hooks/useFilePicker';
 import { errorMessage } from '../../../utils/errorMessage';
+import { messageKeysFilename } from '../../../utils/recoveryKeyFile';
 
 function ExportKeys() {
   const mx = useMatrixClient();
@@ -29,7 +30,7 @@ function ExportKeys() {
         const blob = new Blob([encKeys], {
           type: 'text/plain;charset=us-ascii',
         });
-        FileSaver.saveAs(blob, 'cinny-keys.txt');
+        FileSaver.saveAs(blob, messageKeysFilename(mx.getSafeUserId()));
       },
       [mx],
     ),
