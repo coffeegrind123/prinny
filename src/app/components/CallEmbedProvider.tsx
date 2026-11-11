@@ -88,6 +88,9 @@ function IncomingCall({ dm, info, onIgnore, onAnswer, onReject }: IncomingCallPr
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const [soundPack] = useSetting(settingsAtom, 'soundPack');
+  // The master "Notification Sound" switch covers the incoming-call ring too: someone who has
+  // turned sounds off should not be rung at full volume. The call dialog still appears.
+  const [notificationSounds] = useSetting(settingsAtom, 'isNotificationSounds');
 
   const roomName = useRoomName(room);
   const roomAvatar = useRoomAvatar(room, dm);
@@ -110,14 +113,15 @@ function IncomingCall({ dm, info, onIgnore, onAnswer, onReject }: IncomingCallPr
 
   const playSound = useCallback(() => {
     const audioElement = audioRef.current;
-    audioElement?.play();
+    // A browser that blocks autoplay rejects here; the dialog is the notice that matters.
+    audioElement?.play().catch(() => undefined);
   }, []);
 
   useEffect(() => {
-    if (info.notificationType === 'ring') {
+    if (info.notificationType === 'ring' && notificationSounds) {
       playSound();
     }
-  }, [playSound, info.notificationType]);
+  }, [playSound, info.notificationType, notificationSounds]);
 
   return (
     <>
