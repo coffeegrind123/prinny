@@ -1,7 +1,7 @@
 import { atom, useAtom } from 'jotai';
 import { atomFamily } from 'jotai/utils';
 import { MatrixClient, UploadResponse, UploadProgress, MatrixError } from 'matrix-js-sdk';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useThrottle } from '../hooks/useThrottle';
 import { uploadContent, TUploadContent } from '../utils/matrix';
 
@@ -144,3 +144,26 @@ export const createUploadFamilyObserverAtom = (
   uploads: TUploadContent[],
 ) => atom<Upload[]>((get) => uploads.map((upload) => get(uploadFamily(upload))));
 export type TUploadFamilyObserverAtom = ReturnType<typeof createUploadFamilyObserverAtom>;
+
+/**
+ * Starts an upload that is still idle. It runs from an effect, not during render: a render can be
+ * replayed (StrictMode, a suspended or interrupted render), and starting there sent the file
+ * twice. The ref stops a second start while the first is in flight, StrictMode's double effect
+ * run included.
+ */
+export const useStartIdleUpload = (
+  status: UploadStatus,
+  skip: boolean,
+  startUpload: () => unknown,
+) => {
+  const started = useRef(false);
+  useEffect(() => {
+    if (status !== UploadStatus.Idle) {
+      started.current = false;
+      return;
+    }
+    if (skip || started.current) return;
+    started.current = true;
+    startUpload();
+  }, [status, skip, startUpload]);
+};

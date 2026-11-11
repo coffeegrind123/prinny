@@ -1,7 +1,12 @@
 import { ReactNode, useEffect } from 'react';
 import { Box, Chip, Icon, IconButton, Icons, Text, color, config, toRem } from 'folds';
 import { UploadCard, UploadCardError, UploadCardProgress } from './UploadCard';
-import { UploadStatus, UploadSuccess, useBindUploadAtom } from '../../state/upload';
+import {
+  UploadStatus,
+  UploadSuccess,
+  useBindUploadAtom,
+  useStartIdleUpload,
+} from '../../state/upload';
 import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { getUploadContentName, TUploadContent } from '../../utils/matrix';
 import { bytesToSize, getFileTypeIcon } from '../../utils/common';
@@ -122,9 +127,7 @@ export function UploadCardRenderer({
   const { file } = upload;
   const fileSizeExceeded = file.size >= allowSize;
 
-  if (upload.status === UploadStatus.Idle && !fileSizeExceeded) {
-    startUpload();
-  }
+  useStartIdleUpload(upload.status, fileSizeExceeded, startUpload);
 
   const handleSpoiler = (marked: boolean) => {
     setMetadata(fileItem, { ...metadata, markedAsSpoiler: marked });
