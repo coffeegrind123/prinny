@@ -28,6 +28,7 @@ import {
   config,
 } from 'folds';
 import {
+  ComponentProps,
   FormEventHandler,
   MouseEventHandler,
   ReactNode,
@@ -877,6 +878,29 @@ export const MessageReportItem = as<
     </>
   );
 });
+
+type HoverBarButtonProps = ComponentProps<typeof IconButton> & { label: string };
+/**
+ * An icon-only hover-bar button with a name: a tooltip for the pointer and an aria-label for
+ * screen readers, which otherwise announced each of them as just "button".
+ */
+function HoverBarButton({ label, ...props }: HoverBarButtonProps) {
+  return (
+    <TooltipProvider
+      position="Top"
+      align="Center"
+      offset={4}
+      delay={500}
+      tooltip={
+        <Tooltip>
+          <Text size="L400">{label}</Text>
+        </Tooltip>
+      }
+    >
+      {(triggerRef) => <IconButton ref={triggerRef} aria-label={label} {...props} />}
+    </TooltipProvider>
+  );
+}
 
 type MessageShiftOptionButtonProps = {
   label: string;
@@ -1906,7 +1930,8 @@ export const Message = as<'div', MessageProps>(
                           />
                         }
                       >
-                        <IconButton
+                        <HoverBarButton
+                          label="Add Reaction"
                           onClick={handleOpenEmojiBoard}
                           variant="SurfaceVariant"
                           size="300"
@@ -1914,10 +1939,11 @@ export const Message = as<'div', MessageProps>(
                           aria-pressed={!!emojiBoardAnchor}
                         >
                           <Icon src={Icons.SmilePlus} size="100" />
-                        </IconButton>
+                        </HoverBarButton>
                       </PopOut>
                     )}
-                    <IconButton
+                    <HoverBarButton
+                      label="Reply"
                       onClick={onReplyClick}
                       data-event-id={mEvent.getId()}
                       variant="SurfaceVariant"
@@ -1925,9 +1951,10 @@ export const Message = as<'div', MessageProps>(
                       radii="300"
                     >
                       <Icon src={Icons.ReplyArrow} size="100" />
-                    </IconButton>
+                    </HoverBarButton>
                     {
-                      <IconButton
+                      <HoverBarButton
+                        label="Reply in Thread"
                         onClick={() => {
                           const threadRoot = mEvent.threadRootId ?? mEvent.getId();
                           if (threadRoot) onThreadClick(threadRoot);
@@ -1938,17 +1965,18 @@ export const Message = as<'div', MessageProps>(
                         radii="300"
                       >
                         <Icon src={Icons.ThreadPlus} size="100" />
-                      </IconButton>
+                      </HoverBarButton>
                     }
                     {canEditEvent(mx, mEvent) && onEditId && (
-                      <IconButton
+                      <HoverBarButton
+                        label="Edit"
                         onClick={() => onEditId(mEvent.getId())}
                         variant="SurfaceVariant"
                         size="300"
                         radii="300"
                       >
                         <Icon src={Icons.Pencil} size="100" />
-                      </IconButton>
+                      </HoverBarButton>
                     )}
                     <PopOut
                       anchor={menuAnchor}
@@ -2146,7 +2174,8 @@ export const Message = as<'div', MessageProps>(
                         </FocusTrap>
                       }
                     >
-                      <IconButton
+                      <HoverBarButton
+                        label="More Options"
                         variant="SurfaceVariant"
                         size="300"
                         radii="300"
@@ -2154,7 +2183,7 @@ export const Message = as<'div', MessageProps>(
                         aria-pressed={!!menuAnchor}
                       >
                         <Icon src={Icons.VerticalDots} size="100" />
-                      </IconButton>
+                      </HoverBarButton>
                     </PopOut>
                   </>
                 )}
@@ -2325,7 +2354,8 @@ export const Event = as<'div', EventProps>(
                     </FocusTrap>
                   }
                 >
-                  <IconButton
+                  <HoverBarButton
+                    label="More Options"
                     variant="SurfaceVariant"
                     size="300"
                     radii="300"
@@ -2333,7 +2363,7 @@ export const Event = as<'div', EventProps>(
                     aria-pressed={!!menuAnchor}
                   >
                     <Icon src={Icons.VerticalDots} size="100" />
-                  </IconButton>
+                  </HoverBarButton>
                 </PopOut>
               </Box>
             </Menu>
