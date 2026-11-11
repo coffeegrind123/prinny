@@ -8,6 +8,9 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content"
     />
     <title>Prinny</title>
+    <!-- The web build gets Referrer-Policy from nginx; the desktop and Android builds have no
+         server header, so the page sets it. Players that need an origin set their own. -->
+    <meta name="referrer" content="no-referrer" />
     <meta name="name" content="Prinny" />
     <meta name="author" content="Ajay Bura" />
     <meta
@@ -88,7 +91,7 @@
       sizes="180x180"
       href="/assets/apple-touch-icon-180x180-Clgf6zxp.png"
     />
-    <script type="module" crossorigin src="/assets/index-Dh4Ex665.js"></script>
+    <script type="module" crossorigin src="/assets/index-CymOIpvz.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/preload-helper-7y9sWmk5.js">
     <link rel="modulepreload" crossorigin href="/assets/core-DiHUHsuG.js">
     <link rel="modulepreload" crossorigin href="/assets/event-CO1G-BU3.js">
