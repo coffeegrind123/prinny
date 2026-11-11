@@ -133,3 +133,43 @@ export const emojiShortcodeMap: Map<string, EmojiReplacement> = new Map(
       .map((sc) => [sc.toLowerCase(), { key: e.unicode, shortcode: e.shortcode }]);
   }),
 );
+
+/** Skin tones: 0 is the default (no modifier), 1-5 are Fitzpatrick light to dark. */
+export const EMOJI_SKIN_TONES = [0, 1, 2, 3, 4, 5] as const;
+const FIRST_TONE_MODIFIER = 0x1f3fb;
+const TONE_MODIFIERS = /[\u{1F3FB}-\u{1F3FF}]/gu;
+
+// Emoji presentation selector. emojibase stores "✋️" with it; other clients often send "✋".
+const VARIATION_SELECTOR = /\uFE0F/g;
+const lookupKey = (unicode: string): string => unicode.replace(VARIATION_SELECTOR, '');
+
+const unicodeToEmoji = new Map<string, IEmoji>();
+emojis.forEach((emoji) => {
+  unicodeToEmoji.set(lookupKey(emoji.unicode), emoji);
+  emoji.skins?.forEach((skin) => {
+    const key = lookupKey(skin.unicode);
+    if (!unicodeToEmoji.has(key)) unicodeToEmoji.set(key, emoji);
+  });
+});
+
+/**
+ * The base emoji for a unicode string, which may be one of its skin tone variants, with or
+ * without the emoji presentation selector.
+ */
+export const findEmojiByUnicode = (unicode: string): IEmoji | undefined =>
+  unicodeToEmoji.get(lookupKey(unicode));
+
+/**
+ * The emoji's unicode in the given skin tone; unchanged for tone 0, an unknown tone, or an emoji
+ * without variants. For emoji showing several people the variant whose modifiers are all the
+ * wanted one is taken, rather than a mixed pair.
+ */
+export const getEmojiUnicodeForTone = (emoji: IEmoji, tone: number): string => {
+  if (!emoji.skins || !Number.isInteger(tone) || tone < 1 || tone > 5) return emoji.unicode;
+  const wanted = String.fromCodePoint(FIRST_TONE_MODIFIER + tone - 1);
+  const skin = emoji.skins.find((s) => {
+    const modifiers = s.unicode.match(TONE_MODIFIERS);
+    return modifiers !== null && modifiers.every((m) => m === wanted);
+  });
+  return skin?.unicode ?? emoji.unicode;
+};

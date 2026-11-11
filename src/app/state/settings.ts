@@ -108,6 +108,8 @@ export interface Settings {
   dateFormatString: string;
 
   developerTools: boolean;
+  /** Preferred emoji skin tone: 0 is the default yellow, 1-5 are light to dark. */
+  emojiSkinTone: number;
   keybinds: Record<string, string>;
   // Widths of the draggable layout columns, keyed by pane id and measured in
   // the same design pixels every other width in this app uses (`toRem`'s
@@ -381,6 +383,7 @@ const defaultSettings: Settings = {
   dateFormatString: 'D MMM YYYY',
 
   developerTools: false,
+  emojiSkinTone: 0,
   keybinds: {},
   paneSizes: {},
   readReceiptStyle: 'cinny',

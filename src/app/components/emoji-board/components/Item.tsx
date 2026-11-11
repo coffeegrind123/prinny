@@ -6,6 +6,9 @@ import * as css from './styles.css';
 import { PackImageReader } from '../../../plugins/custom-emoji';
 import { IEmoji } from '../../../plugins/emoji';
 import { mxcUrlToHttp } from '../../../utils/matrix';
+import { getEmojiUnicodeForTone } from '../../../plugins/emoji';
+import { useSetting } from '../../../state/hooks/settings';
+import { settingsAtom } from '../../../state/settings';
 
 export const getEmojiItemInfo = (element: Element): EmojiItemInfo | undefined => {
   const label = element.getAttribute('title');
@@ -34,6 +37,9 @@ type EmojiItemProps = {
   selected?: boolean;
 };
 export function EmojiItem({ emoji, selected }: EmojiItemProps) {
+  const [skinTone] = useSetting(settingsAtom, 'emojiSkinTone');
+  // What is shown is what is sent: the picker reads data-emoji-data.
+  const unicode = getEmojiUnicodeForTone(emoji, skinTone);
   return (
     <Box
       as="button"
@@ -45,10 +51,10 @@ export function EmojiItem({ emoji, selected }: EmojiItemProps) {
       aria-label={`${emoji.label} emoji`}
       data-selected={selected ? 'true' : undefined}
       data-emoji-type={EmojiType.Emoji}
-      data-emoji-data={emoji.unicode}
+      data-emoji-data={unicode}
       data-emoji-shortcode={emoji.shortcode}
     >
-      {emoji.unicode}
+      {unicode}
     </Box>
   );
 }

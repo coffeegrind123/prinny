@@ -1,6 +1,6 @@
 import { MatrixClient } from 'matrix-js-sdk';
 import { getAccountData } from '../utils/room';
-import { IEmoji, emojis } from './emoji';
+import { IEmoji, findEmojiByUnicode } from './emoji';
 import { AccountDataEvent } from '../../types/matrix/accountData';
 
 type EmojiUnicode = string;
@@ -72,7 +72,9 @@ export const getRecentEmojis = (mx: MatrixClient, limit?: number): IEmoji[] =>
   readRecentEmoji(mx)
     .slice(0, limit)
     .reduce<IEmoji[]>((list, { emoji: unicode }) => {
-      const emoji = emojis.find((e) => e.unicode === unicode);
+      // A toned variant (or one without U+FE0F) resolves to its base emoji; the board applies
+      // the reader's own tone when it shows it.
+      const emoji = findEmojiByUnicode(unicode);
       if (emoji) list.push(emoji);
       return list;
     }, []);

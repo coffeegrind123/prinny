@@ -11,11 +11,13 @@ import { clickFocusedAutocompleteItem, onTabPress } from '../../../utils/keyboar
 import { createEmoticonElement, moveCursor, replaceWithElement, safeFocusEditor } from '../utils';
 import { useRecentEmoji } from '../../../hooks/useRecentEmoji';
 import { useRelevantImagePacks } from '../../../hooks/useImagePacks';
-import { IEmoji, emojis } from '../../../plugins/emoji';
+import { IEmoji, emojis, getEmojiUnicodeForTone } from '../../../plugins/emoji';
 import { mxcUrlToHttp } from '../../../utils/matrix';
 import { useMediaAuthentication } from '../../../hooks/useMediaAuthentication';
 import { ImageUsage, PackImageReader } from '../../../plugins/custom-emoji';
 import { getEmoticonSearchStr } from '../../../plugins/utils';
+import { useSetting } from '../../../state/hooks/settings';
+import { settingsAtom } from '../../../state/settings';
 
 type EmoticonCompleteHandler = (key: string, shortcode: string, alt?: string) => void;
 
@@ -40,6 +42,7 @@ export function EmoticonAutocomplete({
   query,
   requestClose,
 }: EmoticonAutocompleteProps) {
+  const [skinTone] = useSetting(settingsAtom, 'emojiSkinTone');
   const mx = useMatrixClient();
   const useAuthentication = useMediaAuthentication();
 
@@ -79,7 +82,7 @@ export function EmoticonAutocomplete({
     if (clickFocusedAutocompleteItem()) return;
     if (autoCompleteEmoticon.length === 0) return;
     const emoticon = autoCompleteEmoticon[0];
-    const key = 'url' in emoticon ? emoticon.url : emoticon.unicode;
+    const key = 'url' in emoticon ? emoticon.url : getEmojiUnicodeForTone(emoticon, skinTone);
     handleAutocomplete(key, emoticon.shortcode, 'url' in emoticon ? emoticon.body : undefined);
   };
 
@@ -112,7 +115,7 @@ export function EmoticonAutocomplete({
     <AutocompleteMenu headerContent={<Text size="L400">Emojis</Text>} requestClose={requestClose}>
       {autoCompleteEmoticon.map((emoticon, index) => {
         const isCustomEmoji = 'url' in emoticon;
-        const key = isCustomEmoji ? emoticon.url : emoticon.unicode;
+        const key = isCustomEmoji ? emoticon.url : getEmojiUnicodeForTone(emoticon, skinTone);
         const alt = isCustomEmoji ? emoticon.body : undefined;
         const customEmojiUrl = mxcUrlToHttp(mx, key, useAuthentication);
 

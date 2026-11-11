@@ -69,6 +69,7 @@ import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
 import * as css from './components/styles.css';
 import { stripOptionalText } from '../../utils/unsafeText';
+import { SkinToneSelector } from './components/SkinToneSelector';
 
 // The mashup tab carries ~233 KB of inlined Twemoji parts. Loading it with the
 // board would make every emoji picker pay for a tab most openings never touch,
@@ -1095,14 +1096,19 @@ export function EmojiBoard({
               <EmojiBoardTabs tab={activeTab} tabs={tabs} onTabChange={handleTabChange} />
             )}
             {listTab && (
-              <SearchInput
-                key={activeTab}
-                inputRef={searchInputRef}
-                query={result?.query}
-                onChange={handleOnChange}
-                allowTextCustomEmoji={allowTextCustomEmoji}
-                onTextCustomEmojiSelect={handleTextCustomEmojiSelect}
-              />
+              <Box gap="200" alignItems="Center">
+                <Box grow="Yes" direction="Column">
+                  <SearchInput
+                    key={activeTab}
+                    inputRef={searchInputRef}
+                    query={result?.query}
+                    onChange={handleOnChange}
+                    allowTextCustomEmoji={allowTextCustomEmoji}
+                    onTextCustomEmojiSelect={handleTextCustomEmojiSelect}
+                  />
+                </Box>
+                {emojiTab && <SkinToneSelector />}
+              </Box>
             )}
           </Box>
         }
