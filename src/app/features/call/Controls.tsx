@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import * as css from './styles.css';
 import { callChatAtom } from '../../state/callEmbed';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
+import { useCameraAvailable } from '../../hooks/useCameraAvailable';
 
 export function ControlDivider() {
   return (
@@ -95,6 +96,8 @@ type VideoButtonProps = {
 export function VideoButton({ enabled, onToggle }: VideoButtonProps) {
   const [videoState, toggleVideo] = useAsyncCallback(onToggle);
   const loading = videoState.status === AsyncStatus.Loading;
+  // A camera removed mid-call can still be switched off, so only starting is blocked.
+  const cameraMissing = !useCameraAvailable() && !enabled;
 
   return (
     <TooltipProvider
@@ -102,7 +105,9 @@ export function VideoButton({ enabled, onToggle }: VideoButtonProps) {
       delay={500}
       tooltip={
         <Tooltip>
-          <Text size="T200">{enabled ? 'Stop Camera' : 'Start Camera'}</Text>
+          <Text size="T200">
+            {cameraMissing ? 'Camera Unavailable' : enabled ? 'Stop Camera' : 'Start Camera'}
+          </Text>
         </Tooltip>
       }
     >
@@ -115,7 +120,7 @@ export function VideoButton({ enabled, onToggle }: VideoButtonProps) {
           size="400"
           onClick={toggleVideo}
           outlined
-          disabled={loading}
+          disabled={loading || cameraMissing}
         >
           <Icon
             size="400"

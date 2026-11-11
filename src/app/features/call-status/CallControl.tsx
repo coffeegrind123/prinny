@@ -5,6 +5,7 @@ import { StatusDivider } from './components';
 import { CallEmbed, useCallControlState } from '../../plugins/call';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { callEmbedAtom } from '../../state/callEmbed';
+import { useCameraAvailable } from '../../hooks/useCameraAvailable';
 
 // The voice panel marks a muted mic or deafened sound as critical, the bar as a warning.
 const offVariant = (panel?: boolean) => (panel ? 'Critical' : 'Warning');
@@ -99,13 +100,17 @@ type VideoButtonProps = {
 function VideoButton({ enabled, onToggle, disabled, panel }: VideoButtonProps) {
   const [videoState, toggleVideo] = useAsyncCallback(onToggle);
   const loading = videoState.status === AsyncStatus.Loading;
+  // A camera removed mid-call can still be switched off, so only starting is blocked.
+  const cameraMissing = !useCameraAvailable() && !enabled;
 
   return (
     <TooltipProvider
       position="Top"
       tooltip={
         <Tooltip>
-          <Text size="T200">{enabled ? 'Stop Camera' : 'Start Camera'}</Text>
+          <Text size="T200">
+            {cameraMissing ? 'Camera Unavailable' : enabled ? 'Stop Camera' : 'Start Camera'}
+          </Text>
         </Tooltip>
       }
     >
@@ -119,7 +124,7 @@ function VideoButton({ enabled, onToggle, disabled, panel }: VideoButtonProps) {
           style={panelStyle(panel)}
           onClick={toggleVideo}
           outlined
-          disabled={disabled || loading}
+          disabled={disabled || loading || cameraMissing}
         >
           <Icon
             size="100"
