@@ -9,7 +9,7 @@ import {
 import { useVerifyWithRecoveryKey } from '../../hooks/useVerifyWithRecoveryKey';
 import { useRequestOwnVerification } from '../../hooks/useRequestOwnVerification';
 import { useOtherVerifiedDevices } from '../../hooks/useOtherVerifiedDevices';
-import { AsyncStatus } from '../../hooks/useAsyncCallback';
+import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
 import { DeviceVerification } from '../../components/DeviceVerification';
 import {
   DeviceVerificationResetOverlay,
@@ -27,7 +27,17 @@ import {
 import { SecretStorageKeyContent } from '../../../types/matrix/accountData';
 import { useSetting } from '../../state/hooks/settings';
 import { settingsAtom } from '../../state/settings';
-import { dismissGate, GateKind, gateKind, justVerified, shouldShowGate } from './verificationGate';
+import {
+  dismissGate,
+  GateKind,
+  gateKind,
+  justVerified,
+  shouldShowGate,
+  showKeysLost,
+} from './verificationGate';
+import { useOwnDeviceKeysReport } from '../../../client/deviceKeysCheck';
+import { logoutClient } from '../../../client/initMatrix';
+import { useMatrixClient } from '../../hooks/useMatrixClient';
 import { useVerificationGateState } from './useVerificationGateState';
 import { errorMessage } from '../../utils/errorMessage';
 
@@ -38,7 +48,7 @@ type AsideCopy = {
   paragraphs: string[];
 };
 
-const ASIDE: Record<View | 'done' | 'setup' | 'skipSetup', AsideCopy> = {
+const ASIDE: Record<View | 'done' | 'setup' | 'skipSetup' | 'keysLost', AsideCopy> = {
   choose: {
     heading: 'Why this step matters',
     paragraphs: [
@@ -77,6 +87,13 @@ const ASIDE: Record<View | 'done' | 'setup' | 'skipSetup', AsideCopy> = {
     heading: 'You can set this up later',
     paragraphs: [
       'A banner stays at the top of the app until recovery is set up. You can also do it under Settings, Devices.',
+    ],
+  },
+  keysLost: {
+    heading: 'Why verification cannot work',
+    paragraphs: [
+      'Verifying compares the keys each device holds with the ones your other devices have on record. This device lost the keys it had and made new ones, but your homeserver kept the old ones for it.',
+      'Signing in again creates a new device with fresh keys, which can then be verified. Messages this device received with its old keys stay unreadable here; your key backup or other devices can still open them.',
     ],
   },
   done: {
@@ -456,6 +473,47 @@ function SetupView({
   );
 }
 
+function KeysLostView({ onSkip }: { onSkip: () => void }) {
+  const mx = useMatrixClient();
+  const [signOutState, signOut] = useAsyncCallback(() => logoutClient(mx));
+  const signingOut = signOutState.status === AsyncStatus.Loading;
+
+  return (
+    <Box direction="Column" gap="500">
+      <Heading title="This session lost its encryption keys">
+        Your homeserver still has this device&apos;s old keys, so it cannot be verified and new
+        encrypted messages cannot be decrypted here. Sign out and sign in again to fix it.
+      </Heading>
+      <Box direction="Column" gap="400">
+        <Button
+          variant="Critical"
+          fill="Solid"
+          size="500"
+          onClick={() => signOut()}
+          disabled={signingOut}
+          before={signingOut && <Spinner size="200" variant="Critical" fill="Solid" />}
+        >
+          <Text as="span" size="B500">
+            Sign Out
+          </Text>
+        </Button>
+        {signOutState.status === AsyncStatus.Error && (
+          <Text size="T300" style={{ color: color.Critical.Main }}>
+            {errorMessage(signOutState.error)}
+          </Text>
+        )}
+      </Box>
+      <Box>
+        <Button variant="Secondary" fill="None" size="400" onClick={onSkip}>
+          <Text as="span" size="B400">
+            Continue without verifying
+          </Text>
+        </Button>
+      </Box>
+    </Box>
+  );
+}
+
 function DoneView({ onContinue }: { onContinue: () => void }) {
   const [askBeforeRestore] = useSetting(settingsAtom, 'askBeforeBackupRestore');
   return (
@@ -520,6 +578,7 @@ function Gate() {
   const [setupActive, setSetupActive] = useState(false);
   const [recoveryKey, setRecoveryKey] = useState<string>();
   const wasVerifying = useRef(false);
+  const ownKeys = useOwnDeviceKeysReport();
 
   const asked = gateKind({ identity, status, dismissed });
 
@@ -569,6 +628,9 @@ function Gate() {
       />
     );
     aside = ASIDE[skipping ? 'skipSetup' : 'setup'];
+  } else if (showKeysLost(kind, finished, ownKeys.state) && view !== 'skip') {
+    content = <KeysLostView onSkip={() => setView('skip')} />;
+    aside = ASIDE.keysLost;
   } else if (finished) {
     content = <DoneView onContinue={() => setFinished(false)} />;
     aside = ASIDE.done;

@@ -1,5 +1,6 @@
 import { VerificationStatus } from '../../hooks/useDeviceVerificationStatus';
 import { createPersistentFlags } from '../../utils/persistentFlags';
+import { DeviceKeysState } from '../../../client/deviceKeysCheck';
 
 /**
  * `verify`: the account has an encryption identity and this device is not trusted by it yet.
@@ -39,6 +40,18 @@ export const gateKind = ({
 /** Like `gateKind`, but ignoring dismissal: what the banner reminds about after a skip. */
 export const pendingKind = (state: Omit<GateState, 'finished' | 'dismissed'>): GateKind | null =>
   gateKind({ ...state, dismissed: { verify: false, setup: false } });
+
+/**
+ * Whether the gate should say this session lost its keys instead of offering verification. Only
+ * when the server holds other keys for this device: then emoji verification fails at the MAC step
+ * after both sides press "They match", and a recovery key cannot sign keys the server does not
+ * have. Signing in again, as a new device, is the only way out.
+ */
+export const showKeysLost = (
+  kind: GateKind,
+  finished: boolean,
+  ownKeys: DeviceKeysState | undefined,
+): boolean => kind === 'verify' && !finished && ownKeys === DeviceKeysState.Mismatch;
 
 export const shouldShowGate = (state: GateState): boolean =>
   state.finished || gateKind(state) !== null;
