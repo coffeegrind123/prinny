@@ -70,6 +70,8 @@ import { settingsAtom } from '../../state/settings';
 import * as css from './components/styles.css';
 import { stripOptionalText } from '../../utils/unsafeText';
 import { SkinToneSelector } from './components/SkinToneSelector';
+import { toggleFavoriteEmoji } from '../../plugins/favorite-emoji';
+import { useFavoriteEmoji } from '../../hooks/useFavoriteEmoji';
 
 // The mashup tab carries ~233 KB of inlined Twemoji parts. Loading it with the
 // board would make every emoji picker pay for a tab most openings never touch,
@@ -83,6 +85,7 @@ const MashupPicker = lazy(() => import('./MashupPicker'));
 warmEmojiSupport();
 
 const RECENT_GROUP_ID = 'recent_group';
+const FAVORITES_GROUP_ID = 'favorites_group';
 const SEARCH_GROUP_ID = 'search_group';
 
 type EmojiGroupItem = {
@@ -103,11 +106,20 @@ const useGroups = (
   const mx = useMatrixClient();
 
   const recentEmojis = useRecentEmoji(mx, 21);
+  const favoriteEmojis = useFavoriteEmoji();
   const labels = useEmojiGroupLabels();
 
   const emojiGroupItems = useMemo(() => {
     const g: EmojiGroupItem[] = [];
     if (tab !== EmojiBoardTab.Emoji) return g;
+
+    if (favoriteEmojis.length > 0) {
+      g.push({
+        id: FAVORITES_GROUP_ID,
+        name: 'Favourites',
+        items: favoriteEmojis,
+      });
+    }
 
     g.push({
       id: RECENT_GROUP_ID,
@@ -151,7 +163,7 @@ const useGroups = (
     });
 
     return g;
-  }, [mx, recentEmojis, labels, imagePacks, tab]);
+  }, [mx, favoriteEmojis, recentEmojis, labels, imagePacks, tab]);
 
   const stickerGroupItems = useMemo(() => {
     const g: StickerGroupItem[] = [];
@@ -225,6 +237,8 @@ function EmojiSidebar({ activeGroupAtom, packs, onScrollToGroup }: EmojiSidebarP
   const labels = useEmojiGroupLabels();
   const icons = useEmojiGroupIcons();
 
+  const hasFavorites = useFavoriteEmoji().length > 0;
+
   const handleScrollToGroup = (groupId: string) => {
     setActiveGroupId(groupId);
     onScrollToGroup(groupId);
@@ -233,6 +247,15 @@ function EmojiSidebar({ activeGroupAtom, packs, onScrollToGroup }: EmojiSidebarP
   return (
     <Sidebar>
       <SidebarStack>
+        {hasFavorites && (
+          <GroupIcon
+            active={activeGroupId === FAVORITES_GROUP_ID}
+            id={FAVORITES_GROUP_ID}
+            label="Favourites"
+            icon={Icons.Star}
+            onClick={handleScrollToGroup}
+          />
+        )}
         <GroupIcon
           active={activeGroupId === RECENT_GROUP_ID}
           id={RECENT_GROUP_ID}
@@ -844,6 +867,18 @@ export function EmojiBoard({
     pickItem(emojiInfo, evt.altKey || evt.shiftKey);
   };
 
+  // Right-click (long-press on touch) a unicode emoji to add it to, or remove it from, the
+  // Favourites group at the top of the board.
+  const handleGroupItemContextMenu: MouseEventHandler = (evt) => {
+    const targetEl = targetFromEvent(evt.nativeEvent, 'button');
+    const emojiInfo = targetEl && getEmojiItemInfo(targetEl);
+    if (!emojiInfo || emojiInfo.type !== EmojiType.Emoji) return;
+    evt.preventDefault();
+    toggleFavoriteEmoji(mx, emojiInfo.data).catch((err) =>
+      console.warn('Failed to save favourite emoji', err),
+    );
+  };
+
   const handleItemPointed = (element: HTMLButtonElement) => {
     const pointed = selectionFromElement(element);
     if (pointed && !sameSelection(pointed, selection)) setSelection(pointed);
@@ -1131,7 +1166,7 @@ export function EmojiBoard({
           </Suspense>
         )}
         {listTab && (
-          <Box grow="Yes">
+          <Box grow="Yes" onContextMenu={emojiTab ? handleGroupItemContextMenu : undefined}>
             <EmojiGroupHolder
               key={activeTab}
               contentScrollRef={contentScrollRef}
@@ -1161,9 +1196,11 @@ export function EmojiBoard({
                         }
                         collapsed={collapsedGroupIds.has(row.groupId)}
                         icon={
-                          row.groupId === RECENT_GROUP_ID
-                            ? Icons.RecentClock
-                            : emojiGroupIcons[row.groupId as EmojiGroupId]
+                          row.groupId === FAVORITES_GROUP_ID
+                            ? Icons.Star
+                            : row.groupId === RECENT_GROUP_ID
+                              ? Icons.RecentClock
+                              : emojiGroupIcons[row.groupId as EmojiGroupId]
                         }
                       />
                     ) : (

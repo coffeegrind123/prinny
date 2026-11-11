@@ -11,6 +11,8 @@ declare module 'matrix-js-sdk' {
     'm.image_pack.rooms': unknown;
     'app.prinny.room_order': unknown;
     'app.prinny.gif_favorites': unknown;
+    'app.prinny.emoji_favorites': unknown;
+    'app.prinny.recent_custom_emoji': unknown;
     'app.prinny.emoji_mashups': unknown;
     'app.prinny.left_rooms': unknown;
     'app.prinny.auto_join': unknown;
