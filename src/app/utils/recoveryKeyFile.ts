@@ -31,3 +31,7 @@ export const recoveryKeyFilename = (userId: string): string =>
 /** Name for an exported (passphrase-encrypted) message key file, named like the recovery key. */
 export const messageKeysFilename = (userId: string): string =>
   accountFilename('message-keys', userId);
+
+/** Name for an exported identity (cross-signing) key file. */
+export const identityKeysFilename = (userId: string): string =>
+  accountFilename('identity-keys', userId);

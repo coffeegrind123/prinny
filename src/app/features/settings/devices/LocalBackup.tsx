@@ -13,6 +13,7 @@ import { useAlive } from '../../../hooks/useAlive';
 import { useFilePicker } from '../../../hooks/useFilePicker';
 import { errorMessage } from '../../../utils/errorMessage';
 import { messageKeysFilename } from '../../../utils/recoveryKeyFile';
+import { ExportIdentityKeysTile, ImportIdentityKeysTile } from './IdentityKeyFile';
 
 function ExportKeys() {
   const mx = useMatrixClient();
@@ -321,6 +322,15 @@ export function LocalBackup() {
         gap="400"
       >
         <ImportKeysTile />
+      </SequenceCard>
+      <SequenceCard
+        className={SequenceCardStyle}
+        variant="SurfaceVariant"
+        direction="Column"
+        gap="400"
+      >
+        <ExportIdentityKeysTile />
+        <ImportIdentityKeysTile />
       </SequenceCard>
     </Box>
   );
