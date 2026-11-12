@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 12.11.2026
+
+- `6260d3f` Fixed **a release building the previous version** — when a web client change was published, the desktop and Android release could start a few seconds too early and build the version before it. It now waits until the new version is in place, and checks that the release it starts really contains it
+
 ## 11.11.2026
 
 - `afbe2e6` `ae437ff` Fixed **verification that could never succeed after a device lost its keys** — a session that lost its encryption storage but stayed signed in is now told so on the verification screen, with **Sign Out**, instead of being offered emoji verification that always ended in "canceled (m.mismatched_sas)" after both screens showed the same emoji. The warning banner for this was hidden behind that screen. Prinny now also records when a device starts with different encryption keys than before, which catches the case on servers that replace the old keys
