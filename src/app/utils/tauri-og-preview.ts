@@ -1,4 +1,5 @@
 import { isTauri } from './desktop-notifications';
+import { sharedRequest } from './embedFetch';
 
 // Fallback link-preview fetcher for the desktop/mobile app. When the
 // homeserver's `preview_url` fails (commonly a 504 because the target site
@@ -21,8 +22,15 @@ import { isTauri } from './desktop-notifications';
 export async function fetchOgPreview(url: string): Promise<Record<string, string> | null> {
   if (!isTauri()) return null;
   try {
-    const { invoke } = await import('@tauri-apps/api/core');
-    const data = await invoke<Record<string, string>>('fetch_og_preview', { url });
+    // One request per URL per session. The card asks again every time it
+    // mounts (switching rooms, scrolling a message back into view), so without
+    // this a link that keeps failing kept costing a fresh fetch and parse in
+    // the shell; that is how one bad page grew into several pinned cores.
+    // A failure is not cached (sharedRequest evicts it), so it can be retried.
+    const data = await sharedRequest(`og-preview:${url}`, async () => {
+      const { invoke } = await import('@tauri-apps/api/core');
+      return invoke<Record<string, string>>('fetch_og_preview', { url });
+    });
     return data ?? null;
   } catch (err) {
     console.warn('[og-preview] fallback fetch failed for', url, err);
