@@ -1,6 +1,8 @@
 import { isTwitterGifUrl, parseTenorGif, isAnimatedImageUrl } from './animatedMedia';
 import { isWebUrl } from './safeUrl';
 import { fetchEmbedJson, sharedRequest } from './embedFetch';
+import { isTauri } from './desktop-notifications';
+import { fxTweetToVx } from './fxtwitter';
 import {
   Rule34Post,
   fetchRule34Post,
@@ -142,7 +144,7 @@ export const socialEmbedProvider = (url: string): SocialEmbedProvider | undefine
 /* -------------------------------------------------------------------------- */
 
 export const BSKY_API = 'https://public.api.bsky.app';
-const VX_API = 'https://api.vxtwitter.com/Twitter/status';
+const FX_API = 'https://api.fxtwitter.com/status';
 
 export function resolveBskyDid(actor: string): Promise<string> {
   if (actor.startsWith('did:')) return Promise.resolve(actor);
@@ -176,10 +178,35 @@ export function fetchBskyProfile(actor: string): Promise<any> {
   );
 }
 
+/** vxtwitter through the shell's HTTP client. See `fetch_vx_tweet` in the shell. */
+const fetchVxTweetInShell = async (id: string): Promise<any> => {
+  const { invoke } = await import('@tauri-apps/api/core');
+  return invoke('fetch_vx_tweet', { id });
+};
+
+/**
+ * One tweet, always in the vxtwitter response shape.
+ *
+ * api.vxtwitter.com now answers every browser User-Agent with a Cloudflare
+ * challenge, so the page cannot read it at all (see `fxtwitter.ts`). In the
+ * shell it is asked through `fetch_vx_tweet`, which sends a non-browser UA;
+ * everywhere else, and when that fails, the answer comes from api.fxtwitter.com
+ * and is converted.
+ */
 export function fetchVxTweet(id: string): Promise<any> {
-  return sharedRequest(`twitter:${id}`, () =>
-    fetchEmbedJson('vxtwitter', `${VX_API}/${encodeURIComponent(id)}`),
-  );
+  return sharedRequest(`twitter:${id}`, async () => {
+    if (isTauri()) {
+      try {
+        return await fetchVxTweetInShell(id);
+      } catch (err) {
+        console.warn('[embed-fetch] vxtwitter via shell failed, trying fxtwitter', {
+          id,
+          error: String(err),
+        });
+      }
+    }
+    return fxTweetToVx(await fetchEmbedJson('fxtwitter', `${FX_API}/${encodeURIComponent(id)}`));
+  });
 }
 
 /* -------------------------------------------------------------------------- */
