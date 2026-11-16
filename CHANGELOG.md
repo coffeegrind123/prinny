@@ -2,6 +2,11 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 16.11.2026
+
+- `5748b46` `0d1ca84` Fixed **Prinny using a lot of CPU and spinning up the fans** — the desktop app's own link-preview fallback got stuck forever on pages whose tags end in `/>` (x.com's first tag is one), keeping a CPU core at 100% for every such link until Prinny was restarted. Each failed X post added another. The page reader now handles those tags, and each link is only asked about once per session
+- `0fa08cd` `211c346` Fixed **posts from X (Twitter) not showing** — the service Prinny reads posts from started blocking requests from browsers, so every X link showed "This post on X could not be loaded". The desktop and Android apps now ask it directly, and the web app (or the app when that fails) reads the post from fxtwitter instead. Videos, GIFs, photos and quoted posts all show as before
+
 ## 12.11.2026
 
 - `6260d3f` Fixed **a release building the previous version** — when a web client change was published, the desktop and Android release could start a few seconds too early and build the version before it. It now waits until the new version is in place, and checks that the release it starts really contains it
