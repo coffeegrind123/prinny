@@ -5,6 +5,8 @@ User-facing changes per commit. Most recent at the top.
 ## 21.11.2026
 
 - `a0925bd` Added **the Liquid design** — a second look for Prinny, chosen under Settings → General → Appearance → `Design`. The rail, room list and member list float as frosted-glass panels over a soft gradient, the room is one rounded card with a pill-shaped composer, buttons and chips are capsules, switches look like iOS switches, and menus, tooltips and dialogs are frosted glass that springs open. In the bubble layout your own messages are blue. Liquid brings its own light and dark colours and follows whether your theme is light or dark. Everything stays where it was, and Prinny remains the default, unchanged
+- `7d315aa` Fixed **room icons not showing who can join** — every room showed a plain `#` whether it was private or public, and an invite-only voice room showed a muted speaker. Rooms and spaces now carry a small lock or globe again, and Create Room's Private and Public options look different. Also: the member list search field is visible in the light theme, the formatting button in the composer shows when its toolbar is open, Media Previews in the room menu no longer shares Room Settings' gear icon, and on phones the room name is no longer hidden behind the Unencrypted badge (it is a small warning icon there, and the gallery button moves to More Options)
+- `a0b3efd` Fixed **the quick switcher (`Ctrl + K`) looking see-through** — it opened with nothing dimmed behind it, so it blended into the room, especially in the Liquid design. The page behind it now dims like it does for every other dialog, and in Liquid the selected room is highlighted again
 
 ## 16.11.2026
 
