@@ -92,7 +92,11 @@ import { RoomSettingsPage } from '../../state/roomSettings';
 import { useCallEmbed, useCallStart, useCallStartPreferences } from '../../hooks/useCallEmbed';
 import { useLivekitSupport } from '../../hooks/useLivekitSupport';
 import { webRTCSupported } from '../../utils/rtc';
-import { UnencryptedBadge, useUnencryptedWarning } from '../../components/unencrypted-indicator';
+import {
+  UnencryptedBadge,
+  UnencryptedIcon,
+  useUnencryptedWarning,
+} from '../../components/unencrypted-indicator';
 import { callChatAtom, callIdleAtom } from '../../state/callEmbed';
 import { useCallParticipantActivity } from '../../hooks/useCallSpeakers';
 import { CallEmbed } from '../../plugins/call/CallEmbed';
@@ -702,7 +706,7 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
             )}
           </BackRouteHandler>
         )}
-        <Box grow="Yes" alignItems="Center" gap="300">
+        <Box grow="Yes" alignItems="Center" gap="300" style={{ minWidth: 0 }}>
           {redesignedCall && <Icon size="300" src={Icons.VolumeHigh} />}
           {!redesignedCall && screenSize !== ScreenSize.Mobile && (
             <Avatar size="300">
@@ -716,7 +720,10 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
               />
             </Avatar>
           )}
-          <Box direction="Column">
+          {/* Shrinks and clips instead of overflowing: on a phone the toolbar
+              leaves this column ~30px, and the badge used to paint over the
+              search button while the name collapsed to nothing. */}
+          <Box direction="Column" style={{ minWidth: 0, overflow: 'hidden' }}>
             <Box alignItems="Center" gap="200">
               {dmUserId && dmUserPresence && (
                 <PresenceBadge
@@ -728,7 +735,8 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
               <Text size={topic && !redesignedCall ? 'H5' : 'H3'} truncate>
                 {name}
               </Text>
-              {unencrypted && <UnencryptedBadge />}
+              {unencrypted &&
+                (screenSize === ScreenSize.Mobile ? <UnencryptedIcon /> : <UnencryptedBadge />)}
               {redesignedCall && sharerName && (
                 <>
                   <Text size="H3" priority="300">
@@ -825,7 +833,10 @@ export function RoomViewHeader({ callView }: { callView?: boolean }) {
               </IconButton>
             )}
           </TooltipProvider>
-          {!callView && (
+          {/* Not on phones: the toolbar there leaves the room name ~30px. The
+              gallery stays one tap away in More Options, and closes with its
+              own button. */}
+          {!callView && screenSize !== ScreenSize.Mobile && (
             <TooltipProvider
               position="Bottom"
               offset={4}

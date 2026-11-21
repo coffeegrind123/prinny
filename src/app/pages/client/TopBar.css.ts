@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { config, toRem } from 'folds';
+import { color, config, toRem } from 'folds';
 
 export const Profile = style({
   minWidth: 0,
@@ -29,8 +29,10 @@ export const ProfileButton = style({
   cursor: 'pointer',
   borderRadius: config.radii.R300,
   selectors: {
+    // The bar's own hover colour, as every other Background control uses, so
+    // the button follows the theme instead of laying a fixed grey over it.
     '&:hover, &[aria-expanded=true]': {
-      backgroundColor: 'rgba(128, 128, 128, 0.15)',
+      backgroundColor: color.Background.ContainerHover,
     },
   },
 });

@@ -433,7 +433,7 @@ function Appearance() {
       <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
         <SettingTile
           title="Design"
-          description="Prinny is the classic look. Liquid floats the interface on glass panels, with its own light and dark colours."
+          description="Prinny is the classic look. Liquid uses floating glass panels and its own colors."
           after={<DesignSelector />}
         />
       </SequenceCard>

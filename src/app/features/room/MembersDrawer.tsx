@@ -367,7 +367,9 @@ export function MembersDrawer({ room, members, overlay, onClose }: MembersDrawer
           onChange={handleSearchChange}
           style={{ paddingRight: config.space.S200 }}
           placeholder="Search people & messages..."
-          variant="SurfaceVariant"
+          // The drawer is Background-coloured, and in the light theme
+          // SurfaceVariant is the same #F2F2F2, so the field had no edge at all.
+          variant="Surface"
           size="400"
           radii="400"
           autoComplete="off"

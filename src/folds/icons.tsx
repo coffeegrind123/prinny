@@ -13,6 +13,7 @@ import {
   ArrowUpDown,
   AtSign,
   Ban,
+  Baseline,
   Bell,
   BellDot,
   BellOff,
@@ -99,7 +100,6 @@ import {
   Settings,
   Shield,
   ShieldCheck,
-  ShieldOff,
   Smile,
   SmilePlus,
   SquareCode,
@@ -157,6 +157,54 @@ const solid =
 const makeIcon = (name: IconName, Comp: LucideIcon): IconSrc =>
   SOLID.has(name) ? solid(Comp) : outline(Comp);
 
+// Variant icons (HashLock, SpaceGlobe, VolumeHighLock, …) are the base icon with
+// a small badge on its bottom-right corner, as folds draws them. Lucide has no
+// such variants, and mapping them all to the bare base icon erased the
+// distinction: every room read as "#" whatever its access, and an invite-only
+// voice room as a muted speaker.
+//
+//   ┌────────────────────┐   The base is drawn twice, each copy clipped by a
+//   │ base, top band     │   nested <svg> viewport, to leave the corner empty
+//   ├─────────┬──────────┤   under the badge. Clipping by viewport needs no
+//   │ base,   │  badge   │   ids, unlike a <mask> or <clipPath>, whose ids
+//   │ left    │ 12 × 12  │   would collide across every icon on the page.
+//   └─────────┴──────────┘
+const BADGE_CUT = 10.5;
+const BADGE_STROKE = 3; // a 0.5-scale badge needs ~2x the stroke to match the base
+
+const badged =
+  (Base: LucideIcon, Badge: LucideIcon): IconSrc =>
+  () => {
+    const base = React.createElement(Base, {
+      width: 24,
+      height: 24,
+      fill: 'none',
+      stroke: 'currentColor',
+    });
+    const band = (x: number, y: number, w: number, h: number) =>
+      React.createElement(
+        'svg',
+        { x, y, width: w, height: h, viewBox: `${x} ${y} ${w} ${h}` },
+        base,
+      );
+
+    return React.createElement(
+      'svg',
+      { width: '100%', height: '100%', viewBox: '0 0 24 24', fill: 'none' },
+      band(0, 0, 24, BADGE_CUT),
+      band(0, BADGE_CUT, BADGE_CUT, 24 - BADGE_CUT),
+      React.createElement(Badge, {
+        x: 12,
+        y: 12,
+        width: 12,
+        height: 12,
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: BADGE_STROKE,
+      }),
+    );
+  };
+
 export const Icons: Record<IconName, IconSrc> = {
   Home: makeIcon('Home', House),
   User: makeIcon('User', User),
@@ -198,13 +246,13 @@ export const Icons: Record<IconName, IconSrc> = {
   Pencil: makeIcon('Pencil', Pencil),
   Info: makeIcon('Info', Info),
   Shield: makeIcon('Shield', Shield),
-  ShieldLock: makeIcon('ShieldLock', ShieldOff),
+  ShieldLock: badged(Shield, Lock),
   ShieldUser: makeIcon('ShieldUser', ShieldCheck),
   Cup: makeIcon('Cup', Coffee),
   Pin: makeIcon('Pin', Pin),
   VolumeHigh: makeIcon('VolumeHigh', Volume2),
-  VolumeHighLock: makeIcon('VolumeHighLock', VolumeX),
-  VolumeHighGlobe: makeIcon('VolumeHighGlobe', Volume2),
+  VolumeHighLock: badged(Volume2, Lock),
+  VolumeHighGlobe: badged(Volume2, Globe),
   VolumeMute: makeIcon('VolumeMute', VolumeX),
   File: makeIcon('File', File),
   Category: makeIcon('Category', LayoutGrid),
@@ -229,15 +277,15 @@ export const Icons: Record<IconName, IconSrc> = {
   VideoCamera: makeIcon('VideoCamera', Video),
   VideoCameraMute: makeIcon('VideoCameraMute', VideoOff),
   Hash: makeIcon('Hash', Hash),
-  HashLock: makeIcon('HashLock', Hash),
-  HashGlobe: makeIcon('HashGlobe', Hash),
-  HashSearch: makeIcon('HashSearch', Hash),
-  HashPlus: makeIcon('HashPlus', Hash),
+  HashLock: badged(Hash, Lock),
+  HashGlobe: badged(Hash, Globe),
+  HashSearch: badged(Hash, Search),
+  HashPlus: badged(Hash, Plus),
   Space: makeIcon('Space', Hexagon),
-  SpaceLock: makeIcon('SpaceLock', Hexagon),
-  SpaceGlobe: makeIcon('SpaceGlobe', Hexagon),
-  SpaceSearch: makeIcon('SpaceSearch', Hexagon),
-  SpacePlus: makeIcon('SpacePlus', Hexagon),
+  SpaceLock: badged(Hexagon, Lock),
+  SpaceGlobe: badged(Hexagon, Globe),
+  SpaceSearch: badged(Hexagon, Search),
+  SpacePlus: badged(Hexagon, Plus),
   ChevronRight: makeIcon('ChevronRight', ChevronRight),
   ChevronLeft: makeIcon('ChevronLeft', ChevronLeft),
   ChevronTop: makeIcon('ChevronTop', ChevronUp),
@@ -257,12 +305,12 @@ export const Icons: Record<IconName, IconSrc> = {
   ReplyArrow: makeIcon('ReplyArrow', Reply),
   ArrowGoRight: makeIcon('ArrowGoRight', CornerUpRight),
   ArrowGoRightPlus: makeIcon('ArrowGoRightPlus', Forward),
-  ArrowGoRightCross: makeIcon('ArrowGoRightCross', CornerUpRight),
+  ArrowGoRightCross: badged(CornerUpRight, X),
   ArrowGoLeft: makeIcon('ArrowGoLeft', CornerUpLeft),
   Markdown: makeIcon('Markdown', SquareCode),
   Attachment: makeIcon('Attachment', Paperclip),
   Alphabet: makeIcon('Alphabet', Type),
-  AlphabetUnderline: makeIcon('AlphabetUnderline', Type),
+  AlphabetUnderline: makeIcon('AlphabetUnderline', Baseline),
   Text: makeIcon('Text', Type),
   Heading1: makeIcon('Heading1', Heading1),
   Heading2: makeIcon('Heading2', Heading2),

@@ -21,7 +21,9 @@ export const ROOM_MEDIA_PREVIEW_LABEL: Record<RoomMediaPreviewChoice, string> = 
 };
 
 const CHOICE_ICON: Record<RoomMediaPreviewChoice, IconSrc> = {
-  default: Icons.Setting,
+  // The plain eye, as notifications use the plain bell for theirs: a gear
+  // here sat two rows above Room Settings' identical gear in the room menu.
+  default: Icons.Eye,
   on: Icons.Photo,
   private: Icons.Lock,
   off: Icons.EyeBlind,
