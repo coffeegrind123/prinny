@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 21.11.2026
+
+- `a0925bd` Added **the Liquid design** — a second look for Prinny, chosen under Settings → General → Appearance → `Design`. The rail, room list and member list float as frosted-glass panels over a soft gradient, the room is one rounded card with a pill-shaped composer, buttons and chips are capsules, switches look like iOS switches, and menus, tooltips and dialogs are frosted glass that springs open. In the bubble layout your own messages are blue. Liquid brings its own light and dark colours and follows whether your theme is light or dark. Everything stays where it was, and Prinny remains the default, unchanged
+
 ## 16.11.2026
 
 - `5748b46` `0d1ca84` Fixed **Prinny using a lot of CPU and spinning up the fans** — the desktop app's own link-preview fallback got stuck forever on pages whose tags end in `/>` (x.com's first tag is one), keeping a CPU core at 100% for every such link until Prinny was restarted. Each failed X post added another. The page reader now handles those tags, and each link is only asked about once per session
