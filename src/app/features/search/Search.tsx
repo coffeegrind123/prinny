@@ -10,11 +10,12 @@ import {
   MenuItem,
   Modal,
   Overlay,
+  OverlayBackdrop,
   OverlayCenter,
   Scroll,
   Text,
-  toRem,
 } from 'folds';
+import * as css from './Search.css';
 import {
   ChangeEventHandler,
   KeyboardEventHandler,
@@ -268,7 +269,9 @@ export function Search({ requestClose }: SearchProps) {
   }, [listFocus.index]);
 
   return (
-    <Overlay open>
+    // Dimmed like every other modal. Without it the switcher sat on the page
+    // at full brightness, the same colour as the room behind it.
+    <Overlay open backdrop={<OverlayBackdrop />}>
       <OverlayCenter>
         <FocusTrap
           focusTrapOptions={{
@@ -283,7 +286,7 @@ export function Search({ requestClose }: SearchProps) {
             },
           }}
         >
-          <Modal size="400" style={{ maxHeight: toRem(400), borderRadius: config.radii.R500 }}>
+          <Modal size="400" className={css.SearchModal}>
             <Box
               shrink="No"
               style={{ padding: config.space.S400, paddingBottom: 0 }}

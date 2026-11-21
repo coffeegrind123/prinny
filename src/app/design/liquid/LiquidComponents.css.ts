@@ -195,9 +195,15 @@ globalStyle(`${LIQUID} ${base(MenuItem)}`, {
   borderRadius: design.Radius.Row,
 });
 
-globalStyle(`${LIQUID} ${base(MenuItem)}:not(:hover):not(:focus-visible):not(:active)`, {
-  backgroundColor: 'transparent',
-});
+// Rows rest see-through on glass. A row marked current (`aria-pressed`, e.g.
+// the quick switcher's keyboard selection) keeps its fill, or the selection
+// becomes invisible.
+globalStyle(
+  `${LIQUID} ${base(MenuItem)}:not(:hover):not(:focus-visible):not(:active):not([aria-pressed=true])`,
+  {
+    backgroundColor: 'transparent',
+  },
+);
 
 globalStyle(`${LIQUID} ${base(MenuItem)}:hover, ${LIQUID} ${base(MenuItem)}:focus-visible`, {
   backgroundColor: color.Background.ContainerHover,
