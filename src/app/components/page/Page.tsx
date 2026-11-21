@@ -42,7 +42,7 @@ export function PageRoot({ nav, children, resizableNav, collapsibleNav }: PageRo
   return (
     <Box
       grow="Yes"
-      className={ContainerColor({ variant: 'Background' })}
+      className={classNames(ContainerColor({ variant: 'Background' }), css.PageRoot)}
       style={{ position: 'relative' }}
     >
       <div style={{ display: callFullscreen ? 'none' : 'contents' }}>{nav}</div>
@@ -156,7 +156,7 @@ export const Page = as<'div'>(({ className, ...props }, ref) => (
   <Box
     grow="Yes"
     direction="Column"
-    className={classNames(ContainerColor({ variant: 'Surface' }), className)}
+    className={classNames(ContainerColor({ variant: 'Surface' }), css.Page, className)}
     {...props}
     ref={ref}
   />

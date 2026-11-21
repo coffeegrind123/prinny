@@ -10,9 +10,13 @@ import {
 } from '../hooks/useTheme';
 import { useSetting } from '../state/hooks/settings';
 import { settingsAtom } from '../state/settings';
+import { useDesign } from '../design/useDesign';
+import { designClassNames } from '../design/scope';
+import '../design/liquid';
 
 export function UnAuthRouteThemeManager() {
   const systemThemeKind = useSystemThemeKind();
+  const design = useDesign();
 
   useEffect(() => {
     document.body.className = '';
@@ -23,7 +27,8 @@ export function UnAuthRouteThemeManager() {
     if (systemThemeKind === ThemeKind.Light) {
       document.body.classList.add(...LightTheme.classNames);
     }
-  }, [systemThemeKind]);
+    document.body.classList.add(...designClassNames(design, systemThemeKind === ThemeKind.Dark));
+  }, [systemThemeKind, design]);
 
   return null;
 }
@@ -33,12 +38,14 @@ export function AuthRouteThemeManager({ children }: { children: ReactNode }) {
   const [monochromeMode] = useSetting(settingsAtom, 'monochromeMode');
   const [lowAnimationMode] = useSetting(settingsAtom, 'lowAnimationMode');
   const [compactRoomList] = useSetting(settingsAtom, 'compactRoomList');
+  const design = useDesign();
 
   useEffect(() => {
     document.body.className = '';
     document.body.classList.add(configClass, varsClass);
 
     document.body.classList.add(...activeTheme.classNames);
+    document.body.classList.add(...designClassNames(design, activeTheme.kind === ThemeKind.Dark));
 
     // Class rather than a style, because the rules it enables are descendant
     // selectors over the whole tree (see index.css).
@@ -55,7 +62,7 @@ export function AuthRouteThemeManager({ children }: { children: ReactNode }) {
     } else {
       document.body.style.filter = '';
     }
-  }, [activeTheme, monochromeMode, lowAnimationMode, compactRoomList]);
+  }, [activeTheme, design, monochromeMode, lowAnimationMode, compactRoomList]);
 
   return <ThemeContextProvider value={activeTheme}>{children}</ThemeContextProvider>;
 }

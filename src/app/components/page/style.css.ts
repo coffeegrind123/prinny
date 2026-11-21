@@ -2,6 +2,14 @@ import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 import { DefaultReset, color, config, toRem } from 'folds';
 
+/**
+ * Hooks for the design layer (app/design/liquid), which floats the columns as
+ * separate panels. No rules of their own: the Prinny design draws the root and
+ * the page exactly as before.
+ */
+export const PageRoot = style({});
+export const Page = style({});
+
 export const PageNav = recipe({
   variants: {
     size: {

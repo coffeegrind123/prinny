@@ -5,6 +5,7 @@ import {
 import { atom } from 'jotai';
 import type { GifProviderId } from '../utils/klipy';
 import type { AppPresencePolicy, KnownApps } from '../utils/appPresence';
+import { Design } from '../design/scope';
 
 const STORAGE_KEY = 'settings';
 export type DateFormat =
@@ -25,6 +26,8 @@ export enum MessageLayout {
 }
 
 export interface Settings {
+  /** Design language: Prinny (default) or Liquid. See app/design/scope.ts. */
+  uiDesign: Design;
   themeId?: string;
   useSystemTheme: boolean;
   lightThemeId?: string;
@@ -327,6 +330,7 @@ export interface Settings {
 }
 
 const defaultSettings: Settings = {
+  uiDesign: Design.Prinny,
   themeId: undefined,
   useSystemTheme: true,
   lightThemeId: undefined,

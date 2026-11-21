@@ -47,6 +47,7 @@ import {
 } from '../../../state/settings';
 import { SettingTile } from '../../../components/setting-tile';
 import { CustomCssSettings } from '../../custom-css/CustomCssSettings';
+import { DesignSelector } from '../../../design/DesignSelector';
 import { KeySymbol } from '../../../utils/key-symbol';
 import { isMacOS } from '../../../utils/user-agent';
 import { isTauri } from '../../../utils/desktop-notifications';
@@ -429,6 +430,14 @@ function Appearance() {
   return (
     <Box direction="Column" gap="100">
       <Text size="L400">Appearance</Text>
+      <SequenceCard className={SequenceCardStyle} variant="SurfaceVariant" direction="Column">
+        <SettingTile
+          title="Design"
+          description="Prinny is the classic look. Liquid floats the interface on glass panels, with its own light and dark colours."
+          after={<DesignSelector />}
+        />
+      </SequenceCard>
+
       <SequenceCard
         className={SequenceCardStyle}
         variant="SurfaceVariant"

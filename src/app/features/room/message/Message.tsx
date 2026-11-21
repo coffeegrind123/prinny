@@ -2201,6 +2201,7 @@ export const Message = as<'div', MessageProps>(
             before={avatarJSX || gutterTimeJSX}
             header={headerJSX}
             onContextMenu={handleContextMenu}
+            data-own={mEvent.getSender() === mx.getUserId() || undefined}
           >
             {msgContentJSX}
           </BubbleLayout>
