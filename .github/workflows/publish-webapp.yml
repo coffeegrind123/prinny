@@ -58,10 +58,20 @@ jobs:
       # 4.11.121, and the About screen reads package.json directly.
       - name: Stamp version from the latest prinny-client release
         working-directory: source
+        # Authenticated: an anonymous API call shares the runner IP's 60/h
+        # limit and got a 403 on 21.11.2026, which failed the whole publish.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          TAG=$(curl -fsSL https://api.github.com/repos/coffeegrind123/prinny-client/releases/latest \
-                | node -pe 'JSON.parse(require("fs").readFileSync(0,"utf8")).tag_name || ""')
+          # A failed lookup must reach the warning below, not abort the step:
+          # under `set -e` + pipefail the old curl pipeline killed the job
+          # before the fallback it was written for could run.
+          ERR="$RUNNER_TEMP/release-lookup.err"
+          if ! TAG=$(gh api repos/coffeegrind123/prinny-client/releases/latest --jq '.tag_name // ""' 2>"$ERR"); then
+            echo "::warning::Release lookup failed ($(tr '\n' ' ' < "$ERR")) — leaving the committed version alone"
+            exit 0
+          fi
           VERSION=${TAG#v}
           if [ -z "$VERSION" ]; then
             echo "::warning::Could not resolve a release tag — leaving the committed version alone"
