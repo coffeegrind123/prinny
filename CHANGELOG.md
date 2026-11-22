@@ -2,6 +2,10 @@
 
 User-facing changes per commit. Most recent at the top.
 
+## 22.11.2026
+
+- `8a95ea6` Fixed **web app updates sometimes not publishing** — the step that stamps the version number asked GitHub without signing in, and when GitHub rate-limited it the whole publish failed instead of carrying on. It now signs in, and if the lookup still fails the update publishes anyway with a warning
+
 ## 21.11.2026
 
 - `a0925bd` Added **the Liquid design** — a second look for Prinny, chosen under Settings → General → Appearance → `Design`. The rail, room list and member list float as frosted-glass panels over a soft gradient, the room is one rounded card with a pill-shaped composer, buttons and chips are capsules, switches look like iOS switches, and menus, tooltips and dialogs are frosted glass that springs open. In the bubble layout your own messages are blue. Liquid brings its own light and dark colours and follows whether your theme is light or dark. Everything stays where it was, and Prinny remains the default, unchanged
